@@ -8,23 +8,23 @@
 
         <item
             android:id="@+id/generateQR"
-            android:title="Generate QR"
-            android:icon="@drawable/qrcode_icon" />
+            android:title="Generate QR"/>
+<!--            android:icon="@drawable/qrcode_icon" />-->
 
         <item
             android:id="@+id/favorites"
-            android:title="Favorites"
-            android:icon="@drawable/ic_baseline_favorite_24" />
+            android:title="Favorites"/>
+<!--            android:icon="@drawable/ic_baseline_favorite_24" />-->
 
         <item
             android:id="@+id/theme"
-            android:title="Theme"
-            android:icon="@drawable/ic_baseline_invert_colors_24" />
+            android:title="Theme"/>
+<!--            android:icon="@drawable/ic_baseline_invert_colors_24" />-->
 
         <item
             android:id="@+id/appLock"
-            android:title="Lock Your App"
-            android:icon="@drawable/ic_baseline_lock_24" />
+            android:title="Lock Your App"/>
+<!--            android:icon="@drawable/ic_baseline_lock_24" />-->
 
     </group>
 
@@ -34,13 +34,13 @@
 
             <item
                 android:id="@+id/about_us"
-                android:title="About Us"
-                android:icon="@drawable/ic_baseline_group_24" />
+                android:title="About Us"/>
+<!--                android:icon="@drawable/ic_baseline_group_24" />-->
 
             <item
                 android:id="@+id/privacy"
-                android:title="Privacy"
-                android:icon="@drawable/ic_baseline_policy_24" />
+                android:title="Privacy"/>
+<!--                android:icon="@drawable/ic_baseline_policy_24" />-->
 
         </menu>
 
@@ -51,18 +51,18 @@
         <menu>
             <item
                 android:id="@+id/share"
-                android:title="Share with a friend"
-                android:icon="@drawable/ic_share_grey_24dp" />
+                android:title="Share with a friend"/>
+<!--                android:icon="@drawable/ic_share_grey_24dp" />-->
 
             <item
                 android:id="@+id/rate"
-                android:title="Rate us on Google Play"
-                android:icon="@drawable/ic_baseline_star_24" />
+                android:title="Rate us on Google Play"/>
+<!--                android:icon="@drawable/ic_baseline_star_24" />-->
 
             <item
                 android:id="@+id/contact_us"
-                android:title="Contact applex.in"
-                android:icon="@drawable/ic_baseline_contact_mail_24"/>
+                android:title="Contact applex.in"/>
+<!--                android:icon="@drawable/ic_baseline_contact_mail_24"/>-->
 
         </menu>
 

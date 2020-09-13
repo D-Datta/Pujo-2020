@@ -1,8 +1,48 @@
 <resources>
     <string name="app_name">Pujo360</string>
+
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="skip_for_now">skip for now</string>
+    <string name="enter_email">enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="applex_in">applex.in</string>
+    <string name="utsav">Utsav</string>
+    <string name="or">OR</string>
+    <string name="from">from</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="terms_conditions">
+        <a href="https://campus24.in/terms/">By signing in, you agree to our Terms and Conditions,</a>
+    </string>
+
+    <string name="terms_conditions_about">
+        <a href="https://campus24.in/terms/">Check out our Terms and Conditions.</a>
+    </string>
+
+    <string name="privacy_about">
+        <a href="https://campus24.in/privacy/">Check out our Privacy Policy.</a>
+    </string>
+
+    <string name="privacy">
+        <a href="https://campus24.in/privacy/">Privacy Policy </a>
+    </string>
+
+    <string name="and_cookies">
+        <a href="https://campus24.in/cookies/">and Cookies.</a>
+    </string>
+
+    <string name="faq_help">
+        <a href="https://campus24.in/faq/">More further queries check out FAQs.</a>
+    </string>
+
+
 </resources>

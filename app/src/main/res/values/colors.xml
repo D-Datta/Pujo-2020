@@ -7,4 +7,31 @@
     <color name="colorText">#212121</color>
     <color name="white">#fff</color>
     <color name="tabIndicatorColor">#0d47a1</color>
+
+    //dots inactive colors
+    <color name="inactive_one">#7EAFAEAE</color>
+    <color name="inactive_two">#7EAFAEAE</color>
+    <color name="inactive_three">#7EAFAEAE</color>
+    <color name="inactive_four">#7EAFAEAE</color>
+
+    //dots active colors
+    <color name="active_one">#0DFFA4</color>
+    <color name="active_two">#0DFFA4</color>
+    <color name="active_three">#0DFFA4</color>
+    <color name="active_four">#0DFFA4</color>
+
+    <array name="active">
+        <item>@color/active_one</item>
+        <item>@color/active_two</item>
+        <item>@color/active_three</item>
+        <item>@color/active_four</item>
+    </array>
+
+    <array name="inactive">
+        <item>@color/inactive_one</item>
+        <item>@color/inactive_two</item>
+        <item>@color/inactive_three</item>
+        <item>@color/inactive_four</item>
+    </array>
+
 </resources>
