@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "1597831569",
+    "firebase_url": "https://tagapp-38525.firebaseio.com",
+    "project_id": "tagapp-38525",
+    "storage_bucket": "tagapp-38525.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1597831569:android:63002a77d8a6e0a2fb4230",
+        "android_client_info": {
+          "package_name": "com.applex.tagapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1Bg-QkkIYVh7gbXgm8ejNmADDS_t9cGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1597831569:android:e3fbd0cd297a6eb4fb4230",
+        "android_client_info": {
+          "package_name": "com.example.pujo360"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1Bg-QkkIYVh7gbXgm8ejNmADDS_t9cGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
