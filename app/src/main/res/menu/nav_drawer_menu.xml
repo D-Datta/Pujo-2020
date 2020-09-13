@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/generateQR"
+            android:title="Generate QR"
+            android:icon="@drawable/qrcode_icon" />
+
+        <item
+            android:id="@+id/favorites"
+            android:title="Favorites"
+            android:icon="@drawable/ic_baseline_favorite_24" />
+
+        <item
+            android:id="@+id/theme"
+            android:title="Theme"
+            android:icon="@drawable/ic_baseline_invert_colors_24" />
+
+        <item
+            android:id="@+id/appLock"
+            android:title="Lock Your App"
+            android:icon="@drawable/ic_baseline_lock_24" />
+
+    </group>
+
+    <item android:title="Useful Information">
+
+        <menu>
+
+            <item
+                android:id="@+id/about_us"
+                android:title="About Us"
+                android:icon="@drawable/ic_baseline_group_24" />
+
+            <item
+                android:id="@+id/privacy"
+                android:title="Privacy"
+                android:icon="@drawable/ic_baseline_policy_24" />
+
+        </menu>
+
+    </item>
+
+    <item android:title="Communicate">
+
+        <menu>
+            <item
+                android:id="@+id/share"
+                android:title="Share with a friend"
+                android:icon="@drawable/ic_share_grey_24dp" />
+
+            <item
+                android:id="@+id/rate"
+                android:title="Rate us on Google Play"
+                android:icon="@drawable/ic_baseline_star_24" />
+
+            <item
+                android:id="@+id/contact_us"
+                android:title="Contact applex.in"
+                android:icon="@drawable/ic_baseline_contact_mail_24"/>
+
+        </menu>
+
+    </item>
+
+</menu>

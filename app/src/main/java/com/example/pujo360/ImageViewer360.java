@@ -1,18 +1,18 @@
 package com.example.pujo360;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
-
+import com.example.pujo360.R;
 import co.gofynd.gravityview.GravityView;
 
 public class ImageViewer360 extends AppCompatActivity {
+
     private ImageView img;
     private GravityView gravityView;
-    private boolean esSoportado= false;
+    private boolean isSupported = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class ImageViewer360 extends AppCompatActivity {
 
         init();
 
-        if(esSoportado){
+        if(isSupported){
             this.gravityView.setImage(img, R.drawable.panorama).center();
         }else{
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.panorama);
@@ -32,7 +32,7 @@ public class ImageViewer360 extends AppCompatActivity {
     private void init(){
         this.img = findViewById(R.id.imageView);
         this.gravityView = GravityView.getInstance(getBaseContext());
-        this.esSoportado =gravityView.deviceSupported();
+        this.isSupported = gravityView.deviceSupported();
 
     }
 
@@ -47,5 +47,4 @@ public class ImageViewer360 extends AppCompatActivity {
         super.onStop();
         gravityView.unRegisterListener();
     }
-
 }
