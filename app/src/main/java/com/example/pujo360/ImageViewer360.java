@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
-import com.example.pujo360.R;
 import co.gofynd.gravityview.GravityView;
 
 public class ImageViewer360 extends AppCompatActivity {
@@ -21,19 +20,19 @@ public class ImageViewer360 extends AppCompatActivity {
 
         init();
 
-        if(isSupported){
+        if(isSupported) {
             this.gravityView.setImage(img, R.drawable.panorama).center();
-        }else{
+        }
+        else {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.panorama);
             img.setImageBitmap(bitmap);
         }
     }
 
-    private void init(){
+    private void init() {
         this.img = findViewById(R.id.imageView);
         this.gravityView = GravityView.getInstance(getBaseContext());
         this.isSupported = gravityView.deviceSupported();
-
     }
 
     @Override
