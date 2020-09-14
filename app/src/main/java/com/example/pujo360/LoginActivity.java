@@ -5,13 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,6 +103,26 @@ public class LoginActivity extends AppCompatActivity {
         terms = findViewById(R.id.terms_conditions);
         TextView privacy = findViewById(R.id.privacy_policy);
         TextView cookies = findViewById(R.id.cookies);
+
+
+        ///////////////Set Image Bitmap/////////////////////
+        ImageView imageView = findViewById(R.id.dhaki_png);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+        int width = options.outWidth;
+        if (width > displayWidth) {
+            int widthRatio = Math.round((float) width / (float) displayWidth);
+            options.inSampleSize = widthRatio;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+        imageView.setImageBitmap(scaledBitmap);
+        ///////////////Set Image Bitmap/////////////////////
+
 
         terms.setMovementMethod(LinkMovementMethod.getInstance());
         privacy.setMovementMethod(LinkMovementMethod.getInstance());
@@ -581,7 +605,7 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseAuthWithGoogle(account);
                 }
             } catch (ApiException e) {
-                Toast.makeText(LoginActivity.this, "Sign in failed..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }

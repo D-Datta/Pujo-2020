@@ -1,63 +1,50 @@
 {
   "project_info": {
-    "project_number": "1597831569",
-    "firebase_url": "https://tagapp-38525.firebaseio.com",
-    "project_id": "tagapp-38525",
-    "storage_bucket": "tagapp-38525.appspot.com"
+    "project_number": "214758153995",
+    "firebase_url": "https://pujo2020-16b1b.firebaseio.com",
+    "project_id": "pujo2020-16b1b",
+    "storage_bucket": "pujo2020-16b1b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1597831569:android:63002a77d8a6e0a2fb4230",
-        "android_client_info": {
-          "package_name": "com.applex.tagapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD1Bg-QkkIYVh7gbXgm8ejNmADDS_t9cGo"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1597831569:android:e3fbd0cd297a6eb4fb4230",
+        "mobilesdk_app_id": "1:214758153995:android:97e03240ab5c869ed88c0e",
         "android_client_info": {
           "package_name": "com.example.pujo360"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
+          "client_id": "214758153995-g4ojuifa569kme1i73llofbdtr9td89d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pujo360",
+            "certificate_hash": "634502eeeaf37eda4687637be33645d6be6b04b7"
+          }
+        },
+        {
+          "client_id": "214758153995-5baio0eii31c3s0m4l2msb10gg7qlnti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pujo360",
+            "certificate_hash": "cbb0f17fe994c173920c3b3cee3c917e95925303"
+          }
+        },
+        {
+          "client_id": "214758153995-16718a2nr2rhufqt0i0m0nj2g22qtb3t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD1Bg-QkkIYVh7gbXgm8ejNmADDS_t9cGo"
+          "current_key": "AIzaSyCiVKSI37myJ1WdEgWUnlnFTYUZkzPwA7I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1597831569-3f44fg5tkokai6i9ojn8cv0slsqtc3ov.apps.googleusercontent.com",
+              "client_id": "214758153995-16718a2nr2rhufqt0i0m0nj2g22qtb3t.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
