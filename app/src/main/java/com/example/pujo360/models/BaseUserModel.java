@@ -1,5 +1,7 @@
 package com.example.pujo360.models;
 
+import java.util.ArrayList;
+
 public class BaseUserModel {
     private String name;
     private String addressline;
@@ -10,6 +12,8 @@ public class BaseUserModel {
 
     private String uid;
     private String email;
+    private String usertype;
+    private ArrayList<String> interestL;
 
     public String getName() {
         return name;
@@ -57,5 +61,37 @@ public class BaseUserModel {
 
     public void setCoverpic(String coverpic) {
         this.coverpic = coverpic;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
+    public ArrayList<String> getInterestL() {
+        return interestL;
+    }
+
+    public void setInterestL(ArrayList<String> interestL) {
+        this.interestL = interestL;
     }
 }
