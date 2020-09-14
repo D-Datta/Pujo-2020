@@ -30,8 +30,7 @@
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:padding="10dp"
-                    android:src="@drawable/ic_baseline_group_24"
-                    app:tint="@color/colorPrimaryDark"/>
+                    android:src="@drawable/ic_baseline_group_24" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -61,8 +60,7 @@
                         android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:padding="10dp"
-                        android:src="@drawable/ic_baseline_person_24"
-                        app:tint="@color/colorPrimaryDark"/>
+                        android:src="@drawable/ic_baseline_person_24" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
