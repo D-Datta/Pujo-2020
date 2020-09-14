@@ -77,6 +77,7 @@ public class Splash extends AppCompatActivity {
                                             }, Splash_time_out);
                                         }
                                         else {
+
                                             new Handler().postDelayed(() -> {
                                                 //                        progress.setVisibility(View.GONE);
 
@@ -103,39 +104,7 @@ public class Splash extends AppCompatActivity {
                                         }, Splash_time_out);
                                     }
                                 });
-//                            .addOnCompleteListener(task1 -> {
-//                              if(task1.getResult().exists()){
-//                                new Handler().postDelayed(() -> {
-//                                  IntroPref introPref= new IntroPref(Splash.this);
-//                                  UserModel userModel = task1.getResult().toObject(UserModel.class);
-//
-//                                  introPref.setUsername(userModel.getUsername());
-//                                  introPref.setUserdp(userModel.getProfilepic());
-//                                  introPref.setInstitute(userModel.getInstitute());
-//                                  introPref.setFullName(userModel.getFirstname()+" "+userModel.getLastname());
-//
-//        //                        progress.setVisibility(View.GONE);
-//                                  Intent homeIntent = new Intent(Splash.this, MainActivity.class);
-//                                  homeIntent.putExtra("value", "splash");
-//                                  homeIntent.putExtra("email", fireuser.getEmail());
-//                                  startActivity(homeIntent);
-//                                  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                                  finish();
-//                                }, Splash_time_out);
-//                              }
-//                              else {
-//                                new Handler().postDelayed(() -> {
-//        //                        progress.setVisibility(View.GONE);
-//
-//                                  Intent homeIntent = new Intent(Splash.this, LoginActivity.class);
-//                                  homeIntent.putExtra("value", "splash");
-//                                  homeIntent.putExtra("email", fireuser.getEmail());
-//                                  startActivity(homeIntent);
-//                                  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                                  finish();
-//                                }, Splash_time_out);
-//                              }
-//                            });
+
 
                     }
                     else {
