@@ -18,6 +18,7 @@
     <string name="enter_committeeDescription">Enter Description </string>
     <string name="enter_committeeAddressline">Enter Address Line </string>
     <string name="enter_committeeCity">Enter City </string>
+    <string name="enter_committeeType">Enter type of Pujo (e.g : Sarbojonin)  </string>
     <string name="upload_logo">Upload your committee logo</string>
     <string name="upload_coverpic">Upload a cover photo</string>
 
