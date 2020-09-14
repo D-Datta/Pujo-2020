@@ -27,7 +27,7 @@ public class IntroPref {
     private static final String USERDP = "userdp";
     private static final String FULLNAME = "fullname";
     private static final String DEFAULTDP = "defaultdp";
-    private static final String TYPE= "type";
+    private static final String USERTYPE = "type";
     private static final String GENDER= "gender";
     private static final String ACCOUNT= "account";
     private static final String FOLDER = "preptotal";
@@ -114,11 +114,11 @@ public class IntroPref {
 
     ///TYPE///
     public String getType(){
-        return preferences.getString(TYPE, null);
+        return preferences.getString(USERTYPE, null);
     }
 
     public void setType(String type){
-        editor.putString(TYPE, type);
+        editor.putString(USERTYPE, type);
         editor.apply();
     }
     ///TYPE///
