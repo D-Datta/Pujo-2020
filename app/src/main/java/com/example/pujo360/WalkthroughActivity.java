@@ -7,11 +7,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,7 +26,7 @@ public class WalkthroughActivity extends AppCompatActivity {
     private TextView tvNext;
     private TextView tvSkip;
     private ViewPager viewPager;
-    private LinearLayout layoutDots;
+    private LinearLayout layoutDots, intro_oneLL;
     private IntroPref introPref;
     private int[] layouts;
     private TextView[] dots;
@@ -32,6 +36,7 @@ public class WalkthroughActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough);
+
 
         introPref = new IntroPref(this);
         if(introPref.isFirstTimeLaunch()){
@@ -50,6 +55,9 @@ public class WalkthroughActivity extends AppCompatActivity {
                 R.layout.intro_three,
                 R.layout.intro_four
         };
+
+
+
 
         tvSkip.setOnClickListener(new View.OnClickListener() {
             @Override
