@@ -36,7 +36,7 @@ public class RegChoice extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegChoice.this , RegPujoCommittee.class));
+                startActivity(new Intent(RegChoice.this , RegIndividual.class));
                 finish();
             }
         });

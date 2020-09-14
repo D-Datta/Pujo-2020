@@ -9,7 +9,8 @@ import com.example.pujo360.R;
 public class RegIndividual extends AppCompatActivity
 {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_individual);
     }
