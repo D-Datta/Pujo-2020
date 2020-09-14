@@ -54,4 +54,26 @@
     </string>
     <string name="pujo_committee">Pujo Committee</string>
 
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+
+    <string name="reg">Registration</string>
+    <string name="name">Name</string>
+    <string name="fname">First Name</string>
+    <string name="lname">Last Name</string>
+    <string name="username">Username</string>
+    <string name="attherate">\@</string>
+    <string name="email">Email</string>
+    <string name="choose_gender">Choose Gender</string>
+    <string name="address">Address</string>
+    <string name="address_line">Address Line</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="submit">SUBMIT</string>
+    <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
+
+
 </resources>
