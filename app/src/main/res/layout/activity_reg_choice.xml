@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".registration_choice">
+    tools:context=".registration.RegChoice">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_committee"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:layout_gravity="center"
@@ -50,6 +51,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_individual"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_gravity="center"

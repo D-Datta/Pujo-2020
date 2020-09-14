@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationPujoCommittee"
+    tools:context=".registration.RegPujoCommittee"
     android:orientation="vertical"
     android:background="@android:color/white"
     tools:ignore="NamespaceTypo">
@@ -164,9 +164,6 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,8 +207,21 @@
 
         </LinearLayout>
 
+    </LinearLayout>
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:background="@color/lightblue1"
+            android:fontFamily="@font/oxygen_ex_bold"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
 
     </LinearLayout>
-    </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
