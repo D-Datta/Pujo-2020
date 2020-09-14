@@ -87,6 +87,7 @@ public class WalkthroughActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
+
             addBottomDots(position);
 
             if(position == layouts.length-1){
