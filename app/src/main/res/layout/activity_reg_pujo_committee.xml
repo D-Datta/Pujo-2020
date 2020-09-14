@@ -203,7 +203,7 @@
                 android:background="@drawable/background_rectangle"
                 android:ems="10"
                 android:fontFamily="@font/oxygen_regular"
-                android:hint="@string/enter_committeeCity"
+                android:hint="@string/enter_committeeState"
                 android:inputType="textEmailAddress"
                 android:paddingStart="18dp"
                 android:paddingEnd="10dp"
