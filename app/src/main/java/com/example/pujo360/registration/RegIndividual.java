@@ -6,8 +6,8 @@ import android.os.Bundle;
 
 import com.example.pujo360.R;
 
-public class RegIndividual extends AppCompatActivity {
-
+public class RegIndividual extends AppCompatActivity
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
