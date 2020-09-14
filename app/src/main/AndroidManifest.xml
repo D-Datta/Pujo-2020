@@ -21,7 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".registration.RegIndividual" />
+        <activity android:name=".registration.RegPujoCommittee" />
+        <activity android:name=".registration.RegChoice" />
         <activity android:name=".ImageViewer360" />
         <activity android:name=".WalkthroughActivity" />
         <activity android:name=".LoginActivity" />
@@ -30,10 +32,10 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
