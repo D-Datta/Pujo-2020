@@ -1,10 +1,9 @@
-package com.example.pujo360;
+package com.example.pujo360.preferences;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,7 +14,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import java.lang.reflect.Type;
 
 public class IntroPref {
@@ -47,13 +45,13 @@ public class IntroPref {
         gson = new Gson();
     }
 
-    void setIsFirstTimeLaunch(boolean firstTimeLaunch)
+    public void setIsFirstTimeLaunch(boolean firstTimeLaunch)
     {
         editor.putBoolean(IS_FIRST_TIME_LAUNCH,firstTimeLaunch);
         editor.commit();
     }
 
-    boolean isFirstTimeLaunch(){
+    public boolean isFirstTimeLaunch(){
         return preferences.getBoolean(IS_FIRST_TIME_LAUNCH,true);
     }
 

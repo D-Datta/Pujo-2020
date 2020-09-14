@@ -5,14 +5,13 @@
     <string name="sign_up">Sign up</string>
     <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
     <string name="skip_for_now">skip for now</string>
-    <string name="enter_email">enter email</string>
+    <string name="enter_email">Enter email</string>
     <string name="enter_password">Enter password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="applex_in">applex.in</string>
     <string name="utsav">Utsav</string>
     <string name="or">OR</string>
     <string name="from">from</string>
-
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -33,7 +32,7 @@
     </string>
 
     <string name="privacy">
-        <a href="https://campus24.in/privacy/">Privacy Policy </a>
+        <a href="https://campus24.in/privacy/">Privacy Policy</a>
     </string>
 
     <string name="and_cookies">
@@ -43,6 +42,5 @@
     <string name="faq_help">
         <a href="https://campus24.in/faq/">More further queries check out FAQs.</a>
     </string>
-
 
 </resources>

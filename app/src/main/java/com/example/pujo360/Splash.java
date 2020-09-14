@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.Utility;
 import com.google.android.gms.tasks.OnFailureListener;

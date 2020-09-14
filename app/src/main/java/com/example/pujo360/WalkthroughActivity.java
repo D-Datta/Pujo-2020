@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.pujo360.preferences.IntroPref;
+
 public class WalkthroughActivity extends AppCompatActivity {
 
     private TextView tvNext;
