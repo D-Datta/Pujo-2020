@@ -123,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
         imageView.setImageBitmap(scaledBitmap);
         ///////////////Set Image Bitmap/////////////////////
 
-
         terms.setMovementMethod(LinkMovementMethod.getInstance());
         privacy.setMovementMethod(LinkMovementMethod.getInstance());
         cookies.setMovementMethod(LinkMovementMethod.getInstance());
