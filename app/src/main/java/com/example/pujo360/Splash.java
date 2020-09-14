@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.example.pujo360.models.BaseUserModel;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.Utility;
@@ -59,18 +60,17 @@ public class Splash extends AppCompatActivity {
                                         if(documentSnapshot.exists()){
                                             new Handler().postDelayed(() -> {
                                                 IntroPref introPref= new IntroPref(Splash.this);
-//                                                BaseUserModel userModel = documentSnapshot.toObject(BaseUserModel.class);
-//
-//                                                introPref.setUserdp(userModel.getProfilepic());
-//                                                introPref.setType(userModel.getType());
+                                                BaseUserModel userModel = documentSnapshot.toObject(BaseUserModel.class);
+
+                                                introPref.setUserdp(userModel.getDp());
+                                                introPref.setType(userModel.getUsertype());
+                                                introPref.setFullName(userModel.getName());
 //                                                introPref.setCity(userModel.getCity());
-//
-//                                                introPref.setFullName(userModel.getFirstname()+" "+userModel.getLastname());
 
                                                 Intent homeIntent = new Intent(Splash.this, MainActivity.class);
-//                                                homeIntent.putExtra("value", "splash");
-//                                                homeIntent.putExtra("type",userModel.getType());
-//                                                homeIntent.putExtra("email", fireuser.getEmail());
+                                                homeIntent.putExtra("value", "splash");
+                                                homeIntent.putExtra("type",userModel.getUsertype());
+                                                homeIntent.putExtra("email", fireuser.getEmail());
                                                 startActivity(homeIntent);
                                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                                 finish();
