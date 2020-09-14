@@ -4,10 +4,13 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="colorText">#212121</color>
+    <color name="black">#212121</color>
     <color name="white">#fff</color>
+    <color name="grey">#A2A2A2</color>
     <color name="tabIndicatorColor">#0d47a1</color>
 
+    <color name="lightblue1">#DFCCFA</color>
+    <color name="red">#B30F0F</color>
     //dots inactive colors
     <color name="inactive_one">#7EAFAEAE</color>
     <color name="inactive_two">#7EAFAEAE</color>
