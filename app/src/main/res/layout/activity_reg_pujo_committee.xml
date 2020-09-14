@@ -13,29 +13,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/ic_grad_shape">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
+            android:layout_height="150dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/ic_dhaak"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Registration"
-            android:gravity="center"
-            android:textSize="25dp"
-            android:layout_marginVertical="15dp"
-            android:paddingHorizontal="15dp"/>
+            android:textSize="35dp"
+            android:gravity="end"
+            android:textColor="@color/black"
+            android:fontFamily="@font/harabara"
+            android:layout_marginBottom="15dp"
+            android:paddingHorizontal="35dp"/>
 
 <!--            <RelativeLayout-->
 <!--                android:id="@+id/xxx"-->

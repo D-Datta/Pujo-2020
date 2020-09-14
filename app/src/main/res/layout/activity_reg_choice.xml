@@ -8,16 +8,20 @@
     android:background="@color/white"
     tools:context=".registration.RegChoice">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ma_durga"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:src="@drawable/durga_ma2" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_committee"
@@ -95,7 +99,5 @@
 
 
         </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
