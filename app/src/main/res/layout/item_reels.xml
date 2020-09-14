@@ -77,8 +77,8 @@
             app:colorClickableText="@color/white"
             app:trimCollapsedText="...more"
             app:trimExpandedText="...less"
-            app:trimLines="1"
-            app:trimMode="trimModeLine" />
+            app:trimLength="30"
+            app:trimMode="trimModeLength" />
 
         <LinearLayout
             android:layout_width="match_parent"
