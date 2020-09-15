@@ -49,8 +49,6 @@ public class RegChoice extends AppCompatActivity {
                 introPref.setType("Committee");
                 intent.putExtra("email",email);
                 startActivity(intent);
-                finish();
-
             }
         });
 
@@ -63,7 +61,6 @@ public class RegChoice extends AppCompatActivity {
                 introPref.setType("Individual");
                 intent.putExtra("email",email);
                 startActivity(intent);
-                finish();
             }
         });
 
