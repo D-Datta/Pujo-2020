@@ -10,7 +10,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="7dp"
-        android:background="#E2E2E2"/>
+        android:background="@color/light_background"/>
 
     <com.smarteist.autoimageslider.SliderView
         android:id="@+id/imageSlider"
@@ -34,13 +34,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="7dp"
-        android:background="#E2E2E2"/>
+        android:background="@color/light_background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#e2e2e2"
+        android:background="@color/light_background"
         android:paddingBottom="7dp">
 
         <TextView
@@ -51,8 +51,8 @@
             android:background="@drawable/shape_latest_post"
             android:fontFamily="@font/oxygen_bold"
             android:paddingHorizontal="20dp"
-            android:text="Trending Posts"
-            android:textSize="18sp" />
+            android:text="@string/trending_posts"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
@@ -65,13 +65,13 @@
             android:layout_width="match_parent"
             android:layout_height="14dp"
             android:layout_alignParentTop="true"
-            android:background="#E2E2E2"/>
+            android:background="@color/light_background"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="22dp"
             android:layout_alignParentBottom="true"
-            android:background="#E2E2E2"/>
+            android:background="@color/light_background"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:clickable="true"
             android:background="@drawable/post_bg"
             android:layout_marginBottom="8dp"
-            android:elevation="@dimen/cardview_default_radius"
+            android:elevation="2dp"
             android:id="@+id/item_home">
 
             <LinearLayout
@@ -119,17 +119,17 @@
                         android:fontFamily="@font/oxygen_ex_bold"
                         android:paddingVertical="4dp"
                         android:paddingHorizontal="8dp"
-                        android:text="Name"
-                        android:textColor="#212121"
-                        android:textSize="15sp" />
+                        android:text="@string/name"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/mins_ago"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="8dp"
-                        android:text="10 mins ago"
-                        android:textSize="12sp" />
+                        android:text="@string/_10_mins_ago"
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:layout_gravity="center"
-                    android:backgroundTint="#fff"
+                    android:backgroundTint="@color/white"
                     android:background="@drawable/custom_ripple_white"
                     android:src="@drawable/ic_more_horiz_black_24dp"
                     android:visibility="visible"/>
@@ -163,12 +163,12 @@
                 android:paddingHorizontal="17dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="5dp"
-                android:text="post_content"
-                android:textColor="#212121"
+                android:text="@string/post_content"
+                android:textColor="@color/black"
                 android:maxLines="10"
                 android:ellipsize="end"
                 android:textColorLink="@color/link"
-                android:textSize="15sp" />
+                android:textSize="15dp" />
 
             <com.example.pujo360.LinkPreview.ApplexLinkPreview
                 android:id="@+id/LinkPreView"
@@ -245,7 +245,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="94dp"
                     android:fontFamily="@font/oxygen_ex_bold"
-                    android:text="2.4k"
+                    android:text="@string/_2_4k"
                     android:textColor="@color/black_transparent"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -270,7 +270,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:fontFamily="@font/oxygen_ex_bold"
-                    android:text="154"
+                    android:text="@string/_154"
                     android:textColor="@color/black_transparent"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -280,7 +280,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#E5E5E5"
+                android:background="@color/light_background"
                 android:layout_marginTop="5dp"
                 android:layout_marginHorizontal="8dp"/>
 
@@ -312,26 +312,19 @@
                     android:id="@+id/write_comment"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:hint="Write a comment..."
+                    android:hint="@string/write_a_comment"
                     android:paddingHorizontal="10dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical" />
-                <!--            <TextView-->
-                <!--                android:id="@+id/threads"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="match_parent"-->
-                <!--                android:text="3 threads  |"-->
-                <!--                android:paddingStart="10dp"-->
-                <!--                android:gravity="center_vertical"-->
-                <!--                android:textSize="10dp"/>-->
+
                 <TextView
                     android:id="@+id/no_of_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="42 comments"
+                    android:text="@string/_42_comments"
                     android:paddingHorizontal="10dp"
                     android:fontFamily="@font/oxygen_bold"
-                    android:textSize="12sp"
+                    android:textSize="12dp"
                     android:gravity="center_vertical" />
             </LinearLayout>
 

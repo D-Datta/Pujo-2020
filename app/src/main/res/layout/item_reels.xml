@@ -64,22 +64,21 @@
             android:id="@+id/text_content44"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoLink="all"
-            android:fontFamily="@font/oxygen_bold"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="15dp"
-            android:paddingTop="8dp"
             android:paddingBottom="5dp"
+            android:paddingTop="8dp"
+            android:paddingHorizontal="20dp"
+            android:autoLink="all"
+            android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
-            android:textColor="@color/white"
-            android:textColorLink="@color/white"
+            android:fontFamily="@font/oxygen_bold"
             android:textSize="15dp"
+            app:trimExpandedText="@string/read_less"
+            app:trimCollapsedText="@string/read_more"
+            app:trimMode="trimModeLength"
+            app:trimLines="30"
+            app:colorClickableText="@color/white_transparent"
             android:visibility="visible"
-            app:colorClickableText="@color/white"
-            app:trimCollapsedText="...more"
-            app:trimExpandedText="...less"
-            app:trimLength="30"
-            app:trimMode="trimModeLength" />
+            android:textColor="@color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -155,26 +154,24 @@
                 android:layout_height="45dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="end"
-                android:layout_marginStart="233dp"
-                android:layout_marginEnd="133dp"
+                android:layout_marginStart="242dp"
+                android:layout_marginEnd="124dp"
                 android:padding="9dp"
                 android:src="@drawable/ic_baseline_favorite_24"
-                app:tint="@color/white" />
+                app:tint="@color/white_transparent" />
 
             <TextView
                 android:id="@+id/likes_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="97dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="90dp"
                 android:fontFamily="@font/oxygen_ex_bold"
-                android:text="2.4k"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:textStyle="bold" />
+                android:text="@string/_2_4k"
+                android:textColor="@color/white_transparent"
+                android:textSize="18dp" />
 
             <ImageView
                 android:layout_width="45dp"
@@ -182,11 +179,11 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="end"
-                android:layout_marginStart="326dp"
-                android:layout_marginEnd="53dp"
+                android:layout_marginStart="331dp"
+                android:layout_marginEnd="48dp"
                 android:padding="4dp"
                 android:src="@drawable/ic_comment"
-                app:tint="@color/white" />
+                app:tint="@color/white_transparent" />
 
             <TextView
                 android:id="@+id/comment_count"
@@ -196,8 +193,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="15dp"
                 android:fontFamily="@font/oxygen_ex_bold"
-                android:text="154"
-                android:textColor="@color/white"
+                android:text="@string/_154"
+                android:textColor="@color/white_transparent"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 

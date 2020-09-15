@@ -77,6 +77,14 @@
     <string name="state">State</string>
     <string name="submit">SUBMIT</string>
     <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
+    <string name="trending_posts">Trending Posts</string>
+    <string name="name">Name</string>
+    <string name="_10_mins_ago">10 mins ago</string>
+    <string name="post_content">post_content</string>
+    <string name="_2_4k">2.4k</string>
+    <string name="_154">154</string>
+    <string name="write_a_comment">Write a comment...</string>
+    <string name="_42_comments">42 comments</string>
 
 
 </resources>
