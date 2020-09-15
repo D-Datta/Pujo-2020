@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.pujo360.R;
+import com.example.pujo360.preferences.IntroPref;
 
 public class RegChoice extends AppCompatActivity {
 
     private CardView cardCommittee, cardIndividual;
+    private IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +32,7 @@ public class RegChoice extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RegChoice.this , RegPujoCommittee.class);
                 intent.putExtra(i.getStringExtra("password") , "password");
+                introPref.setType("Committee");
                 startActivity(intent);
 
             }
@@ -41,6 +44,7 @@ public class RegChoice extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RegChoice.this , RegIndividual.class);
                 intent.putExtra(i.getStringExtra("password") , "password");
+                introPref.setType("Individual");
                 startActivity(intent);
             }
         });

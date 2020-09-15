@@ -273,7 +273,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:background="@color/lightblue1"
+            android:background="@drawable/custom_button"
             android:fontFamily="@font/oxygen_ex_bold"
             android:text="@string/login"
             android:textAllCaps="false"
