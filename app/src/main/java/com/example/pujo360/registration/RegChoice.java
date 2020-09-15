@@ -43,7 +43,7 @@ public class RegChoice extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RegChoice.this , RegPujoCommittee.class);
-                intent.putExtra(i.getStringExtra("password") , "password");
+                intent.putExtra( "password",password);
                 introPref.setType("Committee");
                 intent.putExtra("email",email);
                 startActivity(intent);
@@ -56,7 +56,7 @@ public class RegChoice extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RegChoice.this , RegIndividual.class);
-                intent.putExtra(i.getStringExtra("password") , "password");
+                intent.putExtra("password",password);
                 introPref.setType("Individual");
                 intent.putExtra("email",email);
                 startActivity(intent);
