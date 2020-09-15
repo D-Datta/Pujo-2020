@@ -176,7 +176,7 @@ public class RegIndividual extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(RegIndividual.this, SearchCityState.class);
-                i.putExtra("from","city");
+                i.putExtra("from","city_ind");
                 startActivity(i);
             }
         });
@@ -184,7 +184,7 @@ public class RegIndividual extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(RegIndividual.this, SearchCityState.class);
-                i.putExtra("from","state");
+                i.putExtra("from","state_ind");
                 startActivity(i);
             }
         });

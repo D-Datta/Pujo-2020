@@ -20,6 +20,7 @@ import com.example.pujo360.adapters.StateSearchAdapter;
 import com.example.pujo360.models.CitySearchModel;
 import com.example.pujo360.models.StateSearchModel;
 import com.example.pujo360.registration.RegIndividual;
+import com.example.pujo360.registration.RegPujoCommittee;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -74,8 +75,8 @@ public class SearchCityState extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("state")
-                ||i.getStringExtra("from").matches("stateedit"))){
+        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("state_pujo")
+                ||i.getStringExtra("from").matches("state_ind"))){
 
             try {
                 buildRecyclerViewState();
@@ -109,14 +110,14 @@ public class SearchCityState extends AppCompatActivity {
                         stateadapter.onClickListener(new StateSearchAdapter.OnClickListener() {
                             @Override
                             public void onClickListener(String name) {
-                                if(i.getStringExtra("from").matches("state")){
+                                if(i.getStringExtra("from").matches("state_ind")){
                                     RegIndividual.state_ind.setText(name);
                                     SearchCityState.super.onBackPressed();
                                 }
-//                                else if(i.getStringExtra("from").matches("stateedit")){
-//                                    EditProfileGeneral.estate.setText(name);
-//                                    SearchCityState.super.onBackPressed();
-//                                }
+                                else if(i.getStringExtra("from").matches("state_pujo")){
+                                    RegPujoCommittee.etstate.setText(name);
+                                    SearchCityState.super.onBackPressed();
+                                }
 
                             }
                         });
@@ -127,8 +128,8 @@ public class SearchCityState extends AppCompatActivity {
             });
 
         }
-        else if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("city")
-                ||i.getStringExtra("from").matches("cityedit"))){
+        else if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("city_ind")
+                ||i.getStringExtra("from").matches("city_pujo"))){
 
             try {
                 buildRecyclerViewCity();
@@ -162,14 +163,14 @@ public class SearchCityState extends AppCompatActivity {
                         cityadapter.onClickListener(new CitySearchAdapter.OnClickListener() {
                             @Override
                             public void onClickListener(String name) {
-                                if(i.getStringExtra("from").matches("city")){
+                                if(i.getStringExtra("from").matches("city_ind")){
                                     RegIndividual.city_ind.setText(name);
                                     SearchCityState.super.onBackPressed();
                                 }
-//                                else if(i.getStringExtra("from").matches("cityedit")){
-//                                    EditProfileGeneral.ecity.setText(name);
-//                                    SearchCityState.super.onBackPressed();
-//                                }
+                                else if(i.getStringExtra("from").matches("city_pujo")){
+                                    RegPujoCommittee.etcity.setText(name);
+                                    SearchCityState.super.onBackPressed();
+                                }
 
                             }
                         });
@@ -203,14 +204,14 @@ public class SearchCityState extends AppCompatActivity {
         cityadapter.onClickListener(new CitySearchAdapter.OnClickListener() {
             @Override
             public void onClickListener(String name) {
-                if(i.getStringExtra("from").matches("city")){
+                if(i.getStringExtra("from").matches("city_ind")){
                     RegIndividual.city_ind.setText(name);
                     SearchCityState.super.onBackPressed();
                 }
-//                else if(i.getStringExtra("from").matches("cityedit")){
-//                    EditProfileGeneral.ecity.setText(name);
-//                    SearchCityState.super.onBackPressed();
-//                }
+                else if(i.getStringExtra("from").matches("city_pujo")){
+                    RegPujoCommittee.etcity.setText(name);
+                    SearchCityState.super.onBackPressed();
+                }
             }
         });
 
@@ -239,14 +240,14 @@ public class SearchCityState extends AppCompatActivity {
         stateadapter.onClickListener(new StateSearchAdapter.OnClickListener() {
             @Override
             public void onClickListener(String name) {
-                if(i.getStringExtra("from").matches("state")){
+                if(i.getStringExtra("from").matches("state_ind")){
                     RegIndividual.state_ind.setText(name);
                     SearchCityState.super.onBackPressed();
                 }
-//                else if(i.getStringExtra("from").matches("stateedit")){
-//                    EditProfileGeneral.estate.setText(name);
-//                    SearchCityState.super.onBackPressed();
-//                }
+                else if(i.getStringExtra("from").matches("state_pujo")){
+                    RegPujoCommittee.etstate.setText(name);
+                    SearchCityState.super.onBackPressed();
+                }
             }
         });
 

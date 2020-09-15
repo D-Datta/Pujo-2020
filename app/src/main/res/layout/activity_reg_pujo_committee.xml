@@ -1,285 +1,400 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registration.RegPujoCommittee"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    tools:ignore="NamespaceTypo">
+    tools:context=".registration.RegPujoCommittee">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/ic_grad_shape">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_dhaak"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Registration"
-            android:textSize="35dp"
-            android:gravity="end"
-            android:textColor="@color/black"
-            android:fontFamily="@font/harabara"
-            android:layout_marginBottom="15dp"
-            android:paddingHorizontal="35dp"/>
-
-<!--            <RelativeLayout-->
-<!--                android:id="@+id/xxx"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:gravity="center_horizontal">-->
-
-<!--                <androidx.cardview.widget.CardView-->
-<!--                    android:layout_width="100dp"-->
-<!--                    android:layout_height="100dp"-->
-<!--                    android:layout_margin="8dp"-->
-<!--                    app:cardCornerRadius="50dp">-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/reg_dp"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_baseline_account_circle_24"-->
-<!--                        app:tint="@color/grey"-->
-<!--                        android:scaleType="centerCrop" />-->
-<!--                </androidx.cardview.widget.CardView>-->
-<!--            </RelativeLayout>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:fontFamily="@font/oxygen_regular"-->
-<!--                android:text="Add logo"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:textSize="15sp"-->
-<!--                android:textStyle="bold" />-->
-
-        <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:hintEnabled="false">
-
-        <EditText
-            android:id="@+id/committee_name"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginHorizontal="35dp"
-            android:layout_marginVertical="20dp"
-            android:background="@drawable/background_rectangle"
-            android:ems="10"
-            android:fontFamily="@font/oxygen_regular"
-            android:hint="@string/enter_committeeName"
-            android:inputType="textEmailAddress"
-            android:paddingStart="18dp"
-            android:paddingEnd="10dp"
-            android:textColor="#716A6A"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/committee_description"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginHorizontal="35dp"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/background_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/oxygen_regular"
-                android:hint="@string/enter_committeeDescription"
-                android:inputType="textEmailAddress"
-                android:paddingStart="18dp"
-                android:paddingEnd="10dp"
-                android:textColor="#716A6A"
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/committee_type"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginHorizontal="35dp"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/background_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/oxygen_regular"
-                android:hint="@string/enter_committeeType"
-                android:inputType="textEmailAddress"
-                android:paddingStart="18dp"
-                android:paddingEnd="10dp"
-                android:textColor="#716A6A"
-                android:textSize="15sp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/committee_addressline"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginHorizontal="35dp"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/background_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/oxygen_regular"
-                android:hint="@string/enter_committeeAddressline"
-                android:inputType="textEmailAddress"
-                android:paddingStart="18dp"
-                android:paddingEnd="10dp"
-                android:textColor="#716A6A"
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/committee_city"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginHorizontal="35dp"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/background_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/oxygen_regular"
-                android:hint="@string/enter_committeeCity"
-                android:inputType="textEmailAddress"
-                android:paddingStart="18dp"
-                android:paddingEnd="10dp"
-                android:textColor="#716A6A"
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <EditText
-                android:id="@+id/committee_state"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginHorizontal="35dp"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/background_rectangle"
-                android:ems="10"
-                android:fontFamily="@font/oxygen_regular"
-                android:hint="@string/enter_committeeState"
-                android:inputType="textEmailAddress"
-                android:paddingStart="18dp"
-                android:paddingEnd="10dp"
-                android:textColor="#716A6A"
-                android:textSize="15sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+        android:background="#fff"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_baseline_cloud_upload_24"
-                app:tint="@color/black"/>
-
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/upload_logo"
-                android:layout_gravity="center"
-                android:textSize="15dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@string/reg"
+                android:gravity="center"
+                android:fontFamily="@font/oxygen_ex_bold"
+                android:textSize="25sp"
+                android:layout_marginVertical="15dp"
                 android:paddingHorizontal="15dp"/>
+            <ImageView
+                android:id="@+id/reg_dhak"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_dhaak"/>
 
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <ImageView
+                    android:id="@+id/reg_coverpic_pc"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_background_grey"/>
+
+                <ImageView
+                    android:id="@+id/reg_edit_coverpic_icon_pc"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_ripple_white"
+                    android:src="@drawable/edit_dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginHorizontal="20dp">
+
+
+                <RelativeLayout
+                    android:id="@+id/xxx"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="60dp">
+
+                        <ImageView
+                            android:id="@+id/reg_dp_pc"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_account_circle_black_24dp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <ImageView
+                        android:id="@+id/reg_edit_dp_pc"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="90dp"
+                        android:padding="7dp"
+                        android:background="@drawable/custom_ripple_white"
+                        android:src="@drawable/edit_dp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:foregroundGravity="center_vertical"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@+id/xxx"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/oxygen_bold"
+                        android:paddingHorizontal="10dp"
+                        android:gravity="center"
+                        android:text="@string/choose_pic"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="#595252"
+                        android:textSize="15dp"
+                        android:layout_marginTop="25dp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/ic_grad_shape"
+            android:paddingBottom="20dp">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:tint="@color/black"
-                android:src="@drawable/ic_baseline_cloud_upload_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="25dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="@string/committee_name"
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    />
+
+                <EditText
+                    android:id="@+id/committee_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_rectangle"
+                    android:ems="10"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:hint="@string/committee_name"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:textAlignment="textStart"
+                android:text="@string/email"
+                android:layout_marginStart="0dp"
+                android:paddingTop="10dp"
+                android:textStyle="bold"
                 android:paddingHorizontal="15dp"
-                android:text="@string/upload_coverpic"
-                android:textSize="15dp" />
+                android:textSize="15sp"
+                android:fontFamily="@font/oxygen_regular"
+                android:textColor="#212121"
+                />
+
+            <TextView
+                android:id="@+id/email_pc"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="18sp"
+                android:textColor="@color/cardview_dark_background"
+                android:background="@drawable/background_rectangle"
+                android:hint="@string/email"
+                android:inputType="text"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="@string/Description"
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    />
+
+                <EditText
+                    android:id="@+id/committee_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_rectangle"
+                    android:ems="10"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:hint="@string/Description"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="@string/Type_of_pujo"
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    />
+
+                <EditText
+                    android:id="@+id/committee_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_rectangle"
+                    android:ems="10"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:hint="@string/sarbojonin"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp" />
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="@string/address"
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textStyle="bold"
+                    android:textColor="#212121"/>
+
+                <EditText
+                    android:id="@+id/committee_addressline"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_rectangle"
+                    android:ems="10"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:hint="@string/address_line"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="5dp">
+
+                    <EditText
+                        android:id="@+id/committee_city"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/city"
+                        android:inputType="textPersonName"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="1"
+                        android:focusableInTouchMode="false"/>
+                    <EditText
+                        android:id="@+id/committee_state"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/state"
+                        android:inputType="textPersonName"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="1"
+                        android:focusableInTouchMode="false"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/register"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:background="@drawable/custom_button"
+                android:fontFamily="@font/oxygen_ex_bold"
+                android:paddingStart="5dp"
+                android:layout_centerInParent="true"
+                android:paddingEnd="5dp"
+                android:text="SUBMIT"
+                android:textAllCaps="false"
+                android:textColor="#ffffff" />
+
 
         </LinearLayout>
 
     </LinearLayout>
-
-
-        <Button
-            android:id="@+id/register"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="15dp"
-            android:background="@drawable/custom_button"
-            android:fontFamily="@font/oxygen_ex_bold"
-            android:text="@string/login"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.core.widget.NestedScrollView>
