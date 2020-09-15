@@ -22,6 +22,8 @@ public class RegChoice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_choice);
 
+        introPref = new IntroPref(RegChoice.this);
+
         cardCommittee = findViewById(R.id.card_committee);
         cardIndividual = findViewById(R.id.card_individual);
 
@@ -47,6 +49,7 @@ public class RegChoice extends AppCompatActivity {
                 introPref.setType("Committee");
                 intent.putExtra("email",email);
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -60,6 +63,7 @@ public class RegChoice extends AppCompatActivity {
                 introPref.setType("Individual");
                 intent.putExtra("email",email);
                 startActivity(intent);
+                finish();
             }
         });
 
