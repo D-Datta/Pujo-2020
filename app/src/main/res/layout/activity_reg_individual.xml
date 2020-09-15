@@ -47,7 +47,7 @@
                 android:layout_height="200dp">
 
                 <ImageView
-                    android:id="@+id/Edit_coverpic_ind"
+                    android:id="@+id/reg_coverpic_ind"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:adjustViewBounds="true"
@@ -56,7 +56,7 @@
                     android:src="@drawable/image_background_grey"/>
 
                 <ImageView
-                    android:id="@+id/Edit_coverpic_icon_ind"
+                    android:id="@+id/reg_edit_coverpic_icon_ind"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -98,7 +98,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <ImageView
-                        android:id="@+id/reg_Edit_dp_ind"
+                        android:id="@+id/reg_edit_dp_ind"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentBottom="true"

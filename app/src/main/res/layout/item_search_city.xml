@@ -1,0 +1,46 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/custom_ripple_white_rectangle"
+    android:id="@+id/citycard">
+
+    <LinearLayout
+        android:id="@+id/holdercity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="5dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_baseline_location_on_24"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/City"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="City"
+            android:textSize="18sp"
+            android:textColor="#212121"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:maxLines="2"
+            android:fontFamily="@font/oxygen_regular" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aa212121"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"/>
+
+
+</LinearLayout>
