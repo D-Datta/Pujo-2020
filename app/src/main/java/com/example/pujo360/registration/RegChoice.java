@@ -22,12 +22,16 @@ public class RegChoice extends AppCompatActivity {
         cardCommittee = findViewById(R.id.card_committee);
         cardIndividual = findViewById(R.id.card_individual);
 
+        Intent i = getIntent();
 
         cardCommittee.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegChoice.this , RegPujoCommittee.class));
+                Intent intent = new Intent(RegChoice.this , RegPujoCommittee.class);
+                intent.putExtra(i.getStringExtra("password") , "password");
+                startActivity(intent);
+
             }
         });
 
@@ -35,7 +39,9 @@ public class RegChoice extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegChoice.this , RegIndividual.class));
+                Intent intent = new Intent(RegChoice.this , RegIndividual.class);
+                intent.putExtra(i.getStringExtra("password") , "password");
+                startActivity(intent);
             }
         });
 

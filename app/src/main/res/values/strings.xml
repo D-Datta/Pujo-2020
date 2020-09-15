@@ -21,7 +21,7 @@
     <string name="enter_committeeState">Enter State </string>
     <string name="enter_committeeType">Enter type of Pujo (e.g : Sarbojonin)  </string>
     <string name="upload_logo">Upload your committee logo</string>
-    <string name="upload_coverpic">Upload a cover photo</string>
+    <string name="upload_coverpic"> Upload a cover photo </string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -78,7 +78,6 @@
     <string name="submit">SUBMIT</string>
     <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
     <string name="trending_posts">Trending Posts</string>
-    <string name="name">Name</string>
     <string name="_10_mins_ago">10 mins ago</string>
     <string name="post_content">post_content</string>
     <string name="_2_4k">2.4k</string>
