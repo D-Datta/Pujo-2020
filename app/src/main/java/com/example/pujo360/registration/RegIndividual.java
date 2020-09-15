@@ -63,7 +63,7 @@ public class RegIndividual extends AppCompatActivity
     private Spinner gender_ind;
     private Button submit_ind;
 
-    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC;
+    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC,PASSWORD;
 
     private String tokenStr;
     private BaseUserModel baseUserModel;
@@ -117,6 +117,9 @@ public class RegIndividual extends AppCompatActivity
             EMAIL = getIntent().getStringExtra("email");
             email_ind.setText(EMAIL);
             email_ind.setFreezesText(true);
+        }
+        if(getIntent().getStringExtra("password")!=null){
+            PASSWORD = getIntent().getStringExtra("password");
         }
 //        EMAIL = mAuth.getCurrentUser().getEmail();
 //        email_ind.setText(EMAIL);

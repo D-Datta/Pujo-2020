@@ -259,23 +259,23 @@ public class LoginActivity extends AppCompatActivity {
                                                                 Toast.makeText(LoginActivity.this, "Please verify your email and register", Toast.LENGTH_LONG).show();
                                                                 progress.setVisibility(GONE);
 
-                                                                FlameCount flameCount = new FlameCount();
-                                                                CommentCount commentCount = new CommentCount();
-                                                                flameCount.setFlameCount(0);
-                                                                commentCount.setCommentCount(0);
+//                                                                FlameCount flameCount = new FlameCount();
+//                                                                CommentCount commentCount = new CommentCount();
+//                                                                flameCount.setFlameCount(0);
+//                                                                commentCount.setCommentCount(0);
 
                                                                 Intent intent = new Intent(LoginActivity.this, RegChoice.class);
                                                                 intent.putExtra("value", "emailpass");
                                                                 intent.putExtra("email", email);
                                                                 intent.putExtra("password", password);
 
-                                                                FirebaseFirestore.getInstance()
-                                                                        .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
-                                                                        .document("flameCount").set(flameCount);
-
-                                                                FirebaseFirestore.getInstance()
-                                                                        .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
-                                                                        .document("commentCount").set(commentCount);
+//                                                                FirebaseFirestore.getInstance()
+//                                                                        .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
+//                                                                        .document("flameCount").set(flameCount);
+//
+//                                                                FirebaseFirestore.getInstance()
+//                                                                        .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
+//                                                                        .document("commentCount").set(commentCount);
 
                                                                 startActivity(intent);
                                                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
