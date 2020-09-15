@@ -61,6 +61,10 @@ public class RegPujoCommittee extends AppCompatActivity {
         introPref = new IntroPref(RegPujoCommittee.this);
         usertype = introPref.getType();
 
+        semail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        spassword = getIntent().getStringExtra("password");
+
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,75 +108,63 @@ public class RegPujoCommittee extends AppCompatActivity {
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
 
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(semail ,spassword)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                              if(!task.isSuccessful())
+
+                  if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified())
+                  {
+                      docrefBase = FirebaseFirestore.getInstance().collection("Users")
+                              .document(userID);
+
+                      docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+userID+"/"+usertype+"/")
+                              .document(userID);
+
+                      baseUserModel = new BaseUserModel();
+                      baseUserModel.setAddressline(saddress);
+                      baseUserModel.setCity(scity);
+                      baseUserModel.setEmail(semail);
+                      baseUserModel.setName(scommitteename);
+                      baseUserModel.setState(sstate);
+                      baseUserModel.setUid(userID);
+                      baseUserModel.setUsertype(usertype);
+
+                      pujoCommitteeModel = new PujoCommitteeModel();
+                      pujoCommitteeModel.setDescription(sdescription);
+                      pujoCommitteeModel.setType(stype);
+
+                      docrefBase.set(baseUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                          @Override
+                          public void onComplete(@NonNull Task<Void> task) {
+                              if(task.isSuccessful())
                               {
-                                  Toast.makeText(RegPujoCommittee.this, "User not verified. Try signing up first...", Toast.LENGTH_LONG).show();
-                              }
-                              else
-                              {
-                                  if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified())
-                                  {
-                                      docrefBase = FirebaseFirestore.getInstance().collection("Users")
-                                              .document(userID);
 
-                                      docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+userID+"/"+usertype+"/")
-                                              .document(userID);
-
-                                      baseUserModel = new BaseUserModel();
-                                      baseUserModel.setAddressline(saddress);
-                                      baseUserModel.setCity(scity);
-                                      baseUserModel.setEmail(semail);
-                                      baseUserModel.setName(scommitteename);
-                                      baseUserModel.setState(sstate);
-                                      baseUserModel.setUid(userID);
-                                      baseUserModel.setUsertype(usertype);
-
-                                      pujoCommitteeModel = new PujoCommitteeModel();
-                                      pujoCommitteeModel.setDescription(sdescription);
-                                      pujoCommitteeModel.setType(stype);
-
-                                      docrefBase.set(baseUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                          @Override
-                                          public void onComplete(@NonNull Task<Void> task) {
-                                              if(task.isSuccessful())
-                                              {
-
-                                                  docrefCommittee.set(docrefCommittee).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                      @Override
-                                                      public void onComplete(@NonNull Task<Void> task) {
-                                                          if(task.isSuccessful())
-                                                          {
-                                                              Utility.showToast(RegPujoCommittee.this,"Profile Created");
-                                                              progressDialog.dismiss();
-                                                              Intent i = new Intent(RegPujoCommittee.this, MainActivity.class);
-                                                              i.putExtra("usertype",usertype);
-                                                              startActivity(i);
-                                                              finish();
-                                                          }
-                                                          else{
-                                                              Utility.showToast(RegPujoCommittee.this,"Something went wrong");
-                                                              progressDialog.dismiss();
-                                                          }
-
-                                                      }
-                                                  });
-
-                                              }
-                                              else{
-                                                  Utility.showToast(RegPujoCommittee.this,"Something went wrong");
-                                                  progressDialog.dismiss();
-                                              }
-
+                                  docrefCommittee.set(pujoCommitteeModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                      @Override
+                                      public void onComplete(@NonNull Task<Void> task) {
+                                          if(task.isSuccessful())
+                                          {
+                                              Utility.showToast(RegPujoCommittee.this,"Profile Created");
+                                              progressDialog.dismiss();
+                                              Intent i = new Intent(RegPujoCommittee.this, MainActivity.class);
+                                              i.putExtra("usertype",usertype);
+                                              startActivity(i);
+                                              finish();
                                           }
-                                      });
-                                  }
+                                          else{
+                                              Utility.showToast(RegPujoCommittee.this,"Something went wrong");
+                                              progressDialog.dismiss();
+                                          }
+
+                                      }
+                                  });
+
                               }
-                            }
-                        });
+                              else{
+                                  Utility.showToast(RegPujoCommittee.this,"Something went wrong");
+                                  progressDialog.dismiss();
+                              }
+
+                          }
+                      });
+                  }
 //                    FirebaseAuth.getInstance().signInWithEmailAndPassword(remail, rpassword)
 //                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 //                                public void onComplete(@NonNull Task<AuthResult> task) {

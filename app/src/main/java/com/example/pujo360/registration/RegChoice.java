@@ -23,6 +23,7 @@ public class RegChoice extends AppCompatActivity {
         cardCommittee = findViewById(R.id.card_committee);
         cardIndividual = findViewById(R.id.card_individual);
 
+        Intent i = getIntent();
         if(getIntent().getStringExtra("value")!=null){
             if(getIntent().getStringExtra("value").matches("emailpass")){
                 email = getIntent().getStringExtra("email");
@@ -39,9 +40,10 @@ public class RegChoice extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegChoice.this , RegPujoCommittee.class)
-                .putExtra("email",email));
-                finish();
+                Intent intent = new Intent(RegChoice.this , RegPujoCommittee.class);
+                intent.putExtra(i.getStringExtra("password") , "password");
+                intent.putExtra("email",email);
+                startActivity(intent);
 
             }
         });
@@ -50,9 +52,10 @@ public class RegChoice extends AppCompatActivity {
         {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegChoice.this , RegIndividual.class)
-                .putExtra("email",email));
-                finish();
+                Intent intent = new Intent(RegChoice.this , RegIndividual.class);
+                intent.putExtra(i.getStringExtra("password") , "password");
+                intent.putExtra("email",email);
+                startActivity(intent);
             }
         });
 
