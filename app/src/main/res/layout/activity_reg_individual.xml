@@ -286,10 +286,17 @@
                 >
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:textAlignment="textStart"
                     android:text="@string/choose_gender"
-                    android:padding="12dp"
-                    android:textSize="15sp"/>
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textColor="#212121"
+                    />
 
                 <Spinner
                     android:id="@+id/gender_ind"
@@ -389,12 +396,6 @@
             </LinearLayout>
 
 
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
             <Button
                 android:id="@+id/btn_submit_ind"
                 android:layout_width="130dp"
@@ -411,7 +412,10 @@
                 android:textColor="#ffffff" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 

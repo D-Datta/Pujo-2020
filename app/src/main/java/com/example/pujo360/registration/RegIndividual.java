@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -307,7 +308,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                                             if(task.isSuccessful()){
                                                                                                                 progressDialog.dismiss();
-                                                                                                                Utility.showToast(getApplicationContext(), "Changes saved");
+                                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
                                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                                 startActivity(intent);
@@ -393,7 +394,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                             if(task.isSuccessful()){
                                                                                                 progressDialog.dismiss();
-                                                                                                Utility.showToast(getApplicationContext(), "Changes saved");
+                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                 startActivity(intent);
@@ -505,7 +506,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                                             if(task.isSuccessful()){
                                                                                                                 progressDialog.dismiss();
-                                                                                                                Utility.showToast(getApplicationContext(), "Changes saved");
+                                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
                                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                                 startActivity(intent);
@@ -591,7 +592,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                             if(task.isSuccessful()){
                                                                                                 progressDialog.dismiss();
-                                                                                                Utility.showToast(getApplicationContext(), "Changes saved");
+                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                 startActivity(intent);
@@ -682,7 +683,7 @@ public class RegIndividual extends AppCompatActivity
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Changes saved");
+                                                                        Utility.showToast(getApplicationContext(), "Profile Created");
                                                                         Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                         intent.putExtra("uid", fireuser.getUid());
                                                                         startActivity(intent);
