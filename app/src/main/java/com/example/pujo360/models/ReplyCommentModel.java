@@ -6,12 +6,16 @@ import com.google.firebase.firestore.Exclude;
 
 import java.util.ArrayList;
 
-public class CommentModel {
+public class ReplyCommentModel {
 
-    private String userdp, uid, postUid;
+    private String userdp;
+    private String uid;
+    private String postUid;
+
+    private String pComID, comUid;
+
     private String username, comment;
     private long ts;
-    private int rCmtNo;
 
     @Exclude
     private String docID;
@@ -25,14 +29,8 @@ public class CommentModel {
     @Exclude
     private int likeCheck;
 
-    public CommentModel() { likeCheck = -1; }
+    public ReplyCommentModel() { likeCheck = -1; }
 
-    public CommentModel(String userdp, String uid, String username, String comment) {
-        this.userdp = userdp;
-        this.uid = uid;
-        this.username = username;
-        this.comment = comment;
-    }
 
     public String getUserdp() { return userdp; }
 
@@ -93,12 +91,6 @@ public class CommentModel {
         this.postID = postID;
     }
 
-    public int getrCmtNo() { return rCmtNo; }
-
-    public void setrCmtNo(int rCmtNo) {
-        this.rCmtNo = rCmtNo;
-    }
-
     public ArrayList<String> getLikeL() {
         return likeL;
     }
@@ -115,6 +107,14 @@ public class CommentModel {
         this.likeCheck = likeCheck;
     }
 
+    public String getpComID() {
+        return pComID;
+    }
+
+    public void setpComID(String pComID) {
+        this.pComID = pComID;
+    }
+
     public void addToLikeList(String uid) {
         if(this.likeL == null){
             this.likeL = new ArrayList<>();
@@ -126,10 +126,13 @@ public class CommentModel {
         this.likeL.remove(Uid);
     }
 
+    public String getComUid() { return comUid; }
+
+    public void setComUid(String comUid) { this.comUid = comUid; }
+
     @Override
     protected void finalize() throws Throwable {
         Log.d("FINALIZE","called!!!!!!!!!!!!!");
         super.finalize();
     }
 }
-

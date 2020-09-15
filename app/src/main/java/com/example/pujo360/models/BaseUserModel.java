@@ -12,8 +12,12 @@ public class BaseUserModel {
 
     private String uid;
     private String email;
+
     private String usertype;
-    private ArrayList<String> interestL;
+
+    private long likeCount;
+    private long commentcount;
+    private long pujoVisits;
 
     public String getName() {
         return name;
@@ -87,11 +91,31 @@ public class BaseUserModel {
         this.usertype = usertype;
     }
 
-    public ArrayList<String> getInterestL() {
-        return interestL;
+
+    //metrics for committee
+    public long getLikeCount() {
+        return likeCount;
     }
 
-    public void setInterestL(ArrayList<String> interestL) {
-        this.interestL = interestL;
+    public void setLikeCount(long likeCount) {
+        this.likeCount = likeCount;
     }
+
+    public long getCommentcount() {
+        return commentcount;
+    }
+
+    public void setCommentcount(long commentcount) {
+        this.commentcount = commentcount;
+    }
+
+    public long getPujoVisits() {
+        return pujoVisits;
+    }
+
+    public void setPujoVisits(long pujoVisits) {
+        this.pujoVisits = pujoVisits;
+    }
+    //metrics
+
 }

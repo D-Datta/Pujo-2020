@@ -30,6 +30,10 @@
     <color name="active_three">#0DFFA4</color>
     <color name="active_four">#0DFFA4</color>
 
+<!--    <color name="md_blue_400">#42A5F5</color>-->
+<!--    <color name="md_blue_500">#2196F3</color>-->
+    <color name="toolbarStart">#00C853</color>
+
     <array name="active">
         <item>@color/active_one</item>
         <item>@color/active_two</item>

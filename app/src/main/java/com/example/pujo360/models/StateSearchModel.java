@@ -4,8 +4,6 @@ import android.util.Log;
 
 public class StateSearchModel {
 
-
-
     private String state;
 
     public StateSearchModel() {
@@ -24,9 +22,4 @@ public class StateSearchModel {
         this.state = state;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called!!!!!!!!!!!!!");
-        super.finalize();
-    }
 }

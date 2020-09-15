@@ -4,7 +4,6 @@ import android.util.Log;
 
 public class CitySearchModel {
 
-
     private String city;
 
     public CitySearchModel() {
@@ -21,12 +20,6 @@ public class CitySearchModel {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called!!!!!!!!!!!!!");
-        super.finalize();
     }
 
 }

@@ -9,7 +9,6 @@ public class FlamedModel {
 
     private String userdp, uid;
     private String username;
-    private String userCampus;
     private String pComID, comment;
 
     private long ts;
@@ -17,16 +16,10 @@ public class FlamedModel {
     @Exclude
     private String docID;
 
-    private String campus, postID, postUid;
+    private String  postID, postUid;
 
 
     public FlamedModel() {
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called!!!!!!!!!!!!!");
-        super.finalize();
     }
 
     public FlamedModel(String userdp, String uid, String username) {
@@ -79,28 +72,12 @@ public class FlamedModel {
         this.docID = docID;
     }
 
-    public String getCampus() {
-        return campus;
-    }
-
-    public void setCampus(String campus) {
-        this.campus = campus;
-    }
-
     public String getPostID() {
         return postID;
     }
 
     public void setPostID(String postID) {
         this.postID = postID;
-    }
-
-    public String getUserCampus() {
-        return userCampus;
-    }
-
-    public void setUserCampus(String userCampus) {
-        this.userCampus = userCampus;
     }
 
     public String getpComID() { return pComID; }

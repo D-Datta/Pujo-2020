@@ -22,8 +22,6 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.pujo360.models.AccessToken;
 import com.example.pujo360.models.BaseUserModel;
-import com.example.pujo360.models.CommentCount;
-import com.example.pujo360.models.FlameCount;
 import com.example.pujo360.models.NotifCount;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.registration.RegChoice;

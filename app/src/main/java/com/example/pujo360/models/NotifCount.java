@@ -4,6 +4,7 @@ import android.util.Log;
 
 public class NotifCount {
     int notifCount;
+
     public NotifCount(){}
 
     public int getNotifCount() {
@@ -13,9 +14,5 @@ public class NotifCount {
     public void setNotifCount(int notifCount) {
         this.notifCount = notifCount;
     }
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called!!!!!!!!!!!!!");
-        super.finalize();
-    }
+
 }
