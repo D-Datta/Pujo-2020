@@ -150,10 +150,9 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         programmingViewHolder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ProfileActivity.class);
-                intent.putExtra("uid", currentItem.getUid());
-                mContext.startActivity(intent);
-//                ((Activity)mContext).finish();
+//                Intent intent = new Intent(mContext, ProfileActivity.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                mContext.startActivity(intent);
 
             }
         });
@@ -161,10 +160,9 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         programmingViewHolder.userimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ProfileActivity.class);
-                intent.putExtra("uid", currentItem.getUid());
-                mContext.startActivity(intent);
-//                ((Activity)mContext).finish();
+//                Intent intent = new Intent(mContext, ProfileActivity.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                mContext.startActivity(intent);
             }
         });
 

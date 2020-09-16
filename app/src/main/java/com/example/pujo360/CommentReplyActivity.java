@@ -316,15 +316,15 @@ public class CommentReplyActivity extends AppCompatActivity {
 
 
         username.setOnClickListener(v -> {
-            Intent i12 = new Intent(getApplicationContext(), ProfileActivity.class);
-            i12.putExtra("uid", i.getStringExtra("uid"));
-            startActivity(i12);
+//            Intent i12 = new Intent(getApplicationContext(), ProfileActivity.class);
+//            i12.putExtra("uid", i.getStringExtra("uid"));
+//            startActivity(i12);
         });
 
         userimage.setOnClickListener(v -> {
-            Intent i1 = new Intent(getApplicationContext(), ProfileActivity.class);
-            i1.putExtra("uid", i.getStringExtra("uid"));
-            startActivity(i1);
+//            Intent i1 = new Intent(getApplicationContext(), ProfileActivity.class);
+//            i1.putExtra("uid", i.getStringExtra("uid"));
+//            startActivity(i1);
         });
 
 

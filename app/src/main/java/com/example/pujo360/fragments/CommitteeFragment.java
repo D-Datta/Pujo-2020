@@ -2424,7 +2424,7 @@ public class CommitteeFragment extends Fragment {
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            sliderView = itemView.findViewById(R.id.image_slider);
+//            sliderView = itemView.findViewById(R.id.image_slider);
 
             tagList = itemView.findViewById(R.id.tagsList66);
             username = itemView.findViewById(R.id.username);

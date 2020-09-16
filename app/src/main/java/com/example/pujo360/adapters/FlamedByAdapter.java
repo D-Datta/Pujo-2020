@@ -98,10 +98,9 @@ public class FlamedByAdapter extends RecyclerView.Adapter<FlamedByAdapter.Progra
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ProfileActivity.class);
-                intent.putExtra("uid",currentItem.getUid());
-                mContext.startActivity(intent);
-//                ((Activity)mContext).finish();
+//                Intent intent = new Intent(mContext, ProfileActivity.class);
+//                intent.putExtra("uid",currentItem.getUid());
+//                mContext.startActivity(intent);
             }
         });
 

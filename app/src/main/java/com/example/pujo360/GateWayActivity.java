@@ -34,22 +34,6 @@ public class GateWayActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     }
-                    else if(params.get(1).matches("Events")){
-                        Intent i= new Intent(GateWayActivity.this, ViewMoreEvent.class);
-                        i.putExtra("campus", campus);
-                        i.putExtra("postID", postID);
-                        i.putExtra("from", "link");
-                        startActivity(i);
-                        finish();
-                    }
-                    else if(params.get(1).matches("Notes")){
-                        Intent i= new Intent(GateWayActivity.this, ViewMoreNote.class);
-                        i.putExtra("campus", campus);
-                        i.putExtra("postID", postID);
-                        i.putExtra("from", "link");
-                        startActivity(i);
-                        finish();
-                    }
                     else {
                         startActivity(new Intent(GateWayActivity.this, MainActivity.class));
                         finish();
@@ -62,8 +46,6 @@ public class GateWayActivity extends AppCompatActivity {
 
             }
             else {
-//            campus = getIntent().getExtras().getString("campus");
-//            postID = getIntent().getExtras().getString("postID");
                 startActivity(new Intent(GateWayActivity.this, MainActivity.class));
                 finish();
             }
