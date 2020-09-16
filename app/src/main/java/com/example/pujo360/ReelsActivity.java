@@ -14,20 +14,31 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReelsPostModel;
+import com.example.pujo360.preferences.IntroPref;
+import com.example.pujo360.util.Utility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.thekhaeng.pushdownanim.PushDownAnim;
+
 import java.util.Objects;
 
 public class ReelsActivity extends AppCompatActivity {
 
     private FirestorePagingAdapter reelsAdapter;
     private RecyclerView reelsList;
+    private String COMMITEE_LOGO, COMMITTEE_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,10 @@ public class ReelsActivity extends AppCompatActivity {
         reelsList.setDrawingCacheEnabled(true);
 
         buildReelsRecyclerView();
+
+        IntroPref introPref = new IntroPref(getApplicationContext());
+        COMMITEE_LOGO = introPref.getUserdp();
+        COMMITTEE_NAME = introPref.getFullName();
         //////////////RECYCLER VIEW////////////////////
     }
 
@@ -76,8 +91,8 @@ public class ReelsActivity extends AppCompatActivity {
         reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
-                holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
-                holder.video_time.setText(currentItem.getDuration());
+                holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
+                holder.pujo_desc.setText(currentItem.getDescription());
                 holder.pujo_com_name.setText(currentItem.getCommittee_name());
 
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
@@ -96,7 +111,156 @@ public class ReelsActivity extends AppCompatActivity {
                 } else {
                     holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
-            }
+
+                DocumentReference likeStore;
+                likeStore = FirebaseFirestore.getInstance()
+                        .document("Feeds/" + currentItem.getDocID() + "/");
+
+                //INITIAL SETUP//
+                if (currentItem.getLikeL() != null) {
+
+                    /////////////////UPDATNG FLAMED BY NO.//////////////////////
+                    if (currentItem.getLikeL().size() == 0) {
+                        holder.like_image.setVisibility(View.GONE);
+                        holder.likesCount.setVisibility(View.GONE);
+                    }
+                    else {
+                        holder.like_image.setVisibility(View.VISIBLE);
+                        holder.likesCount.setVisibility(View.VISIBLE);
+                        holder.likesCount.setText(currentItem.getLikeL().size());
+                    }
+                } else {
+                    holder.like_image.setVisibility(View.GONE);
+                    holder.likesCount.setVisibility(View.GONE);
+                }
+                //INITIAL SETUP//
+
+                /////FLAME/////
+                PushDownAnim.setPushDownAnimTo(holder.like)
+                        .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+                        .setOnClickListener(v -> {
+                            if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                                if (currentItem.getLikeL().size() - 1 == 0) {
+                                    holder.likesCount.setVisibility(View.GONE);
+                                    holder.like_image.setVisibility(View.GONE);
+                                } else{
+                                    holder.likesCount.setVisibility(View.VISIBLE);
+                                    holder.like_image.setVisibility(View.VISIBLE);
+                                    holder.likesCount.setText(currentItem.getLikeL().size());
+                                }
+                                ///////////REMOVE CURRENT USER LIKE/////////////
+                                currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(-1);
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                batch.delete(flamedDoc);
+
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
+                                Utility.vibrate(getApplicationContext());
+                                if (currentItem.getLikeL().size() == 0) {
+                                    holder.like_image.setVisibility(View.GONE);
+                                    holder.likesCount.setVisibility(View.GONE);
+
+                                }
+                                else {
+                                    holder.like_image.setVisibility(View.VISIBLE);
+                                    holder.likesCount.setVisibility(View.VISIBLE);
+                                    holder.likesCount.setText( currentItem.getLikeL().size());
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                                Utility.vibrate(getApplicationContext());
+                                holder.likesCount.setVisibility(View.VISIBLE);
+                                holder.like_image.setVisibility(View.VISIBLE);
+                                if (currentItem.getLikeL() != null){
+                                    holder.likesCount.setText(currentItem.getLikeL().size() + 1);
+                                }
+                                else{
+                                    holder.likesCount.setText("1");
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                                //For local changes current item like added to remote list end
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL")
+                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            }
+                        });
+                /////FLAME/////
+
+                /////COMMENT/////
+
+                if (currentItem.getCmtNo() > 0) {
+                    holder.commentimg.setVisibility(View.VISIBLE);
+                    holder.commentCount.setVisibility(View.VISIBLE);
+                    holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                }
+                else{
+                    holder.commentimg.setVisibility(View.VISIBLE);
+                    holder.commentCount.setVisibility(View.VISIBLE);
+                }
+                /////COMMENT/////
+
+
+
+                }
 
             @NonNull
             @Override
@@ -116,21 +280,32 @@ public class ReelsActivity extends AppCompatActivity {
 
     private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
-        VideoView item_reels_video;
-        ImageView pujo_com_dp, like_image, comment_image, drumbeat, comment, share;
-        TextView pujo_com_name, pujo_headline, like_count, comment_count ;
+        VideoView reels_video;
+        ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel;
+        TextView pujo_com_name, pujo_headline, likesCount, commentCount ;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         com.airbnb.lottie.LottieAnimationView progress;
 
         ReelsItemViewHolder(View itemView) {
             super(itemView);
 
-            like_count = itemView.findViewById(R.id.likes_count);
-            item_reels_video = itemView.findViewById(R.id.item_reels_video);
-            video_time = itemView.findViewById(R.id.video_time);
+            reels_video = itemView.findViewById(R.id.reels_video);
+            back_reel = itemView.findViewById(R.id.back_reel);
+            save_reel = itemView.findViewById(R.id.save_reel);
             pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
             pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
-            reels_more =  itemView.findViewById(R.id.reels_more);
+            pujo_desc = itemView.findViewById(R.id.text_content44);
+            progress = itemView.findViewById(R.id.progressAnim);
+            pujo_headline = itemView.findViewById(R.id.headline);
+            like = itemView.findViewById(R.id.drumbeat);
+            comment = itemView.findViewById(R.id.comment);
+            share = itemView.findViewById(R.id.share);
+            like_image = itemView.findViewById(R.id.like_image);
+            likesCount = itemView.findViewById(R.id.likes_count);
+            commentimg = itemView.findViewById(R.id.comment_image);
+            commentCount = itemView.findViewById(R.id.comment_count);
+
+
         }
     }
 }
