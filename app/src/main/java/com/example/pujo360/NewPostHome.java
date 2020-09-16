@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -44,6 +45,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
+import com.example.pujo360.adapters.MultipleImageAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.models.TagModel;
@@ -52,6 +54,9 @@ import com.example.pujo360.util.BottomTagsDialog;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -64,6 +69,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -86,6 +92,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
+    private RecyclerView recyclerView;
 
     private String textdata="", colorValue;
     private RecyclerView tags_selectedRecycler;
@@ -93,11 +100,13 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private ImageCompressor imageCompressor;
 
     private Uri filePath, finalUri;
+    private ArrayList<byte[]> imagelist = new ArrayList<>();
     private StorageReference storageReferenece;
+    private ArrayList<String> generatedFilePath = new ArrayList<>();
 
     private StorageReference reference;
     private Uri downloadUri;
-    private String generatedFilePath, ts, USERNAME, PROFILEPIC;
+    private String ts, USERNAME, PROFILEPIC;
 
     private FirebaseAuth mAuth;
     private FirebaseUser fireuser;
@@ -112,7 +121,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private byte[] pic;
     private ProgressDialog progressDialog;
 
-    private ImageButton close_image, edit_image;
+//    private ImageButton close_image, edit_image;
     private RelativeLayout container_image;
 
     private HomePostModel homePostModel, editPostModel;
@@ -139,9 +148,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         postimage = findViewById(R.id.post_image);
         post_anon= findViewById(R.id.post_anonymous);
         post = findViewById(R.id.post);
+        recyclerView = findViewById(R.id.recyclerimages);
 //        postspinner=findViewById(R.id.post_spinner);
-        close_image = findViewById(R.id.close_image);
-        edit_image = findViewById(R.id.edit_image);
+//        close_image = findViewById(R.id.close_image);
+//        edit_image = findViewById(R.id.edit_image);
         container_image = findViewById(R.id.image_container);
         LinkPreview = findViewById(R.id.LinkPreView);
 
@@ -296,41 +306,41 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 }
 
 
-                if(intent.getStringExtra("img")!=null){
-                    editPostModel.setImg(intent.getStringExtra("img"));
-                    container_image.setVisibility(View.VISIBLE);
-                    postimage.setVisibility(View.VISIBLE);
-                    Picasso.get().load(editPostModel.getImg()).into(postimage);
-
-//                    Bitmap bitmap = null;
-
-                    Picasso.get().load(editPostModel.getImg()).into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap2, Picasso.LoadedFrom from) {
-                            Bitmap bitmap = bitmap2;
-                            ByteArrayOutputStream baos =new ByteArrayOutputStream();
-                            // bitmap= BitmapFactory.decodeStream(new ByteArrayInputStream(baos.toByteArray()));
-                            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                            pic = baos.toByteArray();
-
-                            if(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null)!=null){
-                                filePath = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null));
-                            }
-
-
-                        }
-                        @Override
-                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                            Toast.makeText(NewPostHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                        }
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                        }
-
-                    });
-
-                }
+//                if(intent.getStringExtra("img")!=null){
+//                    editPostModel.setImg(intent.getStringExtra("img"));
+//                    container_image.setVisibility(View.VISIBLE);
+//                    postimage.setVisibility(View.VISIBLE);
+//                    Picasso.get().load(editPostModel.getImg()).into(postimage);
+//
+////                    Bitmap bitmap = null;
+//
+//                    Picasso.get().load(editPostModel.getImg()).into(new Target() {
+//                        @Override
+//                        public void onBitmapLoaded(Bitmap bitmap2, Picasso.LoadedFrom from) {
+//                            Bitmap bitmap = bitmap2;
+//                            ByteArrayOutputStream baos =new ByteArrayOutputStream();
+//                            // bitmap= BitmapFactory.decodeStream(new ByteArrayInputStream(baos.toByteArray()));
+//                            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+//                            pic = baos.toByteArray();
+//
+//                            if(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null)!=null){
+//                                filePath = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null));
+//                            }
+//
+//
+//                        }
+//                        @Override
+//                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+//                            Toast.makeText(NewPostHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                        }
+//                        @Override
+//                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                        }
+//
+//                    });
+//
+//                }
 
                 if(intent.getStringExtra("comID")!=null){
                     postingIn.add(intent.getStringExtra("comName"));
@@ -426,24 +436,24 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-        edit_image.setOnClickListener(v -> {
-            CropImage.activity(filePath)
-                    .setActivityTitle("Crop Image")
-                    .setAllowRotation(TRUE)
-                    .setAllowCounterRotation(TRUE)
-                    .setAllowFlipping(TRUE)
-                    .setAutoZoomEnabled(TRUE)
-                    .setMultiTouchEnabled(FALSE)
-                    .setGuidelines(CropImageView.Guidelines.ON)
-                    .start(NewPostHome.this);
-        });
-
-        close_image.setOnClickListener(v -> {
-            filePath = null;
-            finalUri = null;
-            pic = null;
-            container_image.setVisibility(View.GONE);
-        });
+//        edit_image.setOnClickListener(v -> {
+//            CropImage.activity(filePath)
+//                    .setActivityTitle("Crop Image")
+//                    .setAllowRotation(TRUE)
+//                    .setAllowCounterRotation(TRUE)
+//                    .setAllowFlipping(TRUE)
+//                    .setAutoZoomEnabled(TRUE)
+//                    .setMultiTouchEnabled(FALSE)
+//                    .setGuidelines(CropImageView.Guidelines.ON)
+//                    .start(NewPostHome.this);
+//        });
+//
+//        close_image.setOnClickListener(v -> {
+//            filePath = null;
+//            finalUri = null;
+//            pic = null;
+//            container_image.setVisibility(View.GONE);
+//        });
         ///////////////////////IMAGE HANDLING////////////////////////
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -473,87 +483,87 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             editPostModel.setTxt(text_content.trim());
                         }
 
-                        if(pic!= null){
-                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
+                        if (imagelist != null && imagelist.size() > 0) {
+                            for (int j = 0; j < imagelist.size(); j++) {
+                                Long tsLong = System.currentTimeMillis();
+                                ts = tsLong.toString();
+                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
 
-                            reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
+                                int finalJ = j;
+                                reference.putBytes(imagelist.get(finalJ))
+                                        .addOnSuccessListener(taskSnapshot ->
+                                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                    downloadUri = uri;
+                                                    generatedFilePath.add(downloadUri.toString());
+                                                    Log.i("count", generatedFilePath.size() + " " + imagelist.size());
+                                                    if (generatedFilePath.size() == imagelist.size()) {
+                                                        homePostModel.setImg(generatedFilePath);
+                                                        docRef.set(homePostModel).addOnCompleteListener(task -> {
+                                                            if(task.isSuccessful()){
+                                                                progressDialog.dismiss();
+                                                                if(isTaskRoot()){
+                                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                                }
+                                                                else if(intent.getStringExtra("FromViewMoreHome")!=null){
+                                                                    Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
+                                                                    i.putExtra("username", editPostModel.getUsN());
+                                                                    i.putExtra("userdp", editPostModel.getDp());
+                                                                    i.putExtra("docID", editPostModel.getDocID());
+                                                                    StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
+                                                                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
 
-                            reference.putBytes(pic)
-                                    .addOnSuccessListener(taskSnapshot ->
-                                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                                downloadUri = uri;
-                                                generatedFilePath = downloadUri.toString();
+//                                                                    i.putExtra("comName", editPostModel.getComName());
+//                                                                    i.putExtra("comID", editPostModel.getComID());
+//                                                                    i.putExtra("institute", editPostModel.getInstitute());
 
-                                                editPostModel.setImg(generatedFilePath);
-                                                docRef.set(editPostModel).addOnCompleteListener(task -> {
-                                                    if(task.isSuccessful()){
-                                                        progressDialog.dismiss();
-                                                        if(isTaskRoot()){
-                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                                        }
-                                                        else if(intent.getStringExtra("FromViewMoreHome")!=null){
-                                                            Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
-                                                            i.putExtra("username", editPostModel.getUsN());
-                                                            i.putExtra("userdp", editPostModel.getDp());
-                                                            i.putExtra("docID", editPostModel.getDocID());
-                                                            StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-                                                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
+                                                                    i.putExtra("likeL", editPostModel.getLikeL());
+                                                                    i.putExtra("postPic", editPostModel.getImg());
+                                                                    i.putExtra("postText", editPostModel.getTxt());
+                                                                    i.putExtra("bool", "3");
+                                                                    i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
 
-                                                            i.putExtra("comName", editPostModel.getComName());
-                                                            i.putExtra("comID", editPostModel.getComID());
+                                                                    i.putExtra("uid", editPostModel.getUid());
+                                                                    i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
+                                                                    i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+                                                                    startActivity(i);
+                                                                    finish();
 
-                                                            i.putExtra("likeL", editPostModel.getLikeL());
-                                                            i.putExtra("postPic", editPostModel.getImg());
-                                                            i.putExtra("postText", editPostModel.getTxt());
-                                                            i.putExtra("bool", "3");
-                                                            i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
-
-                                                            i.putExtra("uid", editPostModel.getUid());
-                                                            i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
-                                                            i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
-                                                            startActivity(i);
-                                                            finish();
-
-                                                        }
-                                                        else {
-                                                            NewPostHome.super.onBackPressed();
-                                                        }
-                                                    }else{
-                                                        Utility.showToast(getApplicationContext(),"Something went wrong...");
-
+                                                                }
+                                                                else {
+                                                                    NewPostHome.super.onBackPressed();
+                                                                }
+                                                            } else {
+                                                                Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                            }
+                                                        });
                                                     }
-                                                });
-
-                                            }))
-
-                                    .addOnFailureListener(e -> {
-                                        Utility.showToast(getApplicationContext(), "Something went wrong");
-                                        if(progressDialog!= null)
-                                            progressDialog.dismiss();
-                                    });
-
+                                                }))
+                                        .addOnFailureListener(e -> {
+                                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                                            if (progressDialog != null)
+                                                progressDialog.dismiss();
+                                        });
+                            }
                         }
-
                         else {
                             editPostModel.setImg(null);
                             docRef.set(editPostModel).addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     progressDialog.dismiss();
 
-                                    if(isTaskRoot()){
+                                    if (isTaskRoot()) {
                                         startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                    }
-                                    else if(intent.getStringExtra("FromViewMoreHome")!=null){
-                                        Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
+                                    } else if (intent.getStringExtra("FromViewMoreHome") != null) {
+                                        Intent i = new Intent(NewPostHome.this, ViewMoreHome.class);
                                         i.putExtra("username", editPostModel.getUsN());
                                         i.putExtra("userdp", editPostModel.getDp());
                                         i.putExtra("docID", editPostModel.getDocID());
                                         StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
                                         //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
 
-                                        i.putExtra("comName", editPostModel.getComName());
-                                        i.putExtra("comID", editPostModel.getComID());
+//                                        i.putExtra("comName", editPostModel.getComName());
+//                                        i.putExtra("comID", editPostModel.getComID());
+//                                        i.putExtra("institute", editPostModel.getInstitute());
 
                                         i.putExtra("likeL", editPostModel.getLikeL());
                                         i.putExtra("postPic", editPostModel.getImg());
@@ -567,22 +577,127 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                         startActivity(i);
                                         finish();
 
-                                    }
-                                    else {
+                                    } else {
                                         NewPostHome.super.onBackPressed();
                                     }
 
-                                }else{
-                                    Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                } else {
+                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
 
                                 }
                             });
                         }
 
+//                        if(pic!= null){
+//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
+//
+//                            reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
+//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
+//
+//                            reference.putBytes(pic)
+//                                    .addOnSuccessListener(taskSnapshot ->
+//                                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
+//                                                downloadUri = uri;
+//                                                generatedFilePath = downloadUri.toString();
+//
+//                                                editPostModel.setImg(generatedFilePath);
+//                                                docRef.set(editPostModel).addOnCompleteListener(task -> {
+//                                                    if(task.isSuccessful()){
+//                                                        progressDialog.dismiss();
+//                                                        if(isTaskRoot()){
+//                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                                        }
+//                                                        else if(intent.getStringExtra("FromViewMoreHome")!=null){
+//                                                            Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
+//                                                            i.putExtra("username", editPostModel.getUsN());
+//                                                            i.putExtra("userdp", editPostModel.getDp());
+//                                                            i.putExtra("docID", editPostModel.getDocID());
+//                                                            StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
+//                                                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
+//
+//                                                            i.putExtra("comName", editPostModel.getComName());
+//                                                            i.putExtra("comID", editPostModel.getComID());
+//
+//                                                            i.putExtra("likeL", editPostModel.getLikeL());
+//                                                            i.putExtra("postPic", editPostModel.getImg());
+//                                                            i.putExtra("postText", editPostModel.getTxt());
+//                                                            i.putExtra("bool", "3");
+//                                                            i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
+//
+//                                                            i.putExtra("uid", editPostModel.getUid());
+//                                                            i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
+//                                                            i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+//                                                            startActivity(i);
+//                                                            finish();
+//
+//                                                        }
+//                                                        else {
+//                                                            NewPostHome.super.onBackPressed();
+//                                                        }
+//                                                    }else{
+//                                                        Utility.showToast(getApplicationContext(),"Something went wrong...");
+//
+//                                                    }
+//                                                });
+//
+//                                            }))
+//
+//                                    .addOnFailureListener(e -> {
+//                                        Utility.showToast(getApplicationContext(), "Something went wrong");
+//                                        if(progressDialog!= null)
+//                                            progressDialog.dismiss();
+//                                    });
+//
+//                        }
+//
+//                        else {
+//                            editPostModel.setImg(null);
+//                            docRef.set(editPostModel).addOnCompleteListener(task -> {
+//                                if(task.isSuccessful()){
+//                                    progressDialog.dismiss();
+//
+//                                    if(isTaskRoot()){
+//                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                    }
+//                                    else if(intent.getStringExtra("FromViewMoreHome")!=null){
+//                                        Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
+//                                        i.putExtra("username", editPostModel.getUsN());
+//                                        i.putExtra("userdp", editPostModel.getDp());
+//                                        i.putExtra("docID", editPostModel.getDocID());
+//                                        StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
+//                                        //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
+//
+//                                        i.putExtra("comName", editPostModel.getComName());
+//                                        i.putExtra("comID", editPostModel.getComID());
+//
+//                                        i.putExtra("likeL", editPostModel.getLikeL());
+//                                        i.putExtra("postPic", editPostModel.getImg());
+//                                        i.putExtra("postText", editPostModel.getTxt());
+//                                        i.putExtra("bool", "3");
+//                                        i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
+//
+//                                        i.putExtra("uid", editPostModel.getUid());
+//                                        i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
+//                                        i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+//                                        startActivity(i);
+//                                        finish();
+//
+//                                    }
+//                                    else {
+//                                        NewPostHome.super.onBackPressed();
+//                                    }
+//
+//                                }else{
+//                                    Utility.showToast(getApplicationContext(),"Something went wrong.");
+//
+//                                }
+//                            });
+//                        }
+
                     }
                     else {
-                        Long tsLong = System.currentTimeMillis();
-                        ts = tsLong.toString();
+                        Long timestampLong = System.currentTimeMillis();
+//                        ts = tsLong.toString();
                         progressDialog = new ProgressDialog(NewPostHome.this);
                         progressDialog.setTitle("Uploading");
                         progressDialog.setMessage("Please wait...");
@@ -604,8 +719,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             }
                         }
 
-                        homePostModel.setTs(tsLong);
-                        homePostModel.setNewTs(tsLong);
+                        homePostModel.setTs(timestampLong);
+                        homePostModel.setNewTs(timestampLong);
 
                         homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -616,57 +731,62 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             homePostModel.setTxt(text_content.trim());
                         }
 
-                        if(pic!= null){
+                        if (imagelist != null && imagelist.size() > 0) {
+                            for (int j = 0; j < imagelist.size(); j++) {
+                                Long tsLong = System.currentTimeMillis();
+                                ts = tsLong.toString();
+                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
 
-                            reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-
-                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-
-                            reference.putBytes(pic)
-                                    .addOnSuccessListener(taskSnapshot ->
-                                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                                downloadUri = uri;
-                                                generatedFilePath = downloadUri.toString();
-
-                                                homePostModel.setImg(generatedFilePath);
-                                                docRef.set(homePostModel).addOnCompleteListener(task -> {
-                                                    if(task.isSuccessful()){
-                                                        progressDialog.dismiss();
-                                                        if(isTaskRoot()){
-                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                                        }
-                                                        else {
-                                                            NewPostHome.super.onBackPressed();
-                                                        }
-                                                    }else{
-                                                        Utility.showToast(getApplicationContext(),"Something went wrong...");
-
+                                int finalJ = j;
+                                reference.putBytes(imagelist.get(finalJ))
+                                        .addOnSuccessListener(taskSnapshot ->
+                                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                    downloadUri = uri;
+                                                    generatedFilePath.add(downloadUri.toString());
+                                                    Log.i("count", generatedFilePath.size() + " " + imagelist.size());
+                                                    if (generatedFilePath.size() == imagelist.size()) {
+                                                        homePostModel.setImg(generatedFilePath);
+                                                        docRef.set(homePostModel).addOnCompleteListener(task -> {
+                                                            if (task.isSuccessful()) {
+                                                                Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
+                                                                progressDialog.dismiss();
+                                                                if (isTaskRoot()) {
+                                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                                    finish();
+                                                                } else {
+                                                                    NewPostHome.super.onBackPressed();
+                                                                }
+                                                            } else {
+                                                                Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                            }
+                                                        });
                                                     }
-                                                });
-
-                                            }))
-
-                                    .addOnFailureListener(e -> {
-                                        Utility.showToast(getApplicationContext(), "Something went wrong");
-                                        if(progressDialog!= null)
-                                            progressDialog.dismiss();
-                                    });
-
-                        }
-                        else {
-                            docRef.set(homePostModel).addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
-                                    progressDialog.dismiss();
-
-                                    if(isTaskRoot()){
+                                                }))
+                                        .addOnFailureListener(e -> {
+                                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                                            if (progressDialog != null)
+                                                progressDialog.dismiss();
+                                        });
+                            }
+                        } else {
+                            docRef.set(homePostModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
                                         startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Post creation failed", Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
                                     }
-                                    else {
-                                        NewPostHome.super.onBackPressed();
-                                    }
-                                }else{
-                                    Utility.showToast(getApplicationContext(),"Something went wrong.");
-
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Post creation failed", Toast.LENGTH_LONG).show();
+                                    progressDialog.dismiss();
                                 }
                             });
                         }
@@ -837,6 +957,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private void pickGallery(){
         Intent intent= new Intent();
         intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Image"),IMAGE_PICK_GALLERY_CODE);
     }
@@ -854,31 +975,59 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         if(resultCode == RESULT_OK && data!=null){
             if(requestCode == IMAGE_PICK_GALLERY_CODE){
-                try {
-                    filePath = data.getData();
-                    finalUri = filePath;
-                    if(filePath!=null) {
-
-//                        postimage.setVisibility(View.VISIBLE);
+                if(data.getClipData()!= null)
+                {
+                    int count = data.getClipData().getItemCount();
+                    for (int i =0; i < count; i++)
+                    {
+                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         final BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inJustDecodeBounds = true;
                         options.inSampleSize = 2;
                         options.inJustDecodeBounds = false;
                         options.inTempStorage = new byte[16 * 1024];
 
-                        InputStream input = this.getContentResolver().openInputStream(filePath);
+                        InputStream input = null;
+                        try {
+                            input = this.getContentResolver().openInputStream(imageUri);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                         Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
+//                        imagesUri.add(imageUri.toString());
 //                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
                         pic = baos.toByteArray();
-
                         imageCompressor = new ImageCompressor(pic);
                         imageCompressor.execute();
-
+//                        imagelist.add(pic);
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }
+                else if (data.getData() != null)
+                {
+                    final BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    options.inSampleSize = 2;
+                    options.inJustDecodeBounds = false;
+                    options.inTempStorage = new byte[16 * 1024];
+
+                    InputStream input = null;
+                    try {
+                        input = this.getContentResolver().openInputStream(data.getData());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
+//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                    pic = baos.toByteArray();
+//                    imagesUri.add(data.getData().toString());
+
+                    imageCompressor = new ImageCompressor(pic);
+                    imageCompressor.execute();
+//                    imagelist.add(pic);
                 }
 
             }
@@ -1075,10 +1224,34 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         protected void onPostExecute(byte[] picCompressed) {
             if(picCompressed!= null) {
                 pic = picCompressed;
-                Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 ,picCompressed.length);
-                postimage.setImageBitmap(bitmap);
-                container_image.setVisibility(View.VISIBLE);
-                postimage.setVisibility(View.VISIBLE);
+                imagelist.add(pic);
+
+                if(imagelist != null && imagelist.size()>0){
+
+                    container_image.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setHasFixedSize(false);
+                    final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemViewCacheSize(20);
+                    recyclerView.setNestedScrollingEnabled(true);
+
+                    MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
+                    recyclerView.setAdapter(multipleImageAdapter);
+                    multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
+                        @Override
+                        public void onClickListener(int position) {
+                            imagelist.remove(position);
+                            multipleImageAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+                else {
+                    container_image.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                }
 
             }
         }

@@ -21,6 +21,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".ActivityProfileCommittee" />
+        <activity android:name=".ActivityProfileUser" />
+        <activity android:name=".SearchCityState" />
+        <activity android:name=".registration.RegIndividual" />
+        <activity android:name=".registration.RegPujoCommittee" />
+        <activity android:name=".registration.RegChoice" />
+        <activity android:name=".ImageViewer360" />
+        <activity android:name=".WalkthroughActivity" />
+        <activity android:name=".LoginActivity" />
 
         <activity android:name=".ReelsActivity"/>
 
@@ -33,15 +43,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".SearchCityState" />
-        <activity android:name=".registration.RegIndividual" />
-        <activity android:name=".registration.RegPujoCommittee" />
-        <activity android:name=".registration.RegChoice" />
-
-        <activity android:name=".ImageViewer360" />
-
-        <activity android:name=".ActivityProfileUser"/>
 
         <activity
             android:name=".CommentReplyActivity"
@@ -73,6 +74,9 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProfilePictureActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".CommitteeViewAll"
