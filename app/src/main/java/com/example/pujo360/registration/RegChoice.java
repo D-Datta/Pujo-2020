@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.pujo360.R;
 import com.example.pujo360.preferences.IntroPref;
@@ -22,10 +26,29 @@ public class RegChoice extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg_choice);
 
+        ///////////////Set Image Bitmap/////////////////////
+        ImageView imageView = findViewById(R.id.ma_durga);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+        int width = options.outWidth;
+        if (width > displayWidth) {
+            int widthRatio = Math.round((float) width / (float) displayWidth);
+            options.inSampleSize = widthRatio;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+        imageView.setImageBitmap(scaledBitmap);
+        ///////////////Set Image Bitmap/////////////////////
+
         introPref = new IntroPref(RegChoice.this);
 
         cardCommittee = findViewById(R.id.card_committee);
         cardIndividual = findViewById(R.id.card_individual);
+        introPref = new IntroPref(RegChoice.this);
 
         Intent i = getIntent();
         if(getIntent().getStringExtra("value")!=null){

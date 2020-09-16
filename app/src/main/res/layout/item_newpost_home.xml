@@ -187,7 +187,7 @@
                 android:layout_height="match_parent"
                 android:text="Flamed by 100 others"
                 android:paddingStart="5dp"
-                android:fontFamily="@font/lato_regular"
+                android:fontFamily="@font/harabara"
                 android:gravity="center_vertical"
                 android:layout_marginStart="10dp"/>
         </LinearLayout>
@@ -245,7 +245,7 @@
                 android:layout_height="match_parent"
                 android:text="42 comments"
                 android:paddingHorizontal="10dp"
-                android:fontFamily="@font/lato_regular"
+                android:fontFamily="@font/oxygen_regular"
                 android:textSize="12sp"
                 android:gravity="center_vertical" />
         </LinearLayout>
