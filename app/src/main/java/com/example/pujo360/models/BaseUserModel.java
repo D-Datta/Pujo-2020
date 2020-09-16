@@ -119,6 +119,15 @@ public class BaseUserModel {
     public void setPujoVisits(long pujoVisits) {
         this.pujoVisits = pujoVisits;
     }
+
+    public Timestamp getLastVisitTs() {
+        return lastVisitTs;
+    }
+
+    public void setLastVisitTs(Timestamp lastVisitTs) {
+        this.lastVisitTs = lastVisitTs;
+    }
+
     //metrics
 
 }

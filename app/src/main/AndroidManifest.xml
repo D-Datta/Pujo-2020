@@ -67,7 +67,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CommunityViewAll"
+            android:name=".CommitteeViewAll"
             android:screenOrientation="portrait" />
         <activity
             android:name=".NewPostHome"
