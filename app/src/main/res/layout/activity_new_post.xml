@@ -265,39 +265,49 @@
                 android:visibility="gone"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/post_image"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerimages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"
-                    android:paddingTop="10dp"
-                    android:src="@drawable/edit_dp">
-                </ImageView>
+                    android:paddingBottom="5dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:descendantFocusability="blocksDescendants"
+                    app:reverseLayout="false"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="5dp"
-                    android:gravity="end">
-                    <ImageButton
-                        android:id="@+id/edit_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_ripple_grey_bg"
-                        android:padding="8dp"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/ic_edit_black_24dp"/>
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/post_image"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:adjustViewBounds="true"-->
+                <!--                    android:paddingTop="10dp"-->
+                <!--                    android:src="@drawable/lesson_bg">-->
+                <!--                </ImageView>-->
 
-                    <ImageButton
-                        android:id="@+id/close_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/custom_ripple_grey_bg"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_close_black_24dp" />
-                </LinearLayout>
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:paddingVertical="5dp"-->
+                <!--                    android:gravity="end">-->
+                <!--                    <ImageButton-->
+                <!--                        android:id="@+id/edit_image"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@drawable/custom_ripple_grey_bg"-->
+                <!--                        android:padding="8dp"-->
+                <!--                        android:layout_margin="10dp"-->
+                <!--                        android:src="@drawable/ic_edit_black_24dp"/>-->
+
+                <!--                    <ImageButton-->
+                <!--                        android:id="@+id/close_image"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_margin="10dp"-->
+                <!--                        android:background="@drawable/custom_ripple_grey_bg"-->
+                <!--                        android:padding="8dp"-->
+                <!--                        android:src="@drawable/ic_close_black_24dp" />-->
+                <!--                </LinearLayout>-->
             </RelativeLayout>
 
         </LinearLayout>

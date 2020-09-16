@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class HomePostModel {
 
     private String usN, dp, uid;
-    private String img, txt;
+    private String txt;
+    private ArrayList<String> img;
     private String comID, comName;
     private long ts;
     private long newTs;
@@ -98,13 +99,13 @@ public class HomePostModel {
         this.uid = uid;
     }
 
-    public String getImg() {
+    public ArrayList<String> getImg() {
         return img;
     }
-    public void setImg(String img) {
+
+    public void setImg(ArrayList<String> img) {
         this.img = img;
     }
-
 
     public long getCmtNo() {
         return cmtNo;

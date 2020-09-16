@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -40,6 +39,7 @@ import com.example.pujo360.MainActivity;
 import com.example.pujo360.NewPostHome;
 import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
+import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.CommitteeTopAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.BaseUserModel;
@@ -64,10 +64,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.lang.ref.WeakReference;
@@ -440,7 +441,7 @@ public class FeedsFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                    communityViewHolder.postimage.get().setOnClickListener(v -> {
+                    communityViewHolder.sliderView.get().setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
@@ -527,36 +528,24 @@ public class FeedsFragment extends Fragment {
 
                     }
 
-                    String postimage_url = currentItem.getImg();
-                    if (postimage_url != null) {
-                        communityViewHolder.postimage.get().setVisibility(View.VISIBLE);
-                        Picasso.get().load(postimage_url)
-                                .placeholder(R.drawable.image_background_grey)
-                                .into(communityViewHolder.postimage.get());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        communityViewHolder.sliderView.get().setVisibility(View.VISIBLE);
+                        communityViewHolder.sliderView.get().setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                        communityViewHolder.sliderView.get().setIndicatorRadius(8);
+                        communityViewHolder.sliderView.get().setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        communityViewHolder.sliderView.get().setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        communityViewHolder.sliderView.get().setIndicatorSelectedColor(Color.WHITE);
+                        communityViewHolder.sliderView.get().setIndicatorUnselectedColor(R.color.colorAccent);
+                        communityViewHolder.sliderView.get().setAutoCycle(false);
 
-                        communityViewHolder.postimage.get().setOnLongClickListener(v -> {
+                        SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg());
 
-                            Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    save_Dialog(bitmap);
-                                }
-
-                                @Override
-                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                    Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                }
-
-                            });
-                            return true;
-                        });
-                    } else
-                        communityViewHolder.postimage.get().setVisibility(View.GONE);
+                        communityViewHolder.sliderView.get().setSliderAdapter(sliderAdapter);
+                    }
+                    else
+                    {
+                        communityViewHolder.sliderView.get().setVisibility(View.GONE);
+                    }
 
                     //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -1029,7 +1018,7 @@ public class FeedsFragment extends Fragment {
                             startActivity(intent);
                         });
 
-                        programmingViewHolder.postimage.get().setOnClickListener(v -> {
+                        programmingViewHolder.sliderView.get().setOnClickListener(v -> {
                             Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                             intent.putExtra("username", currentItem.getUsN());
                             intent.putExtra("userdp", currentItem.getDp());
@@ -1135,36 +1124,24 @@ public class FeedsFragment extends Fragment {
 
                         }
 
-                        String postimage_url = currentItem.getImg();
-                        if (postimage_url != null) {
-                            programmingViewHolder.postimage.get().setVisibility(View.VISIBLE);
-                            Picasso.get().load(postimage_url)
-                                    .placeholder(R.drawable.image_background_grey)
-                                    .into(programmingViewHolder.postimage.get());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            programmingViewHolder.sliderView.get().setVisibility(View.VISIBLE);
+                            programmingViewHolder.sliderView.get().setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                            programmingViewHolder.sliderView.get().setIndicatorRadius(8);
+                            programmingViewHolder.sliderView.get().setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            programmingViewHolder.sliderView.get().setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                            programmingViewHolder.sliderView.get().setIndicatorSelectedColor(Color.WHITE);
+                            programmingViewHolder.sliderView.get().setIndicatorUnselectedColor(R.color.colorAccent);
+                            programmingViewHolder.sliderView.get().setAutoCycle(false);
 
-                            programmingViewHolder.postimage.get().setOnLongClickListener(v -> {
+                            SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg());
 
-                                Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                                    @Override
-                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                        save_Dialog(bitmap);
-                                    }
-
-                                    @Override
-                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                        Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                    }
-
-                                });
-                                return true;
-                            });
-                        } else
-                            programmingViewHolder.postimage.get().setVisibility(View.GONE);
+                            programmingViewHolder.sliderView.get().setSliderAdapter(sliderAdapter);
+                        }
+                        else
+                        {
+                            programmingViewHolder.sliderView.get().setVisibility(View.GONE);
+                        }
 
                         //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -1526,7 +1503,8 @@ public class FeedsFragment extends Fragment {
         //SliderView sliderView;
 
         WeakReference<TextView> username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        WeakReference<ImageView> userimage, postimage, flameimg, commentimg,profileimage, menuPost, share;
+        WeakReference<ImageView> userimage, flameimg, commentimg,profileimage, menuPost, share;
+        WeakReference<SliderView> sliderView;
         WeakReference<ApplexLinkPreview> LinkPreview;
         WeakReference<LinearLayout> itemHome;
         WeakReference<RelativeLayout> first_post;
@@ -1545,7 +1523,7 @@ public class FeedsFragment extends Fragment {
             username = new WeakReference<>(itemView.findViewById(R.id.username));
             text_content = new WeakReference<>(itemView.findViewById(R.id.text_content));
             userimage = new WeakReference<>(itemView.findViewById(R.id.user_image));
-            postimage = new WeakReference<>(itemView.findViewById(R.id.post_image));
+            sliderView = new WeakReference<>(itemView.findViewById(R.id.post_image));
             flamedBy = new WeakReference<>(itemView.findViewById(R.id.flamed_by));
             minsago=new WeakReference<>(itemView.findViewById(R.id.mins_ago));
             flameimg = new WeakReference<>(itemView.findViewById(R.id.flame));
@@ -1566,7 +1544,8 @@ public class FeedsFragment extends Fragment {
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         WeakReference<TextView> username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        WeakReference<ImageView> userimage, postimage, flameimg, commentimg,profileimage, menuPost, share, noPost1;
+        WeakReference<ImageView> userimage, flameimg, commentimg,profileimage, menuPost, share, noPost1;
+        WeakReference<SliderView> sliderView;
         WeakReference<ApplexLinkPreview> LinkPreview;
         WeakReference<LinearLayout> itemHome;
         WeakReference<RecyclerView> tagList;
@@ -1580,7 +1559,7 @@ public class FeedsFragment extends Fragment {
             username = new WeakReference<>(itemView.findViewById(R.id.username));
             text_content = new WeakReference<>(itemView.findViewById(R.id.text_content));
             userimage = new WeakReference<>(itemView.findViewById(R.id.user_image));
-            postimage = new WeakReference<>(itemView.findViewById(R.id.post_image));
+            sliderView = new WeakReference<>(itemView.findViewById(R.id.post_image));
             flamedBy = new WeakReference<>(itemView.findViewById(R.id.flamed_by));
             minsago=new WeakReference<>(itemView.findViewById(R.id.mins_ago));
             flameimg = new WeakReference<>(itemView.findViewById(R.id.flame));
