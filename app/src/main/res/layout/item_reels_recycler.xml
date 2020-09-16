@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="128dp"
             android:clipToPadding="false"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp" />
 
     </LinearLayout>
 
