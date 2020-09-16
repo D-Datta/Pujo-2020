@@ -34,7 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pujo360.CommunityViewAll;
+import com.example.pujo360.CommitteeViewAll;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.R;
@@ -234,7 +234,7 @@ public class FeedsFragment extends Fragment {
                     CommunityViewHolder communityViewHolder = (CommunityViewHolder)holder;
 
                     communityViewHolder.view_all.get().setOnClickListener(v ->
-                            startActivity(new Intent(getActivity(), CommunityViewAll.class))
+                            startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
 
                     buildCommunityRecyclerView(communityViewHolder.cRecyclerView);
@@ -1673,7 +1673,7 @@ public class FeedsFragment extends Fragment {
         noPostYet1.get().setVisibility(View.VISIBLE);
 
         campusNameNoPost.get().setText(CAMPUSNAME);
-        view_all_NoPost.get().setOnClickListener(v -> startActivity(new Intent(getActivity(), CommunityViewAll.class)));
+        view_all_NoPost.get().setOnClickListener(v -> startActivity(new Intent(getActivity(), CommitteeViewAll.class)));
         infoNoPost.get().setOnClickListener(v -> {
             dialog = new WeakReference<>(new Dialog(getActivity()));
             dialog.get().setContentView(R.layout.dialog_info_campus);
@@ -1726,7 +1726,7 @@ public class FeedsFragment extends Fragment {
         else if(changed == 2 || comDelete == 2) {
             buildRecyclerView();
             changed = 0;
-            CommunityViewAll.changed = 0;
+            CommitteeViewAll.changed = 0;
             comDelete = 0;
         }
         super.onResume();
