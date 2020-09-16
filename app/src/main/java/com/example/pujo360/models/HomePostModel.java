@@ -32,6 +32,9 @@ public class HomePostModel {
 
 
     ////////////DEFAULT CONSTRUCTOR///////////
+    public HomePostModel(){
+        likeCheck = -1;
+    }
 
     public String getComName() {
         return comName;
@@ -49,9 +52,7 @@ public class HomePostModel {
         this.newTs = newTs;
     }
 
-    public HomePostModel(){
-        likeCheck = -1;
-    }
+
 
     public String getDocID() {
         return docID;

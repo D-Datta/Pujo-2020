@@ -42,6 +42,7 @@ import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
+import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.models.SliderModel;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.util.InternetConnection;
@@ -89,7 +90,7 @@ public class CommitteeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME;
 
-    private FirestorePagingAdapter adapter;
+    private FirestorePagingAdapter adapter, reelsAdapter;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -120,7 +121,7 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
 
-        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setItemViewCacheSize(10);
         mRecyclerView.setDrawingCacheEnabled(true);
         /////////////SETUP//////////////
 
@@ -890,9 +891,10 @@ public class CommitteeFragment extends Fragment {
 
                 }
                 else if(holder.getItemViewType() == 2) {
+                    ReelsViewHolder reelsViewHolder = (ReelsViewHolder) holder;
+                    buildReelsRecyclerView(reelsViewHolder.reelsList);
 
                     ///////////////////FOR THE THIRD POST///////////////////
-                    ReelsViewHolder reelsViewHolder = (ReelsViewHolder) holder;
                     DocumentReference likeStore;
                     String timeAgo = Utility.getTimeAgo(currentItem.getTs());
                     reelsViewHolder.minsago.setText(timeAgo);
@@ -2241,7 +2243,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else if(viewType == 2) {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                    View v = layoutInflater.inflate(R.layout.item_reels, viewGroup, false);
+                    View v = layoutInflater.inflate(R.layout.item_reels_recycler, viewGroup, false);
                     return new ReelsViewHolder(v);
                 }
                 else {
@@ -2285,7 +2287,6 @@ public class CommitteeFragment extends Fragment {
         contentProgress.setVisibility(View.GONE);
         progressMore.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
-
     }
 
     private static class SliderViewHolder extends RecyclerView.ViewHolder {
@@ -2351,12 +2352,6 @@ public class CommitteeFragment extends Fragment {
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
 
-        RelativeLayout item_reels;
-        VideoView item_reels_video;
-        TextView video_time;
-        ImageView pujo_com_dp;
-        TextView pujo_com_name;
-
         ReelsViewHolder(@NonNull View itemView) {
 
             super(itemView);
@@ -2401,12 +2396,6 @@ public class CommitteeFragment extends Fragment {
 
             view_all_reels = itemView.findViewById(R.id.view_all_reels);
             reelsList = itemView.findViewById(R.id.reelsRecycler);
-
-            item_reels = itemView.findViewById(R.id.item_reels);
-            item_reels_video = itemView.findViewById(R.id.item_reels_video);
-            video_time = itemView.findViewById(R.id.video_time);
-            pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
-            pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
         }
     }
 
@@ -2462,6 +2451,79 @@ public class CommitteeFragment extends Fragment {
             cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
             dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
             link_preview2= itemView.findViewById(R.id.LinkPreViewComment2);
+        }
+    }
+
+    private void buildReelsRecyclerView(RecyclerView reelsList) {
+        reelsList.setHasFixedSize(false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        reelsList.setLayoutManager(layoutManager);
+        reelsList.setNestedScrollingEnabled(true);
+
+        reelsList.setItemViewCacheSize(10);
+        reelsList.setDrawingCacheEnabled(true);
+
+        Query query = FirebaseFirestore.getInstance()
+                .collection("Reels/")
+                .orderBy("ts", Query.Direction.DESCENDING)
+                .limit(10);
+
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setInitialLoadSizeHint(10)
+                .setEnablePlaceholders(true)
+                .build();
+
+        FirestorePagingOptions<ReelsPostModel> options = new FirestorePagingOptions.Builder<ReelsPostModel>()
+                .setLifecycleOwner(this)
+                .setQuery(query, config, snapshot -> {
+                    ReelsPostModel reelsPostModel = new ReelsPostModel();
+                    if(snapshot.exists()) {
+                        reelsPostModel = snapshot.toObject(ReelsPostModel.class);
+                        Objects.requireNonNull(reelsPostModel).setDocID(snapshot.getId());
+                    }
+                    return reelsPostModel;
+                })
+                .build();
+
+        reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel model) {
+                holder.video_time.setText(model.getDuration());
+
+            }
+
+            @NonNull
+            @Override
+            public ReelsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+                LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+                View v = layoutInflater.inflate(R.layout.item_reels, viewGroup, false);
+                return new ReelsItemViewHolder(v);
+            }
+
+            @Override
+            public int getItemViewType(int position) { return position; }
+        };
+
+        reelsList.setAdapter(reelsAdapter);
+    }
+
+    private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
+
+        RelativeLayout item_reels;
+        VideoView item_reels_video;
+        TextView video_time;
+        ImageView pujo_com_dp;
+        TextView pujo_com_name;
+
+        ReelsItemViewHolder(View itemView) {
+            super(itemView);
+
+            item_reels = itemView.findViewById(R.id.item_reels);
+            item_reels_video = itemView.findViewById(R.id.item_reels_video);
+            video_time = itemView.findViewById(R.id.video_time);
+            pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
+            pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
         }
     }
 
