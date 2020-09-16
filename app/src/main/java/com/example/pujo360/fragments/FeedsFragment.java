@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,7 +22,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +35,14 @@ import android.widget.Toast;
 import com.example.pujo360.CommitteeViewAll;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
+import com.example.pujo360.MainActivity;
+import com.example.pujo360.NewPostHome;
 import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
-import com.example.pujo360.adapters.CommunityAdapter;
+import com.example.pujo360.adapters.SliderAdapter;
+import com.example.pujo360.adapters.CommitteeTopAdapter;
 import com.example.pujo360.adapters.TagAdapter;
+import com.example.pujo360.models.BaseUserModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.preferences.IntroPref;
@@ -49,6 +51,7 @@ import com.example.pujo360.util.Utility;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -61,10 +64,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -83,10 +88,8 @@ public class FeedsFragment extends Fragment {
     private WeakReference<ProgressBar> progressMore, contentProgress, contentProgCom;
 
     private WeakReference<TextView> view_all_NoPost;
-    private WeakReference<ImageView> infoNoPost;
     private WeakReference<RecyclerView> comRecyclerView;
     private WeakReference<LinearLayout> campusLL, LL;
-    //private SliderView sliderViewNoPost;
 
     public static int changed = 0;
     public static int comDelete = 0;
@@ -141,7 +144,6 @@ public class FeedsFragment extends Fragment {
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
         contentProgCom = new WeakReference<>(view.findViewById(R.id.content_progress_community));
-        infoNoPost = new WeakReference<>(view.findViewById(R.id.info));
         view_all_NoPost = new WeakReference<>(view.findViewById(R.id.community_view_all));
         comRecyclerView = new WeakReference<>(view.findViewById(R.id.communityRecyclerNoPost));
         campusLL = new WeakReference<>(view.findViewById(R.id.campusLL));
@@ -201,7 +203,7 @@ public class FeedsFragment extends Fragment {
     private void buildRecyclerView() {
 
         Query query = FirebaseFirestore.getInstance()
-                .collection("Feeds/")
+                .collection("Feeds")
                 .whereEqualTo("type", "user")
                 .orderBy("newTs", Query.Direction.DESCENDING);
 
@@ -259,7 +261,8 @@ public class FeedsFragment extends Fragment {
                         communityViewHolder.comName.get().setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
 
                         communityViewHolder.comName.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), CommunityActivity.class);
+                            //To be changed
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("comID", currentItem.getComID());
                             startActivity(intent);
                         });
@@ -335,19 +338,17 @@ public class FeedsFragment extends Fragment {
                     //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
                     ////////////ANONYMOUS POST///////////////
                     if (currentItem.getUsN() != null) {
-//                            communityViewHolder.userimage.get().setImageResource(R.drawable.ic_anonymous_icon);
-//                            communityViewHolder.username.get().setText(currentItem.getUsN());
-//                        } else {
+
                         communityViewHolder.userimage.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getContext(), ProfileActivity.class);
-                            intent.putExtra("uid", currentItem.getUid());
-                            startActivity(intent);
+//                            Intent intent = new Intent(getContext(), Main.class);
+//                            intent.putExtra("uid", currentItem.getUid());
+//                            startActivity(intent);
                         });
 
                         communityViewHolder.username.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getContext(), ProfileActivity.class);
-                            intent.putExtra("uid", currentItem.getUid());
-                            startActivity(intent);
+//                            Intent intent = new Intent(getContext(), ProfileActivity.class);
+//                            intent.putExtra("uid", currentItem.getUid());
+//                            startActivity(intent);
                         });
 
                         communityViewHolder.username.get().setText(currentItem.getUsN());
@@ -440,7 +441,7 @@ public class FeedsFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                    communityViewHolder.postimage.get().setOnClickListener(v -> {
+                    communityViewHolder.sliderView.get().setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
@@ -527,36 +528,24 @@ public class FeedsFragment extends Fragment {
 
                     }
 
-                    String postimage_url = currentItem.getImg();
-                    if (postimage_url != null) {
-                        communityViewHolder.postimage.get().setVisibility(View.VISIBLE);
-                        Picasso.get().load(postimage_url)
-                                .placeholder(R.drawable.image_background_grey)
-                                .into(communityViewHolder.postimage.get());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        communityViewHolder.sliderView.get().setVisibility(View.VISIBLE);
+                        communityViewHolder.sliderView.get().setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                        communityViewHolder.sliderView.get().setIndicatorRadius(8);
+                        communityViewHolder.sliderView.get().setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        communityViewHolder.sliderView.get().setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        communityViewHolder.sliderView.get().setIndicatorSelectedColor(Color.WHITE);
+                        communityViewHolder.sliderView.get().setIndicatorUnselectedColor(R.color.colorAccent);
+                        communityViewHolder.sliderView.get().setAutoCycle(false);
 
-                        communityViewHolder.postimage.get().setOnLongClickListener(v -> {
+                        SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg());
 
-                            Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    save_Dialog(bitmap);
-                                }
-
-                                @Override
-                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                    Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                }
-
-                            });
-                            return true;
-                        });
-                    } else
-                        communityViewHolder.postimage.get().setVisibility(View.GONE);
+                        communityViewHolder.sliderView.get().setSliderAdapter(sliderAdapter);
+                    }
+                    else
+                    {
+                        communityViewHolder.sliderView.get().setVisibility(View.GONE);
+                    }
 
                     //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -716,7 +705,7 @@ public class FeedsFragment extends Fragment {
                             postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
 
                             postMenuDialog.get().findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-                                Intent i = new Intent(getContext(), NewPostHome.class);
+                                Intent i = new Intent(getActivity(), NewPostHome.class);
                                 i.putExtra("target", "100"); //target value for edit post
                                 i.putExtra("bool", "3");
                                 i.putExtra("usN", currentItem.getUsN());
@@ -868,7 +857,8 @@ public class FeedsFragment extends Fragment {
                             programmingViewHolder.comName.get().setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
 
                             programmingViewHolder.comName.get().setOnClickListener(v -> {
-                                Intent intent = new Intent(getActivity(), CommunityActivity.class);
+                                //To be changed
+                                Intent intent = new Intent(getActivity(), MainActivity.class);
                                 intent.putExtra("comID", currentItem.getComID());
                                 startActivity(intent);
                             });
@@ -944,19 +934,17 @@ public class FeedsFragment extends Fragment {
                         //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
                         ////////////ANONYMOUS POST///////////////
                         if (currentItem.getUsN() != null) {
-//                            programmingViewHolder.userimage.get().setImageResource(R.drawable.ic_anonymous_icon);
-//                            programmingViewHolder.username.get().setText(currentItem.getUsN());
-//                        } else {
+
                             programmingViewHolder.userimage.get().setOnClickListener(v -> {
-                                Intent intent = new Intent(getContext(), ProfileActivity.class);
-                                intent.putExtra("uid", currentItem.getUid());
-                                startActivity(intent);
+//                                Intent intent = new Intent(getContext(), ProfileActivity.class);
+//                                intent.putExtra("uid", currentItem.getUid());
+//                                startActivity(intent);
                             });
 
                             programmingViewHolder.username.get().setOnClickListener(v -> {
-                                Intent intent = new Intent(getContext(), ProfileActivity.class);
-                                intent.putExtra("uid", currentItem.getUid());
-                                startActivity(intent);
+//                                Intent intent = new Intent(getContext(), ProfileActivity.class);
+//                                intent.putExtra("uid", currentItem.getUid());
+//                                startActivity(intent);
                             });
 
                             programmingViewHolder.username.get().setText(currentItem.getUsN());
@@ -1030,7 +1018,7 @@ public class FeedsFragment extends Fragment {
                             startActivity(intent);
                         });
 
-                        programmingViewHolder.postimage.get().setOnClickListener(v -> {
+                        programmingViewHolder.sliderView.get().setOnClickListener(v -> {
                             Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                             intent.putExtra("username", currentItem.getUsN());
                             intent.putExtra("userdp", currentItem.getDp());
@@ -1136,36 +1124,24 @@ public class FeedsFragment extends Fragment {
 
                         }
 
-                        String postimage_url = currentItem.getImg();
-                        if (postimage_url != null) {
-                            programmingViewHolder.postimage.get().setVisibility(View.VISIBLE);
-                            Picasso.get().load(postimage_url)
-                                    .placeholder(R.drawable.image_background_grey)
-                                    .into(programmingViewHolder.postimage.get());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            programmingViewHolder.sliderView.get().setVisibility(View.VISIBLE);
+                            programmingViewHolder.sliderView.get().setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                            programmingViewHolder.sliderView.get().setIndicatorRadius(8);
+                            programmingViewHolder.sliderView.get().setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            programmingViewHolder.sliderView.get().setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                            programmingViewHolder.sliderView.get().setIndicatorSelectedColor(Color.WHITE);
+                            programmingViewHolder.sliderView.get().setIndicatorUnselectedColor(R.color.colorAccent);
+                            programmingViewHolder.sliderView.get().setAutoCycle(false);
 
-                            programmingViewHolder.postimage.get().setOnLongClickListener(v -> {
+                            SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg());
 
-                                Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                                    @Override
-                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                        save_Dialog(bitmap);
-                                    }
-
-                                    @Override
-                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                        Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                    }
-
-                                });
-                                return true;
-                            });
-                        } else
-                            programmingViewHolder.postimage.get().setVisibility(View.GONE);
+                            programmingViewHolder.sliderView.get().setSliderAdapter(sliderAdapter);
+                        }
+                        else
+                        {
+                            programmingViewHolder.sliderView.get().setVisibility(View.GONE);
+                        }
 
                         //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -1471,7 +1447,7 @@ public class FeedsFragment extends Fragment {
                 }
                 else {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                    View v = layoutInflater.inflate(R.layout.item_com_post, viewGroup, false);
+                    View v = layoutInflater.inflate(R.layout.item_newpost_home, viewGroup, false);
                     return new ProgrammingViewHolder(v);
                 }
 
@@ -1487,7 +1463,8 @@ public class FeedsFragment extends Fragment {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: Utility.showToast(getActivity(), "Something went wrong..."); break;
+                    case ERROR: Utility.showToast(getActivity(), "Something went wrong...");
+                        break;
                     case LOADING_MORE: progressMore.get().setVisibility(View.VISIBLE); break;
                     case LOADED: progressMore.get().setVisibility(View.GONE);
                         if(swipeRefreshLayout.get().isRefreshing()) {
@@ -1526,7 +1503,8 @@ public class FeedsFragment extends Fragment {
         //SliderView sliderView;
 
         WeakReference<TextView> username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        WeakReference<ImageView> userimage, postimage, flameimg, commentimg,profileimage, menuPost, share;
+        WeakReference<ImageView> userimage, flameimg, commentimg,profileimage, menuPost, share;
+        WeakReference<SliderView> sliderView;
         WeakReference<ApplexLinkPreview> LinkPreview;
         WeakReference<LinearLayout> itemHome;
         WeakReference<RelativeLayout> first_post;
@@ -1545,7 +1523,7 @@ public class FeedsFragment extends Fragment {
             username = new WeakReference<>(itemView.findViewById(R.id.username));
             text_content = new WeakReference<>(itemView.findViewById(R.id.text_content));
             userimage = new WeakReference<>(itemView.findViewById(R.id.user_image));
-            postimage = new WeakReference<>(itemView.findViewById(R.id.post_image));
+            sliderView = new WeakReference<>(itemView.findViewById(R.id.post_image));
             flamedBy = new WeakReference<>(itemView.findViewById(R.id.flamed_by));
             minsago=new WeakReference<>(itemView.findViewById(R.id.mins_ago));
             flameimg = new WeakReference<>(itemView.findViewById(R.id.flame));
@@ -1566,7 +1544,8 @@ public class FeedsFragment extends Fragment {
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         WeakReference<TextView> username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        WeakReference<ImageView> userimage, postimage, flameimg, commentimg,profileimage, menuPost, share, noPost1;
+        WeakReference<ImageView> userimage, flameimg, commentimg,profileimage, menuPost, share, noPost1;
+        WeakReference<SliderView> sliderView;
         WeakReference<ApplexLinkPreview> LinkPreview;
         WeakReference<LinearLayout> itemHome;
         WeakReference<RecyclerView> tagList;
@@ -1580,7 +1559,7 @@ public class FeedsFragment extends Fragment {
             username = new WeakReference<>(itemView.findViewById(R.id.username));
             text_content = new WeakReference<>(itemView.findViewById(R.id.text_content));
             userimage = new WeakReference<>(itemView.findViewById(R.id.user_image));
-            postimage = new WeakReference<>(itemView.findViewById(R.id.post_image));
+            sliderView = new WeakReference<>(itemView.findViewById(R.id.post_image));
             flamedBy = new WeakReference<>(itemView.findViewById(R.id.flamed_by));
             minsago=new WeakReference<>(itemView.findViewById(R.id.mins_ago));
             flameimg = new WeakReference<>(itemView.findViewById(R.id.flame));
@@ -1634,31 +1613,26 @@ public class FeedsFragment extends Fragment {
         cRecyclerView.get().setLayoutManager(layoutManagerCom.get());
         cRecyclerView.get().setItemAnimator(new DefaultItemAnimator());
 
-        ArrayList<CommunityModel> CommunityGrps = new ArrayList<>();
-
-        CommunityModel communityModel= new CommunityModel();
-        communityModel.setName("Add Community");
-        communityModel.setDesc("type about your community");
-        CommunityGrps.add(communityModel);
+        ArrayList<BaseUserModel> CommunityGrps = new ArrayList<>();
 
         Query query =  FirebaseFirestore.getInstance()
-                .collection("Users/")
-                .orderBy("random", Query.Direction.DESCENDING)
+                .collection("Users")
+                .whereEqualTo("type", "com")
+//                .orderBy("random", Query.Direction.DESCENDING)
                 .limit(10);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
                 if(document.exists()) {
-                    CommunityModel communityModel1 = document.toObject(CommunityModel.class);
-                    communityModel1.setDocID(document.getId());
+                    BaseUserModel communityModel1 = document.toObject(BaseUserModel.class);
                     CommunityGrps.add(communityModel1);
-                    long pos = (long) (Math.random() * 1000000000);
-                    FirebaseFirestore.getInstance().document("Home/Communities/" + document.getId())
-                            .update("random", pos);
+//                    long pos = (long) (Math.random() * 1000000000);
+//                    FirebaseFirestore.getInstance().document("Home/Communities/" + document.getId())
+//                            .update("random", pos);
                 }
             }
             if(CommunityGrps.size()>0) {
-                CommunityAdapter communityAdapter= new CommunityAdapter(CommunityGrps, getActivity(), 10);
+                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(CommunityGrps, getActivity(), 10);
                 cRecyclerView.get().setAdapter(communityAdapter);
             }
 
@@ -1672,49 +1646,13 @@ public class FeedsFragment extends Fragment {
         contentProgCom.get().setVisibility(View.GONE);
         noPostYet1.get().setVisibility(View.VISIBLE);
 
-        campusNameNoPost.get().setText(CAMPUSNAME);
         view_all_NoPost.get().setOnClickListener(v -> startActivity(new Intent(getActivity(), CommitteeViewAll.class)));
-        infoNoPost.get().setOnClickListener(v -> {
-            dialog = new WeakReference<>(new Dialog(getActivity()));
-            dialog.get().setContentView(R.layout.dialog_info_campus);
-            dialog.get().show();
-        });
 
         buildCommunityRecyclerView(comRecyclerView);
-        //buildSliderView(sliderViewNoPost);
-
-//        swipeRefreshCom.get()
-//                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources().getColor(R.color.md_blue_500));
-//        swipeRefreshCom.get().setOnRefreshListener(() -> {
-//            swipeRefreshCom.get().setRefreshing(true);
-//            buildCommunityRecyclerView(comRecyclerView);
-//            buildSliderView(sliderViewNoPost);
-//        });
 
     }
 
 
-//    private void newInstituteView() {
-//        campusLL.get().setVisibility(View.GONE);
-//        LL.get().setVisibility(View.GONE);
-//        contentProgCom.get().setVisibility(View.GONE);
-//        noPostYet1.get().setVisibility(View.GONE);
-//
-//        newInstitute.setVisibility(View.VISIBLE);
-//        newInstituteName.setText("We provide the Your Campus feature to our Partner Colleges.\n\nYou have submitted your College name as ''"+ CAMPUSNAME +"''\n\nCurrently your college is not one of our Partner Colleges. For enquiry, contact us at\ncontact@campus24.in");
-//
-////        campusNameNoPost.get().setText(CAMPUSNAME);
-////        view_all_NoPost.get().setOnClickListener(v -> startActivity(new Intent(getActivity(), CommunityViewAll.class)));
-////        infoNoPost.get().setOnClickListener(v -> {
-////            dialog = new WeakReference<>(new Dialog(getActivity()));
-////            dialog.get().setContentView(R.layout.dialog_info_campus);
-////            dialog.get().show();
-////        });
-////
-////        buildCommunityRecyclerView(comRecyclerView);
-////        buildSliderView(sliderViewNoPost);
-//
-//    }
 
 
     @Override
@@ -1726,17 +1664,9 @@ public class FeedsFragment extends Fragment {
         else if(changed == 2 || comDelete == 2) {
             buildRecyclerView();
             changed = 0;
-            CommitteeViewAll.changed = 0;
             comDelete = 0;
         }
         super.onResume();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called IN FRG CMPUS!!!!!!!!!!!!!");
-        System.gc();
-        super.finalize();
     }
 
 

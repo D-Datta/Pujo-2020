@@ -2368,7 +2368,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                    View v = layoutInflater.inflate(R.layout.item_newpost_home, viewGroup, false);
+                    View v = layoutInflater.inflate(R.layout.item_com_post, viewGroup, false);
                     return new ProgrammingViewHolder(v);
                 }
             }
@@ -2424,7 +2424,7 @@ public class CommitteeFragment extends Fragment {
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            sliderView = itemView.findViewById(R.id.image_slider);
+//            sliderView = itemView.findViewById(R.id.image_slider);
 
             tagList = itemView.findViewById(R.id.tagsList66);
             username = itemView.findViewById(R.id.username);

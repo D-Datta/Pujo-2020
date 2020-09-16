@@ -21,6 +21,7 @@
         android:padding="15dp">
 
         <ImageView
+            android:id="@+id/back_reel"
             android:layout_width="25dp"
             android:layout_height="25dp"
             app:tint="@color/white"
@@ -28,6 +29,7 @@
             android:src="@drawable/ic_arrow_back_black_24dp"/>
 
         <ImageView
+            android:id="@+id/save_reel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -168,6 +170,7 @@
                 app:tint="@color/white" />
 
             <ImageView
+                android:id="@+id/like_image"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentStart="true"
@@ -192,6 +195,7 @@
                 android:textSize="18dp" />
 
             <ImageView
+                android:id="@+id/comment_image"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentStart="true"
