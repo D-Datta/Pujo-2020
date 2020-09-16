@@ -143,7 +143,6 @@ public class FeedsFragment extends Fragment {
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
         contentProgCom = new WeakReference<>(view.findViewById(R.id.content_progress_community));
-        infoNoPost = new WeakReference<>(view.findViewById(R.id.info));
         view_all_NoPost = new WeakReference<>(view.findViewById(R.id.community_view_all));
         comRecyclerView = new WeakReference<>(view.findViewById(R.id.communityRecyclerNoPost));
         campusLL = new WeakReference<>(view.findViewById(R.id.campusLL));
@@ -203,7 +202,7 @@ public class FeedsFragment extends Fragment {
     private void buildRecyclerView() {
 
         Query query = FirebaseFirestore.getInstance()
-                .collection("Feeds/")
+                .collection("Feeds")
                 .whereEqualTo("type", "user")
                 .orderBy("newTs", Query.Direction.DESCENDING);
 
@@ -1471,7 +1470,7 @@ public class FeedsFragment extends Fragment {
                 }
                 else {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                    View v = layoutInflater.inflate(R.layout.item_com_post, viewGroup, false);
+                    View v = layoutInflater.inflate(R.layout.item_newpost_home, viewGroup, false);
                     return new ProgrammingViewHolder(v);
                 }
 

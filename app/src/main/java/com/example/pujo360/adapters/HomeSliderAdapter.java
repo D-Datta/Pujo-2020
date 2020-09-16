@@ -70,21 +70,21 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
         });
 
         viewHolder.imageViewBackground.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, ViewMoreSlider.class);
-            intent.putExtra("docID", currentItem.getDocID());
-            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-            intent.putExtra("likeL", currentItem.getLikeL());
-
-            intent.putExtra("themeColor", currentItem.getThemecolor());
-            intent.putExtra("eventPic", currentItem.getEventImage());
-            intent.putExtra("eventText", currentItem.getEventDetails());
-            intent.putExtra("eventName", currentItem.getEventName());
-            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-            intent.putExtra("participate", Boolean.toString(currentItem.isParticipate()));
-            intent.putExtra("bool", Integer.toString(bool));
-
-            intent.putExtra("uid", currentItem.getUid());
-            mContext.startActivity(intent);
+//            Intent intent = new Intent(mContext, ViewMoreSlider.class);
+//            intent.putExtra("docID", currentItem.getDocID());
+//            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+//            intent.putExtra("likeL", currentItem.getLikeL());
+//
+//            intent.putExtra("themeColor", currentItem.getThemecolor());
+//            intent.putExtra("eventPic", currentItem.getEventImage());
+//            intent.putExtra("eventText", currentItem.getEventDetails());
+//            intent.putExtra("eventName", currentItem.getEventName());
+//            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+//            intent.putExtra("participate", Boolean.toString(currentItem.isParticipate()));
+//            intent.putExtra("bool", Integer.toString(bool));
+//
+//            intent.putExtra("uid", currentItem.getUid());
+//            mContext.startActivity(intent);
 
         });
 
