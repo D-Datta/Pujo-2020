@@ -41,15 +41,14 @@ import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.adapters.CommunityAdapter;
 import com.example.pujo360.adapters.TagAdapter;
-import com.example.pujo360.models.BaseUserModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
+
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -66,7 +65,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -204,6 +202,7 @@ public class FeedsFragment extends Fragment {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds/")
+                .whereEqualTo("type", "user")
                 .orderBy("newTs", Query.Direction.DESCENDING);
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -224,6 +223,7 @@ public class FeedsFragment extends Fragment {
                 .build();
 
         adapter = new FirestorePagingAdapter<HomePostModel, RecyclerView.ViewHolder>(options) {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
 
@@ -242,45 +242,44 @@ public class FeedsFragment extends Fragment {
 
                     ///////////////////FOR THE FIRST POST/////////////////////
                     DocumentReference likeStore;
-                    if (currentItem != null) {
-                        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
-                        communityViewHolder.minsago.get().setText(timeAgo);
-                        if (timeAgo != null) {
-                            if (timeAgo.matches("just now")) {
-                                communityViewHolder.minsago.get().setTextColor(Color.parseColor("#00C853"));
-                            } else {
-                                communityViewHolder.minsago.get().setTextColor(Color.parseColor("#aa212121"));
-                            }
+                    String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                    communityViewHolder.minsago.get().setText(timeAgo);
+                    if (timeAgo != null) {
+                        if (timeAgo.matches("just now")) {
+                            communityViewHolder.minsago.get().setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            communityViewHolder.minsago.get().setTextColor(Color.parseColor("#aa212121"));
                         }
+                    }
 
 
-                        if (currentItem.getComName() != null) {
-                            communityViewHolder.comName.get().setVisibility(View.VISIBLE);
-                            communityViewHolder.comName.get().setText(currentItem.getComName());
-                            communityViewHolder.comName.get().setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
+                    if (currentItem.getComName() != null) {
+                        communityViewHolder.comName.get().setVisibility(View.VISIBLE);
+                        communityViewHolder.comName.get().setText(currentItem.getComName());
+                        communityViewHolder.comName.get().setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
 
-                            communityViewHolder.comName.get().setOnClickListener(v -> {
-                                Intent intent = new Intent(getActivity(), CommunityActivity.class);
-                                intent.putExtra("comID", currentItem.getComID());
-                                startActivity(intent);
-                            });
-                        }
-                        else {
-                            communityViewHolder.comName.get().setVisibility(View.GONE);
-                            communityViewHolder.comName.get().setText(null);
-                        }
+                        communityViewHolder.comName.get().setOnClickListener(v -> {
+                            Intent intent = new Intent(getActivity(), CommunityActivity.class);
+                            intent.putExtra("comID", currentItem.getComID());
+                            startActivity(intent);
+                        });
+                    }
+                    else {
+                        communityViewHolder.comName.get().setVisibility(View.GONE);
+                        communityViewHolder.comName.get().setText(null);
+                    }
 
-                        ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
+                    ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
-                        likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
+                    likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
 
-                        communityViewHolder.menuPost.get().setVisibility(View.VISIBLE);
+                    communityViewHolder.menuPost.get().setVisibility(View.VISIBLE);
 
-                        ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
+                    ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
 
-                        ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-                        if (DP != null) {
+                    ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
+                    if (DP != null) {
 
 //                            if (DP.get().matches("0")) {
 //                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_1);
@@ -303,58 +302,58 @@ public class FeedsFragment extends Fragment {
 //                            } else if (DP.get().matches("9")) {
 //                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_10);
 //                            } else {
-                                Picasso.get().load(DP.get()).fit().centerCrop()
-                                        .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                        .into(communityViewHolder.profileimage.get());
+                            Picasso.get().load(DP.get()).fit().centerCrop()
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(communityViewHolder.profileimage.get());
 
-                        } else {
-                            communityViewHolder.profileimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
-                        }
+                    } else {
+                        communityViewHolder.profileimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
 
-                        ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
+                    ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
-                        ///////////TAGLIST///////////////
+                    ///////////TAGLIST///////////////
 
-                        ///////////TAG RECYCLER SETUP////////////////
-                        communityViewHolder.tagList.get().setHasFixedSize(false);
-                        WeakReference<LinearLayoutManager> linearLayoutManager = new WeakReference<>(new LinearLayoutManager(getContext()));
-                        linearLayoutManager.get().setOrientation(LinearLayoutManager.HORIZONTAL);
-                        communityViewHolder.tagList.get().setNestedScrollingEnabled(true);
-                        communityViewHolder.tagList.get().setLayoutManager(linearLayoutManager.get());
-                        ///////////TAG RECYCLER SETUP////////////////
+                    ///////////TAG RECYCLER SETUP////////////////
+                    communityViewHolder.tagList.get().setHasFixedSize(false);
+                    WeakReference<LinearLayoutManager> linearLayoutManager = new WeakReference<>(new LinearLayoutManager(getContext()));
+                    linearLayoutManager.get().setOrientation(LinearLayoutManager.HORIZONTAL);
+                    communityViewHolder.tagList.get().setNestedScrollingEnabled(true);
+                    communityViewHolder.tagList.get().setLayoutManager(linearLayoutManager.get());
+                    ///////////TAG RECYCLER SETUP////////////////
 
-                        if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
-                            communityViewHolder.tagList.get().setVisibility(View.VISIBLE);
-                            TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
-                            communityViewHolder.tagList.get().setAdapter(tagAdapter);
-                        } else {
-                            communityViewHolder.tagList.get().setAdapter(null);
-                            communityViewHolder.tagList.get().setVisibility(View.GONE);
-                        }
-                        /////////TAGLIST///////////////
+                    if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
+                        communityViewHolder.tagList.get().setVisibility(View.VISIBLE);
+                        TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
+                        communityViewHolder.tagList.get().setAdapter(tagAdapter);
+                    } else {
+                        communityViewHolder.tagList.get().setAdapter(null);
+                        communityViewHolder.tagList.get().setVisibility(View.GONE);
+                    }
+                    /////////TAGLIST///////////////
 
-                        //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
-                        ////////////ANONYMOUS POST///////////////
-                        if (currentItem.getUsN() != null) {
+                    //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
+                    ////////////ANONYMOUS POST///////////////
+                    if (currentItem.getUsN() != null) {
 //                            communityViewHolder.userimage.get().setImageResource(R.drawable.ic_anonymous_icon);
 //                            communityViewHolder.username.get().setText(currentItem.getUsN());
 //                        } else {
-                            communityViewHolder.userimage.get().setOnClickListener(v -> {
-                                Intent intent = new Intent(getContext(), ProfileActivity.class);
-                                intent.putExtra("uid", currentItem.getUid());
-                                startActivity(intent);
-                            });
+                        communityViewHolder.userimage.get().setOnClickListener(v -> {
+                            Intent intent = new Intent(getContext(), ProfileActivity.class);
+                            intent.putExtra("uid", currentItem.getUid());
+                            startActivity(intent);
+                        });
 
-                            communityViewHolder.username.get().setOnClickListener(v -> {
-                                Intent intent = new Intent(getContext(), ProfileActivity.class);
-                                intent.putExtra("uid", currentItem.getUid());
-                                startActivity(intent);
-                            });
+                        communityViewHolder.username.get().setOnClickListener(v -> {
+                            Intent intent = new Intent(getContext(), ProfileActivity.class);
+                            intent.putExtra("uid", currentItem.getUid());
+                            startActivity(intent);
+                        });
 
-                            communityViewHolder.username.get().setText(currentItem.getUsN());
+                        communityViewHolder.username.get().setText(currentItem.getUsN());
 
-                            ////////////NORMAL POST///////////////
-                            if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
+                        ////////////NORMAL POST///////////////
+                        if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
 //                                if (currentItem.getDp().matches("0")) {
 //                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_1);
 //                                } else if (currentItem.getDp().matches("1")) {
@@ -376,475 +375,474 @@ public class FeedsFragment extends Fragment {
 //                                } else if (currentItem.getDp().matches("9")) {
 //                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_10);
 //                                } else {
-                                    Picasso.get().load(currentItem.getDp()).fit().centerCrop()
-                                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                            .into(communityViewHolder.userimage.get(), new Callback() {
-                                                @Override
-                                                public void onSuccess() {
+                                Picasso.get().load(currentItem.getDp()).fit().centerCrop()
+                                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                        .into(communityViewHolder.userimage.get(), new Callback() {
+                                            @Override
+                                            public void onSuccess() {
 
-                                                }
+                                            }
 
-                                                @Override
-                                                public void onError(Exception e) {
-                                                    communityViewHolder.userimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                                }
-                                            });
+                                            @Override
+                                            public void onError(Exception e) {
+                                                communityViewHolder.userimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                            }
+                                        });
 //                                }
-                            }
-                            else {
-                                communityViewHolder.userimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
-                            }
-
                         }
-                        ///////////////OPEN VIEW MORE//////////////
-                        communityViewHolder.itemHome.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                            intent.putExtra("username", currentItem.getUsN());
-                            intent.putExtra("userdp", currentItem.getDp());
-                            intent.putExtra("docID", currentItem.getDocID());
-                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        else {
+                            communityViewHolder.userimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
 
-                            intent.putExtra("comName", currentItem.getComName());
-                            intent.putExtra("comID", currentItem.getComID());
+                    }
+                    ///////////////OPEN VIEW MORE//////////////
+                    communityViewHolder.itemHome.get().setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
 
-                            intent.putExtra("likeL", currentItem.getLikeL());
-                            intent.putExtra("postPic", currentItem.getImg());
-                            intent.putExtra("postText", currentItem.getTxt());
-                            intent.putExtra("bool", "3");
-                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
 
-                            intent.putExtra("uid", currentItem.getUid());
-                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                            startActivity(intent);
-                        });
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
 
-                        communityViewHolder.text_content.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                            intent.putExtra("username", currentItem.getUsN());
-                            intent.putExtra("userdp", currentItem.getDp());
-                            intent.putExtra("docID", currentItem.getDocID());
-                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        startActivity(intent);
+                    });
 
-                            intent.putExtra("comName", currentItem.getComName());
-                            intent.putExtra("comID", currentItem.getComID());
+                    communityViewHolder.text_content.get().setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
 
-                            intent.putExtra("likeL", currentItem.getLikeL());
-                            intent.putExtra("postPic", currentItem.getImg());
-                            intent.putExtra("postText", currentItem.getTxt());
-                            intent.putExtra("bool", "3");
-                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
 
-                            intent.putExtra("uid", currentItem.getUid());
-                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                            startActivity(intent);
-                        });
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
 
-                        communityViewHolder.postimage.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                            intent.putExtra("username", currentItem.getUsN());
-                            intent.putExtra("userdp", currentItem.getDp());
-                            intent.putExtra("docID", currentItem.getDocID());
-                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-                            intent.putExtra("comName", currentItem.getComName());
-                            intent.putExtra("comID", currentItem.getComID());
-                            intent.putExtra("likeL", currentItem.getLikeL());
-                            intent.putExtra("postPic", currentItem.getImg());
-                            intent.putExtra("postText", currentItem.getTxt());
-                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                            intent.putExtra("bool", "3");
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        startActivity(intent);
+                    });
 
-
-                            intent.putExtra("uid", currentItem.getUid());
-                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                            startActivity(intent);
-                        });
-
-                        communityViewHolder.flamedBy.get().setOnClickListener(v -> {
-                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                            intent.putExtra("username", currentItem.getUsN());
-                            intent.putExtra("userdp", currentItem.getDp());
-                            intent.putExtra("docID", currentItem.getDocID());
-                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-                            intent.putExtra("comName", currentItem.getComName());
-                            intent.putExtra("comID", currentItem.getComID());
-                            //            intent.putExtra("tagL", currentItem.getTagL());
-                            intent.putExtra("likeL", currentItem.getLikeL());
-                            intent.putExtra("postPic", currentItem.getImg());
-                            intent.putExtra("postText", currentItem.getTxt());
-                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                            intent.putExtra("bool", "3");
-
-                            intent.putExtra("uid", currentItem.getUid());
-                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                            intent.putExtra("likeLOpen", "likeLOpen");
-                            startActivity(intent);
-
-                        });
+                    communityViewHolder.postimage.get().setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("bool", "3");
 
 
-                        ///////////////OPEN VIEW MORE//////////////
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        startActivity(intent);
+                    });
 
-                        //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+                    communityViewHolder.flamedBy.get().setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        //            intent.putExtra("tagL", currentItem.getTagL());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("bool", "3");
 
-                        if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
-                            communityViewHolder.text_content.get().setVisibility(View.GONE);
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("likeLOpen", "likeLOpen");
+                        startActivity(intent);
+
+                    });
+
+
+                    ///////////////OPEN VIEW MORE//////////////
+
+                    //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+
+                    if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
+                        communityViewHolder.text_content.get().setVisibility(View.GONE);
+                        communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
+                        communityViewHolder.text_content.get().setText(null);
+                    } else {
+                        communityViewHolder.text_content.get().setVisibility(View.VISIBLE);
+                        communityViewHolder.text_content.get().setText(currentItem.getTxt());
+                        if (communityViewHolder.text_content.get().getUrls().length > 0) {
+                            URLSpan urlSnapItem = communityViewHolder.text_content.get().getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                communityViewHolder.LinkPreview.get().setVisibility(View.VISIBLE);
+                                communityViewHolder.LinkPreview.get().setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) {
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                //do stuff like remove view etc
+                                                communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+
+                        } else {
                             communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
-                            communityViewHolder.text_content.get().setText(null);
-                        } else {
-                            communityViewHolder.text_content.get().setVisibility(View.VISIBLE);
-                            communityViewHolder.text_content.get().setText(currentItem.getTxt());
-                            if (communityViewHolder.text_content.get().getUrls().length > 0) {
-                                URLSpan urlSnapItem = communityViewHolder.text_content.get().getUrls()[0];
-                                String url = urlSnapItem.getURL();
-                                if (url.contains("http")) {
-                                    communityViewHolder.LinkPreview.get().setVisibility(View.VISIBLE);
-                                    communityViewHolder.LinkPreview.get().setLink(url, new ViewListener() {
-                                        @Override
-                                        public void onSuccess(boolean status) {
-                                        }
-
-                                        @Override
-                                        public void onError(Exception e) {
-                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    //do stuff like remove view etc
-                                                    communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-
-                            } else {
-                                communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
-                            }
-
                         }
 
-                        String postimage_url = currentItem.getImg();
-                        if (postimage_url != null) {
-                            communityViewHolder.postimage.get().setVisibility(View.VISIBLE);
-                            Picasso.get().load(postimage_url)
-                                    .placeholder(R.drawable.image_background_grey)
-                                    .into(communityViewHolder.postimage.get());
+                    }
 
-                            communityViewHolder.postimage.get().setOnLongClickListener(v -> {
+                    String postimage_url = currentItem.getImg();
+                    if (postimage_url != null) {
+                        communityViewHolder.postimage.get().setVisibility(View.VISIBLE);
+                        Picasso.get().load(postimage_url)
+                                .placeholder(R.drawable.image_background_grey)
+                                .into(communityViewHolder.postimage.get());
 
-                                Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                                    @Override
-                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                        save_Dialog(bitmap);
-                                    }
+                        communityViewHolder.postimage.get().setOnLongClickListener(v -> {
 
-                                    @Override
-                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                        Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                    }
+                            Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    save_Dialog(bitmap);
+                                }
 
-                                    @Override
-                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                @Override
+                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                    Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                }
 
-                                    }
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                                });
-                                return true;
+                                }
+
                             });
-                        } else
-                            communityViewHolder.postimage.get().setVisibility(View.GONE);
+                            return true;
+                        });
+                    } else
+                        communityViewHolder.postimage.get().setVisibility(View.GONE);
 
-                        //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+                    //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
-                        ///////////////////FLAMES///////////////////////
+                    ///////////////////FLAMES///////////////////////
 
-                        //INITIAL SETUP//
-                        if (currentItem.getLikeL() != null) {
-                            /////////////////UPDATNG FLAMED BY NO.//////////////////////
-                            if (currentItem.getLikeL().size() == 0) {
-                                communityViewHolder.flamedBy.get().setText("Not flamed yet");
-                            } else if (currentItem.getLikeL().size() == 1)
-                                communityViewHolder.flamedBy.get().setText("Flamed by 1");
-                            else {
-                                communityViewHolder.flamedBy.get().setText("Flamed by " + currentItem.getLikeL().size() + " people");
-                            }
-
-                            for (int j = 0; j < currentItem.getLikeL().size(); j++) {
-                                if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
-                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
-                                    currentItem.setLikeCheck(j);
-                                    if ((currentItem.getLikeL().size() - 1) == 1)
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
-                                    else if ((currentItem.getLikeL().size() - 1) == 0) {
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you");
-                                    } else
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
-                                    //Position in likeList where the current USer UId is found stored in likeCheck
-                                }
-                            }
-                        } else {
+                    //INITIAL SETUP//
+                    if (currentItem.getLikeL() != null) {
+                        /////////////////UPDATNG FLAMED BY NO.//////////////////////
+                        if (currentItem.getLikeL().size() == 0) {
                             communityViewHolder.flamedBy.get().setText("Not flamed yet");
-                            communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_btmnav_notifications);
+                        } else if (currentItem.getLikeL().size() == 1)
+                            communityViewHolder.flamedBy.get().setText("Flamed by 1");
+                        else {
+                            communityViewHolder.flamedBy.get().setText("Flamed by " + currentItem.getLikeL().size() + " people");
                         }
-                        //INITIAL SETUP//
+
+                        for (int j = 0; j < currentItem.getLikeL().size(); j++) {
+                            if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                                communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
+                                currentItem.setLikeCheck(j);
+                                if ((currentItem.getLikeL().size() - 1) == 1)
+                                    communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
+                                else if ((currentItem.getLikeL().size() - 1) == 0) {
+                                    communityViewHolder.flamedBy.get().setText("Flamed by you");
+                                } else
+                                    communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
+                                //Position in likeList where the current USer UId is found stored in likeCheck
+                            }
+                        }
+                    } else {
+                        communityViewHolder.flamedBy.get().setText("Not flamed yet");
+                        communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_btmnav_notifications);
+                    }
+                    //INITIAL SETUP//
 
 
-                        PushDownAnim.setPushDownAnimTo(communityViewHolder.flameimg.get())
-                                .setScale(PushDownAnim.MODE_STATIC_DP, 6)
-                                .setOnClickListener(v -> {
-                                    if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                                        communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_btmnav_notifications);
-                                        if (currentItem.getLikeL().size() - 1 == 0) {
-                                            communityViewHolder.flamedBy.get().setText("Not flamed yet");
-                                        } else
-                                            communityViewHolder.flamedBy.get().setText("Flamed by " + (currentItem.getLikeL().size() - 1) + " people");
-                                        ///////////REMOVE CURRENT USER LIKE/////////////
-                                        currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
-                                        currentItem.setLikeCheck(-1);
+                    PushDownAnim.setPushDownAnimTo(communityViewHolder.flameimg.get())
+                            .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+                            .setOnClickListener(v -> {
+                                if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_btmnav_notifications);
+                                    if (currentItem.getLikeL().size() - 1 == 0) {
+                                        communityViewHolder.flamedBy.get().setText("Not flamed yet");
+                                    } else
+                                        communityViewHolder.flamedBy.get().setText("Flamed by " + (currentItem.getLikeL().size() - 1) + " people");
+                                    ///////////REMOVE CURRENT USER LIKE/////////////
+                                    currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                                    currentItem.setLikeCheck(-1);
 
-                                        //                likeStore.update("likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                    //                likeStore.update("likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
 
-                                        ///////////////////BATCH WRITE///////////////////
-                                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                    ///////////////////BATCH WRITE///////////////////
+                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
 
-                                        DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                        batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-                                        batch.delete(flamedDoc);
+                                    DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                    batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                    batch.delete(flamedDoc);
 
-                                        batch.commit().addOnSuccessListener(task -> {
+                                    batch.commit().addOnSuccessListener(task -> {
 
-                                        });
-                                        ///////////////////BATCH WRITE///////////////////
-                                    } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
-                                        Utility.vibrate(getContext());
-                                        communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
-                                        if (currentItem.getLikeL().size() == 0)
-                                            communityViewHolder.flamedBy.get().setText("Flamed by you");
-                                        else if (currentItem.getLikeL().size() == 1)
-                                            communityViewHolder.flamedBy.get().setText("Flamed by you & " + currentItem.getLikeL().size() + " other");
-                                        else
-                                            communityViewHolder.flamedBy.get().setText("Flamed by you & " + currentItem.getLikeL().size() + " others");
+                                    });
+                                    ///////////////////BATCH WRITE///////////////////
+                                } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
+                                    Utility.vibrate(getContext());
+                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
+                                    if (currentItem.getLikeL().size() == 0)
+                                        communityViewHolder.flamedBy.get().setText("Flamed by you");
+                                    else if (currentItem.getLikeL().size() == 1)
+                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + currentItem.getLikeL().size() + " other");
+                                    else
+                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + currentItem.getLikeL().size() + " others");
 
-                                        //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                                        currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                                        currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
+                                    //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                    currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                    currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
 
-                                        ///////////////////BATCH WRITE///////////////////
-                                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                        FlamedModel flamedModel = new FlamedModel();
-                                        long tsLong = System.currentTimeMillis();
+                                    ///////////////////BATCH WRITE///////////////////
+                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                    FlamedModel flamedModel = new FlamedModel();
+                                    long tsLong = System.currentTimeMillis();
 
-                                        flamedModel.setPostID(currentItem.getDocID());
-                                        flamedModel.setTs(tsLong);
-                                        flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                        flamedModel.setUserdp(DP.get());
-                                        flamedModel.setUsername(USERNAME.get());
-                                        flamedModel.setPostUid(currentItem.getUid());
+                                    flamedModel.setPostID(currentItem.getDocID());
+                                    flamedModel.setTs(tsLong);
+                                    flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                    flamedModel.setUserdp(DP.get());
+                                    flamedModel.setUsername(USERNAME.get());
+                                    flamedModel.setPostUid(currentItem.getUid());
 
-                                        DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                        batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                        batch.set(flamedDoc, flamedModel);
-                                        if (currentItem.getLikeL().size() % 5 == 0) {
-                                            batch.update(likeStore, "newTs", tsLong);
-                                        }
-                                        batch.commit().addOnSuccessListener(task -> {
-
-                                        });
-                                        ///////////////////BATCH WRITE///////////////////
-                                    } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                        Utility.vibrate(getActivity());
-                                        communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
-                                        if (currentItem.getLikeL() != null)
-                                            communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() + 1) + " people");
-                                        else
-                                            communityViewHolder.flamedBy.get().setText("Flamed by you");
-
-                                        //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                                        currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                                        currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
-                                        //For local changes current item like added to remote list end
-
-                                        ///////////////////BATCH WRITE///////////////////
-                                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                        FlamedModel flamedModel = new FlamedModel();
-                                        long tsLong = System.currentTimeMillis();
-
-                                        flamedModel.setPostID(currentItem.getDocID());
-                                        flamedModel.setTs(tsLong);
-                                        flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                        flamedModel.setUserdp(DP.get());
-                                        flamedModel.setUsername(USERNAME.get());
-                                        flamedModel.setPostUid(currentItem.getUid());
-
-                                        DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                        batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                        batch.set(flamedDoc, flamedModel);
-                                        if (currentItem.getLikeL().size() % 5 == 0) {
-                                            batch.update(likeStore, "newTs", tsLong);
-                                        }
-                                        batch.commit().addOnSuccessListener(task -> {
-
-                                        });
-                                        ///////////////////BATCH WRITE///////////////////
+                                    DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                    batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                    batch.set(flamedDoc, flamedModel);
+                                    if (currentItem.getLikeL().size() % 5 == 0) {
+                                        batch.update(likeStore, "newTs", tsLong);
                                     }
-                                });
+                                    batch.commit().addOnSuccessListener(task -> {
+
+                                    });
+                                    ///////////////////BATCH WRITE///////////////////
+                                } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                                    Utility.vibrate(getActivity());
+                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
+                                    if (currentItem.getLikeL() != null)
+                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() + 1) + " people");
+                                    else
+                                        communityViewHolder.flamedBy.get().setText("Flamed by you");
+
+                                    //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                    currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                    currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                                    //For local changes current item like added to remote list end
+
+                                    ///////////////////BATCH WRITE///////////////////
+                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                    FlamedModel flamedModel = new FlamedModel();
+                                    long tsLong = System.currentTimeMillis();
+
+                                    flamedModel.setPostID(currentItem.getDocID());
+                                    flamedModel.setTs(tsLong);
+                                    flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                    flamedModel.setUserdp(DP.get());
+                                    flamedModel.setUsername(USERNAME.get());
+                                    flamedModel.setPostUid(currentItem.getUid());
+
+                                    DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                    batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                    batch.set(flamedDoc, flamedModel);
+                                    if (currentItem.getLikeL().size() % 5 == 0) {
+                                        batch.update(likeStore, "newTs", tsLong);
+                                    }
+                                    batch.commit().addOnSuccessListener(task -> {
+
+                                    });
+                                    ///////////////////BATCH WRITE///////////////////
+                                }
+                            });
 
 
-                        if (currentItem.getCmtNo() > 0) {
-                            communityViewHolder.commentimg.get().setImageResource(R.drawable.comment_yellow);
-                            if (currentItem.getCmtNo() == 1)
-                                communityViewHolder.commentCount.get().setText(currentItem.getCmtNo() + " comment");
-                            else if (currentItem.getCmtNo() > 1)
-                                communityViewHolder.commentCount.get().setText(currentItem.getCmtNo() + " comments");
+                    if (currentItem.getCmtNo() > 0) {
+                        communityViewHolder.commentimg.get().setImageResource(R.drawable.comment_yellow);
+                        if (currentItem.getCmtNo() == 1)
+                            communityViewHolder.commentCount.get().setText(currentItem.getCmtNo() + " comment");
+                        else if (currentItem.getCmtNo() > 1)
+                            communityViewHolder.commentCount.get().setText(currentItem.getCmtNo() + " comments");
 
-                        } else {
-                            communityViewHolder.commentimg.get().setImageResource(R.drawable.ic_comment);
-                            communityViewHolder.commentCount.get().setText("No comments");
-                        }
+                    } else {
+                        communityViewHolder.commentimg.get().setImageResource(R.drawable.ic_comment);
+                        communityViewHolder.commentCount.get().setText("No comments");
+                    }
 
 
-                        ////////POST MENU///////
-                        communityViewHolder.menuPost.get().setOnClickListener(v -> {
-                            if (currentItem.getUid().matches(FirebaseAuth.getInstance().getUid())) {
-                                postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
+                    ////////POST MENU///////
+                    communityViewHolder.menuPost.get().setOnClickListener(v -> {
+                        if (currentItem.getUid().matches(FirebaseAuth.getInstance().getUid())) {
+                            postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
 
-                                postMenuDialog.get().setContentView(R.layout.dialog_post_menu_3);
-                                postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
+                            postMenuDialog.get().setContentView(R.layout.dialog_post_menu_3);
+                            postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
 
-                                postMenuDialog.get().findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-                                    Intent i = new Intent(getContext(), NewPostHome.class);
-                                    i.putExtra("target", "100"); //target value for edit post
-                                    i.putExtra("bool", "3");
-                                    i.putExtra("usN", currentItem.getUsN());
-                                    i.putExtra("dp", currentItem.getDp());
-                                    i.putExtra("uid", currentItem.getUid());
+                            postMenuDialog.get().findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
+                                i.putExtra("target", "100"); //target value for edit post
+                                i.putExtra("bool", "3");
+                                i.putExtra("usN", currentItem.getUsN());
+                                i.putExtra("dp", currentItem.getDp());
+                                i.putExtra("uid", currentItem.getUid());
 
-                                    i.putExtra("img", currentItem.getImg());
-                                    i.putExtra("txt", currentItem.getTxt());
-                                    i.putExtra("comID", currentItem.getComID());
-                                    i.putExtra("comName", currentItem.getComName());
+                                i.putExtra("img", currentItem.getImg());
+                                i.putExtra("txt", currentItem.getTxt());
+                                i.putExtra("comID", currentItem.getComID());
+                                i.putExtra("comName", currentItem.getComName());
 
-                                    i.putExtra("ts", Long.toString(currentItem.getTs()));
-                                    i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                i.putExtra("ts", Long.toString(currentItem.getTs()));
+                                i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
 
-                                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
 
-                                    i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
+                                i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
 
-                                    i.putExtra("likeL", currentItem.getLikeL());
-                                    i.putExtra("likeCheck", currentItem.getLikeCheck());
-                                    i.putExtra("docID", currentItem.getDocID());
-                                    i.putExtra("reportL", currentItem.getReportL());
-                                    i.putExtra("challengeID", currentItem.getChallengeID());
-                                    startActivity(i);
+                                i.putExtra("likeL", currentItem.getLikeL());
+                                i.putExtra("likeCheck", currentItem.getLikeCheck());
+                                i.putExtra("docID", currentItem.getDocID());
+                                i.putExtra("reportL", currentItem.getReportL());
+                                i.putExtra("challengeID", currentItem.getChallengeID());
+                                startActivity(i);
 
-                                    postMenuDialog.get().dismiss();
+                                postMenuDialog.get().dismiss();
 
-                                });
+                            });
 
-                                postMenuDialog.get().findViewById(R.id.delete_post).setOnClickListener(v2 -> {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setTitle("Are you sure?")
-                                            .setMessage("Post will be deleted permanently")
-                                            .setPositiveButton("Delete", (dialog, which) -> {
-                                                progressDialog = new WeakReference<>(new ProgressDialog(getActivity()));
-                                                progressDialog.get().setTitle("Deleting Post");
-                                                progressDialog.get().setMessage("Please wait...");
-                                                progressDialog.get().setCancelable(false);
-                                                progressDialog.get().show();
-                                                FirebaseFirestore.getInstance()
-                                                        .collection("Feeds/").document(currentItem
-                                                        .getDocID()).delete()
-                                                        .addOnSuccessListener(aVoid -> {
-                                                            communityViewHolder.first_post.get().setVisibility(View.GONE);
-                                                            progressDialog.get().dismiss();
-                                                            FirebaseFirestore.getInstance()
-                                                                    .collection("Feeds/")
-                                                                    .orderBy("newTs", Query.Direction.DESCENDING)
-                                                                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if(task.isSuccessful()) {
-                                                                        if(task.getResult().size() == 0) {
-                                                                            communityViewHolder.noPost.get().setVisibility(View.VISIBLE);
-                                                                        }
-                                                                        else {
-                                                                            communityViewHolder.noPost.get().setVisibility(View.GONE);
-                                                                        }
+                            postMenuDialog.get().findViewById(R.id.delete_post).setOnClickListener(v2 -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Are you sure?")
+                                        .setMessage("Post will be deleted permanently")
+                                        .setPositiveButton("Delete", (dialog, which) -> {
+                                            progressDialog = new WeakReference<>(new ProgressDialog(getActivity()));
+                                            progressDialog.get().setTitle("Deleting Post");
+                                            progressDialog.get().setMessage("Please wait...");
+                                            progressDialog.get().setCancelable(false);
+                                            progressDialog.get().show();
+                                            FirebaseFirestore.getInstance()
+                                                    .collection("Feeds/").document(currentItem
+                                                    .getDocID()).delete()
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        communityViewHolder.first_post.get().setVisibility(View.GONE);
+                                                        progressDialog.get().dismiss();
+                                                        FirebaseFirestore.getInstance()
+                                                                .collection("Feeds/")
+                                                                .orderBy("newTs", Query.Direction.DESCENDING)
+                                                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                if(task.isSuccessful()) {
+                                                                    if(task.getResult().size() == 0) {
+                                                                        communityViewHolder.noPost.get().setVisibility(View.VISIBLE);
+                                                                    }
+                                                                    else {
+                                                                        communityViewHolder.noPost.get().setVisibility(View.GONE);
                                                                     }
                                                                 }
-                                                            });
+                                                            }
                                                         });
-                                                postMenuDialog.get().dismiss();
+                                                    });
+                                            postMenuDialog.get().dismiss();
 
-                                            })
-                                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                                            .setCancelable(true)
-                                            .show();
+                                        })
+                                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                        .setCancelable(true)
+                                        .show();
+                            });
 
-                                });
+                            postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v1 -> {
+                                String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
+                                postMenuDialog.get().dismiss();
 
-                                postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v1 -> {
-                                    String link = "https://www.utsavapp.in/android/home/"+ currentItem.getDocID();
-                                    Intent i = new Intent();
-                                    i.setAction(Intent.ACTION_SEND);
-                                    i.putExtra(Intent.EXTRA_TEXT, link);
-                                    i.setType("text/plain");
-                                    startActivity(Intent.createChooser(i, "Share with"));
-                                    postMenuDialog.get().dismiss();
+                            });
 
-                                });
+                            postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v12 -> {
+                                FirebaseFirestore.getInstance()
+                                        .collection("Feeds/").document(currentItem.getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                postMenuDialog.get().dismiss();
 
-                                postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v12 -> {
-                                    FirebaseFirestore.getInstance()
-                                            .collection("Feeds/").document(currentItem.getDocID())
-                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                            .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
-                                    postMenuDialog.get().dismiss();
+                            });
 
-                                });
+                            Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.get().show();
 
-                                Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                postMenuDialog.get().show();
+                        }
+                        else {
+                            postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
 
-                            }
-                            else {
-                                postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
+                            postMenuDialog.get().setContentView(R.layout.dialog_post_menu);
+                            postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
 
-                                postMenuDialog.get().setContentView(R.layout.dialog_post_menu);
-                                postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
+                            postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v13 -> {
+                                String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
+                                postMenuDialog.get().dismiss();
 
-                                postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v13 -> {
-                                    String link = "https://www.utsavapp.in/android/home/"+ currentItem.getDocID();
-                                    Intent i = new Intent();
-                                    i.setAction(Intent.ACTION_SEND);
-                                    i.putExtra(Intent.EXTRA_TEXT, link);
-                                    i.setType("text/plain");
-                                    startActivity(Intent.createChooser(i, "Share with"));
-                                    postMenuDialog.get().dismiss();
+                            });
 
-                                });
+                            postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v14 -> {
+                                FirebaseFirestore.getInstance()
+                                        .collection("Feeds/").document(currentItem.getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                postMenuDialog.get().dismiss();
 
-                                postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v14 -> {
-                                    FirebaseFirestore.getInstance()
-                                            .collection("Feeds/").document(currentItem.getDocID())
-                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                            .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
-                                    postMenuDialog.get().dismiss();
+                            });
+                            Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.get().show();
 
-                                });
-                                Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                postMenuDialog.get().show();
+                        }
+                    });
+                    ////////POST MENU///////
 
-                            }
-                        });
-                        ////////POST MENU///////
-                    }
                     ///////////////////FOR THE FIRST POST/////////////////////
 
                 }
@@ -1403,7 +1401,7 @@ public class FeedsFragment extends Fragment {
                                 });
 
                                 postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v1 -> {
-                                    String link = "https://www.utsavapp.in/android/home/"+ currentItem.getDocID();
+                                    String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_SEND);
                                     i.putExtra(Intent.EXTRA_TEXT, link);
@@ -1433,7 +1431,7 @@ public class FeedsFragment extends Fragment {
                                 postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
 
                                 postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v13 -> {
-                                    String link = "https://www.utsavapp.in/android/home/" + currentItem.getDocID();
+                                    String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_SEND);
                                     i.putExtra(Intent.EXTRA_TEXT, link);
@@ -1473,7 +1471,7 @@ public class FeedsFragment extends Fragment {
                 }
                 else {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                    View v = layoutInflater.inflate(R.layout.item_newpost_home, viewGroup, false);
+                    View v = layoutInflater.inflate(R.layout.item_com_post, viewGroup, false);
                     return new ProgrammingViewHolder(v);
                 }
 

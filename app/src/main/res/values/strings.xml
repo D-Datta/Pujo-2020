@@ -91,7 +91,8 @@
     <string name="Type_of_pujo">Type of Pujo</string>
     <string name="sarbojonin">Example : Sarbojonin</string>
     <string name="committee_name">Committee Name</string>
-
+    <string name="save_to_device">Save to device</string>
+    <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
 
 
 </resources>

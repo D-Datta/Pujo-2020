@@ -1410,7 +1410,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String link = "https://www.utsavapp.in/android/home/"+homePostModel[0].getDocID();
+                            String link = "https://www.utsavapp.in/android/feeds/"+homePostModel[0].getDocID();
                             Intent i=new Intent();
                             i.setAction(Intent.ACTION_SEND);
                             i.putExtra(Intent.EXTRA_TEXT, link);
@@ -1447,7 +1447,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String link = "https://www.utsavapp.in/android/home/"+homePostModel[0].getDocID();
+                            String link = "https://www.utsavapp.in/android/feeds/"+homePostModel[0].getDocID();
                             Intent i=new Intent();
                             i.setAction(Intent.ACTION_SEND);
                             i.putExtra(Intent.EXTRA_TEXT, link);

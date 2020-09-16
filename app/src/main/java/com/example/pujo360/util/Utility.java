@@ -37,7 +37,7 @@ public class Utility {
     }
 
     public static Boolean saveImage(Bitmap finalBitmap, Context context) {
-        File myDir = new File(context.getExternalFilesDir(null), "/Campus24");
+        File myDir = new File(context.getExternalFilesDir(null), "/Utsav");
         if (!myDir.exists()) {
             myDir.mkdirs();
         }
@@ -90,7 +90,7 @@ public class Utility {
             return diff / MINUTE_MILLIS + " mins ago";
         } else if (diff < 120 * MINUTE_MILLIS) {
             return "an hour ago";
-        } else if (diff >= 2 * HOUR_MILLIS && diff < 24 * HOUR_MILLIS) {
+        } else if (diff < 24 * HOUR_MILLIS) {
             return diff / HOUR_MILLIS + " hours ago";
         } else if (diff < 48 * HOUR_MILLIS) {
             return "yesterday";

@@ -92,6 +92,7 @@
             android:autoLink="all"
             android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
+            android:scrollbars="vertical"
             android:fontFamily="@font/oxygen_bold"
             android:textSize="15dp"
             app:trimExpandedText="@string/read_less"

@@ -48,7 +48,7 @@
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerGlobalPost"
+                android:id="@+id/recyclerCommitteePost"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="50dp"
@@ -61,7 +61,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/to_the_top_global"
+        android:id="@+id/to_the_top_committee"
         android:layout_width="35dp"
         android:layout_height="35dp"
         app:fabCustomSize="35dp"
