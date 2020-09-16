@@ -1363,7 +1363,7 @@ public class ViewMoreHome extends AppCompatActivity {
                             postMenuDialog.dismiss();
                         }
                     });
-                    
+
                     postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

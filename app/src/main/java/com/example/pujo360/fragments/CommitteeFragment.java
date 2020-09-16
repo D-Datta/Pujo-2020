@@ -446,38 +446,38 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-                String postimage_url = currentItem.getImg();
-                if (postimage_url != null) {
-                    programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-                    Picasso.get().load(postimage_url)
-                            .memoryPolicy(MemoryPolicy.NO_STORE)
-                            .placeholder(R.drawable.image_background_grey)
-                            .into(programmingViewHolder.postimage);
-
-                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
-
-                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                save_Dialog(bitmap);
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
-
-                        });
-                        return true;
-                    });
-                } else
-                    programmingViewHolder.postimage.setVisibility(View.GONE);
-                //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+//                String postimage_url = currentItem.getImg();
+//                if (postimage_url != null) {
+//                    programmingViewHolder.postimage.setVisibility(View.VISIBLE);
+//                    Picasso.get().load(postimage_url)
+//                            .memoryPolicy(MemoryPolicy.NO_STORE)
+//                            .placeholder(R.drawable.image_background_grey)
+//                            .into(programmingViewHolder.postimage);
+//
+//                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
+//
+//                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
+//                            @Override
+//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                                save_Dialog(bitmap);
+//                            }
+//
+//                            @Override
+//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+//                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                            }
+//
+//                        });
+//                        return true;
+//                    });
+//                } else
+//                    programmingViewHolder.postimage.setVisibility(View.GONE);
+//                //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 ///////////////////FLAMES AND COMMENTS///////////////////////
 
@@ -1016,7 +1016,7 @@ public class CommitteeFragment extends Fragment {
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            sliderView = itemView.findViewById(R.id.image_slider);
+            sliderView = itemView.findViewById(R.id.imageSlider);
 
             tagList = itemView.findViewById(R.id.tagsList66);
             username = itemView.findViewById(R.id.username);
