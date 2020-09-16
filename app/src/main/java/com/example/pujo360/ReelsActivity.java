@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -89,6 +91,7 @@ public class ReelsActivity extends AppCompatActivity {
                 .build();
 
         reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                 holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
@@ -114,7 +117,7 @@ public class ReelsActivity extends AppCompatActivity {
 
                 DocumentReference likeStore;
                 likeStore = FirebaseFirestore.getInstance()
-                        .document("Feeds/" + currentItem.getDocID() + "/");
+                        .document("Reels/" + currentItem.getDocID() + "/");
 
                 //INITIAL SETUP//
                 if (currentItem.getLikeL() != null) {
@@ -253,8 +256,8 @@ public class ReelsActivity extends AppCompatActivity {
                     holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
                 }
                 else{
-                    holder.commentimg.setVisibility(View.VISIBLE);
-                    holder.commentCount.setVisibility(View.VISIBLE);
+                    holder.commentimg.setVisibility(View.GONE);
+                    holder.commentCount.setVisibility(View.GONE);
                 }
                 /////COMMENT/////
 
