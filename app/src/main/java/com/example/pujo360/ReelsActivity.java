@@ -116,16 +116,16 @@ public class ReelsActivity extends AppCompatActivity {
 
     private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
-        RelativeLayout item_reels;
         VideoView item_reels_video;
-        TextView video_time;
-        ImageView pujo_com_dp, reels_more;
-        TextView pujo_com_name;
+        ImageView pujo_com_dp, like_image, comment_image, drumbeat, comment, share;
+        TextView pujo_com_name, pujo_headline, like_count, comment_count ;
+        com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
+        com.airbnb.lottie.LottieAnimationView progress;
 
         ReelsItemViewHolder(View itemView) {
             super(itemView);
 
-            item_reels = itemView.findViewById(R.id.item_reels);
+            like_count = itemView.findViewById(R.id.likes_count);
             item_reels_video = itemView.findViewById(R.id.item_reels_video);
             video_time = itemView.findViewById(R.id.video_time);
             pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
