@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.example.pujo360.preferences.IntroPref;
 
+import co.gofynd.gravityview.GravityView;
+
 public class WalkthroughActivity extends AppCompatActivity {
 
     private TextView tvNext;
@@ -145,6 +147,9 @@ public class WalkthroughActivity extends AppCompatActivity {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(layouts[position],container,false);
 
+            ImageView img;
+            GravityView gravityView;
+            boolean isSupported = false;
             ///////////////SET IMAGE BITMAP/////////////////////
             if(position == 0) {
                 ImageView lighting_image = view.findViewById(R.id.lighting);
@@ -171,6 +176,20 @@ public class WalkthroughActivity extends AppCompatActivity {
                 durga_image.setImageBitmap(scaledBitmap2);
             }
             ///////////////SET IMAGE BITMAP/////////////////////
+
+            if(position==1){
+               img = findViewById(R.id.imageView);
+               gravityView = GravityView.getInstance(getBaseContext());
+               isSupported = gravityView.deviceSupported();
+
+                if(isSupported) {
+                    gravityView.setImage(img, R.drawable.pandal_demo).center();
+                }
+                else {
+                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.pandal_demo);
+                    img.setImageBitmap(bitmap);
+                }
+            }
 
             container.addView(view);
             return view;

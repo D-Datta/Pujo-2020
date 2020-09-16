@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button ImageView360;
     @SuppressLint("StaticFieldLeak")
     static MainActivity instance;
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +55,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         ///////////////NOTIFICATIONS///////////////////
 
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-  //      NavigationView navigationView = findViewById(R.id.nav_view);
 
+//        drawer = findViewById(R.id.drawer_layout);
+//        NavigationView navigationView = findViewById(R.id.nav_view);
+//
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.addDrawerListener(toggle);
 //        toggle.syncState();
-   //     navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         TabLayout tabs = findViewById(R.id.tabs);
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupViewPager(ViewPager viewPager) {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
-        tabAdapter.addFragment(new CommitteeFragment(), "Committies");
+        tabAdapter.addFragment(new CommitteeFragment(), "Committees");
         tabAdapter.addFragment(new FeedsFragment(),"Feeds");
         viewPager.setAdapter(tabAdapter);
 

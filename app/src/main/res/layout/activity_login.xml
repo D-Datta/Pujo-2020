@@ -14,7 +14,7 @@
     <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:src="@drawable/login2"
+        android:src="@drawable/login1"
         android:layout_gravity="bottom"
         android:layout_marginStart="-50dp"
         android:layout_marginBottom="-40dp" />
@@ -44,7 +44,7 @@
                 android:paddingHorizontal="50dp"
                 android:paddingVertical="80dp"
                 android:text="@string/utsav"
-                android:textColor="#171E30"
+                android:textColor="@color/colorAccent"
                 android:textSize="50dp" />
 
             <TextView
@@ -132,7 +132,7 @@
                 android:text="@string/login"
                 android:textSize="20sp"
                 android:textAllCaps="false"
-                android:textColor="#fff" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/signup"
@@ -141,12 +141,13 @@
                 android:layout_margin="15dp"
                 android:layout_gravity="center"
                 android:background="@drawable/custom_button"
-                android:fontFamily="@font/oxygen_regular"
+                android:fontFamily="@font/oxygen_ex_bold"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="@string/sign_up"
+                android:textSize="20sp"
                 android:textAllCaps="false"
-                android:textColor="#171e30"
+                android:textColor="@color/white"
                 android:visibility="gone" />
 
             <LinearLayout
