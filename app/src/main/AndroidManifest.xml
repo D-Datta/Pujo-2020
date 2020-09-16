@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchCityState"></activity>
+        <activity android:name=".ActivityProfileUser"></activity>
+        <activity android:name=".SearchCityState" />
         <activity android:name=".registration.RegIndividual" />
         <activity android:name=".registration.RegPujoCommittee" />
         <activity android:name=".registration.RegChoice" />
@@ -37,14 +38,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CommentReplyActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CommentEdit"
             android:screenOrientation="portrait" />
-
         <activity android:name=".GateWayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -67,7 +66,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CommunityViewAll"
             android:screenOrientation="portrait" />
@@ -85,7 +83,6 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ViewMoreHome"
             android:screenOrientation="portrait">
@@ -95,12 +92,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
-
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
