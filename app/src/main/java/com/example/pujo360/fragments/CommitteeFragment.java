@@ -2368,7 +2368,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                    View v = layoutInflater.inflate(R.layout.item_newpost_home, viewGroup, false);
+                    View v = layoutInflater.inflate(R.layout.item_com_post, viewGroup, false);
                     return new ProgrammingViewHolder(v);
                 }
             }
