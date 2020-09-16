@@ -40,10 +40,8 @@ public class CommitteeViewAll extends AppCompatActivity {
     ProgressBar progressMoreCom;
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ArrayList<BaseUserModel> CommunityGrps;
 
     private FirestorePagingAdapter adapter;
-    private IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class CommitteeViewAll extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
-        introPref = new IntroPref(CommitteeViewAll.this);
 
         progress = findViewById(R.id.progress);
         progressMoreCom = findViewById(R.id.progress_more_comm);
@@ -70,7 +67,6 @@ public class CommitteeViewAll extends AppCompatActivity {
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
 
-        CommunityGrps = new ArrayList<>();
 
         buildRecyclerView();
 
@@ -157,7 +153,7 @@ public class CommitteeViewAll extends AppCompatActivity {
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
                 LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                View v = layoutInflater.inflate(R.layout.item_community_grid, viewGroup, false);
+                View v = layoutInflater.inflate(R.layout.item_committee_grid, viewGroup, false);
                 return new ProgrammingViewHolder(v);
 
             }
