@@ -178,17 +178,7 @@ public class WalkthroughActivity extends AppCompatActivity {
             ///////////////SET IMAGE BITMAP/////////////////////
 
             if(position==1){
-               img = findViewById(R.id.imageView);
-               gravityView = GravityView.getInstance(getBaseContext());
-               isSupported = gravityView.deviceSupported();
 
-                if(isSupported) {
-                    gravityView.setImage(img, R.drawable.pandal_demo).center();
-                }
-                else {
-                    Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.pandal_demo);
-                    img.setImageBitmap(bitmap);
-                }
             }
 
             container.addView(view);

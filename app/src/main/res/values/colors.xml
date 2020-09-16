@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#FF9800</color>
     <color name="colorAccent">#FA382B</color>
 
+    <color name="darkpurple">#490531</color>
+    <color name="purple">#730D4F</color>
+    <color name="pink">#EB2C65</color>
+
     <color name="black">#212121</color>
     <color name="black_transparent">#77212121</color>
     <color name="white_transparent">#88ffffff</color>
