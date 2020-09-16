@@ -109,10 +109,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="#E2E2E2"/>
 
 <!--        <com.smarteist.autoimageslider.SliderView-->
 <!--            android:id="@+id/imageSlider"-->

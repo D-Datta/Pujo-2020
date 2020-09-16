@@ -93,6 +93,9 @@
     <string name="committee_name">Committee Name</string>
     <string name="save_to_device">Save to device</string>
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
+    <string name="short_videos">Short Videos</string>
+    <string name="see_all"><![CDATA[See All -->]]></string>
+    <string name="_0_18">0:18</string>
 
 
 </resources>

@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -49,9 +50,7 @@ import com.example.pujo360.util.Utility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,7 +69,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-import java.lang.ref.WeakReference;
+
 import java.util.ArrayList;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
@@ -486,7 +485,7 @@ public class CommitteeFragment extends Fragment {
                     }
                     //INITIAL SETUP//
 
-                    PushDownAnim.setPushDownAnimTo(sliderViewHolder.flameimg)
+                    PushDownAnim.setPushDownAnimTo(sliderViewHolder.like)
                         .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                         .setOnClickListener(v -> {
                             if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
@@ -791,7 +790,6 @@ public class CommitteeFragment extends Fragment {
                                 startActivity(i);
 
                                 postMenuDialog.dismiss();
-
                             });
 
                             postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
@@ -818,7 +816,6 @@ public class CommitteeFragment extends Fragment {
                                         .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                                         .setCancelable(true)
                                         .show();
-
                             });
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
@@ -891,7 +888,679 @@ public class CommitteeFragment extends Fragment {
 
                     /////////////////////FOR THE FIRST POST////////////////////
 
-                } else {
+                }
+                else if(holder.getItemViewType() == 2) {
+
+                    ///////////////////FOR THE THIRD POST///////////////////
+                    ReelsViewHolder reelsViewHolder = (ReelsViewHolder) holder;
+                    DocumentReference likeStore;
+                    String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                    reelsViewHolder.minsago.setText(timeAgo);
+                    if (timeAgo != null) {
+                        if (timeAgo.matches("just now")) {
+                            reelsViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            reelsViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
+                        }
+                    }
+
+                    reelsViewHolder.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+                    reelsViewHolder.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
+
+                    likeStore = FirebaseFirestore.getInstance()
+                            .document("Feeds/" + currentItem.getDocID() + "/");
+
+                    ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
+                    if (COMMITEE_LOGO != null) {
+                        Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(reelsViewHolder.profileimage);
+                    } else {
+                        reelsViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                    ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
+
+                    ///////////TAGLIST///////////////
+
+                    ///////////TAG RECYCLER SETUP////////////////
+                    reelsViewHolder.tagList.setHasFixedSize(false);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                    reelsViewHolder.tagList.setNestedScrollingEnabled(true);
+                    reelsViewHolder.tagList.setLayoutManager(linearLayoutManager);
+                    ///////////TAG RECYCLER SETUP////////////////
+
+                    if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
+                        reelsViewHolder.tagList.setVisibility(View.VISIBLE);
+                        TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
+                        reelsViewHolder.tagList.setAdapter(tagAdapter);
+                    } else {
+                        reelsViewHolder.tagList.setAdapter(null);
+                        reelsViewHolder.tagList.setVisibility(View.GONE);
+                    }
+                    /////////TAGLIST///////////////
+
+                    //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
+                    reelsViewHolder.userimage.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
+                    });
+
+                    reelsViewHolder.username.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
+                    });
+
+                    ////////////NORMAL POST///////////////
+                    if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
+                        Picasso.get().load(currentItem.getDp()).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(reelsViewHolder.userimage, new Callback() {
+                                    @Override
+                                    public void onSuccess() { }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        reelsViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+                                });
+
+                    } else {
+                        reelsViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+
+                    reelsViewHolder.username.setText(currentItem.getUsN());
+
+                    ///////////////OPEN VIEW MORE//////////////
+                    reelsViewHolder.itemHome.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "2");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        startActivity(intent);
+                    });
+
+                    reelsViewHolder.text_content.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        startActivity(intent);
+                    });
+
+                    reelsViewHolder.postimage.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("bool", "2");
+
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        startActivity(intent);
+                    });
+
+                    reelsViewHolder.likesCount.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("bool", "2");
+
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("likeLOpen", "likeLOpen");
+                        startActivity(intent);
+
+                    });
+                    ///////////////OPEN VIEW MORE//////////////
+
+                    //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+
+                    if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
+                        reelsViewHolder.text_content.setVisibility(View.GONE);
+                        reelsViewHolder.LinkPreview.setVisibility(View.GONE);
+                        reelsViewHolder.text_content.setText(null);
+                    } else {
+                        reelsViewHolder.text_content.setVisibility(View.VISIBLE);
+                        reelsViewHolder.text_content.setText(currentItem.getTxt());
+                        if (reelsViewHolder.text_content.getUrls().length > 0) {
+                            URLSpan urlSnapItem = reelsViewHolder.text_content.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                reelsViewHolder.LinkPreview.setVisibility(View.VISIBLE);
+                                reelsViewHolder.LinkPreview.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) { }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            reelsViewHolder.LinkPreview.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
+                            }
+
+                        } else {
+                            reelsViewHolder.LinkPreview.setVisibility(View.GONE);
+                        }
+
+                    }
+
+                    String postimage_url = currentItem.getImg();
+                    if (postimage_url != null) {
+                        reelsViewHolder.postimage.setVisibility(View.VISIBLE);
+                        Picasso.get().load(postimage_url)
+                                .memoryPolicy(MemoryPolicy.NO_STORE)
+                                .placeholder(R.drawable.image_background_grey)
+                                .into(reelsViewHolder.postimage);
+
+                        reelsViewHolder.postimage.setOnLongClickListener(v -> {
+
+                            Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    save_Dialog(bitmap);
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                    Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                                }
+
+                            });
+                            return true;
+                        });
+                    } else
+                        reelsViewHolder.postimage.setVisibility(View.GONE);
+                    //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+
+                    ///////////////////FLAMES AND COMMENTS///////////////////////
+
+                    //INITIAL SETUP//
+                    if (currentItem.getLikeL() != null) {
+
+                        /////////////////UPDATNG FLAMED BY NO.//////////////////////
+                        if (currentItem.getLikeL().size() == 0) {
+                            reelsViewHolder.like_image.setVisibility(View.GONE);
+                            reelsViewHolder.likesCount.setVisibility(View.GONE);
+                        }
+                        else {
+                            reelsViewHolder.like_image.setVisibility(View.VISIBLE);
+                            reelsViewHolder.likesCount.setVisibility(View.VISIBLE);
+                            reelsViewHolder.likesCount.setText(currentItem.getLikeL().size());
+                        }
+                    } else {
+                        reelsViewHolder.like_image.setVisibility(View.GONE);
+                        reelsViewHolder.likesCount.setVisibility(View.GONE);
+                    }
+                    //INITIAL SETUP//
+
+                    PushDownAnim.setPushDownAnimTo(reelsViewHolder.like)
+                        .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+                        .setOnClickListener(v -> {
+                            if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                                if (currentItem.getLikeL().size() - 1 == 0) {
+                                    reelsViewHolder.likesCount.setVisibility(View.GONE);
+                                    reelsViewHolder.like_image.setVisibility(View.GONE);
+                                } else{
+                                    reelsViewHolder.likesCount.setVisibility(View.VISIBLE);
+                                    reelsViewHolder.like_image.setVisibility(View.VISIBLE);
+                                    reelsViewHolder.likesCount.setText(currentItem.getLikeL().size());
+                                }
+                                ///////////REMOVE CURRENT USER LIKE/////////////
+                                currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(-1);
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                batch.delete(flamedDoc);
+
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
+                                Utility.vibrate(requireActivity());
+                                if (currentItem.getLikeL().size() == 0) {
+                                    reelsViewHolder.like_image.setVisibility(View.GONE);
+                                    reelsViewHolder.likesCount.setVisibility(View.GONE);
+
+                                }
+                                else {
+                                    reelsViewHolder.like_image.setVisibility(View.VISIBLE);
+                                    reelsViewHolder.likesCount.setVisibility(View.VISIBLE);
+                                    reelsViewHolder.likesCount.setText( currentItem.getLikeL().size());
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                                Utility.vibrate(requireActivity());
+                                reelsViewHolder.likesCount.setVisibility(View.VISIBLE);
+                                reelsViewHolder.like_image.setVisibility(View.VISIBLE);
+                                if (currentItem.getLikeL() != null){
+                                    reelsViewHolder.likesCount.setText(currentItem.getLikeL().size() + 1);
+                                }
+                                else{
+                                    reelsViewHolder.likesCount.setText("1");
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                                //For local changes current item like added to remote list end
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            }
+                        });
+
+                    if (currentItem.getCmtNo() > 0) {
+                        reelsViewHolder.commentimg.setVisibility(View.VISIBLE);
+                        reelsViewHolder.commentCount.setVisibility(View.VISIBLE);
+                        reelsViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+
+                        reelsViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+
+                        if(currentItem.getCmtNo() == 1) {
+                            reelsViewHolder.commentLayout2.setVisibility(View.GONE);
+                            FirebaseFirestore.getInstance().collection("Feeds/" + currentItem.getDocID() + "/commentL")
+                                    .get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (querySnapshot != null) {
+                                        CommentModel commentModel = querySnapshot.getDocuments().get(0).toObject(CommentModel.class);
+                                        Picasso.get().load(Objects.requireNonNull(commentModel).getUserdp())
+                                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                                .into(reelsViewHolder.dp_cmnt1);
+                                        reelsViewHolder.name_cmnt1.setText(commentModel.getUsername());
+
+                                        reelsViewHolder.cmnt1.setText(commentModel.getComment());
+                                        if (reelsViewHolder.cmnt1.getUrls().length > 0) {
+                                            URLSpan urlSnapItem = reelsViewHolder.cmnt1.getUrls()[0];
+                                            String url = urlSnapItem.getURL();
+                                            if (url.contains("http")) {
+                                                reelsViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                                reelsViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                                    @Override
+                                                    public void onSuccess(boolean status) { }
+
+                                                    @Override
+                                                    public void onError(Exception e) {
+                                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                                            //do stuff like remove view etc
+                                                            reelsViewHolder.link_preview1.setVisibility(View.GONE);
+                                                        });
+                                                    }
+                                                });
+                                            }
+
+                                        } else {
+                                            reelsViewHolder.link_preview1.setVisibility(View.GONE);
+                                        }
+
+                                        reelsViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel.getTs()));
+                                        if (Utility.getTimeAgo(commentModel.getTs()) != null) {
+                                            if (Objects.requireNonNull(Utility.getTimeAgo(commentModel.getTs())).matches("just now")) {
+                                                reelsViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                                            } else {
+                                                reelsViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            reelsViewHolder.commentLayout2.setVisibility(View.VISIBLE);
+                            FirebaseFirestore.getInstance()
+                                    .collection("Feeds/" + currentItem.getDocID() + "/commentL")
+                                    .get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (querySnapshot != null) {
+                                        querySnapshot.getQuery().orderBy("ts", Query.Direction.DESCENDING)
+                                                .get().addOnCompleteListener(task1 -> {
+                                            QuerySnapshot querySnapshot1 = task1.getResult();
+                                            if (querySnapshot1 != null) {
+                                                CommentModel commentModel1 = querySnapshot1.getDocuments().get(0).toObject(CommentModel.class);
+                                                Picasso.get().load(Objects.requireNonNull(commentModel1).getUserdp())
+                                                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                                        .into(reelsViewHolder.dp_cmnt1);
+                                                reelsViewHolder.name_cmnt1.setText(commentModel1.getUsername());
+
+                                                reelsViewHolder.cmnt1.setText(commentModel1.getComment());
+                                                if (reelsViewHolder.cmnt1.getUrls().length > 0) {
+                                                    URLSpan urlSnapItem = reelsViewHolder.cmnt1.getUrls()[0];
+                                                    String url = urlSnapItem.getURL();
+                                                    if (url.contains("http")) {
+                                                        reelsViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                                        reelsViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                                            @Override
+                                                            public void onSuccess(boolean status) { }
+
+                                                            @Override
+                                                            public void onError(Exception e) {
+                                                                new Handler(Looper.getMainLooper()).post(() -> {
+                                                                    //do stuff like remove view etc
+                                                                    reelsViewHolder.link_preview1.setVisibility(View.GONE);
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                } else {
+                                                    reelsViewHolder.link_preview1.setVisibility(View.GONE);
+                                                }
+
+                                                reelsViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel1.getTs()));
+                                                if (Utility.getTimeAgo(commentModel1.getTs()) != null) {
+                                                    if (Objects.requireNonNull(Utility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
+                                                        reelsViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                                                    } else {
+                                                        reelsViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                                    }
+                                                }
+
+                                                CommentModel commentModel2 = querySnapshot1.getDocuments().get(1).toObject(CommentModel.class);
+                                                Picasso.get().load(Objects.requireNonNull(commentModel2).getUserdp())
+                                                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                                        .into(reelsViewHolder.dp_cmnt2);
+                                                reelsViewHolder.name_cmnt2.setText(commentModel2.getUsername());
+
+                                                reelsViewHolder.cmnt2.setText(commentModel2.getComment());
+                                                if (reelsViewHolder.cmnt2.getUrls().length > 0) {
+                                                    URLSpan urlSnapItem = reelsViewHolder.cmnt2.getUrls()[0];
+                                                    String url = urlSnapItem.getURL();
+                                                    if (url.contains("http")) {
+                                                        reelsViewHolder.link_preview2.setVisibility(View.VISIBLE);
+                                                        reelsViewHolder.link_preview2.setLink(url, new ViewListener() {
+                                                            @Override
+                                                            public void onSuccess(boolean status) { }
+
+                                                            @Override
+                                                            public void onError(Exception e) {
+                                                                new Handler(Looper.getMainLooper()).post(() -> {
+                                                                    //do stuff like remove view etc
+                                                                    reelsViewHolder.link_preview2.setVisibility(View.GONE);
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                } else {
+                                                    reelsViewHolder.link_preview2.setVisibility(View.GONE);
+                                                }
+
+                                                reelsViewHolder.cmnt2_minsago.setText(Utility.getTimeAgo(commentModel2.getTs()));
+                                                if (Utility.getTimeAgo(commentModel2.getTs()) != null) {
+                                                    if (Objects.requireNonNull(Utility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
+                                                        reelsViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
+                                                    } else {
+                                                        reelsViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        reelsViewHolder.commentimg.setVisibility(View.GONE);
+                        reelsViewHolder.commentCount.setVisibility(View.GONE);
+                        reelsViewHolder.commentLayout1.setVisibility(View.GONE);
+                        reelsViewHolder.commentLayout2.setVisibility(View.GONE);
+                    }
+                    ///////////////////FLAMES AND COMMENTS///////////////////////
+
+                    ////////POST MENU///////
+                    reelsViewHolder.menuPost.setOnClickListener(v -> {
+                        if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                            postMenuDialog = new BottomSheetDialog(requireActivity());
+
+                            postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
+                            postMenuDialog.setCanceledOnTouchOutside(TRUE);
+
+                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
+                                i.putExtra("target", "100"); //target value for edit post
+                                i.putExtra("bool", "2");
+                                i.putExtra("usN", currentItem.getUsN());
+                                i.putExtra("dp", currentItem.getDp());
+                                i.putExtra("uid", currentItem.getUid());
+
+                                i.putExtra("img", currentItem.getImg());
+                                i.putExtra("txt", currentItem.getTxt());
+                                i.putExtra("comID", currentItem.getComID());
+                                i.putExtra("comName", currentItem.getComName());
+
+                                i.putExtra("ts", Long.toString(currentItem.getTs()));
+                                i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+
+                                StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+
+                                i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
+
+                                i.putExtra("likeL", currentItem.getLikeL());
+                                i.putExtra("likeCheck", currentItem.getLikeCheck());
+                                i.putExtra("docID", currentItem.getDocID());
+                                i.putExtra("reportL", currentItem.getReportL());
+                                i.putExtra("challengeID", currentItem.getChallengeID());
+                                startActivity(i);
+
+                                postMenuDialog.dismiss();
+
+                            });
+
+                            postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Are you sure?")
+                                        .setMessage("Post will be deleted permanently")
+                                        .setPositiveButton("Delete", (dialog, which) -> {
+                                            progressDialog = new ProgressDialog(getActivity());
+                                            progressDialog.setTitle("Deleting Post");
+                                            progressDialog.setMessage("Please wait...");
+                                            progressDialog.setCancelable(false);
+                                            progressDialog.show();
+                                            FirebaseFirestore.getInstance()
+                                                    .collection("Feeds/").document(currentItem
+                                                    .getDocID()).delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            ProfileActivity.delete = 1;
+                                                            reelsViewHolder.itemHome.setVisibility(View.GONE);
+                                                            reelsViewHolder.view1.setVisibility(View.GONE);
+                                                            reelsViewHolder.view2.setVisibility(View.GONE);
+                                                            notifyDataSetChanged();
+                                                            progressDialog.dismiss();
+                                                        }
+                                                    });
+                                            postMenuDialog.dismiss();
+
+                                        })
+                                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                        .setCancelable(true)
+                                        .show();
+
+                            });
+
+                            postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
+                                    Intent i = new Intent();
+                                    i.setAction(Intent.ACTION_SEND);
+                                    i.putExtra(Intent.EXTRA_TEXT, link);
+                                    i.setType("text/plain");
+                                    startActivity(Intent.createChooser(i, "Share with"));
+                                    postMenuDialog.dismiss();
+
+                                }
+                            });
+
+                            postMenuDialog.findViewById(R.id.report_post).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    FirebaseFirestore.getInstance()
+                                            .collection("Feeds/").document(currentItem.getDocID())
+                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Utility.showToast(getActivity(), "Post has been reported.");
+                                                }
+                                            });
+                                    postMenuDialog.dismiss();
+
+                                }
+                            });
+
+                            Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.show();
+
+
+                        } else {
+                            postMenuDialog = new BottomSheetDialog(requireActivity());
+
+                            postMenuDialog.setContentView(R.layout.dialog_post_menu);
+                            postMenuDialog.setCanceledOnTouchOutside(TRUE);
+
+                            postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v1 -> {
+                                String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
+                                postMenuDialog.dismiss();
+                            });
+
+                            postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
+                                FirebaseFirestore.getInstance()
+                                        .collection("Feeds/").document(currentItem.getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Utility.showToast(getActivity(), "Post has been reported.");
+                                            }
+                                        });
+                                postMenuDialog.dismiss();
+
+                            });
+                            Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.show();
+
+                        }
+                    });
+                    ////////POST MENU///////
+
+                     ///////////////////FOR THE THIRD POST///////////////////
+                }
+                else {
                     ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
                     DocumentReference likeStore;
                     String timeAgo = Utility.getTimeAgo(currentItem.getTs());
@@ -907,8 +1576,7 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
                     programmingViewHolder.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
 
-                    likeStore = FirebaseFirestore.getInstance()
-                            .document("Feeds/" + currentItem.getDocID() + "/");
+                    likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
 
                     ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
                     if (COMMITEE_LOGO != null) {
@@ -1151,7 +1819,7 @@ public class CommitteeFragment extends Fragment {
                     }
                     //INITIAL SETUP//
 
-                    PushDownAnim.setPushDownAnimTo(programmingViewHolder.flameimg)
+                    PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
                             .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                             .setOnClickListener(v -> {
                                 if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
@@ -1179,7 +1847,7 @@ public class CommitteeFragment extends Fragment {
                                     });
                                     ///////////////////BATCH WRITE///////////////////
                                 } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
-                                    Utility.vibrate(getActivity());
+                                    Utility.vibrate(requireActivity());
                                     if (currentItem.getLikeL().size() == 0){
                                         programmingViewHolder.like_image.setVisibility(View.GONE);
                                         programmingViewHolder.likesCount.setVisibility(View.GONE);
@@ -1472,7 +2140,7 @@ public class CommitteeFragment extends Fragment {
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-//                                                                    ProfileActivity.delete = 1;
+                                                            ProfileActivity.delete = 1;
                                                             programmingViewHolder.itemHome.setVisibility(View.GONE);
                                                             programmingViewHolder.view1.setVisibility(View.GONE);
                                                             programmingViewHolder.view2.setVisibility(View.GONE);
@@ -1492,7 +2160,6 @@ public class CommitteeFragment extends Fragment {
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-//                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
                                     String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_SEND);
@@ -1571,7 +2238,13 @@ public class CommitteeFragment extends Fragment {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
                     View v = layoutInflater.inflate(R.layout.item_home_slider, viewGroup, false);
                     return new SliderViewHolder(v);
-                } else {
+                }
+                else if(viewType == 2) {
+                    LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+                    View v = layoutInflater.inflate(R.layout.item_reels, viewGroup, false);
+                    return new ReelsViewHolder(v);
+                }
+                else {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
                     View v = layoutInflater.inflate(R.layout.item_newpost_home, viewGroup, false);
                     return new ProgrammingViewHolder(v);
@@ -1579,9 +2252,7 @@ public class CommitteeFragment extends Fragment {
             }
 
             @Override
-            public int getItemViewType(int position) {
-                return position;
-            }
+            public int getItemViewType(int position) { return position; }
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
@@ -1603,7 +2274,7 @@ public class CommitteeFragment extends Fragment {
                     case FINISHED:
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
-                        if(adapter.getItemCount() == 0){
+                        if(adapter.getItemCount() == 0) {
 
                         }
                         break;
@@ -1622,7 +2293,7 @@ public class CommitteeFragment extends Fragment {
         SliderView sliderView;
 
         TextView username, commentCount, likesCount, text_content, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago;
-        ImageView userimage, postimage, flameimg, commentimg,profileimage, menuPost, share, like_image, comment_image, dp_cmnt1,dp_cmnt2;
+        ImageView userimage, postimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image, dp_cmnt1,dp_cmnt2;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2;
         RelativeLayout first_post;
@@ -1640,7 +2311,7 @@ public class CommitteeFragment extends Fragment {
             userimage = itemView.findViewById(R.id.user_image);
             postimage = itemView.findViewById(R.id.post_image);
             minsago = itemView.findViewById(R.id.mins_ago);
-            flameimg = itemView.findViewById(R.id.like);
+            like = itemView.findViewById(R.id.like);
             commentimg = itemView.findViewById(R.id.comment);
             commentCount = itemView.findViewById(R.id.no_of_comments);
             profileimage = itemView.findViewById(R.id.profile_image);
@@ -1667,14 +2338,82 @@ public class CommitteeFragment extends Fragment {
             cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
             dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
             link_preview2= itemView.findViewById(R.id.LinkPreViewComment2);
+        }
+    }
 
+    private static class ReelsViewHolder extends RecyclerView.ViewHolder {
+
+        TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels;
+        ImageView userimage, postimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
+        ApplexLinkPreview LinkPreview;
+        LinearLayout itemHome, commentLayout1, commentLayout2;
+        RecyclerView tagList, reelsList;
+        View view, view1, view2;
+        com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
+
+        RelativeLayout item_reels;
+        VideoView item_reels_video;
+        TextView video_time;
+        ImageView pujo_com_dp;
+        TextView pujo_com_name;
+
+        ReelsViewHolder(@NonNull View itemView) {
+
+            super(itemView);
+
+            tagList = itemView.findViewById(R.id.tagsList66);
+            username = itemView.findViewById(R.id.username);
+            text_content = itemView.findViewById(R.id.text_content);
+            userimage = itemView.findViewById(R.id.user_image);
+            postimage = itemView.findViewById(R.id.post_image);
+            minsago = itemView.findViewById(R.id.mins_ago);
+            like = itemView.findViewById(R.id.like);
+            commentimg = itemView.findViewById(R.id.comment);
+            commentCount = itemView.findViewById(R.id.no_of_comments);
+            profileimage = itemView.findViewById(R.id.profile_image);
+            menuPost = itemView.findViewById(R.id.delete_post);
+            writecomment = itemView.findViewById(R.id.write_comment);
+            itemHome = itemView.findViewById(R.id.item_home);
+            share = itemView.findViewById(R.id.share);
+            LinkPreview = itemView.findViewById(R.id.LinkPreView);
+
+            like_image = itemView.findViewById(R.id.like_image);
+            comment_image = itemView.findViewById(R.id.comment_image);
+            likesCount = itemView.findViewById(R.id.no_of_likes);
+
+            view = itemView.findViewById(R.id.view);
+            view1 = itemView.findViewById(R.id.view1);
+            view2 = itemView.findViewById(R.id.view2);
+
+            commentLayout1 = itemView.findViewById(R.id.comment_layout1);
+            name_cmnt1 = itemView.findViewById(R.id.comment_username1);
+            cmnt1 = itemView.findViewById(R.id.comment1);
+            cmnt1_minsago = itemView.findViewById(R.id.comment_mins_ago1);
+            dp_cmnt1 = itemView.findViewById(R.id.comment_user_dp1);
+            link_preview1 = itemView.findViewById(R.id.LinkPreViewComment1);
+
+            commentLayout2 = itemView.findViewById(R.id.comment_layout2);
+            name_cmnt2 = itemView.findViewById(R.id.comment_username2);
+            cmnt2 = itemView.findViewById(R.id.comment2);
+            cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
+            dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
+            link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
+
+            view_all_reels = itemView.findViewById(R.id.view_all_reels);
+            reelsList = itemView.findViewById(R.id.reelsRecycler);
+
+            item_reels = itemView.findViewById(R.id.item_reels);
+            item_reels_video = itemView.findViewById(R.id.item_reels_video);
+            video_time = itemView.findViewById(R.id.video_time);
+            pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
+            pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
         }
     }
 
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         TextView username,commentCount, comName, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago;
-        ImageView userimage, postimage, flameimg, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
+        ImageView userimage, postimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2;
         RecyclerView tagList;
@@ -1691,7 +2430,7 @@ public class CommitteeFragment extends Fragment {
             userimage = itemView.findViewById(R.id.user_image);
             postimage = itemView.findViewById(R.id.post_image);
             minsago = itemView.findViewById(R.id.mins_ago);
-            flameimg = itemView.findViewById(R.id.flame);
+            like = itemView.findViewById(R.id.like);
             comName = itemView.findViewById(R.id.comName);
             commentimg = itemView.findViewById(R.id.comment);
             commentCount = itemView.findViewById(R.id.no_of_comments);
