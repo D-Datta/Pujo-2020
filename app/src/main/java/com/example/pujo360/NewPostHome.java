@@ -83,7 +83,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private ImageView info, postimage;
     private Dialog dialog;
     private Button customTag, moreTags;
-//    private Spinner postspinner;
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
@@ -92,7 +91,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private RecyclerView tags_selectedRecycler;
     private TagAdapter tagAdapter2;
     private ImageCompressor imageCompressor;
-//    private Uri mHighQualityImageUri = null;
 
     private Uri filePath, finalUri;
     private StorageReference storageReferenece;
@@ -167,7 +165,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         PROFILEPIC = introPref.getUserdp();
         if(PROFILEPIC!= null){
-//
+
 //            if(PROFILEPIC.matches("0")){
 //                user_image.setImageResource(R.drawable.default_dp_1);
 //            }
@@ -225,7 +223,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             else if(intent.getStringExtra("target").matches("11")){ //Challenge
                 postingIn.add("Global");
-//                postingIn.add("Your Campus");
                 post_anon.setVisibility(View.GONE);
                 info.setVisibility(View.GONE);
             }
@@ -244,11 +241,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     editPostModel.setUsN(intent.getStringExtra("usN"));
                     postusername.setText(editPostModel.getUsN());
 
-//                    if(editPostModel.getUsN().matches("Anonymous")){
-//                        user_image.setImageResource(R.drawable.ic_anonymous_icon);
-//                        post.setVisibility(View.GONE);
-//                        post_anon.setVisibility(View.VISIBLE);
-//                    }
                 }
 
                 if(intent.getStringExtra("dp")!=null)
@@ -308,11 +300,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     editPostModel.setImg(intent.getStringExtra("img"));
                     container_image.setVisibility(View.VISIBLE);
                     postimage.setVisibility(View.VISIBLE);
-                    // postimage.setImageURI(Uri.parse(editPostModel.getImg()));
                     Picasso.get().load(editPostModel.getImg()).into(postimage);
-
-//                    finalUri = Uri.parse(editPostModel.getImg());
-                    // postimage.setImageURI(finalUri);
 
 //                    Bitmap bitmap = null;
 
@@ -342,39 +330,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                     });
 
-//                    try {
-//                        final BitmapFactory.Options options = new BitmapFactory.Options();
-//                        options.inJustDecodeBounds = true;
-//                        options.inSampleSize = 2;
-//                        options.inJustDecodeBounds = false;
-//                        options.inTempStorage = new byte[16 * 1024];
-//                        InputStream input = this.getContentResolver().openInputStream(Uri.parse(editPostModel.getImg()));
-//                        bitmap = BitmapFactory.decodeStream(input, null, options);
-//                        ByteArrayOutputStream baos =new ByteArrayOutputStream();
-//                       // bitmap= BitmapFactory.decodeStream(new ByteArrayInputStream(baos.toByteArray()));
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                        pic = baos.toByteArray();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        Utility.showToast(getApplicationContext(),"dgdb");
-//                    }
-
-//                    Bitmap bitmap = null;
-//                    try {
-//                        final BitmapFactory.Options options = new BitmapFactory.Options();
-//                        options.inJustDecodeBounds = true;
-//                        options.inSampleSize = 2;
-//                        options.inJustDecodeBounds = false;
-//                        options.inTempStorage = new byte[16 * 1024];
-//
-//                        InputStream input = this.getContentResolver().openInputStream(Uri.parse(editPostModel.getImg()));
-//                        bitmap = BitmapFactory.decodeStream(input, null, options);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    ByteArrayOutputStream baos =new ByteArrayOutputStream();
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    pic = baos.toByteArray();
                 }
 
                 if(intent.getStringExtra("comID")!=null){
@@ -399,7 +354,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             ArrayAdapter<String> arrayAdapter;
             arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, postingIn);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            postspinner.setAdapter(arrayAdapter);
         }
 
         ///////////////////SHARED CONTENT////////////////////
@@ -508,20 +462,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
 
-//                        if (postspinner.getSelectedItem().toString().matches("Global")){
-//                            FragmentGlobal.changed = 1;
-//                            ProfileActivity.change = 1;
-//                            docRef = firebaseFirestore.collection("Home").document("Global")
-//                                    .collection("Feeds").document(editPostModel.getDocID());
-//                        }
-//
-//                        else{
-//                            FragmentCampus.changed = 1;
-//                            CommunityActivity.changed = 1;
-//                            docRef = firebaseFirestore.collection("Home").document(CAMPUSNAME)
-//                                    .collection("Feeds").document(editPostModel.getDocID());
-//                        }
-
                         docRef = firebaseFirestore.collection("Feeds").document(editPostModel.getDocID());
 
                         ts = Long.toString(editPostModel.getTs());
@@ -535,18 +475,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                         if(pic!= null){
                             /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                            if (postspinner.getSelectedItem().toString().matches("Global")){
-//                                reference = storageReferenece.child("Home/").child("Global/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else if(postspinner.getSelectedItem().toString().matches("Your Campus")){
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else {
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
+
                             reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
                             /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                            Toast.makeText(getApplicationContext(), ""+pic.length/1024, Toast.LENGTH_LONG).show();
 
                             reference.putBytes(pic)
                                     .addOnSuccessListener(taskSnapshot ->
@@ -656,23 +587,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         progressDialog.setTitle("Uploading");
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
-                        //////////////CAMPUS or CAMPUS COMMUNITIES//////////////
-//                    if(getIntent().getStringExtra("target").matches("3")||getIntent().getStringExtra("target").matches("2")
-//                            ||getIntent().getStringExtra("target").matches("4") ){
 
-//                        if (postspinner.getSelectedItem().toString().matches("Global")){
-//                            FragmentGlobal.changed = 1;
-//                            ProfileActivity.change = 1;
-//                            docRef = firebaseFirestore.collection("Home").document("Global")
-//                                    .collection("Feeds").document();
-//                        }
-//
-//                        else{
-//                            FragmentCampus.changed = 1;
-//                            CommunityActivity.changed = 1;
-//                            docRef = firebaseFirestore.collection("Home").document(CAMPUSNAME)
-//                                    .collection("Feeds").document();
-//                        }
                         docRef = firebaseFirestore.collection("Feeds").document();
 
                         homePostModel = new HomePostModel();
@@ -702,20 +617,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         }
 
                         if(pic!= null){
-                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                            if (postspinner.getSelectedItem().toString().matches("Global")){
-//                                reference = storageReferenece.child("Home/").child("Global/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else if(postspinner.getSelectedItem().toString().matches("Your Campus")){
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else {
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
+
                             reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
 
                             /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                            Toast.makeText(getApplicationContext(), ""+pic.length/1024, Toast.LENGTH_LONG).show();
 
                             reference.putBytes(pic)
                                     .addOnSuccessListener(taskSnapshot ->
@@ -775,222 +680,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         });
 
-//        post_anon.setOnClickListener(v -> {
-//            postusername.setText(R.string.anonymous);
-//            user_image.setImageDrawable(getResources().getDrawable(R.drawable.ic_anonymous_icon));
-//
-//            if(InternetConnection.checkConnection(getApplicationContext())) {
-//                String text_content = postcontent.getText().toString();
-//
-//                if (text_content.isEmpty() && pic == null) {
-//                    Utility.showToast(getApplicationContext(), "Post has got nothing...");
-//                } else {
-//                    if(intent.getStringExtra("target")!=null && intent.getStringExtra("target").matches("100")){
-//                        progressDialog = new ProgressDialog(NewPostHome.this);
-//                        progressDialog.setTitle("Saving changes");
-//                        progressDialog.setMessage("Please wait...");
-//                        progressDialog.show();
-//
-//
-//                        if (postspinner.getSelectedItem().toString().matches("Global")){
-//                            FragmentGlobal.changed = 1;
-//                            ProfileActivity.change = 1;
-//                            docRef = firebaseFirestore.collection("Home").document("Global")
-//                                    .collection("Feeds").document(editPostModel.getDocID());
-//                        }
-//
-//                        else{
-//                            FragmentCampus.changed = 1;
-//                            CommunityActivity.changed = 1;
-//                            docRef = firebaseFirestore.collection("Home").document(CAMPUSNAME)
-//                                    .collection("Feeds").document(editPostModel.getDocID());
-//                        }
-//
-//                        ts = Long.toString(editPostModel.getTs());
-//
-//                        if(selected_tags!= null && selected_tags.size()>0 ) {
-//                            editPostModel.setTagL(selected_tags);
-//                        }
-//                        if(text_content!= null && !text_content.isEmpty()  ) {
-//                            editPostModel.setTxt(text_content.trim());
-//                        }
-//
-//                        if(pic!= null){
-//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                            if (postspinner.getSelectedItem().toString().matches("Global")){
-//                                reference = storageReferenece.child("Home/").child("Global/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else if(postspinner.getSelectedItem().toString().matches("Your Campus")){
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else {
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-////                            Toast.makeText(getApplicationContext(), ""+pic.length/1024, Toast.LENGTH_LONG).show();
-//
-//                            reference.putBytes(pic)
-//                                    .addOnSuccessListener(taskSnapshot ->
-//                                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
-//                                                downloadUri = uri;
-//                                                generatedFilePath = downloadUri.toString();
-//
-//                                                editPostModel.setImg(generatedFilePath);
-//                                                docRef.set(editPostModel).addOnCompleteListener(task -> {
-//                                                    if(task.isSuccessful()){
-//                                                        progressDialog.dismiss();
-//                                                        if(isTaskRoot()){
-//                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                                        }
-//                                                        else {
-//                                                            NewPostHome.super.onBackPressed();
-//                                                        }
-//                                                    }else{
-//                                                        Utility.showToast(getApplicationContext(),"Something went wrong...");
-//
-//                                                    }
-//                                                });
-//
-//                                            }))
-//
-//                                    .addOnFailureListener(e -> {
-//                                        Utility.showToast(getApplicationContext(), "Something went wrong");
-//                                        if(progressDialog!= null)
-//                                            progressDialog.dismiss();
-//                                    });
-//
-//                        }
-//
-//                        else {
-//                            editPostModel.setImg(null);
-//                            docRef.set(editPostModel).addOnCompleteListener(task -> {
-//                                if(task.isSuccessful()){
-//                                    progressDialog.dismiss();
-//
-//                                    if(isTaskRoot()){
-//                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                    }
-//                                    else {
-//                                        NewPostHome.super.onBackPressed();
-//                                    }
-//                                }else{
-//                                    Utility.showToast(getApplicationContext(),"Something went wrong.");
-//
-//                                }
-//                            });
-//                        }
-//
-//                    }
-//
-//                    else {
-//                        Long tsLong = System.currentTimeMillis();
-//                        ts = tsLong.toString();
-//                        progressDialog = new ProgressDialog(NewPostHome.this);
-//                        progressDialog.setTitle("Uploading");
-//                        progressDialog.setMessage("Please wait...");
-//                        progressDialog.show();
-//                        //////////////CAMPUS or CAMPUS COMMUNITIES//////////////
-////                    if (getIntent().getStringExtra("target").matches("3")||getIntent().getStringExtra("target").matches("2")) {
-//
-//                        if (postspinner.getSelectedItem().toString().matches("Global")){
-//                            FragmentGlobal.changed = 1;
-//                            ProfileActivity.change = 1;
-//                            docRef = firebaseFirestore.collection("Home").document("Global")
-//                                    .collection("Feeds").document();
-//                        }
-//                        else {
-//                            FragmentCampus.changed = 1;
-//                            docRef = firebaseFirestore.collection("Home").document(CAMPUSNAME)
-//                                    .collection("Feeds").document();
-//                        }
-//
-//                        homePostModel = new HomePostModel();
-//                        homePostModel.setUsN("Anonymous");
-//
-//                        homePostModel.setNewTs(tsLong);
-//                        homePostModel.setTs(tsLong);
-//                        homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                        if(!postspinner.getSelectedItem().toString().matches("Your Campus")){
-//                            homePostModel.setComID(getIntent().getStringExtra("comID"));
-//                            homePostModel.setComName(getIntent().getStringExtra("comName"));
-//                        }
-//                        if (selected_tags != null && selected_tags.size() > 0) {
-//                            homePostModel.setTagL(selected_tags);
-//                        }
-//                        if (!text_content.isEmpty()) {
-//                            homePostModel.setTxt(text_content.trim());
-//                        }
-//                        if (pic != null) {
-//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                            if (postspinner.getSelectedItem().toString().matches("Global")){
-//                                reference = storageReferenece.child("Home/").child("Global/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else if(postspinner.getSelectedItem().toString().matches("Your Campus")){
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            else {
-//                                reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            }
-//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-////                            Toast.makeText(getApplicationContext(), ""+pic.length/1024, Toast.LENGTH_LONG).show();
-//                            reference.putBytes(pic)
-//                                    .addOnSuccessListener(taskSnapshot ->
-//                                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
-//                                                downloadUri = uri;
-//                                                generatedFilePath = downloadUri.toString();
-//
-//                                                homePostModel.setImg(generatedFilePath);
-//                                                docRef.set(homePostModel).addOnCompleteListener(task -> {
-//                                                    if(task.isSuccessful()){
-//                                                        progressDialog.dismiss();
-//                                                        if(isTaskRoot()){
-//                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                                        }
-//                                                        else {
-//                                                            NewPostHome.super.onBackPressed();
-//                                                        }
-//
-//                                                    }else{
-//                                                        Utility.showToast(getApplicationContext(),"Something went wrong...");
-//
-//                                                    }
-//                                                });
-//
-//                                            }))
-//
-//                                    .addOnFailureListener(e -> {
-//                                        Utility.showToast(getApplicationContext(), "Something went wrong");
-//                                        if(progressDialog!= null)
-//                                            progressDialog.dismiss();
-//                                    });
-//                        } else {
-//                            docRef.set(homePostModel).addOnCompleteListener(task -> {
-//                                if (task.isSuccessful()) {
-//                                    progressDialog.dismiss();
-//                                    if(isTaskRoot()){
-//                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                    }
-//                                    else {
-//                                        NewPostHome.super.onBackPressed();
-//                                    }
-//
-//                                } else {
-//                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
-//
-//                                }
-//                            });
-//                        }
-//                    }
-//
-//                }
-//            }
-//            else{
-//                Utility.showToast(getApplicationContext(), "Network unavailable...");
-//            }
-//
-//        });
-        ///////////////////////POST////////////////////////
-
         customTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1006,12 +695,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-
-//        info.setOnClickListener(v -> {
-//            dialog = new Dialog(NewPostHome.this);
-//            dialog.setContentView(R.layout.dialog_info_post);
-//            dialog.show();
-//        });
 
         cross.setOnClickListener(v -> {
             String text_content = postcontent.getText().toString();
@@ -1118,9 +801,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             selected_tags.remove(position);
             tagAdapter2.notifyItemRemoved(position);
-//                    models.add(tagModel);
-//                    models.sort((o1, o2) -> o1.getName_tag().compareTo(o2.getName_tag()));
-//                    Collections.sort(models);
+
             if(selected_tags.size()==0)
                 tags_selectedRecycler.setVisibility(View.GONE);
 
@@ -1208,15 +889,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
                 pic = baos.toByteArray();
-//                postimage.setImageBitmap(bitmap);
                 String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
                 filePath = Uri.parse(path);
                 finalUri = filePath;
                 imageCompressor = new ImageCompressor(pic);
                 imageCompressor.execute();
 
-//                postimage.setVisibility(View.VISIBLE);
-//                container_image.setVisibility(View.VISIBLE);
 
             }
 
@@ -1225,9 +903,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 Uri resultUri = result.getUri();
                 finalUri = resultUri;
-//                postimage.setVisibility(View.VISIBLE);
-//                postimage.setImageURI(finalUri);
-//                container_image.setVisibility(View.VISIBLE);
 
                 Bitmap bitmap = null;
                 try {
@@ -1387,16 +1062,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             canvas.setMatrix(scaleMatrix);
             canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 4, middleY - bmp.getHeight() / 4, new Paint(Paint.FILTER_BITMAP_FLAG));
 
-//            if(bmp!=null)
-//            {
-//                bmp.recycle();
-//            }
+
             scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight());
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
             byte[] by = out.toByteArray();
-//            bmp.recycle();
-//            scaledBitmap.recycle();
+
             return by;
         }
 
@@ -1404,48 +1075,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         protected void onPostExecute(byte[] picCompressed) {
             if(picCompressed!= null) {
                 pic = picCompressed;
-//                Toast.makeText(getApplicationContext(), ""+ pic.length/1024,Toast.LENGTH_LONG).show();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 ,picCompressed.length);
                 postimage.setImageBitmap(bitmap);
                 container_image.setVisibility(View.VISIBLE);
                 postimage.setVisibility(View.VISIBLE);
-//                /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                if (postspinner.getSelectedItem().toString().matches("Global")){
-//                    reference = storageReferenece.child("Home/").child("Global/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                }
-//                else if(postspinner.getSelectedItem().toString().matches("Your Campus")){
-//                    reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                }
-//                else {
-//                    reference = storageReferenece.child("Home/").child(CAMPUSNAME+"/").child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                }
-//                /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//                reference.putBytes(pic)
-//                        .addOnSuccessListener(taskSnapshot ->
-//                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
-//                                    downloadUri = uri;
-////                                    generatedFilePath = downloadUri.toString();
-//
-//                                    homePostModel.setImg(generatedFilePath);
-//                                    docRef.set(homePostModel).addOnCompleteListener(task -> {
-//                                        if(task.isSuccessful()){
-//                                            progressDialog.dismiss();
-//                                            NewPostHome.super.onBackPressed();
-//
-//                                        }else{
-//                                            Utility.showToast(getApplicationContext(),"Something went wrong...");
-//
-//                                        }
-//                                    });
-//
-//                                }))
-//
-//                        .addOnFailureListener(e -> {
-//                            Utility.showToast(getApplicationContext(), "Something went wrong");
-//                            if(progressDialog!= null)
-//                                 progressDialog.dismiss();
-//
-//                        });           Image i
 
             }
         }
@@ -1510,4 +1143,5 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             imageCompressor.cancel(true);
         }
     }
+
 }

@@ -6,39 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.FeedsFragment">
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
-
-<!--&lt;!&ndash;        <LinearLayout&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/newInstitute"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:visibility="gone"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:orientation="vertical"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_marginBottom="60dp">&ndash;&gt;-->
-
-<!--&lt;!&ndash;            <ImageView&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="280dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:paddingHorizontal="20dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:src="@drawable/ic_new_campus"/>&ndash;&gt;-->
-
-<!--&lt;!&ndash;            <TextView&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/new_institute"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:background="@drawable/ic_helpedittxt"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_margin="20dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:padding="15dp"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:textColorLink="@color/colorPrimary"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:autoLink="all"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:text="We provide the Your Campus feature to our Partner Colleges.\n\nYou have submitted your College name as ''XYZ College''\n\nCurrently your college is not one of our Partner Colleges. For enquiry, contact us at\ncontact@campus24.in"/>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        </LinearLayout>&ndash;&gt;-->
-
-<!--    </androidx.core.widget.NestedScrollView>-->
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

@@ -120,7 +120,7 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
 
-        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setItemViewCacheSize(10);
         mRecyclerView.setDrawingCacheEnabled(true);
         /////////////SETUP//////////////
 
@@ -2464,6 +2464,7 @@ public class CommitteeFragment extends Fragment {
             link_preview2= itemView.findViewById(R.id.LinkPreViewComment2);
         }
     }
+
 
     private void save_Dialog(Bitmap bitmap) {
         Dialog myDialogue = new Dialog(requireActivity());

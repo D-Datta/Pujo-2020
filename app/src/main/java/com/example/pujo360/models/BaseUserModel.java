@@ -1,5 +1,6 @@
 package com.example.pujo360.models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class BaseUserModel {
@@ -15,9 +16,11 @@ public class BaseUserModel {
 
     private String usertype;
 
+    //committee special
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
+    private Timestamp lastVisitTs;
 
     public String getName() {
         return name;
