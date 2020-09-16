@@ -335,7 +335,7 @@ public class CommitteeFragment extends Fragment {
                     intent.putExtra("comID", currentItem.getComID());
 
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    intent.putExtra("postPic", currentItem.getSingle_img());
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("bool", "2");
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
@@ -357,7 +357,7 @@ public class CommitteeFragment extends Fragment {
                     intent.putExtra("comID", currentItem.getComID());
 
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    intent.putExtra("postPic", currentItem.getSingle_img());
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("bool", "3");
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
@@ -378,7 +378,7 @@ public class CommitteeFragment extends Fragment {
                     intent.putExtra("comID", currentItem.getComID());
 
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    intent.putExtra("postPic", currentItem.getSingle_img());
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                     intent.putExtra("bool", "2");
@@ -399,7 +399,7 @@ public class CommitteeFragment extends Fragment {
                     intent.putExtra("comName", currentItem.getComName());
                     intent.putExtra("comID", currentItem.getComID());
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    intent.putExtra("postPic", currentItem.getSingle_img());
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                     intent.putExtra("bool", "2");
@@ -446,38 +446,38 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-//                String postimage_url = currentItem.getImg();
-//                if (postimage_url != null) {
-//                    programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-//                    Picasso.get().load(postimage_url)
-//                            .memoryPolicy(MemoryPolicy.NO_STORE)
-//                            .placeholder(R.drawable.image_background_grey)
-//                            .into(programmingViewHolder.postimage);
-//
-//                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
-//
-//                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-//                            @Override
-//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                save_Dialog(bitmap);
-//                            }
-//
-//                            @Override
-//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            @Override
-//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                            }
-//
-//                        });
-//                        return true;
-//                    });
-//                } else
-//                    programmingViewHolder.postimage.setVisibility(View.GONE);
-//                //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+                String postimage_url = currentItem.getSingle_img();
+                if (postimage_url != null) {
+                    programmingViewHolder.postimage.setVisibility(View.VISIBLE);
+                    Picasso.get().load(postimage_url)
+                            .memoryPolicy(MemoryPolicy.NO_STORE)
+                            .placeholder(R.drawable.image_background_grey)
+                            .into(programmingViewHolder.postimage);
+
+                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
+
+                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                save_Dialog(bitmap);
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            }
+
+                        });
+                        return true;
+                    });
+                } else
+                    programmingViewHolder.postimage.setVisibility(View.GONE);
+                //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 ///////////////////FLAMES AND COMMENTS///////////////////////
 
@@ -769,7 +769,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("comID", currentItem.getComID());
 
                         intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postPic", currentItem.getSingle_img());
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                         intent.putExtra("bool", "2");
@@ -790,7 +790,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("comID", currentItem.getComID());
 
                         intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getImg());
+                        intent.putExtra("postPic", currentItem.getSingle_img());
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                         intent.putExtra("bool", "2");
@@ -825,7 +825,7 @@ public class CommitteeFragment extends Fragment {
                             i.putExtra("dp", currentItem.getDp());
                             i.putExtra("uid", currentItem.getUid());
 
-                            i.putExtra("img", currentItem.getImg());
+                            i.putExtra("img", currentItem.getSingle_img());
                             i.putExtra("txt", currentItem.getTxt());
                             i.putExtra("comID", currentItem.getComID());
                             i.putExtra("comName", currentItem.getComName());
@@ -944,12 +944,10 @@ public class CommitteeFragment extends Fragment {
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         postMenuDialog.show();
-
                     }
                 });
                 ////////POST MENU///////
             }
-
 
             @NonNull
             @Override

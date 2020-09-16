@@ -10,6 +10,8 @@ public class HomePostModel {
 
     private String usN, dp, uid;
     private String txt;
+
+    private String single_img;
     private ArrayList<String> img;
     private String comID, comName;
     private long ts;
@@ -101,6 +103,14 @@ public class HomePostModel {
 
     public ArrayList<String> getImg() {
         return img;
+    }
+
+    public String getSingle_img() {
+        return single_img;
+    }
+
+    public void setSingle_img(String single_img) {
+        this.single_img = single_img;
     }
 
     public void setImg(ArrayList<String> img) {
