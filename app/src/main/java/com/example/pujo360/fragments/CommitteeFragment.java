@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -32,9 +32,10 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
+import com.example.pujo360.ActivityProfileCommittee;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
+import com.example.pujo360.NewPostHome;
 import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.adapters.HomeSliderAdapter;
@@ -70,7 +71,6 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
 import java.util.ArrayList;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
@@ -86,6 +86,7 @@ public class CommitteeFragment extends Fragment {
     private ProgressDialog progressDialog;
     private Dialog  postMenuDialog;
     private FloatingActionButton floatingActionButton;
+    private FloatingActionButton create_post;
 
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME;
@@ -109,7 +110,6 @@ public class CommitteeFragment extends Fragment {
         progressMore = view.findViewById(R.id.progress_more);
 
         //////////////RECYCLER VIEW////////////////////
-
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
         floatingActionButton = view.findViewById(R.id.to_the_top_committee);
@@ -126,7 +126,6 @@ public class CommitteeFragment extends Fragment {
         /////////////SETUP//////////////
 
         buildRecyclerView();
-
         //////////////RECYCLER VIEW////////////////////
 
         IntroPref introPref = new IntroPref(getContext());
@@ -277,13 +276,13 @@ public class CommitteeFragment extends Fragment {
 
                     //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
                     sliderViewHolder.userimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ProfileActivity.class);
+                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     sliderViewHolder.username.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ProfileActivity.class);
+                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
@@ -747,6 +746,48 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
+
+                        sliderViewHolder.commentLayout1.setOnClickListener(v-> {
+                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                            intent.putExtra("username", currentItem.getUsN());
+                            intent.putExtra("userdp", currentItem.getDp());
+                            intent.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                            intent.putExtra("comName", currentItem.getComName());
+                            intent.putExtra("comID", currentItem.getComID());
+
+                            intent.putExtra("likeL", currentItem.getLikeL());
+                            intent.putExtra("postPic", currentItem.getImg());
+                            intent.putExtra("postText", currentItem.getTxt());
+                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                            intent.putExtra("bool", "2");
+
+                            intent.putExtra("uid", currentItem.getUid());
+                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                            startActivity(intent);
+                        });
+
+                        sliderViewHolder.commentLayout2.setOnClickListener(v-> {
+                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                            intent.putExtra("username", currentItem.getUsN());
+                            intent.putExtra("userdp", currentItem.getDp());
+                            intent.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                            intent.putExtra("comName", currentItem.getComName());
+                            intent.putExtra("comID", currentItem.getComID());
+
+                            intent.putExtra("likeL", currentItem.getLikeL());
+                            intent.putExtra("postPic", currentItem.getImg());
+                            intent.putExtra("postText", currentItem.getTxt());
+                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                            intent.putExtra("bool", "2");
+
+                            intent.putExtra("uid", currentItem.getUid());
+                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                            startActivity(intent);
+                        });
                     } else {
                         sliderViewHolder.commentimg.setVisibility(View.GONE);
                         sliderViewHolder.commentCount.setVisibility(View.GONE);
@@ -807,7 +848,7 @@ public class CommitteeFragment extends Fragment {
                                                     .collection("Feeds/").document(currentItem
                                                     .getDocID()).delete()
                                                     .addOnSuccessListener(aVoid -> {
-                                                        ProfileActivity.delete = 1;
+                                                        ActivityProfileCommittee.delete = 1;
                                                         sliderViewHolder.first_post.setVisibility(View.GONE);
                                                         progressDialog.dismiss();
                                                     });
@@ -854,7 +895,6 @@ public class CommitteeFragment extends Fragment {
                             Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             postMenuDialog.show();
 
-
                         } else {
                             postMenuDialog = new BottomSheetDialog(requireActivity());
 
@@ -892,7 +932,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else if(holder.getItemViewType() == 2) {
                     ReelsViewHolder reelsViewHolder = (ReelsViewHolder) holder;
-                    buildReelsRecyclerView(reelsViewHolder.reelsList);
+                    buildReelsRecyclerView(reelsViewHolder.reelsList, reelsViewHolder.reelsLayout);
 
                     ///////////////////FOR THE THIRD POST///////////////////
                     DocumentReference likeStore;
@@ -944,13 +984,13 @@ public class CommitteeFragment extends Fragment {
 
                     //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
                     reelsViewHolder.userimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     reelsViewHolder.username.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
@@ -1096,7 +1136,6 @@ public class CommitteeFragment extends Fragment {
                         } else {
                             reelsViewHolder.LinkPreview.setVisibility(View.GONE);
                         }
-
                     }
 
                     String postimage_url = currentItem.getImg();
@@ -1247,7 +1286,8 @@ public class CommitteeFragment extends Fragment {
                                 flamedModel.setUsername(COMMITTEE_NAME);
                                 flamedModel.setPostUid(currentItem.getUid());
 
-                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                DocumentReference flamedDoc = likeStore.collection("flameL")
+                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
                                 batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
                                 batch.set(flamedDoc, flamedModel);
                                 if (currentItem.getLikeL().size() % 5 == 0) {
@@ -1409,6 +1449,49 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
+
+                        reelsViewHolder.commentLayout1.setOnClickListener(v-> {
+                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                            intent.putExtra("username", currentItem.getUsN());
+                            intent.putExtra("userdp", currentItem.getDp());
+                            intent.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                            intent.putExtra("comName", currentItem.getComName());
+                            intent.putExtra("comID", currentItem.getComID());
+
+                            intent.putExtra("likeL", currentItem.getLikeL());
+                            intent.putExtra("postPic", currentItem.getImg());
+                            intent.putExtra("postText", currentItem.getTxt());
+                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                            intent.putExtra("bool", "2");
+
+                            intent.putExtra("uid", currentItem.getUid());
+                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                            startActivity(intent);
+                        });
+
+                        reelsViewHolder.commentLayout2.setOnClickListener(v-> {
+                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                            intent.putExtra("username", currentItem.getUsN());
+                            intent.putExtra("userdp", currentItem.getDp());
+                            intent.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                            intent.putExtra("comName", currentItem.getComName());
+                            intent.putExtra("comID", currentItem.getComID());
+
+                            intent.putExtra("likeL", currentItem.getLikeL());
+                            intent.putExtra("postPic", currentItem.getImg());
+                            intent.putExtra("postText", currentItem.getTxt());
+                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                            intent.putExtra("bool", "2");
+
+                            intent.putExtra("uid", currentItem.getUid());
+                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                            startActivity(intent);
+                        });
+
                     } else {
                         reelsViewHolder.commentimg.setVisibility(View.GONE);
                         reelsViewHolder.commentCount.setVisibility(View.GONE);
@@ -1469,16 +1552,13 @@ public class CommitteeFragment extends Fragment {
                                             FirebaseFirestore.getInstance()
                                                     .collection("Feeds/").document(currentItem
                                                     .getDocID()).delete()
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            ProfileActivity.delete = 1;
-                                                            reelsViewHolder.itemHome.setVisibility(View.GONE);
-                                                            reelsViewHolder.view1.setVisibility(View.GONE);
-                                                            reelsViewHolder.view2.setVisibility(View.GONE);
-                                                            notifyDataSetChanged();
-                                                            progressDialog.dismiss();
-                                                        }
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        ActivityProfileCommittee.delete = 1;
+                                                        reelsViewHolder.itemHome.setVisibility(View.GONE);
+                                                        reelsViewHolder.view1.setVisibility(View.GONE);
+                                                        reelsViewHolder.view2.setVisibility(View.GONE);
+                                                        notifyDataSetChanged();
+                                                        progressDialog.dismiss();
                                                     });
                                             postMenuDialog.dismiss();
 
@@ -1612,13 +1692,13 @@ public class CommitteeFragment extends Fragment {
 
                     //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
                     programmingViewHolder.userimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     programmingViewHolder.username.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ProfileActivity.class);
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
@@ -1764,7 +1844,6 @@ public class CommitteeFragment extends Fragment {
                         } else {
                             programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                         }
-
                     }
 
                     String postimage_url = currentItem.getImg();
@@ -1822,111 +1901,111 @@ public class CommitteeFragment extends Fragment {
                     //INITIAL SETUP//
 
                     PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
-                            .setScale(PushDownAnim.MODE_STATIC_DP, 6)
-                            .setOnClickListener(v -> {
-                                if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                                    if (currentItem.getLikeL().size() - 1 == 0) {
-                                        programmingViewHolder.likesCount.setVisibility(View.GONE);
-                                        programmingViewHolder.like_image.setVisibility(View.GONE);
-                                    } else{
-                                        programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                                        programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                                        programmingViewHolder.likesCount.setText(currentItem.getLikeL().size());
-                                    }
-                                    ///////////REMOVE CURRENT USER LIKE/////////////
-                                    currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
-                                    currentItem.setLikeCheck(-1);
-
-                                    ///////////////////BATCH WRITE///////////////////
-                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-
-                                    DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                    batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-                                    batch.delete(flamedDoc);
-
-                                    batch.commit().addOnSuccessListener(task -> {
-
-                                    });
-                                    ///////////////////BATCH WRITE///////////////////
-                                } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
-                                    Utility.vibrate(requireActivity());
-                                    if (currentItem.getLikeL().size() == 0){
-                                        programmingViewHolder.like_image.setVisibility(View.GONE);
-                                        programmingViewHolder.likesCount.setVisibility(View.GONE);
-
-                                    }
-                                    else{
-                                        programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                                        programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                                        programmingViewHolder.likesCount.setText( currentItem.getLikeL().size());
-                                    }
-
-                                    //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                                    currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                                    currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
-
-                                    ///////////////////BATCH WRITE///////////////////
-                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                    FlamedModel flamedModel = new FlamedModel();
-                                    long tsLong = System.currentTimeMillis();
-
-                                    flamedModel.setPostID(currentItem.getDocID());
-                                    flamedModel.setTs(tsLong);
-                                    flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(COMMITEE_LOGO);
-                                    flamedModel.setUsername(COMMITTEE_NAME);
-                                    flamedModel.setPostUid(currentItem.getUid());
-
-                                    DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                    batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                    batch.set(flamedDoc, flamedModel);
-                                    if (currentItem.getLikeL().size() % 5 == 0) {
-                                        batch.update(likeStore, "newTs", tsLong);
-                                    }
-                                    batch.commit().addOnSuccessListener(task -> {
-
-                                    });
-                                    ///////////////////BATCH WRITE///////////////////
-                                } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                    Utility.vibrate(requireActivity());
+                        .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+                        .setOnClickListener(v -> {
+                            if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                                if (currentItem.getLikeL().size() - 1 == 0) {
+                                    programmingViewHolder.likesCount.setVisibility(View.GONE);
+                                    programmingViewHolder.like_image.setVisibility(View.GONE);
+                                } else{
                                     programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
                                     programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                                    if (currentItem.getLikeL() != null){
-                                        programmingViewHolder.likesCount.setText(currentItem.getLikeL().size() + 1);
-                                    }
-                                    else{
-                                        programmingViewHolder.likesCount.setText("1");
-                                    }
-
-                                    //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                                    currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                                    currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
-                                    //For local changes current item like added to remote list end
-
-                                    ///////////////////BATCH WRITE///////////////////
-                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                    FlamedModel flamedModel = new FlamedModel();
-                                    long tsLong = System.currentTimeMillis();
-
-                                    flamedModel.setPostID(currentItem.getDocID());
-                                    flamedModel.setTs(tsLong);
-                                    flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(COMMITEE_LOGO);
-                                    flamedModel.setUsername(COMMITTEE_NAME);
-                                    flamedModel.setPostUid(currentItem.getUid());
-
-                                    DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                    batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                    batch.set(flamedDoc, flamedModel);
-                                    if (currentItem.getLikeL().size() % 5 == 0) {
-                                        batch.update(likeStore, "newTs", tsLong);
-                                    }
-                                    batch.commit().addOnSuccessListener(task -> {
-
-                                    });
-                                    ///////////////////BATCH WRITE///////////////////
+                                    programmingViewHolder.likesCount.setText(currentItem.getLikeL().size());
                                 }
-                            });
+                                ///////////REMOVE CURRENT USER LIKE/////////////
+                                currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(-1);
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                batch.delete(flamedDoc);
+
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
+                                Utility.vibrate(requireActivity());
+                                if (currentItem.getLikeL().size() == 0){
+                                    programmingViewHolder.like_image.setVisibility(View.GONE);
+                                    programmingViewHolder.likesCount.setVisibility(View.GONE);
+
+                                }
+                                else{
+                                    programmingViewHolder.like_image.setVisibility(View.VISIBLE);
+                                    programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
+                                    programmingViewHolder.likesCount.setText( currentItem.getLikeL().size());
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                                Utility.vibrate(requireActivity());
+                                programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
+                                programmingViewHolder.like_image.setVisibility(View.VISIBLE);
+                                if (currentItem.getLikeL() != null){
+                                    programmingViewHolder.likesCount.setText(currentItem.getLikeL().size() + 1);
+                                }
+                                else{
+                                    programmingViewHolder.likesCount.setText("1");
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                                //For local changes current item like added to remote list end
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            }
+                        });
 
 
                     if (currentItem.getCmtNo() > 0) {
@@ -2079,6 +2158,49 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
+
+                        programmingViewHolder.commentLayout1.setOnClickListener(v-> {
+                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                            intent.putExtra("username", currentItem.getUsN());
+                            intent.putExtra("userdp", currentItem.getDp());
+                            intent.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                            intent.putExtra("comName", currentItem.getComName());
+                            intent.putExtra("comID", currentItem.getComID());
+
+                            intent.putExtra("likeL", currentItem.getLikeL());
+                            intent.putExtra("postPic", currentItem.getImg());
+                            intent.putExtra("postText", currentItem.getTxt());
+                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                            intent.putExtra("bool", "2");
+
+                            intent.putExtra("uid", currentItem.getUid());
+                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                            startActivity(intent);
+                        });
+
+                        programmingViewHolder.commentLayout2.setOnClickListener(v-> {
+                            Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                            intent.putExtra("username", currentItem.getUsN());
+                            intent.putExtra("userdp", currentItem.getDp());
+                            intent.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                            intent.putExtra("comName", currentItem.getComName());
+                            intent.putExtra("comID", currentItem.getComID());
+
+                            intent.putExtra("likeL", currentItem.getLikeL());
+                            intent.putExtra("postPic", currentItem.getImg());
+                            intent.putExtra("postText", currentItem.getTxt());
+                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                            intent.putExtra("bool", "2");
+
+                            intent.putExtra("uid", currentItem.getUid());
+                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                            intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                            startActivity(intent);
+                        });
+
                     } else {
                         programmingViewHolder.commentimg.setVisibility(View.GONE);
                         programmingViewHolder.commentCount.setVisibility(View.GONE);
@@ -2139,16 +2261,13 @@ public class CommitteeFragment extends Fragment {
                                             FirebaseFirestore.getInstance()
                                                     .collection("Feeds/").document(currentItem
                                                     .getDocID()).delete()
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            ProfileActivity.delete = 1;
-                                                            programmingViewHolder.itemHome.setVisibility(View.GONE);
-                                                            programmingViewHolder.view1.setVisibility(View.GONE);
-                                                            programmingViewHolder.view2.setVisibility(View.GONE);
-                                                            notifyDataSetChanged();
-                                                            progressDialog.dismiss();
-                                                        }
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        ActivityProfileCommittee.delete = 1;
+                                                        programmingViewHolder.itemHome.setVisibility(View.GONE);
+                                                        programmingViewHolder.view1.setVisibility(View.GONE);
+                                                        programmingViewHolder.view2.setVisibility(View.GONE);
+                                                        notifyDataSetChanged();
+                                                        progressDialog.dismiss();
                                                     });
                                             postMenuDialog.dismiss();
 
@@ -2304,7 +2423,7 @@ public class CommitteeFragment extends Fragment {
         public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            sliderView = itemView.findViewById(R.id.imageSlider);
+            sliderView = itemView.findViewById(R.id.image_slider);
 
             tagList = itemView.findViewById(R.id.tagsList66);
             username = itemView.findViewById(R.id.username);
@@ -2347,7 +2466,7 @@ public class CommitteeFragment extends Fragment {
         TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels;
         ImageView userimage, postimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, commentLayout1, commentLayout2;
+        LinearLayout itemHome, commentLayout1, commentLayout2, reelsLayout;
         RecyclerView tagList, reelsList;
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
@@ -2396,6 +2515,7 @@ public class CommitteeFragment extends Fragment {
 
             view_all_reels = itemView.findViewById(R.id.view_all_reels);
             reelsList = itemView.findViewById(R.id.reelsRecycler);
+            reelsLayout = itemView.findViewById(R.id.reels_layout);
         }
     }
 
@@ -2454,7 +2574,7 @@ public class CommitteeFragment extends Fragment {
         }
     }
 
-    private void buildReelsRecyclerView(RecyclerView reelsList) {
+    private void buildReelsRecyclerView(RecyclerView reelsList, LinearLayout reelsLayout) {
         reelsList.setHasFixedSize(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -2488,9 +2608,112 @@ public class CommitteeFragment extends Fragment {
 
         reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel model) {
-                holder.video_time.setText(model.getDuration());
+            protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
+                holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
+                holder.video_time.setText(currentItem.getDuration());
+                holder.pujo_com_name.setText(currentItem.getCommittee_name());
 
+                if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
+                    Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(holder.pujo_com_dp, new Callback() {
+                                @Override
+                                public void onSuccess() { }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            });
+
+                } else {
+                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+
+                holder.reels_more.setOnClickListener(v -> {
+                    if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                        postMenuDialog = new BottomSheetDialog(requireActivity());
+
+                        postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
+                        postMenuDialog.setCanceledOnTouchOutside(TRUE);
+                        postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
+
+                        postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setTitle("Are you sure?")
+                                    .setMessage("Reel will be deleted permanently")
+                                    .setPositiveButton("Delete", (dialog, which) -> {
+                                        progressDialog = new ProgressDialog(requireActivity());
+                                        progressDialog.setTitle("Deleting Reel");
+                                        progressDialog.setMessage("Please wait...");
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
+                                        FirebaseFirestore.getInstance()
+                                                .collection("Reels/").document(currentItem.getDocID()).delete()
+                                                .addOnSuccessListener(aVoid -> {
+                                                    ActivityProfileCommittee.delete = 1;
+                                                    holder.itemView.setVisibility(View.GONE);
+                                                    progressDialog.dismiss();
+                                                });
+                                        postMenuDialog.dismiss();
+
+                                    })
+                                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                    .setCancelable(true)
+                                    .show();
+                        });
+
+                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
+                            String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
+                            Intent i = new Intent();
+                            i.setAction(Intent.ACTION_SEND);
+                            i.putExtra(Intent.EXTRA_TEXT, link);
+                            i.setType("text/plain");
+                            startActivity(Intent.createChooser(i, "Share with"));
+                            postMenuDialog.dismiss();
+                        });
+
+                        postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v1 -> {
+                            FirebaseFirestore.getInstance()
+                                    .collection("Reels/").document(currentItem.getDocID())
+                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                            postMenuDialog.dismiss();
+
+                        });
+
+                        Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        postMenuDialog.show();
+
+                    } else {
+                        postMenuDialog = new BottomSheetDialog(requireActivity());
+
+                        postMenuDialog.setContentView(R.layout.dialog_post_menu);
+                        postMenuDialog.setCanceledOnTouchOutside(TRUE);
+
+                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
+                            String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
+                            Intent i = new Intent();
+                            i.setAction(Intent.ACTION_SEND);
+                            i.putExtra(Intent.EXTRA_TEXT, link);
+                            i.setType("text/plain");
+                            startActivity(Intent.createChooser(i, "Share with"));
+                            postMenuDialog.dismiss();
+
+                        });
+
+                        postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
+                            FirebaseFirestore.getInstance()
+                                    .collection("Reels/").document(currentItem.getDocID())
+                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                            postMenuDialog.dismiss();
+
+                        });
+                        Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        postMenuDialog.show();
+                    }
+                });
             }
 
             @NonNull
@@ -2503,6 +2726,19 @@ public class CommitteeFragment extends Fragment {
 
             @Override
             public int getItemViewType(int position) { return position; }
+
+            @Override
+            protected void onLoadingStateChanged(@NonNull LoadingState state) {
+                super.onLoadingStateChanged(state);
+                if (state == LoadingState.FINISHED) {
+                    if (reelsAdapter.getItemCount() == 0) {
+                        reelsLayout.setVisibility(View.GONE);
+                    }
+                    else {
+                        reelsLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
         };
 
         reelsList.setAdapter(reelsAdapter);
@@ -2513,7 +2749,7 @@ public class CommitteeFragment extends Fragment {
         RelativeLayout item_reels;
         VideoView item_reels_video;
         TextView video_time;
-        ImageView pujo_com_dp;
+        ImageView pujo_com_dp, reels_more;
         TextView pujo_com_name;
 
         ReelsItemViewHolder(View itemView) {
@@ -2524,6 +2760,7 @@ public class CommitteeFragment extends Fragment {
             video_time = itemView.findViewById(R.id.video_time);
             pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
             pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
+            reels_more =  itemView.findViewById(R.id.reels_more);
         }
     }
 
@@ -2555,24 +2792,25 @@ public class CommitteeFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
             onResume();
-            CommitteeFragment homeFragment = (HomeFragment) getParentFragment();
-            homeFragment.createPost.setVisibility(View.VISIBLE);
-            homeFragment.createPost.setOnClickListener(v -> {
-                if(InternetConnection.checkConnection(getContext())){
+            if(new IntroPref(requireActivity()).getType().matches("Committee")) {
+                create_post.setVisibility(View.VISIBLE);
+                create_post.setOnClickListener(v -> {
+                    if(InternetConnection.checkConnection(requireActivity())){
 
-                    Intent intent =  new Intent(getContext(), NewPostHome.class);
-                    intent.putExtra("target", "2");
-                    startActivity(intent);
-                }
-                else
-                    Utility.showToast(getContext(), "Network Unavailable...");
-            });
+                        Intent intent =  new Intent(requireActivity(), NewPostHome.class);
+                        intent.putExtra("target", "2");
+                        startActivity(intent);
+                    }
+                    else
+                        Utility.showToast(requireActivity(), "Network Unavailable...");
+                });
+            }
         }
     }
 
     @Override
     public void onResume() {
-        if(changed >0 || delete >0){
+        if(changed > 0 || delete > 0){
             buildRecyclerView();
             changed = 0;
             delete = 0;

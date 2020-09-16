@@ -14,6 +14,8 @@ public class ReelsPostModel {
     private String docID;
     private String headline;
 
+    private String uid;
+
     private long ts;
     private long cmtNo;
 
@@ -53,6 +55,15 @@ public class ReelsPostModel {
     public String getHeadline() {
         return headline;
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
 
     public void setHeadline(String headline) {
         this.headline = headline;

@@ -7,48 +7,56 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/light_background"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:fontFamily="@font/oxygen_regular"
-        android:paddingHorizontal="20dp"
-        android:gravity="center_vertical"
-        android:paddingVertical="5dp"
-        android:text="@string/short_videos"
-        android:textSize="18dp" />
-
     <LinearLayout
+        android:id="@+id/reels_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reelsRecycler"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="128dp"
-            android:clipToPadding="false"
-            android:paddingBottom="10dp" />
+            android:layout_height="8dp"
+            android:background="@color/light_background"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:fontFamily="@font/oxygen_regular"
+            android:paddingHorizontal="20dp"
+            android:gravity="center_vertical"
+            android:paddingVertical="5dp"
+            android:text="@string/short_videos"
+            android:textSize="18dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reelsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:clipToPadding="false"
+                android:paddingBottom="10dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/view_all_reels"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:fontFamily="@font/oxygen_regular"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="8dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/see_all"
+            android:textSize="18dp" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/view_all_reels"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:fontFamily="@font/oxygen_regular"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="8dp"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:text="@string/see_all"
-        android:textSize="18dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

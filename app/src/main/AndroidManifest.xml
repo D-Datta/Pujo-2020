@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityProfileUser"></activity>
+        <activity android:name=".ActivityProfileCommittee"></activity>
+        <activity android:name=".ActivityProfileUser" />
         <activity android:name=".SearchCityState" />
         <activity android:name=".registration.RegIndividual" />
         <activity android:name=".registration.RegPujoCommittee" />
