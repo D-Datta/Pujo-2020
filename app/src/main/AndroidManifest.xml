@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReelsActivity"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".ReelsActivity" />
         <activity android:name=".ActivityProfileCommittee" />
         <activity android:name=".ActivityProfileUser" />
         <activity android:name=".SearchCityState" />
@@ -68,6 +69,9 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProfilePictureActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CommitteeViewAll"
             android:screenOrientation="portrait" />
