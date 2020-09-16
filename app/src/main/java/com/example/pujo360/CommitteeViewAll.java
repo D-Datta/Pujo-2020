@@ -48,7 +48,7 @@ public class CommitteeViewAll extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_community_view_all);
+        setContentView(R.layout.activity_committee_view_all);
 
         Toolbar toolbar = findViewById(R.id.toolbar6);
         setSupportActionBar(toolbar);
