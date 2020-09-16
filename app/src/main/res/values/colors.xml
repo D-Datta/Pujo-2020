@@ -26,6 +26,7 @@
 
     <color name="lightblue1">#DFCCFA</color>
     <color name="red">#B30F0F</color>
+    <color name="ingr_red1">#FFCC0000</color>
 
     //dots inactive colors
     <color name="inactive_one">#7EAFAEAE</color>
