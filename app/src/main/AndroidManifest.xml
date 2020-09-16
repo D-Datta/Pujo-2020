@@ -22,8 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".WalkthroughActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".ReelsActivity"/>
 
         <activity
             android:name=".Splash"

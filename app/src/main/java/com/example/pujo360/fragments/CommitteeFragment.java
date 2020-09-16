@@ -80,6 +80,7 @@ public class CommitteeFragment extends Fragment {
 
     public static int changed = 0;
     public static int delete = 0;
+    public static int swipe = 0;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressMore, contentProgress;
@@ -128,7 +129,7 @@ public class CommitteeFragment extends Fragment {
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
-        IntroPref introPref = new IntroPref(getContext());
+        IntroPref introPref = new IntroPref(getActivity());
         COMMITEE_LOGO = introPref.getUserdp();
         COMMITTEE_NAME = introPref.getFullName();
 
@@ -2810,10 +2811,13 @@ public class CommitteeFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if(changed > 0 || delete > 0){
+        if((changed > 0 || delete > 0) && swipe == 0){
             buildRecyclerView();
             changed = 0;
             delete = 0;
+        }
+        else {
+            swipe = 1;
         }
         super.onResume();
     }
