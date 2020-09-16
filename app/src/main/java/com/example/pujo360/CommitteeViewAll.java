@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,12 +49,12 @@ public class CommitteeViewAll extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_committee_view_all);
 
-        Toolbar toolbar = findViewById(R.id.toolbar6);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_search_24);
 
 
         progress = findViewById(R.id.progress);
@@ -76,7 +77,6 @@ public class CommitteeViewAll extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
         });
-
 
     }
 
@@ -218,10 +218,11 @@ public class CommitteeViewAll extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            super.onBackPressed();
+            Toast.makeText(getApplicationContext(), "Go to Search Activity", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
