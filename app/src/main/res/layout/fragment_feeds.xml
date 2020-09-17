@@ -185,7 +185,7 @@
                     android:background="#e2e2e2"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="45dp"
-                    android:src="@drawable/ic_no_posts"
+                    android:src="@drawable/durga_ma2"
                     android:visibility="gone" />
 
             </LinearLayout>
@@ -243,6 +243,21 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_post_ind"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_add_white_24dp"
+        android:tint="@color/colorPrimary"
+        app:fabCustomSize="50dp"
+        android:layout_marginEnd="10dp"
+        android:scaleType="fitXY"
+        app:rippleColor="@color/white"
+        app:elevation="10dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="115dp"
+        android:padding="5dp"/>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

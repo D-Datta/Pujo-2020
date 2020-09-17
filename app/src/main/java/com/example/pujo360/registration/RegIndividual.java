@@ -251,7 +251,7 @@ public class RegIndividual extends AppCompatActivity
                     baseUserModel.setAddressline(ADDRESS);
                     baseUserModel.setCity(CITY);
                     baseUserModel.setState(STATE);
-                    baseUserModel.setType("Individual");
+                    baseUserModel.setType(introPref.getType());
 
                     individualModel = new IndividualModel();
                     individualModel.setFirstname(FNAME);

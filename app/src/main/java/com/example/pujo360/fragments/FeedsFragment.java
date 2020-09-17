@@ -46,6 +46,7 @@ import com.example.pujo360.models.BaseUserModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.preferences.IntroPref;
+import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
 
@@ -71,6 +72,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -83,7 +85,7 @@ public class FeedsFragment extends Fragment {
     private ImageView noPostYet1;
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
-    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton create_post, floatingActionButton;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
@@ -128,7 +130,13 @@ public class FeedsFragment extends Fragment {
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
         floatingActionButton = view.findViewById(R.id.to_the_top_campus);
+        create_post = view.findViewById(R.id.create_post_ind);
         noPostYet1= view.findViewById(R.id.no_recent_com_post1);
+
+        if(introPref.getType().matches("com"))
+        {
+            create_post.setVisibility(View.GONE);
+        }
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -149,6 +157,16 @@ public class FeedsFragment extends Fragment {
         campusLL = view.findViewById(R.id.campusLL);
         LL = view.findViewById(R.id.LL);
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
+
+        create_post.setOnClickListener(v -> {
+            if(InternetConnection.checkConnection(getContext())){
+                Intent i= new Intent(getContext(), NewPostHome.class);
+                i.putExtra("target", "2");
+                startActivity(i);
+            }
+            else
+                Utility.showToast(getContext(), "Network Unavailable...");
+        });
 
 
         buildRecyclerView();
@@ -412,7 +430,11 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("comID", currentItem.getComID());
 
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                        intent.putExtra("BUNDLE", args);
+                    }
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("bool", "3");
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
@@ -434,7 +456,11 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("comID", currentItem.getComID());
 
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                        intent.putExtra("BUNDLE", args);
+                    }
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("bool", "3");
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
@@ -455,7 +481,11 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("comName", currentItem.getComName());
                     intent.putExtra("comID", currentItem.getComID());
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                        intent.putExtra("BUNDLE", args);
+                    }
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                     intent.putExtra("bool", "3");
@@ -478,7 +508,11 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("comID", currentItem.getComID());
                     //            intent.putExtra("tagL", currentItem.getTagL());
                     intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getImg());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                        intent.putExtra("BUNDLE", args);
+                    }
                     intent.putExtra("postText", currentItem.getTxt());
                     intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                     intent.putExtra("bool", "3");
@@ -717,11 +751,17 @@ public class FeedsFragment extends Fragment {
                             i.putExtra("usN", currentItem.getUsN());
                             i.putExtra("dp", currentItem.getDp());
                             i.putExtra("uid", currentItem.getUid());
+                            i.putExtra("type", currentItem.getType());
 
-                            i.putExtra("img", currentItem.getImg());
+                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                Bundle args = new Bundle();
+                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                i.putExtra("BUNDLE", args);
+                            }
                             i.putExtra("txt", currentItem.getTxt());
                             i.putExtra("comID", currentItem.getComID());
                             i.putExtra("comName", currentItem.getComName());
+                            i.putExtra("type", currentItem.getType());
 
                             i.putExtra("ts", Long.toString(currentItem.getTs()));
                             i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
