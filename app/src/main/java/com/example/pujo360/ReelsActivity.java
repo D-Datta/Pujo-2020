@@ -44,6 +44,7 @@ public class ReelsActivity extends AppCompatActivity {
 
     private RecyclerView reelsList;
     private String COMMITTEE_LOGO, COMMITTEE_NAME;
+    private FirestorePagingAdapter reelsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,7 @@ public class ReelsActivity extends AppCompatActivity {
                 })
                 .build();
 
-        FirestorePagingAdapter reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+        reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
@@ -196,8 +197,14 @@ public class ReelsActivity extends AppCompatActivity {
                         holder.likesCount.setVisibility(View.VISIBLE);
                         holder.likesCount.setText(currentItem.getLikeL().size());
 
-                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
-                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                        holder.like_image.setOnClickListener(v -> {
+                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
+                            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                        });
+                        holder.likesCount.setOnClickListener(v -> {
+                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
+                            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                        });
                     }
                 } else {
                     holder.like_image.setVisibility(View.GONE);
@@ -209,6 +216,9 @@ public class ReelsActivity extends AppCompatActivity {
                 PushDownAnim.setPushDownAnimTo(holder.like)
                     .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                     .setOnClickListener(v -> {
+
+                        //play animation, play audio
+
                         if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
                             if (currentItem.getLikeL().size() - 1 == 0) {
                                 holder.likesCount.setVisibility(View.GONE);
@@ -230,9 +240,10 @@ public class ReelsActivity extends AppCompatActivity {
                             batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                             batch.delete(flamedDoc);
 
-                            batch.commit().addOnSuccessListener(task -> { });
+                            batch.commit().addOnSuccessListener(task -> reelsAdapter.notifyDataSetChanged());
                             ///////////////////BATCH WRITE///////////////////
-                        } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
+                        }
+                        else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
                             Utility.vibrate(getApplicationContext());
                             if (currentItem.getLikeL().size() == 0) {
                                 holder.like_image.setVisibility(View.GONE);
@@ -268,9 +279,10 @@ public class ReelsActivity extends AppCompatActivity {
                             if (currentItem.getLikeL().size() % 5 == 0) {
                                 batch.update(likeStore, "newTs", tsLong);
                             }
-                            batch.commit().addOnSuccessListener(task -> { });
+                            batch.commit().addOnSuccessListener(task -> reelsAdapter.notifyDataSetChanged());
                             ///////////////////BATCH WRITE///////////////////
-                        } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                        }
+                        else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(getApplicationContext());
                             holder.likesCount.setVisibility(View.VISIBLE);
                             holder.like_image.setVisibility(View.VISIBLE);
@@ -305,7 +317,7 @@ public class ReelsActivity extends AppCompatActivity {
                             if (currentItem.getLikeL().size() % 5 == 0) {
                                 batch.update(likeStore, "newTs", tsLong);
                             }
-                            batch.commit().addOnSuccessListener(task -> { });
+                            batch.commit().addOnSuccessListener(task -> reelsAdapter.notifyDataSetChanged());
                             ///////////////////BATCH WRITE///////////////////
                         }
                     });
@@ -317,13 +329,25 @@ public class ReelsActivity extends AppCompatActivity {
                     holder.commentCount.setVisibility(View.VISIBLE);
                     holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog(currentItem.getDocID());
-                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                } else {
+                    holder.commentimg.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog(currentItem.getDocID());
+                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                    });
+                    holder.commentCount.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog(currentItem.getDocID());
+                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                    });
+                }
+                else {
                     holder.commentimg.setVisibility(View.GONE);
                     holder.commentCount.setVisibility(View.GONE);
                 }
                 /////COMMENT/////
+
+                holder.comment.setOnClickListener(v -> {
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog(currentItem.getDocID());
+                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                });
             }
 
             @NonNull
