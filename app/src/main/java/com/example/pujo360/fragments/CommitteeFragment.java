@@ -828,7 +828,7 @@ public class CommitteeFragment extends Fragment {
                                     progressDialog.setCancelable(false);
                                     progressDialog.show();
                                     FirebaseFirestore.getInstance()
-                                        .collection("Feeds/").document(currentItem
+                                        .collection("Feeds").document(currentItem
                                         .getDocID()).delete()
                                         .addOnSuccessListener(aVoid -> {
                                             ActivityProfileCommittee.delete = 1;
@@ -857,7 +857,7 @@ public class CommitteeFragment extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                             FirebaseFirestore.getInstance()
-                                    .collection("Feeds/").document(currentItem.getDocID())
+                                    .collection("Feeds").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                     .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
@@ -883,7 +883,7 @@ public class CommitteeFragment extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                             FirebaseFirestore.getInstance()
-                                .collection("Feeds/").document(currentItem.getDocID())
+                                .collection("Feeds").document(currentItem.getDocID())
                                 .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                 .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
@@ -1017,14 +1017,14 @@ public class CommitteeFragment extends Fragment {
 
         if(lastVisible != null) {
             query = FirebaseFirestore.getInstance()
-                    .collection("Reels/")
+                    .collection("Reels")
                     .orderBy("ts", Query.Direction.DESCENDING)
                     .limit(10)
                     .startAfter(lastVisible);
         }
         else {
             query = FirebaseFirestore.getInstance()
-                    .collection("Reels/")
+                    .collection("Reels")
                     .orderBy("ts", Query.Direction.DESCENDING)
                     .limit(10);
         }
@@ -1093,7 +1093,7 @@ public class CommitteeFragment extends Fragment {
                                         progressDialog.setCancelable(false);
                                         progressDialog.show();
                                         FirebaseFirestore.getInstance()
-                                            .collection("Reels/").document(currentItem.getDocID()).delete()
+                                            .collection("Reels").document(currentItem.getDocID()).delete()
                                             .addOnSuccessListener(aVoid -> {
                                                 ActivityProfileCommittee.delete = 1;
                                                 holder.itemView.setVisibility(View.GONE);
@@ -1118,7 +1118,7 @@ public class CommitteeFragment extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v1 -> {
                             FirebaseFirestore.getInstance()
-                                    .collection("Reels/").document(currentItem.getDocID())
+                                    .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                     .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
                             postMenuDialog.dismiss();
@@ -1144,7 +1144,7 @@ public class CommitteeFragment extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                             FirebaseFirestore.getInstance()
-                                    .collection("Reels/").document(currentItem.getDocID())
+                                    .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                     .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
                             postMenuDialog.dismiss();

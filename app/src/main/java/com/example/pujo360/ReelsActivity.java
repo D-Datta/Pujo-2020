@@ -103,7 +103,7 @@ public class ReelsActivity extends AppCompatActivity {
 
     private void buildReelsRecyclerView() {
         Query query = FirebaseFirestore.getInstance()
-                .collection("Reels/")
+                .collection("Reels")
                 .orderBy("ts", Query.Direction.DESCENDING);
 
         PagedList.Config config = new PagedList.Config.Builder()
