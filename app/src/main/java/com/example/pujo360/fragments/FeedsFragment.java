@@ -204,7 +204,7 @@ public class FeedsFragment extends Fragment {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds")
-                .whereEqualTo("type", "user")
+                .whereEqualTo("type", "indi")
                 .orderBy("newTs", Query.Direction.DESCENDING);
 
         PagedList.Config config = new PagedList.Config.Builder()

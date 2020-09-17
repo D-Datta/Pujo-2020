@@ -171,7 +171,7 @@ public class CommitteeFragment extends Fragment {
     private void buildRecyclerView() {
 
         Query query = FirebaseFirestore.getInstance()
-                .collection("Feeds/")
+                .collection("Feeds")
                 .whereEqualTo("type", "com")
                 .orderBy("newTs", Query.Direction.DESCENDING);
 
@@ -1015,7 +1015,7 @@ public class CommitteeFragment extends Fragment {
         reelsList.setDrawingCacheEnabled(true);
 
         Query query = FirebaseFirestore.getInstance()
-                .collection("Reels/")
+                .collection("Reels")
                 .orderBy("ts", Query.Direction.DESCENDING)
                 .limit(10);
 
