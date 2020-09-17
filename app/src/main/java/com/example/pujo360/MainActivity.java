@@ -49,12 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Objects.requireNonNull(manager).createNotificationChannel(channel);
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) { }
-        });
+        FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(task -> { });
         ///////////////NOTIFICATIONS///////////////////
-
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
