@@ -76,7 +76,6 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 Intent intent = new Intent(mContext, DisplayPictureActivity.class);
                 intent.putExtra("from", "assignment");
                 intent.putExtra("Bitmap", currentItem);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }
         });
