@@ -1003,6 +1003,7 @@ public class CommitteeFragment extends Fragment {
         }
     }
 
+
     private void buildReelsRecyclerView(RecyclerView reelsList, LinearLayout reelsLayout) {
         reelsList.setHasFixedSize(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -1164,6 +1165,7 @@ public class CommitteeFragment extends Fragment {
         };
         reelsList.setAdapter(reelsAdapter);
     }
+
 
     private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 

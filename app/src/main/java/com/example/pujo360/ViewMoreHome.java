@@ -407,30 +407,30 @@ public class ViewMoreHome extends AppCompatActivity {
 
             ////////////////POST PIC///////////////
             if(i.getStringExtra("postPic")!=null && !i.getStringExtra("postPic").isEmpty()){
-                homePostModel[0].setImg(i.getStringExtra("postPic"));
-                displaypic.setVisibility(View.VISIBLE);
-                Picasso.get().load(homePostModel[0].getImg()).placeholder(R.drawable.image_background_grey).into(displaypic);
-                displaypic.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Picasso.get().load(homePostModel[0].getImg()).into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                save_Dialog(bitmap);
-                            }
-                            @Override
-                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                            }
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
-
-                        });
-                        return true;
-                    }
-                });
+//                homePostModel[0].setImg(i.getStringExtra("postPic"));
+//                displaypic.setVisibility(View.VISIBLE);
+//                Picasso.get().load(homePostModel[0].getImg()).placeholder(R.drawable.image_background_grey).into(displaypic);
+//                displaypic.setOnLongClickListener(new View.OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View v) {
+//                        Picasso.get().load(homePostModel[0].getImg()).into(new Target() {
+//                            @Override
+//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                                save_Dialog(bitmap);
+//                            }
+//                            @Override
+//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+//                                Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                            }
+//                            @Override
+//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                            }
+//
+//                        });
+//                        return true;
+//                    }
+//                });
 
             }
             else {
@@ -860,29 +860,29 @@ public class ViewMoreHome extends AppCompatActivity {
 
                                 ////////////////POST PIC///////////////
                                 if(homePostModel[0].getImg() != null && !homePostModel[0].getImg().isEmpty()){
-                                    displaypic.setVisibility(View.VISIBLE);
-                                    Picasso.get().load(homePostModel[0].getImg()).placeholder(R.drawable.image_background_grey).into(displaypic);
-                                    displaypic.setOnLongClickListener(new View.OnLongClickListener() {
-                                        @Override
-                                        public boolean onLongClick(View v) {
-                                            Picasso.get().load(homePostModel[0].getImg()).into(new Target() {
-                                                @Override
-                                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                                    save_Dialog(bitmap);
-                                                }
-                                                @Override
-                                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                                }
-                                                @Override
-                                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                                }
-
-                                            });
-                                            return true;
-                                        }
-                                    });
+//                                    displaypic.setVisibility(View.VISIBLE);
+//                                    Picasso.get().load(homePostModel[0].getImg()).placeholder(R.drawable.image_background_grey).into(displaypic);
+//                                    displaypic.setOnLongClickListener(new View.OnLongClickListener() {
+//                                        @Override
+//                                        public boolean onLongClick(View v) {
+//                                            Picasso.get().load(homePostModel[0].getImg()).into(new Target() {
+//                                                @Override
+//                                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                                                    save_Dialog(bitmap);
+//                                                }
+//                                                @Override
+//                                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+//                                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                                @Override
+//                                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                                                }
+//
+//                                            });
+//                                            return true;
+//                                        }
+//                                    });
 
                                 }
                                 else {
