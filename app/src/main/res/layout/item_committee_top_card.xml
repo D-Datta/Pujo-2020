@@ -43,7 +43,7 @@
                 android:paddingTop="7dp"
                 android:gravity="center"
                 android:paddingHorizontal="5dp"
-                android:textColor="@color/purple"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"

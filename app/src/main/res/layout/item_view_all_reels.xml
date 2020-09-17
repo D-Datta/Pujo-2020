@@ -78,7 +78,7 @@
                 android:id="@+id/pujo_com_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/pujo_committee"
+                android:text="@string/pujo_committees"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:fontFamily="@font/oxygen_ex_bold"

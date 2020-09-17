@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp">
+            android:layout_height="40dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="5dp"
                 android:layout_centerVertical="true"
-                android:text="Utsav Pujo"
+                android:text="@string/pujo_committees"
                 android:textSize="18sp" />
 
             <TextView
@@ -33,6 +33,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="8dp"
                 android:layout_marginVertical="5dp"
+                android:layout_centerVertical="true"
                 android:layout_marginHorizontal="5dp"
                 android:text="View all "
                 android:background="@drawable/custom_ripple_white"

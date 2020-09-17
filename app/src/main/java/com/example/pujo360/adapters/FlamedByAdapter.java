@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.pujo360.ActivityProfileUser;
 import com.example.pujo360.R;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.util.Utility;
@@ -98,9 +99,9 @@ public class FlamedByAdapter extends RecyclerView.Adapter<FlamedByAdapter.Progra
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ProfileActivity.class);
-//                intent.putExtra("uid",currentItem.getUid());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ActivityProfileUser.class);
+                intent.putExtra("uid",currentItem.getUid());
+                mContext.startActivity(intent);
             }
         });
 

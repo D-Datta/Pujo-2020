@@ -113,12 +113,9 @@ public class CommitteeViewAll extends AppCompatActivity {
 
                 ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
 
-//                if(position%2 == 0){
-//                    programmingViewHolder.itemView.set
-//                }
-
                 if(currentItem.getCoverpic() != null){
-                    Picasso.get().load(currentItem.getCoverpic()).error(R.drawable.image_background_grey)
+                    Picasso.get().load(currentItem.getCoverpic())
+                            .error(R.drawable.image_background_grey)
                             .placeholder(R.drawable.image_background_grey)
                             .into(programmingViewHolder.committeeCover);
                 }
@@ -127,7 +124,8 @@ public class CommitteeViewAll extends AppCompatActivity {
                 }
 
                 if(currentItem.getDp() != null){
-                    Picasso.get().load(currentItem.getDp()).error(R.drawable.image_background_grey)
+                    Picasso.get().load(currentItem.getDp())
+                            .error(R.drawable.image_background_grey)
                             .placeholder(R.drawable.image_background_grey)
                             .into(programmingViewHolder.committeeDp);
                 }

@@ -1,6 +1,7 @@
 package com.example.pujo360.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.pujo360.ActivityProfileUser;
 import com.example.pujo360.LinkPreview.ApplexLinkPreviewShort;
 import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.R;
@@ -149,9 +151,9 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         programmingViewHolder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ProfileActivity.class);
-//                intent.putExtra("uid", currentItem.getUid());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ActivityProfileUser.class);
+                intent.putExtra("uid", currentItem.getUid());
+                mContext.startActivity(intent);
 
             }
         });
@@ -159,9 +161,9 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         programmingViewHolder.userimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ProfileActivity.class);
-//                intent.putExtra("uid", currentItem.getUid());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ActivityProfileUser.class);
+                intent.putExtra("uid", currentItem.getUid());
+                mContext.startActivity(intent);
             }
         });
 

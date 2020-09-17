@@ -296,15 +296,15 @@ public class ViewMoreHome extends AppCompatActivity {
                 }
 
                 username.setOnClickListener(v -> {
-//                    Intent i12 = new Intent(getApplicationContext(), ProfileActivity.class);
-//                    i12.putExtra("uid", homePostModel[0].getUid());
-//                    startActivity(i12);
+                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                    i12.putExtra("uid", homePostModel[0].getUid());
+                    startActivity(i12);
                 });
 
                 userimage.setOnClickListener(v -> {
-//                    Intent i1 = new Intent(getApplicationContext(), ProfileActivity.class);
-//                    i1.putExtra("uid", homePostModel[0].getUid());
-//                    startActivity(i1);
+                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                    i1.putExtra("uid", homePostModel[0].getUid());
+                    startActivity(i1);
                 });
 
             /////////////USERNAME & USER IMAGE FORE POST//////////////
@@ -770,15 +770,15 @@ public class ViewMoreHome extends AppCompatActivity {
                                     }
 
                                     username.setOnClickListener(v -> {
-//                                        Intent i12 = new Intent(getApplicationContext(), ProfileActivity.class);
-//                                        i12.putExtra("uid", homePostModel[0].getUid());
-//                                        startActivity(i12);
+                                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                                        i12.putExtra("uid", homePostModel[0].getUid());
+                                        startActivity(i12);
                                     });
 
                                     userimage.setOnClickListener(v -> {
-//                                        Intent i1 = new Intent(getApplicationContext(), ProfileActivity.class);
-//                                        i1.putExtra("uid", homePostModel[0].getUid());
-//                                        startActivity(i1);
+                                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                                        i1.putExtra("uid", homePostModel[0].getUid());
+                                        startActivity(i1);
                                     });
 
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////

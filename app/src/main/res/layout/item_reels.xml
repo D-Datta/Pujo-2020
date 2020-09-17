@@ -74,7 +74,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/oxygen_ex_bold"
             android:gravity="center_vertical"
-            android:text="@string/pujo_committee"
+            android:text="@string/pujo_committees"
             android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />

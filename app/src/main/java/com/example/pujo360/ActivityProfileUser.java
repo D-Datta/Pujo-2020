@@ -20,7 +20,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,7 +70,6 @@ import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.lang.ref.WeakReference;
@@ -104,10 +101,9 @@ public class ActivityProfileUser extends AppCompatActivity {
     //////////////NO POSTS///////////////
     private TextView PName,PUsername;
     private ImageView PDp, nopost1,PCoverpic;
-    private LinearLayout instituteBG, noProfilePost, LL;
+    private LinearLayout noProfilePost, LL;
 
     //////////////NO POSTS///////////////
-    private TextView profile;
     private String my_uid;
     int bool;
 
@@ -136,7 +132,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
         nopost1 = findViewById(R.id.no_recent_com_post1);
         floatingActionButton = findViewById(R.id.to_the_top_profile);
-        LL = findViewById(R.id.LL);
+        LL = findViewById(R.id.view_post_exist);
 
         //////////////POSTS SETUP////////////////////
         swipeRefreshLayout= findViewById(R.id.swiperefresh1);
@@ -210,13 +206,11 @@ public class ActivityProfileUser extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 recyclerView.scrollToPosition(0);
-//                            recyclerView.smoothScrollToPosition();
                                 recyclerView.postDelayed(new Runnable() {
                                     public void run() {
                                         recyclerView.scrollToPosition(0);
                                     }
                                 },300);
-                                // ObjectAnimator.ofInt(recyclerView, "dy", 0).setDuration(1000).start();
                             }
                         });
                     } else {
@@ -232,32 +226,9 @@ public class ActivityProfileUser extends AppCompatActivity {
 
     private void buildRecycler(){
         Query query = FirebaseFirestore.getInstance()
-                .collection("Feeds/")
+                .collection("Feeds")
                 .whereEqualTo("uid", my_uid)
                 .orderBy("ts", Query.Direction.DESCENDING);
-
-        FirebaseFirestore.getInstance()
-                .collection("Feeds/")
-                .whereEqualTo("uid", my_uid)
-                .orderBy("ts", Query.Direction.DESCENDING)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    if(task.getResult().size() == 0) {
-                        noPostView();
-                        if(swipeRefreshLayout.isRefreshing()) {
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    }
-                    else {
-                        LL.setVisibility(View.VISIBLE);
-                        noProfilePost.setVisibility(View.GONE);
-                        nopost1.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -1627,6 +1598,17 @@ public class ActivityProfileUser extends AppCompatActivity {
                         break;
                     case FINISHED: contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
+                        if(adapter1.getItemCount() == 0) {
+                            noPostView();
+                            if(swipeRefreshLayout.isRefreshing()) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        }
+                        else {
+                            LL.setVisibility(View.VISIBLE);
+                            noProfilePost.setVisibility(View.GONE);
+                            nopost1.setVisibility(View.GONE);
+                        }
                         break;
                 }
             }

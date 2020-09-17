@@ -32,10 +32,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pujo360.ActivityProfileCommittee;
+import com.example.pujo360.ActivityProfileUser;
 import com.example.pujo360.CommitteeViewAll;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
-import com.example.pujo360.MainActivity;
 import com.example.pujo360.NewPostHome;
 import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
@@ -91,7 +92,7 @@ public class FeedsFragment extends Fragment {
 
     private TextView view_all_NoPost;
     private RecyclerView comRecyclerView;
-    private LinearLayout campusLL, LL;
+    private LinearLayout campusLL, viewPostExist;
 
     public static int changed = 0;
     public static int comDelete = 0;
@@ -133,8 +134,7 @@ public class FeedsFragment extends Fragment {
         create_post = view.findViewById(R.id.create_post_ind);
         noPostYet1= view.findViewById(R.id.no_recent_com_post1);
 
-        if(introPref.getType().matches("com"))
-        {
+        if(introPref.getType().matches("com")) {
             create_post.setVisibility(View.GONE);
         }
 
@@ -146,20 +146,19 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setItemViewCacheSize(10);
-
-
         //////////////RECYCLER VIEW////////////////////
+
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
         contentProgCom = view.findViewById(R.id.content_progress_community);
         view_all_NoPost = view.findViewById(R.id.community_view_all);
         comRecyclerView = view.findViewById(R.id.communityRecyclerNoPost);
-        campusLL = view.findViewById(R.id.campusLL);
-        LL = view.findViewById(R.id.LL);
+        campusLL = view.findViewById(R.id.view_no_post);
+        viewPostExist = view.findViewById(R.id.view_post_exist);
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
         create_post.setOnClickListener(v -> {
-            if(InternetConnection.checkConnection(getContext())){
+            if(InternetConnection.checkConnection(getActivity())){
                 Intent i= new Intent(getContext(), NewPostHome.class);
                 i.putExtra("target", "2");
                 startActivity(i);
@@ -261,8 +260,8 @@ public class FeedsFragment extends Fragment {
                     buildCommunityRecyclerView(feedViewHolder.cRecyclerView);
                 }
                 else {
+                    feedViewHolder.postHolder.setVisibility(View.VISIBLE);
                     feedViewHolder.committeeHolder.setVisibility(View.GONE);
-
                 }
 
 
@@ -285,7 +284,7 @@ public class FeedsFragment extends Fragment {
 
                     feedViewHolder.comName.setOnClickListener(v -> {
                         //To be changed
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
                         intent.putExtra("comID", currentItem.getComID());
                         startActivity(intent);
                     });
@@ -362,15 +361,15 @@ public class FeedsFragment extends Fragment {
                 if (currentItem.getUsN() != null) {
 
                     feedViewHolder.userimage.setOnClickListener(v -> {
-//                            Intent intent = new Intent(getContext(), Main.class);
-//                            intent.putExtra("uid", currentItem.getUid());
-//                            startActivity(intent);
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
                     });
 
                     feedViewHolder.username.setOnClickListener(v -> {
-//                            Intent intent = new Intent(getContext(), ProfileActivity.class);
-//                            intent.putExtra("uid", currentItem.getUid());
-//                            startActivity(intent);
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
                     });
 
                     feedViewHolder.username.setText(currentItem.getUsN());
@@ -418,6 +417,8 @@ public class FeedsFragment extends Fragment {
                     }
 
                 }
+
+
                 ///////////////OPEN VIEW MORE//////////////
                 feedViewHolder.itemHome.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), ViewMoreHome.class);
@@ -580,8 +581,7 @@ public class FeedsFragment extends Fragment {
 
                     feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
                 }
-                else
-                {
+                else {
                     feedViewHolder.sliderView.setVisibility(View.GONE);
                 }
 
@@ -887,7 +887,6 @@ public class FeedsFragment extends Fragment {
                 LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
                 View v = layoutInflater.inflate(R.layout.item_feeds_post, viewGroup, false);
                 return new FeedViewHolder(v);
-
             }
 
             @Override
@@ -897,16 +896,17 @@ public class FeedsFragment extends Fragment {
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR: Utility.showToast(getActivity(), "Something went wrong...");
                         break;
-                    case LOADING_MORE: progressMore.setVisibility(View.VISIBLE); break;
+                    case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
+                        break;
                     case LOADED: progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
+
                         break;
                     case FINISHED: contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
@@ -917,7 +917,7 @@ public class FeedsFragment extends Fragment {
                             noPostView();
                         }
                         else {
-                            LL.setVisibility(View.VISIBLE);
+                            viewPostExist.setVisibility(View.VISIBLE);
                             campusLL.setVisibility(View.GONE);
                             noPostYet1.setVisibility(View.GONE);
                         }
@@ -934,7 +934,7 @@ public class FeedsFragment extends Fragment {
     private static class FeedViewHolder extends RecyclerView.ViewHolder{
 
         TextView view_all;
-        ImageView info, noPost;
+        ImageView noPost;
         RecyclerView cRecyclerView;
 
         TextView username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
@@ -951,7 +951,6 @@ public class FeedsFragment extends Fragment {
 
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
-            info = itemView.findViewById(R.id.info);
             view_all = itemView.findViewById(R.id.community_view_all);
             cRecyclerView = itemView.findViewById(R.id.communityRecycler);
 
@@ -985,7 +984,7 @@ public class FeedsFragment extends Fragment {
     }
 
     private void save_Dialog(Bitmap bitmap) {
-        Dialog myDialogue = new Dialog(getContext());
+        Dialog myDialogue = new Dialog(getActivity());
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(TRUE);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
@@ -1046,11 +1045,13 @@ public class FeedsFragment extends Fragment {
 
     private void noPostView() {
         campusLL.setVisibility(View.VISIBLE);
-        LL.setVisibility(View.GONE);
+        viewPostExist.setVisibility(View.GONE);
         contentProgCom.setVisibility(View.GONE);
         noPostYet1.setVisibility(View.VISIBLE);
 
-        view_all_NoPost.setOnClickListener(v -> startActivity(new Intent(getActivity(), CommitteeViewAll.class)));
+        view_all_NoPost.setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), CommitteeViewAll.class))
+        );
 
         buildCommunityRecyclerView(comRecyclerView);
 
