@@ -83,16 +83,16 @@ import static java.lang.Boolean.TRUE;
 public class FeedsFragment extends Fragment {
 
     private Dialog dialog;
-    private ImageView noPostYet1;
+//    private ImageView noPostYet1;
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
     private FloatingActionButton create_post, floatingActionButton;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout, swiperefreshNoPost;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
     private TextView view_all_NoPost;
     private RecyclerView comRecyclerView;
-    private LinearLayout campusLL, viewPostExist;
+    private LinearLayout viewNoPost, viewPostExist;
 
     public static int changed = 0;
     public static int comDelete = 0;
@@ -128,11 +128,13 @@ public class FeedsFragment extends Fragment {
         changed = 0;
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
+        swiperefreshNoPost= view.findViewById(R.id.swiperefresh_no_post);
+
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
         floatingActionButton = view.findViewById(R.id.to_the_top_campus);
         create_post = view.findViewById(R.id.create_post_ind);
-        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
+//        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
 
         if(introPref.getType().matches("com")) {
             create_post.setVisibility(View.GONE);
@@ -153,9 +155,10 @@ public class FeedsFragment extends Fragment {
         contentProgCom = view.findViewById(R.id.content_progress_community);
         view_all_NoPost = view.findViewById(R.id.community_view_all);
         comRecyclerView = view.findViewById(R.id.communityRecyclerNoPost);
-        campusLL = view.findViewById(R.id.view_no_post);
-        viewPostExist = view.findViewById(R.id.view_post_exist);
+        viewNoPost = view.findViewById(R.id.view_no_post);
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
+
+        viewPostExist = view.findViewById(R.id.view_post_exist);
 
         create_post.setOnClickListener(v -> {
             if(InternetConnection.checkConnection(getActivity())){
@@ -170,14 +173,25 @@ public class FeedsFragment extends Fragment {
 
         buildRecyclerView();
 
-        swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources()
-                        .getColor(R.color.md_blue_500));
+        //SWIPE REFRESH//
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
+                        .getColor(R.color.purple));
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             contentProgCom.setVisibility(View.GONE);
             buildRecyclerView();
         });
+
+        swiperefreshNoPost.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
+                .getColor(R.color.purple));
+
+        swiperefreshNoPost.setOnRefreshListener(() -> {
+            swiperefreshNoPost.setRefreshing(true);
+            contentProgCom.setVisibility(View.GONE);
+            buildRecyclerView();
+        });
+        //SWIPE REFRESH//
 
         final int[] scrollY = {0};
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -906,20 +920,23 @@ public class FeedsFragment extends Fragment {
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
-
+                        viewNoPost.setVisibility(View.GONE);
+                        viewPostExist.setVisibility(View.VISIBLE);
                         break;
                     case FINISHED: contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
+                        if(swiperefreshNoPost.isRefreshing()) {
+                            swiperefreshNoPost.setRefreshing(false);
+                        }
                         if(adapter.getItemCount() == 0){
                             noPostView();
                         }
                         else {
+                            viewNoPost.setVisibility(View.GONE);
                             viewPostExist.setVisibility(View.VISIBLE);
-                            campusLL.setVisibility(View.GONE);
-                            noPostYet1.setVisibility(View.GONE);
                         }
                         break;
                 }
@@ -1044,10 +1061,10 @@ public class FeedsFragment extends Fragment {
 
 
     private void noPostView() {
-        campusLL.setVisibility(View.VISIBLE);
+        viewNoPost.setVisibility(View.VISIBLE);
         viewPostExist.setVisibility(View.GONE);
         contentProgCom.setVisibility(View.GONE);
-        noPostYet1.setVisibility(View.VISIBLE);
+//        noPostYet1.setVisibility(View.VISIBLE);
 
         view_all_NoPost.setOnClickListener(v ->
                 startActivity(new Intent(getActivity(), CommitteeViewAll.class))

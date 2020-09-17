@@ -64,24 +64,24 @@
             android:layout_height="7dp"
             android:background="#E2E2E2"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#e2e2e2"
-            android:paddingBottom="7dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:background="#e2e2e2"-->
+<!--            android:paddingBottom="7dp">-->
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="7dp"
-                android:gravity="center_vertical"
-                android:background="@drawable/shape_latest_post"
-                android:paddingHorizontal="20dp"
-                android:text="Trending Posts"
-                android:textSize="18sp" />
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingVertical="7dp"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:background="@drawable/shape_latest_post"-->
+<!--                android:paddingHorizontal="20dp"-->
+<!--                android:text="Trending Posts"-->
+<!--                android:textSize="18sp" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
     </LinearLayout>
 
 
@@ -182,11 +182,11 @@
                             android:id="@+id/username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/oxygen_regular"
                             android:paddingVertical="4dp"
                             android:paddingHorizontal="8dp"
                             android:text="Name"
-                            android:textColor="#212121"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
                             android:textSize="15sp" />
 
                         <TextView

@@ -8,185 +8,102 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".fragments.FeedsFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_no_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/view_no_post"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ProgressBar
-                    android:id="@+id/content_progress_community"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="10dp"
-                    android:visibility="visible" />
-
-            </LinearLayout>
-
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingVertical="7dp"-->
-<!--                android:paddingHorizontal="5dp"-->
-<!--                android:background="#E2E2E2">-->
-
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/holder"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:background="@drawable/campus_bg"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:paddingHorizontal="5dp">-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="40dp"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:src="@drawable/ic_inst_icon"-->
-<!--                        android:layout_marginStart="4dp"-->
-<!--                        android:paddingHorizontal="2dp"/>-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/campus_name"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Institute"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:textColor="#212121"-->
-<!--                        android:paddingHorizontal="5dp"-->
-<!--                        android:maxLines="1"-->
-<!--                        android:ellipsize="end"-->
-<!--                        android:layout_marginEnd="30dp"-->
-<!--                        android:fontFamily="@font/lato_regular" />-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/info"-->
-<!--                        android:layout_width="30dp"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:src="@drawable/ic_info_outline_black_24dp"-->
-<!--                        android:layout_marginStart="-30dp"-->
-<!--                        android:background="@drawable/custom_ripple_white"-->
-<!--                        android:padding="4dp" />-->
-
-<!--                </LinearLayout>-->
-
-<!--            </RelativeLayout>-->
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="5dp"
-                    android:text="@string/pujo_committees"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/community_view_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/custom_ripple_white"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:gravity="center"
-                    android:paddingHorizontal="8dp"
-                    android:text="View all"
-                    android:textColor="@color/purple"
-                    android:textSize="12dp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/communityRecyclerNoPost"
-                    android:layout_width="match_parent"
-                    android:layout_height="128dp"
-                    android:clipToPadding="false"
-                    android:paddingBottom="10dp"/>
-
-            </LinearLayout>
-
-
-<!--            <com.smarteist.autoimageslider.SliderView-->
-<!--                android:id="@+id/imageSliderNoPost"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"-->
-<!--                app:sliderAnimationDuration="1000"-->
-<!--                app:sliderAutoCycleDirection="back_and_forth"-->
-<!--                app:sliderAutoCycleEnabled="true"-->
-<!--                app:sliderCircularHandlerEnabled="true"-->
-<!--                app:sliderIndicatorAnimationDuration="600"-->
-<!--                app:sliderIndicatorGravity="center_horizontal|bottom"-->
-<!--                app:sliderIndicatorMargin="15dp"-->
-<!--                app:sliderIndicatorOrientation="horizontal"-->
-<!--                app:sliderIndicatorPadding="3dp"-->
-<!--                app:sliderIndicatorRadius="2dp"-->
-<!--                app:sliderIndicatorSelectedColor="#5A5A5A"-->
-<!--                app:sliderIndicatorUnselectedColor="#FFF"-->
-<!--                app:sliderScrollTimeInSec="1"-->
-<!--                app:sliderStartAutoCycle="true" />-->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="7dp"
-                android:background="#E2E2E2"/>
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#e2e2e2"
-                android:paddingBottom="7dp">
+                android:id="@+id/view_no_post"
+                android:visibility="gone">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="7dp"
+                    android:orientation="vertical">
+
+                    <ProgressBar
+                        android:id="@+id/content_progress_community"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="10dp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="5dp"
+                        android:text="@string/pujo_committees"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/community_view_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/custom_ripple_white"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:gravity="center"
+                        android:paddingHorizontal="8dp"
+                        android:text="View all"
+                        android:textColor="@color/purple"
+                        android:textSize="12dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:background="@drawable/shape_latest_post"
-                    android:paddingHorizontal="20dp"
-                    android:text="Latest Posts"
-                    android:textSize="18sp" />
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/communityRecyclerNoPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="128dp"
+                        android:clipToPadding="false"
+                        android:paddingBottom="10dp"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:background="#E2E2E2"/>
 
                 <ImageView
-                    android:id="@+id/no_recent_com_post1"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
-                    android:background="#e2e2e2"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="45dp"
-                    android:src="@drawable/durga_ma2"
-                    android:visibility="gone" />
+                    android:paddingVertical="40dp"
+                    android:src="@drawable/durga_ma2"/>
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -237,6 +154,7 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_post_ind"
