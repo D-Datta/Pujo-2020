@@ -141,7 +141,7 @@
             android:orientation="vertical"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:background="@drawable/ic_grad_shape"
+            android:background="@drawable/ic_path_grad_shape_pink"
             android:paddingBottom="20dp">
 
             <LinearLayout
