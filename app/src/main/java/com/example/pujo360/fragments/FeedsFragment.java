@@ -633,6 +633,7 @@ public class FeedsFragment extends Fragment {
 
                                 flamedModel.setPostID(currentItem.getDocID());
                                 flamedModel.setTs(tsLong);
+                                flamedModel.setType(introPref.getType());
                                 flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                                 flamedModel.setUserdp(DP);
                                 flamedModel.setUsername(USERNAME);
@@ -668,6 +669,7 @@ public class FeedsFragment extends Fragment {
 
                                 flamedModel.setPostID(currentItem.getDocID());
                                 flamedModel.setTs(tsLong);
+                                flamedModel.setType(introPref.getType());
                                 flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                                 flamedModel.setUserdp(DP);
                                 flamedModel.setUsername(USERNAME);

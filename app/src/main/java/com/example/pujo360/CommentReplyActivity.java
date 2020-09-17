@@ -392,6 +392,7 @@ public class CommentReplyActivity extends AppCompatActivity {
 
                         flamedModel.setPostID(postID);
                         flamedModel.setDocID(docID);
+                        flamedModel.setType(introPref.getType());
                         flamedModel.setTs(tsLong);
                         flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                         flamedModel.setUserdp(PROFILEPIC);
@@ -431,6 +432,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                         flamedModel.setPostID(postID);
                         flamedModel.setDocID(docID);
                         flamedModel.setTs(tsLong);
+                        flamedModel.setType(introPref.getType());
                         flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                         flamedModel.setUserdp(PROFILEPIC);
                         flamedModel.setUsername(USERNAME);

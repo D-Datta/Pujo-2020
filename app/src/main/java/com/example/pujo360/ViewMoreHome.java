@@ -1165,6 +1165,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
                             flamedModel.setPostID(homePostModel[0].getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUid(UID);
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);
@@ -1231,7 +1232,6 @@ public class ViewMoreHome extends AppCompatActivity {
                     }
                 });
 
-
         commentimg.setOnClickListener(v -> {
             newComment.requestFocus();
             newComment.setFocusableInTouchMode(true);
@@ -1239,7 +1239,6 @@ public class ViewMoreHome extends AppCompatActivity {
             imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
             ///////////ENABLE KEYBOARD//////////
         });
-
 
         send.setOnClickListener(v -> {
             if(InternetConnection.checkConnection(getApplicationContext())){

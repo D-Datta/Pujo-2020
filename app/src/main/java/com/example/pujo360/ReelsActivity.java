@@ -255,6 +255,7 @@ public class ReelsActivity extends AppCompatActivity {
 
                             flamedModel.setPostID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(new IntroPref(ReelsActivity.this).getType());
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                             flamedModel.setUserdp(COMMITTEE_LOGO);
                             flamedModel.setUsername(COMMITTEE_NAME);
@@ -291,6 +292,7 @@ public class ReelsActivity extends AppCompatActivity {
 
                             flamedModel.setPostID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(new IntroPref(ReelsActivity.this).getType());
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                             flamedModel.setUserdp(COMMITTEE_LOGO);
                             flamedModel.setUsername(COMMITTEE_NAME);

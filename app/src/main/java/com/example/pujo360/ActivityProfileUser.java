@@ -756,6 +756,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                             flamedModel.setPostID(currentItem.getDocID());
                                             flamedModel.setTs(tsLong);
+                                            flamedModel.setType(introPref.getType());
                                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                                             flamedModel.setUserdp(PROFILEPIC);
                                             flamedModel.setUsername(USERNAME);
@@ -793,6 +794,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                             flamedModel.setPostID(currentItem.getDocID());
                                             flamedModel.setTs(tsLong);
+                                            flamedModel.setType(introPref.getType());
                                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                                             flamedModel.setUserdp(PROFILEPIC);
                                             flamedModel.setUsername(USERNAME);
@@ -1347,6 +1349,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                             flamedModel.setPostID(currentItem.getDocID());
                                             flamedModel.setTs(tsLong);
+                                            flamedModel.setType(introPref.getType());
                                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                                             flamedModel.setUserdp(PROFILEPIC);
                                             flamedModel.setUsername(USERNAME);
@@ -1384,6 +1387,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                             flamedModel.setPostID(currentItem.getDocID());
                                             flamedModel.setTs(tsLong);
+                                            flamedModel.setType(introPref.getType());
                                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                                             flamedModel.setUserdp(PROFILEPIC);
                                             flamedModel.setUsername(USERNAME);

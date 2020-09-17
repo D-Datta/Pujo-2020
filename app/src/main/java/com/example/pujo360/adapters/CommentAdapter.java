@@ -46,6 +46,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
     private String USERNAME;
     private int bool;
     private OnClickListener mListener;
+    private IntroPref introPref;
 
     public interface OnClickListener {
         void onClickListener(int position);
@@ -55,13 +56,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         mListener= listener;
     }
 
-
     public CommentAdapter(Context context, List<CommentModel> itemDatalist, int bool) {
         this.mContext = context;
         this.itemDatalist = itemDatalist;
         this.bool = bool;//1 = ViewMoreHome 2 = ReelsActivity
 
-        IntroPref introPref = new IntroPref(mContext);
+        introPref = new IntroPref(mContext);
         PROFILEPIC = introPref.getUserdp();
         USERNAME = introPref.getFullName();
     }
@@ -239,6 +239,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                     flamedModel.setPostID(currentItem.getPostID());
                     flamedModel.setDocID(currentItem.getDocID());
                     flamedModel.setTs(tsLong);
+                    flamedModel.setType(introPref.getType());
                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                     flamedModel.setUserdp(PROFILEPIC);
                     flamedModel.setUsername(USERNAME);
@@ -271,6 +272,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                     flamedModel.setPostID(currentItem.getPostID());
                     flamedModel.setDocID(currentItem.getDocID());
                     flamedModel.setTs(tsLong);
+                    flamedModel.setType(introPref.getType());
                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                     flamedModel.setUserdp(PROFILEPIC);
                     flamedModel.setUsername(USERNAME);

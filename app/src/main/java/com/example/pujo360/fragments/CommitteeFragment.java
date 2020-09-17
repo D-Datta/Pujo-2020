@@ -91,6 +91,7 @@ public class CommitteeFragment extends Fragment {
     private String COMMITEE_LOGO, COMMITTEE_NAME;
     private FirestorePagingAdapter adapter, reelsAdapter;
     private DocumentSnapshot lastVisible;
+    private IntroPref introPref;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -127,7 +128,7 @@ public class CommitteeFragment extends Fragment {
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
-        IntroPref introPref = new IntroPref(getActivity());
+        introPref = new IntroPref(getActivity());
         COMMITEE_LOGO = introPref.getUserdp();
         COMMITTEE_NAME = introPref.getFullName();
 
@@ -536,6 +537,7 @@ public class CommitteeFragment extends Fragment {
 
                             flamedModel.setPostID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                             flamedModel.setUserdp(COMMITEE_LOGO);
                             flamedModel.setUsername(COMMITTEE_NAME);
@@ -574,6 +576,7 @@ public class CommitteeFragment extends Fragment {
 
                             flamedModel.setPostID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                             flamedModel.setUserdp(COMMITEE_LOGO);
                             flamedModel.setUsername(COMMITTEE_NAME);
