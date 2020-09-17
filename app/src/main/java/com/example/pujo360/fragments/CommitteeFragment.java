@@ -966,7 +966,10 @@ public class CommitteeFragment extends Fragment {
         RecyclerView tagList, reelsList;
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
-        RelativeLayout slider_item, reels_item, normal_item;
+
+
+        RelativeLayout reels_item, normal_item;
+        LinearLayout slider_item;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);

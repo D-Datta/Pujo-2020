@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".ActivityProfileCommittee" />
         <activity android:name=".ActivityProfileUser" />
@@ -42,6 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".CommentReplyActivity"
             android:screenOrientation="portrait" />
@@ -73,6 +75,9 @@
         <activity
             android:name=".ProfilePictureActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".DisplayPictureActivity" />
+
         <activity
             android:name=".CommitteeViewAll"
             android:screenOrientation="portrait" />
