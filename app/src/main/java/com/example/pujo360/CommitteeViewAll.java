@@ -57,7 +57,7 @@ public class CommitteeViewAll extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_search_24);
 
 
-        progress = findViewById(R.id.progress);
+        progress = findViewById(R.id.content_progress);
         progressMoreCom = findViewById(R.id.progress_more_comm);
         progress.setVisibility(View.VISIBLE);
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
@@ -112,6 +112,10 @@ public class CommitteeViewAll extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull BaseUserModel currentItem) {
 
                 ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
+
+//                if(position%2 == 0){
+//                    programmingViewHolder.itemView.set
+//                }
 
                 if(currentItem.getCoverpic() != null){
                     Picasso.get().load(currentItem.getCoverpic()).error(R.drawable.image_background_grey)

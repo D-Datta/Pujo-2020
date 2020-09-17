@@ -41,11 +41,11 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
         View v;
         if(bool == 10){
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_committee_grid,parent, false);
+                    .inflate(R.layout.item_committee_top_card,parent, false);
         }
         else{
             v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_committee_grid, parent, false);
+                    .inflate(R.layout.item_committee_top_card, parent, false);
         }
 
         return new CommitteeTopAdapter.ProgrammingViewHolder(v);
@@ -74,26 +74,26 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
             holder.committeeCover.setImageResource(R.drawable.community_default);
         }
 
-        if(currentitem.getDp() != null){
-            Picasso.get().load(currentitem.getCoverpic())
-                    .error(R.drawable.image_background_grey)
-                    .placeholder(R.drawable.image_background_grey)
-                    .networkPolicy(NetworkPolicy.OFFLINE)
-                    .into(holder.committeeCover, new Callback() {
-                @Override
-                public void onSuccess() {
-
-                }
-                @Override
-                public void onError(Exception e) {
-                    Picasso.get().load(currentitem.getDp()).into(holder.committeeCover);
-                }
-            });
-
-        }
-        else{
-            holder.committeeDp.setImageResource(R.drawable.community_default);
-        }
+//        if(currentitem.getDp() != null){
+//            Picasso.get().load(currentitem.getCoverpic())
+//                    .error(R.drawable.image_background_grey)
+//                    .placeholder(R.drawable.image_background_grey)
+//                    .networkPolicy(NetworkPolicy.OFFLINE)
+//                    .into(holder.committeeCover, new Callback() {
+//                @Override
+//                public void onSuccess() {
+//
+//                }
+//                @Override
+//                public void onError(Exception e) {
+//                    Picasso.get().load(currentitem.getDp()).into(holder.committeeCover);
+//                }
+//            });
+//
+//        }
+//        else{
+//            holder.committeeDp.setImageResource(R.drawable.community_default);
+//        }
 
         PushDownAnim.setPushDownAnimTo(holder.itemView)
                 .setScale(PushDownAnim.MODE_STATIC_DP, 3)
@@ -141,7 +141,7 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
             super(itemView);
 
             committeeName = itemView.findViewById(R.id.committee_name);
-            committeeDp = itemView.findViewById(R.id.committee_dp);
+//            committeeDp = itemView.findViewById(R.id.committee_dp);
             committeeCover = itemView.findViewById(R.id.committee_cover);
 
         }

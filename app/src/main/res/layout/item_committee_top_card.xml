@@ -20,7 +20,7 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
-                android:id="@+id/community_image"
+                android:id="@+id/committee_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -35,7 +35,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/community_name"
+                android:id="@+id/committee_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:hint="Community"
