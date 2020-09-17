@@ -119,7 +119,6 @@
                 android:autoLink="all"
                 android:textColorLink="@color/toolbarStart"
                 android:ellipsize="end"
-                android:fontFamily="@font/oxygen_regular"
                 android:textSize="15sp"
                 app:trimExpandedText="@string/read_less"
                 app:trimCollapsedText="@string/read_more"
@@ -127,7 +126,7 @@
                 app:trimLines="13"
                 app:colorClickableText="@color/toolbarStart"
                 android:visibility="visible"
-                android:textColor="#212121"/>
+                android:textColor="@color/black"/>
 
             <com.example.pujo360.LinkPreview.ApplexLinkPreview
                 android:id="@+id/LinkPreView"
