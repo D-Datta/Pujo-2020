@@ -1,4 +1,4 @@
-package com.example.pujo360.util;
+package com.example.pujo360.dialogs;
 
 import android.content.Context;
 import android.graphics.Color;

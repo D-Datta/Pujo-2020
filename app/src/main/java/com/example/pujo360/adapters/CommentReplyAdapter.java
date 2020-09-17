@@ -1,7 +1,6 @@
 package com.example.pujo360.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,7 +23,7 @@ import com.example.pujo360.R;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReplyCommentModel;
 import com.example.pujo360.preferences.IntroPref;
-import com.example.pujo360.util.BottomFlamedByDialog3;
+import com.example.pujo360.dialogs.BottomFlamedByDialog3;
 import com.example.pujo360.util.Utility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -282,6 +281,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             flamedModel.setPostID(currentItem.getPostID());
                             flamedModel.setDocID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);
@@ -317,6 +317,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             flamedModel.setPostID(currentItem.getPostID());
                             flamedModel.setDocID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);

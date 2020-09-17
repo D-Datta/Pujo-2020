@@ -1,4 +1,4 @@
-package com.example.pujo360.util;
+package com.example.pujo360.dialogs;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -9,26 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.example.pujo360.R;
 import com.example.pujo360.adapters.FlamedByAdapter;
 import com.example.pujo360.models.FlamedModel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -38,26 +31,18 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     private ArrayList<FlamedModel> models;
 
     private ProgressBar progressBar;
-    private ImageView dismiss;
 
     private String root;
-    private String postCampus;
     private String docID;
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
-    private NestedScrollView nestedScrollView;
-
-//    private Boolean isScrolling = false;
-//    private int currentItems, totalItems, scrollOutItems;
 
     private CollectionReference flamedList;
 
-
-    public BottomFlamedByDialog(String root, String docID){
+    public BottomFlamedByDialog(String root, String docID) {
         this.docID = docID;
         this.root = root;
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
@@ -68,8 +53,8 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         flamerecycler=v.findViewById(R.id.flamed_recycler);
         progressBar = v.findViewById(R.id.progress5);
-        dismiss = v.findViewById(R.id.dismissflame);
-        nestedScrollView = v.findViewById(R.id.scroll_view);
+        ImageView dismiss = v.findViewById(R.id.dismissflame);
+        NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
         nestedScrollView.setNestedScrollingEnabled(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

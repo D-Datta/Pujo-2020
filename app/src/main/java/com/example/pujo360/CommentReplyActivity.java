@@ -32,7 +32,7 @@ import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReplyCommentModel;
 import com.example.pujo360.preferences.IntroPref;
-import com.example.pujo360.util.BottomFlamedByDialog2;
+import com.example.pujo360.dialogs.BottomFlamedByDialog2;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.Utility;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -392,6 +392,7 @@ public class CommentReplyActivity extends AppCompatActivity {
 
                         flamedModel.setPostID(postID);
                         flamedModel.setDocID(docID);
+                        flamedModel.setType(introPref.getType());
                         flamedModel.setTs(tsLong);
                         flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                         flamedModel.setUserdp(PROFILEPIC);
@@ -431,6 +432,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                         flamedModel.setPostID(postID);
                         flamedModel.setDocID(docID);
                         flamedModel.setTs(tsLong);
+                        flamedModel.setType(introPref.getType());
                         flamedModel.setUid(FirebaseAuth.getInstance().getUid());
                         flamedModel.setUserdp(PROFILEPIC);
                         flamedModel.setUsername(USERNAME);

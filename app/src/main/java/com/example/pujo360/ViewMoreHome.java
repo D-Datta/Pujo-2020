@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -39,7 +37,7 @@ import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.models.NotifCount;
 import com.example.pujo360.preferences.IntroPref;
-import com.example.pujo360.util.BottomFlamedByDialog;
+import com.example.pujo360.dialogs.BottomFlamedByDialog;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
@@ -57,7 +55,6 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.util.ArrayList;
@@ -1168,6 +1165,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
                             flamedModel.setPostID(homePostModel[0].getDocID());
                             flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUid(UID);
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);
@@ -1234,7 +1232,6 @@ public class ViewMoreHome extends AppCompatActivity {
                     }
                 });
 
-
         commentimg.setOnClickListener(v -> {
             newComment.requestFocus();
             newComment.setFocusableInTouchMode(true);
@@ -1242,7 +1239,6 @@ public class ViewMoreHome extends AppCompatActivity {
             imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
             ///////////ENABLE KEYBOARD//////////
         });
-
 
         send.setOnClickListener(v -> {
             if(InternetConnection.checkConnection(getApplicationContext())){
@@ -1258,6 +1254,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     CommentModel commentModel = new CommentModel();
 
                     commentModel.setComment(comment);
+                    commentModel.setType(introPref.getType());
                     commentModel.setUid(UID);
                     commentModel.setPostUid(homePostModel[0].getUid());
                     commentModel.setUserdp(PROFILEPIC);

@@ -110,7 +110,7 @@
                 android:id="@+id/flame_comment"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_btmnav_notifications"
+                android:src="@drawable/ic_drum"
                 android:padding="5dp"
                 android:layout_marginStart="4dp"/>
 
@@ -127,7 +127,7 @@
                 android:id="@+id/comment_reply"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_comment"
+                android:src="@drawable/ic_conch_shell"
                 android:padding="5dp"
                 android:layout_marginStart="10dp"/>
 

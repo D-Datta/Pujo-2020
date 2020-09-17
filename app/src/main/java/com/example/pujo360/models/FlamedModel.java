@@ -7,7 +7,10 @@ import com.google.firebase.firestore.Exclude;
 
 public class FlamedModel {
 
-    private String userdp, uid;
+    private String userdp;
+    private String uid;
+
+    private String type;
     private String username;
     private String pComID, comment;
 
@@ -87,4 +90,8 @@ public class FlamedModel {
     public String getComment() { return comment; }
 
     public void setComment(String comment) { this.comment = comment; }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 }
