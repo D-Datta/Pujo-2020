@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -17,7 +18,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -46,17 +52,45 @@ public class Utility {
             File file = new File(myDir, "IMG-" + tsLong + ".jpg");
             file.createNewFile();
             FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            finalBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.flush();
             out.close();
-            MediaStore.Images.Media.insertImage(context.getContentResolver(), finalBitmap, "IMG-" + tsLong + ".jpg" , "Downloaded from Campus24");
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), finalBitmap, "IMG-" + tsLong + ".jpg" , "Downloaded from Utsav");
             return true;
 
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+    }
 
+    public static Boolean saveVideo(Uri uri, Context context) {
+        File myDir = new File(context.getExternalFilesDir(null), "/Utsav");
+        if (!myDir.exists()) {
+            myDir.mkdirs();
+        }
+        tsLong = System.currentTimeMillis();
+        InputStream in;
+        OutputStream out;
+        try {
+            File file = new File(myDir, "VID-" + tsLong + ".mp4");
+            file.createNewFile();
+            in = context.getContentResolver().openInputStream(uri);
+            out = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            if (in != null) {
+                while((len = in.read(buf))>0) {
+                    out.write(buf,0,len);
+                }
+            }
+            out.close();
+            Objects.requireNonNull(in).close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static String getTimeAgo(Long timestamp) {
