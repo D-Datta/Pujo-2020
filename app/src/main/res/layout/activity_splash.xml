@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="150dp"
-        android:tint="@color/colorPrimaryDark"
-        android:src="@drawable/ic_baseline_local_florist_24"
+        android:src="@drawable/logo"
         tools:ignore="UseAppTint" />
 
     <ProgressBar
