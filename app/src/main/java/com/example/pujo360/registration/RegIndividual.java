@@ -16,7 +16,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -252,7 +251,7 @@ public class RegIndividual extends AppCompatActivity
                     baseUserModel.setAddressline(ADDRESS);
                     baseUserModel.setCity(CITY);
                     baseUserModel.setState(STATE);
-                    baseUserModel.setUsertype("Individual");
+                    baseUserModel.setType("Individual");
 
                     individualModel = new IndividualModel();
                     individualModel.setFirstname(FNAME);

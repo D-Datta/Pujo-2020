@@ -433,7 +433,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                                                                            finish();
 //                                                                                        }
 //                                                                                        else {
-                                                                                            introPref.setType(userModel.getUsertype());
+                                                                                            introPref.setType(userModel.getType());
                                                                                             introPref.setUserdp(userModel.getDp());
 //                                                                                            introPref.setInstitute(userModel.getInstitute());
                                                                                             introPref.setFullName(userModel.getName());
@@ -650,7 +650,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                                 .collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                                                 .update("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                                                                            introPref.setType(userModel.getUsertype());
+                                                                            introPref.setType(userModel.getType());
                                                                             introPref.setUserdp(userModel.getDp());
                                                                             introPref.setFullName(userModel.getName());
                                                                             Intent i1 = new Intent(LoginActivity.this, MainActivity.class);
