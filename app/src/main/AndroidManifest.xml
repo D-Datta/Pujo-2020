@@ -116,6 +116,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <activity android:name=".DisplayPictureActivity" />
     </application>
 
 </manifest>
