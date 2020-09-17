@@ -31,6 +31,7 @@ import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.adapters.CommentAdapter;
+import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
@@ -53,6 +54,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
@@ -66,7 +70,8 @@ public class ViewMoreHome extends AppCompatActivity {
 
     private ImageView send;
     private EditText newComment;
-    private ImageView displaypic, commentimg, userimage, userimage_comment, no_comment , flameimg, back;
+    private ImageView commentimg, userimage, userimage_comment, no_comment , flameimg, back;
+    private SliderView sliderView;
 
     private TextView username, minsago,  flamedBy, noofcmnts, comName;
     private ReadMoreTextView textContent;
@@ -93,6 +98,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private String USERNAME, UID;
 
     private ArrayList<String> likeList;
+    private ArrayList<String> images;
 
     private CollectionReference commentRef;
     private DocumentReference docRef;
@@ -120,7 +126,7 @@ public class ViewMoreHome extends AppCompatActivity {
         send = findViewById(R.id.send_comment);
         share = findViewById(R.id.share44);
         newComment = findViewById(R.id.new_comment);
-        displaypic = findViewById(R.id.post_image44);
+        sliderView = findViewById(R.id.post_image44);
         commentimg = findViewById(R.id.comment44);
         username = findViewById(R.id.username44);
         userimage = findViewById(R.id.user_image44);
@@ -403,35 +409,34 @@ public class ViewMoreHome extends AppCompatActivity {
             ///////////////LIKE SETUP//////////////
 
             ////////////////POST PIC///////////////
-            if(i.getStringExtra("postPic")!=null && !i.getStringExtra("postPic").isEmpty()){
-//                homePostModel[0].setImg(i.getStringExtra("postPic"));
-//                displaypic.setVisibility(View.VISIBLE);
-//                Picasso.get().load(homePostModel[0].getImg()).placeholder(R.drawable.image_background_grey).into(displaypic);
-//                displaypic.setOnLongClickListener(new View.OnLongClickListener() {
-//                    @Override
-//                    public boolean onLongClick(View v) {
-//                        Picasso.get().load(homePostModel[0].getImg()).into(new Target() {
-//                            @Override
-//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                save_Dialog(bitmap);
-//                            }
-//                            @Override
-//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                                Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                            }
-//                            @Override
-//                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                            }
-//
-//                        });
-//                        return true;
-//                    }
-//                });
+            Bundle args = getIntent().getBundleExtra("BUNDLE");
+            if(args!=null){
+                if((ArrayList<String>) args.getSerializable("ARRAYLIST")!=null
+                        && ((ArrayList<String>) args.getSerializable("ARRAYLIST")).size()>0){
 
-            }
-            else {
-                displaypic.setVisibility(View.GONE);
+                    images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
+
+                    if(images!=null && images.size()>0)
+                    {
+                        sliderView.setVisibility(View.VISIBLE);
+
+                        sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                        sliderView.setIndicatorRadius(8);
+                        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        sliderView.setIndicatorSelectedColor(Color.WHITE);
+                        sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                        sliderView.setAutoCycle(false);
+
+                        SliderAdapter sliderAdapter = new SliderAdapter(ViewMoreHome.this, images);
+
+                        sliderView.setSliderAdapter(sliderAdapter);
+                    }
+                    else {
+                        sliderView.setVisibility(View.GONE);
+                    }
+
+                }
             }
             ////////////////POST PIC///////////////
 
@@ -856,34 +861,26 @@ public class ViewMoreHome extends AppCompatActivity {
 
 
                                 ////////////////POST PIC///////////////
-                                if(homePostModel[0].getImg() != null && !homePostModel[0].getImg().isEmpty()){
-//                                    displaypic.setVisibility(View.VISIBLE);
-//                                    Picasso.get().load(homePostModel[0].getImg()).placeholder(R.drawable.image_background_grey).into(displaypic);
-//                                    displaypic.setOnLongClickListener(new View.OnLongClickListener() {
-//                                        @Override
-//                                        public boolean onLongClick(View v) {
-//                                            Picasso.get().load(homePostModel[0].getImg()).into(new Target() {
-//                                                @Override
-//                                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                                    save_Dialog(bitmap);
-//                                                }
-//                                                @Override
-//                                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                                                }
-//                                                @Override
-//                                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                                                }
-//
-//                                            });
-//                                            return true;
-//                                        }
-//                                    });
+                                images = homePostModel[0].getImg();
 
+                                if(images!=null && images.size()>0)
+                                {
+                                    sliderView.setVisibility(View.VISIBLE);
+
+                                    sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                                    sliderView.setIndicatorRadius(8);
+                                    sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                                    sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                                    sliderView.setIndicatorSelectedColor(Color.WHITE);
+                                    sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                                    sliderView.setAutoCycle(false);
+
+                                    SliderAdapter sliderAdapter = new SliderAdapter(ViewMoreHome.this, images);
+
+                                    sliderView.setSliderAdapter(sliderAdapter);
                                 }
                                 else {
-                                    displaypic.setVisibility(View.GONE);
+                                    sliderView.setVisibility(View.GONE);
                                 }
                                 ////////////////POST PIC///////////////
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 @IgnoreExtraProperties
 public class HomePostModel {
 
-    private String usN, dp, uid;
+    private String usN, dp, uid, type;
     private String txt;
 
     private String single_img;
@@ -55,7 +55,13 @@ public class HomePostModel {
         this.newTs = newTs;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getDocID() {
         return docID;

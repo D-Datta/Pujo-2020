@@ -70,8 +70,13 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import co.gofynd.gravityview.GravityView;
+
 import static java.lang.Boolean.TRUE;
 
 @SuppressWarnings("rawtypes")
@@ -92,6 +97,8 @@ public class CommitteeFragment extends Fragment {
     private FirestorePagingAdapter adapter, reelsAdapter;
     private DocumentSnapshot lastVisible;
     private IntroPref introPref;
+    private GravityView gravityView;
+    private boolean isSupported = false;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -108,6 +115,8 @@ public class CommitteeFragment extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
+        gravityView = GravityView.getInstance(requireActivity());
+        isSupported = gravityView.deviceSupported();
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
@@ -438,13 +447,18 @@ public class CommitteeFragment extends Fragment {
                 String postimage_url = currentItem.getSingle_img();
                 if (postimage_url != null) {
                     programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-                    Picasso.get().load(postimage_url)
-                            .memoryPolicy(MemoryPolicy.NO_STORE)
-                            .placeholder(R.drawable.image_background_grey)
-                            .into(programmingViewHolder.postimage);
+                    if(isSupported) {
+                        int id = getResources().getIdentifier(postimage_url,"drawable", requireActivity().getPackageName());
+                        gravityView.setImage(programmingViewHolder.postimage, id);
+                    }
+                    else {
+                        Picasso.get().load(postimage_url)
+                                .memoryPolicy(MemoryPolicy.NO_STORE)
+                                .placeholder(R.drawable.image_background_grey)
+                                .into(programmingViewHolder.postimage);
+                    }
 
                     programmingViewHolder.postimage.setOnLongClickListener(v -> {
-
                         Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -1263,6 +1277,13 @@ public class CommitteeFragment extends Fragment {
             swipe = 1;
         }
         super.onResume();
+        gravityView.registerListener();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        gravityView.unRegisterListener();
     }
 
     @Override

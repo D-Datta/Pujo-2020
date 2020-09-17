@@ -273,6 +273,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 if(intent.getStringExtra("docID")!=null)
                     editPostModel.setDocID(intent.getStringExtra("docID"));
 
+                if(intent.getStringExtra("type")!=null)
+                    editPostModel.setType(intent.getStringExtra("type"));
+
                 if(intent.getStringExtra("likeCheck")!=null)
                     editPostModel.setLikeCheck(Integer.parseInt(intent.getStringExtra("likeCheck")));
 
@@ -713,6 +716,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                         homePostModel.setTs(timestampLong);
                         homePostModel.setNewTs(timestampLong);
+                        homePostModel.setType(introPref.getType());
 
                         homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 

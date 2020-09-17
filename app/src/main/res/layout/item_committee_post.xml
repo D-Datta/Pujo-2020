@@ -244,15 +244,20 @@
                     android:visibility="gone"
                     android:layout_height="wrap_content"/>
 
-                <ImageView
-                    android:id="@+id/post_image"
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="450dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image_background_grey" />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/post_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:adjustViewBounds="true"
+                        android:maxHeight="450dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/image_background_grey" />
+                </HorizontalScrollView>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
