@@ -90,6 +90,7 @@ public class CommitteeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME;
     private FirestorePagingAdapter adapter, reelsAdapter;
+    private DocumentSnapshot lastVisible;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -119,7 +120,6 @@ public class CommitteeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
-
         mRecyclerView.setItemViewCacheSize(10);
         mRecyclerView.setDrawingCacheEnabled(true);
         /////////////SETUP//////////////
@@ -1010,14 +1010,30 @@ public class CommitteeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         reelsList.setLayoutManager(layoutManager);
         reelsList.setNestedScrollingEnabled(true);
-
         reelsList.setItemViewCacheSize(10);
         reelsList.setDrawingCacheEnabled(true);
 
-        Query query = FirebaseFirestore.getInstance()
-                .collection("Reels/")
-                .orderBy("ts", Query.Direction.DESCENDING)
-                .limit(10);
+        Query query;
+
+        if(lastVisible != null) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels/")
+                    .orderBy("ts", Query.Direction.DESCENDING)
+                    .limit(10)
+                    .startAfter(lastVisible);
+        }
+        else {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels/")
+                    .orderBy("ts", Query.Direction.DESCENDING)
+                    .limit(10);
+        }
+
+        query.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                lastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
+            }
+        });
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)

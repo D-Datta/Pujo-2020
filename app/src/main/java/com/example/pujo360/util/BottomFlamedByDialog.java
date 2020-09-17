@@ -30,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     private RecyclerView flamerecycler;
@@ -80,20 +81,12 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        if(root.matches("Home")){
-            flamedList = FirebaseFirestore.getInstance().collection("Feeds/"+docID+"/flameL/");
+        if(root.matches("Feeds")) {
+            flamedList = FirebaseFirestore.getInstance().collection("Feeds/" + docID + "/flameL/");
         }
-//        else if(root.matches("Sliders")){
-//            if(postCampus.matches("Global")){
-//                flamedList = FirebaseFirestore.getInstance().collection(root+"/"+postCampus+"/Slides/"+docID+"/flameSL/");
-//            }
-//            else {
-//                flamedList = FirebaseFirestore.getInstance().collection(root+"/"+"Campus"+"/Slides/"+docID+"/flameSL/");
-//            }
-//        }
-//        else {
-//            flamedList = FirebaseFirestore.getInstance().collection(root+"/"+postCampus+"/Feeds/"+docID+"/flameL/");
-//        }
+        else if(root.matches("Reels")) {
+            flamedList = FirebaseFirestore.getInstance().collection("Reels/" + docID + "/flameL/");
+        }
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null){
@@ -111,12 +104,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         buildRecyclerView_flames();
 
-        dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomFlamedByDialog.super.onDestroyView();
-            }
-        });
+        dismiss.setOnClickListener(v1 -> BottomFlamedByDialog.super.onDestroyView());
         return v;
     }
 
@@ -124,70 +112,56 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
         progressBar.setVisibility(View.VISIBLE);
         models = new ArrayList<>();
 
-        flamedList.limit(15)
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(DocumentSnapshot document: task.getResult()){
-                        FlamedModel flamedModel = document.toObject(FlamedModel.class);
-                        flamedModel.setDocID(document.getId());
-                        models.add(flamedModel);
-                    }
-                    if (models.size()>0){
-                        flamedByAdapter = new FlamedByAdapter(getActivity(), models);
-                        flamerecycler.setAdapter(flamedByAdapter);
+        flamedList.limit(15).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for(DocumentSnapshot document: Objects.requireNonNull(task.getResult())){
+                    FlamedModel flamedModel = document.toObject(FlamedModel.class);
+                    Objects.requireNonNull(flamedModel).setDocID(document.getId());
+                    models.add(flamedModel);
+                }
+                if (models.size()>0){
+                    flamedByAdapter = new FlamedByAdapter(getActivity(), models);
+                    flamerecycler.setAdapter(flamedByAdapter);
 
-                        if(task.getResult().size()>0)
-                            lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
+                    if(task.getResult().size()>0)
+                        lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
 
-                        if(models.size()<15){
-                            checkGetMore = -1;
-                        } else {
-                            checkGetMore = 0;
-                        }
-
+                    if(models.size()<15){
+                        checkGetMore = -1;
+                    } else {
+                        checkGetMore = 0;
                     }
                 }
-                progressBar.setVisibility(View.GONE);
-
             }
+            progressBar.setVisibility(View.GONE);
         });
-
     }
 
     private void fetchMore_flames(){
         progressBar.setVisibility(View.VISIBLE);
 
-        flamedList.limit(10).startAfter(lastVisible).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    ArrayList<FlamedModel> flamedModels = new ArrayList<>();
-                    for(DocumentSnapshot document: task.getResult()){
-                        FlamedModel flamedModel = document.toObject(FlamedModel.class);
-                        flamedModel.setDocID(document.getId());
-                        flamedModels.add(flamedModel);
-                    }
-                    if(flamedModels.size()>0){
-                        int lastSize = models.size();
-                        models.addAll(flamedModels);
-                        flamedByAdapter.notifyItemRangeInserted(lastSize, flamedModels.size());
-                        lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
-                    }
-
+        flamedList.limit(10).startAfter(lastVisible).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                ArrayList<FlamedModel> flamedModels = new ArrayList<>();
+                for(DocumentSnapshot document: Objects.requireNonNull(task.getResult())) {
+                    FlamedModel flamedModel = document.toObject(FlamedModel.class);
+                    Objects.requireNonNull(flamedModel).setDocID(document.getId());
+                    flamedModels.add(flamedModel);
                 }
-                progressBar.setVisibility(View.GONE);
-                if(models.size()<15){
-                    checkGetMore = -1;
+                if(flamedModels.size()>0) {
+                    int lastSize = models.size();
+                    models.addAll(flamedModels);
+                    flamedByAdapter.notifyItemRangeInserted(lastSize, flamedModels.size());
+                    lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
                 }
-                else {
-                    checkGetMore = 0;
-                }
-
+            }
+            progressBar.setVisibility(View.GONE);
+            if(models.size()<15){
+                checkGetMore = -1;
+            }
+            else {
+                checkGetMore = 0;
             }
         });
-
     }
-
 }
