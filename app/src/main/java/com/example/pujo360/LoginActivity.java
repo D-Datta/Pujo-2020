@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         ////FOR THOSE WHO REGISTER LATER///
-        if(i.getStringExtra("value")=="1"){
+        if(i.getStringExtra("value").matches("1")){
             logintext.setVisibility(GONE);
             signuptext.setVisibility(View.VISIBLE);
             acctInfo.setText("Don't have an account yet?");
@@ -148,7 +148,6 @@ public class LoginActivity extends AppCompatActivity {
         signin_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                 Toast.makeText(Login.this,"hi",Toast.LENGTH_SHORT).show();
                 if(!InternetConnection.checkConnection(getApplicationContext())){
                     Toast.makeText(getApplicationContext(),"Please check internet connection...",Toast.LENGTH_LONG).show();
                 }
