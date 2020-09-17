@@ -493,7 +493,7 @@ public class CommitteeFragment extends Fragment {
                     else {
                         programmingViewHolder.like_image.setVisibility(View.VISIBLE);
                         programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                        programmingViewHolder.likesCount.setText(currentItem.getLikeL().size());
+                        programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
                 } else {
                     programmingViewHolder.like_image.setVisibility(View.GONE);
@@ -511,7 +511,7 @@ public class CommitteeFragment extends Fragment {
                             } else{
                                 programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
                                 programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                                programmingViewHolder.likesCount.setText(currentItem.getLikeL().size());
+                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                             }
                             ///////////REMOVE CURRENT USER LIKE/////////////
                             currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
@@ -537,7 +537,7 @@ public class CommitteeFragment extends Fragment {
                             else{
                                 programmingViewHolder.like_image.setVisibility(View.VISIBLE);
                                 programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                                programmingViewHolder.likesCount.setText( currentItem.getLikeL().size());
+                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                             }
 
                             //////////////ADD CURRENT USER TO LIKELIST//////////////////
@@ -572,7 +572,7 @@ public class CommitteeFragment extends Fragment {
                             programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
                             programmingViewHolder.like_image.setVisibility(View.VISIBLE);
                             if (currentItem.getLikeL() != null){
-                                programmingViewHolder.likesCount.setText(currentItem.getLikeL().size() + 1);
+                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
                             }
                             else{
                                 programmingViewHolder.likesCount.setText("1");
