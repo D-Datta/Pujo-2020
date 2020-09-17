@@ -1227,6 +1227,9 @@ public class CommitteeFragment extends Fragment {
                         Utility.showToast(requireActivity(), "Network Unavailable...");
                 });
             }
+            else {
+                create_post.setVisibility(View.GONE);
+            }
         }
     }
 

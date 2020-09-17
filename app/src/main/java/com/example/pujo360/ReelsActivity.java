@@ -6,8 +6,11 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReelsPostModel;
@@ -36,15 +40,15 @@ import java.util.Objects;
 public class ReelsActivity extends AppCompatActivity {
 
     private RecyclerView reelsList;
-    private String COMMITEE_LOGO, COMMITTEE_NAME;
+    private String COMMITTEE_LOGO, COMMITTEE_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reels);
 
-        IntroPref introPref = new IntroPref(getApplicationContext());
-        COMMITEE_LOGO = introPref.getUserdp();
+        IntroPref introPref = new IntroPref(ReelsActivity.this);
+        COMMITTEE_LOGO = introPref.getUserdp();
         COMMITTEE_NAME = introPref.getFullName();
 
         //////////////RECYCLER VIEW////////////////////
@@ -143,6 +147,23 @@ public class ReelsActivity extends AppCompatActivity {
                     });
                 }
 
+                holder.back_reel.setOnClickListener(v -> ReelsActivity.super.onBackPressed());
+                holder.save_reel.setOnClickListener(v -> save_Dialog(Uri.parse(currentItem.getVideo())));
+
+                //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+                holder.pujo_com_dp.setOnClickListener(v -> {
+                    Intent intent = new Intent(ReelsActivity.this, ActivityProfileCommittee.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
+                });
+
+                holder.pujo_com_name.setOnClickListener(v -> {
+                    Intent intent = new Intent(ReelsActivity.this, ActivityProfileCommittee.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
+                });
+                //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
                     Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
                         .placeholder(R.drawable.ic_account_circle_black_24dp)
@@ -229,7 +250,7 @@ public class ReelsActivity extends AppCompatActivity {
                             flamedModel.setPostID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                            flamedModel.setUserdp(COMMITEE_LOGO);
+                            flamedModel.setUserdp(COMMITTEE_LOGO);
                             flamedModel.setUsername(COMMITTEE_NAME);
                             flamedModel.setPostUid(currentItem.getUid());
 
@@ -265,7 +286,7 @@ public class ReelsActivity extends AppCompatActivity {
                             flamedModel.setPostID(currentItem.getDocID());
                             flamedModel.setTs(tsLong);
                             flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                            flamedModel.setUserdp(COMMITEE_LOGO);
+                            flamedModel.setUserdp(COMMITTEE_LOGO);
                             flamedModel.setUsername(COMMITTEE_NAME);
                             flamedModel.setPostUid(currentItem.getUid());
 
@@ -337,5 +358,28 @@ public class ReelsActivity extends AppCompatActivity {
             commentCount = itemView.findViewById(R.id.comment_count);
             play_image = itemView.findViewById(R.id.play);
         }
+    }
+
+    private void save_Dialog(Uri uri) {
+        Dialog myDialogue = new Dialog(ReelsActivity.this);
+        myDialogue.setContentView(R.layout.dialog_image_options);
+        myDialogue.setCanceledOnTouchOutside(true);
+        myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
+            if(!Utility.checkStoragePermission(ReelsActivity.this)) {
+                Utility.requestStoragePermission(ReelsActivity.this);
+            }
+            else {
+                boolean bool = Utility.saveVideo(uri, ReelsActivity.this);
+                if(bool) {
+                    Toast.makeText(getApplicationContext(), "Saved to device", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                }
+                myDialogue.dismiss();
+            }
+        });
+        myDialogue.show();
+        Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 }
