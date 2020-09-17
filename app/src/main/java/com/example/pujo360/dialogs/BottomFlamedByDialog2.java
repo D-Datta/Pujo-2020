@@ -1,4 +1,4 @@
-package com.example.pujo360.util;
+package com.example.pujo360.dialogs;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;

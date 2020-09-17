@@ -9,7 +9,10 @@ import java.util.ArrayList;
 public class CommentModel {
 
     private String userdp, uid, postUid;
-    private String username, comment;
+    private String username;
+    private String comment;
+
+    private String type;
     private long ts;
     private int rCmtNo;
 
@@ -84,6 +87,13 @@ public class CommentModel {
         this.docID = docID;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getPostID() {
         return postID;

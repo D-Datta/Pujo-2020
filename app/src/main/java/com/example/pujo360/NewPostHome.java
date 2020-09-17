@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -25,10 +24,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +47,7 @@ import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.models.TagModel;
 import com.example.pujo360.preferences.IntroPref;
-import com.example.pujo360.util.BottomTagsDialog;
+import com.example.pujo360.dialogs.BottomTagsDialog;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
@@ -64,9 +61,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -74,9 +69,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
 

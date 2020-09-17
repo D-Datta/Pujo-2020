@@ -20,9 +20,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import com.example.pujo360.dialogs.BottomCommentsDialog;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.preferences.IntroPref;
+import com.example.pujo360.dialogs.BottomFlamedByDialog;
 import com.example.pujo360.util.Utility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -192,6 +195,9 @@ public class ReelsActivity extends AppCompatActivity {
                         holder.like_image.setVisibility(View.VISIBLE);
                         holder.likesCount.setVisibility(View.VISIBLE);
                         holder.likesCount.setText(currentItem.getLikeL().size());
+
+                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
+                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                     }
                 } else {
                     holder.like_image.setVisibility(View.GONE);
@@ -308,6 +314,9 @@ public class ReelsActivity extends AppCompatActivity {
                     holder.commentimg.setVisibility(View.VISIBLE);
                     holder.commentCount.setVisibility(View.VISIBLE);
                     holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog(currentItem.getDocID());
+                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 } else {
                     holder.commentimg.setVisibility(View.GONE);
                     holder.commentCount.setVisibility(View.GONE);

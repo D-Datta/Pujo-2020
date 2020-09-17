@@ -32,7 +32,7 @@ import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReplyCommentModel;
 import com.example.pujo360.preferences.IntroPref;
-import com.example.pujo360.util.BottomFlamedByDialog2;
+import com.example.pujo360.dialogs.BottomFlamedByDialog2;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.Utility;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
