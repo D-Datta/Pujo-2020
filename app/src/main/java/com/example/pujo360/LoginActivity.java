@@ -256,23 +256,10 @@ public class LoginActivity extends AppCompatActivity {
                                                                 Toast.makeText(LoginActivity.this, "Please verify your email and register", Toast.LENGTH_LONG).show();
                                                                 progress.setVisibility(GONE);
 
-//                                                                FlameCount flameCount = new FlameCount();
-//                                                                CommentCount commentCount = new CommentCount();
-//                                                                flameCount.setFlameCount(0);
-//                                                                commentCount.setCommentCount(0);
-
                                                                 Intent intent = new Intent(LoginActivity.this, RegChoice.class);
                                                                 intent.putExtra("value", "emailpass");
                                                                 intent.putExtra("email", email);
                                                                 intent.putExtra("password", password);
-
-//                                                                FirebaseFirestore.getInstance()
-//                                                                        .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
-//                                                                        .document("flameCount").set(flameCount);
-//
-//                                                                FirebaseFirestore.getInstance()
-//                                                                        .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
-//                                                                        .document("commentCount").set(commentCount);
 
                                                                 startActivity(intent);
                                                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -601,7 +588,7 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseAuthWithGoogle(account);
                 }
             } catch (ApiException e) {
-                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "2100", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
@@ -662,46 +649,14 @@ public class LoginActivity extends AppCompatActivity {
                                                                                 .collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                                                                 .update("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-//                                                                        if(userModel.getInterestL() == null || userModel.getCourse() == null || userModel.getCoursestart() == null || userModel.getCourseend() == null){
-//                                                                            Toast.makeText(getApplicationContext(), "Please add some more details", Toast.LENGTH_LONG).show();
-//                                                                            Intent homeIntent = new Intent(LoginActivity.this, RegFormPost2.class);
-//                                                                            homeIntent.putExtra("firstname", userModel.getFirstname());
-//                                                                            homeIntent.putExtra("lastname", userModel.getLastname());
-//                                                                            introPref.setUserdp(userModel.getProfilepic());
-//                                                                            homeIntent.putExtra("about", userModel.getAbout());
-//                                                                            introPref.setUsername(userModel.getUsername());
-//                                                                            introPref.setUserdp(userModel.getProfilepic());
-//                                                                            introPref.setInstitute(userModel.getInstitute());
-//                                                                            introPref.setFullName(userModel.getFirstname() + " " + userModel.getLastname());
-//
-//                                                                            startActivity(homeIntent);
-//                                                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                                                                            finish();
-//                                                                        }
-//                                                                        else if(userModel.getCourse().isEmpty() || userModel.getCourseend().isEmpty() || userModel.getCoursestart().isEmpty()){
-//                                                                            Toast.makeText(getApplicationContext(), "Please add some more details", Toast.LENGTH_LONG).show();
-//                                                                            Intent homeIntent = new Intent(LoginActivity.this, RegFormPost2.class);
-//                                                                            homeIntent.putExtra("firstname", userModel.getFirstname());
-//                                                                            homeIntent.putExtra("lastname", userModel.getLastname());
-//                                                                            introPref.setUsername(userModel.getUsername());
-//                                                                            introPref.setUserdp(userModel.getProfilepic());
-//                                                                            introPref.setInstitute(userModel.getInstitute());
-//                                                                            introPref.setFullName(userModel.getFirstname() + " " + userModel.getLastname());
-//
-//                                                                            startActivity(homeIntent);
-//                                                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                                                                            finish();
-//                                                                        }
-//                                                                        else {
                                                                             introPref.setType(userModel.getUsertype());
                                                                             introPref.setUserdp(userModel.getDp());
-//                                                                            introPref.setInstitute(userModel.getInstitute());
                                                                             introPref.setFullName(userModel.getName());
                                                                             Intent i1 = new Intent(LoginActivity.this, MainActivity.class);
                                                                             startActivity(i1);
                                                                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                                                             finish();
-//                                                                        }
+
                                                                     }
                                                                 }
                                                             });
