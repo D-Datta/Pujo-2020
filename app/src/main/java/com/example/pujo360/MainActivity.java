@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -25,10 +26,15 @@ import com.example.pujo360.adapters.HomeTabAdapter;
 import com.example.pujo360.fragments.CommitteeFragment;
 import com.example.pujo360.fragments.FeedsFragment;
 import com.example.pujo360.preferences.IntroPref;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView name;
     ///NAV DRAWER VARIABLES/////
 
+    GoogleSignInClient mGooglesigninclient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         introPref = new IntroPref(MainActivity.this);
 
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGooglesigninclient = GoogleSignIn.getClient(this, googleSignInOptions);
         ///////////////NOTIFICATIONS///////////////////
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel=new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
@@ -96,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-//                    Intent i = new Intent(MainActivity.this, ProfileActivity.class);
-//                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
-//                    startActivity(i);
+                    Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
+                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                    startActivity(i);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
             },200);
@@ -261,7 +276,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        int id = item.getItemId();
+        if (id == R.id.nav_logout) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Log out")
+                            .setMessage("Do you want to continue?")
+                            .setPositiveButton("Log out", (dialog, which) -> {
+                                introPref.setFullName(null);
+                                introPref.setUserdp(null);
+                                introPref.setType(null);
+
+                                FirebaseFirestore.getInstance()
+                                        .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/AccessToken/")
+                                        .document("Token").delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                FirebaseAuth.getInstance().signOut();
+                                                mGooglesigninclient.signOut();
+                                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                startActivity(intent);
+                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                finish();
+                                            }
+                                        });
+//                                Intent broadcastIntent = new Intent();
+//                                broadcastIntent.setAction("com.package.ACTION_LOGOUT");
+//                                sendBroadcast(broadcastIntent);
+                            })
+                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                            .setCancelable(true)
+                            .show();
+
+                }
+            }, 200);
+
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+
     }
 
 }

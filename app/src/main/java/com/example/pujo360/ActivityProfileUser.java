@@ -127,7 +127,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         introPref = new IntroPref(this);
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
