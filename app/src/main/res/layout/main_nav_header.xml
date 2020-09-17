@@ -1,43 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/custom_ripple_white"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingTop="4dp">
+    android:paddingTop="30dp"
+    android:paddingBottom="10dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Light">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        tools:ignore="UseCompoundDrawables">
-
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        app:cardCornerRadius="60dp"
+        android:layout_margin="6dp"
+        app:cardElevation="7dp"
+        android:layout_gravity="center"
+        android:layout_width="120dp"
+        android:layout_height="120dp">
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:contentDescription="@string/nav_header_desc"
-            android:padding="14dp" />
-
-        <TextView
+            android:id="@+id/displaypic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:paddingEnd="8dp"
-            android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="22sp"/>
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_account_circle_black_24dp"
+            android:contentDescription="TODO" />
+    </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
-
-    <View
+    <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"
-        android:layout_marginStart="-20dp"
-        android:layout_marginTop="12dp"/>
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="#11212121">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center"
+            android:paddingVertical="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nav_Name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:text="Name"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
 
 </LinearLayout>

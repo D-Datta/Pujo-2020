@@ -12,8 +12,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="0dp"
-        android:background="@android:color/transparent"
+        app:elevation="10dp"
+        android:background="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Light">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,7 +23,7 @@
             app:title="Search"
             android:background="@color/white"
             app:titleTextColor="@color/black_transparent"
-            android:elevation="0dp"
+            android:elevation="10dp"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
