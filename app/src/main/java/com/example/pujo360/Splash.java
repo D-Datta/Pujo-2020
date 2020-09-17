@@ -63,13 +63,13 @@ public class Splash extends AppCompatActivity {
                                                 BaseUserModel userModel = documentSnapshot.toObject(BaseUserModel.class);
 
                                                 introPref.setUserdp(userModel.getDp());
-                                                introPref.setType(userModel.getUsertype());
+                                                introPref.setType(userModel.getType());
                                                 introPref.setFullName(userModel.getName());
 //                                                introPref.setCity(userModel.getCity());
 
                                                 Intent homeIntent = new Intent(Splash.this, MainActivity.class);
                                                 homeIntent.putExtra("value", "splash");
-                                                homeIntent.putExtra("type",userModel.getUsertype());
+                                                homeIntent.putExtra("type",userModel.getType());
                                                 homeIntent.putExtra("email", fireuser.getEmail());
                                                 startActivity(homeIntent);
                                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
