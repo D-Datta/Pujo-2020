@@ -97,7 +97,7 @@ public class CommitteeFragment extends Fragment {
     private FirestorePagingAdapter adapter, reelsAdapter;
     private DocumentSnapshot lastVisible;
     private IntroPref introPref;
-    private GravityView gravityView;
+//    private GravityView gravityView;
     private boolean isSupported = false;
 
     public CommitteeFragment() {
@@ -115,8 +115,8 @@ public class CommitteeFragment extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
-        gravityView = GravityView.getInstance(requireActivity());
-        isSupported = gravityView.deviceSupported();
+//        gravityView = GravityView.getInstance(requireActivity());
+//        isSupported = gravityView.deviceSupported();
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
@@ -447,16 +447,16 @@ public class CommitteeFragment extends Fragment {
                 String postimage_url = currentItem.getSingle_img();
                 if (postimage_url != null) {
                     programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-                    if(isSupported) {
-                        int id = getResources().getIdentifier(postimage_url,"drawable", requireActivity().getPackageName());
-                        gravityView.setImage(programmingViewHolder.postimage, id);
-                    }
-                    else {
+//                    if(isSupported) {
+//                        int id = getResources().getIdentifier(postimage_url,"drawable", requireActivity().getPackageName());
+//                        gravityView.setImage(programmingViewHolder.postimage, id);
+//                    }
+//                    else {
                         Picasso.get().load(postimage_url)
                                 .memoryPolicy(MemoryPolicy.NO_STORE)
                                 .placeholder(R.drawable.image_background_grey)
                                 .into(programmingViewHolder.postimage);
-                    }
+//                    }
 
                     programmingViewHolder.postimage.setOnLongClickListener(v -> {
                         Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
@@ -1277,14 +1277,14 @@ public class CommitteeFragment extends Fragment {
             swipe = 1;
         }
         super.onResume();
-        gravityView.registerListener();
+//        gravityView.registerListener();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        gravityView.unRegisterListener();
-    }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        gravityView.unRegisterListener();
+//    }
 
     @Override
     protected void finalize() throws Throwable {
