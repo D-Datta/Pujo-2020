@@ -241,7 +241,7 @@ public class RegIndividual extends AppCompatActivity
                             .document("notifCount");
 
                     docref4 = FirebaseFirestore.getInstance().collection("Users")
-                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Individual")
+                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("indi")
                             .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     baseUserModel = new BaseUserModel();
