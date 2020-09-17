@@ -57,6 +57,7 @@ public class ReelsActivity extends AppCompatActivity {
 
         reelsList.setItemViewCacheSize(10);
         reelsList.setDrawingCacheEnabled(true);
+        reelsList.scrollToPosition(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
 
         buildReelsRecyclerView();
 
@@ -66,7 +67,6 @@ public class ReelsActivity extends AppCompatActivity {
     }
 
     private static class SnapHelperOneByOne extends LinearSnapHelper {
-
         @Override
         public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
 
@@ -132,8 +132,16 @@ public class ReelsActivity extends AppCompatActivity {
 
                 holder.reels_video.setOnLongClickListener(view -> {
                     holder.reels_video.pause();
+                    holder.play_image.setVisibility(View.VISIBLE);
                     return false;
                 });
+
+                if(!holder.reels_video.isPlaying()) {
+                    holder.itemView.setOnClickListener(view -> {
+                        holder.play_image.setVisibility(View.GONE);
+                        holder.reels_video.resume();
+                    });
+                }
 
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
                     Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
@@ -305,7 +313,7 @@ public class ReelsActivity extends AppCompatActivity {
 
         VideoView reels_video;
         ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel;
-        TextView pujo_com_name, pujo_headline, likesCount, commentCount ;
+        TextView pujo_com_name, pujo_headline, likesCount, commentCount, play_image;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         com.airbnb.lottie.LottieAnimationView progress;
 
@@ -327,6 +335,7 @@ public class ReelsActivity extends AppCompatActivity {
             likesCount = itemView.findViewById(R.id.likes_count);
             commentimg = itemView.findViewById(R.id.comment_image);
             commentCount = itemView.findViewById(R.id.comment_count);
+            play_image = itemView.findViewById(R.id.play);
         }
     }
 }

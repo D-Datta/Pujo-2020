@@ -777,8 +777,8 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
                         startActivity(intent);
                     });
-
-                } else {
+                }
+                else {
                     programmingViewHolder.commentimg.setVisibility(View.GONE);
                     programmingViewHolder.commentCount.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
@@ -1200,7 +1200,7 @@ public class CommitteeFragment extends Fragment {
                 if(bool) {
                     Toast.makeText(getContext(), "Saved to device", Toast.LENGTH_SHORT).show();
                 }
-                else{
+                else {
                     Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
                 }
                 myDialogue.dismiss();
@@ -1232,7 +1232,7 @@ public class CommitteeFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if((changed > 0 || delete > 0) && swipe == 0){
+        if((changed > 0 || delete > 0) && swipe == 0) {
             buildRecyclerView();
             changed = 0;
             delete = 0;
