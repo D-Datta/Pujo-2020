@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View hView;
         hView = navigationView.getHeaderView(0);
         name = hView.findViewById(R.id.nav_Name);
-        username = hView.findViewById(R.id.nav_user_name);
         displaypic = hView.findViewById(R.id.displaypic);
 
         hView.setOnClickListener(v -> {
@@ -162,13 +161,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View hView;
         hView = navigationView.getHeaderView(0);
         name = hView.findViewById(R.id.nav_Name);
-        username = hView.findViewById(R.id.nav_user_name);
         displaypic = hView.findViewById(R.id.displaypic);
 
         toolbarImage= findViewById(R.id.toolbarimg1);
 
         name.setText(USERNAME);
-        username.setText("@"+USERNAME);
 
         if(PROFILEPIC!=null){
 //            if(PROFILEPIC.matches("0")){
