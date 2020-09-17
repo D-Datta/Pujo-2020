@@ -242,12 +242,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="all"
-                    android:fontFamily="@font/oxygen_regular"
                     android:paddingHorizontal="17dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
                     android:text="post_content"
-                    android:textColor="#212121"
+                    android:textColor="@color/black"
                     android:maxLines="10"
                     android:ellipsize="end"
                     android:textColorLink="@color/toolbarStart"
@@ -316,7 +315,6 @@
                         android:layout_height="match_parent"
                         android:text="Flamed by 100 others"
                         android:paddingStart="5dp"
-                        android:fontFamily="@font/oxygen_regular"
                         android:gravity="center_vertical"
                         android:layout_marginStart="10dp"/>
                 </LinearLayout>
@@ -331,8 +329,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:paddingHorizontal="10dp"
                     android:paddingVertical="3dp"
                     android:orientation="horizontal">
 
@@ -357,6 +354,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:hint="Write a comment..."
+                        android:background="@drawable/background_rectangle"
                         android:paddingHorizontal="10dp"
                         android:layout_weight="1"
                         android:gravity="center_vertical" />
