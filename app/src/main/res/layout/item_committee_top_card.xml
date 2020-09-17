@@ -38,15 +38,15 @@
                 android:id="@+id/committee_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:hint="Community"
+                android:hint="Committee"
                 android:textSize="15dp"
                 android:paddingTop="7dp"
                 android:gravity="center"
                 android:paddingHorizontal="5dp"
-                android:textColor="#212121"
+                android:textColor="@color/purple"
+                android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:fontFamily="@font/harabara"
                 android:layout_weight="1"/>
 
             <TextView
