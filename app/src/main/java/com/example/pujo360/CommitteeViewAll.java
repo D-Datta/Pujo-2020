@@ -71,8 +71,8 @@ public class CommitteeViewAll extends AppCompatActivity {
 
         buildRecyclerView();
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources()
-                .getColor(R.color.md_blue_500));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
+                .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();

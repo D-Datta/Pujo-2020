@@ -223,7 +223,7 @@ public class CommitteeFragment extends Fragment {
 
                     ArrayList<SliderModel> itemGroups = new ArrayList<>();
 
-                    FirebaseFirestore.getInstance().collection("Sliders/Slides")
+                    FirebaseFirestore.getInstance().collection("Sliders")
                         .get()
                         .addOnSuccessListener(queryDocumentSnapshots -> {
                             for (DocumentSnapshot document : queryDocumentSnapshots) {
@@ -972,7 +972,7 @@ public class CommitteeFragment extends Fragment {
             super(itemView);
 
             sliderView = itemView.findViewById(R.id.imageSlider);
-            tagList = itemView.findViewById(R.id.tagsList66);
+            tagList = itemView.findViewById(R.id.tagsList);
             username = itemView.findViewById(R.id.username);
             text_content = itemView.findViewById(R.id.text_content);
             userimage = itemView.findViewById(R.id.user_image);
