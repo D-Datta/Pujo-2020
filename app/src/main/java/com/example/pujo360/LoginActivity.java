@@ -128,7 +128,8 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = getIntent();
 
         ////FOR THOSE WHO REGISTER LATER///
-        if(i.getStringExtra("value").matches("1")){
+
+        if(i.getStringExtra("value")!= null && i.getStringExtra("value").matches("1")){
             logintext.setVisibility(GONE);
             signuptext.setVisibility(View.VISIBLE);
             acctInfo.setText("Don't have an account yet?");
