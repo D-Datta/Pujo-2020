@@ -79,27 +79,27 @@ import static java.lang.Boolean.TRUE;
 
 public class FeedsFragment extends Fragment {
 
-    private WeakReference<Dialog> dialog;
-    private WeakReference<ImageView> noPostYet1;
-    private WeakReference<ProgressDialog> progressDialog;
-    private WeakReference<BottomSheetDialog> postMenuDialog;
-    private WeakReference<FloatingActionButton> floatingActionButton;
-    private WeakReference<SwipeRefreshLayout> swipeRefreshLayout;
-    private WeakReference<ProgressBar> progressMore, contentProgress, contentProgCom;
+    private Dialog dialog;
+    private ImageView noPostYet1;
+    private ProgressDialog progressDialog;
+    private BottomSheetDialog postMenuDialog;
+    private FloatingActionButton floatingActionButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressMore, contentProgress, contentProgCom;
 
-    private WeakReference<TextView> view_all_NoPost;
-    private WeakReference<RecyclerView> comRecyclerView;
-    private WeakReference<LinearLayout> campusLL, LL;
+    private TextView view_all_NoPost;
+    private RecyclerView comRecyclerView;
+    private LinearLayout campusLL, LL;
 
     public static int changed = 0;
     public static int comDelete = 0;
 
-    private WeakReference<RecyclerView> mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     private FirestorePagingAdapter adapter;
     private IntroPref introPref;
 
-    private WeakReference<String> DP, USERNAME;
+    private String DP, USERNAME;
 
 
 
@@ -119,51 +119,51 @@ public class FeedsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         introPref = new IntroPref(getActivity());
-        DP = new WeakReference<>(introPref.getUserdp());
-        USERNAME = new WeakReference<>(introPref.getFullName());
+        DP = introPref.getUserdp();
+        USERNAME = introPref.getFullName();
 
         changed = 0;
 
-        swipeRefreshLayout= new WeakReference<>(view.findViewById(R.id.swiperefresh));
-        contentProgress = new WeakReference<>(view.findViewById(R.id.content_progress));
-        progressMore = new WeakReference<>(view.findViewById(R.id.progress_more));
-        floatingActionButton = new WeakReference<>(view.findViewById(R.id.to_the_top_campus));
-        noPostYet1= new WeakReference<>(view.findViewById(R.id.no_recent_com_post1));
+        swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
+        contentProgress = view.findViewById(R.id.content_progress);
+        progressMore = view.findViewById(R.id.progress_more);
+        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
+        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
 
         //////////////RECYCLER VIEW////////////////////
-        mRecyclerView = new WeakReference<>(view.findViewById(R.id.recyclerCampusPost));
-        mRecyclerView.get().setHasFixedSize(false);
-        WeakReference<LinearLayoutManager> layoutManager = new WeakReference<>(new LinearLayoutManager(getActivity()));
-        layoutManager.get().setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.get().setLayoutManager(layoutManager.get());
-        mRecyclerView.get().setNestedScrollingEnabled(true);
-        mRecyclerView.get().setItemViewCacheSize(10);
+        mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
+        mRecyclerView.setHasFixedSize(false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setNestedScrollingEnabled(true);
+        mRecyclerView.setItemViewCacheSize(10);
 
 
         //////////////RECYCLER VIEW////////////////////
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
-        contentProgCom = new WeakReference<>(view.findViewById(R.id.content_progress_community));
-        view_all_NoPost = new WeakReference<>(view.findViewById(R.id.community_view_all));
-        comRecyclerView = new WeakReference<>(view.findViewById(R.id.communityRecyclerNoPost));
-        campusLL = new WeakReference<>(view.findViewById(R.id.campusLL));
-        LL = new WeakReference<>(view.findViewById(R.id.LL));
+        contentProgCom = view.findViewById(R.id.content_progress_community);
+        view_all_NoPost = view.findViewById(R.id.community_view_all);
+        comRecyclerView = view.findViewById(R.id.communityRecyclerNoPost);
+        campusLL = view.findViewById(R.id.campusLL);
+        LL = view.findViewById(R.id.LL);
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
 
         buildRecyclerView();
 
-        swipeRefreshLayout.get()
+        swipeRefreshLayout
                 .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources()
                         .getColor(R.color.md_blue_500));
-        swipeRefreshLayout.get().setOnRefreshListener(() -> {
-            swipeRefreshLayout.get().setRefreshing(true);
-            contentProgCom.get().setVisibility(View.GONE);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            contentProgCom.setVisibility(View.GONE);
             buildRecyclerView();
         });
 
         final int[] scrollY = {0};
-        mRecyclerView.get().addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -174,12 +174,12 @@ public class FeedsFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 scrollY[0] = scrollY[0] + dy;
                 if (scrollY[0] <= 2000 && dy < 0) {
-                    floatingActionButton.get().setVisibility(View.GONE);
+                    floatingActionButton.setVisibility(View.GONE);
                 }
                 else {
                     if(dy < 0){
-                        floatingActionButton.get().setVisibility(View.VISIBLE);
-                        floatingActionButton.get().setOnClickListener(new View.OnClickListener() {
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
                             @SuppressLint("ObjectAnimatorBinding")
                             @Override
                             public void onClick(View v) {
@@ -192,7 +192,7 @@ public class FeedsFragment extends Fragment {
                             }
                         });
                     } else {
-                        floatingActionButton.get().setVisibility(View.GONE);
+                        floatingActionButton.setVisibility(View.GONE);
                     }
                 }
             }
@@ -231,36 +231,35 @@ public class FeedsFragment extends Fragment {
 
                 if(holder.getItemViewType() == 0) {
 
-                    floatingActionButton.get().setVisibility(View.GONE);
+                    floatingActionButton.setVisibility(View.GONE);
 
                     CommunityViewHolder communityViewHolder = (CommunityViewHolder)holder;
 
-                    communityViewHolder.view_all.get().setOnClickListener(v ->
+                    communityViewHolder.view_all.setOnClickListener(v ->
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
 
                     buildCommunityRecyclerView(communityViewHolder.cRecyclerView);
-                    //buildSliderView(communityViewHolder.sliderView);
 
                     ///////////////////FOR THE FIRST POST/////////////////////
                     DocumentReference likeStore;
                     String timeAgo = Utility.getTimeAgo(currentItem.getTs());
-                    communityViewHolder.minsago.get().setText(timeAgo);
+                    communityViewHolder.minsago.setText(timeAgo);
                     if (timeAgo != null) {
                         if (timeAgo.matches("just now")) {
-                            communityViewHolder.minsago.get().setTextColor(Color.parseColor("#00C853"));
+                            communityViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                         } else {
-                            communityViewHolder.minsago.get().setTextColor(Color.parseColor("#aa212121"));
+                            communityViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
                         }
                     }
 
 
                     if (currentItem.getComName() != null) {
-                        communityViewHolder.comName.get().setVisibility(View.VISIBLE);
-                        communityViewHolder.comName.get().setText(currentItem.getComName());
-                        communityViewHolder.comName.get().setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
+                        communityViewHolder.comName.setVisibility(View.VISIBLE);
+                        communityViewHolder.comName.setText(currentItem.getComName());
+                        communityViewHolder.comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
 
-                        communityViewHolder.comName.get().setOnClickListener(v -> {
+                        communityViewHolder.comName.setOnClickListener(v -> {
                             //To be changed
                             Intent intent = new Intent(getActivity(), MainActivity.class);
                             intent.putExtra("comID", currentItem.getComID());
@@ -268,15 +267,15 @@ public class FeedsFragment extends Fragment {
                         });
                     }
                     else {
-                        communityViewHolder.comName.get().setVisibility(View.GONE);
-                        communityViewHolder.comName.get().setText(null);
+                        communityViewHolder.comName.setVisibility(View.GONE);
+                        communityViewHolder.comName.setText(null);
                     }
 
                     ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
                     likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
 
-                    communityViewHolder.menuPost.get().setVisibility(View.VISIBLE);
+                    communityViewHolder.menuPost.setVisibility(View.VISIBLE);
 
                     ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
@@ -305,12 +304,12 @@ public class FeedsFragment extends Fragment {
 //                            } else if (DP.get().matches("9")) {
 //                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_10);
 //                            } else {
-                            Picasso.get().load(DP.get()).fit().centerCrop()
+                            Picasso.get().load(DP).fit().centerCrop()
                                     .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                    .into(communityViewHolder.profileimage.get());
+                                    .into(communityViewHolder.profileimage);
 
                     } else {
-                        communityViewHolder.profileimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        communityViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
 
                     ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
@@ -318,40 +317,39 @@ public class FeedsFragment extends Fragment {
                     ///////////TAGLIST///////////////
 
                     ///////////TAG RECYCLER SETUP////////////////
-                    communityViewHolder.tagList.get().setHasFixedSize(false);
+                    communityViewHolder.tagList.setHasFixedSize(false);
                     WeakReference<LinearLayoutManager> linearLayoutManager = new WeakReference<>(new LinearLayoutManager(getContext()));
                     linearLayoutManager.get().setOrientation(LinearLayoutManager.HORIZONTAL);
-                    communityViewHolder.tagList.get().setNestedScrollingEnabled(true);
-                    communityViewHolder.tagList.get().setLayoutManager(linearLayoutManager.get());
+                    communityViewHolder.tagList.setNestedScrollingEnabled(true);
+                    communityViewHolder.tagList.setLayoutManager(linearLayoutManager.get());
                     ///////////TAG RECYCLER SETUP////////////////
 
                     if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
-                        communityViewHolder.tagList.get().setVisibility(View.VISIBLE);
+                        communityViewHolder.tagList.setVisibility(View.VISIBLE);
                         TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
-                        communityViewHolder.tagList.get().setAdapter(tagAdapter);
+                        communityViewHolder.tagList.setAdapter(tagAdapter);
                     } else {
-                        communityViewHolder.tagList.get().setAdapter(null);
-                        communityViewHolder.tagList.get().setVisibility(View.GONE);
+                        communityViewHolder.tagList.setAdapter(null);
+                        communityViewHolder.tagList.setVisibility(View.GONE);
                     }
                     /////////TAGLIST///////////////
 
                     //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
-                    ////////////ANONYMOUS POST///////////////
                     if (currentItem.getUsN() != null) {
 
-                        communityViewHolder.userimage.get().setOnClickListener(v -> {
+                        communityViewHolder.userimage.setOnClickListener(v -> {
 //                            Intent intent = new Intent(getContext(), Main.class);
 //                            intent.putExtra("uid", currentItem.getUid());
 //                            startActivity(intent);
                         });
 
-                        communityViewHolder.username.get().setOnClickListener(v -> {
+                        communityViewHolder.username.setOnClickListener(v -> {
 //                            Intent intent = new Intent(getContext(), ProfileActivity.class);
 //                            intent.putExtra("uid", currentItem.getUid());
 //                            startActivity(intent);
                         });
 
-                        communityViewHolder.username.get().setText(currentItem.getUsN());
+                        communityViewHolder.username.setText(currentItem.getUsN());
 
                         ////////////NORMAL POST///////////////
                         if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
@@ -378,7 +376,7 @@ public class FeedsFragment extends Fragment {
 //                                } else {
                                 Picasso.get().load(currentItem.getDp()).fit().centerCrop()
                                         .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                        .into(communityViewHolder.userimage.get(), new Callback() {
+                                        .into(communityViewHolder.userimage, new Callback() {
                                             @Override
                                             public void onSuccess() {
 
@@ -386,18 +384,18 @@ public class FeedsFragment extends Fragment {
 
                                             @Override
                                             public void onError(Exception e) {
-                                                communityViewHolder.userimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                                communityViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                             }
                                         });
 //                                }
                         }
                         else {
-                            communityViewHolder.userimage.get().setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            communityViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
 
                     }
                     ///////////////OPEN VIEW MORE//////////////
-                    communityViewHolder.itemHome.get().setOnClickListener(v -> {
+                    communityViewHolder.itemHome.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
@@ -419,7 +417,7 @@ public class FeedsFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                    communityViewHolder.text_content.get().setOnClickListener(v -> {
+                    communityViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
@@ -441,7 +439,7 @@ public class FeedsFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                    communityViewHolder.sliderView.get().setOnClickListener(v -> {
+                    communityViewHolder.sliderView.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
@@ -463,7 +461,7 @@ public class FeedsFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                    communityViewHolder.flamedBy.get().setOnClickListener(v -> {
+                    communityViewHolder.flamedBy.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
@@ -493,18 +491,18 @@ public class FeedsFragment extends Fragment {
                     //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                     if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
-                        communityViewHolder.text_content.get().setVisibility(View.GONE);
-                        communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
-                        communityViewHolder.text_content.get().setText(null);
+                        communityViewHolder.text_content.setVisibility(View.GONE);
+                        communityViewHolder.LinkPreview.setVisibility(View.GONE);
+                        communityViewHolder.text_content.setText(null);
                     } else {
-                        communityViewHolder.text_content.get().setVisibility(View.VISIBLE);
-                        communityViewHolder.text_content.get().setText(currentItem.getTxt());
-                        if (communityViewHolder.text_content.get().getUrls().length > 0) {
-                            URLSpan urlSnapItem = communityViewHolder.text_content.get().getUrls()[0];
+                        communityViewHolder.text_content.setVisibility(View.VISIBLE);
+                        communityViewHolder.text_content.setText(currentItem.getTxt());
+                        if (communityViewHolder.text_content.getUrls().length > 0) {
+                            URLSpan urlSnapItem = communityViewHolder.text_content.getUrls()[0];
                             String url = urlSnapItem.getURL();
                             if (url.contains("http")) {
-                                communityViewHolder.LinkPreview.get().setVisibility(View.VISIBLE);
-                                communityViewHolder.LinkPreview.get().setLink(url, new ViewListener() {
+                                communityViewHolder.LinkPreview.setVisibility(View.VISIBLE);
+                                communityViewHolder.LinkPreview.setLink(url, new ViewListener() {
                                     @Override
                                     public void onSuccess(boolean status) {
                                     }
@@ -515,7 +513,7 @@ public class FeedsFragment extends Fragment {
                                             @Override
                                             public void run() {
                                                 //do stuff like remove view etc
-                                                communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
+                                                communityViewHolder.LinkPreview.setVisibility(View.GONE);
                                             }
                                         });
                                     }
@@ -523,28 +521,28 @@ public class FeedsFragment extends Fragment {
                             }
 
                         } else {
-                            communityViewHolder.LinkPreview.get().setVisibility(View.GONE);
+                            communityViewHolder.LinkPreview.setVisibility(View.GONE);
                         }
 
                     }
 
                     if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                        communityViewHolder.sliderView.get().setVisibility(View.VISIBLE);
-                        communityViewHolder.sliderView.get().setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                        communityViewHolder.sliderView.get().setIndicatorRadius(8);
-                        communityViewHolder.sliderView.get().setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                        communityViewHolder.sliderView.get().setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                        communityViewHolder.sliderView.get().setIndicatorSelectedColor(Color.WHITE);
-                        communityViewHolder.sliderView.get().setIndicatorUnselectedColor(R.color.colorAccent);
-                        communityViewHolder.sliderView.get().setAutoCycle(false);
+                        communityViewHolder.sliderView.setVisibility(View.VISIBLE);
+                        communityViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                        communityViewHolder.sliderView.setIndicatorRadius(8);
+                        communityViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        communityViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        communityViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
+                        communityViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                        communityViewHolder.sliderView.setAutoCycle(false);
 
                         SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg());
 
-                        communityViewHolder.sliderView.get().setSliderAdapter(sliderAdapter);
+                        communityViewHolder.sliderView.setSliderAdapter(sliderAdapter);
                     }
                     else
                     {
-                        communityViewHolder.sliderView.get().setVisibility(View.GONE);
+                        communityViewHolder.sliderView.setVisibility(View.GONE);
                     }
 
                     //////////////////////////TEXT & IMAGE FOR POST//////////////////////
@@ -555,42 +553,42 @@ public class FeedsFragment extends Fragment {
                     if (currentItem.getLikeL() != null) {
                         /////////////////UPDATNG FLAMED BY NO.//////////////////////
                         if (currentItem.getLikeL().size() == 0) {
-                            communityViewHolder.flamedBy.get().setText("Not flamed yet");
+                            communityViewHolder.flamedBy.setText("Not flamed yet");
                         } else if (currentItem.getLikeL().size() == 1)
-                            communityViewHolder.flamedBy.get().setText("Flamed by 1");
+                            communityViewHolder.flamedBy.setText("Flamed by 1");
                         else {
-                            communityViewHolder.flamedBy.get().setText("Flamed by " + currentItem.getLikeL().size() + " people");
+                            communityViewHolder.flamedBy.setText("Flamed by " + currentItem.getLikeL().size() + " people");
                         }
 
                         for (int j = 0; j < currentItem.getLikeL().size(); j++) {
                             if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
-                                communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
+                                communityViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                 currentItem.setLikeCheck(j);
                                 if ((currentItem.getLikeL().size() - 1) == 1)
-                                    communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
+                                    communityViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
                                 else if ((currentItem.getLikeL().size() - 1) == 0) {
-                                    communityViewHolder.flamedBy.get().setText("Flamed by you");
+                                    communityViewHolder.flamedBy.setText("Flamed by you");
                                 } else
-                                    communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
+                                    communityViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
                                 //Position in likeList where the current USer UId is found stored in likeCheck
                             }
                         }
                     } else {
-                        communityViewHolder.flamedBy.get().setText("Not flamed yet");
-                        communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_btmnav_notifications);
+                        communityViewHolder.flamedBy.setText("Not flamed yet");
+                        communityViewHolder.flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
                     }
                     //INITIAL SETUP//
 
 
-                    PushDownAnim.setPushDownAnimTo(communityViewHolder.flameimg.get())
+                    PushDownAnim.setPushDownAnimTo(communityViewHolder.flameimg)
                             .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                             .setOnClickListener(v -> {
                                 if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_btmnav_notifications);
+                                    communityViewHolder.flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
                                     if (currentItem.getLikeL().size() - 1 == 0) {
-                                        communityViewHolder.flamedBy.get().setText("Not flamed yet");
+                                        communityViewHolder.flamedBy.setText("Not flamed yet");
                                     } else
-                                        communityViewHolder.flamedBy.get().setText("Flamed by " + (currentItem.getLikeL().size() - 1) + " people");
+                                        communityViewHolder.flamedBy.setText("Flamed by " + (currentItem.getLikeL().size() - 1) + " people");
                                     ///////////REMOVE CURRENT USER LIKE/////////////
                                     currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
                                     currentItem.setLikeCheck(-1);
@@ -610,13 +608,13 @@ public class FeedsFragment extends Fragment {
                                     ///////////////////BATCH WRITE///////////////////
                                 } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
                                     Utility.vibrate(getContext());
-                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
+                                    communityViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                     if (currentItem.getLikeL().size() == 0)
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you");
+                                        communityViewHolder.flamedBy.setText("Flamed by you");
                                     else if (currentItem.getLikeL().size() == 1)
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + currentItem.getLikeL().size() + " other");
+                                        communityViewHolder.flamedBy.setText("Flamed by you & " + currentItem.getLikeL().size() + " other");
                                     else
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + currentItem.getLikeL().size() + " others");
+                                        communityViewHolder.flamedBy.setText("Flamed by you & " + currentItem.getLikeL().size() + " others");
 
                                     //////////////ADD CURRENT USER TO LIKELIST//////////////////
                                     currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
@@ -630,8 +628,8 @@ public class FeedsFragment extends Fragment {
                                     flamedModel.setPostID(currentItem.getDocID());
                                     flamedModel.setTs(tsLong);
                                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(DP.get());
-                                    flamedModel.setUsername(USERNAME.get());
+                                    flamedModel.setUserdp(DP);
+                                    flamedModel.setUsername(USERNAME);
                                     flamedModel.setPostUid(currentItem.getUid());
 
                                     DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
@@ -646,11 +644,11 @@ public class FeedsFragment extends Fragment {
                                     ///////////////////BATCH WRITE///////////////////
                                 } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                     Utility.vibrate(getActivity());
-                                    communityViewHolder.flameimg.get().setImageResource(R.drawable.ic_flame_red);
+                                    communityViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                     if (currentItem.getLikeL() != null)
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you & " + (currentItem.getLikeL().size() + 1) + " people");
+                                        communityViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() + 1) + " people");
                                     else
-                                        communityViewHolder.flamedBy.get().setText("Flamed by you");
+                                        communityViewHolder.flamedBy.setText("Flamed by you");
 
                                     //////////////ADD CURRENT USER TO LIKELIST//////////////////
                                     currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
@@ -665,8 +663,8 @@ public class FeedsFragment extends Fragment {
                                     flamedModel.setPostID(currentItem.getDocID());
                                     flamedModel.setTs(tsLong);
                                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(DP.get());
-                                    flamedModel.setUsername(USERNAME.get());
+                                    flamedModel.setUserdp(DP);
+                                    flamedModel.setUsername(USERNAME);
                                     flamedModel.setPostUid(currentItem.getUid());
 
                                     DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
@@ -684,27 +682,27 @@ public class FeedsFragment extends Fragment {
 
 
                     if (currentItem.getCmtNo() > 0) {
-                        communityViewHolder.commentimg.get().setImageResource(R.drawable.comment_yellow);
+                        communityViewHolder.commentimg.setImageResource(R.drawable.comment_yellow);
                         if (currentItem.getCmtNo() == 1)
-                            communityViewHolder.commentCount.get().setText(currentItem.getCmtNo() + " comment");
+                            communityViewHolder.commentCount.setText(currentItem.getCmtNo() + " comment");
                         else if (currentItem.getCmtNo() > 1)
-                            communityViewHolder.commentCount.get().setText(currentItem.getCmtNo() + " comments");
+                            communityViewHolder.commentCount.setText(currentItem.getCmtNo() + " comments");
 
                     } else {
-                        communityViewHolder.commentimg.get().setImageResource(R.drawable.ic_comment);
-                        communityViewHolder.commentCount.get().setText("No comments");
+                        communityViewHolder.commentimg.setImageResource(R.drawable.ic_comment);
+                        communityViewHolder.commentCount.setText("No comments");
                     }
 
 
                     ////////POST MENU///////
-                    communityViewHolder.menuPost.get().setOnClickListener(v -> {
+                    communityViewHolder.menuPost.setOnClickListener(v -> {
                         if (currentItem.getUid().matches(FirebaseAuth.getInstance().getUid())) {
-                            postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
+                            postMenuDialog = new BottomSheetDialog(getActivity());
 
-                            postMenuDialog.get().setContentView(R.layout.dialog_post_menu_3);
-                            postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
+                            postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
+                            postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                            postMenuDialog.get().findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                                 Intent i = new Intent(getActivity(), NewPostHome.class);
                                 i.putExtra("target", "100"); //target value for edit post
                                 i.putExtra("bool", "3");
@@ -731,26 +729,26 @@ public class FeedsFragment extends Fragment {
                                 i.putExtra("challengeID", currentItem.getChallengeID());
                                 startActivity(i);
 
-                                postMenuDialog.get().dismiss();
+                                postMenuDialog.dismiss();
 
                             });
 
-                            postMenuDialog.get().findViewById(R.id.delete_post).setOnClickListener(v2 -> {
+                            postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setTitle("Are you sure?")
                                         .setMessage("Post will be deleted permanently")
                                         .setPositiveButton("Delete", (dialog, which) -> {
-                                            progressDialog = new WeakReference<>(new ProgressDialog(getActivity()));
-                                            progressDialog.get().setTitle("Deleting Post");
-                                            progressDialog.get().setMessage("Please wait...");
-                                            progressDialog.get().setCancelable(false);
-                                            progressDialog.get().show();
+                                            progressDialog = new ProgressDialog(getActivity());
+                                            progressDialog.setTitle("Deleting Post");
+                                            progressDialog.setMessage("Please wait...");
+                                            progressDialog.setCancelable(false);
+                                            progressDialog.show();
                                             FirebaseFirestore.getInstance()
                                                     .collection("Feeds/").document(currentItem
                                                     .getDocID()).delete()
                                                     .addOnSuccessListener(aVoid -> {
-                                                        communityViewHolder.first_post.get().setVisibility(View.GONE);
-                                                        progressDialog.get().dismiss();
+                                                        communityViewHolder.first_post.setVisibility(View.GONE);
+                                                        progressDialog.dismiss();
                                                         FirebaseFirestore.getInstance()
                                                                 .collection("Feeds/")
                                                                 .orderBy("newTs", Query.Direction.DESCENDING)
@@ -759,16 +757,16 @@ public class FeedsFragment extends Fragment {
                                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                                 if(task.isSuccessful()) {
                                                                     if(task.getResult().size() == 0) {
-                                                                        communityViewHolder.noPost.get().setVisibility(View.VISIBLE);
+                                                                        communityViewHolder.noPost.setVisibility(View.VISIBLE);
                                                                     }
                                                                     else {
-                                                                        communityViewHolder.noPost.get().setVisibility(View.GONE);
+                                                                        communityViewHolder.noPost.setVisibility(View.GONE);
                                                                     }
                                                                 }
                                                             }
                                                         });
                                                     });
-                                            postMenuDialog.get().dismiss();
+                                            postMenuDialog.dismiss();
 
                                         })
                                         .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
@@ -776,57 +774,57 @@ public class FeedsFragment extends Fragment {
                                         .show();
                             });
 
-                            postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v1 -> {
+                            postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v1 -> {
                                 String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
                                 i.putExtra(Intent.EXTRA_TEXT, link);
                                 i.setType("text/plain");
                                 startActivity(Intent.createChooser(i, "Share with"));
-                                postMenuDialog.get().dismiss();
+                                postMenuDialog.dismiss();
 
                             });
 
-                            postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v12 -> {
+                            postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                                 FirebaseFirestore.getInstance()
                                         .collection("Feeds/").document(currentItem.getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
-                                postMenuDialog.get().dismiss();
+                                postMenuDialog.dismiss();
 
                             });
 
-                            Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            postMenuDialog.get().show();
+                            Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.show();
 
                         }
                         else {
-                            postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
+                            postMenuDialog = new BottomSheetDialog(getActivity());
 
-                            postMenuDialog.get().setContentView(R.layout.dialog_post_menu);
-                            postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
+                            postMenuDialog.setContentView(R.layout.dialog_post_menu);
+                            postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                            postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v13 -> {
+                            postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
                                 String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
                                 i.putExtra(Intent.EXTRA_TEXT, link);
                                 i.setType("text/plain");
                                 startActivity(Intent.createChooser(i, "Share with"));
-                                postMenuDialog.get().dismiss();
+                                postMenuDialog.dismiss();
 
                             });
 
-                            postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v14 -> {
+                            postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                                 FirebaseFirestore.getInstance()
                                         .collection("Feeds/").document(currentItem.getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
-                                postMenuDialog.get().dismiss();
+                                postMenuDialog.dismiss();
 
                             });
-                            Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            postMenuDialog.get().show();
+                            Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.show();
 
                         }
                     });
@@ -901,7 +899,7 @@ public class FeedsFragment extends Fragment {
 //                            } else if (DP.get().matches("9")) {
 //                                programmingViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_10);
 //                            } else {
-                                Picasso.get().load(DP.get()).fit().centerCrop()
+                                Picasso.get().load(DP).fit().centerCrop()
                                         .placeholder(R.drawable.ic_account_circle_black_24dp)
                                         .into(programmingViewHolder.profileimage.get());
 //                            }
@@ -932,7 +930,6 @@ public class FeedsFragment extends Fragment {
                         /////////TAGLIST///////////////
 
                         //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
-                        ////////////ANONYMOUS POST///////////////
                         if (currentItem.getUsN() != null) {
 
                             programmingViewHolder.userimage.get().setOnClickListener(v -> {
@@ -1024,8 +1021,10 @@ public class FeedsFragment extends Fragment {
                             intent.putExtra("userdp", currentItem.getDp());
                             intent.putExtra("docID", currentItem.getDocID());
                             StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+
                             intent.putExtra("comName", currentItem.getComName());
                             intent.putExtra("comID", currentItem.getComID());
+
                             intent.putExtra("likeL", currentItem.getLikeL());
                             intent.putExtra("postPic", currentItem.getImg());
                             intent.putExtra("postText", currentItem.getTxt());
@@ -1065,10 +1064,10 @@ public class FeedsFragment extends Fragment {
                             intent.putExtra("userdp", currentItem.getDp());
                             intent.putExtra("docID", currentItem.getDocID());
                             StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
+
                             intent.putExtra("comName", currentItem.getComName());
                             intent.putExtra("comID", currentItem.getComID());
-                            //            intent.putExtra("tagL", currentItem.getTagL());
+
                             intent.putExtra("likeL", currentItem.getLikeL());
                             intent.putExtra("postPic", currentItem.getImg());
                             intent.putExtra("postText", currentItem.getTxt());
@@ -1226,8 +1225,8 @@ public class FeedsFragment extends Fragment {
                                         flamedModel.setPostID(currentItem.getDocID());
                                         flamedModel.setTs(tsLong);
                                         flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                        flamedModel.setUserdp(DP.get());
-                                        flamedModel.setUsername(USERNAME.get());
+                                        flamedModel.setUserdp(DP);
+                                        flamedModel.setUsername(USERNAME);
                                         flamedModel.setPostUid(currentItem.getUid());
 
                                         DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
@@ -1261,8 +1260,8 @@ public class FeedsFragment extends Fragment {
                                         flamedModel.setPostID(currentItem.getDocID());
                                         flamedModel.setTs(tsLong);
                                         flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                        flamedModel.setUserdp(DP.get());
-                                        flamedModel.setUsername(USERNAME.get());
+                                        flamedModel.setUserdp(DP);
+                                        flamedModel.setUsername(USERNAME);
                                         flamedModel.setPostUid(currentItem.getUid());
 
                                         DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
@@ -1294,13 +1293,12 @@ public class FeedsFragment extends Fragment {
                         ////////POST MENU///////
                         programmingViewHolder.menuPost.get().setOnClickListener(v -> {
                             if (currentItem.getUid().matches(FirebaseAuth.getInstance().getUid())) {
-//                                Utility.showToast(getContext(), String.valueOf(position));
-                                postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
+                                postMenuDialog = new BottomSheetDialog(getActivity());
 
-                                postMenuDialog.get().setContentView(R.layout.dialog_post_menu_3);
-                                postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
+                                postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
+                                postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                                postMenuDialog.get().findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                                postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                                     Intent i = new Intent(getContext(), NewPostHome.class);
                                     i.putExtra("target", "100"); //target value for edit post
                                     i.putExtra("bool", "3");
@@ -1327,20 +1325,20 @@ public class FeedsFragment extends Fragment {
                                     i.putExtra("challengeID", currentItem.getChallengeID());
                                     startActivity(i);
 
-                                    postMenuDialog.get().dismiss();
+                                    postMenuDialog.dismiss();
 
                                 });
 
-                                postMenuDialog.get().findViewById(R.id.delete_post).setOnClickListener(v2 -> {
+                                postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setTitle("Are you sure?")
                                             .setMessage("Post will be deleted permanently")
                                             .setPositiveButton("Delete", (dialog, which) -> {
-                                                progressDialog = new WeakReference<>(new ProgressDialog(getActivity()));
-                                                progressDialog.get().setTitle("Deleting Post");
-                                                progressDialog.get().setMessage("Please wait...");
-                                                progressDialog.get().setCancelable(false);
-                                                progressDialog.get().show();
+                                                progressDialog = new ProgressDialog(getActivity());
+                                                progressDialog.setTitle("Deleting Post");
+                                                progressDialog.setMessage("Please wait...");
+                                                progressDialog.setCancelable(false);
+                                                progressDialog.show();
                                                 FirebaseFirestore.getInstance()
                                                         .collection("Feeds/").document(currentItem.getDocID())
                                                         .delete()
@@ -1365,9 +1363,9 @@ public class FeedsFragment extends Fragment {
                                                                     }
                                                                 }
                                                             });
-                                                            progressDialog.get().dismiss();
+                                                            progressDialog.dismiss();
                                                         });
-                                                postMenuDialog.get().dismiss();
+                                                postMenuDialog.dismiss();
 
                                             })
                                             .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
@@ -1376,57 +1374,57 @@ public class FeedsFragment extends Fragment {
 
                                 });
 
-                                postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v1 -> {
+                                postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v1 -> {
                                     String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_SEND);
                                     i.putExtra(Intent.EXTRA_TEXT, link);
                                     i.setType("text/plain");
                                     startActivity(Intent.createChooser(i, "Share with"));
-                                    postMenuDialog.get().dismiss();
+                                    postMenuDialog.dismiss();
 
                                 });
 
-                                postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v12 -> {
+                                postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                                     FirebaseFirestore.getInstance()
                                             .collection("Feeds/").document(currentItem.getDocID())
                                             .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                             .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
-                                    postMenuDialog.get().dismiss();
+                                    postMenuDialog.dismiss();
 
                                 });
 
-                                Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                postMenuDialog.get().show();
+                                Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                postMenuDialog.show();
 
 
                             } else {
-                                postMenuDialog = new WeakReference<>(new BottomSheetDialog(getActivity()));
+                                postMenuDialog = new BottomSheetDialog(getActivity());
 
-                                postMenuDialog.get().setContentView(R.layout.dialog_post_menu);
-                                postMenuDialog.get().setCanceledOnTouchOutside(TRUE);
+                                postMenuDialog.setContentView(R.layout.dialog_post_menu);
+                                postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                                postMenuDialog.get().findViewById(R.id.share_post).setOnClickListener(v13 -> {
+                                postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
                                     String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
                                     Intent i = new Intent();
                                     i.setAction(Intent.ACTION_SEND);
                                     i.putExtra(Intent.EXTRA_TEXT, link);
                                     i.setType("text/plain");
                                     startActivity(Intent.createChooser(i, "Share with"));
-                                    postMenuDialog.get().dismiss();
+                                    postMenuDialog.dismiss();
 
                                 });
 
-                                postMenuDialog.get().findViewById(R.id.report_post).setOnClickListener(v14 -> {
+                                postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                                     FirebaseFirestore.getInstance()
                                             .collection("Feeds/").document(currentItem.getDocID())
                                             .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                             .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
-                                    postMenuDialog.get().dismiss();
+                                    postMenuDialog.dismiss();
 
                                 });
-                                Objects.requireNonNull(postMenuDialog.get().getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                postMenuDialog.get().show();
+                                Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                                postMenuDialog.show();
 
                             }
                         });
@@ -1465,79 +1463,76 @@ public class FeedsFragment extends Fragment {
                 switch (state) {
                     case ERROR: Utility.showToast(getActivity(), "Something went wrong...");
                         break;
-                    case LOADING_MORE: progressMore.get().setVisibility(View.VISIBLE); break;
-                    case LOADED: progressMore.get().setVisibility(View.GONE);
-                        if(swipeRefreshLayout.get().isRefreshing()) {
-                            swipeRefreshLayout.get().setRefreshing(false);
+                    case LOADING_MORE: progressMore.setVisibility(View.VISIBLE); break;
+                    case LOADED: progressMore.setVisibility(View.GONE);
+                        if(swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
-                    case FINISHED: contentProgress.get().setVisibility(View.GONE);
-                        progressMore.get().setVisibility(View.GONE);
-                        if(swipeRefreshLayout.get().isRefreshing()) {
-                            swipeRefreshLayout.get().setRefreshing(false);
+                    case FINISHED: contentProgress.setVisibility(View.GONE);
+                        progressMore.setVisibility(View.GONE);
+                        if(swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                         if(adapter.getItemCount() == 0){
                             noPostView();
                         }
                         else {
-                            LL.get().setVisibility(View.VISIBLE);
-                            campusLL.get().setVisibility(View.GONE);
-                            noPostYet1.get().setVisibility(View.GONE);
+                            LL.setVisibility(View.VISIBLE);
+                            campusLL.setVisibility(View.GONE);
+                            noPostYet1.setVisibility(View.GONE);
                         }
                         break;
                 }
             }
         };
 
-        contentProgress.get().setVisibility(View.GONE);
-        progressMore.get().setVisibility(View.GONE);
-        mRecyclerView.get().setAdapter(adapter);
+        contentProgress.setVisibility(View.GONE);
+        progressMore.setVisibility(View.GONE);
+        mRecyclerView.setAdapter(adapter);
     }
 
     private static class CommunityViewHolder extends RecyclerView.ViewHolder{
 
-        WeakReference<TextView> view_all;
-        WeakReference<ImageView> info, noPost;
-        WeakReference<RecyclerView> cRecyclerView;
+        TextView view_all;
+        ImageView info, noPost;
+        RecyclerView cRecyclerView;
 
-        //SliderView sliderView;
-
-        WeakReference<TextView> username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        WeakReference<ImageView> userimage, flameimg, commentimg,profileimage, menuPost, share;
-        WeakReference<SliderView> sliderView;
-        WeakReference<ApplexLinkPreview> LinkPreview;
-        WeakReference<LinearLayout> itemHome;
-        WeakReference<RelativeLayout> first_post;
-        WeakReference<RecyclerView> tagList;
+        TextView username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
+        ImageView userimage, flameimg, commentimg,profileimage, menuPost, share;
+        SliderView sliderView;
+        ApplexLinkPreview LinkPreview;
+        LinearLayout itemHome;
+        RelativeLayout first_post;
+        RecyclerView tagList;
 
         public CommunityViewHolder(@NonNull View itemView) {
             super(itemView);
-            //campusName  = new WeakReference<>(itemView.findViewById(R.id.campus_name));
-            info = new WeakReference<>(itemView.findViewById(R.id.info));
-            view_all = new WeakReference<>(itemView.findViewById(R.id.community_view_all));
-            cRecyclerView = new WeakReference<>(itemView.findViewById(R.id.communityRecycler));
+            info = itemView.findViewById(R.id.info);
+            view_all = itemView.findViewById(R.id.community_view_all);
+            cRecyclerView = itemView.findViewById(R.id.communityRecycler);
 
             //sliderView = itemView.findViewById(R.id.imageSlider);
 
-            tagList = new WeakReference<>(itemView.findViewById(R.id.tagsList66));
-            username = new WeakReference<>(itemView.findViewById(R.id.username));
-            text_content = new WeakReference<>(itemView.findViewById(R.id.text_content));
-            userimage = new WeakReference<>(itemView.findViewById(R.id.user_image));
-            sliderView = new WeakReference<>(itemView.findViewById(R.id.post_image));
-            flamedBy = new WeakReference<>(itemView.findViewById(R.id.flamed_by));
-            minsago=new WeakReference<>(itemView.findViewById(R.id.mins_ago));
-            flameimg = new WeakReference<>(itemView.findViewById(R.id.flame));
-            comName = new WeakReference<>(itemView.findViewById(R.id.comName));
-            commentimg = new WeakReference<>(itemView.findViewById(R.id.comment));
-            commentCount = new WeakReference<>(itemView.findViewById(R.id.no_of_comments));
-            profileimage = new WeakReference<>(itemView.findViewById(R.id.profile_image));
-            menuPost = new WeakReference<>(itemView.findViewById(R.id.delete_post));
-            writecomment = new WeakReference<>(itemView.findViewById(R.id.write_comment));
-            itemHome = new WeakReference<>(itemView.findViewById(R.id.item_home));
-            share = new WeakReference<>(itemView.findViewById(R.id.share));
-            LinkPreview = new WeakReference<>(itemView.findViewById(R.id.LinkPreView));
-            first_post = new WeakReference<>(itemView.findViewById(R.id.first_post));
-            noPost = new WeakReference<>(itemView.findViewById(R.id.no_recent_post));
+            tagList = itemView.findViewById(R.id.tagsList66);
+            username = itemView.findViewById(R.id.username);
+            text_content = itemView.findViewById(R.id.text_content);
+            userimage = itemView.findViewById(R.id.user_image);
+            sliderView = itemView.findViewById(R.id.post_image);
+            flamedBy = itemView.findViewById(R.id.flamed_by);
+            minsago = itemView.findViewById(R.id.mins_ago);
+            flameimg = itemView.findViewById(R.id.flame);
+            comName = itemView.findViewById(R.id.comName);
+            commentimg = itemView.findViewById(R.id.comment);
+            commentCount = itemView.findViewById(R.id.no_of_comments);
+            profileimage = itemView.findViewById(R.id.profile_image);
+            menuPost = itemView.findViewById(R.id.delete_post);
+            writecomment = itemView.findViewById(R.id.write_comment);
+            itemHome = itemView.findViewById(R.id.item_home);
+            share = itemView.findViewById(R.id.share);
+            LinkPreview = itemView.findViewById(R.id.LinkPreView);
+            first_post = itemView.findViewById(R.id.first_post);
+            noPost = itemView.findViewById(R.id.no_recent_post);
         }
     }
 
@@ -1606,14 +1601,14 @@ public class FeedsFragment extends Fragment {
 
 
 
-    private void buildCommunityRecyclerView(WeakReference<RecyclerView> cRecyclerView) {
-        cRecyclerView.get().setHasFixedSize(true);
-        WeakReference<LinearLayoutManager> layoutManagerCom = new WeakReference<>(new LinearLayoutManager(getActivity()));
-        layoutManagerCom.get().setOrientation(LinearLayoutManager.HORIZONTAL);
-        cRecyclerView.get().setLayoutManager(layoutManagerCom.get());
-        cRecyclerView.get().setItemAnimator(new DefaultItemAnimator());
+    private void buildCommunityRecyclerView(RecyclerView cRecyclerView) {
+        cRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
+        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
+        cRecyclerView.setLayoutManager(layoutManagerCom);
+        cRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        ArrayList<BaseUserModel> CommunityGrps = new ArrayList<>();
+        ArrayList<BaseUserModel> committees = new ArrayList<>();
 
         Query query =  FirebaseFirestore.getInstance()
                 .collection("Users")
@@ -1625,15 +1620,15 @@ public class FeedsFragment extends Fragment {
             for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
                 if(document.exists()) {
                     BaseUserModel communityModel1 = document.toObject(BaseUserModel.class);
-                    CommunityGrps.add(communityModel1);
+                    committees.add(communityModel1);
 //                    long pos = (long) (Math.random() * 1000000000);
 //                    FirebaseFirestore.getInstance().document("Home/Communities/" + document.getId())
 //                            .update("random", pos);
                 }
             }
-            if(CommunityGrps.size()>0) {
-                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(CommunityGrps, getActivity(), 10);
-                cRecyclerView.get().setAdapter(communityAdapter);
+            if(committees.size()>0) {
+                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), 10);
+                cRecyclerView.setAdapter(communityAdapter);
             }
 
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
@@ -1641,12 +1636,12 @@ public class FeedsFragment extends Fragment {
 
 
     private void noPostView() {
-        campusLL.get().setVisibility(View.VISIBLE);
-        LL.get().setVisibility(View.GONE);
-        contentProgCom.get().setVisibility(View.GONE);
-        noPostYet1.get().setVisibility(View.VISIBLE);
+        campusLL.setVisibility(View.VISIBLE);
+        LL.setVisibility(View.GONE);
+        contentProgCom.setVisibility(View.GONE);
+        noPostYet1.setVisibility(View.VISIBLE);
 
-        view_all_NoPost.get().setOnClickListener(v -> startActivity(new Intent(getActivity(), CommitteeViewAll.class)));
+        view_all_NoPost.setOnClickListener(v -> startActivity(new Intent(getActivity(), CommitteeViewAll.class)));
 
         buildCommunityRecyclerView(comRecyclerView);
 
