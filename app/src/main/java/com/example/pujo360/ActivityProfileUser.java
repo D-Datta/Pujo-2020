@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
+import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.fragments.CommitteeFragment;
 import com.example.pujo360.models.BaseUserModel;
@@ -67,6 +68,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
@@ -323,34 +327,48 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         if(task.getResult().exists()){
                                             userModel = task.getResult().toObject(BaseUserModel.class);
                                             FirebaseFirestore.getInstance().collection("Users")
-                                                    .document(my_uid).collection("Individual").document(my_uid).get()
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                    .document(my_uid).collection("indi").document(my_uid).get()
+                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                         @Override
-                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                             IndividualModel individualModel= task.getResult().toObject(IndividualModel.class);
                                                             FirstName= individualModel.getFirstname();
                                                             LastName = individualModel.getLastname();
+                                                            holder1.PName.setText(FirstName+" "+LastName);
                                                         }
                                                     });
-
                                             UserName= userModel.getName();
-
-                                            holder1.PName.setText(FirstName+" "+LastName);
                                             holder1.PUsername.setText('@'+UserName);
 
                                             if(userModel.getDp()!=null){
 
-                                                String DP = userModel.getDp();
-                                                if(DP!=null){
-                                                    Picasso.get().load(DP).placeholder(R.drawable.image_background_grey).into(holder1.PDp);
-                                                }
-                                                else{
-                                                    Picasso.get().load(DP).into(holder1.PDp);
-                                                }
+                                                PROFILEPIC = userModel.getDp();
+                                                Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(holder1.PDp);
+//                                                if(PROFILEPIC!=null){
+//                                                    Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(holder1.PDp);
+//                                                }
+//                                                else{
+//                                                    Picasso.get().load(PROFILEPIC).into(holder1.PDp);
+//                                                }
 
                                             }
                                             else {
                                                 holder1.PDp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                                Display display = getWindowManager().getDefaultDisplay();
+                                                int displayWidth = display.getWidth();
+                                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                                options.inJustDecodeBounds = true;
+                                                BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                                int width = options.outWidth;
+                                                if (width > displayWidth) {
+                                                    int widthRatio = Math.round((float) width / (float) displayWidth);
+                                                    options.inSampleSize = widthRatio;
+                                                }
+                                                options.inJustDecodeBounds = false;
+                                                Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+//                                                coverpic.setImageBitmap(scaledBitmap);
+//                                    holder1.Pcoverpic.setImageBitmap(scaledBitmap);
+                                                holder1.PDp.setImageBitmap(scaledBitmap);
                                             }
 
                                             if(userModel.getCoverpic()!=null){
@@ -426,7 +444,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                         ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
                         likeStore = FirebaseFirestore.getInstance()
-                                .document("Home/Global/Feeds/"+currentItem.getDocID()+"/");
+                                .document("Feeds/"+currentItem.getDocID()+"/");
 
                         holder1.comName.setVisibility(View.GONE);
 
@@ -634,6 +652,25 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                        }
 //                        else
 //                            holder1.postimage.setVisibility(View.GONE);
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            holder1.postimage.setVisibility(View.VISIBLE);
+                            holder1.postimage.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                            holder1.postimage.setIndicatorRadius(8);
+                            holder1.postimage.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            holder1.postimage.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                            holder1.postimage.setIndicatorSelectedColor(Color.WHITE);
+                            holder1.postimage.setIndicatorUnselectedColor(R.color.colorAccent);
+                            holder1.postimage.setAutoCycle(false);
+
+                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg());
+
+                            holder1.postimage.setSliderAdapter(sliderAdapter);
+                        }
+                        else
+                        {
+                            holder1.postimage.setVisibility(View.GONE);
+                        }
+
 
                         //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -852,7 +889,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                     progressDialog.setCancelable(false);
                                                     progressDialog.show();
                                                     FirebaseFirestore.getInstance()
-                                                            .collection("Home/Global/Feeds/").document(currentItem
+                                                            .collection("Feeds/").document(currentItem
                                                             .getDocID()).delete()
                                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                 @Override
@@ -861,7 +898,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                                     holder1.first_post.setVisibility(View.GONE);
                                                                     progressDialog.dismiss();
                                                                     FirebaseFirestore.getInstance()
-                                                                            .collection("Home/Global/Feeds/")
+                                                                            .collection("Feeds/")
                                                                             .whereEqualTo("uid", my_uid)
                                                                             .orderBy("ts", Query.Direction.DESCENDING)
                                                                             .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -892,7 +929,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             //                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
-                                            String link = "https://ll.campus24.in/android/Home/Global/"+currentItem.getDocID();
+                                            String link = "https://www.utsavapp.in/android/feeds/"+currentItem.getDocID();
                                             Intent i=new Intent();
                                             i.setAction(Intent.ACTION_SEND);
                                             i.putExtra(Intent.EXTRA_TEXT, link);
@@ -907,7 +944,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             FirebaseFirestore.getInstance()
-                                                    .collection("Home/Global/Feeds/").document(currentItem.getDocID())
+                                                    .collection("Feeds/").document(currentItem.getDocID())
                                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
@@ -934,7 +971,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             //                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
-                                            String link = "https://ll.campus24.in/android/Home/Global/"+currentItem.getDocID();
+                                            String link = "https://www.utsavapp.in/android/feeds/"+currentItem.getDocID();
                                             Intent i=new Intent();
                                             i.setAction(Intent.ACTION_SEND);
                                             i.putExtra(Intent.EXTRA_TEXT, link);
@@ -949,7 +986,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             FirebaseFirestore.getInstance()
-                                                    .collection("Home/Global/Feeds/").document(currentItem.getDocID())
+                                                    .collection("Feeds/").document(currentItem.getDocID())
                                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
@@ -1003,7 +1040,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                         ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
                         likeStore = FirebaseFirestore.getInstance()
-                                .document("Home/Global/Feeds/"+currentItem.getDocID()+"/");
+                                .document("Feeds/"+currentItem.getDocID()+"/");
                         programmingViewHolder.comName.setVisibility(View.GONE);
 
 
@@ -1229,6 +1266,24 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                        }
 //                        else
 //                            programmingViewHolder.postimage.setVisibility(View.GONE);
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            programmingViewHolder.postimage.setVisibility(View.VISIBLE);
+                            programmingViewHolder.postimage.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                            programmingViewHolder.postimage.setIndicatorRadius(8);
+                            programmingViewHolder.postimage.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            programmingViewHolder.postimage.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                            programmingViewHolder.postimage.setIndicatorSelectedColor(Color.WHITE);
+                            programmingViewHolder.postimage.setIndicatorUnselectedColor(R.color.colorAccent);
+                            programmingViewHolder.postimage.setAutoCycle(false);
+
+                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg());
+
+                            programmingViewHolder.postimage.setSliderAdapter(sliderAdapter);
+                        }
+                        else
+                        {
+                            programmingViewHolder.postimage.setVisibility(View.GONE);
+                        }
 
                         //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -1447,7 +1502,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                     progressDialog.setCancelable(false);
                                                     progressDialog.show();
                                                     FirebaseFirestore.getInstance()
-                                                            .collection("Home/Global/Feeds/").document(currentItem
+                                                            .collection("Feeds/").document(currentItem
                                                             .getDocID()).delete()
                                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                 @Override
@@ -1458,7 +1513,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                                     programmingViewHolder.view2.setVisibility(View.GONE);
                                                                     notifyDataSetChanged();
                                                                     FirebaseFirestore.getInstance()
-                                                                            .collection("Home/Global/Feeds/")
+                                                                            .collection("Feeds/")
                                                                             .whereEqualTo("uid", my_uid)
                                                                             .orderBy("ts", Query.Direction.DESCENDING)
                                                                             .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -1490,7 +1545,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             //                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
-                                            String link = "https://ll.campus24.in/android/Home/Global/"+currentItem.getDocID();
+                                            String link = "https://www.utsavapp.in/android/feeds/"+currentItem.getDocID();
                                             Intent i=new Intent();
                                             i.setAction(Intent.ACTION_SEND);
                                             i.putExtra(Intent.EXTRA_TEXT, link);
@@ -1505,7 +1560,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             FirebaseFirestore.getInstance()
-                                                    .collection("Home/Global/Feeds/").document(currentItem.getDocID())
+                                                    .collection("Feeds/").document(currentItem.getDocID())
                                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
@@ -1532,7 +1587,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             //                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
-                                            String link = "https://ll.campus24.in/android/Home/Global/"+currentItem.getDocID();
+                                            String link = "https://www.utsavapp.in/android/feeds/"+currentItem.getDocID();
                                             Intent i=new Intent();
                                             i.setAction(Intent.ACTION_SEND);
                                             i.putExtra(Intent.EXTRA_TEXT, link);
@@ -1547,7 +1602,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             FirebaseFirestore.getInstance()
-                                                    .collection("Home/Global/Feeds/").document(currentItem.getDocID())
+                                                    .collection("Feeds/").document(currentItem.getDocID())
                                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
@@ -1636,11 +1691,12 @@ public class ActivityProfileUser extends AppCompatActivity {
         private ProgressBar progressBar;
 
         private TextView  username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        private ImageView  userimage, postimage, flameimg, commentimg,profileimage, menuPost, share;
+        private ImageView  userimage, flameimg, commentimg,profileimage, menuPost, share;
         private ApplexLinkPreview LinkPreview;
         private RecyclerView tagList, interests;
         private LinearLayout itemHome, display;
         private RelativeLayout first_post;
+        private SliderView postimage;
 
         private View view1, view2;
 
@@ -1680,11 +1736,12 @@ public class ActivityProfileUser extends AppCompatActivity {
     private static class ProgrammingViewHolder2 extends RecyclerView.ViewHolder{
 
         TextView  username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        ImageView  userimage, postimage, flameimg, commentimg,profileimage, menuPost, share, noPost;
+        ImageView  userimage, flameimg, commentimg,profileimage, menuPost, share, noPost;
         ApplexLinkPreview LinkPreview;
         RecyclerView tagList;
         LinearLayout itemHome;
         View view, view1, view2;
+        SliderView postimage;
 
         @SuppressLint("CutPasteId")
         public ProgrammingViewHolder2(@NonNull View itemView) {
@@ -1758,7 +1815,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                             if(task.getResult().exists()){
                                 userModel = task.getResult().toObject(BaseUserModel.class);
                                 FirebaseFirestore.getInstance().collection("Users")
-                                        .document(my_uid).collection("Individual").document(my_uid)
+                                        .document(my_uid).collection("indi").document(my_uid)
                                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -1767,6 +1824,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 IndividualModel individualModel = task.getResult().toObject(IndividualModel.class);
                                                 FirstName = individualModel.getFirstname();
                                                 LastName = individualModel.getLastname();
+                                                PName.setText(FirstName+" "+LastName);
                                             }
 
                                         }
@@ -1774,17 +1832,32 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 });
 
                                 UserName = userModel.getName();
-                                PName.setText(FirstName+" "+LastName);
                                 PUsername.setText('@'+UserName);
 
                                 if(userModel.getDp()!=null){
                                     PROFILEPIC = userModel.getDp();
+//                                    Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
                                     if(PROFILEPIC!=null){
                                         Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
-
                                     }
-                                    else
-                                        Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
+                                }
+                                else{
+//                                        Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
+                                    Display display = getWindowManager().getDefaultDisplay();
+                                    int displayWidth = display.getWidth();
+                                    BitmapFactory.Options options = new BitmapFactory.Options();
+                                    options.inJustDecodeBounds = true;
+                                    BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                    int width = options.outWidth;
+                                    if (width > displayWidth) {
+                                        int widthRatio = Math.round((float) width / (float) displayWidth);
+                                        options.inSampleSize = widthRatio;
+                                    }
+                                    options.inJustDecodeBounds = false;
+                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+//                                                coverpic.setImageBitmap(scaledBitmap);
+//                                    holder1.Pcoverpic.setImageBitmap(scaledBitmap);
+                                    PDp.setImageBitmap(scaledBitmap);
                                 }
 
                                 if(userModel.getCoverpic()!=null){
