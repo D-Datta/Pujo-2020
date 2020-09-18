@@ -66,12 +66,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        if(root.matches("Feeds")) {
-            flamedList = FirebaseFirestore.getInstance().collection("Feeds/" + docID + "/flameL/");
-        }
-        else if(root.matches("Reels")) {
-            flamedList = FirebaseFirestore.getInstance().collection("Reels/" + docID + "/flameL/");
-        }
+        flamedList = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/flameL/");
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null){

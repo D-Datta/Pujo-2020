@@ -1,7 +1,9 @@
 package com.example.pujo360.dialogs;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,12 +21,16 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.pujo360.CommentEdit;
 import com.example.pujo360.R;
+import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.adapters.CommentAdapter;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.Utility;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,13 +45,15 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static java.lang.Boolean.TRUE;
+
 public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
     private RecyclerView commentRecycler;
     private CommentAdapter commentAdapter;
     private ArrayList<CommentModel> models;
     private ProgressBar progressBar, progressComment;
-    private String docID;
+    private String docID,root;
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
     private EditText newComment;
@@ -53,7 +61,8 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     private DocumentReference docRef;
     private CollectionReference commentRef;
 
-    public BottomCommentsDialog(String docID) {
+    public BottomCommentsDialog(String root,String docID) {
+        this.root = root;
         this.docID = docID;
     }
 
@@ -84,8 +93,8 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        commentRef = FirebaseFirestore.getInstance().collection("Reels/" + docID + "/commentL/");
-        docRef = FirebaseFirestore.getInstance().document("Reels/" + docID + "/");
+        commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
+        docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null) {
@@ -101,7 +110,136 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
             }
         });
 
-        buildRecyclerView_flames();
+        CommentList = new ArrayList<>();
+        adapter = new CommentAdapter(ViewMoreHome.this, CommentList, 1);
+        adapter.onClickListener(new CommentAdapter.OnClickListener() {
+            @Override
+            public void onClickListener(int position) {
+
+                if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
+                        || homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
+                    commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+                    commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
+                    if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
+                        commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
+                        commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v ->
+                                {
+                                    Intent intent = new Intent(ViewMoreHome.this, CommentEdit.class);
+                                    intent.putExtra("comment_home",CommentList.get(position).getComment());
+                                    intent.putExtra("com_img_home",CommentList.get(position).getUserdp());
+                                    intent.putExtra("com_postID_home",CommentList.get(position).getPostID());
+                                    intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
+                                    intent.putExtra("com_bool",i.getStringExtra("bool"));
+                                    intent.putExtra("from", "no");
+
+                                    startActivity(intent);
+
+//                                    final Intent intent1 = getIntent();
+//                                    String updated = intent1.getStringExtra("update");
+//                                    Toast.makeText(getApplicationContext(),updated,Toast.LENGTH_LONG).show();
+
+//                                    commentRef.document(CommentList.get(position).getDocID())
+//                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+//                                            .addOnSuccessListener(aVoid -> {
+//                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+//                                            });
+                                    commentMenuDialog.dismiss();
+
+                                }
+                        );
+                    }
+                    commentMenuDialog.setCanceledOnTouchOutside(TRUE);
+
+                    commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
+                    commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v -> {
+                        progressDialog = new ProgressDialog(ViewMoreHome.this);
+                        progressDialog.setTitle("Deleting Comment");
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        ///////////////////BATCH WRITE///////////////////
+                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                        int total = CommentList.get(position).getrCmtNo() + 1;
+
+                        DocumentReference cmtDoc = commentRef.document(CommentList.get(position).getDocID());
+                        batch.delete(cmtDoc);
+                        batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
+
+                        batch.commit().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()){
+                                change = 1;
+                                CommentList.remove(position);
+                                adapter.notifyItemRemoved(position);
+                                if(adapter.getItemCount() == 0){
+                                    no_comment.setVisibility(View.VISIBLE);
+                                }
+
+                                commentCount--;
+                                if(commentCount == 0)
+                                    noofcmnts.setText("No comments yet");
+                                else if(commentCount==1)
+                                    noofcmnts.setText(commentCount+ " comment");
+                                else if(CommentList.size()>1)
+                                    noofcmnts.setText(commentCount+ " comments");
+
+                                progressDialog.dismiss();
+                            }
+                            else {
+                                progressDialog.dismiss();
+                                Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
+                        ///////////////////BATCH WRITE///////////////////
+
+                        if(CommentList.size() == 0){
+                            commentimg.setImageResource(R.drawable.ic_comment);
+                            no_comment.setVisibility(View.VISIBLE);
+                        }
+                        commentMenuDialog.dismiss();
+                    });
+
+                    commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
+                            {
+                                commentRef.document(CommentList.get(position).getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(aVoid -> {
+                                            Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+                                        });
+                                commentMenuDialog.dismiss();
+
+                            }
+                    );
+
+
+                }
+                else {
+                    commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+                    commentMenuDialog.setContentView(R.layout.dialog_comment_menu);
+                    commentMenuDialog.setCanceledOnTouchOutside(TRUE);
+
+                    commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
+                            {
+                                commentRef.document(CommentList.get(position).getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(aVoid -> {
+                                            Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+                                        });
+                                commentMenuDialog.dismiss();
+                            }
+                    );
+
+                }
+
+                Objects.requireNonNull(commentMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                commentMenuDialog.show();
+            }
+        });
+
+
+
+
+        buildRecyclerView_comments();
 
         Picasso.get().load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
@@ -189,7 +327,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         return v;
     }
 
-    private void buildRecyclerView_flames(){
+    private void buildRecyclerView_comments(){
         progressBar.setVisibility(View.VISIBLE);
         models = new ArrayList<>();
 

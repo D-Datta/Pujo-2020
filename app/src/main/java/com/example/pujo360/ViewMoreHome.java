@@ -33,6 +33,7 @@ import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.adapters.CommentAdapter;
 import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
+import com.example.pujo360.dialogs.BottomCommentsDialog;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
@@ -70,7 +71,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
     private ImageView send;
     private EditText newComment;
-    private ImageView commentimg, userimage, userimage_comment, no_comment , flameimg, back;
+    private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage;
     private SliderView sliderView;
 
     private TextView username, minsago,  flamedBy, noofcmnts, comName;
@@ -79,7 +80,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private int change = 0;
     public static int changed = 0;
     public static int commentChanged = 0;
-    private ApplexLinkPreview linkPreview;
+//    private ApplexLinkPreview linkPreview;
 
     private ProgressDialog progressDialog;
 
@@ -88,14 +89,14 @@ public class ViewMoreHome extends AppCompatActivity {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
 
-    private RecyclerView mRecyclerView;
+//    private RecyclerView mRecyclerView;
     private RecyclerView tagRecycler;
     private ArrayList<CommentModel> CommentList;
     private CommentAdapter adapter;
 
     private IntroPref introPref;
     private String PROFILEPIC;
-    private String USERNAME, UID;
+    private String USERNAME, UID, TYPE;
 
     private ArrayList<String> likeList;
     private ArrayList<String> images;
@@ -118,11 +119,11 @@ public class ViewMoreHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_more_home);
+        setContentView(R.layout.activity_viewmore_post);
 
         introPref = new IntroPref(this);
 
-        mRecyclerView = findViewById(R.id.comments_recycler);
+//        mRecyclerView = findViewById(R.id.comments_recycler);
         send = findViewById(R.id.send_comment);
         share = findViewById(R.id.share44);
         newComment = findViewById(R.id.new_comment);
@@ -135,15 +136,17 @@ public class ViewMoreHome extends AppCompatActivity {
         flamedBy = findViewById(R.id.flamed_by44);
         noofcmnts = findViewById(R.id.no_of_comments44);
         tagRecycler = findViewById(R.id.tagsList_recycler44);
-        userimage_comment= findViewById(R.id.user_image_comment);
-        no_comment = findViewById(R.id.no_comment44);
+//        userimage_comment= findViewById(R.id.user_image_comment);
+//        no_comment = findViewById(R.id.no_comment44);
         flameimg = findViewById(R.id.flame44);
         back = findViewById(R.id.back);
-        linkPreview = findViewById(R.id.LinkPreView);
+//        linkPreview = findViewById(R.id.LinkPreView);
         more = findViewById(R.id.delete_post);
         progressBar = findViewById(R.id.progress_more1);
         progressComment= findViewById(R.id.commentProgress);
         comName = findViewById(R.id.comName);
+        likeimage = findViewById(R.id.like_image);
+        commentimage = findViewById(R.id.comment_image);
 
         NestedScrollView nestedScrollView = findViewById(R.id.scrollView1);
         nestedScrollView.setNestedScrollingEnabled(true);
@@ -151,22 +154,23 @@ public class ViewMoreHome extends AppCompatActivity {
         UID = FirebaseAuth.getInstance().getUid();
         PROFILEPIC = introPref.getUserdp();
         USERNAME = introPref.getFullName();
+        TYPE = introPref.getType();
 
         likeList = new ArrayList<>();
 
         //////////////////CURRENT USER DETAILS///////////////////
-        if(PROFILEPIC != null) {
-            Picasso.get().load(PROFILEPIC).into(userimage_comment, new Callback() {
-                @Override
-                public void onSuccess() {
-
-                }
-                @Override
-                public void onError(Exception e) {
-                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-            });
-        }
+//        if(PROFILEPIC != null) {
+//            Picasso.get().load(PROFILEPIC).into(userimage_comment, new Callback() {
+//                @Override
+//                public void onSuccess() {
+//
+//                }
+//                @Override
+//                public void onError(Exception e) {
+//                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                }
+//            });
+//        }
 
         //////////////////CURRENT USER DETAILS///////////////////
 
@@ -217,62 +221,42 @@ public class ViewMoreHome extends AppCompatActivity {
             /////////////USERNAME & USER IMAGE FOR POST//////////////
             homePostModel[0].setUsN(i.getStringExtra("username"));
             username.setText(homePostModel[0].getUsN());
-//            if(homePostModel[0].getUsN().matches("Anonymous")){
-//                userimage.setImageResource(R.drawable.ic_anonymous_icon);
-//            }
-//            else {
-                ///////////////////NOT ANONYMOUS/////////////////
+
                 homePostModel[0].setDp(i.getStringExtra("userdp"));
                 if(homePostModel[0].getDp()!= null && !homePostModel[0].getDp().isEmpty()){
-//                    if(homePostModel[0].getDp().matches("0")){
-//                        userimage.setImageResource(R.drawable.default_dp_1);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("1")){
-//                        userimage.setImageResource(R.drawable.default_dp_2);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("2")){
-//                        userimage.setImageResource(R.drawable.default_dp_3);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("3")){
-//                        userimage.setImageResource(R.drawable.default_dp_4);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("4")){
-//                        userimage.setImageResource(R.drawable.default_dp_5);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("5")){
-//                        userimage.setImageResource(R.drawable.default_dp_6);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("6")){
-//                        userimage.setImageResource(R.drawable.default_dp_7);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("7")){
-//                        userimage.setImageResource(R.drawable.default_dp_8);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("8")){
-//                        userimage.setImageResource(R.drawable.default_dp_9);
-//                    }
-//                    else if(homePostModel[0].getDp().matches("9")){
-//                        userimage.setImageResource(R.drawable.default_dp_10);
-//                    }
-//                    else {
                         Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
-//                    }
                 }
                 else {
                     userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
-                username.setOnClickListener(v -> {
-                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                    i12.putExtra("uid", homePostModel[0].getUid());
-                    startActivity(i12);
-                });
+                if(TYPE.matches("com")){
+                    username.setOnClickListener(v -> {
+                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+                        i12.putExtra("uid", homePostModel[0].getUid());
+                        startActivity(i12);
+                    });
 
-                userimage.setOnClickListener(v -> {
-                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                    i1.putExtra("uid", homePostModel[0].getUid());
-                    startActivity(i1);
-                });
+                    userimage.setOnClickListener(v -> {
+                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+                        i1.putExtra("uid", homePostModel[0].getUid());
+                        startActivity(i1);
+                    });
+                }
+                else if(TYPE.matches("indi")){
+                    username.setOnClickListener(v -> {
+                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                        i12.putExtra("uid", homePostModel[0].getUid());
+                        startActivity(i12);
+                    });
+
+                    userimage.setOnClickListener(v -> {
+                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                        i1.putExtra("uid", homePostModel[0].getUid());
+                        startActivity(i1);
+                    });
+                }
+
 
             /////////////USERNAME & USER IMAGE FORE POST//////////////
 
@@ -299,23 +283,23 @@ public class ViewMoreHome extends AppCompatActivity {
 
 
             ////////////COMMUNITY//////////
-            if(getIntent().getStringExtra("comName")!=null && getIntent().getStringExtra("comID") !=null){
-                comName.setVisibility(View.VISIBLE);
-                homePostModel[0].setComID(getIntent().getStringExtra("comID"));
-                homePostModel[0].setComName(getIntent().getStringExtra("comName"));
-
-                comName.setText(getIntent().getStringExtra("comName"));
-                comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-                comName.setTextColor(getResources().getColor(android.R.color.white));
-                comName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Intent intent= new Intent(ViewMoreHome.this, CommunityActivity.class);
-//                        intent.putExtra("comID", homePostModel[0].getComID());
-//                        startActivity(intent);
-                    }
-                });
-            }
+//            if(getIntent().getStringExtra("comName")!=null && getIntent().getStringExtra("comID") !=null){
+//                comName.setVisibility(View.VISIBLE);
+//                homePostModel[0].setComID(getIntent().getStringExtra("comID"));
+//                homePostModel[0].setComName(getIntent().getStringExtra("comName"));
+//
+//                comName.setText(getIntent().getStringExtra("comName"));
+//                comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
+//                comName.setTextColor(getResources().getColor(android.R.color.white));
+//                comName.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+////                        Intent intent= new Intent(ViewMoreHome.this, CommunityActivity.class);
+////                        intent.putExtra("comID", homePostModel[0].getComID());
+////                        startActivity(intent);
+//                    }
+//                });
+//            }
             ////////////COMMUNITY//////////
 
 
@@ -325,36 +309,34 @@ public class ViewMoreHome extends AppCompatActivity {
                 likeList = (ArrayList<String>) i.getSerializableExtra("likeL");
                 /////////////////UPDATNG FLAMED BY NO.//////////////////////
                 if(likeList.size() == 0){
-                    flamedBy.setText("Not flamed yet");
+                    flamedBy.setVisibility(View.GONE);
+                    likeimage.setVisibility(View.GONE);
                 }
-                else if(likeList.size() == 1)
-                    flamedBy.setText("Flamed by 1");
                 else {
-                    flamedBy.setText("Flamed by "+likeList.size()+" people");
+                    flamedBy.setVisibility(View.VISIBLE);
+                    likeimage.setVisibility(View.VISIBLE);
+                    flamedBy.setText(Integer.toString(likeList.size()));
+
+                    likeimage.setOnClickListener(v -> {
+                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                    });
+                    flamedBy.setOnClickListener(v -> {
+                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                    });
                 }
 
-                for(int j = 0; j < likeList.size(); j++){
-                    if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-                        flameimg.setImageResource(R.drawable.ic_flame_red);
-                        LikeCheck = j;
-                        if((likeList.size()-1) == 1)
-                            flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" other");
-                        else if((likeList.size()-1) == 0){
-                            flamedBy.setText("Flamed by you");
-                        }
-                        else
-                            flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" others");
-                        //Position in likeList where the current USer UId is found stored in likeCheck
-                    }
-                }
             }
-            else
-                flamedBy.setText("Not flamed yet");
+            else {
+                flamedBy.setVisibility(View.GONE);
+                likeimage.setVisibility(View.GONE);
+            }
 
             ///////////When viewing likelist from fragment global/campus////////////////
             if(i.getStringExtra("likeLOpen")!=null && i.getStringExtra("likeLOpen").matches("likeLOpen")) {
                 if(likeList!=null && likeList.size() > 0){
-                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Home", homePostModel[0].getDocID());
+                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                     bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                 }
                 else
@@ -366,7 +348,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(likeList!=null && likeList.size() > 0){
-                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Home", homePostModel[0].getDocID());
+                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                         bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                     }
                     else
@@ -414,31 +396,31 @@ public class ViewMoreHome extends AppCompatActivity {
                 textContent.setVisibility(View.VISIBLE);
                 textContent.setText(homePostModel[0].getTxt());
 
-                if(textContent.getUrls().length>0){
-                    URLSpan urlSnapItem = textContent.getUrls()[0];
-                    String url = urlSnapItem.getURL();
-                    if(url.contains("http")){
-                        linkPreview.setVisibility(View.VISIBLE);
-                        linkPreview.setLink(url ,new ViewListener() {
-                            @Override
-                            public void onSuccess(boolean status) {
-
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //do stuff like remove view etc
-                                        linkPreview.setVisibility(View.GONE);
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                }
+//                if(textContent.getUrls().length>0){
+//                    URLSpan urlSnapItem = textContent.getUrls()[0];
+//                    String url = urlSnapItem.getURL();
+//                    if(url.contains("http")){
+//                        linkPreview.setVisibility(View.VISIBLE);
+//                        linkPreview.setLink(url ,new ViewListener() {
+//                            @Override
+//                            public void onSuccess(boolean status) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onError(Exception e) {
+//                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        //do stuff like remove view etc
+//                                        linkPreview.setVisibility(View.GONE);
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    }
+//
+//                }
             }
             else {
                 textContent.setVisibility(View.GONE);
@@ -447,35 +429,40 @@ public class ViewMoreHome extends AppCompatActivity {
 
 
             //////////////COMMENT SETUP from cmtNo////////////
-            LinearLayoutManager layoutManager = new LinearLayoutManager(ViewMoreHome.this);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            mRecyclerView.setLayoutManager(layoutManager);
-            mRecyclerView.setNestedScrollingEnabled(true);
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(ViewMoreHome.this);
+//            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//            mRecyclerView.setLayoutManager(layoutManager);
+//            mRecyclerView.setNestedScrollingEnabled(true);
 
             if(i.getStringExtra("commentNo")!=null){
                 homePostModel[0].setCmtNo(Long.parseLong(i.getStringExtra("commentNo")));
                 if(homePostModel[0].getCmtNo()>0){
-                    commentimg.setImageResource(R.drawable.comment_yellow);
-                    if(homePostModel[0].getCmtNo()>1){
-                        noofcmnts.setText(i.getStringExtra("commentNo")+" comments");
-                    }
-                    else {
-                        noofcmnts.setText(i.getStringExtra("commentNo")+" comment");
-                    }
-                    no_comment.setVisibility(View.GONE);
+                    commentimage.setVisibility(View.VISIBLE);
+                    noofcmnts.setVisibility(View.VISIBLE);
+                    noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
+
+                    commentimage.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                    });
+                    noofcmnts.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                    });
+
                 }
                 else {
-//                    mRecyclerView.setVisibility(View.GONE);
-                    no_comment.setVisibility(View.VISIBLE);
-                    noofcmnts.setText("No comments yet");
+                    noofcmnts.setVisibility(View.GONE);
+                    commentimage.setVisibility(View.GONE);
                     checkGetMore = -1;
                 }
                 commentCount = Integer.parseInt(i.getStringExtra("commentNo"));
             }
             else {
 //                mRecyclerView.setVisibility(View.GONE);
-                no_comment.setVisibility(View.VISIBLE);
-                noofcmnts.setText("No comments yet");
+//                no_comment.setVisibility(View.VISIBLE);
+                noofcmnts.setVisibility(View.GONE);
+                commentimage.setVisibility(View.GONE);
                 commentCount = 0;
                 checkGetMore = -1;
             }
