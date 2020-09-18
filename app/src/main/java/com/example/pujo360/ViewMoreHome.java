@@ -69,7 +69,7 @@ import static java.lang.Boolean.TRUE;
 
 public class ViewMoreHome extends AppCompatActivity {
 
-    private ImageView send;
+//    private ImageView send;
     private EditText newComment;
     private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage;
     private SliderView sliderView;
@@ -124,7 +124,7 @@ public class ViewMoreHome extends AppCompatActivity {
         introPref = new IntroPref(this);
 
 //        mRecyclerView = findViewById(R.id.comments_recycler);
-        send = findViewById(R.id.send_comment);
+//        send = findViewById(R.id.send_comment);
         share = findViewById(R.id.share44);
         newComment = findViewById(R.id.new_comment);
         sliderView = findViewById(R.id.post_image44);
@@ -1168,81 +1168,81 @@ public class ViewMoreHome extends AppCompatActivity {
             ///////////ENABLE KEYBOARD//////////
         });
 
-        send.setOnClickListener(v -> {
-            if(InternetConnection.checkConnection(getApplicationContext())){
-                if(newComment.getText().toString().isEmpty()){
-                    Utility.showToast(getApplicationContext(), "Thoughts need to be typed...");
-                }
-                else {
-                    send.setVisibility(View.GONE);
-                    progressComment.setVisibility(View.VISIBLE);
-                    String comment = newComment.getText().toString().trim();
-                    long tsLong = System.currentTimeMillis();
-//                    String ts = Long.toString(tsLong);
-                    CommentModel commentModel = new CommentModel();
-
-                    commentModel.setComment(comment);
-                    commentModel.setType(introPref.getType());
-                    commentModel.setUid(UID);
-                    commentModel.setPostUid(homePostModel[0].getUid());
-                    commentModel.setUserdp(PROFILEPIC);
-                    commentModel.setUsername(USERNAME);
-                    commentModel.setTs(0L); ///Pending state
-                    commentModel.setPostID(homePostModel[0].getDocID());;
-
-                    newComment.setText("");
-                    commentimg.setImageResource(R.drawable.comment_yellow);
-                    CommentList.add(0,commentModel);
-                    adapter.notifyItemInserted(0);
-                    no_comment.setVisibility(View.GONE);
-
-                    ///////////////////BATCH WRITE///////////////////
-                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-
-                    DocumentReference cmtDoc = commentRef.document(Long.toString(tsLong));
-                    commentModel.setTs(tsLong);
-                    commentModel.setDocID(Long.toString(tsLong));
-
-                    batch.set(cmtDoc, commentModel);
-                    batch.update(docRef, "cmtNo", FieldValue.increment(1));
-
-                    if(!UID.matches(homePostModel[0].getUid())) {
-                        batch.update(docRef, "newTs", tsLong);
-                    }
-
-                    batch.commit().addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
-                            change = 1;
-                            commentCount++;
-                            if(commentCount==1)
-                                noofcmnts.setText(commentCount+ " comment");
-                            else if(CommentList.size()>1)
-                                noofcmnts.setText(commentCount+ " comments");
-
-                            send.setVisibility(View.VISIBLE);
-                            progressComment.setVisibility(View.GONE);
-                            mRecyclerView.setAdapter(adapter);
-                            mRecyclerView.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            commentModel.setTs(0L); ///Pending state
-                            CommentList.remove(commentModel);
-                            commentModel.setTs(-1L);
-                            CommentList.add(0, commentModel);
-                            adapter.notifyDataSetChanged();
-                            send.setVisibility(View.VISIBLE);
-                            progressComment.setVisibility(View.GONE);
-                            Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                        }
-
-                    });
-                    ///////////////////BATCH WRITE///////////////////
-                }
-            }
-            else {
-                Utility.showToast(getApplicationContext(), "Network unavailable...");
-            }
-        });
+//        send.setOnClickListener(v -> {
+//            if(InternetConnection.checkConnection(getApplicationContext())){
+//                if(newComment.getText().toString().isEmpty()){
+//                    Utility.showToast(getApplicationContext(), "Thoughts need to be typed...");
+//                }
+//                else {
+//                    send.setVisibility(View.GONE);
+//                    progressComment.setVisibility(View.VISIBLE);
+//                    String comment = newComment.getText().toString().trim();
+//                    long tsLong = System.currentTimeMillis();
+////                    String ts = Long.toString(tsLong);
+//                    CommentModel commentModel = new CommentModel();
+//
+//                    commentModel.setComment(comment);
+//                    commentModel.setType(introPref.getType());
+//                    commentModel.setUid(UID);
+//                    commentModel.setPostUid(homePostModel[0].getUid());
+//                    commentModel.setUserdp(PROFILEPIC);
+//                    commentModel.setUsername(USERNAME);
+//                    commentModel.setTs(0L); ///Pending state
+//                    commentModel.setPostID(homePostModel[0].getDocID());;
+//
+//                    newComment.setText("");
+//                    commentimg.setImageResource(R.drawable.comment_yellow);
+//                    CommentList.add(0,commentModel);
+//                    adapter.notifyItemInserted(0);
+//                    no_comment.setVisibility(View.GONE);
+//
+//                    ///////////////////BATCH WRITE///////////////////
+//                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
+//
+//                    DocumentReference cmtDoc = commentRef.document(Long.toString(tsLong));
+//                    commentModel.setTs(tsLong);
+//                    commentModel.setDocID(Long.toString(tsLong));
+//
+//                    batch.set(cmtDoc, commentModel);
+//                    batch.update(docRef, "cmtNo", FieldValue.increment(1));
+//
+//                    if(!UID.matches(homePostModel[0].getUid())) {
+//                        batch.update(docRef, "newTs", tsLong);
+//                    }
+//
+//                    batch.commit().addOnCompleteListener(task -> {
+//                        if(task.isSuccessful()){
+//                            change = 1;
+//                            commentCount++;
+//                            if(commentCount==1)
+//                                noofcmnts.setText(commentCount+ " comment");
+//                            else if(CommentList.size()>1)
+//                                noofcmnts.setText(commentCount+ " comments");
+//
+//                            send.setVisibility(View.VISIBLE);
+//                            progressComment.setVisibility(View.GONE);
+//                            mRecyclerView.setAdapter(adapter);
+//                            mRecyclerView.setVisibility(View.VISIBLE);
+//                        }
+//                        else {
+//                            commentModel.setTs(0L); ///Pending state
+//                            CommentList.remove(commentModel);
+//                            commentModel.setTs(-1L);
+//                            CommentList.add(0, commentModel);
+//                            adapter.notifyDataSetChanged();
+//                            send.setVisibility(View.VISIBLE);
+//                            progressComment.setVisibility(View.GONE);
+//                            Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    });
+//                    ///////////////////BATCH WRITE///////////////////
+//                }
+//            }
+//            else {
+//                Utility.showToast(getApplicationContext(), "Network unavailable...");
+//            }
+//        });
 
 
         more.setOnClickListener(new View.OnClickListener() {
@@ -1428,11 +1428,14 @@ public class ViewMoreHome extends AppCompatActivity {
             public void onClick(View v) {
 //                String id = postCampus.replaceAll(" ","_");
 //                String link = "https://www.campus24.in/Home/"+id+"/"+homePostModel[0].getDocID();
-//                Intent i=new Intent();
-//                i.setAction(Intent.ACTION_SEND);
-//                i.putExtra(Intent.EXTRA_TEXT, link);
-//                i.setType("text/plain");
-//                startActivity(Intent.createChooser(i,"Share with"));
+                String link = "https://www.utsavapp.in/android/feeds/"+homePostModel[0].getDocID();
+                Intent i=new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_TEXT, link);
+                i.setType("text/plain");
+                startActivity(Intent.createChooser(i,"Share with"));
+                postMenuDialog.dismiss();
+
             }
         });
 
@@ -1451,7 +1454,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //            }
 //        });
 //
-//    }
+    }
 
 
 
@@ -1592,7 +1595,7 @@ public class ViewMoreHome extends AppCompatActivity {
     @Override
     protected void onResume() {
         if(changed > 0 || commentChanged > 0) {
-            buildCommentRecyclerView();
+//            buildCommentRecyclerView();
             changed = 0;
             commentChanged = 0;
         }
