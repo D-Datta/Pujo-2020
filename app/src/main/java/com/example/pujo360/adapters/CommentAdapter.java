@@ -3,7 +3,10 @@ package com.example.pujo360.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
@@ -35,6 +38,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -223,6 +228,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
 
                 else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
                     Utility.vibrate(mContext);
+                    try {
+                        AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
+                        MediaPlayer player = new MediaPlayer();
+                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                        player.prepare();
+                        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                            player.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
 
                     //////////////ADD CURRENT USER TO LIKELIST//////////////////
@@ -255,6 +271,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
 
                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                     Utility.vibrate(mContext);
+                    try {
+                        AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
+                        MediaPlayer player = new MediaPlayer();
+                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                        player.prepare();
+                        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                            player.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
 
                     //////////////ADD CURRENT USER TO LIKELIST//////////////////

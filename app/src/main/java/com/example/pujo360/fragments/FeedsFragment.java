@@ -4,10 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -73,6 +77,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -662,6 +667,18 @@ public class FeedsFragment extends Fragment {
                                 ///////////////////BATCH WRITE///////////////////
                             } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
                                 Utility.vibrate(getContext());
+                                try {
+                                    AssetFileDescriptor afd = getContext().getAssets().openFd("dhak.mp3");
+                                    MediaPlayer player = new MediaPlayer();
+                                    player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                    player.prepare();
+                                    AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+                                    if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                        player.start();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
                                 feedViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                 if (currentItem.getLikeL().size() == 0)
                                     feedViewHolder.flamedBy.setText("Flamed by you");
@@ -699,6 +716,17 @@ public class FeedsFragment extends Fragment {
                                 ///////////////////BATCH WRITE///////////////////
                             } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                 Utility.vibrate(getActivity());
+                                try {
+                                    AssetFileDescriptor afd = getContext().getAssets().openFd("dhak.mp3");
+                                    MediaPlayer player = new MediaPlayer();
+                                    player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                    player.prepare();
+                                    AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+                                    if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                        player.start();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 feedViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                 if (currentItem.getLikeL() != null)
                                     feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() + 1) + " people");

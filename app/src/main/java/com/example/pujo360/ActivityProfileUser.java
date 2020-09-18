@@ -14,12 +14,16 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -76,6 +80,7 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.Objects;
 
@@ -745,6 +750,17 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                         else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
                                             Utility.vibrate(ActivityProfileUser.this);
+                                            try {
+                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
+                                                MediaPlayer player = new MediaPlayer();
+                                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                                player.prepare();
+                                                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                                    player.start();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                             holder1.flameimg.setImageResource(R.drawable.ic_flame_red);
                                             if(currentItem.getLikeL().size() == 0)
                                                 holder1.flamedBy.setText("Flamed by you");
@@ -784,6 +800,17 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                             Utility.vibrate(getApplicationContext());
+                                            try {
+                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
+                                                MediaPlayer player = new MediaPlayer();
+                                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                                player.prepare();
+                                                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                                    player.start();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                             holder1.flameimg.setImageResource(R.drawable.ic_flame_red);
                                             if(currentItem.getLikeL()!=null)
                                                 holder1.flamedBy.setText("Flamed by you & "+ (currentItem.getLikeL().size() + 1) +" people");
@@ -1356,6 +1383,17 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                         else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
                                             Utility.vibrate(ActivityProfileUser.this);
+                                            try {
+                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
+                                                MediaPlayer player = new MediaPlayer();
+                                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                                player.prepare();
+                                                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                                    player.start();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                             programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                             if(currentItem.getLikeL().size() == 0)
                                                 programmingViewHolder.flamedBy.setText("Flamed by you");
@@ -1395,6 +1433,17 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                             Utility.vibrate(getApplicationContext());
+                                            try {
+                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
+                                                MediaPlayer player = new MediaPlayer();
+                                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                                player.prepare();
+                                                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                                    player.start();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                             programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
                                             if(currentItem.getLikeL()!=null)
                                                 programmingViewHolder.flamedBy.setText("Flamed by you & "+ (currentItem.getLikeL().size() + 1) +" people");
