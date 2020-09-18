@@ -148,8 +148,8 @@ public class ViewMoreHome extends AppCompatActivity {
         likeimage = findViewById(R.id.like_image);
         commentimage = findViewById(R.id.comment_image);
 
-        NestedScrollView nestedScrollView = findViewById(R.id.scrollView1);
-        nestedScrollView.setNestedScrollingEnabled(true);
+//        NestedScrollView nestedScrollView = findViewById(R.id.scrollView1);
+//        nestedScrollView.setNestedScrollingEnabled(true);
 
         UID = FirebaseAuth.getInstance().getUid();
         PROFILEPIC = introPref.getUserdp();
