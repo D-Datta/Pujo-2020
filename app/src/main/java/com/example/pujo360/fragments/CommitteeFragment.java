@@ -551,45 +551,6 @@ public class CommitteeFragment extends Fragment {
                             batch.commit().addOnSuccessListener(task -> { });
                             ///////////////////BATCH WRITE///////////////////
                         }
-                        else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
-                            Utility.vibrate(requireActivity());
-                            if (currentItem.getLikeL().size() == 0){
-                                programmingViewHolder.like_image.setVisibility(View.GONE);
-                                programmingViewHolder.likesCount.setVisibility(View.GONE);
-                            }
-                            else{
-                                programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                                programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
-                            }
-
-                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                            currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
-
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            FlamedModel flamedModel = new FlamedModel();
-                            long tsLong = System.currentTimeMillis();
-
-                            flamedModel.setPostID(currentItem.getDocID());
-                            flamedModel.setTs(tsLong);
-                            flamedModel.setType(introPref.getType());
-                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                            flamedModel.setUserdp(COMMITEE_LOGO);
-                            flamedModel.setUsername(COMMITTEE_NAME);
-                            flamedModel.setPostUid(currentItem.getUid());
-
-                            DocumentReference flamedDoc = likeStore.collection("flameL")
-                                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                            batch.set(flamedDoc, flamedModel);
-                            if (currentItem.getLikeL().size() % 5 == 0) {
-                                batch.update(likeStore, "newTs", tsLong);
-                            }
-                            batch.commit().addOnSuccessListener(task -> { });
-                            ///////////////////BATCH WRITE///////////////////
-                        }
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(requireActivity());
                             programmingViewHolder.likesCount.setVisibility(View.VISIBLE);

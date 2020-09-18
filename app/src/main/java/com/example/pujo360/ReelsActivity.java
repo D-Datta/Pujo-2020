@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.example.pujo360.dialogs.BottomCommentsDialog;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReelsPostModel;
@@ -237,7 +236,7 @@ public class ReelsActivity extends AppCompatActivity {
                             } else {
                                 holder.likesCount.setVisibility(View.VISIBLE);
                                 holder.like_image.setVisibility(View.VISIBLE);
-                                holder.likesCount.setText(currentItem.getLikeL().size());
+                                holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                             }
                             ///////////REMOVE CURRENT USER LIKE/////////////
                             currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
@@ -254,51 +253,12 @@ public class ReelsActivity extends AppCompatActivity {
                             batch.commit().addOnSuccessListener(task -> reelsAdapter.notifyDataSetChanged());
                             ///////////////////BATCH WRITE///////////////////
                         }
-                        else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
-                            Utility.vibrate(getApplicationContext());
-                            if (currentItem.getLikeL().size() == 0) {
-                                holder.like_image.setVisibility(View.GONE);
-                                holder.likesCount.setVisibility(View.GONE);
-
-                            } else {
-                                holder.like_image.setVisibility(View.VISIBLE);
-                                holder.likesCount.setVisibility(View.VISIBLE);
-                                holder.likesCount.setText(currentItem.getLikeL().size());
-                            }
-
-                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                            currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
-
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            FlamedModel flamedModel = new FlamedModel();
-                            long tsLong = System.currentTimeMillis();
-
-                            flamedModel.setPostID(currentItem.getDocID());
-                            flamedModel.setTs(tsLong);
-                            flamedModel.setType(new IntroPref(ReelsActivity.this).getType());
-                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                            flamedModel.setUserdp(COMMITTEE_LOGO);
-                            flamedModel.setUsername(COMMITTEE_NAME);
-                            flamedModel.setPostUid(currentItem.getUid());
-
-                            DocumentReference flamedDoc = likeStore.collection("flameL")
-                                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                            batch.set(flamedDoc, flamedModel);
-                            if (currentItem.getLikeL().size() % 5 == 0) {
-                                batch.update(likeStore, "newTs", tsLong);
-                            }
-                            batch.commit().addOnSuccessListener(task -> reelsAdapter.notifyDataSetChanged());
-                            ///////////////////BATCH WRITE///////////////////
-                        }
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(getApplicationContext());
                             holder.likesCount.setVisibility(View.VISIBLE);
                             holder.like_image.setVisibility(View.VISIBLE);
                             if (currentItem.getLikeL() != null) {
-                                holder.likesCount.setText(currentItem.getLikeL().size() + 1);
+                                holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
                             } else {
                                 holder.likesCount.setText("1");
                             }

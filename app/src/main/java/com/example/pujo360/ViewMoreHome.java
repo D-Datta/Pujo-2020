@@ -1040,8 +1040,8 @@ public class ViewMoreHome extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         change = 1;
-                        if(LikeCheck >= 0){//was already liked by current user
-                            if(likeList.size()-1 == 0){
+                        if(LikeCheck >= 0) {//was already liked by current user
+                            if(likeList.size()-1 == 0) {
                                 flamedBy.setVisibility(View.GONE);
                                 likeimage.setVisibility(View.GONE);
                             }
@@ -1061,7 +1061,51 @@ public class ViewMoreHome extends AppCompatActivity {
                             batch.update(docRef, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                             batch.delete(flamedDoc);
                             batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
+                                if(task.isSuccessful()) {
+                                    change = 1;
+                                }
+                                else {
+                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            ///////////////////BATCH WRITE///////////////////
+
+                        }
+                        else if(likeList!=null) {
+                            Utility.vibrate(getApplicationContext());
+                            flameimg.setImageResource(R.drawable.ic_flame_red);
+                            if(likeList.size() == 0)
+                                flamedBy.setText("Flamed by you");
+                            else if(likeList.size() == 1)
+                                flamedBy.setText("Flamed by you & "+likeList.size()+" other");
+                            else
+                                flamedBy.setText("Flamed by you & "+ likeList.size() +" others");
+
+                            likeList.add(FirebaseAuth.getInstance().getUid());
+                            LikeCheck = likeList.size()-1;
+//                docRef.update("likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+
+                            ///////////////////BATCH WRITE///////////////////
+                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                            FlamedModel flamedModel = new FlamedModel();
+                            long tsLong = System.currentTimeMillis();
+
+                            flamedModel.setPostID(homePostModel[0].getDocID());
+                            flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
+                            flamedModel.setUid(UID);
+                            flamedModel.setUserdp(PROFILEPIC);
+                            flamedModel.setUsername(USERNAME);
+                            flamedModel.setPostUid(homePostModel[0].getUid());
+
+                            DocumentReference flamedDoc = flamedRef.document(FirebaseAuth.getInstance().getUid());
+                            batch.update(docRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                            batch.set(flamedDoc, flamedModel);
+                            if(likeList.size() % 5 == 0){
+                                batch.update(docRef,"newTs", tsLong);
+                            }
+                            batch.commit().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
                                     change = 1;
                                 }
                                 else {
@@ -1072,15 +1116,13 @@ public class ViewMoreHome extends AppCompatActivity {
                             ///////////////////BATCH WRITE///////////////////
 
                         }
-
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(getApplicationContext());
-                            likeimage.setVisibility(View.VISIBLE);
-                            flamedBy.setVisibility(View.VISIBLE);
+                            flameimg.setImageResource(R.drawable.ic_flame_red);
                             if(likeList!=null)
-                                flamedBy.setText(Integer.toString(likeList.size() + 1));
+                                flamedBy.setText("Flamed by you & "+ (likeList.size() + 1) +" people");
                             else
-                                flamedBy.setText("1");
+                                flamedBy.setText("Flamed by you");
 
                             likeList.add(FirebaseAuth.getInstance().getUid());
                             LikeCheck = likeList.size()-1;
