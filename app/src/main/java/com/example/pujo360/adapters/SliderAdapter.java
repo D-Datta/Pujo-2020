@@ -70,15 +70,15 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
             }
         });
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, DisplayPictureActivity.class);
-                intent.putExtra("from", "assignment");
-                intent.putExtra("Bitmap", currentItem);
-                mContext.startActivity(intent);
-            }
-        });
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(mContext, DisplayPictureActivity.class);
+//                intent.putExtra("from", "assignment");
+//                intent.putExtra("Bitmap", currentItem);
+//                mContext.startActivity(intent);
+//            }
+//        });
 
     }
 

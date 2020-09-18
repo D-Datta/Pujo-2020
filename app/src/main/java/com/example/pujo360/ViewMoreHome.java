@@ -143,7 +143,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //        linkPreview = findViewById(R.id.LinkPreView);
         more = findViewById(R.id.delete_post);
         progressBar = findViewById(R.id.progress_more1);
-        progressComment= findViewById(R.id.commentProgress);
+        progressComment = findViewById(R.id.commentProgress);
         comName = findViewById(R.id.comName);
         likeimage = findViewById(R.id.like_image);
         commentimage = findViewById(R.id.comment_image);
@@ -174,15 +174,15 @@ public class ViewMoreHome extends AppCompatActivity {
 
         //////////////////CURRENT USER DETAILS///////////////////
 
-        Intent i= getIntent();
+        Intent i = getIntent();
 
         final HomePostModel[] homePostModel = {new HomePostModel()};
 
-        if(getIntent().getExtras().getString("campus") == null){
+        if (getIntent().getExtras().getString("campus") == null) {
             homePostModel[0].setUid(i.getStringExtra("uid"));
             homePostModel[0].setTs(Long.parseLong(i.getStringExtra("timestamp")));
-          //  homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
-            if(i.getStringExtra("newTs")!=null){
+            //  homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
+            if (i.getStringExtra("newTs") != null) {
                 homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
             }
 
@@ -215,68 +215,64 @@ public class ViewMoreHome extends AppCompatActivity {
             //SETTING DATABASE REF WRT BOOL VALUE//
 
 //            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
-            docRef = FirebaseFirestore.getInstance().document("Feeds/"+ homePostModel[0].getDocID()+"/");
-            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/"+homePostModel[0].getDocID()+"/flameL/");
+            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homePostModel[0].getDocID() + "/");
+            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL/");
 
             /////////////USERNAME & USER IMAGE FOR POST//////////////
             homePostModel[0].setUsN(i.getStringExtra("username"));
             username.setText(homePostModel[0].getUsN());
 
-                homePostModel[0].setDp(i.getStringExtra("userdp"));
-                if(homePostModel[0].getDp()!= null && !homePostModel[0].getDp().isEmpty()){
-                        Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
-                }
-                else {
-                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
+            homePostModel[0].setDp(i.getStringExtra("userdp"));
+            if (homePostModel[0].getDp() != null && !homePostModel[0].getDp().isEmpty()) {
+                Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
+            } else {
+                userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
 
-                if(TYPE.matches("com")){
-                    username.setOnClickListener(v -> {
-                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                        i12.putExtra("uid", homePostModel[0].getUid());
-                        startActivity(i12);
-                    });
+            if (TYPE.matches("com")) {
+                username.setOnClickListener(v -> {
+                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+                    i12.putExtra("uid", homePostModel[0].getUid());
+                    startActivity(i12);
+                });
 
-                    userimage.setOnClickListener(v -> {
-                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                        i1.putExtra("uid", homePostModel[0].getUid());
-                        startActivity(i1);
-                    });
-                }
-                else if(TYPE.matches("indi")){
-                    username.setOnClickListener(v -> {
-                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                        i12.putExtra("uid", homePostModel[0].getUid());
-                        startActivity(i12);
-                    });
+                userimage.setOnClickListener(v -> {
+                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+                    i1.putExtra("uid", homePostModel[0].getUid());
+                    startActivity(i1);
+                });
+            } else if (TYPE.matches("indi")) {
+                username.setOnClickListener(v -> {
+                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                    i12.putExtra("uid", homePostModel[0].getUid());
+                    startActivity(i12);
+                });
 
-                    userimage.setOnClickListener(v -> {
-                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                        i1.putExtra("uid", homePostModel[0].getUid());
-                        startActivity(i1);
-                    });
-                }
+                userimage.setOnClickListener(v -> {
+                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+                    i1.putExtra("uid", homePostModel[0].getUid());
+                    startActivity(i1);
+                });
+            }
 
 
             /////////////USERNAME & USER IMAGE FORE POST//////////////
 
 
             /////////////////TAGS/////////////////
-            if(StoreTemp.getInstance().getTagTemp() != null){
+            if (StoreTemp.getInstance().getTagTemp() != null) {
                 homePostModel[0].setTagL(StoreTemp.getInstance().getTagTemp());
-                if(homePostModel[0].getTagL().size()>0){
+                if (homePostModel[0].getTagL().size() > 0) {
                     tagRecycler.setHasFixedSize(true);
                     final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     tagRecycler.setLayoutManager(linearLayoutManager);
                     TagAdapter tagAdapter = new TagAdapter(homePostModel[0].getTagL(), getApplicationContext());
                     tagRecycler.setAdapter(tagAdapter);
-                }
-                else {
+                } else {
                     tagRecycler.setVisibility(View.GONE);
                 }
-            }
-            else {
+            } else {
                 tagRecycler.setVisibility(View.GONE);
             }
             /////////////////TAGS/////////////////
@@ -303,16 +299,14 @@ public class ViewMoreHome extends AppCompatActivity {
             ////////////COMMUNITY//////////
 
 
-
             ///////////////LIKE SETUP//////////////
-            if(i.getSerializableExtra("likeL") != null) {
+            if (i.getSerializableExtra("likeL") != null) {
                 likeList = (ArrayList<String>) i.getSerializableExtra("likeL");
                 /////////////////UPDATNG FLAMED BY NO.//////////////////////
-                if(likeList.size() == 0){
+                if (likeList.size() == 0) {
                     flamedBy.setVisibility(View.GONE);
                     likeimage.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     flamedBy.setVisibility(View.VISIBLE);
                     likeimage.setVisibility(View.VISIBLE);
                     flamedBy.setText(Integer.toString(likeList.size()));
@@ -327,19 +321,17 @@ public class ViewMoreHome extends AppCompatActivity {
                     });
                 }
 
-            }
-            else {
+            } else {
                 flamedBy.setVisibility(View.GONE);
                 likeimage.setVisibility(View.GONE);
             }
 
             ///////////When viewing likelist from fragment global/campus////////////////
-            if(i.getStringExtra("likeLOpen")!=null && i.getStringExtra("likeLOpen").matches("likeLOpen")) {
-                if(likeList!=null && likeList.size() > 0){
+            if (i.getStringExtra("likeLOpen") != null && i.getStringExtra("likeLOpen").matches("likeLOpen")) {
+                if (likeList != null && likeList.size() > 0) {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                     bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                }
-                else
+                } else
                     Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
             }
             ///////////When viewing likelist from fragment global/campus////////////////
@@ -347,11 +339,10 @@ public class ViewMoreHome extends AppCompatActivity {
             flamedBy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(likeList!=null && likeList.size() > 0){
+                    if (likeList != null && likeList.size() > 0) {
                         BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                         bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                    }
-                    else
+                    } else
                         Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -359,14 +350,13 @@ public class ViewMoreHome extends AppCompatActivity {
 
             ////////////////POST PIC///////////////
             Bundle args = getIntent().getBundleExtra("BUNDLE");
-            if(args!=null){
-                if((ArrayList<String>) args.getSerializable("ARRAYLIST")!=null
-                        && ((ArrayList<String>) args.getSerializable("ARRAYLIST")).size()>0){
+            if (args != null) {
+                if ((ArrayList<String>) args.getSerializable("ARRAYLIST") != null
+                        && ((ArrayList<String>) args.getSerializable("ARRAYLIST")).size() > 0) {
 
                     images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
 
-                    if(images!=null && images.size()>0)
-                    {
+                    if (images != null && images.size() > 0) {
                         sliderView.setVisibility(View.VISIBLE);
 
                         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -380,8 +370,7 @@ public class ViewMoreHome extends AppCompatActivity {
                         SliderAdapter sliderAdapter = new SliderAdapter(ViewMoreHome.this, images);
 
                         sliderView.setSliderAdapter(sliderAdapter);
-                    }
-                    else {
+                    } else {
                         sliderView.setVisibility(View.GONE);
                     }
 
@@ -391,7 +380,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
 
             ////////////////POST TEXT///////////////
-            if(i.getStringExtra("postText")!=null && !i.getStringExtra("postText").isEmpty()){
+            if (i.getStringExtra("postText") != null && !i.getStringExtra("postText").isEmpty()) {
                 homePostModel[0].setTxt(i.getStringExtra("postText"));
                 textContent.setVisibility(View.VISIBLE);
                 textContent.setText(homePostModel[0].getTxt());
@@ -421,8 +410,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //                    }
 //
 //                }
-            }
-            else {
+            } else {
                 textContent.setVisibility(View.GONE);
             }
             ////////////////POST TEXT///////////////
@@ -434,31 +422,29 @@ public class ViewMoreHome extends AppCompatActivity {
 //            mRecyclerView.setLayoutManager(layoutManager);
 //            mRecyclerView.setNestedScrollingEnabled(true);
 
-            if(i.getStringExtra("commentNo")!=null){
+            if (i.getStringExtra("commentNo") != null) {
                 homePostModel[0].setCmtNo(Long.parseLong(i.getStringExtra("commentNo")));
-                if(homePostModel[0].getCmtNo()>0){
+                if (homePostModel[0].getCmtNo() > 0) {
                     commentimage.setVisibility(View.VISIBLE);
                     noofcmnts.setVisibility(View.VISIBLE);
                     noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                     commentimage.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
                     noofcmnts.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
-                }
-                else {
+                } else {
                     noofcmnts.setVisibility(View.GONE);
                     commentimage.setVisibility(View.GONE);
                     checkGetMore = -1;
                 }
                 commentCount = Integer.parseInt(i.getStringExtra("commentNo"));
-            }
-            else {
+            } else {
 //                mRecyclerView.setVisibility(View.GONE);
 //                no_comment.setVisibility(View.VISIBLE);
                 noofcmnts.setVisibility(View.GONE);
@@ -597,21 +583,19 @@ public class ViewMoreHome extends AppCompatActivity {
 //            buildCommentRecyclerView();
 
 
-        }
-
-        else {// from fcm notification or notiff tab or external link
-            docref3= FirebaseFirestore.getInstance()
-                    .collection("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/notifCount/")
+        } else {// from fcm notification or notiff tab or external link
+            docref3 = FirebaseFirestore.getInstance()
+                    .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
                     .document("notifCount");
             final NotifCount[] notifCount = {new NotifCount()};
             docref3.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()) {
+                    if (task.isSuccessful()) {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        if(documentSnapshot.exists()) {
+                        if (documentSnapshot.exists()) {
                             notifCount[0] = documentSnapshot.toObject(NotifCount.class);
-                            if(notifCount[0].getNotifCount() > 0) {
+                            if (notifCount[0].getNotifCount() > 0) {
                                 docref3.update("notifCount", FieldValue.increment(-1));
                             }
                         }
@@ -622,8 +606,8 @@ public class ViewMoreHome extends AppCompatActivity {
             String bool;
 
 //            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
-            docRef = FirebaseFirestore.getInstance().document("Feeds/"+ homePostModel[0].getDocID()+"/");
-            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/flameL");
+            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homePostModel[0].getDocID() + "/");
+            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL");
             postID = getIntent().getExtras().getString("postID");
 
 
@@ -642,18 +626,18 @@ public class ViewMoreHome extends AppCompatActivity {
 //            }
 
 
-            FirebaseFirestore.getInstance().document("Feeds/"+postID+"/").get()
+            FirebaseFirestore.getInstance().document("Feeds/" + postID + "/").get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.getResult().exists()){
+                            if (task.getResult().exists()) {
                                 homePostModel[0] = task.getResult().toObject(HomePostModel.class);
                                 homePostModel[0].setDocID(task.getResult().getId());
 
                                 //SETTING DATABASE REF WRT BOOL VALUE//
 //                                commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
-                                docRef = FirebaseFirestore.getInstance().document("Feeds/"+ homePostModel[0].getDocID()+"/");
-                                flamedRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/flameL");
+                                docRef = FirebaseFirestore.getInstance().document("Feeds/" + homePostModel[0].getDocID() + "/");
+                                flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL");
                                 //SETTING DATABASE REF WRT BOOL VALUE//
 
                                 minsago.setText(Utility.getTimeAgo(homePostModel[0].getTs()));
@@ -680,16 +664,15 @@ public class ViewMoreHome extends AppCompatActivity {
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
                                 username.setText(homePostModel[0].getUsN());
 
-                                    if(homePostModel[0].getDp()!= null && !homePostModel[0].getDp().isEmpty()){
+                                if (homePostModel[0].getDp() != null && !homePostModel[0].getDp().isEmpty()) {
 
-                                            Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
+                                    Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
 
-                                    }
-                                    else {
-                                        userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                    }
+                                } else {
+                                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
 
-                                if(TYPE.matches("com")){
+                                if (TYPE.matches("com")) {
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
                                         i12.putExtra("uid", homePostModel[0].getUid());
@@ -701,8 +684,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                         i1.putExtra("uid", homePostModel[0].getUid());
                                         startActivity(i1);
                                     });
-                                }
-                                else if(TYPE.matches("indi")){
+                                } else if (TYPE.matches("indi")) {
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
                                         i12.putExtra("uid", homePostModel[0].getUid());
@@ -719,34 +701,31 @@ public class ViewMoreHome extends AppCompatActivity {
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
 
                                 /////////////////TAGS/////////////////
-                                if(homePostModel[0].getTagL() != null){
-                                    if(homePostModel[0].getTagL().size()>0){
+                                if (homePostModel[0].getTagL() != null) {
+                                    if (homePostModel[0].getTagL().size() > 0) {
                                         tagRecycler.setHasFixedSize(true);
                                         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                                         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                                         tagRecycler.setLayoutManager(linearLayoutManager);
                                         TagAdapter tagAdapter = new TagAdapter(homePostModel[0].getTagL(), getApplicationContext());
                                         tagRecycler.setAdapter(tagAdapter);
-                                    }
-                                    else {
+                                    } else {
                                         tagRecycler.setVisibility(View.GONE);
                                     }
-                                }
-                                else {
+                                } else {
                                     tagRecycler.setVisibility(View.GONE);
                                 }
                                 /////////////////TAGS/////////////////
 
 
                                 ///////////////LIKE SETUP//////////////
-                                if(homePostModel[0].getLikeL() != null) {
+                                if (homePostModel[0].getLikeL() != null) {
                                     likeList = homePostModel[0].getLikeL();
                                     /////////////////UPDATNG FLAMED BY NO.//////////////////////
-                                    if(likeList.size() == 0){
+                                    if (likeList.size() == 0) {
                                         flamedBy.setVisibility(View.GONE);
                                         likeimage.setVisibility(View.GONE);
-                                    }
-                                    else {
+                                    } else {
                                         flamedBy.setVisibility(View.VISIBLE);
                                         likeimage.setVisibility(View.VISIBLE);
                                         flamedBy.setText(Integer.toString(likeList.size()));
@@ -760,8 +739,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                                         });
                                     }
-                                }
-                                else{
+                                } else {
                                     flamedBy.setVisibility(View.GONE);
                                     likeimage.setVisibility(View.GONE);
                                 }
@@ -781,11 +759,10 @@ public class ViewMoreHome extends AppCompatActivity {
                                 flamedBy.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if(likeList!=null && likeList.size() > 0){
+                                        if (likeList != null && likeList.size() > 0) {
                                             BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                                        }
-                                        else
+                                        } else
                                             Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
                                     }
                                 });
@@ -795,8 +772,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 ////////////////POST PIC///////////////
                                 images = homePostModel[0].getImg();
 
-                                if(images!=null && images.size()>0)
-                                {
+                                if (images != null && images.size() > 0) {
                                     sliderView.setVisibility(View.VISIBLE);
 
                                     sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -810,16 +786,14 @@ public class ViewMoreHome extends AppCompatActivity {
                                     SliderAdapter sliderAdapter = new SliderAdapter(ViewMoreHome.this, images);
 
                                     sliderView.setSliderAdapter(sliderAdapter);
-                                }
-                                else {
+                                } else {
                                     sliderView.setVisibility(View.GONE);
                                 }
                                 ////////////////POST PIC///////////////
 
 
-
                                 ////////////////POST TEXT///////////////
-                                if(homePostModel[0].getTxt() != null && !homePostModel[0].getTxt().isEmpty()){
+                                if (homePostModel[0].getTxt() != null && !homePostModel[0].getTxt().isEmpty()) {
                                     textContent.setVisibility(View.VISIBLE);
                                     textContent.setText(homePostModel[0].getTxt());
 //                                    if(textContent.getUrls().length>0){
@@ -847,40 +821,37 @@ public class ViewMoreHome extends AppCompatActivity {
 //                                        }
 //
 //                                    }
-                                }
-                                else {
+                                } else {
                                     textContent.setVisibility(View.GONE);
                                 }
                                 ////////////////POST TEXT///////////////
 
                                 //////////////COMMENT SETUP from cmtNo////////////
-                                if(homePostModel[0].getCmtNo() > -1){
+                                if (homePostModel[0].getCmtNo() > -1) {
 
-                                    if(homePostModel[0].getCmtNo()>0){
+                                    if (homePostModel[0].getCmtNo() > 0) {
                                         commentimage.setVisibility(View.VISIBLE);
                                         noofcmnts.setVisibility(View.VISIBLE);
                                         noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                                         commentimage.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid());
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
                                         noofcmnts.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid());
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
 
-                                    }
-                                    else {
+                                    } else {
                                         noofcmnts.setVisibility(View.GONE);
                                         commentimage.setVisibility(View.GONE);
                                         checkGetMore = -1;
                                     }
-                                    commentCount = (int)homePostModel[0].getCmtNo();
-                                }
-                                else {
+                                    commentCount = (int) homePostModel[0].getCmtNo();
+                                } else {
 //                                        mRecyclerView.setVisibility(View.GONE);
-                ////                no_comment.setVisibility(View.VISIBLE);
+                                    ////                no_comment.setVisibility(View.VISIBLE);
                                     noofcmnts.setVisibility(View.GONE);
                                     commentimage.setVisibility(View.GONE);
                                     commentCount = 0;
@@ -1014,17 +985,14 @@ public class ViewMoreHome extends AppCompatActivity {
 //                                mRecyclerView.setAdapter(adapter);
 //
 //                                buildCommentRecyclerView();
-                            }
-
-                            else {
+                            } else {
                                 Toast.makeText(getApplicationContext(), "Post has been removed", Toast.LENGTH_SHORT).show();
-                                if(getIntent().getStringExtra("position") != null){
+                                if (getIntent().getStringExtra("position") != null) {
 //                                    NotificationFragment.removeNotif = Integer.parseInt(getIntent().getStringExtra("position"));
                                 }
-                                if(isTaskRoot()){
+                                if (isTaskRoot()) {
                                     startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
-                                }
-                                else {
+                                } else {
                                     ViewMoreHome.super.onBackPressed();
                                 }
                             }
@@ -1040,15 +1008,14 @@ public class ViewMoreHome extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         change = 1;
-                        if(LikeCheck >= 0) {//was already liked by current user
-                            if(likeList.size()-1 == 0) {
+                        if (LikeCheck >= 0) {//was already liked by current user
+                            if (likeList.size() - 1 == 0) {
                                 flamedBy.setVisibility(View.GONE);
                                 likeimage.setVisibility(View.GONE);
-                            }
-                            else{
+                            } else {
                                 flamedBy.setVisibility(View.VISIBLE);
                                 likeimage.setVisibility(View.VISIBLE);
-                                flamedBy.setText(Integer.toString(likeList.size()-1));
+                                flamedBy.setText(Integer.toString(likeList.size() - 1));
                             }
 
                             likeList.remove(FirebaseAuth.getInstance().getUid());
@@ -1061,71 +1028,26 @@ public class ViewMoreHome extends AppCompatActivity {
                             batch.update(docRef, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                             batch.delete(flamedDoc);
                             batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()) {
+                                if (task.isSuccessful()) {
                                     change = 1;
-                                }
-                                else {
-                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            ///////////////////BATCH WRITE///////////////////
-
-                        }
-                        else if(likeList!=null) {
-                            Utility.vibrate(getApplicationContext());
-                            flameimg.setImageResource(R.drawable.ic_flame_red);
-                            if(likeList.size() == 0)
-                                flamedBy.setText("Flamed by you");
-                            else if(likeList.size() == 1)
-                                flamedBy.setText("Flamed by you & "+likeList.size()+" other");
-                            else
-                                flamedBy.setText("Flamed by you & "+ likeList.size() +" others");
-
-                            likeList.add(FirebaseAuth.getInstance().getUid());
-                            LikeCheck = likeList.size()-1;
-//                docRef.update("likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            FlamedModel flamedModel = new FlamedModel();
-                            long tsLong = System.currentTimeMillis();
-
-                            flamedModel.setPostID(homePostModel[0].getDocID());
-                            flamedModel.setTs(tsLong);
-                            flamedModel.setType(introPref.getType());
-                            flamedModel.setUid(UID);
-                            flamedModel.setUserdp(PROFILEPIC);
-                            flamedModel.setUsername(USERNAME);
-                            flamedModel.setPostUid(homePostModel[0].getUid());
-
-                            DocumentReference flamedDoc = flamedRef.document(FirebaseAuth.getInstance().getUid());
-                            batch.update(docRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                            batch.set(flamedDoc, flamedModel);
-                            if(likeList.size() % 5 == 0){
-                                batch.update(docRef,"newTs", tsLong);
-                            }
-                            batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()) {
-                                    change = 1;
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
 
                             });
                             ///////////////////BATCH WRITE///////////////////
 
-                        }
-                        else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                        } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(getApplicationContext());
-                            flameimg.setImageResource(R.drawable.ic_flame_red);
-                            if(likeList!=null)
-                                flamedBy.setText("Flamed by you & "+ (likeList.size() + 1) +" people");
+                            likeimage.setVisibility(View.VISIBLE);
+                            flamedBy.setVisibility(View.VISIBLE);
+                            if (likeList != null)
+                                flamedBy.setText(Integer.toString(likeList.size() + 1));
                             else
-                                flamedBy.setText("Flamed by you");
+                                flamedBy.setText("1");
 
                             likeList.add(FirebaseAuth.getInstance().getUid());
-                            LikeCheck = likeList.size()-1;
+                            LikeCheck = likeList.size() - 1;
 
                             ///////////////////BATCH WRITE///////////////////
                             WriteBatch batch = FirebaseFirestore.getInstance().batch();
@@ -1142,14 +1064,13 @@ public class ViewMoreHome extends AppCompatActivity {
                             DocumentReference flamedDoc = flamedRef.document(FirebaseAuth.getInstance().getUid());
                             batch.update(docRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
                             batch.set(flamedDoc, flamedModel);
-                            if(likeList.size() % 5 == 0){
-                                batch.update(docRef,"newTs", tsLong);
+                            if (likeList.size() % 5 == 0) {
+                                batch.update(docRef, "newTs", tsLong);
                             }
                             batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     change = 1;
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -1162,7 +1083,7 @@ public class ViewMoreHome extends AppCompatActivity {
         commentimg.setOnClickListener(v -> {
             newComment.requestFocus();
             newComment.setFocusableInTouchMode(true);
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
             ///////////ENABLE KEYBOARD//////////
         });
@@ -1248,18 +1169,18 @@ public class ViewMoreHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
-                    postMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+                if (homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())) {
+                    postMenuDialog = new BottomSheetDialog(ViewMoreHome.this);
                     postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                     postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i= new Intent(getApplicationContext(),NewPostHome.class);
+                            Intent i = new Intent(getApplicationContext(), NewPostHome.class);
 
-                            i.putExtra("target","100"); //target value for edit post
-                            i.putExtra("FromViewMoreHome","True");
+                            i.putExtra("target", "100"); //target value for edit post
+                            i.putExtra("FromViewMoreHome", "True");
                             i.putExtra("bool", bool);
                             i.putExtra("usN", homePostModel[0].getUsN());
                             i.putExtra("dp", homePostModel[0].getDp());
@@ -1267,7 +1188,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
                             i.putExtra("img", homePostModel[0].getImg());
                             i.putExtra("txt", homePostModel[0].getTxt());
-                            i.putExtra("comID",homePostModel[0].getComID());
+                            i.putExtra("comID", homePostModel[0].getComID());
                             i.putExtra("comName", homePostModel[0].getComName());
 
                             i.putExtra("ts", Long.toString(homePostModel[0].getTs()));
@@ -1305,15 +1226,13 @@ public class ViewMoreHome extends AppCompatActivity {
 //                                                        FragmentGlobal.delete = 1;
 //                                                        FragmentCampus.changed = 1;
 //                                                        CommunityActivity.delete = 1;
-                                                        if(getIntent().getStringExtra("from")!=null && getIntent().getStringExtra("from").matches("link")){
+                                                        if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
                                                             startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
                                                             finish();
-                                                        }
-                                                        else if(isTaskRoot()){
+                                                        } else if (isTaskRoot()) {
                                                             startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
                                                             finish();
-                                                        }
-                                                        else {
+                                                        } else {
                                                             ViewMoreHome.super.onBackPressed();
                                                         }
                                                     }
@@ -1329,12 +1248,12 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String link = "https://www.utsavapp.in/android/feeds/"+homePostModel[0].getDocID();
-                            Intent i=new Intent();
+                            String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
+                            Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
                             i.putExtra(Intent.EXTRA_TEXT, link);
                             i.setType("text/plain");
-                            startActivity(Intent.createChooser(i,"Share with"));
+                            startActivity(Intent.createChooser(i, "Share with"));
                             postMenuDialog.dismiss();
 
                         }
@@ -1347,7 +1266,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Utility.showToast(getApplicationContext(),"Post has been reported.");
+                                            Utility.showToast(getApplicationContext(), "Post has been reported.");
                                         }
                                     });
                             postMenuDialog.dismiss();
@@ -1356,9 +1275,8 @@ public class ViewMoreHome extends AppCompatActivity {
                     Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     postMenuDialog.show();
 
-                }
-                else {
-                    postMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+                } else {
+                    postMenuDialog = new BottomSheetDialog(ViewMoreHome.this);
 
                     postMenuDialog.setContentView(R.layout.dialog_post_menu);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
@@ -1366,12 +1284,12 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String link = "https://www.utsavapp.in/android/feeds/"+homePostModel[0].getDocID();
-                            Intent i=new Intent();
+                            String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
+                            Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
                             i.putExtra(Intent.EXTRA_TEXT, link);
                             i.setType("text/plain");
-                            startActivity(Intent.createChooser(i,"Share with"));
+                            startActivity(Intent.createChooser(i, "Share with"));
                             postMenuDialog.dismiss();
 
                         }
@@ -1385,7 +1303,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Utility.showToast(getApplicationContext(),"Post has been reported.");
+                                            Utility.showToast(getApplicationContext(), "Post has been reported.");
                                         }
                                     });
                             postMenuDialog.dismiss();
@@ -1405,16 +1323,15 @@ public class ViewMoreHome extends AppCompatActivity {
 
 
         back.setOnClickListener(v -> {
-            if(getIntent().getStringExtra("from")!=null && getIntent().getStringExtra("from").matches("link")){
+            if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
                 startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
                 finish();
             }
-            if(isTaskRoot()){
+            if (isTaskRoot()) {
                 startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
                 finish();
-            }
-            else {
-                if(change == 1)
+            } else {
+                if (change == 1)
                     Toast.makeText(ViewMoreHome.this, "Swipe to refresh", Toast.LENGTH_SHORT).show();
                 super.onBackPressed();
             }
@@ -1427,17 +1344,17 @@ public class ViewMoreHome extends AppCompatActivity {
             public void onClick(View v) {
 //                String id = postCampus.replaceAll(" ","_");
 //                String link = "https://www.campus24.in/Home/"+id+"/"+homePostModel[0].getDocID();
-                String link = "https://www.utsavapp.in/android/feeds/"+homePostModel[0].getDocID();
-                Intent i=new Intent();
+                String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
+                Intent i = new Intent();
                 i.setAction(Intent.ACTION_SEND);
                 i.putExtra(Intent.EXTRA_TEXT, link);
                 i.setType("text/plain");
-                startActivity(Intent.createChooser(i,"Share with"));
+                startActivity(Intent.createChooser(i, "Share with"));
                 postMenuDialog.dismiss();
 
             }
         });
-
+    }
 
 //        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(v, scrollX, scrollY, oldScrollX, oldScrollY) ->{
 //            if(v.getChildAt(v.getChildCount() - 1) != null){
@@ -1453,10 +1370,6 @@ public class ViewMoreHome extends AppCompatActivity {
 //            }
 //        });
 //
-    }
-
-
-
 //    private void buildCommentRecyclerView(){
 //
 //        if(CommentList.size()>0 || CommentList!=null){

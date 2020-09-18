@@ -301,11 +301,11 @@ public class ReelsActivity extends AppCompatActivity {
                     holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     holder.commentimg.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
                     holder.commentCount.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
@@ -316,7 +316,7 @@ public class ReelsActivity extends AppCompatActivity {
                 /////COMMENT/////
 
                 holder.comment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
             }

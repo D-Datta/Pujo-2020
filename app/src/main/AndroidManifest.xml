@@ -75,7 +75,6 @@
             android:name=".ProfilePictureActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".DisplayPictureActivity" />
 
         <activity
             android:name=".CommitteeViewAll"

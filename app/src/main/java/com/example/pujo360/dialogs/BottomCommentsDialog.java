@@ -57,13 +57,17 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
     private EditText newComment;
-    private ImageView send;
+    private ImageView send, no_comment;
     private DocumentReference docRef;
     private CollectionReference commentRef;
+    private BottomSheetDialog commentMenuDialog;
+    private ProgressDialog progressDialog;
+    private String uid;
 
-    public BottomCommentsDialog(String root,String docID) {
+    public BottomCommentsDialog(String root,String docID, String uid) {
         this.root = root;
         this.docID = docID;
+        this.uid = uid;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -82,6 +86,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         ImageView commentimg = v.findViewById(R.id.user_image_comment);
         newComment = v.findViewById(R.id.new_comment);
         send = v.findViewById(R.id.send_comment);
+        no_comment = v.findViewById(R.id.no_comments);
         progressComment = v.findViewById(R.id.commentProgress);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -110,26 +115,26 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
             }
         });
 
-        CommentList = new ArrayList<>();
-        adapter = new CommentAdapter(ViewMoreHome.this, CommentList, 1);
-        adapter.onClickListener(new CommentAdapter.OnClickListener() {
+        models = new ArrayList<>();
+        commentAdapter = new CommentAdapter(getActivity(), models, 2);
+        commentAdapter.onClickListener(new CommentAdapter.OnClickListener() {
             @Override
             public void onClickListener(int position) {
 
-                if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
-                        || homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
-                    commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+                if( models.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
+                        || uid.matches(FirebaseAuth.getInstance().getUid())){
+                    commentMenuDialog= new BottomSheetDialog(requireActivity());
                     commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
-                    if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
+                    if( models.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
                         commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
                         commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v ->
                                 {
-                                    Intent intent = new Intent(ViewMoreHome.this, CommentEdit.class);
-                                    intent.putExtra("comment_home",CommentList.get(position).getComment());
-                                    intent.putExtra("com_img_home",CommentList.get(position).getUserdp());
-                                    intent.putExtra("com_postID_home",CommentList.get(position).getPostID());
-                                    intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
-                                    intent.putExtra("com_bool",i.getStringExtra("bool"));
+                                    Intent intent = new Intent(requireActivity(), CommentEdit.class);
+                                    intent.putExtra("comment_home",models.get(position).getComment());
+                                    intent.putExtra("com_img_home",models.get(position).getUserdp());
+                                    intent.putExtra("com_postID_home",models.get(position).getPostID());
+                                    intent.putExtra("com_docID_home",models.get(position).getDocID());
+                                    intent.putExtra("root", root);
                                     intent.putExtra("from", "no");
 
                                     startActivity(intent);
@@ -152,47 +157,38 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
                     commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
                     commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v -> {
-                        progressDialog = new ProgressDialog(ViewMoreHome.this);
+                        progressDialog = new ProgressDialog(requireActivity());
                         progressDialog.setTitle("Deleting Comment");
                         progressDialog.setMessage("Please wait...");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
                         ///////////////////BATCH WRITE///////////////////
                         WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                        int total = CommentList.get(position).getrCmtNo() + 1;
+                        int total = models.get(position).getrCmtNo() + 1;
 
-                        DocumentReference cmtDoc = commentRef.document(CommentList.get(position).getDocID());
+                        DocumentReference cmtDoc = commentRef.document(models.get(position).getDocID());
                         batch.delete(cmtDoc);
                         batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
 
                         batch.commit().addOnCompleteListener(task -> {
                             if(task.isSuccessful()){
-                                change = 1;
-                                CommentList.remove(position);
-                                adapter.notifyItemRemoved(position);
-                                if(adapter.getItemCount() == 0){
+                                models.remove(position);
+                                commentAdapter.notifyItemRemoved(position);
+                                if(commentAdapter.getItemCount() == 0){
                                     no_comment.setVisibility(View.VISIBLE);
                                 }
-
-                                commentCount--;
-                                if(commentCount == 0)
-                                    noofcmnts.setText("No comments yet");
-                                else if(commentCount==1)
-                                    noofcmnts.setText(commentCount+ " comment");
-                                else if(CommentList.size()>1)
-                                    noofcmnts.setText(commentCount+ " comments");
 
                                 progressDialog.dismiss();
                             }
                             else {
                                 progressDialog.dismiss();
-                                Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "Something went wrong...", Toast.LENGTH_SHORT).show();
                             }
 
                         });
                         ///////////////////BATCH WRITE///////////////////
 
-                        if(CommentList.size() == 0){
+                        if(models.size() == 0){
                             commentimg.setImageResource(R.drawable.ic_comment);
                             no_comment.setVisibility(View.VISIBLE);
                         }
@@ -201,10 +197,10 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
                     commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
                             {
-                                commentRef.document(CommentList.get(position).getDocID())
+                                commentRef.document(models.get(position).getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> {
-                                            Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+                                            Utility.showToast(requireActivity(), "Comment has been reported.");
                                         });
                                 commentMenuDialog.dismiss();
 
@@ -214,16 +210,16 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
                 }
                 else {
-                    commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+                    commentMenuDialog= new BottomSheetDialog(requireActivity());
                     commentMenuDialog.setContentView(R.layout.dialog_comment_menu);
                     commentMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                     commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
                             {
-                                commentRef.document(CommentList.get(position).getDocID())
+                                commentRef.document(models.get(position).getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> {
-                                            Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+                                            Utility.showToast(requireActivity(), "Comment has been reported.");
                                         });
                                 commentMenuDialog.dismiss();
                             }
@@ -339,7 +335,6 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                     models.add(commentModel);
                 }
                 if (models.size() > 0) {
-                    commentAdapter = new CommentAdapter(getActivity(), models, 2);
                     commentRecycler.setAdapter(commentAdapter);
 
                     if(task.getResult().size() > 0)
