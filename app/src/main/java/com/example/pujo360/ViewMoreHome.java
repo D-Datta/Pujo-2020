@@ -70,7 +70,7 @@ import static java.lang.Boolean.TRUE;
 public class ViewMoreHome extends AppCompatActivity {
 
 //    private ImageView send;
-    private EditText newComment;
+//    private EditText newComment;
     private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage;
     private SliderView sliderView;
 
@@ -126,7 +126,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //        mRecyclerView = findViewById(R.id.comments_recycler);
 //        send = findViewById(R.id.send_comment);
         share = findViewById(R.id.share44);
-        newComment = findViewById(R.id.new_comment);
+//        newComment = findViewById(R.id.new_comment);
         sliderView = findViewById(R.id.post_image44);
         commentimg = findViewById(R.id.comment44);
         username = findViewById(R.id.username44);
@@ -144,7 +144,7 @@ public class ViewMoreHome extends AppCompatActivity {
         more = findViewById(R.id.delete_post);
         progressBar = findViewById(R.id.progress_more1);
         progressComment = findViewById(R.id.commentProgress);
-        comName = findViewById(R.id.comName);
+//        comName = findViewById(R.id.comName);
         likeimage = findViewById(R.id.like_image);
         commentimage = findViewById(R.id.comment_image);
 
@@ -1081,11 +1081,14 @@ public class ViewMoreHome extends AppCompatActivity {
                 });
 
         commentimg.setOnClickListener(v -> {
-            newComment.requestFocus();
-            newComment.setFocusableInTouchMode(true);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
-            ///////////ENABLE KEYBOARD//////////
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid());
+                bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+
+//            newComment.requestFocus();
+//            newComment.setFocusableInTouchMode(true);
+//            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
+//            ///////////ENABLE KEYBOARD//////////
         });
 
 //        send.setOnClickListener(v -> {
@@ -1350,7 +1353,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 i.putExtra(Intent.EXTRA_TEXT, link);
                 i.setType("text/plain");
                 startActivity(Intent.createChooser(i, "Share with"));
-                postMenuDialog.dismiss();
+
 
             }
         });
