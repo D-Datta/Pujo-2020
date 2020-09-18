@@ -101,7 +101,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private ArrayList<String> likeList;
     private ArrayList<String> images;
 
-    private CollectionReference commentRef;
+//    private CollectionReference commentRef;
     private DocumentReference docRef;
     private CollectionReference flamedRef;
     DocumentReference docref3;
@@ -214,7 +214,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //            }
             //SETTING DATABASE REF WRT BOOL VALUE//
 
-            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
+//            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
             docRef = FirebaseFirestore.getInstance().document("Feeds/"+ homePostModel[0].getDocID()+"/");
             flamedRef = FirebaseFirestore.getInstance().collection("Feeds/"+homePostModel[0].getDocID()+"/flameL/");
 
@@ -467,134 +467,134 @@ public class ViewMoreHome extends AppCompatActivity {
                 checkGetMore = -1;
             }
 
-            CommentList = new ArrayList<>();
-            adapter = new CommentAdapter(ViewMoreHome.this, CommentList, 1);
-            adapter.onClickListener(new CommentAdapter.OnClickListener() {
-                @Override
-                public void onClickListener(int position) {
-
-                    if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
-                            || homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
-                        commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
-                        commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
-                        if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
-                            commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
-                            commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v ->
-                                    {
-                                        Intent intent = new Intent(ViewMoreHome.this, CommentEdit.class);
-                                        intent.putExtra("comment_home",CommentList.get(position).getComment());
-                                        intent.putExtra("com_img_home",CommentList.get(position).getUserdp());
-                                        intent.putExtra("com_postID_home",CommentList.get(position).getPostID());
-                                        intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
-                                        intent.putExtra("com_bool",i.getStringExtra("bool"));
-                                        intent.putExtra("from", "no");
-
-                                        startActivity(intent);
-
-//                                    final Intent intent1 = getIntent();
-//                                    String updated = intent1.getStringExtra("update");
-//                                    Toast.makeText(getApplicationContext(),updated,Toast.LENGTH_LONG).show();
-
+//            CommentList = new ArrayList<>();
+//            adapter = new CommentAdapter(ViewMoreHome.this, CommentList, 1);
+//            adapter.onClickListener(new CommentAdapter.OnClickListener() {
+//                @Override
+//                public void onClickListener(int position) {
+//
+//                    if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
+//                            || homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
+//                        commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+//                        commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
+//                        if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
+//                            commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
+//                            commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v ->
+//                                    {
+//                                        Intent intent = new Intent(ViewMoreHome.this, CommentEdit.class);
+//                                        intent.putExtra("comment_home",CommentList.get(position).getComment());
+//                                        intent.putExtra("com_img_home",CommentList.get(position).getUserdp());
+//                                        intent.putExtra("com_postID_home",CommentList.get(position).getPostID());
+//                                        intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
+//                                        intent.putExtra("com_bool",i.getStringExtra("bool"));
+//                                        intent.putExtra("from", "no");
+//
+//                                        startActivity(intent);
+//
+////                                    final Intent intent1 = getIntent();
+////                                    String updated = intent1.getStringExtra("update");
+////                                    Toast.makeText(getApplicationContext(),updated,Toast.LENGTH_LONG).show();
+//
+////                                    commentRef.document(CommentList.get(position).getDocID())
+////                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+////                                            .addOnSuccessListener(aVoid -> {
+////                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+////                                            });
+//                                        commentMenuDialog.dismiss();
+//
+//                                    }
+//                            );
+//                        }
+//                        commentMenuDialog.setCanceledOnTouchOutside(TRUE);
+//
+//                        commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
+//                        commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v -> {
+//                            progressDialog = new ProgressDialog(ViewMoreHome.this);
+//                            progressDialog.setTitle("Deleting Comment");
+//                            progressDialog.setMessage("Please wait...");
+//                            progressDialog.setCancelable(false);
+//                            progressDialog.show();
+//                            ///////////////////BATCH WRITE///////////////////
+//                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
+//                            int total = CommentList.get(position).getrCmtNo() + 1;
+//
+//                            DocumentReference cmtDoc = commentRef.document(CommentList.get(position).getDocID());
+//                            batch.delete(cmtDoc);
+//                            batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
+//
+//                            batch.commit().addOnCompleteListener(task -> {
+//                                if(task.isSuccessful()){
+//                                    change = 1;
+//                                    CommentList.remove(position);
+//                                    adapter.notifyItemRemoved(position);
+//                                    if(adapter.getItemCount() == 0){
+//                                        no_comment.setVisibility(View.VISIBLE);
+//                                    }
+//
+//                                    commentCount--;
+//                                    if(commentCount == 0)
+//                                        noofcmnts.setText("No comments yet");
+//                                    else if(commentCount==1)
+//                                        noofcmnts.setText(commentCount+ " comment");
+//                                    else if(CommentList.size()>1)
+//                                        noofcmnts.setText(commentCount+ " comments");
+//
+//                                    progressDialog.dismiss();
+//                                }
+//                                else {
+//                                    progressDialog.dismiss();
+//                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                                }
+//
+//                            });
+//                            ///////////////////BATCH WRITE///////////////////
+//
+//                            if(CommentList.size() == 0){
+//                                commentimg.setImageResource(R.drawable.ic_comment);
+//                                no_comment.setVisibility(View.VISIBLE);
+//                            }
+//                            commentMenuDialog.dismiss();
+//                        });
+//
+//                        commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
+//                                {
 //                                    commentRef.document(CommentList.get(position).getDocID())
 //                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
 //                                            .addOnSuccessListener(aVoid -> {
 //                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
 //                                            });
-                                        commentMenuDialog.dismiss();
-
-                                    }
-                            );
-                        }
-                        commentMenuDialog.setCanceledOnTouchOutside(TRUE);
-
-                        commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
-                        commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v -> {
-                            progressDialog = new ProgressDialog(ViewMoreHome.this);
-                            progressDialog.setTitle("Deleting Comment");
-                            progressDialog.setMessage("Please wait...");
-                            progressDialog.setCancelable(false);
-                            progressDialog.show();
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            int total = CommentList.get(position).getrCmtNo() + 1;
-
-                            DocumentReference cmtDoc = commentRef.document(CommentList.get(position).getDocID());
-                            batch.delete(cmtDoc);
-                            batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
-
-                            batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
-                                    change = 1;
-                                    CommentList.remove(position);
-                                    adapter.notifyItemRemoved(position);
-                                    if(adapter.getItemCount() == 0){
-                                        no_comment.setVisibility(View.VISIBLE);
-                                    }
-
-                                    commentCount--;
-                                    if(commentCount == 0)
-                                        noofcmnts.setText("No comments yet");
-                                    else if(commentCount==1)
-                                        noofcmnts.setText(commentCount+ " comment");
-                                    else if(CommentList.size()>1)
-                                        noofcmnts.setText(commentCount+ " comments");
-
-                                    progressDialog.dismiss();
-                                }
-                                else {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                }
-
-                            });
-                            ///////////////////BATCH WRITE///////////////////
-
-                            if(CommentList.size() == 0){
-                                commentimg.setImageResource(R.drawable.ic_comment);
-                                no_comment.setVisibility(View.VISIBLE);
-                            }
-                            commentMenuDialog.dismiss();
-                        });
-
-                        commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
-                                {
-                                    commentRef.document(CommentList.get(position).getDocID())
-                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                            .addOnSuccessListener(aVoid -> {
-                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
-                                            });
-                                    commentMenuDialog.dismiss();
-
-                                }
-                        );
-
-
-                    }
-                    else {
-                        commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
-                        commentMenuDialog.setContentView(R.layout.dialog_comment_menu);
-                        commentMenuDialog.setCanceledOnTouchOutside(TRUE);
-
-                        commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
-                                {
-                                    commentRef.document(CommentList.get(position).getDocID())
-                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                            .addOnSuccessListener(aVoid -> {
-                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
-                                            });
-                                    commentMenuDialog.dismiss();
-                                }
-                        );
-
-                    }
-
-                    Objects.requireNonNull(commentMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    commentMenuDialog.show();
-                }
-            });
-            mRecyclerView.setAdapter(adapter);
-
-            buildCommentRecyclerView();
+//                                    commentMenuDialog.dismiss();
+//
+//                                }
+//                        );
+//
+//
+//                    }
+//                    else {
+//                        commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+//                        commentMenuDialog.setContentView(R.layout.dialog_comment_menu);
+//                        commentMenuDialog.setCanceledOnTouchOutside(TRUE);
+//
+//                        commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
+//                                {
+//                                    commentRef.document(CommentList.get(position).getDocID())
+//                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+//                                            .addOnSuccessListener(aVoid -> {
+//                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+//                                            });
+//                                    commentMenuDialog.dismiss();
+//                                }
+//                        );
+//
+//                    }
+//
+//                    Objects.requireNonNull(commentMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                    commentMenuDialog.show();
+//                }
+//            });
+//            mRecyclerView.setAdapter(adapter);
+//
+//            buildCommentRecyclerView();
 
 
         }
@@ -621,7 +621,7 @@ public class ViewMoreHome extends AppCompatActivity {
             String postID;
             String bool;
 
-            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
+//            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
             docRef = FirebaseFirestore.getInstance().document("Feeds/"+ homePostModel[0].getDocID()+"/");
             flamedRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/flameL");
             postID = getIntent().getExtras().getString("postID");
@@ -651,7 +651,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 homePostModel[0].setDocID(task.getResult().getId());
 
                                 //SETTING DATABASE REF WRT BOOL VALUE//
-                                commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
+//                                commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
                                 docRef = FirebaseFirestore.getInstance().document("Feeds/"+ homePostModel[0].getDocID()+"/");
                                 flamedRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/flameL");
                                 //SETTING DATABASE REF WRT BOOL VALUE//
@@ -659,70 +659,50 @@ public class ViewMoreHome extends AppCompatActivity {
                                 minsago.setText(Utility.getTimeAgo(homePostModel[0].getTs()));
 
                                 ////////////COMMUNITY/////////
-                                if(homePostModel[0].getComName()!=null){
-                                    comName.setVisibility(View.VISIBLE);
-                                    comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-                                    comName.setText(homePostModel[0].getComName());
-                                    comName.setTextColor(getResources().getColor(R.color.white));
-                                    comName.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-//                                            Intent intent= new Intent(ViewMoreHome.this, CommunityActivity.class);
-//                                            intent.putExtra("comID", homePostModel[0].getComID());
-//                                            startActivity(intent);
-
-                                        }
-                                    });
-                                }
+//                                if(homePostModel[0].getComName()!=null){
+//                                    comName.setVisibility(View.VISIBLE);
+//                                    comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
+//                                    comName.setText(homePostModel[0].getComName());
+//                                    comName.setTextColor(getResources().getColor(R.color.white));
+//                                    comName.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+////                                            Intent intent= new Intent(ViewMoreHome.this, CommunityActivity.class);
+////                                            intent.putExtra("comID", homePostModel[0].getComID());
+////                                            startActivity(intent);
+//
+//                                        }
+//                                    });
+//                                }
                                 ////////////COMMUNITY//////////
 
 
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
                                 username.setText(homePostModel[0].getUsN());
-    //                                    if(homePostModel[0].getUsN().matches("Anonymous")){
-    //                                        userimage.setImageResource(R.drawable.ic_anonymous_icon);
-    //                                    }
-    //                                    else {
-                                    ///////////////////NOT ANONYMOUS/////////////////
+
                                     if(homePostModel[0].getDp()!= null && !homePostModel[0].getDp().isEmpty()){
-    //                                            if(homePostModel[0].getDp().matches("0")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_1);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("1")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_2);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("2")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_3);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("3")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_4);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("4")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_5);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("5")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_6);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("6")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_7);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("7")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_8);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("8")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_9);
-    //                                            }
-    //                                            else if(homePostModel[0].getDp().matches("9")){
-    //                                                userimage.setImageResource(R.drawable.default_dp_10);
-    //                                            }
-    //                                            else {
+
                                             Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
-    //                                            }
+
                                     }
                                     else {
                                         userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
 
+                                if(TYPE.matches("com")){
+                                    username.setOnClickListener(v -> {
+                                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+                                        i12.putExtra("uid", homePostModel[0].getUid());
+                                        startActivity(i12);
+                                    });
+
+                                    userimage.setOnClickListener(v -> {
+                                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+                                        i1.putExtra("uid", homePostModel[0].getUid());
+                                        startActivity(i1);
+                                    });
+                                }
+                                else if(TYPE.matches("indi")){
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
                                         i12.putExtra("uid", homePostModel[0].getUid());
@@ -734,6 +714,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                         i1.putExtra("uid", homePostModel[0].getUid());
                                         startActivity(i1);
                                     });
+                                }
 
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
 
@@ -762,49 +743,46 @@ public class ViewMoreHome extends AppCompatActivity {
                                     likeList = homePostModel[0].getLikeL();
                                     /////////////////UPDATNG FLAMED BY NO.//////////////////////
                                     if(likeList.size() == 0){
-                                        flamedBy.setText("Not flamed yet");
+                                        flamedBy.setVisibility(View.GONE);
+                                        likeimage.setVisibility(View.GONE);
                                     }
-                                    else if(likeList.size() == 1)
-                                        flamedBy.setText("Flamed by 1");
                                     else {
-                                        flamedBy.setText("Flamed by "+likeList.size()+" people");
-                                    }
+                                        flamedBy.setVisibility(View.VISIBLE);
+                                        likeimage.setVisibility(View.VISIBLE);
+                                        flamedBy.setText(Integer.toString(likeList.size()));
 
-                                    for(int j = 0; j < likeList.size(); j++){
-                                        if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-                                            flameimg.setImageResource(R.drawable.ic_flame_red);
-                                            LikeCheck = j;
-                                            if((likeList.size()-1) == 1)
-                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" other");
-                                            else if((likeList.size()-1) == 0){
-                                                flamedBy.setText("Flamed by you");
-                                            }
-                                            else
-                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" others");
-                                            //Position in likeList where the current USer UId is found stored in likeCheck
-                                        }
+                                        likeimage.setOnClickListener(v -> {
+                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                                            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                                        });
+                                        flamedBy.setOnClickListener(v -> {
+                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                                            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                                        });
                                     }
                                 }
-                                else
-                                    flamedBy.setText("Not flamed yet");
+                                else{
+                                    flamedBy.setVisibility(View.GONE);
+                                    likeimage.setVisibility(View.GONE);
+                                }
 
                                 ///////////When viewing likelist from fragment global/campus////////////////
-                                if(i.getStringExtra("likeLOpen")!=null && i.getStringExtra("likeLOpen").matches("likeLOpen"))
-                                {
-                                    if(likeList!=null && likeList.size() > 0){
-                                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Home", homePostModel[0].getDocID());
-                                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                                    }
-                                    else
-                                        Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
-                                }
+//                                if(i.getStringExtra("likeLOpen")!=null && i.getStringExtra("likeLOpen").matches("likeLOpen"))
+//                                {
+//                                    if(likeList!=null && likeList.size() > 0){
+//                                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+//                                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+//                                    }
+//                                    else
+//                                        Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
+//                                }
                                 ///////////When viewing likelist from fragment global/campus////////////////
 
                                 flamedBy.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         if(likeList!=null && likeList.size() > 0){
-                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Home", homePostModel[0].getDocID());
+                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                                         }
                                         else
@@ -844,31 +822,31 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if(homePostModel[0].getTxt() != null && !homePostModel[0].getTxt().isEmpty()){
                                     textContent.setVisibility(View.VISIBLE);
                                     textContent.setText(homePostModel[0].getTxt());
-                                    if(textContent.getUrls().length>0){
-                                        URLSpan urlSnapItem = textContent.getUrls()[0];
-                                        String url = urlSnapItem.getURL();
-                                        if(url.contains("http")){
-                                            linkPreview.setVisibility(View.VISIBLE);
-                                            linkPreview.setLink(url ,new ViewListener() {
-                                                @Override
-                                                public void onSuccess(boolean status) {
-
-                                                }
-
-                                                @Override
-                                                public void onError(Exception e) {
-                                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            //do stuff like remove view etc
-                                                            linkPreview.setVisibility(View.GONE);
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        }
-
-                                    }
+//                                    if(textContent.getUrls().length>0){
+//                                        URLSpan urlSnapItem = textContent.getUrls()[0];
+//                                        String url = urlSnapItem.getURL();
+//                                        if(url.contains("http")){
+//                                            linkPreview.setVisibility(View.VISIBLE);
+//                                            linkPreview.setLink(url ,new ViewListener() {
+//                                                @Override
+//                                                public void onSuccess(boolean status) {
+//
+//                                                }
+//
+//                                                @Override
+//                                                public void onError(Exception e) {
+//                                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+//                                                        @Override
+//                                                        public void run() {
+//                                                            //do stuff like remove view etc
+//                                                            linkPreview.setVisibility(View.GONE);
+//                                                        }
+//                                                    });
+//                                                }
+//                                            });
+//                                        }
+//
+//                                    }
                                 }
                                 else {
                                     textContent.setVisibility(View.GONE);
@@ -879,164 +857,163 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if(homePostModel[0].getCmtNo() > -1){
 
                                     if(homePostModel[0].getCmtNo()>0){
-                                        commentimg.setImageResource(R.drawable.comment_yellow);
-                                        if(homePostModel[0].getCmtNo()>1){
-                                            noofcmnts.setText(homePostModel[0].getCmtNo()+" comments");
-                                        }
-                                        else {
-                                            noofcmnts.setText(homePostModel[0].getCmtNo()+" comment");
-                                        }
-                                        no_comment.setVisibility(View.GONE);
+                                        commentimage.setVisibility(View.VISIBLE);
+                                        noofcmnts.setVisibility(View.VISIBLE);
+                                        noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
+
+                                        commentimage.setOnClickListener(v -> {
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                                            bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                                        });
+                                        noofcmnts.setOnClickListener(v -> {
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds",homePostModel[0].getDocID());
+                                            bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                                        });
 
                                     }
                                     else {
-    //                                            mRecyclerView.setVisibility(View.GONE);
-                                        no_comment.setVisibility(View.VISIBLE);
-                                        noofcmnts.setText("No comments yet");
+                                        noofcmnts.setVisibility(View.GONE);
+                                        commentimage.setVisibility(View.GONE);
                                         checkGetMore = -1;
                                     }
                                     commentCount = (int)homePostModel[0].getCmtNo();
                                 }
                                 else {
-    //                                        mRecyclerView.setVisibility(View.GONE);
-                                    no_comment.setVisibility(View.VISIBLE);
-                                    noofcmnts.setText("No comments yet");
+//                                        mRecyclerView.setVisibility(View.GONE);
+                ////                no_comment.setVisibility(View.VISIBLE);
+                                    noofcmnts.setVisibility(View.GONE);
+                                    commentimage.setVisibility(View.GONE);
                                     commentCount = 0;
                                     checkGetMore = -1;
                                 }
                                 //////////////COMMENT SETUP from cmtNo////////////
 
-                                final LinearLayoutManager layoutManager = new LinearLayoutManager(ViewMoreHome.this);
-                                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                                mRecyclerView.setLayoutManager(layoutManager);
-                                mRecyclerView.setNestedScrollingEnabled(false);
-
-                                CommentList = new ArrayList<>();
-                                adapter = new CommentAdapter(ViewMoreHome.this, CommentList, 1);
-                                adapter.onClickListener(new CommentAdapter.OnClickListener() {
-                                    @Override
-                                    public void onClickListener(int position) {
-
-                                        if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
-                                                || homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
-                                            commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
-                                            commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
-                                            if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
-                                                commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
-                                                commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v ->
-                                                        {
-                                                            Intent intent = new Intent(ViewMoreHome.this, CommentEdit.class);
-                                                            intent.putExtra("comment_home",CommentList.get(position).getComment());
-                                                            intent.putExtra("com_img_home",CommentList.get(position).getUserdp());
-                                                            intent.putExtra("com_postID_home",CommentList.get(position).getPostID());
-                                                            intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
-//                                                            intent.putExtra("com_bool",bool);
-                                                            intent.putExtra("from", "no");
-
-                                                            startActivity(intent);
-
-    //                                                                final Intent intent1 = getIntent();
-    //                                                                String updated = intent1.getStringExtra("update");
-    //                                                                Toast.makeText(getApplicationContext(),updated,Toast.LENGTH_LONG).show();
-    //
-    //                                                                commentRef.document(CommentList.get(position).getDocID())
-    //                                                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-    //                                                                        .addOnSuccessListener(aVoid -> {
-    //                                                                            Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
-    //                                                                        });
-                                                            commentMenuDialog.dismiss();
-
-                                                        }
-                                                );
-                                            }
-                                            commentMenuDialog.setCanceledOnTouchOutside(TRUE);
-
-                                            commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
-                                            commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v -> {
-                                                progressDialog = new ProgressDialog(ViewMoreHome.this);
-                                                progressDialog.setTitle("Deleting Comment");
-                                                progressDialog.setMessage("Please wait...");
-                                                progressDialog.setCancelable(false);
-                                                progressDialog.show();
-                                                ///////////////////BATCH WRITE///////////////////
-                                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                                int total = CommentList.get(position).getrCmtNo() + 1;
-
-                                                DocumentReference cmtDoc = commentRef.document(CommentList.get(position).getDocID());
-                                                batch.delete(cmtDoc);
-                                                batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
-
-                                                batch.commit().addOnCompleteListener(task -> {
-                                                    if(task.isSuccessful()){
-                                                        change = 1;
-                                                        CommentList.remove(position);
-                                                        adapter.notifyItemRemoved(position);
-                                                        if(adapter.getItemCount() == 0){
-                                                            no_comment.setVisibility(View.VISIBLE);
-                                                        }
-
-                                                        commentCount--;
-                                                        if(commentCount == 0)
-                                                            noofcmnts.setText("No comments yet");
-                                                        else if(commentCount==1)
-                                                            noofcmnts.setText(commentCount+ " comment");
-                                                        else if(CommentList.size()>1)
-                                                            noofcmnts.setText(commentCount+ " comments");
-
-                                                        progressDialog.dismiss();
-                                                    }
-                                                    else {
-                                                        progressDialog.dismiss();
-                                                        Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                                                    }
-
-                                                });
-                                                ///////////////////BATCH WRITE//////////////////
-                                                if(CommentList.size() == 0){
-                                                    commentimg.setImageResource(R.drawable.ic_comment);
-                                                    no_comment.setVisibility(View.VISIBLE);
-                                                }
-                                                commentMenuDialog.dismiss();
-                                            });
-
-                                            commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
-                                                    {
-                                                        commentRef.document(CommentList.get(position).getDocID())
-                                                                .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                                                .addOnSuccessListener(aVoid -> {
-                                                                    Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
-                                                                });
-                                                        commentMenuDialog.dismiss();
-
-                                                    }
-                                            );
-
-                                        }
-                                        else {
-                                            commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
-                                            commentMenuDialog.setContentView(R.layout.dialog_comment_menu);
-                                            commentMenuDialog.setCanceledOnTouchOutside(TRUE);
-
-                                            commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
-                                                    {
-                                                        commentRef.document(CommentList.get(position).getDocID())
-                                                                .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                                                .addOnSuccessListener(aVoid -> {
-                                                                    Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
-                                                                });
-                                                        commentMenuDialog.dismiss();
-                                                    }
-                                            );
-
-                                        }
-
-                                        Objects.requireNonNull(commentMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                        commentMenuDialog.show();
-                                    }
-                                });
-                                mRecyclerView.setAdapter(adapter);
-
-                                buildCommentRecyclerView();
+//                                CommentList = new ArrayList<>();
+//                                adapter = new CommentAdapter(ViewMoreHome.this, CommentList, 1);
+//                                adapter.onClickListener(new CommentAdapter.OnClickListener() {
+//                                    @Override
+//                                    public void onClickListener(int position) {
+//
+//                                        if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())
+//                                                || homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())){
+//                                            commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+//                                            commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
+//                                            if( CommentList.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
+//                                                commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
+//                                                commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v ->
+//                                                        {
+//                                                            Intent intent = new Intent(ViewMoreHome.this, CommentEdit.class);
+//                                                            intent.putExtra("comment_home",CommentList.get(position).getComment());
+//                                                            intent.putExtra("com_img_home",CommentList.get(position).getUserdp());
+//                                                            intent.putExtra("com_postID_home",CommentList.get(position).getPostID());
+//                                                            intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
+////                                                            intent.putExtra("com_bool",bool);
+//                                                            intent.putExtra("from", "no");
+//
+//                                                            startActivity(intent);
+//
+//    //                                                                final Intent intent1 = getIntent();
+//    //                                                                String updated = intent1.getStringExtra("update");
+//    //                                                                Toast.makeText(getApplicationContext(),updated,Toast.LENGTH_LONG).show();
+//    //
+//    //                                                                commentRef.document(CommentList.get(position).getDocID())
+//    //                                                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+//    //                                                                        .addOnSuccessListener(aVoid -> {
+//    //                                                                            Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+//    //                                                                        });
+//                                                            commentMenuDialog.dismiss();
+//
+//                                                        }
+//                                                );
+//                                            }
+//                                            commentMenuDialog.setCanceledOnTouchOutside(TRUE);
+//
+//                                            commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
+//                                            commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v -> {
+//                                                progressDialog = new ProgressDialog(ViewMoreHome.this);
+//                                                progressDialog.setTitle("Deleting Comment");
+//                                                progressDialog.setMessage("Please wait...");
+//                                                progressDialog.setCancelable(false);
+//                                                progressDialog.show();
+//                                                ///////////////////BATCH WRITE///////////////////
+//                                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+//                                                int total = CommentList.get(position).getrCmtNo() + 1;
+//
+//                                                DocumentReference cmtDoc = commentRef.document(CommentList.get(position).getDocID());
+//                                                batch.delete(cmtDoc);
+//                                                batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
+//
+//                                                batch.commit().addOnCompleteListener(task -> {
+//                                                    if(task.isSuccessful()){
+//                                                        change = 1;
+//                                                        CommentList.remove(position);
+//                                                        adapter.notifyItemRemoved(position);
+//                                                        if(adapter.getItemCount() == 0){
+//                                                            no_comment.setVisibility(View.VISIBLE);
+//                                                        }
+//
+//                                                        commentCount--;
+//                                                        if(commentCount == 0)
+//                                                            noofcmnts.setText("No comments yet");
+//                                                        else if(commentCount==1)
+//                                                            noofcmnts.setText(commentCount+ " comment");
+//                                                        else if(CommentList.size()>1)
+//                                                            noofcmnts.setText(commentCount+ " comments");
+//
+//                                                        progressDialog.dismiss();
+//                                                    }
+//                                                    else {
+//                                                        progressDialog.dismiss();
+//                                                        Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                                                    }
+//
+//                                                });
+//                                                ///////////////////BATCH WRITE//////////////////
+//                                                if(CommentList.size() == 0){
+//                                                    commentimg.setImageResource(R.drawable.ic_comment);
+//                                                    no_comment.setVisibility(View.VISIBLE);
+//                                                }
+//                                                commentMenuDialog.dismiss();
+//                                            });
+//
+//                                            commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
+//                                                    {
+//                                                        commentRef.document(CommentList.get(position).getDocID())
+//                                                                .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+//                                                                .addOnSuccessListener(aVoid -> {
+//                                                                    Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+//                                                                });
+//                                                        commentMenuDialog.dismiss();
+//
+//                                                    }
+//                                            );
+//
+//                                        }
+//                                        else {
+//                                            commentMenuDialog= new BottomSheetDialog(ViewMoreHome.this);
+//                                            commentMenuDialog.setContentView(R.layout.dialog_comment_menu);
+//                                            commentMenuDialog.setCanceledOnTouchOutside(TRUE);
+//
+//                                            commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v ->
+//                                                    {
+//                                                        commentRef.document(CommentList.get(position).getDocID())
+//                                                                .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+//                                                                .addOnSuccessListener(aVoid -> {
+//                                                                    Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+//                                                                });
+//                                                        commentMenuDialog.dismiss();
+//                                                    }
+//                                            );
+//
+//                                        }
+//
+//                                        Objects.requireNonNull(commentMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                                        commentMenuDialog.show();
+//                                    }
+//                                });
+//                                mRecyclerView.setAdapter(adapter);
+//
+//                                buildCommentRecyclerView();
                             }
 
                             else {
@@ -1064,15 +1041,15 @@ public class ViewMoreHome extends AppCompatActivity {
                     public void onClick(View v) {
                         change = 1;
                         if(LikeCheck >= 0){//was already liked by current user
-                            flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
                             if(likeList.size()-1 == 0){
-                                flamedBy.setText("Not flamed yet");
+                                flamedBy.setVisibility(View.GONE);
+                                likeimage.setVisibility(View.GONE);
                             }
-                            else if(likeList.size()-1 == 1){
-                                flamedBy.setText("Flamed by "+ (likeList.size()-1));
+                            else{
+                                flamedBy.setVisibility(View.VISIBLE);
+                                likeimage.setVisibility(View.VISIBLE);
+                                flamedBy.setText(Integer.toString(likeList.size()-1));
                             }
-                            else
-                                flamedBy.setText("Flamed by "+ (likeList.size()-1) +" people");
 
                             likeList.remove(FirebaseAuth.getInstance().getUid());
                             LikeCheck = -1;
@@ -1460,116 +1437,116 @@ public class ViewMoreHome extends AppCompatActivity {
         });
 
 
-        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(v, scrollX, scrollY, oldScrollX, oldScrollY) ->{
-            if(v.getChildAt(v.getChildCount() - 1) != null){
-                if((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
-                        scrollY > oldScrollY){
-                    if(checkGetMore != -1){
-                        if(progressBar.getVisibility() == View.GONE){
-                            progressBar.setVisibility(View.VISIBLE);
-                            fetchMore();//Load more data
-                        }
-                    }
-                }
-            }
-        });
+//        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(v, scrollX, scrollY, oldScrollX, oldScrollY) ->{
+//            if(v.getChildAt(v.getChildCount() - 1) != null){
+//                if((scrollY >= (v.getChildAt(v.getChildCount() - 1).getMeasuredHeight() - v.getMeasuredHeight())) &&
+//                        scrollY > oldScrollY){
+//                    if(checkGetMore != -1){
+//                        if(progressBar.getVisibility() == View.GONE){
+//                            progressBar.setVisibility(View.VISIBLE);
+//                            fetchMore();//Load more data
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//
+//    }
 
-    }
 
 
+//    private void buildCommentRecyclerView(){
+//
+//        if(CommentList.size()>0 || CommentList!=null){
+//            CommentList.clear();
+//        }
+//
+//        commentRef.orderBy("ts", Query.Direction.DESCENDING).limit(10).get()
+//                .addOnCompleteListener(task -> {
+//                    if(task.isSuccessful()){
+//                        for(DocumentSnapshot document: task.getResult()){
+//                            CommentModel commentModel = document.toObject(CommentModel.class);
+//                            commentModel.setDocID(document.getId());
+//                            CommentList.add(commentModel);
+//                        }
+//                        if(CommentList.size()>0){
+//                            mRecyclerView.setAdapter(adapter);
+//                            mRecyclerView.setVisibility(View.VISIBLE);
+////                            adapter.notifyDataSetChanged();
+//                            no_comment.setVisibility(View.GONE);
+//
+//                            commentimg.setImageResource(R.drawable.comment_yellow);
+//
+//                            if(task.getResult().size()>0)
+//                                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
+//
+//                            if(CommentList.size()<10){
+////                                if(CommentList.size()==1)
+////                                    noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comment");
+////                                else if(CommentList.size()>1)
+////                                    noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comments");
+//
+//                                checkGetMore = -1;
+//                            }
+//                            else {
+//                                checkGetMore = 0;
+//                            }
+//
+//                        }
+//                        else{
+//                            checkGetMore = -1;
+//                            noofcmnts.setText("No comments yet");
+//                            no_comment.setVisibility(View.VISIBLE);
+//                            progressBar.setVisibility(View.GONE);
+////                            mRecyclerView.setVisibility(View.GONE);
+//                            commentimg.setImageResource(R.drawable.ic_comment);
+//                        }
+//                    }
+//                    else {
+//                        Utility.showToast(getApplicationContext(),"Something went wrong...");
+//                    }
+//
+//                    progressBar.setVisibility(View.GONE);
+//                });
+//    }
 
-    private void buildCommentRecyclerView(){
-
-        if(CommentList.size()>0 || CommentList!=null){
-            CommentList.clear();
-        }
-
-        commentRef.orderBy("ts", Query.Direction.DESCENDING).limit(10).get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        for(DocumentSnapshot document: task.getResult()){
-                            CommentModel commentModel = document.toObject(CommentModel.class);
-                            commentModel.setDocID(document.getId());
-                            CommentList.add(commentModel);
-                        }
-                        if(CommentList.size()>0){
-                            mRecyclerView.setAdapter(adapter);
-                            mRecyclerView.setVisibility(View.VISIBLE);
-//                            adapter.notifyDataSetChanged();
-                            no_comment.setVisibility(View.GONE);
-
-                            commentimg.setImageResource(R.drawable.comment_yellow);
-
-                            if(task.getResult().size()>0)
-                                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
-
-                            if(CommentList.size()<10){
-//                                if(CommentList.size()==1)
-//                                    noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comment");
-//                                else if(CommentList.size()>1)
-//                                    noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comments");
-
-                                checkGetMore = -1;
-                            }
-                            else {
-                                checkGetMore = 0;
-                            }
-
-                        }
-                        else{
-                            checkGetMore = -1;
-                            noofcmnts.setText("No comments yet");
-                            no_comment.setVisibility(View.VISIBLE);
-                            progressBar.setVisibility(View.GONE);
-//                            mRecyclerView.setVisibility(View.GONE);
-                            commentimg.setImageResource(R.drawable.ic_comment);
-                        }
-                    }
-                    else {
-                        Utility.showToast(getApplicationContext(),"Something went wrong...");
-                    }
-
-                    progressBar.setVisibility(View.GONE);
-                });
-    }
-
-    private void fetchMore(){
-        progressBar.setVisibility(View.VISIBLE);
-        Query nextQuery = commentRef.orderBy("ts", Query.Direction.DESCENDING).startAfter(lastVisible).limit(10);
-
-        nextQuery.get().addOnCompleteListener(t -> {
-            if (t.isSuccessful()) {
-                ArrayList<CommentModel> commentModels = new ArrayList<>();
-                for (DocumentSnapshot d : t.getResult()) {
-                    CommentModel commentModel = d.toObject(CommentModel.class);
-                    assert commentModel != null;
-                    commentModel.setDocID(d.getId());
-                    commentModels.add(commentModel);
-
-                }
-
-                if(commentModels.size()>0){
-                    int lastSize = CommentList.size();
-                    CommentList.addAll(commentModels);
-                    adapter.notifyItemRangeInserted(lastSize, commentModels.size());
-                    lastVisible = t.getResult().getDocuments().get(t.getResult().size() - 1);
-
-//                    if(CommentList.size()==1)
-//                        noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comment");
-//                    else if(CommentList.size()>1)
-//                        noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comments");
-
-                    commentimg.setImageResource(R.drawable.comment_yellow);
-                }
-
-                progressBar.setVisibility(View.GONE);
-
-                if(commentModels.size()<10){
-                    checkGetMore = -1;
-                }
-            }
-        });
-    }
+//    private void fetchMore(){
+//        progressBar.setVisibility(View.VISIBLE);
+//        Query nextQuery = commentRef.orderBy("ts", Query.Direction.DESCENDING).startAfter(lastVisible).limit(10);
+//
+//        nextQuery.get().addOnCompleteListener(t -> {
+//            if (t.isSuccessful()) {
+//                ArrayList<CommentModel> commentModels = new ArrayList<>();
+//                for (DocumentSnapshot d : t.getResult()) {
+//                    CommentModel commentModel = d.toObject(CommentModel.class);
+//                    assert commentModel != null;
+//                    commentModel.setDocID(d.getId());
+//                    commentModels.add(commentModel);
+//
+//                }
+//
+//                if(commentModels.size()>0){
+//                    int lastSize = CommentList.size();
+//                    CommentList.addAll(commentModels);
+//                    adapter.notifyItemRangeInserted(lastSize, commentModels.size());
+//                    lastVisible = t.getResult().getDocuments().get(t.getResult().size() - 1);
+//
+////                    if(CommentList.size()==1)
+////                        noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comment");
+////                    else if(CommentList.size()>1)
+////                        noofcmnts.setText(getIntent().getStringExtra("commentNo")+ " comments");
+//
+//                    commentimg.setImageResource(R.drawable.comment_yellow);
+//                }
+//
+//                progressBar.setVisibility(View.GONE);
+//
+//                if(commentModels.size()<10){
+//                    checkGetMore = -1;
+//                }
+//            }
+//        });
+//    }
 
     private void save_Dialog(Bitmap bitmap) {
         Dialog myDialogue;
