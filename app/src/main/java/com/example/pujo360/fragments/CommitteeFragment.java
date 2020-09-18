@@ -341,17 +341,16 @@ public class CommitteeFragment extends Fragment {
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
                     Picasso.get().load(currentItem.getDp()).fit().centerCrop()
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(programmingViewHolder.userimage, new Callback() {
-                                @Override
-                                public void onSuccess() { }
+                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                        .into(programmingViewHolder.userimage, new Callback() {
+                            @Override
+                            public void onSuccess() { }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                }
-                            });
-
+                            @Override
+                            public void onError(Exception e) {
+                                programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        });
                 } else {
                     programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
@@ -497,15 +496,13 @@ public class CommitteeFragment extends Fragment {
                             }
 
                             @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
-
+                            public void onPrepareLoad(Drawable placeHolderDrawable) { }
                         });
                         return true;
                     });
-                } else
+                } else {
                     programmingViewHolder.postimage.setVisibility(View.GONE);
+                }
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 ///////////////////FLAMES AND COMMENTS///////////////////////

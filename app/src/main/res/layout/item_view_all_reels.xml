@@ -19,7 +19,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        app:tint="@color/white_transparent"
+        android:tint="@color/white_transparent"
         android:src="@drawable/ic_play_button"
         android:visibility="gone"/>
 
@@ -76,16 +76,33 @@
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/pujo_com_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/pujo_committees"
-                android:gravity="center_vertical"
-                android:textStyle="bold"
-                android:fontFamily="@font/oxygen_ex_bold"
-                android:textSize="20dp"
-                android:textColor="@color/white"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pujo_com_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/pujo_committees"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/oxygen_ex_bold"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/mins_ago_reels"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/_10_mins_ago"
+                    android:textSize="14dp"
+                    android:textColor="@color/white_transparent"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -95,7 +112,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:paddingTop="8dp"
-            android:paddingHorizontal="20dp"
+            android:paddingEnd="20dp"
             android:autoLink="all"
             android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
@@ -109,7 +126,7 @@
             app:colorClickableText="@color/white_transparent"
             android:visibility="visible"
             android:textColor="@color/white"
-            android:layout_marginStart="5dp"/>
+            android:layout_marginStart="25dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -147,7 +164,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="17dp"
+            android:paddingEnd="17dp"
             android:layout_marginVertical="15dp">
 
             <LinearLayout
@@ -204,7 +221,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="5dp"
                     android:fontFamily="@font/oxygen_ex_bold"
                     android:text="@string/_2_4k"
                     android:textColor="@color/white_transparent"
@@ -215,7 +232,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="end|center_vertical"
-                    android:padding="8dp"
+                    android:padding="7dp"
                     android:src="@drawable/ic_comment"
                     app:tint="@color/white_transparent"/>
 
@@ -223,7 +240,7 @@
                     android:id="@+id/comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginHorizontal="5dp"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/oxygen_ex_bold"
                     android:text="@string/_154"

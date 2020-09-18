@@ -2,6 +2,7 @@ package com.example.pujo360;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -135,6 +136,16 @@ public class ReelsActivity extends AppCompatActivity {
                 holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                 holder.pujo_desc.setText(currentItem.getDescription());
                 holder.pujo_com_name.setText(currentItem.getCommittee_name());
+
+                String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                holder.mins_ago.setText(timeAgo);
+                if (timeAgo != null) {
+                    if (timeAgo.matches("just now")) {
+                        holder.mins_ago.setTextColor(Color.parseColor("#7700C853"));
+                    } else {
+                        holder.mins_ago.setTextColor(ContextCompat.getColor(ReelsActivity.this, R.color.white_transparent));
+                    }
+                }
 
                 holder.reels_video.setOnCompletionListener(v -> reelsList.smoothScrollToPosition(position + 1));
 
@@ -369,7 +380,7 @@ public class ReelsActivity extends AppCompatActivity {
 
         VideoView reels_video;
         ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel;
-        TextView pujo_com_name, pujo_headline, likesCount, commentCount, play_image;
+        TextView pujo_com_name, pujo_headline, likesCount, commentCount, play_image, mins_ago;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         com.airbnb.lottie.LottieAnimationView progress;
 
@@ -392,6 +403,7 @@ public class ReelsActivity extends AppCompatActivity {
             commentimg = itemView.findViewById(R.id.comment_image);
             commentCount = itemView.findViewById(R.id.comment_count);
             play_image = itemView.findViewById(R.id.play);
+            mins_ago = itemView.findViewById(R.id.mins_ago_reels);
         }
     }
 
