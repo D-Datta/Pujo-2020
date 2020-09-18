@@ -138,7 +138,7 @@ public class ViewmoreSliderAdapter extends SliderViewAdapter<ViewmoreSliderAdapt
         return itemDatalist.size();
     }
 
-    public static class ViewmoreSliderAdapterVH extends ViewmoreSliderAdapter.ViewHolder {
+    public static class ViewmoreSliderAdapterVH extends SliderViewAdapter.ViewHolder {
 
         View itemView;
         PhotoView imageViewBackground;
