@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -46,6 +47,7 @@ import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.models.SliderModel;
 import com.example.pujo360.preferences.IntroPref;
+import com.example.pujo360.util.GravityView;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
@@ -70,12 +72,8 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
-
-import co.gofynd.gravityview.GravityView;
 
 import static java.lang.Boolean.TRUE;
 
@@ -97,7 +95,7 @@ public class CommitteeFragment extends Fragment {
     private FirestorePagingAdapter adapter, reelsAdapter;
     private DocumentSnapshot lastVisible;
     private IntroPref introPref;
-//    private GravityView gravityView;
+    private GravityView gravityView;
     private boolean isSupported = false;
 
     public CommitteeFragment() {
@@ -115,8 +113,8 @@ public class CommitteeFragment extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
-//        gravityView = GravityView.getInstance(requireActivity());
-//        isSupported = gravityView.deviceSupported();
+        gravityView = GravityView.getInstance(requireActivity());
+        isSupported = gravityView.deviceSupported();
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
@@ -203,13 +201,12 @@ public class CommitteeFragment extends Fragment {
                 })
                 .build();
 
-        adapter = new FirestorePagingAdapter<HomePostModel, RecyclerView.ViewHolder>(options) {
+        adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
-            protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
-                ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
+            protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
 
-                if (holder.getItemViewType() == 0) {
+                if (programmingViewHolder.getItemViewType() == 0) {
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
 
@@ -238,13 +235,43 @@ public class CommitteeFragment extends Fragment {
                         })
                         .addOnFailureListener(e -> Utility.showToast(getContext(), "No Internet Connection"));
                 }
-                else if((holder.getItemViewType() == 2 || holder.getItemViewType() == getItemCount() % 8
-                        && getItemCount() % 8 == 0) && holder.getItemViewType() != 0
-                        && holder.getItemViewType() < getItemCount()) {
-                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-                    programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+                else if((programmingViewHolder.getItemViewType() == 2 || programmingViewHolder.getItemViewType() == getItemCount() % 8
+                        && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
+                        && programmingViewHolder.getItemViewType() < getItemCount()) {
 
-                    buildReelsRecyclerView(programmingViewHolder.reelsList, programmingViewHolder.reelsLayout);
+                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+
+                    Query query;
+
+                    if(lastVisible != null) {
+                        query = FirebaseFirestore.getInstance()
+                                .collection("Reels")
+                                .orderBy("ts", Query.Direction.DESCENDING)
+                                .limit(10)
+                                .startAfter(lastVisible);
+                    }
+                    else {
+                        query = FirebaseFirestore.getInstance()
+                                .collection("Reels")
+                                .orderBy("ts", Query.Direction.DESCENDING)
+                                .limit(10);
+                    }
+
+                    query.get().addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            if(Objects.requireNonNull(task.getResult()).size() == 0) {
+                                programmingViewHolder.reels_item.setVisibility(View.GONE);
+                            }
+                            else {
+                                programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+                                lastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
+                                buildReelsRecyclerView(programmingViewHolder.reelsList, programmingViewHolder.reelsLayout, query);
+                            }
+                        }
+                        else {
+                            programmingViewHolder.reels_item.setVisibility(View.GONE);
+                        }
+                    });
                 }
                 else {
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -447,16 +474,15 @@ public class CommitteeFragment extends Fragment {
                 String postimage_url = currentItem.getSingle_img();
                 if (postimage_url != null) {
                     programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-//                    if(isSupported) {
-//                        int id = getResources().getIdentifier(postimage_url,"drawable", requireActivity().getPackageName());
-//                        gravityView.setImage(programmingViewHolder.postimage, id);
-//                    }
-//                    else {
+                    if(isSupported) {
+                        gravityView.setImage(programmingViewHolder.postimage, BitmapFactory.decodeFile(postimage_url));
+                    }
+                    else {
                         Picasso.get().load(postimage_url)
                                 .memoryPolicy(MemoryPolicy.NO_STORE)
                                 .placeholder(R.drawable.image_background_grey)
                                 .into(programmingViewHolder.postimage);
-//                    }
+                    }
 
                     programmingViewHolder.postimage.setOnLongClickListener(v -> {
                         Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
@@ -914,7 +940,7 @@ public class CommitteeFragment extends Fragment {
 
             @NonNull
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+            public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                 LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
                 View v = layoutInflater.inflate(R.layout.item_committee_post, viewGroup, false);
                 return new ProgrammingViewHolder(v);
@@ -1024,7 +1050,7 @@ public class CommitteeFragment extends Fragment {
     }
 
 
-    private void buildReelsRecyclerView(RecyclerView reelsList, LinearLayout reelsLayout) {
+    private void buildReelsRecyclerView(RecyclerView reelsList, LinearLayout reelsLayout, Query query) {
         reelsList.setHasFixedSize(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -1032,28 +1058,6 @@ public class CommitteeFragment extends Fragment {
         reelsList.setNestedScrollingEnabled(true);
         reelsList.setItemViewCacheSize(10);
         reelsList.setDrawingCacheEnabled(true);
-
-        Query query;
-
-        if(lastVisible != null) {
-            query = FirebaseFirestore.getInstance()
-                    .collection("Reels")
-                    .orderBy("ts", Query.Direction.DESCENDING)
-                    .limit(10)
-                    .startAfter(lastVisible);
-        }
-        else {
-            query = FirebaseFirestore.getInstance()
-                    .collection("Reels")
-                    .orderBy("ts", Query.Direction.DESCENDING)
-                    .limit(10);
-        }
-
-        query.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                lastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
-            }
-        });
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -1280,14 +1284,14 @@ public class CommitteeFragment extends Fragment {
             swipe = 1;
         }
         super.onResume();
-//        gravityView.registerListener();
+        gravityView.registerListener();
     }
 
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        gravityView.unRegisterListener();
-//    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        gravityView.unRegisterListener();
+    }
 
     @Override
     protected void finalize() throws Throwable {

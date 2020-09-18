@@ -474,7 +474,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         if(selected_tags!= null && selected_tags.size()>0 ) {
                             editPostModel.setTagL(selected_tags);
                         }
-                        if(text_content!= null && !text_content.isEmpty()  ) {
+                        if(!text_content.isEmpty()) {
                             editPostModel.setTxt(text_content.trim());
                         }
 
@@ -1273,7 +1273,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         }
 
     }
-
 
     @Override
     public void onBackPressed() {

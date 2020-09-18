@@ -155,50 +155,17 @@ public class ViewMoreHome extends AppCompatActivity {
         likeList = new ArrayList<>();
 
         //////////////////CURRENT USER DETAILS///////////////////
-        if(PROFILEPIC != null){
-//            if(PROFILEPIC.matches("0")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_1);
-//            }
-//            else if(PROFILEPIC.matches("1")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_2);
-//            }
-//            else if(PROFILEPIC.matches("2")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_3);
-//            }
-//            else if(PROFILEPIC.matches("3")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_4);
-//            }
-//            else if(PROFILEPIC.matches("4")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_5);
-//            }
-//            else if(PROFILEPIC.matches("5")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_6);
-//            }
-//            else if(PROFILEPIC.matches("6")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_7);
-//            }
-//            else if(PROFILEPIC.matches("7")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_8);
-//            }
-//            else if(PROFILEPIC.matches("8")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_9);
-//            }
-//            else if(PROFILEPIC.matches("9")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_10);
-//            }
-//            else {
-                Picasso.get().load(PROFILEPIC).into(userimage_comment, new Callback() {
-                    @Override
-                    public void onSuccess() {
+        if(PROFILEPIC != null) {
+            Picasso.get().load(PROFILEPIC).into(userimage_comment, new Callback() {
+                @Override
+                public void onSuccess() {
 
-                    }
-                    @Override
-                    public void onError(Exception e) {
-                        userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                    }
-                });
-//            }
-
+                }
+                @Override
+                public void onError(Exception e) {
+                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            });
         }
 
         //////////////////CURRENT USER DETAILS///////////////////

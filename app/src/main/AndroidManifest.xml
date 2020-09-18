@@ -29,7 +29,6 @@
         <activity android:name=".registration.RegIndividual" />
         <activity android:name=".registration.RegPujoCommittee" />
         <activity android:name=".registration.RegChoice" />
-        <activity android:name=".ImageViewer360" />
         <activity android:name=".WalkthroughActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ReelsActivity" />

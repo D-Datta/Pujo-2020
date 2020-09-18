@@ -39,6 +39,7 @@
                 android:id="@+id/reelsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="128dp"
+                android:visibility="gone"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp" />
 

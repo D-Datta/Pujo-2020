@@ -132,15 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabs.getTabAt(0);
         tabs.getTabAt(1);
 
-//        ImageView360 = findViewById(R.id.Viewer);
-//        ImageView360.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(MainActivity.this, ImageViewer360.class);
-//                startActivity(i);
-//            }
-//        });
-
     }
 
     private void setupViewPager(ViewPager viewPager) {

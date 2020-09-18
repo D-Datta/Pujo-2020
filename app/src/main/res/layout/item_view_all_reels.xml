@@ -33,7 +33,7 @@
             android:id="@+id/back_reel"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            app:tint="@color/white"
+            android:tint="@color/white"
             android:layout_alignParentStart="true"
             android:src="@drawable/ic_arrow_back_black_24dp"/>
 
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            app:tint="@color/white"
+            android:tint="@color/white"
             android:src="@drawable/ic_cloud_download_black_24dp"/>
 
     </RelativeLayout>
@@ -161,8 +161,7 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignEnd="@+id/drumbeat"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginEnd="-57dp"
+                android:layout_marginEnd="-61dp"
                 android:background="@drawable/custom_ripple_transparent"
                 android:padding="4dp"
                 android:src="@drawable/ic_conch_shell" />
@@ -172,11 +171,11 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignEnd="@+id/comment"
-                android:layout_marginEnd="-55dp"
+                android:layout_marginEnd="-59dp"
                 android:background="@drawable/custom_ripple_transparent"
                 android:padding="4dp"
                 android:src="@drawable/ic_blossom"
-                app:tint="@color/white" />
+                android:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/like_image"
@@ -214,7 +213,7 @@
                 android:layout_marginEnd="48dp"
                 android:padding="4dp"
                 android:src="@drawable/ic_comment"
-                app:tint="@color/white_transparent" />
+                android:tint="@color/white" />
 
             <TextView
                 android:id="@+id/comment_count"
