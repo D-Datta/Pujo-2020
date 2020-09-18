@@ -71,12 +71,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/no_comments"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="150dp"
+                android:padding="50dp"
+                android:src="@drawable/ic_no_posts"
+                android:visibility="gone"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/flamed_recycler"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
+                android:visibility="visible"
                 android:descendantFocusability="blocksDescendants"
                 app:reverseLayout="false"
                 android:paddingBottom="50dp" />
