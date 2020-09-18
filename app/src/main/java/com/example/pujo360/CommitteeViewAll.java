@@ -143,7 +143,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                 programmingViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(CommitteeViewAll.this, MainActivity.class);
+                        Intent intent = new Intent(CommitteeViewAll.this, ActivityProfileCommittee.class);
                         startActivity(intent);
                     }
                 });
