@@ -21,8 +21,6 @@ public class CommentModel {
 
     private ArrayList<String> likeL;
 
-    private ArrayList<String> reportL;
-
     private String postID;
 
     @Exclude

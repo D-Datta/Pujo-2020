@@ -99,14 +99,14 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
                     Objects.requireNonNull(flamedModel).setDocID(document.getId());
                     models.add(flamedModel);
                 }
-                if (models.size()>0){
+                if (models.size()>0) {
                     flamedByAdapter = new FlamedByAdapter(getActivity(), models);
                     flamerecycler.setAdapter(flamedByAdapter);
 
                     if(task.getResult().size()>0)
                         lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
 
-                    if(models.size()<15){
+                    if(models.size()<15) {
                         checkGetMore = -1;
                     } else {
                         checkGetMore = 0;

@@ -1,5 +1,6 @@
 package com.example.pujo360.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     }
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
+        @SuppressLint("InflateParams")
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_slider_layout, null);
         return new SliderAdapterVH(inflate);
     }

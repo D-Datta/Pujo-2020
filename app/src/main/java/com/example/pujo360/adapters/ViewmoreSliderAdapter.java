@@ -82,7 +82,7 @@ public class ViewmoreSliderAdapter extends SliderViewAdapter<ViewmoreSliderAdapt
             }
         });
 
-        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        viewHolder.imageViewBackground.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
@@ -120,12 +120,11 @@ public class ViewmoreSliderAdapter extends SliderViewAdapter<ViewmoreSliderAdapt
 
                 if(bool){
                     Toast.makeText(mContext, "Saved to device", Toast.LENGTH_SHORT).show();
-                    myDialogue.dismiss();
                 }
                 else{
                     Toast.makeText(mContext, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                    myDialogue.dismiss();
                 }
+                myDialogue.dismiss();
 
             }
         });

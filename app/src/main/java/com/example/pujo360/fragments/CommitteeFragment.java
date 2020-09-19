@@ -289,9 +289,6 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-                programmingViewHolder.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-                programmingViewHolder.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-
                 likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
