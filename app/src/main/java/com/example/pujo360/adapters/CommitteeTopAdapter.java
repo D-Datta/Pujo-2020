@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pujo360.ActivityProfileCommittee;
 import com.example.pujo360.MainActivity;
 import com.example.pujo360.R;
 import com.example.pujo360.models.BaseUserModel;
@@ -101,7 +102,7 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
                     @Override
                     public void onClick(View v) {
                         //to be changed
-                        Intent i= new Intent(mContext, MainActivity.class);
+                        Intent i= new Intent(mContext, ActivityProfileCommittee.class);
                         i.putExtra("comID", currentitem.getUid());
                         mContext.startActivity(i);
 
