@@ -46,7 +46,6 @@ import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.models.SliderModel;
 import com.example.pujo360.preferences.IntroPref;
-import com.example.pujo360.util.GravityView;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
@@ -1171,7 +1170,7 @@ public class CommitteeFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && isResumed()) {
             onResume();
-            if(new IntroPref(requireActivity()).getType().matches("Committee")) {
+            if(new IntroPref(requireActivity()).getType().matches("com")) {
                 create_post.setVisibility(View.VISIBLE);
                 create_post.setOnClickListener(v -> {
                     if(InternetConnection.checkConnection(requireActivity())){
@@ -1184,7 +1183,7 @@ public class CommitteeFragment extends Fragment {
                 });
             }
             else {
-                create_post.setVisibility(View.GONE);
+//                create_post.setVisibility(View.GONE);
             }
         }
     }

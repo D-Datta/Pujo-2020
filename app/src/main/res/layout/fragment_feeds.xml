@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/view_no_post"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -91,6 +91,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="7dp"
                     android:background="#E2E2E2"/>
+
+                <LinearLayout
+                    android:id="@+id/type_something"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        app:cardCornerRadius="50dp"
+                        android:layout_margin="10dp"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/Pdp"
+                            android:layout_width="55dp"
+                            android:layout_height="55dp"
+                            android:scaleType="centerCrop"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_account_circle_black_24dp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:text="Type something..\n"
+                        android:padding="10dp"
+                        android:textSize="15dp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/bg_rectangle"/>
+
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="match_parent"

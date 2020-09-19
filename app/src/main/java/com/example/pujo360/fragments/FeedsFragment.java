@@ -276,13 +276,72 @@ public class FeedsFragment extends Fragment {
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
 
+                    if(introPref.getType().matches("com")) {
+                        feedViewHolder.typeSmth.setVisibility(View.GONE);
+                    }
+
+                    if(introPref.getDefaultdp()!=null){
+                        Picasso.get().load(introPref.getDefaultdp()).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(feedViewHolder.Pdp, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+                                });
+//                                }
+                    }
+                    else {
+                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+
+
                     buildCommunityRecyclerView(feedViewHolder.cRecyclerView);
                 }
                 else {
+                    if(introPref.getType().matches("com")) {
+                        feedViewHolder.typeSmth.setVisibility(View.GONE);
+                    }
+
+                    if(introPref.getDefaultdp()!=null){
+                        Picasso.get().load(introPref.getDefaultdp()).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(feedViewHolder.Pdp, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+                                });
+//                                }
+                    }
+                    else {
+                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+
                     feedViewHolder.postHolder.setVisibility(View.VISIBLE);
                     feedViewHolder.committeeHolder.setVisibility(View.GONE);
                 }
 
+
+                feedViewHolder.typeSmth.setOnClickListener(v -> {
+                    if(InternetConnection.checkConnection(getActivity())){
+                        Intent i= new Intent(getContext(), NewPostHome.class);
+                        i.putExtra("target", "2");
+                        startActivity(i);
+                    }
+                    else
+                        Utility.showToast(getContext(), "Network Unavailable...");
+                });
 
                 DocumentReference likeStore;
                 String timeAgo = Utility.getTimeAgo(currentItem.getTs());
@@ -983,14 +1042,14 @@ public class FeedsFragment extends Fragment {
         RecyclerView cRecyclerView;
 
         TextView username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        ImageView userimage, flameimg, commentimg,profileimage, menuPost, share;
+        ImageView userimage, flameimg, commentimg,profileimage, menuPost, share, Pdp;
         SliderView sliderView;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome;
         RelativeLayout first_post;
         RecyclerView tagList;
 
-        LinearLayout postHolder;
+        LinearLayout postHolder, typeSmth;
         LinearLayout committeeHolder;
 
 
@@ -1020,7 +1079,8 @@ public class FeedsFragment extends Fragment {
             LinkPreview = itemView.findViewById(R.id.LinkPreView);
             first_post = itemView.findViewById(R.id.first_post);
             noPost = itemView.findViewById(R.id.no_recent_post);
-
+            typeSmth= itemView.findViewById(R.id.type_something);
+            Pdp= itemView.findViewById(R.id.Pdp);
 
             postHolder = itemView.findViewById(R.id.post);
             committeeHolder = itemView.findViewById(R.id.header_committee);

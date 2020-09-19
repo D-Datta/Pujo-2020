@@ -138,7 +138,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         gallery = findViewById(R.id.gallery);
         postcontent = findViewById(R.id.post_content);
         postimage = findViewById(R.id.post_image);
-        post_anon= findViewById(R.id.post_anonymous);
+//        post_anon= findViewById(R.id.post_anonymous);
         post = findViewById(R.id.post);
         recyclerView = findViewById(R.id.recyclerimages);
 //        postspinner=findViewById(R.id.post_spinner);
@@ -148,7 +148,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         LinkPreview = findViewById(R.id.LinkPreView);
 
         customTag = findViewById(R.id.CustomTag);
-        moreTags = findViewById(R.id.MoreTags);
+//        moreTags = findViewById(R.id.MoreTags);
 
         mAuth = FirebaseAuth.getInstance();
         fireuser = mAuth.getCurrentUser();
@@ -802,14 +802,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 openDialog();
             }
         });
-
-        moreTags.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomTagsDialog bottomTagsDialog = new BottomTagsDialog();
-                bottomTagsDialog.show(getSupportFragmentManager(),"BottomSheet");
-            }
-        });
+//
+//        moreTags.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                BottomTagsDialog bottomTagsDialog = new BottomTagsDialog();
+//                bottomTagsDialog.show(getSupportFragmentManager(),"BottomSheet");
+//            }
+//        });
 
 
         cross.setOnClickListener(v -> {
