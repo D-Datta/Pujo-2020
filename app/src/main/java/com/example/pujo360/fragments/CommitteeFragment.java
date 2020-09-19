@@ -5,9 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -41,6 +39,7 @@ import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.adapters.HomeSliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
+import com.example.pujo360.dialogs.BottomCommentsDialog;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
@@ -95,8 +94,6 @@ public class CommitteeFragment extends Fragment {
     private FirestorePagingAdapter adapter, reelsAdapter;
     private DocumentSnapshot lastVisible;
     private IntroPref introPref;
-    private GravityView gravityView;
-    private boolean isSupported = false;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -113,8 +110,6 @@ public class CommitteeFragment extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
-        gravityView = GravityView.getInstance(requireActivity());
-        isSupported = gravityView.deviceSupported();
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
@@ -355,85 +350,6 @@ public class CommitteeFragment extends Fragment {
                 programmingViewHolder.username.setText(currentItem.getUsN());
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
-                ///////////////OPEN VIEW MORE//////////////
-                programmingViewHolder.itemHome.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getSingle_img());
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("bool", "2");
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    startActivity(intent);
-                });
-
-                programmingViewHolder.text_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getSingle_img());
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("bool", "3");
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    startActivity(intent);
-                });
-
-                programmingViewHolder.postimage.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getSingle_img());
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("bool", "2");
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    startActivity(intent);
-                });
-
-                programmingViewHolder.likesCount.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    intent.putExtra("postPic", currentItem.getSingle_img());
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("bool", "2");
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("likeLOpen", "likeLOpen");
-                    startActivity(intent);
-                });
-                ///////////////OPEN VIEW MORE//////////////
-
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
                 if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
                     programmingViewHolder.text_content.setVisibility(View.GONE);
@@ -461,7 +377,6 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
-
                     } else {
                         programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                     }
@@ -470,15 +385,70 @@ public class CommitteeFragment extends Fragment {
                 String postimage_url = currentItem.getSingle_img();
                 if (postimage_url != null) {
                     programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-                    if(isSupported) {
-                        gravityView.setImage(programmingViewHolder.postimage, BitmapFactory.decodeFile(postimage_url));
-                    }
-                    else {
-                        Picasso.get().load(postimage_url)
-                                .memoryPolicy(MemoryPolicy.NO_STORE)
-                                .placeholder(R.drawable.image_background_grey)
-                                .into(programmingViewHolder.postimage);
-                    }
+                    Picasso.get().load(postimage_url)
+                        .memoryPolicy(MemoryPolicy.NO_STORE)
+                        .placeholder(R.drawable.image_background_grey)
+                        .into(programmingViewHolder.postimage);
+
+                    ///////////////OPEN VIEW MORE//////////////
+                    programmingViewHolder.text_content.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getSingle_img());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        startActivity(intent);
+                    });
+
+                    programmingViewHolder.postimage.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getSingle_img());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("bool", "2");
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        startActivity(intent);
+                    });
+
+                    programmingViewHolder.likesCount.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        intent.putExtra("postPic", currentItem.getSingle_img());
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("bool", "2");
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("likeLOpen", "likeLOpen");
+                        startActivity(intent);
+                    });
+                    ///////////////OPEN VIEW MORE//////////////
 
                     programmingViewHolder.postimage.setOnLongClickListener(v -> {
                         Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
@@ -531,7 +501,7 @@ public class CommitteeFragment extends Fragment {
                             } else{
                                 programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
                                 programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
+                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
                             }
                             ///////////REMOVE CURRENT USER LIKE/////////////
                             currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
@@ -589,8 +559,18 @@ public class CommitteeFragment extends Fragment {
                         }
                     });
 
+                programmingViewHolder.commentimg.setOnClickListener(v -> {
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                    bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                });
+
+                programmingViewHolder.writecomment.setOnClickListener(v -> {
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                    bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                });
+
                 if (currentItem.getCmtNo() > 0) {
-                    programmingViewHolder.commentimg.setVisibility(View.VISIBLE);
+                    programmingViewHolder.comment_image.setVisibility(View.VISIBLE);
                     programmingViewHolder.commentCount.setVisibility(View.VISIBLE);
                     programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
 
@@ -738,46 +718,28 @@ public class CommitteeFragment extends Fragment {
                         });
                     }
 
+                    programmingViewHolder.comment_image.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
+
+                    programmingViewHolder.commentCount.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
+
                     programmingViewHolder.commentLayout1.setOnClickListener(v-> {
-                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                        intent.putExtra("username", currentItem.getUsN());
-                        intent.putExtra("userdp", currentItem.getDp());
-                        intent.putExtra("docID", currentItem.getDocID());
-                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                        intent.putExtra("comName", currentItem.getComName());
-                        intent.putExtra("comID", currentItem.getComID());
-                        intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getSingle_img());
-                        intent.putExtra("postText", currentItem.getTxt());
-                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                        intent.putExtra("bool", "2");
-                        intent.putExtra("uid", currentItem.getUid());
-                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                        startActivity(intent);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v-> {
-                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                        intent.putExtra("username", currentItem.getUsN());
-                        intent.putExtra("userdp", currentItem.getDp());
-                        intent.putExtra("docID", currentItem.getDocID());
-                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                        intent.putExtra("comName", currentItem.getComName());
-                        intent.putExtra("comID", currentItem.getComID());
-                        intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getSingle_img());
-                        intent.putExtra("postText", currentItem.getTxt());
-                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                        intent.putExtra("bool", "2");
-                        intent.putExtra("uid", currentItem.getUid());
-                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                        startActivity(intent);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
                 else {
-                    programmingViewHolder.commentimg.setVisibility(View.GONE);
+                    programmingViewHolder.comment_image.setVisibility(View.GONE);
                     programmingViewHolder.commentCount.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
@@ -947,7 +909,6 @@ public class CommitteeFragment extends Fragment {
         RecyclerView tagList, reelsList;
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
-
 
         RelativeLayout reels_item, normal_item;
         LinearLayout slider_item;
@@ -1239,13 +1200,11 @@ public class CommitteeFragment extends Fragment {
             swipe = 1;
         }
         super.onResume();
-        gravityView.registerListener();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        gravityView.unRegisterListener();
     }
 
     @Override

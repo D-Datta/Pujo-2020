@@ -212,7 +212,6 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         return  dialog;
     }
 
-
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
         FrameLayout bottomSheet = bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
         BottomSheetBehavior behavior = BottomSheetBehavior.from(Objects.requireNonNull(bottomSheet));
