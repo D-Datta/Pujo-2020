@@ -241,6 +241,7 @@ public class CommitteeFragment extends Fragment {
 
                     if(introPref.getType().matches("com")){
                         programmingViewHolder.new_post_layout.setVisibility(View.VISIBLE);
+
                         programmingViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -473,6 +474,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
                         startActivity(intent);
                     });
 

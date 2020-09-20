@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,8 @@ public class ViewMoreHome extends AppCompatActivity {
 //    private EditText newComment;
     private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage;
     private SliderView sliderView;
+
+    private LinearLayout like_layout,comment_layout;
 
     private TextView username, minsago,  flamedBy, noofcmnts, comName;
     private ReadMoreTextView textContent;
@@ -153,6 +156,8 @@ public class ViewMoreHome extends AppCompatActivity {
 //        comName = findViewById(R.id.comName);
         likeimage = findViewById(R.id.like_image);
         commentimage = findViewById(R.id.comment_image);
+        like_layout = findViewById(R.id.like_layout);
+        comment_layout = findViewById(R.id.comment_layout);
 
 //        NestedScrollView nestedScrollView = findViewById(R.id.scrollView1);
 //        nestedScrollView.setNestedScrollingEnabled(true);
@@ -235,7 +240,8 @@ public class ViewMoreHome extends AppCompatActivity {
                 userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
             }
 
-            if (TYPE.matches("com")) {
+            homePostModel[0].setType(i.getStringExtra("type"));
+            if (homePostModel[0].getType().matches("com")) {
                 username.setOnClickListener(v -> {
                     Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
                     i12.putExtra("uid", homePostModel[0].getUid());
@@ -247,7 +253,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     i1.putExtra("uid", homePostModel[0].getUid());
                     startActivity(i1);
                 });
-            } else if (TYPE.matches("indi")) {
+            } else if (homePostModel[0].getType().matches("indi")) {
                 username.setOnClickListener(v -> {
                     Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
                     i12.putExtra("uid", homePostModel[0].getUid());
@@ -310,21 +316,16 @@ public class ViewMoreHome extends AppCompatActivity {
                 likeList = (ArrayList<String>) i.getSerializableExtra("likeL");
                 /////////////////UPDATNG FLAMED BY NO.//////////////////////
                 if (likeList.size() == 0) {
-                    flamedBy.setVisibility(View.GONE);
-                    likeimage.setVisibility(View.GONE);
+                    like_layout.setVisibility(View.GONE);
                 } else {
-                    flamedBy.setVisibility(View.VISIBLE);
-                    likeimage.setVisibility(View.VISIBLE);
+                    like_layout.setVisibility(View.VISIBLE);
                     flamedBy.setText(Integer.toString(likeList.size()));
 
-                    likeimage.setOnClickListener(v -> {
+                    like_layout.setOnClickListener(v -> {
                         BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                         bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                     });
-                    flamedBy.setOnClickListener(v -> {
-                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
-                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                    });
+
                 }
 
                 for(int j = 0; j < likeList.size(); j++){
@@ -350,8 +351,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 }
 
             } else {
-                flamedBy.setVisibility(View.GONE);
-                likeimage.setVisibility(View.GONE);
+                like_layout.setVisibility(View.GONE);
             }
 
             ///////////When viewing likelist from fragment global/campus////////////////
@@ -364,7 +364,7 @@ public class ViewMoreHome extends AppCompatActivity {
             }
             ///////////When viewing likelist from fragment global/campus////////////////
 
-            flamedBy.setOnClickListener(new View.OnClickListener() {
+            like_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (likeList != null && likeList.size() > 0) {
@@ -453,30 +453,23 @@ public class ViewMoreHome extends AppCompatActivity {
             if (i.getStringExtra("commentNo") != null) {
                 homePostModel[0].setCmtNo(Long.parseLong(i.getStringExtra("commentNo")));
                 if (homePostModel[0].getCmtNo() > 0) {
-                    commentimage.setVisibility(View.VISIBLE);
-                    noofcmnts.setVisibility(View.VISIBLE);
+                    comment_layout.setVisibility(View.VISIBLE);
                     noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
-                    commentimage.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
-                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                    });
-                    noofcmnts.setOnClickListener(v -> {
+                    comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
                 } else {
-                    noofcmnts.setVisibility(View.GONE);
-                    commentimage.setVisibility(View.GONE);
+                    comment_layout.setVisibility(View.GONE);
                     checkGetMore = -1;
                 }
                 commentCount = Integer.parseInt(i.getStringExtra("commentNo"));
             } else {
 //                mRecyclerView.setVisibility(View.GONE);
 //                no_comment.setVisibility(View.VISIBLE);
-                noofcmnts.setVisibility(View.GONE);
-                commentimage.setVisibility(View.GONE);
+                comment_layout.setVisibility(View.GONE);
                 commentCount = 0;
                 checkGetMore = -1;
             }
@@ -571,7 +564,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
 
-                                if (TYPE.matches("com")) {
+                                if (homePostModel[0].getType().matches("com")) {
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
                                         i12.putExtra("uid", homePostModel[0].getUid());
@@ -583,7 +576,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                         i1.putExtra("uid", homePostModel[0].getUid());
                                         startActivity(i1);
                                     });
-                                } else if (TYPE.matches("indi")) {
+                                } else if (homePostModel[0].getType().matches("indi")) {
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
                                         i12.putExtra("uid", homePostModel[0].getUid());
@@ -622,21 +615,16 @@ public class ViewMoreHome extends AppCompatActivity {
                                     likeList = homePostModel[0].getLikeL();
                                     /////////////////UPDATNG FLAMED BY NO.//////////////////////
                                     if (likeList.size() == 0) {
-                                        flamedBy.setVisibility(View.GONE);
-                                        likeimage.setVisibility(View.GONE);
+                                        like_layout.setVisibility(View.GONE);
                                     } else {
-                                        flamedBy.setVisibility(View.VISIBLE);
-                                        likeimage.setVisibility(View.VISIBLE);
+                                        like_layout.setVisibility(View.VISIBLE);
                                         flamedBy.setText(Integer.toString(likeList.size()));
 
-                                        likeimage.setOnClickListener(v -> {
+                                        like_layout.setOnClickListener(v -> {
                                             BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                                         });
-                                        flamedBy.setOnClickListener(v -> {
-                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
-                                            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                                        });
+
                                     }
                                     for(int j = 0; j < likeList.size(); j++){
                                         if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
@@ -659,8 +647,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    flamedBy.setVisibility(View.GONE);
-                                    likeimage.setVisibility(View.GONE);
+                                    like_layout.setVisibility(View.GONE);
                                 }
 
                                 ///////////When viewing likelist from fragment global/campus////////////////
@@ -675,7 +662,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //                                }
                                 ///////////When viewing likelist from fragment global/campus////////////////
 
-                                flamedBy.setOnClickListener(new View.OnClickListener() {
+                                like_layout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         if (likeList != null && likeList.size() > 0) {
@@ -749,30 +736,23 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if (homePostModel[0].getCmtNo() > -1) {
 
                                     if (homePostModel[0].getCmtNo() > 0) {
-                                        commentimage.setVisibility(View.VISIBLE);
-                                        noofcmnts.setVisibility(View.VISIBLE);
+                                        comment_layout.setVisibility(View.VISIBLE);
                                         noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
-                                        commentimage.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
-                                            bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                                        });
-                                        noofcmnts.setOnClickListener(v -> {
+                                        comment_layout.setOnClickListener(v -> {
                                             BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
 
                                     } else {
-                                        noofcmnts.setVisibility(View.GONE);
-                                        commentimage.setVisibility(View.GONE);
+                                        comment_layout.setVisibility(View.GONE);
                                         checkGetMore = -1;
                                     }
                                     commentCount = (int) homePostModel[0].getCmtNo();
                                 } else {
 //                                        mRecyclerView.setVisibility(View.GONE);
                                     ////                no_comment.setVisibility(View.VISIBLE);
-                                    noofcmnts.setVisibility(View.GONE);
-                                    commentimage.setVisibility(View.GONE);
+                                    comment_layout.setVisibility(View.GONE);
                                     commentCount = 0;
                                     checkGetMore = -1;
                                 }
@@ -804,12 +784,10 @@ public class ViewMoreHome extends AppCompatActivity {
                             flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
                             flameimg.setImageTintList(ContextCompat.getColorStateList(ViewMoreHome.this, R.color.white));
                             if (likeList.size() - 1 == 0) {
-                                flamedBy.setVisibility(View.GONE);
-                                likeimage.setVisibility(View.GONE);
+                                like_layout.setVisibility(View.GONE);
                             } else {
                                 Utility.vibrate(ViewMoreHome.this);
-                                flamedBy.setVisibility(View.VISIBLE);
-                                likeimage.setVisibility(View.VISIBLE);
+                                like_layout.setVisibility(View.VISIBLE);
                                 flamedBy.setText(Integer.toString(likeList.size() - 1));
                             }
 
@@ -847,8 +825,7 @@ public class ViewMoreHome extends AppCompatActivity {
                             }
                             flameimg.setImageResource(R.drawable.ic_flame_red);
                             flameimg.setImageTintList(null);
-                            likeimage.setVisibility(View.VISIBLE);
-                            flamedBy.setVisibility(View.VISIBLE);
+                            like_layout.setVisibility(View.VISIBLE);
                             if (likeList != null)
                                 flamedBy.setText(Integer.toString(likeList.size() + 1));
                             else
@@ -1056,19 +1033,7 @@ public class ViewMoreHome extends AppCompatActivity {
                         }
                     });
 
-                    postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-
-                        }
-                    });
+                    postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
 
                     postMenuDialog.findViewById(R.id.report_post).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1092,19 +1057,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.setContentView(R.layout.dialog_post_menu);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                    postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-
-                        }
-                    });
+                    postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
 
                     postMenuDialog.findViewById(R.id.report_post).setOnClickListener(new View.OnClickListener() {
 

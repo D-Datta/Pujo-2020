@@ -105,6 +105,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 intent.putExtra("newTs", Long.toString(model.getNewTs()));
                 intent.putExtra("uid", model.getUid());
                 intent.putExtra("timestamp", Long.toString(model.getTs()));
+                intent.putExtra("type", model.getType());
                 mContext.startActivity(intent);
             }
         });

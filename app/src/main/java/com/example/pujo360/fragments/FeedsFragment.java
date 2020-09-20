@@ -521,6 +521,7 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("uid", currentItem.getUid());
                     intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                     intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                    intent.putExtra("type", currentItem.getType());
                     startActivity(intent);
                 });
 
@@ -547,6 +548,7 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("uid", currentItem.getUid());
                     intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                     intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                    intent.putExtra("type", currentItem.getType());
                     startActivity(intent);
                 });
 
@@ -573,6 +575,7 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("uid", currentItem.getUid());
                     intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                     intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                    intent.putExtra("type", currentItem.getType());
                     startActivity(intent);
                 });
 
@@ -600,6 +603,7 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                     intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
                     intent.putExtra("likeLOpen", "likeLOpen");
+                    intent.putExtra("type", currentItem.getType());
                     startActivity(intent);
 
                 });

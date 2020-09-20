@@ -192,7 +192,14 @@
                 android:layout_alignParentEnd="true"
                 android:orientation="horizontal">
 
-                <ImageView
+            <LinearLayout
+                android:id="@+id/like_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/custom_ripple_black">
+
+            <ImageView
                     android:id="@+id/like_image"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
@@ -210,6 +217,14 @@
                     android:text="@string/_2_4k"
                     android:textColor="@color/white_transparent"
                     android:textSize="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/custom_ripple_black">
 
                 <ImageView
                     android:id="@+id/comment_image"
@@ -231,6 +246,7 @@
                     android:textColor="@color/white_transparent"
                     android:textSize="15dp"
                     android:textStyle="bold" />
+            </LinearLayout>
 
             </LinearLayout>
 
