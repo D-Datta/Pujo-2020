@@ -47,7 +47,10 @@ import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.CommitteeTopAdapter;
 import com.example.pujo360.adapters.TagAdapter;
+import com.example.pujo360.dialogs.BottomCommentsDialog;
+import com.example.pujo360.dialogs.BottomFlamedByDialog;
 import com.example.pujo360.models.BaseUserModel;
+import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
 import com.example.pujo360.preferences.IntroPref;
@@ -166,15 +169,15 @@ public class FeedsFragment extends Fragment {
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
 
-        create_post.setOnClickListener(v -> {
-            if(InternetConnection.checkConnection(getActivity())){
-                Intent i= new Intent(getContext(), NewPostHome.class);
-                i.putExtra("target", "2");
-                startActivity(i);
-            }
-            else
-                Utility.showToast(getContext(), "Network Unavailable...");
-        });
+//        create_post.setOnClickListener(v -> {
+//            if(InternetConnection.checkConnection(getActivity())){
+//                Intent i= new Intent(getContext(), NewPostHome.class);
+//                i.putExtra("target", "2");
+//                startActivity(i);
+//            }
+//            else
+//                Utility.showToast(getContext(), "Network Unavailable...");
+//        });
 
 
         buildRecyclerView();
@@ -277,72 +280,49 @@ public class FeedsFragment extends Fragment {
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
 
-                    if(introPref.getType().matches("com")) {
-                        feedViewHolder.typeSmth.setVisibility(View.GONE);
-                    }
+                    if(introPref.getType().matches("indi")){
+                        feedViewHolder.new_post_layout.setVisibility(View.VISIBLE);
 
-                    if(DP!=null){
-                        Picasso.get().load(DP).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(feedViewHolder.Pdp, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
+                        feedViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                                intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                startActivity(intent);
+                            }
+                        });
+                        feedViewHolder.type_something.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(InternetConnection.checkConnection(requireActivity())){
+                                    Intent i= new Intent(getContext(), NewPostHome.class);
+                                    i.putExtra("target", "2");
+                                    startActivity(i);
+                                }
+                                else
+                                    Utility.showToast(getContext(), "Network Unavailable...");
+                            }
+                        });
 
-                                    }
-
-                                    @Override
-                                    public void onError(Exception e) {
-                                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                    }
-                                });
-//                                }
+                        if (DP != null) {
+                            Picasso.get().load(DP).fit().centerCrop()
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(feedViewHolder.type_dp);
+                        } else {
+                            feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
                     }
                     else {
-                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        feedViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
 
 
                     buildCommunityRecyclerView(feedViewHolder.cRecyclerView);
                 }
                 else {
-                    if(introPref.getType().matches("com")) {
-                        feedViewHolder.typeSmth.setVisibility(View.GONE);
-                    }
-
-                    if(introPref.getDefaultdp()!=null){
-                        Picasso.get().load(introPref.getDefaultdp()).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(feedViewHolder.Pdp, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Exception e) {
-                                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                    }
-                                });
-//                                }
-                    }
-                    else {
-                        feedViewHolder.Pdp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                    }
-
                     feedViewHolder.postHolder.setVisibility(View.VISIBLE);
                     feedViewHolder.committeeHolder.setVisibility(View.GONE);
                 }
-
-
-                feedViewHolder.typeSmth.setOnClickListener(v -> {
-                    if(InternetConnection.checkConnection(getActivity())){
-                        Intent i= new Intent(getContext(), NewPostHome.class);
-                        i.putExtra("target", "2");
-                        startActivity(i);
-                    }
-                    else
-                        Utility.showToast(getContext(), "Network Unavailable...");
-                });
 
                 DocumentReference likeStore;
                 String timeAgo = Utility.getTimeAgo(currentItem.getTs());
@@ -356,22 +336,22 @@ public class FeedsFragment extends Fragment {
                 }
 
 
-                if (currentItem.getComName() != null) {
-                    feedViewHolder.comName.setVisibility(View.VISIBLE);
-                    feedViewHolder.comName.setText(currentItem.getComName());
-                    feedViewHolder.comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-
-                    feedViewHolder.comName.setOnClickListener(v -> {
-                        //To be changed
-                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
-                        intent.putExtra("uid", currentItem.getComID());
-                        startActivity(intent);
-                    });
-                }
-                else {
-                    feedViewHolder.comName.setVisibility(View.GONE);
-                    feedViewHolder.comName.setText(null);
-                }
+//                if (currentItem.getComName() != null) {
+//                    feedViewHolder.comName.setVisibility(View.VISIBLE);
+//                    feedViewHolder.comName.setText(currentItem.getComName());
+//                    feedViewHolder.comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
+//
+//                    feedViewHolder.comName.setOnClickListener(v -> {
+//                        //To be changed
+//                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getComID());
+//                        startActivity(intent);
+//                    });
+//                }
+//                else {
+//                    feedViewHolder.comName.setVisibility(View.GONE);
+//                    feedViewHolder.comName.setText(null);
+//                }
 
                 ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
@@ -381,49 +361,24 @@ public class FeedsFragment extends Fragment {
 
                 ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
-
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
                 if (DP != null) {
-
-//                            if (DP.get().matches("0")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_1);
-//                            } else if (DP.get().matches("1")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_2);
-//                            } else if (DP.get().matches("2")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_3);
-//                            } else if (DP.get().matches("3")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_4);
-//                            } else if (DP.get().matches("4")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_5);
-//                            } else if (DP.get().matches("5")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_6);
-//                            } else if (DP.get().matches("6")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_7);
-//                            } else if (DP.get().matches("7")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_8);
-//                            } else if (DP.get().matches("8")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_9);
-//                            } else if (DP.get().matches("9")) {
-//                                communityViewHolder.profileimage.get().setImageResource(R.drawable.default_dp_10);
-//                            } else {
-                        Picasso.get().load(DP).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(feedViewHolder.profileimage);
-
+                    Picasso.get().load(DP).fit().centerCrop()
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(feedViewHolder.profileimage);
                 } else {
                     feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
-
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
 
                 ///////////TAG RECYCLER SETUP////////////////
                 feedViewHolder.tagList.setHasFixedSize(false);
-                WeakReference<LinearLayoutManager> linearLayoutManager = new WeakReference<>(new LinearLayoutManager(getContext()));
-                linearLayoutManager.get().setOrientation(LinearLayoutManager.HORIZONTAL);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 feedViewHolder.tagList.setNestedScrollingEnabled(true);
-                feedViewHolder.tagList.setLayoutManager(linearLayoutManager.get());
+                feedViewHolder.tagList.setLayoutManager(linearLayoutManager);
                 ///////////TAG RECYCLER SETUP////////////////
 
                 if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
@@ -436,181 +391,40 @@ public class FeedsFragment extends Fragment {
                 }
                 /////////TAGLIST///////////////
 
-                //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
-                if (currentItem.getUsN() != null) {
+                //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+                feedViewHolder.userimage.setOnClickListener(v -> {
+                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
+                });
 
-                    feedViewHolder.userimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    });
+                feedViewHolder.username.setOnClickListener(v -> {
+                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
+                });
 
-                    feedViewHolder.username.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    });
+                //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
-                    feedViewHolder.username.setText(currentItem.getUsN());
+                //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+                if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
+                    Picasso.get().load(currentItem.getDp()).fit().centerCrop()
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(feedViewHolder.userimage, new Callback() {
+                                @Override
+                                public void onSuccess() { }
 
-                    ////////////NORMAL POST///////////////
-                    if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
-//                                if (currentItem.getDp().matches("0")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_1);
-//                                } else if (currentItem.getDp().matches("1")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_2);
-//                                } else if (currentItem.getDp().matches("2")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_3);
-//                                } else if (currentItem.getDp().matches("3")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_4);
-//                                } else if (currentItem.getDp().matches("4")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_5);
-//                                } else if (currentItem.getDp().matches("5")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_6);
-//                                } else if (currentItem.getDp().matches("6")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_7);
-//                                } else if (currentItem.getDp().matches("7")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_8);
-//                                } else if (currentItem.getDp().matches("8")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_9);
-//                                } else if (currentItem.getDp().matches("9")) {
-//                                    communityViewHolder.userimage.get().setImageResource(R.drawable.default_dp_10);
-//                                } else {
-                            Picasso.get().load(currentItem.getDp()).fit().centerCrop()
-                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                    .into(feedViewHolder.userimage, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(Exception e) {
-                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                        }
-                                    });
-//                                }
-                    }
-                    else {
-                        feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                    }
-
+                                @Override
+                                public void onError(Exception e) {
+                                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            });
+                } else {
+                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
-
-                ///////////////OPEN VIEW MORE//////////////
-                feedViewHolder.itemHome.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                        Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-                        intent.putExtra("BUNDLE", args);
-                    }
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("bool", "3");
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("type", currentItem.getType());
-                    startActivity(intent);
-                });
-
-                feedViewHolder.text_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                        Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-                        intent.putExtra("BUNDLE", args);
-                    }
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("bool", "3");
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("type", currentItem.getType());
-                    startActivity(intent);
-                });
-
-                feedViewHolder.sliderView.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                        Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-                        intent.putExtra("BUNDLE", args);
-                    }
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("bool", "3");
-
-
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("type", currentItem.getType());
-                    startActivity(intent);
-                });
-
-                feedViewHolder.flamedBy.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    //            intent.putExtra("tagL", currentItem.getTagL());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                        Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-                        intent.putExtra("BUNDLE", args);
-                    }
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("bool", "3");
-
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("likeLOpen", "likeLOpen");
-                    intent.putExtra("type", currentItem.getType());
-                    startActivity(intent);
-
-                });
-
-
-                ///////////////OPEN VIEW MORE//////////////
+                feedViewHolder.username.setText(currentItem.getUsN());
+                //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -661,141 +475,125 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.sliderView.setAutoCycle(false);
 
                     SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem);
-
                     feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
+
+                    feedViewHolder.text_content.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        startActivity(intent);
+                    });
                 }
                 else {
                     feedViewHolder.sliderView.setVisibility(View.GONE);
+                    feedViewHolder.text_content.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
                 }
 
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
-                ///////////////////FLAMES///////////////////////
+                feedViewHolder.like_layout.setOnClickListener(v -> {
+                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", currentItem.getDocID());
+                    bottomSheetDialog.show(requireActivity().getSupportFragmentManager(), "FlamedBySheet");
+                });
+
+                ///////////////////FLAMES AND COMMENTS///////////////////////
 
                 //INITIAL SETUP//
                 if (currentItem.getLikeL() != null) {
-                    /////////////////UPDATNG FLAMED BY NO.//////////////////////
                     if (currentItem.getLikeL().size() == 0) {
-                        feedViewHolder.flamedBy.setText("Not flamed yet");
-                    } else if (currentItem.getLikeL().size() == 1)
-                        feedViewHolder.flamedBy.setText("Flamed by 1");
+                        feedViewHolder.like_layout.setVisibility(View.GONE);
+                    }
                     else {
-                        feedViewHolder.flamedBy.setText("Flamed by " + currentItem.getLikeL().size() + " people");
+                        feedViewHolder.like_layout.setVisibility(View.VISIBLE);
+                        feedViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
 
                     for (int j = 0; j < currentItem.getLikeL().size(); j++) {
                         if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
-                            feedViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
+                            feedViewHolder.like.setImageResource(R.drawable.ic_flame_red);
                             currentItem.setLikeCheck(j);
-                            if ((currentItem.getLikeL().size() - 1) == 1)
-                                feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
-                            else if ((currentItem.getLikeL().size() - 1) == 0) {
-                                feedViewHolder.flamedBy.setText("Flamed by you");
-                            } else
-                                feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
+//                            if ((currentItem.getLikeL().size() - 1) == 1)
+//                                feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
+//                            else if ((currentItem.getLikeL().size() - 1) == 0) {
+//                                feedViewHolder.flamedBy.setText("Flamed by you");
+//                            } else
+//                                feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
                             //Position in likeList where the current USer UId is found stored in likeCheck
                         }
                     }
+
                 } else {
-                    feedViewHolder.flamedBy.setText("Not flamed yet");
-                    feedViewHolder.flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
+                    feedViewHolder.like_layout.setVisibility(View.GONE);
                 }
                 //INITIAL SETUP//
 
-
-                PushDownAnim.setPushDownAnimTo(feedViewHolder.flameimg)
+                PushDownAnim.setPushDownAnimTo(feedViewHolder.like)
                         .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                         .setOnClickListener(v -> {
-                            if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                                feedViewHolder.flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
+                            if (currentItem.getLikeCheck() >= 0) {
+                                feedViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
                                 if (currentItem.getLikeL().size() - 1 == 0) {
-                                    feedViewHolder.flamedBy.setText("Not flamed yet");
-                                } else
-                                    feedViewHolder.flamedBy.setText("Flamed by " + (currentItem.getLikeL().size() - 1) + " people");
+                                    feedViewHolder.like_layout.setVisibility(View.GONE);
+                                } else{
+                                    feedViewHolder.like_layout.setVisibility(View.VISIBLE);
+                                    feedViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
+                                }
                                 ///////////REMOVE CURRENT USER LIKE/////////////
                                 currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
                                 currentItem.setLikeCheck(-1);
 
-                                //                likeStore.update("likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-
                                 ///////////////////BATCH WRITE///////////////////
                                 WriteBatch batch = FirebaseFirestore.getInstance().batch();
 
-                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                DocumentReference flamedDoc = likeStore.collection("flameL")
+                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
                                 batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                                 batch.delete(flamedDoc);
 
-                                batch.commit().addOnSuccessListener(task -> {
-
-                                });
+                                batch.commit().addOnSuccessListener(task -> { });
                                 ///////////////////BATCH WRITE///////////////////
-                            } else if (currentItem.getLikeCheck() < 0 && currentItem.getLikeL() != null) {
-                                Utility.vibrate(getContext());
+                            }
+                            else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                                Utility.vibrate(requireActivity());
                                 try {
-                                    AssetFileDescriptor afd = getContext().getAssets().openFd("dhak.mp3");
+                                    AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                     MediaPlayer player = new MediaPlayer();
                                     player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                     player.prepare();
-                                    AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+                                    AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
                                     if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                         player.start();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-
-                                feedViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
-                                if (currentItem.getLikeL().size() == 0)
-                                    feedViewHolder.flamedBy.setText("Flamed by you");
-                                else if (currentItem.getLikeL().size() == 1)
-                                    feedViewHolder.flamedBy.setText("Flamed by you & " + currentItem.getLikeL().size() + " other");
-                                else
-                                    feedViewHolder.flamedBy.setText("Flamed by you & " + currentItem.getLikeL().size() + " others");
-
-                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);//For local changes
-
-                                ///////////////////BATCH WRITE///////////////////
-                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                FlamedModel flamedModel = new FlamedModel();
-                                long tsLong = System.currentTimeMillis();
-
-                                flamedModel.setPostID(currentItem.getDocID());
-                                flamedModel.setTs(tsLong);
-                                flamedModel.setType(introPref.getType());
-                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                flamedModel.setUserdp(DP);
-                                flamedModel.setUsername(USERNAME);
-                                flamedModel.setPostUid(currentItem.getUid());
-
-                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                batch.set(flamedDoc, flamedModel);
-                                if (currentItem.getLikeL().size() % 5 == 0) {
-                                    batch.update(likeStore, "newTs", tsLong);
+                                feedViewHolder.like.setImageResource(R.drawable.ic_flame_red);
+                                feedViewHolder.like_layout.setVisibility(View.VISIBLE);
+                                if (currentItem.getLikeL() != null){
+                                    feedViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
                                 }
-                                batch.commit().addOnSuccessListener(task -> {
-
-                                });
-                                ///////////////////BATCH WRITE///////////////////
-                            } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                Utility.vibrate(getActivity());
-                                try {
-                                    AssetFileDescriptor afd = getContext().getAssets().openFd("dhak.mp3");
-                                    MediaPlayer player = new MediaPlayer();
-                                    player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                                    player.prepare();
-                                    AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-                                    if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-                                        player.start();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                                else{
+                                    feedViewHolder.likesCount.setText("1");
                                 }
-                                feedViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
-                                if (currentItem.getLikeL() != null)
-                                    feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() + 1) + " people");
-                                else
-                                    feedViewHolder.flamedBy.setText("Flamed by you");
 
                                 //////////////ADD CURRENT USER TO LIKELIST//////////////////
                                 currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
@@ -815,41 +613,218 @@ public class FeedsFragment extends Fragment {
                                 flamedModel.setUsername(USERNAME);
                                 flamedModel.setPostUid(currentItem.getUid());
 
-                                DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
+                                DocumentReference flamedDoc = likeStore.collection("flameL")
+                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
                                 batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
                                 batch.set(flamedDoc, flamedModel);
                                 if (currentItem.getLikeL().size() % 5 == 0) {
                                     batch.update(likeStore, "newTs", tsLong);
                                 }
-                                batch.commit().addOnSuccessListener(task -> {
-
-                                });
+                                batch.commit().addOnSuccessListener(task -> { });
                                 ///////////////////BATCH WRITE///////////////////
                             }
                         });
 
+                feedViewHolder.commentimg.setOnClickListener(v -> {
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1);
+                    bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                });
+
+                feedViewHolder.writecomment.setOnClickListener(v -> {
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1);
+                    bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                });
+
+                feedViewHolder.share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, link);
+                        i.setType("text/plain");
+                        startActivity(Intent.createChooser(i, "Share with"));
+                    }
+                });
 
                 if (currentItem.getCmtNo() > 0) {
-                    feedViewHolder.commentimg.setImageResource(R.drawable.comment_yellow);
-                    if (currentItem.getCmtNo() == 1)
-                        feedViewHolder.commentCount.setText(currentItem.getCmtNo() + " comment");
-                    else if (currentItem.getCmtNo() > 1)
-                        feedViewHolder.commentCount.setText(currentItem.getCmtNo() + " comments");
+                    feedViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                    feedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                } else {
-                    feedViewHolder.commentimg.setImageResource(R.drawable.ic_comment);
-                    feedViewHolder.commentCount.setText("No comments");
+                    if(currentItem.getCmtNo() == 1) {
+                        feedViewHolder.commentLayout2.setVisibility(View.GONE);
+                        FirebaseFirestore.getInstance().collection("Feeds/" + currentItem.getDocID() + "/commentL")
+                                .get().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (querySnapshot != null) {
+                                    CommentModel commentModel = querySnapshot.getDocuments().get(0).toObject(CommentModel.class);
+                                    Picasso.get().load(Objects.requireNonNull(commentModel).getUserdp())
+                                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                            .into(feedViewHolder.dp_cmnt1);
+                                    feedViewHolder.name_cmnt1.setText(commentModel.getUsername());
+
+                                    feedViewHolder.cmnt1.setText(commentModel.getComment());
+                                    if (feedViewHolder.cmnt1.getUrls().length > 0) {
+                                        URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
+                                        String url = urlSnapItem.getURL();
+                                        if (url.contains("http")) {
+                                            feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                            feedViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                                @Override
+                                                public void onSuccess(boolean status) { }
+
+                                                @Override
+                                                public void onError(Exception e) {
+                                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                                        //do stuff like remove view etc
+                                                        feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    } else {
+                                        feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                    }
+
+                                    feedViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel.getTs()));
+                                    if (Utility.getTimeAgo(commentModel.getTs()) != null) {
+                                        if (Objects.requireNonNull(Utility.getTimeAgo(commentModel.getTs())).matches("just now")) {
+                                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                                        } else {
+                                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        feedViewHolder.commentLayout2.setVisibility(View.VISIBLE);
+                        FirebaseFirestore.getInstance()
+                                .collection("Feeds/" + currentItem.getDocID() + "/commentL")
+                                .get().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (querySnapshot != null) {
+                                    querySnapshot.getQuery().orderBy("ts", Query.Direction.DESCENDING)
+                                            .get().addOnCompleteListener(task1 -> {
+                                        QuerySnapshot querySnapshot1 = task1.getResult();
+                                        if (querySnapshot1 != null) {
+                                            CommentModel commentModel1 = querySnapshot1.getDocuments().get(0).toObject(CommentModel.class);
+                                            Picasso.get().load(Objects.requireNonNull(commentModel1).getUserdp())
+                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                                    .into(feedViewHolder.dp_cmnt1);
+                                            feedViewHolder.name_cmnt1.setText(commentModel1.getUsername());
+
+                                            feedViewHolder.cmnt1.setText(commentModel1.getComment());
+                                            if (feedViewHolder.cmnt1.getUrls().length > 0) {
+                                                URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
+                                                String url = urlSnapItem.getURL();
+                                                if (url.contains("http")) {
+                                                    feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                                    feedViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                                        @Override
+                                                        public void onSuccess(boolean status) { }
+
+                                                        @Override
+                                                        public void onError(Exception e) {
+                                                            new Handler(Looper.getMainLooper()).post(() -> {
+                                                                //do stuff like remove view etc
+                                                                feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            } else {
+                                                feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                            }
+
+                                            feedViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel1.getTs()));
+                                            if (Utility.getTimeAgo(commentModel1.getTs()) != null) {
+                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
+                                                    feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                                                } else {
+                                                    feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                                }
+                                            }
+
+                                            CommentModel commentModel2 = querySnapshot1.getDocuments().get(1).toObject(CommentModel.class);
+                                            Picasso.get().load(Objects.requireNonNull(commentModel2).getUserdp())
+                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                                    .into(feedViewHolder.dp_cmnt2);
+                                            feedViewHolder.name_cmnt2.setText(commentModel2.getUsername());
+
+                                            feedViewHolder.cmnt2.setText(commentModel2.getComment());
+                                            if (feedViewHolder.cmnt2.getUrls().length > 0) {
+                                                URLSpan urlSnapItem = feedViewHolder.cmnt2.getUrls()[0];
+                                                String url = urlSnapItem.getURL();
+                                                if (url.contains("http")) {
+                                                    feedViewHolder.link_preview2.setVisibility(View.VISIBLE);
+                                                    feedViewHolder.link_preview2.setLink(url, new ViewListener() {
+                                                        @Override
+                                                        public void onSuccess(boolean status) { }
+
+                                                        @Override
+                                                        public void onError(Exception e) {
+                                                            new Handler(Looper.getMainLooper()).post(() -> {
+                                                                //do stuff like remove view etc
+                                                                feedViewHolder.link_preview2.setVisibility(View.GONE);
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            } else {
+                                                feedViewHolder.link_preview2.setVisibility(View.GONE);
+                                            }
+
+                                            feedViewHolder.cmnt2_minsago.setText(Utility.getTimeAgo(commentModel2.getTs()));
+                                            if (Utility.getTimeAgo(commentModel2.getTs()) != null) {
+                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
+                                                    feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
+                                                } else {
+                                                    feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+                    feedViewHolder.comment_layout.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
+
+                    feedViewHolder.commentLayout1.setOnClickListener(v-> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
+
+                    feedViewHolder.commentLayout2.setOnClickListener(v-> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
                 }
+                else {
+                    feedViewHolder.comment_layout.setVisibility(View.GONE);
+                    feedViewHolder.commentLayout1.setVisibility(View.GONE);
+                    feedViewHolder.commentLayout2.setVisibility(View.GONE);
+                }
+                ///////////////////FLAMES AND COMMENTS///////////////////////
 
 
                 ////////POST MENU///////
                 feedViewHolder.menuPost.setOnClickListener(v -> {
-                    if (currentItem.getUid().matches(FirebaseAuth.getInstance().getUid())) {
-                        postMenuDialog = new BottomSheetDialog(getActivity());
-
+                    if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                        postMenuDialog = new BottomSheetDialog(requireActivity());
                         postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
+                        postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
                         postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                             Intent i = new Intent(getActivity(), NewPostHome.class);
                             i.putExtra("target", "100"); //target value for edit post
@@ -858,7 +833,6 @@ public class FeedsFragment extends Fragment {
                             i.putExtra("dp", currentItem.getDp());
                             i.putExtra("uid", currentItem.getUid());
                             i.putExtra("type", currentItem.getType());
-
                             if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                                 Bundle args = new Bundle();
                                 args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
@@ -867,22 +841,16 @@ public class FeedsFragment extends Fragment {
                             i.putExtra("txt", currentItem.getTxt());
                             i.putExtra("comID", currentItem.getComID());
                             i.putExtra("comName", currentItem.getComName());
-                            i.putExtra("type", currentItem.getType());
-
                             i.putExtra("ts", Long.toString(currentItem.getTs()));
                             i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-
                             StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-
                             i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-
                             i.putExtra("likeL", currentItem.getLikeL());
                             i.putExtra("likeCheck", currentItem.getLikeCheck());
                             i.putExtra("docID", currentItem.getDocID());
                             i.putExtra("reportL", currentItem.getReportL());
                             i.putExtra("challengeID", currentItem.getChallengeID());
                             startActivity(i);
-
                             postMenuDialog.dismiss();
 
                         });
@@ -890,53 +858,42 @@ public class FeedsFragment extends Fragment {
                         postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setTitle("Are you sure?")
-                                    .setMessage("Post will be deleted permanently")
-                                    .setPositiveButton("Delete", (dialog, which) -> {
-                                        progressDialog = new ProgressDialog(getActivity());
-                                        progressDialog.setTitle("Deleting Post");
-                                        progressDialog.setMessage("Please wait...");
-                                        progressDialog.setCancelable(false);
-                                        progressDialog.show();
-                                        FirebaseFirestore.getInstance()
-                                                .collection("Feeds/").document(currentItem
-                                                .getDocID()).delete()
-                                                .addOnSuccessListener(aVoid -> {
-                                                    feedViewHolder.first_post.setVisibility(View.GONE);
-                                                    progressDialog.dismiss();
-                                                    FirebaseFirestore.getInstance()
-                                                            .collection("Feeds/")
-                                                            .orderBy("newTs", Query.Direction.DESCENDING)
-                                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                            if(task.isSuccessful()) {
-                                                                if(task.getResult().size() == 0) {
-                                                                    feedViewHolder.noPost.setVisibility(View.VISIBLE);
-                                                                }
-                                                                else {
-                                                                    feedViewHolder.noPost.setVisibility(View.GONE);
-                                                                }
-                                                            }
+                                .setMessage("Post will be deleted permanently")
+                                .setPositiveButton("Delete", (dialog, which) -> {
+                                    progressDialog = new ProgressDialog(getActivity());
+                                    progressDialog.setTitle("Deleting Post");
+                                    progressDialog.setMessage("Please wait...");
+                                    progressDialog.setCancelable(false);
+                                    progressDialog.show();
+                                    FirebaseFirestore.getInstance()
+                                            .collection("Feeds/").document(currentItem
+                                        .getDocID()).delete()
+                                        .addOnSuccessListener(aVoid -> {
+                                            feedViewHolder.first_post.setVisibility(View.GONE);
+                                            progressDialog.dismiss();
+                                            FirebaseFirestore.getInstance()
+                                                    .collection("Feeds/")
+                                                    .orderBy("newTs", Query.Direction.DESCENDING)
+                                                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()) {
+                                                        if(task.getResult().size() == 0) {
+                                                            feedViewHolder.noPost.setVisibility(View.VISIBLE);
                                                         }
-                                                    });
-                                                });
-                                        postMenuDialog.dismiss();
+                                                        else {
+                                                            feedViewHolder.noPost.setVisibility(View.GONE);
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    postMenuDialog.dismiss();
 
-                                    })
-                                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                                    .setCancelable(true)
-                                    .show();
-                        });
-
-                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v1 -> {
-                            String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-
+                                })
+                                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                .setCancelable(true)
+                                .show();
                         });
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
@@ -945,29 +902,16 @@ public class FeedsFragment extends Fragment {
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                     .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
-
                         });
-
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         postMenuDialog.show();
-
                     }
                     else {
-                        postMenuDialog = new BottomSheetDialog(getActivity());
-
+                        postMenuDialog = new BottomSheetDialog(requireActivity());
                         postMenuDialog.setContentView(R.layout.dialog_post_menu);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-                            String link = "https://www.utsavapp.in/android/feeds/"+ currentItem.getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-
-                        });
+                        postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                             FirebaseFirestore.getInstance()
@@ -1046,15 +990,18 @@ public class FeedsFragment extends Fragment {
         ImageView noPost;
         RecyclerView cRecyclerView;
 
-        TextView username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-        ImageView userimage, flameimg, commentimg,profileimage, menuPost, share, Pdp;
+        TextView username,commentCount, likesCount, text_content, flamedBy, minsago, writecomment;
+        ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
+        ImageView dp_cmnt1, dp_cmnt2, type_dp;
+        TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
         SliderView sliderView;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome;
+        LinearLayout itemHome, new_post_layout;
         RelativeLayout first_post;
         RecyclerView tagList;
+        com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
 
-        LinearLayout postHolder, typeSmth;
+        LinearLayout postHolder, like_layout, comment_layout, commentLayout1, commentLayout2;
         LinearLayout committeeHolder;
 
 
@@ -1065,17 +1012,16 @@ public class FeedsFragment extends Fragment {
 
             //sliderView = itemView.findViewById(R.id.imageSlider);
 
-            tagList = itemView.findViewById(R.id.tagsList66);
+            tagList = itemView.findViewById(R.id.tagsList);
             username = itemView.findViewById(R.id.username);
             text_content = itemView.findViewById(R.id.text_content);
             userimage = itemView.findViewById(R.id.user_image);
             sliderView = itemView.findViewById(R.id.post_image);
             flamedBy = itemView.findViewById(R.id.flamed_by);
             minsago = itemView.findViewById(R.id.mins_ago);
-            flameimg = itemView.findViewById(R.id.flame);
-            comName = itemView.findViewById(R.id.comName);
+            like = itemView.findViewById(R.id.like);
+//            comName = itemView.findViewById(R.id.comName);
             commentimg = itemView.findViewById(R.id.comment);
-            commentCount = itemView.findViewById(R.id.no_of_comments);
             profileimage = itemView.findViewById(R.id.profile_image);
             menuPost = itemView.findViewById(R.id.delete_post);
             writecomment = itemView.findViewById(R.id.write_comment);
@@ -1084,11 +1030,34 @@ public class FeedsFragment extends Fragment {
             LinkPreview = itemView.findViewById(R.id.LinkPreView);
             first_post = itemView.findViewById(R.id.first_post);
             noPost = itemView.findViewById(R.id.no_recent_post);
-            typeSmth= itemView.findViewById(R.id.type_something);
-            Pdp= itemView.findViewById(R.id.Pdp);
 
             postHolder = itemView.findViewById(R.id.post);
             committeeHolder = itemView.findViewById(R.id.header_committee);
+            type_dp = itemView.findViewById(R.id.Pdp);
+            type_something = itemView.findViewById(R.id.type_smthng);
+            new_post_layout = itemView.findViewById(R.id.type_something);
+
+
+            like_image = itemView.findViewById(R.id.like_image);
+            comment_image = itemView.findViewById(R.id.comment_image);
+            likesCount = itemView.findViewById(R.id.no_of_likes);
+            commentCount = itemView.findViewById(R.id.no_of_comments);
+            like_layout = itemView.findViewById(R.id.like_layout);
+            comment_layout = itemView.findViewById(R.id.comment_layout);
+
+            commentLayout1 = itemView.findViewById(R.id.comment_layout1);
+            name_cmnt1 = itemView.findViewById(R.id.comment_username1);
+            cmnt1 = itemView.findViewById(R.id.comment1);
+            cmnt1_minsago = itemView.findViewById(R.id.comment_mins_ago1);
+            dp_cmnt1 = itemView.findViewById(R.id.comment_user_dp1);
+            link_preview1 = itemView.findViewById(R.id.LinkPreViewComment1);
+
+            commentLayout2 = itemView.findViewById(R.id.comment_layout2);
+            name_cmnt2 = itemView.findViewById(R.id.comment_username2);
+            cmnt2 = itemView.findViewById(R.id.comment2);
+            cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
+            dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
+            link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
 
         }
     }

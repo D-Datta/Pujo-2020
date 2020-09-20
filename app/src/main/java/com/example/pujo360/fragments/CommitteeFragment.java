@@ -253,7 +253,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.type_something.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(InternetConnection.checkConnection(getActivity())){
+                                if(InternetConnection.checkConnection(requireActivity())){
                                     Intent i= new Intent(getContext(), NewPostHome.class);
                                     i.putExtra("target", "2");
                                     startActivity(i);
@@ -450,7 +450,6 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderViewpost.setAutoCycle(false);
 
                     SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(), currentItem);
-
                     programmingViewHolder.sliderViewpost.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -831,7 +830,12 @@ public class CommitteeFragment extends Fragment {
                             i.putExtra("usN", currentItem.getUsN());
                             i.putExtra("dp", currentItem.getDp());
                             i.putExtra("uid", currentItem.getUid());
-                            i.putExtra("img", currentItem.getSingle_img());
+                            i.putExtra("type", currentItem.getType());
+                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                Bundle args = new Bundle();
+                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                i.putExtra("BUNDLE", args);
+                            }
                             i.putExtra("txt", currentItem.getTxt());
                             i.putExtra("comID", currentItem.getComID());
                             i.putExtra("comName", currentItem.getComName());
@@ -979,7 +983,6 @@ public class CommitteeFragment extends Fragment {
             minsago = itemView.findViewById(R.id.mins_ago);
             like = itemView.findViewById(R.id.like);
             commentimg = itemView.findViewById(R.id.comment);
-            commentCount = itemView.findViewById(R.id.no_of_comments);
             profileimage = itemView.findViewById(R.id.profile_image);
             menuPost = itemView.findViewById(R.id.delete_post);
             writecomment = itemView.findViewById(R.id.write_comment);
@@ -990,6 +993,7 @@ public class CommitteeFragment extends Fragment {
             like_image = itemView.findViewById(R.id.like_image);
             comment_image = itemView.findViewById(R.id.comment_image);
             likesCount = itemView.findViewById(R.id.no_of_likes);
+            commentCount = itemView.findViewById(R.id.no_of_comments);
             like_layout = itemView.findViewById(R.id.like_layout);
             comment_layout = itemView.findViewById(R.id.comment_layout);
 
