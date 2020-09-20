@@ -364,7 +364,7 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.comName.setOnClickListener(v -> {
                         //To be changed
                         Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
-                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("uid", currentItem.getComID());
                         startActivity(intent);
                     });
                 }
