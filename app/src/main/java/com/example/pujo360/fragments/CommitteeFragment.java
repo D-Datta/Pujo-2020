@@ -262,18 +262,20 @@ public class CommitteeFragment extends Fragment {
                                     Utility.showToast(getContext(), "Network Unavailable...");
                             }
                         });
+
+                        if (COMMITEE_LOGO != null) {
+                            Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(programmingViewHolder.type_dp);
+                        } else {
+                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
                     }
                     else {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
 
-                    if (COMMITEE_LOGO != null) {
-                        Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.type_dp);
-                    } else {
-                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                    }
+
                 }
                 else if((programmingViewHolder.getItemViewType() == 2 || programmingViewHolder.getItemViewType() == getItemCount() % 8
                         && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
