@@ -234,7 +234,7 @@
                     android:layout_height="35dp"
                     android:layout_gravity="end|center_vertical"
                     android:padding="8dp"
-                    android:src="@drawable/ic_comment"
+                    android:src="@drawable/ic_comment_viewmore"
                     app:tint="@color/white_transparent"/>
 
                 <TextView
