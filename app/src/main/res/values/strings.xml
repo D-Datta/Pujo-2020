@@ -97,5 +97,6 @@
     <string name="see_all"><![CDATA[See All -->]]></string>
     <string name="_0_18">0:18</string>
     <string name="comments">Comments</string>
+    <string name="type_something_n">Type something..\n</string>
 
 </resources>

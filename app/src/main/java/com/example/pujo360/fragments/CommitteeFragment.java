@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.pujo360.ActivityProfileCommittee;
+import com.example.pujo360.ActivityProfileUser;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.NewPostHome;
@@ -46,6 +47,7 @@ import com.example.pujo360.adapters.HomeSliderAdapter;
 import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.dialogs.BottomCommentsDialog;
+import com.example.pujo360.dialogs.BottomFlamedByDialog;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.HomePostModel;
@@ -123,7 +125,6 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
         floatingActionButton = view.findViewById(R.id.to_the_top_committee);
-        create_post = view.findViewById(R.id.create_post_com);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -237,6 +238,29 @@ public class CommitteeFragment extends Fragment {
                             programmingViewHolder.sliderView.setSliderAdapter(adapter1);
                         })
                         .addOnFailureListener(e -> Utility.showToast(getContext(), "No Internet Connection"));
+
+                    if(introPref.getType().matches("com")){
+                        programmingViewHolder.new_post_layout.setVisibility(View.VISIBLE);
+                        programmingViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                                intent.putExtra("uid", currentItem.getUid());
+                                startActivity(intent);
+                            }
+                        });
+                        programmingViewHolder.type_something.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                    }
+                    else{
+                        programmingViewHolder.new_post_layout.setVisibility(View.GONE);
+                    }
+
+
                 }
                 else if((programmingViewHolder.getItemViewType() == 2 || programmingViewHolder.getItemViewType() == getItemCount() % 8
                         && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
@@ -331,11 +355,27 @@ public class CommitteeFragment extends Fragment {
                     startActivity(intent);
                 });
 
+                if(introPref.getType().matches("com")) {
+                    programmingViewHolder.profileimage.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                        startActivity(intent);
+                    });
+                }
+                else if(introPref.getType().matches("indi")) {
+                    programmingViewHolder.profileimage.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                        startActivity(intent);
+                    });
+                }
+
                 programmingViewHolder.username.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
+
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -413,7 +453,6 @@ public class CommitteeFragment extends Fragment {
 
                     programmingViewHolder.sliderViewpost.setSliderAdapter(sliderAdapter);
 
-                    ///////////////OPEN VIEW MORE//////////////
                     programmingViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
@@ -437,7 +476,7 @@ public class CommitteeFragment extends Fragment {
                         startActivity(intent);
                     });
 
-//                    programmingViewHolder.sliderViewpost.setOnClickListener(v -> {
+//                    programmingViewHolder.like_layout.setOnClickListener(v -> {
 //                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
 //                        intent.putExtra("username", currentItem.getUsN());
 //                        intent.putExtra("userdp", currentItem.getDp());
@@ -457,67 +496,34 @@ public class CommitteeFragment extends Fragment {
 //                        intent.putExtra("uid", currentItem.getUid());
 //                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
 //                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+//                        intent.putExtra("likeLOpen", "likeLOpen");
 //                        startActivity(intent);
 //                    });
 
-                    programmingViewHolder.likesCount.setOnClickListener(v -> {
-                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                        intent.putExtra("username", currentItem.getUsN());
-                        intent.putExtra("userdp", currentItem.getDp());
-                        intent.putExtra("docID", currentItem.getDocID());
-                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                        intent.putExtra("comName", currentItem.getComName());
-                        intent.putExtra("comID", currentItem.getComID());
-                        intent.putExtra("likeL", currentItem.getLikeL());
-                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                            Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-                            intent.putExtra("BUNDLE", args);
-                        }
-                        intent.putExtra("postText", currentItem.getTxt());
-                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                        intent.putExtra("bool", "2");
-                        intent.putExtra("uid", currentItem.getUid());
-                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                        intent.putExtra("likeLOpen", "likeLOpen");
-                        startActivity(intent);
-                    });
-                    ///////////////OPEN VIEW MORE//////////////
 
-//                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
-//                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-//                            @Override
-//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                save_Dialog(bitmap);
-//                            }
-//
-//                            @Override
-//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            @Override
-//                            public void onPrepareLoad(Drawable placeHolderDrawable) { }
-//                        });
-//                        return true;
-//                    });
                 } else {
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
+                    programmingViewHolder.text_content.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
+                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    });
                 }
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+
+                programmingViewHolder.like_layout.setOnClickListener(v -> {
+                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", currentItem.getDocID());
+                    bottomSheetDialog.show(requireActivity().getSupportFragmentManager(), "FlamedBySheet");
+                });
 
                 ///////////////////FLAMES AND COMMENTS///////////////////////
 
                 //INITIAL SETUP//
                 if (currentItem.getLikeL() != null) {
                     if (currentItem.getLikeL().size() == 0) {
-                        programmingViewHolder.like_image.setVisibility(View.GONE);
-                        programmingViewHolder.likesCount.setVisibility(View.GONE);
+                        programmingViewHolder.like_layout.setVisibility(View.GONE);
                     }
                     else {
-                        programmingViewHolder.like_image.setVisibility(View.VISIBLE);
-                        programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
+                        programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
                         programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
 
@@ -536,8 +542,7 @@ public class CommitteeFragment extends Fragment {
                     }
 
                 } else {
-                    programmingViewHolder.like_image.setVisibility(View.GONE);
-                    programmingViewHolder.likesCount.setVisibility(View.GONE);
+                    programmingViewHolder.like_layout.setVisibility(View.GONE);
                 }
                 //INITIAL SETUP//
 
@@ -547,11 +552,9 @@ public class CommitteeFragment extends Fragment {
                         if (currentItem.getLikeCheck() >= 0) {
                             programmingViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
                             if (currentItem.getLikeL().size() - 1 == 0) {
-                                programmingViewHolder.likesCount.setVisibility(View.GONE);
-                                programmingViewHolder.like_image.setVisibility(View.GONE);
+                                programmingViewHolder.like_layout.setVisibility(View.GONE);
                             } else{
-                                programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                                programmingViewHolder.like_image.setVisibility(View.VISIBLE);
+                                programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
                                 programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
                             }
                             ///////////REMOVE CURRENT USER LIKE/////////////
@@ -583,8 +586,7 @@ public class CommitteeFragment extends Fragment {
                                 e.printStackTrace();
                             }
                             programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
-                            programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
-                            programmingViewHolder.like_image.setVisibility(View.VISIBLE);
+                            programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
                             if (currentItem.getLikeL() != null){
                                 programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
                             }
@@ -632,11 +634,21 @@ public class CommitteeFragment extends Fragment {
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
-                if (currentItem.getCmtNo() > 0) {
-                    programmingViewHolder.comment_image.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentCount.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, link);
+                        i.setType("text/plain");
+                        startActivity(Intent.createChooser(i, "Share with"));
+                    }
+                });
 
+                if (currentItem.getCmtNo() > 0) {
+                    programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
                     programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if(currentItem.getCmtNo() == 1) {
@@ -781,12 +793,7 @@ public class CommitteeFragment extends Fragment {
                         });
                     }
 
-                    programmingViewHolder.comment_image.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
-                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
-                    });
-
-                    programmingViewHolder.commentCount.setOnClickListener(v -> {
+                    programmingViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid());
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
@@ -802,8 +809,7 @@ public class CommitteeFragment extends Fragment {
                     });
                 }
                 else {
-                    programmingViewHolder.comment_image.setVisibility(View.GONE);
-                    programmingViewHolder.commentCount.setVisibility(View.GONE);
+                    programmingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
@@ -816,6 +822,7 @@ public class CommitteeFragment extends Fragment {
                         postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
+                        postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
                         postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                             Intent i = new Intent(getContext(), NewPostHome.class);
                             i.putExtra("target", "100"); //target value for edit post
@@ -868,16 +875,6 @@ public class CommitteeFragment extends Fragment {
                                 .show();
                         });
 
-                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-                            String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-                        });
-
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                             FirebaseFirestore.getInstance()
                                     .collection("Feeds").document(currentItem.getDocID())
@@ -894,15 +891,7 @@ public class CommitteeFragment extends Fragment {
                         postMenuDialog.setContentView(R.layout.dialog_post_menu);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v1 -> {
-                            String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-                        });
+                        postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                             FirebaseFirestore.getInstance()
@@ -965,10 +954,10 @@ public class CommitteeFragment extends Fragment {
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         SliderView sliderView;
-        TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels;
-        ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
+        TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
+        ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, commentLayout1, commentLayout2, reelsLayout;
+        LinearLayout itemHome, commentLayout1, commentLayout2, reelsLayout,like_layout,comment_layout,new_post_layout;
         RecyclerView tagList, reelsList;
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
@@ -1000,6 +989,8 @@ public class CommitteeFragment extends Fragment {
             like_image = itemView.findViewById(R.id.like_image);
             comment_image = itemView.findViewById(R.id.comment_image);
             likesCount = itemView.findViewById(R.id.no_of_likes);
+            like_layout = itemView.findViewById(R.id.like_layout);
+            comment_layout = itemView.findViewById(R.id.comment_layout);
 
             view = itemView.findViewById(R.id.view);
             view1 = itemView.findViewById(R.id.view1);
@@ -1022,6 +1013,9 @@ public class CommitteeFragment extends Fragment {
             view_all_reels = itemView.findViewById(R.id.view_all_reels);
             reelsList = itemView.findViewById(R.id.reelsRecycler);
             reelsLayout = itemView.findViewById(R.id.reels_layout);
+            type_dp = itemView.findViewById(R.id.Pdp);
+            type_something = itemView.findViewById(R.id.type_smthng);
+            new_post_layout = itemView.findViewById(R.id.type_something);
 
             slider_item = itemView.findViewById(R.id.slider_item);
             reels_item = itemView.findViewById(R.id.reels_item);
@@ -1230,28 +1224,28 @@ public class CommitteeFragment extends Fragment {
         Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && isResumed()) {
-            onResume();
-            if(new IntroPref(requireActivity()).getType().matches("com")) {
-                create_post.setVisibility(View.VISIBLE);
-                create_post.setOnClickListener(v -> {
-                    if(InternetConnection.checkConnection(requireActivity())){
-                        Intent intent =  new Intent(requireActivity(), NewPostHome.class);
-                        intent.putExtra("target", "2");
-                        startActivity(intent);
-                    }
-                    else
-                        Utility.showToast(requireActivity(), "Network Unavailable...");
-                });
-            }
-            else {
-//                create_post.setVisibility(View.GONE);
-            }
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser && isResumed()) {
+//            onResume();
+//            if(new IntroPref(requireActivity()).getType().matches("com")) {
+//                create_post.setVisibility(View.VISIBLE);
+//                create_post.setOnClickListener(v -> {
+//                    if(InternetConnection.checkConnection(requireActivity())){
+//                        Intent intent =  new Intent(requireActivity(), NewPostHome.class);
+//                        intent.putExtra("target", "2");
+//                        startActivity(intent);
+//                    }
+//                    else
+//                        Utility.showToast(requireActivity(), "Network Unavailable...");
+//                });
+//            }
+//            else {
+////                create_post.setVisibility(View.GONE);
+//            }
+//        }
+//    }
 
     @Override
     public void onResume() {
