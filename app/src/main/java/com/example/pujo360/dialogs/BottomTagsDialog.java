@@ -12,14 +12,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.example.pujo360.R;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.TagModel;
@@ -29,33 +26,29 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BottomTagsDialog extends BottomSheetDialogFragment {
-    DatabaseReference databaseTagsRef ;
-    RecyclerView tagrecycler;
-    TagAdapter tagAdapter;
-    ArrayList<TagModel> models;
 
-    ProgressBar progressBar;
-    ImageView dismiss;
-
+    private DatabaseReference databaseTagsRef ;
+    private RecyclerView tagrecycler;
+    private TagAdapter tagAdapter;
+    private ArrayList<TagModel> models;
+    private ProgressBar progressBar;
     private BottomSheetListener mListener;
     private EditText search;
-
     private ArrayList<TagModel> searchModels;
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.bottomsheet_tags, container, false);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         tagrecycler=v.findViewById(R.id.tags_recycler2);
         progressBar = v.findViewById(R.id.progress);
-        dismiss = v.findViewById(R.id.dismiss);
+        ImageView dismiss = v.findViewById(R.id.dismiss);
         search = v.findViewById(R.id.search);
 
         databaseTagsRef = FirebaseDatabase.getInstance().getReference("Tags4");
@@ -67,17 +60,11 @@ public class BottomTagsDialog extends BottomSheetDialogFragment {
         tagrecycler.setAdapter(tagAdapter);
         buildRecyclerView_tags();
 
-
-        dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomTagsDialog.super.onDestroyView();
-            }
-        });
+        dismiss.setOnClickListener(v1 -> BottomTagsDialog.super.onDestroyView());
         return  v;
     }
 
-    public interface BottomSheetListener{
+    public interface BottomSheetListener {
         void onTagClicked(TagModel tagModel);
     }
 
@@ -86,13 +73,12 @@ public class BottomTagsDialog extends BottomSheetDialogFragment {
         super.onAttach(context);
         try {
             mListener = (BottomSheetListener) context;
-        }catch (ClassCastException e){
+        } catch (ClassCastException e){
             throw new ClassCastException(context.toString()+" must implement BottomSheetListener");
         }
-
     }
 
-    private void buildRecyclerView_tags(){
+    private void buildRecyclerView_tags() {
         progressBar.setVisibility(View.VISIBLE);
         tagrecycler.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
@@ -102,20 +88,15 @@ public class BottomTagsDialog extends BottomSheetDialogFragment {
         databaseTagsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot groupSnapshot: dataSnapshot.getChildren()){
+                for(DataSnapshot groupSnapshot: dataSnapshot.getChildren()) {
                     TagModel item2= new TagModel();
-                    if(groupSnapshot.child("name_tag").exists() && groupSnapshot.child("color_hex").exists()){
-                        item2.setName_tag(groupSnapshot.child("name_tag").getValue().toString());
-                        item2.setColor_hex(groupSnapshot.child("color_hex").getValue().toString());
+                    if(groupSnapshot.child("name_tag").exists() && groupSnapshot.child("color_hex").exists()) {
+                        item2.setName_tag(Objects.requireNonNull(groupSnapshot.child("name_tag").getValue()).toString());
+                        item2.setColor_hex(Objects.requireNonNull(groupSnapshot.child("color_hex").getValue()).toString());
                         models.add(item2);
                     }
                 }
-
-
                 progressBar.setVisibility(View.GONE);
-
-//                tagAdapter = new TagAdapter(models, getContext());
                 tagAdapter.onClickListener((position, tag_name, tag_color) -> {
                     TagModel tagModel = new TagModel();
                     tagModel.setName_tag(tag_name);
@@ -127,22 +108,17 @@ public class BottomTagsDialog extends BottomSheetDialogFragment {
                     tagAdapter.notifyItemRemoved(position);
                 });
 
-
                 search.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
                     @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
+                    public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
                     @Override
                     public void afterTextChanged(Editable s) {
                         searchModels.clear();
-                        for(TagModel model : models){
+                        for(TagModel model : models) {
                             if(model.getName_tag().toLowerCase().contains(s.toString().toLowerCase())){
                                 searchModels.add(model);
                             }
@@ -159,16 +135,12 @@ public class BottomTagsDialog extends BottomSheetDialogFragment {
                             searchModels.remove(position);
                             tagAdapter.notifyItemRemoved(position);
                         });
-
                         tagrecycler.setAdapter(tagAdapter);
                     }
                 });
-
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
-
         });
     }
 }

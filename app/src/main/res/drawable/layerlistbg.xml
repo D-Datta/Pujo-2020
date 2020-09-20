@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/custom_ripple_white"/>
+    <item android:drawable="@drawable/bg_rectangle"/>
+</layer-list>

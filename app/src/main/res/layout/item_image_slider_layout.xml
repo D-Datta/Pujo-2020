@@ -13,5 +13,4 @@
         android:scaleType="centerCrop"
         android:contentDescription="TODO" />
 
-
 </LinearLayout>

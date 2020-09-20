@@ -31,17 +31,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BottomFlamedByDialog extends BottomSheetDialogFragment {
+
     private RecyclerView flamerecycler;
     private FlamedByAdapter flamedByAdapter;
     private ArrayList<FlamedModel> models;
-
     private ProgressBar progressBar;
-
     private String root;
     private String docID;
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
-
     private CollectionReference flamedList;
 
     public BottomFlamedByDialog(String root, String docID) {
@@ -93,7 +91,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
         return v;
     }
 
-    private void buildRecyclerView_flames(){
+    private void buildRecyclerView_flames() {
         progressBar.setVisibility(View.VISIBLE);
         models = new ArrayList<>();
 
@@ -108,10 +106,10 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
                     flamedByAdapter = new FlamedByAdapter(getActivity(), models);
                     flamerecycler.setAdapter(flamedByAdapter);
 
-                    if(task.getResult().size()>0)
+                    if(task.getResult().size() > 0)
                         lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
 
-                    if(models.size()<15) {
+                    if(models.size() < 15) {
                         checkGetMore = -1;
                     } else {
                         checkGetMore = 0;
@@ -122,18 +120,18 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
         });
     }
 
-    private void fetchMore_flames(){
+    private void fetchMore_flames() {
         progressBar.setVisibility(View.VISIBLE);
 
         flamedList.limit(10).startAfter(lastVisible).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
+            if(task.isSuccessful()) {
                 ArrayList<FlamedModel> flamedModels = new ArrayList<>();
                 for(DocumentSnapshot document: Objects.requireNonNull(task.getResult())) {
                     FlamedModel flamedModel = document.toObject(FlamedModel.class);
                     Objects.requireNonNull(flamedModel).setDocID(document.getId());
                     flamedModels.add(flamedModel);
                 }
-                if(flamedModels.size()>0) {
+                if(flamedModels.size() > 0) {
                     int lastSize = models.size();
                     models.addAll(flamedModels);
                     flamedByAdapter.notifyItemRangeInserted(lastSize, flamedModels.size());
@@ -141,7 +139,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
                 }
             }
             progressBar.setVisibility(View.GONE);
-            if(models.size()<15){
+            if(models.size() < 15) {
                 checkGetMore = -1;
             }
             else {

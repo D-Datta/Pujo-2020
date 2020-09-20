@@ -83,7 +83,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/bg_rectangle"/>
+                    android:background="@drawable/layerlistbg"/>
 
             </LinearLayout>
 
@@ -124,12 +124,7 @@
         android:id="@+id/reels_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="8dp"
-            android:background="@color/light_background"/>
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -165,9 +160,9 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/oxygen_regular"
             android:layout_marginTop="178dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="5dp"
             android:paddingHorizontal="20dp"
-            android:paddingVertical="5dp"
+            android:paddingTop="5dp"
             android:text="@string/see_all"
             android:textSize="18dp" />
 
@@ -178,11 +173,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="14dp"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:background="@color/light_background"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/light_background"/>
 
         <View
             android:layout_width="match_parent"

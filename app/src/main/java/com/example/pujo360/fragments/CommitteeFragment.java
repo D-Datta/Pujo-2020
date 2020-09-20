@@ -263,11 +263,17 @@ public class CommitteeFragment extends Fragment {
                             }
                         });
                     }
-                    else{
+                    else {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
 
-
+                    if (COMMITEE_LOGO != null) {
+                        Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(programmingViewHolder.type_dp);
+                    } else {
+                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
                 }
                 else if((programmingViewHolder.getItemViewType() == 2 || programmingViewHolder.getItemViewType() == getItemCount() % 8
                         && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
@@ -361,21 +367,6 @@ public class CommitteeFragment extends Fragment {
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
-
-                if(introPref.getType().matches("com")) {
-                    programmingViewHolder.profileimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
-                        intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                        startActivity(intent);
-                    });
-                }
-                else if(introPref.getType().matches("indi")) {
-                    programmingViewHolder.profileimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
-                        intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                        startActivity(intent);
-                    });
-                }
 
                 programmingViewHolder.username.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);

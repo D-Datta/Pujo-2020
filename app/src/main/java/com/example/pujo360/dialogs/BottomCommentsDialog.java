@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import com.example.pujo360.adapters.CommentAdapter;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.util.InternetConnection;
+import com.example.pujo360.util.KeyboardUtil;
 import com.example.pujo360.util.Utility;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -64,6 +66,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     private CollectionReference commentRef;
     private BottomSheetDialog commentMenuDialog;
     private ProgressDialog progressDialog;
+    private CoordinatorLayout rootView;
     private String uid;
 
     public BottomCommentsDialog(String root,String docID, String uid, int bool) {
@@ -85,6 +88,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         ImageView dismiss = v.findViewById(R.id.dismissflame);
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
         nestedScrollView.setNestedScrollingEnabled(true);
+        rootView = v.findViewById(R.id.rootView);
 
         commentimg = v.findViewById(R.id.user_image_comment);
         newComment = v.findViewById(R.id.new_comment);
@@ -102,8 +106,6 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
 
-        buildRecyclerView_comments();
-
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null) {
                 if((scrollY >= (vv.getChildAt(vv.getChildCount() - 1).getMeasuredHeight() - vv.getMeasuredHeight() )) &&
@@ -118,10 +120,10 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
             }
         });
 
+        //new KeyboardUtil(requireActivity(), rootView);
+
         if(bool == 1) {
             newComment.requestFocus();
-//            InputMethodManager imm = (InputMethodManager)requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
             Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         }
@@ -140,15 +142,16 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
         commentimg.setOnClickListener(v2 -> {
             newComment.requestFocus();
-//            newComment.setFocusableInTouchMode(true);
             InputMethodManager imm = (InputMethodManager)requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
             ///////////ENABLE KEYBOARD//////////
         });
 
+        models = new ArrayList<>();
+        commentAdapter = new CommentAdapter(getActivity(), models, 2);
         send.setOnClickListener(v2 -> {
-            if(InternetConnection.checkConnection(requireActivity())){
-                if(newComment.getText().toString().isEmpty()){
+            if(InternetConnection.checkConnection(requireActivity())) {
+                if(newComment.getText().toString().isEmpty()) {
                     Utility.showToast(requireActivity(), "Thoughts need to be typed...");
                 }
                 else {
@@ -161,11 +164,11 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                     commentModel.setComment(comment);
                     commentModel.setType(new IntroPref(requireActivity()).getType());
                     commentModel.setUid(FirebaseAuth.getInstance().getUid());
-                    commentModel.setPostUid(commentModel.getUid());
+                    commentModel.setPostUid(uid);
                     commentModel.setUserdp(new IntroPref(requireActivity()).getUserdp());
                     commentModel.setUsername(new IntroPref(requireActivity()).getFullName());
                     commentModel.setTs(0L); ///Pending state
-                    commentModel.setPostID(commentModel.getDocID());
+                    commentModel.setPostID(docID);
 
                     newComment.setText("");
                     models.add(0,commentModel);
@@ -185,8 +188,8 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                         if(task.isSuccessful()) {
                             send.setVisibility(View.VISIBLE);
                             progressComment.setVisibility(View.GONE);
-                            commentRecycler.setAdapter(commentAdapter);
                             commentRecycler.setVisibility(View.VISIBLE);
+                            buildRecyclerView_comments();
                         }
                         else {
                             commentModel.setTs(0L); ///Pending state
@@ -206,6 +209,8 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                 Utility.showToast(requireActivity(), "Network unavailable...");
             }
         });
+
+        buildRecyclerView_comments();
 
         dismiss.setOnClickListener(v1 -> BottomCommentsDialog.super.onDestroyView());
         return v;
@@ -263,17 +268,17 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                             if( models.get(position).getUid().matches(FirebaseAuth.getInstance().getUid())) {
                                 commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
                                 commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v12 -> {
-                                            Intent intent = new Intent(requireActivity(), CommentEdit.class);
-                                            intent.putExtra("comment_home",models.get(position).getComment());
-                                            intent.putExtra("com_img_home",models.get(position).getUserdp());
-                                            intent.putExtra("com_postID_home",models.get(position).getPostID());
-                                            intent.putExtra("com_docID_home",models.get(position).getDocID());
-                                            intent.putExtra("root", root);
-                                            intent.putExtra("from", "no");
-                                            startActivity(intent);
-                                            commentMenuDialog.dismiss();
-                                        }
-                                );
+                                    Intent intent = new Intent(requireActivity(), CommentEdit.class);
+                                    intent.putExtra("comment_home",models.get(position).getComment());
+                                    intent.putExtra("com_img_home",models.get(position).getUserdp());
+                                    intent.putExtra("com_postID_home",models.get(position).getPostID());
+                                    intent.putExtra("com_docID_home",models.get(position).getDocID());
+                                    intent.putExtra("root", root);
+                                    intent.putExtra("from", "no");
+                                    startActivity(intent);
+
+                                    commentMenuDialog.dismiss();
+                                });
                             }
                             commentMenuDialog.setCanceledOnTouchOutside(TRUE);
 
