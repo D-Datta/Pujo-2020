@@ -667,7 +667,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                             holder1.postimage.setIndicatorUnselectedColor(R.color.colorAccent);
                             holder1.postimage.setAutoCycle(false);
 
-                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg());
+                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem);
 
                             holder1.postimage.setSliderAdapter(sliderAdapter);
                         }
@@ -1303,7 +1303,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                             programmingViewHolder.postimage.setIndicatorUnselectedColor(R.color.colorAccent);
                             programmingViewHolder.postimage.setAutoCycle(false);
 
-                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg());
+                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem);
 
                             programmingViewHolder.postimage.setSliderAdapter(sliderAdapter);
                         }

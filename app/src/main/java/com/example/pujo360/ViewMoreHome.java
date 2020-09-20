@@ -33,6 +33,7 @@ import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.adapters.CommentAdapter;
 import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
+import com.example.pujo360.adapters.ViewmoreSliderAdapter;
 import com.example.pujo360.dialogs.BottomCommentsDialog;
 import com.example.pujo360.models.CommentModel;
 import com.example.pujo360.models.FlamedModel;
@@ -367,9 +368,9 @@ public class ViewMoreHome extends AppCompatActivity {
                         sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                         sliderView.setAutoCycle(false);
 
-                        SliderAdapter sliderAdapter = new SliderAdapter(ViewMoreHome.this, images);
+                        ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
 
-                        sliderView.setSliderAdapter(sliderAdapter);
+                        sliderView.setSliderAdapter(viewmoreSliderAdapter);
                     } else {
                         sliderView.setVisibility(View.GONE);
                     }
@@ -783,9 +784,9 @@ public class ViewMoreHome extends AppCompatActivity {
                                     sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                                     sliderView.setAutoCycle(false);
 
-                                    SliderAdapter sliderAdapter = new SliderAdapter(ViewMoreHome.this, images);
+                                    ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
 
-                                    sliderView.setSliderAdapter(sliderAdapter);
+                                    sliderView.setSliderAdapter(viewmoreSliderAdapter);
                                 } else {
                                     sliderView.setVisibility(View.GONE);
                                 }

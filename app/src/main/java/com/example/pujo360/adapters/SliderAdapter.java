@@ -3,6 +3,8 @@ package com.example.pujo360.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,16 @@ import android.widget.ImageView;
 
 import com.example.pujo360.DisplayPictureActivity;
 import com.example.pujo360.R;
+import com.example.pujo360.ViewMoreHome;
+import com.example.pujo360.models.HomePostModel;
+import com.example.pujo360.util.StoreTemp;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
@@ -24,10 +30,12 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     private Context mContext;
     private ArrayList<String> itemDatalist;
     private int bool;
+    private HomePostModel model;
 
-    public SliderAdapter(Context context, ArrayList<String> itemDatalist) {
+    public SliderAdapter(Context context, ArrayList<String> itemDatalist, HomePostModel model) {
         this.mContext = context;
         this.itemDatalist = itemDatalist;
+        this.model = model;
         this.bool = bool;// 2 = global ; 3 = campus
     }
     @Override
@@ -48,11 +56,14 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
         Picasso.get().load(currentItem).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.image_background_grey).into(viewHolder.imageViewBackground, new Callback() {
             @Override
             public void onSuccess() {
+                Log.d("HELLO","2");
 
             }
 
             @Override
             public void onError(Exception e) {
+                Log.d("HELLO","1");
+
                 Picasso.Builder builder = new Picasso.Builder(mContext);
                 builder.downloader(new OkHttp3Downloader(mContext, Integer.MAX_VALUE));
                 Picasso built = builder.build();
@@ -72,15 +83,31 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
             }
         });
 
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, DisplayPictureActivity.class);
-//                intent.putExtra("from", "assignment");
-//                intent.putExtra("Bitmap", currentItem);
-//                mContext.startActivity(intent);
-//            }
-//        });
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ViewMoreHome.class);
+                intent.putExtra("username", model.getUsN());
+                intent.putExtra("userdp", model.getDp());
+                intent.putExtra("docID", model.getDocID());
+                StoreTemp.getInstance().setTagTemp(model.getTagL());
+                intent.putExtra("comName", model.getComName());
+                intent.putExtra("comID", model.getComID());
+                intent.putExtra("likeL", model.getLikeL());
+                if(model.getImg() != null && model.getImg().size()>0) {
+                    Bundle args = new Bundle();
+                    args.putSerializable("ARRAYLIST", (Serializable)model.getImg());
+                    intent.putExtra("BUNDLE", args);
+                }
+                intent.putExtra("postText", model.getTxt());
+                intent.putExtra("bool", "3");
+                intent.putExtra("commentNo", Long.toString(model.getCmtNo()));
+                intent.putExtra("newTs", Long.toString(model.getNewTs()));
+                intent.putExtra("uid", model.getUid());
+                intent.putExtra("timestamp", Long.toString(model.getTs()));
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 

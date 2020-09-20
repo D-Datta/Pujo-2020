@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ import com.example.pujo360.NewPostHome;
 import com.example.pujo360.R;
 import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.adapters.HomeSliderAdapter;
+import com.example.pujo360.adapters.SliderAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.dialogs.BottomCommentsDialog;
 import com.example.pujo360.models.CommentModel;
@@ -70,6 +72,8 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -381,13 +385,28 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-                String postimage_url = currentItem.getSingle_img();
-                if (postimage_url != null) {
-                    programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-                    Picasso.get().load(postimage_url)
-                        .memoryPolicy(MemoryPolicy.NO_STORE)
-                        .placeholder(R.drawable.image_background_grey)
-                        .into(programmingViewHolder.postimage);
+//                String postimage_url = currentItem.getSingle_img();
+//                if (postimage_url != null) {
+//                    programmingViewHolder.postimage.setVisibility(View.VISIBLE);
+//                    Picasso.get().load(postimage_url)
+//                        .memoryPolicy(MemoryPolicy.NO_STORE)
+//                        .placeholder(R.drawable.image_background_grey)
+//                        .into(programmingViewHolder.postimage);
+
+                if(currentItem.getImg() != null && currentItem.getImg().size()>0){
+
+                    programmingViewHolder.sliderViewpost.setVisibility(View.VISIBLE);
+                    programmingViewHolder.sliderViewpost.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                    programmingViewHolder.sliderViewpost.setIndicatorRadius(5);
+                    programmingViewHolder.sliderViewpost.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                    programmingViewHolder.sliderViewpost.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                    programmingViewHolder.sliderViewpost.setIndicatorSelectedColor(Color.WHITE);
+                    programmingViewHolder.sliderViewpost.setIndicatorUnselectedColor(R.color.colorAccent);
+                    programmingViewHolder.sliderViewpost.setAutoCycle(false);
+
+                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(), currentItem);
+
+                    programmingViewHolder.sliderViewpost.setSliderAdapter(sliderAdapter);
 
                     ///////////////OPEN VIEW MORE//////////////
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -399,7 +418,11 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("comName", currentItem.getComName());
                         intent.putExtra("comID", currentItem.getComID());
                         intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getSingle_img());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("bool", "3");
                         intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
@@ -409,24 +432,28 @@ public class CommitteeFragment extends Fragment {
                         startActivity(intent);
                     });
 
-                    programmingViewHolder.postimage.setOnClickListener(v -> {
-                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                        intent.putExtra("username", currentItem.getUsN());
-                        intent.putExtra("userdp", currentItem.getDp());
-                        intent.putExtra("docID", currentItem.getDocID());
-                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                        intent.putExtra("comName", currentItem.getComName());
-                        intent.putExtra("comID", currentItem.getComID());
-                        intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getSingle_img());
-                        intent.putExtra("postText", currentItem.getTxt());
-                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                        intent.putExtra("bool", "2");
-                        intent.putExtra("uid", currentItem.getUid());
-                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                        startActivity(intent);
-                    });
+//                    programmingViewHolder.sliderViewpost.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+//                        intent.putExtra("username", currentItem.getUsN());
+//                        intent.putExtra("userdp", currentItem.getDp());
+//                        intent.putExtra("docID", currentItem.getDocID());
+//                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+//                        intent.putExtra("comName", currentItem.getComName());
+//                        intent.putExtra("comID", currentItem.getComID());
+//                        intent.putExtra("likeL", currentItem.getLikeL());
+//                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+//                            Bundle args = new Bundle();
+//                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+//                            intent.putExtra("BUNDLE", args);
+//                        }
+//                        intent.putExtra("postText", currentItem.getTxt());
+//                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+//                        intent.putExtra("bool", "2");
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+//                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+//                        startActivity(intent);
+//                    });
 
                     programmingViewHolder.likesCount.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
@@ -437,7 +464,11 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("comName", currentItem.getComName());
                         intent.putExtra("comID", currentItem.getComID());
                         intent.putExtra("likeL", currentItem.getLikeL());
-                        intent.putExtra("postPic", currentItem.getSingle_img());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
                         intent.putExtra("bool", "2");
@@ -449,25 +480,25 @@ public class CommitteeFragment extends Fragment {
                     });
                     ///////////////OPEN VIEW MORE//////////////
 
-                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
-                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                save_Dialog(bitmap);
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) { }
-                        });
-                        return true;
-                    });
+//                    programmingViewHolder.postimage.setOnLongClickListener(v -> {
+//                        Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
+//                            @Override
+//                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                                save_Dialog(bitmap);
+//                            }
+//
+//                            @Override
+//                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+//                                Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onPrepareLoad(Drawable placeHolderDrawable) { }
+//                        });
+//                        return true;
+//                    });
                 } else {
-                    programmingViewHolder.postimage.setVisibility(View.GONE);
+                    programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
                 }
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
@@ -902,12 +933,13 @@ public class CommitteeFragment extends Fragment {
 
         SliderView sliderView;
         TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels;
-        ImageView userimage, postimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
+        ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, reelsLayout;
         RecyclerView tagList, reelsList;
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
+        SliderView sliderViewpost;
 
         RelativeLayout reels_item, normal_item;
         LinearLayout slider_item;
@@ -920,7 +952,7 @@ public class CommitteeFragment extends Fragment {
             username = itemView.findViewById(R.id.username);
             text_content = itemView.findViewById(R.id.text_content);
             userimage = itemView.findViewById(R.id.user_image);
-            postimage = itemView.findViewById(R.id.post_image);
+            sliderViewpost = itemView.findViewById(R.id.post_image);
             minsago = itemView.findViewById(R.id.mins_ago);
             like = itemView.findViewById(R.id.like);
             commentimg = itemView.findViewById(R.id.comment);

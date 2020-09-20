@@ -648,14 +648,14 @@ public class FeedsFragment extends Fragment {
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                     feedViewHolder.sliderView.setVisibility(View.VISIBLE);
                     feedViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                    feedViewHolder.sliderView.setIndicatorRadius(8);
+                    feedViewHolder.sliderView.setIndicatorRadius(5);
                     feedViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                     feedViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     feedViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
                     feedViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     feedViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg());
+                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem);
 
                     feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
                 }
