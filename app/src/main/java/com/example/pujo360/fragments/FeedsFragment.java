@@ -144,6 +144,7 @@ public class FeedsFragment extends Fragment {
         if(introPref.getType().matches("com")) {
             create_post.setVisibility(View.GONE);
         }
+        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -280,8 +281,8 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.typeSmth.setVisibility(View.GONE);
                     }
 
-                    if(introPref.getDefaultdp()!=null){
-                        Picasso.get().load(introPref.getDefaultdp()).fit().centerCrop()
+                    if(DP!=null){
+                        Picasso.get().load(DP).fit().centerCrop()
                                 .placeholder(R.drawable.ic_account_circle_black_24dp)
                                 .into(feedViewHolder.Pdp, new Callback() {
                                     @Override

@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView toolbarImage;
     private String USERNAME;
     private String PROFILEPIC;
+    private String TYPE;
 
 
     NavigationView navigationView;
@@ -111,10 +112,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
-                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    if(TYPE.matches("com")){
+
+                        Intent i = new Intent(MainActivity.this, ActivityProfileCommittee.class);
+                        i.putExtra("comID", FirebaseAuth.getInstance().getUid());
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+                    else if(TYPE.matches("indi")){
+                        Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
+                        i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
+
                 }
             },200);
         });
@@ -162,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         introPref = new IntroPref(MainActivity.this);
         USERNAME = introPref.getFullName();
         PROFILEPIC = introPref.getUserdp();
+        TYPE = introPref.getType();
 
         navigationView = findViewById(R.id.nav_view);
         View hView;
