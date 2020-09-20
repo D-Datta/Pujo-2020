@@ -246,7 +246,7 @@ public class CommitteeFragment extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
-                                intent.putExtra("uid", currentItem.getUid());
+                                intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                                 startActivity(intent);
                             }
                         });

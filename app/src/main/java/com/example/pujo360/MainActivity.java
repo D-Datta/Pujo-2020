@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if(TYPE.matches("com")){
 
                         Intent i = new Intent(MainActivity.this, ActivityProfileCommittee.class);
-                        i.putExtra("comID", FirebaseAuth.getInstance().getUid());
+                        i.putExtra("uid", FirebaseAuth.getInstance().getUid());
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }

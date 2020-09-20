@@ -104,7 +104,7 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
                         //to be changed
                         Intent i= new Intent(mContext, ActivityProfileCommittee.class);
                         i.putExtra("name", currentitem.getName());
-                        i.putExtra("comID", currentitem.getUid());
+                        i.putExtra("uid", currentitem.getUid());
                         i.putExtra("coverpic",currentitem.getCoverpic());
                         i.putExtra("dp",currentitem.getDp());
                         mContext.startActivity(i);

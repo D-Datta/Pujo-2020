@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,10 +25,14 @@ import com.example.pujo360.LinkPreview.ApplexLinkPreview;
 import com.example.pujo360.adapters.ProfileAdapter;
 import com.example.pujo360.fragments.Fragment_Posts;
 import com.example.pujo360.fragments.Fragment_Reels;
+import com.example.pujo360.models.BaseUserModel;
 import com.example.pujo360.models.PujoCommitteeModel;
+import com.example.pujo360.util.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.smarteist.autoimageslider.SliderView;
@@ -55,6 +60,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
 
         PDp = findViewById(R.id.Pdp);
@@ -75,67 +81,98 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         name = getIntent().getStringExtra("name");
         coverpic = getIntent().getStringExtra("coverpic");
         dp = getIntent().getStringExtra("dp");
-        uid = getIntent().getStringExtra("comID");
+        uid = getIntent().getStringExtra("uid");
 
         if(uid!=null)
         {
             FirebaseFirestore.getInstance().collection("Users")
-                                           .document(uid)
-                                           .collection("com")
-                                           .document(uid)
-                                           .get()
-                                           .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                               @Override
-                                               public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                   if(task.isSuccessful())
-                                                   {
-                                                       PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
-                                                       PName.setText(name);
-                                                       PUsername.setText(model.getType());
-                                                       PDetaileddesc.setText(model.getDescription());
-                                                       if(dp!=null){
+                    .document(uid).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                                name = baseUserModel.getName();
+                                PName.setText(name);
+                                dp = baseUserModel.getDp();
+                                coverpic = baseUserModel.getCoverpic();
+                                if(dp!=null){
 //
-                                                               Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
-                                                       }
-                                                       else{
-                                                           Display display = getWindowManager().getDefaultDisplay();
-                                                           int displayWidth = display.getWidth();
-                                                           BitmapFactory.Options options = new BitmapFactory.Options();
-                                                           options.inJustDecodeBounds = true;
-                                                           BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-                                                           int width = options.outWidth;
-                                                           if (width > displayWidth) {
-                                                               int widthRatio = Math.round((float) width / (float) displayWidth);
-                                                               options.inSampleSize = widthRatio;
-                                                           }
-                                                           options.inJustDecodeBounds = false;
-                                                           Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-                                                           PDp.setImageBitmap(scaledBitmap);
-                                                       }
+                                    Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
+                                }
+                                else{
+                                    Display display = getWindowManager().getDefaultDisplay();
+                                    int displayWidth = display.getWidth();
+                                    BitmapFactory.Options options = new BitmapFactory.Options();
+                                    options.inJustDecodeBounds = true;
+                                    BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                    int width = options.outWidth;
+                                    if (width > displayWidth) {
+                                        int widthRatio = Math.round((float) width / (float) displayWidth);
+                                        options.inSampleSize = widthRatio;
+                                    }
+                                    options.inJustDecodeBounds = false;
+                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                    PDp.setImageBitmap(scaledBitmap);
+                                }
+                                if(coverpic!=null){
+                                    Picasso.get().load(coverpic).placeholder(R.drawable.image_background_grey).into(Pcoverpic);
+                                }
+                                else{
+                                    Display display = getWindowManager().getDefaultDisplay();
+                                    int displayWidth = display.getWidth();
+                                    BitmapFactory.Options options = new BitmapFactory.Options();
+                                    options.inJustDecodeBounds = true;
+                                    BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    int width = options.outWidth;
+                                    if (width > displayWidth) {
+                                        int widthRatio = Math.round((float) width / (float) displayWidth);
+                                        options.inSampleSize = widthRatio;
+                                    }
+                                    options.inJustDecodeBounds = false;
+                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    Pcoverpic.setImageBitmap(scaledBitmap);
+                                }
 
-                                                       if(coverpic!=null){
-                                                           Picasso.get().load(coverpic).placeholder(R.drawable.image_background_grey).into(Pcoverpic);
-                                                       }
-                                                       else{
-                                                           Display display = getWindowManager().getDefaultDisplay();
-                                                           int displayWidth = display.getWidth();
-                                                           BitmapFactory.Options options = new BitmapFactory.Options();
-                                                           options.inJustDecodeBounds = true;
-                                                           BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
-                                                           int width = options.outWidth;
-                                                           if (width > displayWidth) {
-                                                               int widthRatio = Math.round((float) width / (float) displayWidth);
-                                                               options.inSampleSize = widthRatio;
-                                                           }
-                                                           options.inJustDecodeBounds = false;
-                                                           Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
-                                                           Pcoverpic.setImageBitmap(scaledBitmap);
-                                                       }
 
-                                                   }
+                                FirebaseFirestore.getInstance().collection("Users")
+                                        .document(uid)
+                                        .collection("com")
+                                        .document(uid)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if(task.isSuccessful())
+                                                {
+                                                    PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
+                                                    PUsername.setText(model.getType());
+                                                    PDetaileddesc.setText(model.getDescription());
+                                                }
+                                                else{
+                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                }
 
-                                               }
-                                           });
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                            }
+                                        });
+
+                            }
+                            else{
+                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                }
+            });
         }
 
     }
@@ -161,5 +198,16 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) { }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
