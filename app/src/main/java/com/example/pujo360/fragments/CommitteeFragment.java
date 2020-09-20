@@ -253,7 +253,13 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.type_something.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-
+                                if(InternetConnection.checkConnection(getActivity())){
+                                    Intent i= new Intent(getContext(), NewPostHome.class);
+                                    i.putExtra("target", "2");
+                                    startActivity(i);
+                                }
+                                else
+                                    Utility.showToast(getContext(), "Network Unavailable...");
                             }
                         });
                     }
