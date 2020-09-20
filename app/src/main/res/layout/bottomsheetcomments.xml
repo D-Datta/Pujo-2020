@@ -86,8 +86,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:visibility="visible"
-                android:descendantFocusability="blocksDescendants"
+                android:windowSoftInputMode="adjustResize"
+                android:fitsSystemWindows="true"
+                android:overScrollMode="never"
                 app:reverseLayout="false"
                 android:paddingBottom="50dp" />
 

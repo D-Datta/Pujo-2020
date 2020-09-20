@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -56,7 +57,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     private ProgressBar progressBar, progressComment;
     private String docID,root;
     private DocumentSnapshot lastVisible;
-    private int checkGetMore = -1;
+    private int checkGetMore = -1, bool;
     private EditText newComment;
     private ImageView send, no_comment, commentimg;
     private DocumentReference docRef;
@@ -65,10 +66,11 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     private ProgressDialog progressDialog;
     private String uid;
 
-    public BottomCommentsDialog(String root,String docID, String uid) {
+    public BottomCommentsDialog(String root,String docID, String uid, int bool) {
         this.root = root;
         this.docID = docID;
         this.uid = uid;
+        this.bool = bool;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -116,6 +118,14 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
             }
         });
 
+        if(bool == 1) {
+            newComment.requestFocus();
+//            InputMethodManager imm = (InputMethodManager)requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
+            Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        }
+
         Picasso.get().load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
             .placeholder(R.drawable.ic_account_circle_black_24dp)
             .into(commentimg, new Callback() {
@@ -130,7 +140,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
 
         commentimg.setOnClickListener(v2 -> {
             newComment.requestFocus();
-            newComment.setFocusableInTouchMode(true);
+//            newComment.setFocusableInTouchMode(true);
             InputMethodManager imm = (InputMethodManager)requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
             ///////////ENABLE KEYBOARD//////////
