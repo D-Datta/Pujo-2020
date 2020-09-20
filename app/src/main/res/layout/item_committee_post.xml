@@ -291,12 +291,11 @@
 
                         <ImageView
                             android:id="@+id/like"
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginStart="20dp"
                             android:background="@drawable/custom_ripple_transparent"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_drum" />
+                            android:src="@drawable/ic_btmnav_notifications" />
 
                         <ImageView
                             android:id="@+id/comment"

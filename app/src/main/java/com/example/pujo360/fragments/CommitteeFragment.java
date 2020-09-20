@@ -4,11 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,6 +77,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -515,6 +520,21 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
                         programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
+
+                    for (int j = 0; j < currentItem.getLikeL().size(); j++) {
+                        if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                            programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
+                            currentItem.setLikeCheck(j);
+//                            if ((currentItem.getLikeL().size() - 1) == 1)
+//                                feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " other");
+//                            else if ((currentItem.getLikeL().size() - 1) == 0) {
+//                                feedViewHolder.flamedBy.setText("Flamed by you");
+//                            } else
+//                                feedViewHolder.flamedBy.setText("Flamed by you & " + (currentItem.getLikeL().size() - 1) + " others");
+                            //Position in likeList where the current USer UId is found stored in likeCheck
+                        }
+                    }
+
                 } else {
                     programmingViewHolder.like_image.setVisibility(View.GONE);
                     programmingViewHolder.likesCount.setVisibility(View.GONE);
@@ -524,7 +544,8 @@ public class CommitteeFragment extends Fragment {
                 PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
                     .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                     .setOnClickListener(v -> {
-                        if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                        if (currentItem.getLikeCheck() >= 0) {
+                            programmingViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
                             if (currentItem.getLikeL().size() - 1 == 0) {
                                 programmingViewHolder.likesCount.setVisibility(View.GONE);
                                 programmingViewHolder.like_image.setVisibility(View.GONE);
@@ -550,6 +571,18 @@ public class CommitteeFragment extends Fragment {
                         }
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(requireActivity());
+                            try {
+                                AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
+                                MediaPlayer player = new MediaPlayer();
+                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                player.prepare();
+                                AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                    player.start();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
                             programmingViewHolder.likesCount.setVisibility(View.VISIBLE);
                             programmingViewHolder.like_image.setVisibility(View.VISIBLE);
                             if (currentItem.getLikeL() != null){
