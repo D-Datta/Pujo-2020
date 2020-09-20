@@ -61,6 +61,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         PName = findViewById(R.id.Profilename);
         PUsername =findViewById(R.id.Pusername);
         Pcoverpic = findViewById(R.id.coverpic);
+        PDetaileddesc = findViewById(R.id.detaildesc);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -91,6 +92,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                        PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
                                                        PName.setText(name);
                                                        PUsername.setText(model.getType());
+                                                       PDetaileddesc.setText(model.getDescription());
                                                        if(dp!=null){
 //
                                                                Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
