@@ -25,7 +25,7 @@
         tools:ignore="AllowBackup">
 
         <activity android:name=".EditProfileIndividualActivity"/>
-        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".EditProfileCommitteeActivity" />
         <activity android:name=".ActivityProfileCommittee" />
         <activity android:name=".ActivityProfileUser" />
         <activity android:name=".SearchCityState" />
