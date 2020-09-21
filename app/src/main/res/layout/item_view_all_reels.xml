@@ -90,7 +90,6 @@
                     android:text="@string/pujo_committees"
                     android:textStyle="bold"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/oxygen_ex_bold"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
 
@@ -117,7 +116,6 @@
             android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
             android:scrollbars="vertical"
-            android:fontFamily="@font/oxygen_bold"
             android:textSize="15dp"
             app:trimExpandedText="@string/read_less"
             app:trimCollapsedText="@string/read_more"
@@ -222,7 +220,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="5dp"
-                    android:fontFamily="@font/oxygen_ex_bold"
                     android:text="@string/_2_4k"
                     android:textColor="@color/white_transparent"
                     android:textSize="15dp" />
@@ -242,7 +239,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/oxygen_ex_bold"
                     android:text="@string/_154"
                     android:textColor="@color/white_transparent"
                     android:textSize="15dp"

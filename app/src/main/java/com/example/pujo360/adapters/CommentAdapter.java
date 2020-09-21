@@ -225,50 +225,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                     batch.commit().addOnSuccessListener(task -> { });
                     ///////////////////BATCH WRITE///////////////////
                 }
-
-                else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
-                    Utility.vibrate(mContext);
-                    try {
-                        AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
-                        MediaPlayer player = new MediaPlayer();
-                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        player.prepare();
-                        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-                            player.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
-
-                    //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                    currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                    currentItem.setLikeCheck(currentItem.getLikeL().size()-1);//For local changes
-
-                    programmingViewHolder.cFlamedBy.setText(String.valueOf(currentItem.getLikeL().size()));
-
-                    ///////////////////BATCH WRITE///////////////////
-                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                    FlamedModel flamedModel = new FlamedModel();
-                    long tsLong = System.currentTimeMillis();
-
-                    flamedModel.setPostID(currentItem.getPostID());
-                    flamedModel.setDocID(currentItem.getDocID());
-                    flamedModel.setTs(tsLong);
-                    flamedModel.setType(introPref.getType());
-                    flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                    flamedModel.setUserdp(PROFILEPIC);
-                    flamedModel.setUsername(USERNAME);
-                    flamedModel.setPostUid(currentItem.getUid());
-
-                    DocumentReference flamedDoc = Objects.requireNonNull(finalFlamedCol)
-                            .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                    batch.update(finalLikeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                    batch.set(flamedDoc, flamedModel);
-                    batch.commit().addOnSuccessListener(task -> { });
-                    ///////////////////BATCH WRITE///////////////////
-                }
-
                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                     Utility.vibrate(mContext);
                     try {
@@ -347,6 +303,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("bool", Integer.toString(bool));
                 intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                 intent.putExtra("pComUid", currentItem.getUid());
+                intent.putExtra("type", currentItem.getType());
                 mContext.startActivity(intent);
             });
         }
@@ -368,12 +325,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("bool", Integer.toString(bool));
                 intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                 intent.putExtra("pComUid", currentItem.getUid());
+                intent.putExtra("type", currentItem.getType());
                 mContext.startActivity(intent);
             });
         }
 
         programmingViewHolder.commentimg.setOnClickListener(v -> {
-
             Intent intent = new Intent(mContext, CommentReplyActivity.class);
             intent.putExtra("username", currentItem.getUsername());
             intent.putExtra("userdp", currentItem.getUserdp());
@@ -387,12 +344,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
             intent.putExtra("bool", Integer.toString(bool));
             intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
             intent.putExtra("pComUid", currentItem.getUid());
+            intent.putExtra("type", currentItem.getType());
             mContext.startActivity(intent);
 
         });
 
         programmingViewHolder.cRepliedBy.setOnClickListener(v -> {
-
             Intent intent = new Intent(mContext, CommentReplyActivity.class);
             intent.putExtra("username", currentItem.getUsername());
             intent.putExtra("userdp", currentItem.getUserdp());
@@ -406,6 +363,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
             intent.putExtra("bool", Integer.toString(bool));
             intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
             intent.putExtra("pComUid", currentItem.getUid());
+            intent.putExtra("type", currentItem.getType());
             mContext.startActivity(intent);
         });
         /////////////////COMMENTS REPLY SETUP/////////////////

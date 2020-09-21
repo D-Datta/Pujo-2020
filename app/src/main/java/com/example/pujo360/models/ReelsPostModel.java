@@ -13,6 +13,7 @@ public class ReelsPostModel {
     private String committee_dp;
     private String docID;
     private String headline;
+    private String frame;
 
     private String uid;
 
@@ -64,6 +65,9 @@ public class ReelsPostModel {
         this.uid = uid;
     }
 
+    public String getFrame() { return frame; }
+
+    public void setFrame(String frame) { this.frame = frame; }
 
     public void setHeadline(String headline) {
         this.headline = headline;

@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,13 +25,15 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -45,6 +48,7 @@ import com.example.pujo360.LinkPreview.ViewListener;
 import com.example.pujo360.adapters.MultipleImageAdapter;
 import com.example.pujo360.adapters.TagAdapter;
 import com.example.pujo360.models.HomePostModel;
+import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.models.TagModel;
 import com.example.pujo360.preferences.IntroPref;
 import com.example.pujo360.dialogs.BottomTagsDialog;
@@ -69,6 +73,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
 
@@ -76,7 +81,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     private TextView postusername;
     private Button post_anon, post;
-    private ImageView cam, gallery, cross, user_image;
+    private ImageView cam, gallery, cross, user_image, videopost, videocam;
     private EditText postcontent,edtagtxt;
     private ImageView info, postimage;
     private Dialog dialog;
@@ -91,7 +96,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private TagAdapter tagAdapter2;
     private ImageCompressor imageCompressor;
 
-    private Uri filePath, finalUri;
+    private Uri filePath, finalUri, videoUri;
     private ArrayList<byte[]> imagelist = new ArrayList<>();
     private StorageReference storageReferenece;
     private ArrayList<String> generatedFilePath = new ArrayList<>();
@@ -105,7 +110,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
     private static final int IMAGE_PICK_CAMERA_CODE = 2000;
-
+    private static final int VIDEO_PICK_GALLERY_CODE = 3000;
+    private static final int VIDEO_PICK_CAMERA_CODE = 4000;
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
     String[] cameraPermission;
@@ -115,10 +121,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
 //    private ImageButton close_image, edit_image;
     private RelativeLayout container_image;
+    private VideoView videoView;
+    private int duration;
 
+    private ReelsPostModel reelsPostModel;
     private HomePostModel homePostModel, editPostModel;
     private DocumentReference docRef;
-
+    private byte[] frame;
+    private FrameLayout videoframe;
 
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -146,9 +156,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //        edit_image = findViewById(R.id.edit_image);
         container_image = findViewById(R.id.image_container);
         LinkPreview = findViewById(R.id.LinkPreView);
-
+        videoView = findViewById(R.id.videoview);
+        videopost = findViewById(R.id.video_gallery);
+        videocam = findViewById(R.id.video_camera);
         customTag = findViewById(R.id.CustomTag);
 //        moreTags = findViewById(R.id.MoreTags);
+        videoframe = findViewById(R.id.videoframe);
 
         mAuth = FirebaseAuth.getInstance();
         fireuser = mAuth.getCurrentUser();
@@ -167,41 +180,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         PROFILEPIC = introPref.getUserdp();
         if(PROFILEPIC!= null){
-
-//            if(PROFILEPIC.matches("0")){
-//                user_image.setImageResource(R.drawable.default_dp_1);
-//            }
-//            else if(PROFILEPIC.matches("1")){
-//                user_image.setImageResource(R.drawable.default_dp_2);
-//            }
-//            else if(PROFILEPIC.matches("2")){
-//                user_image.setImageResource(R.drawable.default_dp_3);
-//            }
-//            else if(PROFILEPIC.matches("3")){
-//                user_image.setImageResource(R.drawable.default_dp_4);
-//            }
-//            else if(PROFILEPIC.matches("4")){
-//                user_image.setImageResource(R.drawable.default_dp_5);
-//            }
-//            else if(PROFILEPIC.matches("5")){
-//                user_image.setImageResource(R.drawable.default_dp_6);
-//            }
-//            else if(PROFILEPIC.matches("6")){
-//                user_image.setImageResource(R.drawable.default_dp_7);
-//            }
-//            else if(PROFILEPIC.matches("7")){
-//                user_image.setImageResource(R.drawable.default_dp_8);
-//            }
-//            else if(PROFILEPIC.matches("8")){
-//                user_image.setImageResource(R.drawable.default_dp_9);
-//            }
-//            else if(PROFILEPIC.matches("9")){
-//                user_image.setImageResource(R.drawable.default_dp_10);
-//            }
-//            else{
-                Picasso.get().load(PROFILEPIC).into(user_image);
-//            }
-
+            Picasso.get().load(PROFILEPIC).into(user_image);
         }
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
         editPostModel= new HomePostModel();
@@ -300,43 +279,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     postcontent.setText(editPostModel.getTxt());
                 }
 
-
-//                if(intent.getStringExtra("img")!=null){
-//                    editPostModel.setImg(intent.getStringExtra("img"));
-//                    container_image.setVisibility(View.VISIBLE);
-//                    postimage.setVisibility(View.VISIBLE);
-//                    Picasso.get().load(editPostModel.getImg()).into(postimage);
-//
-////                    Bitmap bitmap = null;
-//
-//                    Picasso.get().load(editPostModel.getImg()).into(new Target() {
-//                        @Override
-//                        public void onBitmapLoaded(Bitmap bitmap2, Picasso.LoadedFrom from) {
-//                            Bitmap bitmap = bitmap2;
-//                            ByteArrayOutputStream baos =new ByteArrayOutputStream();
-//                            // bitmap= BitmapFactory.decodeStream(new ByteArrayInputStream(baos.toByteArray()));
-//                            bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                            pic = baos.toByteArray();
-//
-//                            if(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null)!=null){
-//                                filePath = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null));
-//                            }
-//
-//
-//                        }
-//                        @Override
-//                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                            Toast.makeText(NewPostHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                        }
-//                        @Override
-//                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                        }
-//
-//                    });
-//
-//                }
-
                 if(intent.getStringExtra("comID")!=null){
                     postingIn.add(intent.getStringExtra("comName"));
                     post_anon.setVisibility(View.GONE);
@@ -373,8 +315,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         if(url!= null && url.contains("http")){
                             LinkPreview.setLink(url ,new ViewListener() {
                                 @Override
-                                public void onSuccess(boolean status) {
-                                }
+                                public void onSuccess(boolean status) { }
+
                                 @Override
                                 public void onError(Exception e) {
                                 }
@@ -386,7 +328,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             else if (type.startsWith("image/")) {
                 filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 finalUri = filePath;
-                container_image.setVisibility(View.VISIBLE);
+                //container_image.setVisibility(View.VISIBLE);
                 postimage.setVisibility(View.VISIBLE);
                 postimage.setImageURI(finalUri);
 
@@ -428,6 +370,24 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
             else {
                 pickCamera();
+            }
+        });
+
+        videopost.setOnClickListener(v -> {
+            if (!checkCameraPermission()) {
+                requestCameraPermission();
+            }
+            else {
+                pickVideo();
+            }
+        });
+
+        videopost.setOnClickListener(v -> {
+            if (!checkCameraPermission()) {
+                requestCameraPermission();
+            }
+            else {
+                pickVideoCam();
             }
         });
 
@@ -582,113 +542,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                 }
                             });
                         }
-
-//                        if(pic!= null){
-//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//
-//                            reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-//                            /////////////SELECT GLOBAL/YOUR CAMPUS/////////////
-//
-//                            reference.putBytes(pic)
-//                                    .addOnSuccessListener(taskSnapshot ->
-//                                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
-//                                                downloadUri = uri;
-//                                                generatedFilePath = downloadUri.toString();
-//
-//                                                editPostModel.setImg(generatedFilePath);
-//                                                docRef.set(editPostModel).addOnCompleteListener(task -> {
-//                                                    if(task.isSuccessful()){
-//                                                        progressDialog.dismiss();
-//                                                        if(isTaskRoot()){
-//                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                                        }
-//                                                        else if(intent.getStringExtra("FromViewMoreHome")!=null){
-//                                                            Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
-//                                                            i.putExtra("username", editPostModel.getUsN());
-//                                                            i.putExtra("userdp", editPostModel.getDp());
-//                                                            i.putExtra("docID", editPostModel.getDocID());
-//                                                            StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-//                                                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//
-//                                                            i.putExtra("comName", editPostModel.getComName());
-//                                                            i.putExtra("comID", editPostModel.getComID());
-//
-//                                                            i.putExtra("likeL", editPostModel.getLikeL());
-//                                                            i.putExtra("postPic", editPostModel.getImg());
-//                                                            i.putExtra("postText", editPostModel.getTxt());
-//                                                            i.putExtra("bool", "3");
-//                                                            i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
-//
-//                                                            i.putExtra("uid", editPostModel.getUid());
-//                                                            i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
-//                                                            i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
-//                                                            startActivity(i);
-//                                                            finish();
-//
-//                                                        }
-//                                                        else {
-//                                                            NewPostHome.super.onBackPressed();
-//                                                        }
-//                                                    }else{
-//                                                        Utility.showToast(getApplicationContext(),"Something went wrong...");
-//
-//                                                    }
-//                                                });
-//
-//                                            }))
-//
-//                                    .addOnFailureListener(e -> {
-//                                        Utility.showToast(getApplicationContext(), "Something went wrong");
-//                                        if(progressDialog!= null)
-//                                            progressDialog.dismiss();
-//                                    });
-//
-//                        }
-//
-//                        else {
-//                            editPostModel.setImg(null);
-//                            docRef.set(editPostModel).addOnCompleteListener(task -> {
-//                                if(task.isSuccessful()){
-//                                    progressDialog.dismiss();
-//
-//                                    if(isTaskRoot()){
-//                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                    }
-//                                    else if(intent.getStringExtra("FromViewMoreHome")!=null){
-//                                        Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
-//                                        i.putExtra("username", editPostModel.getUsN());
-//                                        i.putExtra("userdp", editPostModel.getDp());
-//                                        i.putExtra("docID", editPostModel.getDocID());
-//                                        StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-//                                        //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//
-//                                        i.putExtra("comName", editPostModel.getComName());
-//                                        i.putExtra("comID", editPostModel.getComID());
-//
-//                                        i.putExtra("likeL", editPostModel.getLikeL());
-//                                        i.putExtra("postPic", editPostModel.getImg());
-//                                        i.putExtra("postText", editPostModel.getTxt());
-//                                        i.putExtra("bool", "3");
-//                                        i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
-//
-//                                        i.putExtra("uid", editPostModel.getUid());
-//                                        i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
-//                                        i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
-//                                        startActivity(i);
-//                                        finish();
-//
-//                                    }
-//                                    else {
-//                                        NewPostHome.super.onBackPressed();
-//                                    }
-//
-//                                }else{
-//                                    Utility.showToast(getApplicationContext(),"Something went wrong.");
-//
-//                                }
-//                            });
-//                        }
-
                     }
                     else {
                         Long timestampLong = System.currentTimeMillis();
@@ -698,96 +551,161 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
 
-                        docRef = firebaseFirestore.collection("Feeds").document();
+                        if(videoUri != null) {
+                            docRef = firebaseFirestore.collection("Reels").document();
 
-                        homePostModel = new HomePostModel();
-                        homePostModel.setUsN(introPref.getFullName());
+                            reelsPostModel = new ReelsPostModel();
+                            reelsPostModel.setCommittee_name(introPref.getFullName());
+                            reelsPostModel.setCommittee_dp(introPref.getUserdp());
+                            reelsPostModel.setTs(timestampLong);
 
-                        homePostModel.setDp(introPref.getUserdp());
-                        if(getIntent().getStringExtra("target")!= null){
-                            if(getIntent().getStringExtra("target").matches("11")){
-                                homePostModel.setChallengeID(getIntent().getStringExtra("challengeID"));
+                            reelsPostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            if(duration < 10) {
+                                reelsPostModel.setDuration("0:0" + duration);
+                            } else {
+                                reelsPostModel.setDuration("0:" + duration);
                             }
-                            if(getIntent().getStringExtra("target").matches("4")){
-                                homePostModel.setComID(getIntent().getStringExtra("comID"));
-                                homePostModel.setComName(getIntent().getStringExtra("comName"));
+
+                            if (!text_content.isEmpty()) {
+                                reelsPostModel.setHeadline(text_content.trim());
                             }
-                        }
 
-                        homePostModel.setTs(timestampLong);
-                        homePostModel.setNewTs(timestampLong);
-                        homePostModel.setType(introPref.getType());
+                            Long tsLong = System.currentTimeMillis();
+                            ts = tsLong.toString();
+                            StorageReference referenceVideo = storageReferenece.child("Reels/").child("Videos").child(fireuser.getUid() + "_" + ts + "post_vid");
+                            StorageReference referenceImage = storageReferenece.child("Reels/").child("Images").child(fireuser.getUid() + "_" + ts + "post_img");
 
-                        homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                        if(selected_tags!= null && selected_tags.size()>0 ) {
-                            homePostModel.setTagL(selected_tags);
-                        }
-                        if(text_content!= null && !text_content.isEmpty()  ) {
-                            homePostModel.setTxt(text_content.trim());
-                        }
-
-                        if (imagelist != null && imagelist.size() > 0) {
-                            for (int j = 0; j < imagelist.size(); j++) {
-                                Long tsLong = System.currentTimeMillis();
-                                ts = tsLong.toString();
-                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
-
-                                int finalJ = j;
-                                reference.putBytes(imagelist.get(finalJ))
-                                        .addOnSuccessListener(taskSnapshot ->
-                                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                                    downloadUri = uri;
-                                                    generatedFilePath.add(downloadUri.toString());
-                                                    Log.i("count", generatedFilePath.size() + " " + imagelist.size());
-                                                    if (generatedFilePath.size() == imagelist.size()) {
-                                                        homePostModel.setImg(generatedFilePath);
-                                                        docRef.set(homePostModel).addOnCompleteListener(task -> {
-                                                            if (task.isSuccessful()) {
-                                                                Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
-                                                                progressDialog.dismiss();
-                                                                if (isTaskRoot()) {
-                                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                                                    finish();
-                                                                } else {
-                                                                    NewPostHome.super.onBackPressed();
-                                                                }
-                                                            } else {
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong...");
-                                                            }
-                                                        });
-                                                    }
-                                                }))
-                                        .addOnFailureListener(e -> {
+                            referenceImage.putBytes(frame)
+                                    .addOnCompleteListener(task -> {
+                                        if(task.isSuccessful()) {
+                                            referenceImage.getDownloadUrl().addOnCompleteListener(task1 -> {
+                                                reelsPostModel.setFrame(Objects.requireNonNull(task1.getResult()).toString());
+                                            });
+                                        }
+                                        else {
                                             Utility.showToast(getApplicationContext(), "Something went wrong");
-                                            if (progressDialog != null)
-                                                progressDialog.dismiss();
-                                        });
+                                        }
+                                    });
+
+                            referenceVideo.putFile(videoUri)
+                                    .addOnSuccessListener(taskSnapshot ->
+                                            referenceVideo.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                downloadUri = uri;
+                                                generatedFilePath.add(downloadUri.toString());
+                                                reelsPostModel.setVideo(generatedFilePath.get(0));
+                                                docRef.set(reelsPostModel).addOnCompleteListener(task -> {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
+                                                        progressDialog.dismiss();
+                                                        if (isTaskRoot()) {
+                                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                            finish();
+                                                        } else {
+                                                            NewPostHome.super.onBackPressed();
+                                                        }
+                                                    } else {
+                                                        Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                    }
+                                                });
+                                            }))
+                                    .addOnFailureListener(e -> {
+                                        Utility.showToast(getApplicationContext(), "Something went wrong");
+                                        if (progressDialog != null)
+                                            progressDialog.dismiss();
+                                    });
+                        }
+                        else {
+                            docRef = firebaseFirestore.collection("Feeds").document();
+
+                            homePostModel = new HomePostModel();
+                            homePostModel.setUsN(introPref.getFullName());
+
+                            homePostModel.setDp(introPref.getUserdp());
+                            if(getIntent().getStringExtra("target")!= null){
+                                if(getIntent().getStringExtra("target").matches("11")){
+                                    homePostModel.setChallengeID(getIntent().getStringExtra("challengeID"));
+                                }
+                                if(getIntent().getStringExtra("target").matches("4")){
+                                    homePostModel.setComID(getIntent().getStringExtra("comID"));
+                                    homePostModel.setComName(getIntent().getStringExtra("comName"));
+                                }
                             }
-                        } else {
-                            docRef.set(homePostModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
-                                        progressDialog.dismiss();
-                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                        finish();
-                                    } else {
+
+                            homePostModel.setTs(timestampLong);
+                            homePostModel.setNewTs(timestampLong);
+                            homePostModel.setType(introPref.getType());
+
+                            homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+                            if(selected_tags!= null && selected_tags.size()>0 ) {
+                                homePostModel.setTagL(selected_tags);
+                            }
+                            if(!text_content.isEmpty()) {
+                                homePostModel.setTxt(text_content.trim());
+                            }
+
+                            if (imagelist != null && imagelist.size() > 0) {
+                                for (int j = 0; j < imagelist.size(); j++) {
+                                    Long tsLong = System.currentTimeMillis();
+                                    ts = tsLong.toString();
+                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
+
+                                    int finalJ = j;
+                                    reference.putBytes(imagelist.get(finalJ))
+                                            .addOnSuccessListener(taskSnapshot ->
+                                                    reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                                        downloadUri = uri;
+                                                        generatedFilePath.add(downloadUri.toString());
+                                                        Log.i("count", generatedFilePath.size() + " " + imagelist.size());
+                                                        if (generatedFilePath.size() == imagelist.size()) {
+                                                            homePostModel.setImg(generatedFilePath);
+                                                            docRef.set(homePostModel).addOnCompleteListener(task -> {
+                                                                if (task.isSuccessful()) {
+                                                                    Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
+                                                                    progressDialog.dismiss();
+                                                                    if (isTaskRoot()) {
+                                                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                                        finish();
+                                                                    } else {
+                                                                        NewPostHome.super.onBackPressed();
+                                                                    }
+                                                                } else {
+                                                                    Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                                }
+                                                            });
+                                                        }
+                                                    }))
+                                            .addOnFailureListener(e -> {
+                                                Utility.showToast(getApplicationContext(), "Something went wrong");
+                                                if (progressDialog != null)
+                                                    progressDialog.dismiss();
+                                            });
+                                }
+                            }
+                            else {
+                                docRef.set(homePostModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
+                                            progressDialog.dismiss();
+                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                            finish();
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Post creation failed", Toast.LENGTH_LONG).show();
+                                            progressDialog.dismiss();
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(getApplicationContext(), "Post creation failed", Toast.LENGTH_LONG).show();
                                         progressDialog.dismiss();
                                     }
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Post creation failed", Toast.LENGTH_LONG).show();
-                                    progressDialog.dismiss();
-                                }
-                            });
+                                });
+                            }
                         }
                     }
-
                 }
             }
             else {
@@ -802,15 +720,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 openDialog();
             }
         });
-//
-//        moreTags.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                BottomTagsDialog bottomTagsDialog = new BottomTagsDialog();
-//                bottomTagsDialog.show(getSupportFragmentManager(),"BottomSheet");
-//            }
-//        });
-
 
         cross.setOnClickListener(v -> {
             String text_content = postcontent.getText().toString();
@@ -888,8 +797,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         tags_selectedRecycler.setVisibility(View.VISIBLE);
                         Toast.makeText(NewPostHome.this,"New Tag Added", Toast.LENGTH_SHORT).show();
                     }
-
-
                 })
                 .show();
 
@@ -958,19 +865,62 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         startActivityForResult(Intent.createChooser(intent,"Select Image"),IMAGE_PICK_GALLERY_CODE);
     }
 
-    private void pickCamera(){
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(cameraIntent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
+    private void pickVideo(){
+        Intent intent= new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Video"), VIDEO_PICK_GALLERY_CODE);
+    }
+
+    private void pickCamera() {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE);
+        }
+    }
+
+    private void pickVideoCam() {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(intent, VIDEO_PICK_CAMERA_CODE);
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && data!=null){
-            if(requestCode == IMAGE_PICK_GALLERY_CODE){
+        if(resultCode == RESULT_OK) {
+            if(requestCode == VIDEO_PICK_GALLERY_CODE) {
+                videoUri = data.getData();
+
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                retriever.setDataSource(NewPostHome.this, videoUri);
+                String mVideoDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                long mTimeInMilliseconds= Long.parseLong(Objects.requireNonNull(mVideoDuration));
+                duration = (int)mTimeInMilliseconds/1000;
+                Bitmap bitmap = retriever.getFrameAtTime(mTimeInMilliseconds-1000);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+                frame = out.toByteArray();
+
+                if(mTimeInMilliseconds/1000 > 60) {
+                    Utility.showToast(getApplicationContext(), "Video too long");
+                }
+                else {
+                    videoframe.setVisibility(View.VISIBLE);
+                    videoView.setVideoURI(videoUri);
+                    videoView.start();
+
+                    MediaController mediaController = new MediaController(NewPostHome.this);
+                    videoView.setMediaController(mediaController);
+                    mediaController.setAnchorView(videoView);
+                }
+            }
+            else if(requestCode == IMAGE_PICK_GALLERY_CODE) {
                 if(data.getClipData()!= null)
                 {
                     int count = data.getClipData().getItemCount();
@@ -1027,27 +977,51 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 }
 
             }
-            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
+            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
 
                 Bundle extras = data.getExtras();
-                Bitmap bitmap = (Bitmap) extras.get("data");
+                Bitmap bitmap = (Bitmap) Objects.requireNonNull(extras).get("data");
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 pic = baos.toByteArray();
-                String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
-                filePath = Uri.parse(path);
+//                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
+//                    filePath = Uri.parse(path);
+                filePath = data.getData();
                 finalUri = filePath;
                 imageCompressor = new ImageCompressor(pic);
                 imageCompressor.execute();
-
-
             }
+            else if(requestCode == VIDEO_PICK_CAMERA_CODE) {
+                videoUri = data.getData();
 
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                retriever.setDataSource(NewPostHome.this, videoUri);
+                String mVideoDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                long mTimeInMilliseconds= Long.parseLong(Objects.requireNonNull(mVideoDuration));
+                duration = (int)mTimeInMilliseconds/1000;
+                Bitmap bitmap = retriever.getFrameAtTime(mTimeInMilliseconds-1000);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+                frame = out.toByteArray();
+
+                if(mTimeInMilliseconds/1000 > 60) {
+                    Utility.showToast(getApplicationContext(), "Video too long");
+                }
+                else {
+                    videoframe.setVisibility(View.VISIBLE);
+                    videoView.setVideoURI(videoUri);
+                    videoView.start();
+
+                    MediaController mediaController = new MediaController(NewPostHome.this);
+                    videoView.setMediaController(mediaController);
+                    mediaController.setAnchorView(videoView);
+                }
+            }
             ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                Uri resultUri = result.getUri();
-                finalUri = resultUri;
+                finalUri = result.getUri();
 
                 Bitmap bitmap = null;
                 try {
@@ -1068,7 +1042,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             ////////////////////////CROP//////////////////////
 
         }
-
     }
     ///////////////////////HANDLE CAMERA AND GALLERY///////////////////////////
 
@@ -1098,15 +1071,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode){
             case CAMERA_REQUEST_CODE:
-                if(grantResults.length > 0){
-                    boolean cameraAccepted = grantResults[0] ==
-                            PackageManager.PERMISSION_GRANTED;
-                    boolean writeStorageAccepted = grantResults[0] ==
-                            PackageManager.PERMISSION_GRANTED;
-                    if(cameraAccepted && writeStorageAccepted){
+                if(grantResults.length > 0) {
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if(cameraAccepted) {
                         pickCamera();
                     }
-                    else{
+                    else {
                         Toast.makeText(this,"permission denied", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -1114,13 +1084,11 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             case STORAGE_REQUEST_CODE:
                 if(grantResults.length > 0){
-
-                    boolean writeStorageAccepted = grantResults[0] ==
-                            PackageManager.PERMISSION_GRANTED;
-                    if(writeStorageAccepted){
+                    boolean writeStorageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if(writeStorageAccepted) {
                         pickGallery();
                     }
-                    else{
+                    else {
                         Toast.makeText(this,"permission denied", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -1129,7 +1097,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     }
 
     //////////////////////PREMISSIONS//////////////////////////
-
 
     class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
 
@@ -1224,7 +1191,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                 if(imagelist != null && imagelist.size()>0){
 
-                    container_image.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.VISIBLE);
                     recyclerView.setHasFixedSize(false);
                     final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -1245,7 +1211,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                 }
                 else {
-                    container_image.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                 }
 
@@ -1260,7 +1225,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             if (height > reqHeight || width > reqWidth) {
                 final int heightRatio = Math.round((float) height / (float) reqHeight);
                 final int widthRatio = Math.round((float) width / (float) reqWidth);
-                inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+                inSampleSize = Math.min(heightRatio, widthRatio);
             }
             final float totalPixels = width * height;
             final float totalReqPixelsCap = reqWidth * reqHeight * 4;

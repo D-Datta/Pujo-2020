@@ -990,7 +990,7 @@ public class FeedsFragment extends Fragment {
         ImageView noPost;
         RecyclerView cRecyclerView;
 
-        TextView username,commentCount, likesCount, text_content, flamedBy, minsago, writecomment;
+        TextView username,commentCount, likesCount, text_content, minsago, writecomment;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
         ImageView dp_cmnt1, dp_cmnt2, type_dp;
         TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
@@ -1017,7 +1017,6 @@ public class FeedsFragment extends Fragment {
             text_content = itemView.findViewById(R.id.text_content);
             userimage = itemView.findViewById(R.id.user_image);
             sliderView = itemView.findViewById(R.id.post_image);
-            flamedBy = itemView.findViewById(R.id.flamed_by);
             minsago = itemView.findViewById(R.id.mins_ago);
             like = itemView.findViewById(R.id.like);
 //            comName = itemView.findViewById(R.id.comName);
