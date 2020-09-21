@@ -14,9 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.example.pujo360.ActivityProfileCommittee;
 import com.example.pujo360.R;
+import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.models.HomePostModel;
+import com.example.pujo360.preferences.IntroPref;
+import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -24,6 +30,9 @@ import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
+
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 public class Fragment_Posts extends Fragment {
@@ -107,13 +116,43 @@ public class Fragment_Posts extends Fragment {
                 if(model.getImg() != null) {
                     Picasso.get().load(model.getImg().get(0)).into(holder.post_image);
                 }
-                else {
-                    holder.post_image.setVisibility(View.GONE);
-                    ViewGroup.LayoutParams params = holder.post_image.getLayoutParams();
-                    params.height = 0;
-                    params.width=0;
-                    holder.post_image.setLayoutParams(params);
+//                else
+//                {
+//                    holder.post_image.setVisibility(View.GONE);
+//                    ViewGroup.LayoutParams params = holder.view.getLayoutParams();
+//                    params.height = 0;
+//                    holder.view.setLayoutParams(params);
+//                }
+                if(model.getImg()!=null) {
+                    holder.post_image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getContext(), ViewMoreHome.class);
+                            intent.putExtra("username", model.getUsN());
+                            intent.putExtra("userdp", model.getDp());
+                            intent.putExtra("docID", model.getDocID());
+                            StoreTemp.getInstance().setTagTemp(model.getTagL());
+                            intent.putExtra("comName", model.getComName());
+                            intent.putExtra("comID", model.getComID());
+                            intent.putExtra("likeL", model.getLikeL());
+                            if (model.getImg() != null && model.getImg().size() > 0) {
+                                Bundle args = new Bundle();
+                                args.putSerializable("ARRAYLIST", (Serializable) model.getImg());
+                                intent.putExtra("BUNDLE", args);
+                            }
+                            intent.putExtra("postText", model.getTxt());
+                            intent.putExtra("bool", "3");
+                            intent.putExtra("commentNo", Long.toString(model.getCmtNo()));
+                            intent.putExtra("newTs", Long.toString(model.getNewTs()));
+                            intent.putExtra("uid", model.getUid());
+                            intent.putExtra("timestamp", Long.toString(model.getTs()));
+                            intent.putExtra("type", model.getType());
+                            startActivity(intent);
+                        }
+                    });
+
                 }
+
             }
 
             @Override
@@ -153,10 +192,17 @@ public class Fragment_Posts extends Fragment {
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         ImageView post_image;
+        RelativeLayout rela;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
             post_image = itemView.findViewById(R.id.post_img);
+            rela = itemView.findViewById(R.id.rela);
+//            Name = itemView.findViewById(R.id.coursename);
+//            Duration = itemView.findViewById(R.id.courseduration);
+//            Course = itemView.findViewById(R.id.view_course);
+//            add = itemView.findViewById(R.id.add_to_batch);
+//            lessons = itemView.findViewById(R.id.lessons_short);
         }
     }
 }
