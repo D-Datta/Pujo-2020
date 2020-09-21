@@ -136,49 +136,16 @@ public class CommentReplyActivity extends AppCompatActivity {
 
         //////////////////CURRENT USER DETAILS///////////////////
         if(PROFILEPIC != null){
-//            if(PROFILEPIC.matches("0")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_1);
-//            }
-//            else if(PROFILEPIC.matches("1")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_2);
-//            }
-//            else if(PROFILEPIC.matches("2")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_3);
-//            }
-//            else if(PROFILEPIC.matches("3")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_4);
-//            }
-//            else if(PROFILEPIC.matches("4")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_5);
-//            }
-//            else if(PROFILEPIC.matches("5")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_6);
-//            }
-//            else if(PROFILEPIC.matches("6")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_7);
-//            }
-//            else if(PROFILEPIC.matches("7")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_8);
-//            }
-//            else if(PROFILEPIC.matches("8")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_9);
-//            }
-//            else if(PROFILEPIC.matches("9")){
-//                userimage_comment.setImageResource(R.drawable.default_dp_10);
-//            }
-//            else {
-                Picasso.get().load(PROFILEPIC).into(userimage_comment, new Callback() {
-                    @Override
-                    public void onSuccess() {
+            Picasso.get().load(PROFILEPIC).into(userimage_comment, new Callback() {
+                @Override
+                public void onSuccess() {
 
-                    }
-                    @Override
-                    public void onError(Exception e) {
-                        userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                    }
-                });
-//            }
-
+                }
+                @Override
+                public void onError(Exception e) {
+                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            });
         }
 
         //////////////////CURRENT USER DETAILS///////////////////
@@ -219,118 +186,64 @@ public class CommentReplyActivity extends AppCompatActivity {
             }
         }
 
-//        if(user_image.matches("0")){
-//            userimage.setImageResource(R.drawable.default_dp_1);
-//        }
-//        else if(user_image.matches("1")){
-//            userimage.setImageResource(R.drawable.default_dp_2);
-//        }
-//        else if(user_image.matches("2")){
-//            userimage.setImageResource(R.drawable.default_dp_3);
-//        }
-//        else if(user_image.matches("3")){
-//            userimage.setImageResource(R.drawable.default_dp_4);
-//        }
-//        else if(user_image.matches("4")){
-//            userimage.setImageResource(R.drawable.default_dp_5);
-//        }
-//        else if(user_image.matches("5")){
-//            userimage.setImageResource(R.drawable.default_dp_6);
-//        }
-//        else if(user_image.matches("6")){
-//            userimage.setImageResource(R.drawable.default_dp_7);
-//        }
-//        else if(user_image.matches("7")){
-//            userimage.setImageResource(R.drawable.default_dp_8);
-//        }
-//        else if(user_image.matches("8")){
-//            userimage.setImageResource(R.drawable.default_dp_9);
-//        }
-//        else if(user_image.matches("9")){
-//            userimage.setImageResource(R.drawable.default_dp_10);
-//        }
-//        else {
-            Picasso.get().load(user_image).into(userimage, new Callback() {
-                @Override
-                public void onSuccess() {
+        Picasso.get().load(user_image).into(userimage, new Callback() {
+            @Override
+            public void onSuccess() {
 
-                }
-                @Override
-                public void onError(Exception e) {
-                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-            });
-//        }
+            }
+            @Override
+            public void onError(Exception e) {
+                userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
+        });
+
         ////////////SETTING DETAILS OF THE MAIN COMMENT////////////
 
         ////////////SETTING DATABASE REF WRT BOOL VALUE////////////
         postID = i.getStringExtra("postID");
         docID = i.getStringExtra("docID");
 
-//        if(bool.matches("1"))
-//        {
-//            if(postCampus.matches("Global")) {
-//                bool_comment = "1";
-//            } else {
-//                bool_comment = "4";
-//            }
-//            flameColRef = FirebaseFirestore.getInstance().collection("Home/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/flameL/");
-//            commentColRef = FirebaseFirestore.getInstance().collection("Home/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/commentL/");
-//            orgCommentColRef = FirebaseFirestore.getInstance().collection("Home/"+postCampus+"/Feeds/"+postID+"/commentL/");
-//            commentDocRef = FirebaseFirestore.getInstance().document("Home/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/");
-//            docRef = FirebaseFirestore.getInstance().document("Home/"+postCampus+"/Feeds/"+postID+"/");
-//        }
-//        else if(bool.matches("2"))
-//        {
-//            bool_comment = "5";
-//            flameColRef = FirebaseFirestore.getInstance().collection("Events/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/flameL/");
-//            commentColRef = FirebaseFirestore.getInstance().collection("Events/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/commentL/");
-//            orgCommentColRef = FirebaseFirestore.getInstance().collection("Events/"+postCampus+"/Feeds/"+postID+"/commentL/");
-//            commentDocRef = FirebaseFirestore.getInstance().document("Events/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/");
-//            docRef = FirebaseFirestore.getInstance().document("Events/"+postCampus+"/Feeds/"+postID+"/");
-//        }
-//        else if(bool.matches("3"))
-//        {
-//            if(postCampus.matches("Global")) {
-//                bool_comment = "6";
-//            } else {
-//                bool_comment = "7";
-//            }
-//            flameColRef = FirebaseFirestore.getInstance().collection("Sliders/"+postCampus+"/Slides/"+postID+"/commentSL/"+docID+"/flameL/");
-//            commentColRef = FirebaseFirestore.getInstance().collection("Sliders/"+postCampus+"/Slides/"+postID+"/commentSL/"+docID+"/commentL/");
-//            orgCommentColRef = FirebaseFirestore.getInstance().collection("Sliders/"+postCampus+"/Slides/"+postID+"/commentSL/");
-//            commentDocRef = FirebaseFirestore.getInstance().document("Sliders/"+postCampus+"/Slides/"+postID+"/commentSL/"+docID+"/");
-//            docRef = FirebaseFirestore.getInstance().document("Sliders/"+postCampus+"/Slides/"+postID+"/");
-//        }
-//        else
-//        {
-//            bool_comment = "8";
-//            flameColRef = FirebaseFirestore.getInstance().collection("Notes/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/flameL/");
-//            commentColRef = FirebaseFirestore.getInstance().collection("Notes/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/commentL/");
-//            orgCommentColRef = FirebaseFirestore.getInstance().collection("Notes/"+postCampus+"/Feeds/"+postID+"/commentL/");
-//            commentDocRef = FirebaseFirestore.getInstance().document("Notes/"+postCampus+"/Feeds/"+postID+"/commentL/"+docID+"/");
-//            docRef = FirebaseFirestore.getInstance().document("Notes/"+postCampus+"/Feeds/"+postID+"/");
-//        }
         ////////////SETTING DATABASE REF WRT BOOL VALUE////////////
-        flameColRef = FirebaseFirestore.getInstance().collection("Feeds/"+postID+"/commentL/"+docID+"/flameL/");
-        commentColRef = FirebaseFirestore.getInstance().collection("Feeds/"+postID+"/commentL/"+docID+"/commentL/");
-        orgCommentColRef = FirebaseFirestore.getInstance().collection("Feeds/"+postID+"/commentL/");
-        commentDocRef = FirebaseFirestore.getInstance().document("Feeds/"+postID+"/commentL/"+docID+"/");
-        docRef = FirebaseFirestore.getInstance().document("Feeds/"+postID+"/");
-
+        if(bool.matches("1")) {
+            flameColRef = FirebaseFirestore.getInstance().collection("Feeds/"+postID+"/commentL/"+docID+"/flameL/");
+            commentColRef = FirebaseFirestore.getInstance().collection("Feeds/"+postID+"/commentL/"+docID+"/commentL/");
+            orgCommentColRef = FirebaseFirestore.getInstance().collection("Feeds/"+postID+"/commentL/");
+            commentDocRef = FirebaseFirestore.getInstance().document("Feeds/"+postID+"/commentL/"+docID+"/");
+            docRef = FirebaseFirestore.getInstance().document("Feeds/"+postID+"/");
+        }
+        else if(bool.matches("2")) {
+            flameColRef = FirebaseFirestore.getInstance().collection("Reels/"+postID+"/commentL/"+docID+"/flameL/");
+            commentColRef = FirebaseFirestore.getInstance().collection("Reels/"+postID+"/commentL/"+docID+"/commentL/");
+            orgCommentColRef = FirebaseFirestore.getInstance().collection("Reels/"+postID+"/commentL/");
+            commentDocRef = FirebaseFirestore.getInstance().document("Reels/"+postID+"/commentL/"+docID+"/");
+            docRef = FirebaseFirestore.getInstance().document("Reels/"+postID+"/");
+        }
 
         username.setOnClickListener(v -> {
-            Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-            i12.putExtra("uid", i.getStringExtra("uid"));
-            startActivity(i12);
+            if(i.getStringExtra("type").matches("com")) {
+                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileCommittee.class);
+                intent.putExtra("uid", i.getStringExtra("uid"));
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileUser.class);
+                intent.putExtra("uid", i.getStringExtra("uid"));
+                startActivity(intent);
+            }
         });
 
         userimage.setOnClickListener(v -> {
-            Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-            i1.putExtra("uid", i.getStringExtra("uid"));
-            startActivity(i1);
+            if(i.getStringExtra("type").matches("com")) {
+                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileCommittee.class);
+                intent.putExtra("uid", i.getStringExtra("uid"));
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileUser.class);
+                intent.putExtra("uid", i.getStringExtra("uid"));
+                startActivity(intent);
+            }
         });
-
 
         //////////////FLAME SETUP///////////////////
         if(i.getSerializableExtra("likeL") != null) {
@@ -378,56 +291,6 @@ public class CommentReplyActivity extends AppCompatActivity {
                         });
                         ///////////////////BATCH WRITE///////////////////
                     }
-
-                    else if(LikeCheck < 0 && likeList!=null){
-                        Utility.vibrate(getApplicationContext());
-                        try {
-                            AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
-                            MediaPlayer player = new MediaPlayer();
-                            player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                            player.prepare();
-                            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                            if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-                                player.start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        flameComment.setImageResource(R.drawable.ic_flame_red);
-
-                        //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                        likeList.add(FirebaseAuth.getInstance().getUid());
-                        LikeCheck= likeList.size()-1;//For local changes
-
-                        flamedByComment.setText(String.valueOf(likeList.size()));
-
-                        ///////////////////BATCH WRITE///////////////////
-                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                        FlamedModel flamedModel = new FlamedModel();
-                        long tsLong = System.currentTimeMillis();
-
-                        flamedModel.setPostID(postID);
-                        flamedModel.setDocID(docID);
-                        flamedModel.setType(introPref.getType());
-                        flamedModel.setTs(tsLong);
-                        flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                        flamedModel.setUserdp(PROFILEPIC);
-                        flamedModel.setUsername(USERNAME);
-                        flamedModel.setPostUid(i.getStringExtra("uid"));
-
-                        DocumentReference flamedDoc = flameColRef.document(FirebaseAuth.getInstance().getUid());
-                        batch.update(commentDocRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                        batch.set(flamedDoc, flamedModel);
-
-                        batch.commit().addOnSuccessListener(task -> {
-                            ViewMoreHome.commentChanged = 1;
-//                            ViewMoreSlider.commentChanged = 1;
-                        })
-                        .addOnFailureListener(task -> {
-                            Toast.makeText(CommentReplyActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                        });
-                        ///////////////////BATCH WRITE///////////////////
-                    }
-
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                         Utility.vibrate(getApplicationContext());
                         try {
@@ -482,16 +345,12 @@ public class CommentReplyActivity extends AppCompatActivity {
 
         flamedByComment.setOnClickListener(v -> {
             if(likeList !=null && likeList.size() > 0) {
-                BottomFlamedByDialog2 bottomSheetDialog;
-//                if(bool.matches("1")) {
-                    bottomSheetDialog = new BottomFlamedByDialog2("Home", postID, docID);
-//                } else if(bool.matches("2")) {
-//                    bottomSheetDialog = new BottomFlamedByDialog2("Events", postCampus, postID, docID);
-//                } else if(bool.matches("3")){
-//                    bottomSheetDialog = new BottomFlamedByDialog2("Sliders", postCampus, postID, docID);
-//                } else {
-//                    bottomSheetDialog = new BottomFlamedByDialog2("Notes", postCampus, postID, docID);
-//                }
+                BottomFlamedByDialog2 bottomSheetDialog = null;
+                if(bool.matches("1")) {
+                    bottomSheetDialog = new BottomFlamedByDialog2("Feeds", postID, docID);
+                } else if(bool.matches("2")) {
+                    bottomSheetDialog = new BottomFlamedByDialog2("Reels", postID, docID);
+                }
                 bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
             }
             else
@@ -505,8 +364,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                     commentMenuDialog= new BottomSheetDialog(CommentReplyActivity.this);
                     commentMenuDialog.setContentView(R.layout.dialog_comment_menu2);
                     commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.VISIBLE);
-                    commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v2 ->
-                            {
+                    commentMenuDialog.findViewById(R.id.edit_comment).setOnClickListener(v2 -> {
                                 Intent intent = new Intent(CommentReplyActivity.this, CommentEdit.class);
                                 intent.putExtra("comment_home", i.getStringExtra("comment"));
                                 intent.putExtra("com_img_home", i.getStringExtra("userdp"));
@@ -519,14 +377,14 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 intent.putExtra("pComUid", i.getStringExtra("pComUid"));
                                 intent.putExtra("com_postID_home", postID);
                                 intent.putExtra("com_docID_home", docID);
-//                                intent.putExtra("com_bool_home", bool);
-//                                intent.putExtra("com_bool", bool_comment);
+                                intent.putExtra("com_bool_home", bool);
+                                intent.putExtra("com_bool", bool_comment);
                                 intent.putExtra("from", "yes");
+                                intent.putExtra("type", i.getStringExtra("type"));
                                 startActivity(intent);
                                 commentMenuDialog.dismiss();
                                 finish();
-                            }
-                    );
+                            });
 
                     commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
                     commentMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v3 -> {
@@ -647,6 +505,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                     intent.putExtra("com_docID_home",CommentList.get(position).getDocID());
                                     intent.putExtra("com_bool", bool_comment);
                                     intent.putExtra("from", "no");
+                                    intent.putExtra("type", CommentList.get(position).getType());
                                     startActivity(intent);
                                  //   Toast.makeText(getApplicationContext(), postCampus+ postID + docID+CommentList.get(position).getDocID() , Toast.LENGTH_LONG).show();
 

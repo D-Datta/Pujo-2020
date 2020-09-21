@@ -120,19 +120,21 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/reels_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="42dp"
-            android:fontFamily="@font/oxygen_regular"
             android:layout_marginTop="8dp"
-            android:paddingHorizontal="20dp"
+            android:fontFamily="@font/oxygen_regular"
             android:gravity="center_vertical"
+            android:paddingHorizontal="20dp"
             android:paddingVertical="5dp"
             android:text="@string/short_videos"
             android:textSize="18dp" />
@@ -141,13 +143,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginHorizontal="6dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reelsRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="128dp"
+                android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp" />
 
@@ -157,16 +160,16 @@
             android:id="@+id/view_all_reels"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/oxygen_regular"
-            android:layout_marginTop="178dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="5dp"
+            android:fontFamily="@font/oxygen_regular"
+            android:background="@drawable/custom_ripple_white"
             android:paddingHorizontal="20dp"
             android:paddingTop="5dp"
             android:text="@string/see_all"
             android:textSize="18dp" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/normal_item"
@@ -323,7 +326,6 @@
                     app:sliderScrollTimeInSec="1"
                     android:visibility="gone"
                     app:sliderStartAutoCycle="true" />
-
 
                 <!--                </HorizontalScrollView>-->
 

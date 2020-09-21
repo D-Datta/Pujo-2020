@@ -69,11 +69,6 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
             Bitmap bitmap = BitmapFactory.decodeByteArray(currentItem, 0 ,currentItem.length);
             programmingViewHolder.image.setImageBitmap(bitmap);
         }
-
-
-
-
-
     }
 
     @Override

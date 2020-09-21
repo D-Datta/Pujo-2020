@@ -165,7 +165,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="26dp"
-                    android:src="@drawable/ic_btmnav_notifications" />
+                    android:src="@drawable/ic_normal_flame" />
 
                 <ImageView
                     android:id="@+id/comment44"

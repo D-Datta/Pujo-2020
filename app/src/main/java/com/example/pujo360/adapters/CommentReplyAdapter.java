@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.pujo360.ActivityProfileCommittee;
 import com.example.pujo360.ActivityProfileUser;
 import com.example.pujo360.LinkPreview.ApplexLinkPreviewShort;
 import com.example.pujo360.LinkPreview.ViewListener;
@@ -85,8 +86,8 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     @Override
     public void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int i) {
         ReplyCommentModel currentItem = itemDatalist.get(i);
-        DocumentReference likeStore;
-        CollectionReference flamedCol;
+        DocumentReference likeStore = null;
+        CollectionReference flamedCol = null;
 
         if(currentItem.getTs() == -1L){
             programmingViewHolder.minsago.setText("Failed!");
@@ -106,65 +107,38 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
             }
         }
 
-
         //////////////LOADING USERNAME AND USERDP FROM USERNODE/////////////
         String userimage_url = currentItem.getUserdp();
         if(userimage_url!=null){
-//            if(userimage_url.matches("0")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_1);
-//            }
-//            else if(userimage_url.matches("1")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_2);
-//            }
-//            else if(userimage_url.matches("2")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_3);
-//            }
-//            else if(userimage_url.matches("3")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_4);
-//            }
-//            else if(userimage_url.matches("4")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_5);
-//            }
-//            else if(userimage_url.matches("5")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_6);
-//            }
-//            else if(userimage_url.matches("6")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_7);
-//            }
-//            else if(userimage_url.matches("7")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_8);
-//            }
-//            else if(userimage_url.matches("8")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_9);
-//            }
-//            else if(userimage_url.matches("9")){
-//                programmingViewHolder.userimage.setImageResource(R.drawable.default_dp_10);
-//            }
-//            else {
-                Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(programmingViewHolder.userimage);
-//            }
+            Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(programmingViewHolder.userimage);
         }
         else{
             programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
         }
 
-
         programmingViewHolder.username.setText(currentItem.getUsername());
         //////////////LOADING USERNAME AND USERDP FROM USERNODE/////////////
 
-        programmingViewHolder.username.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        programmingViewHolder.username.setOnClickListener(v -> {
+            if(currentItem.getType().matches("com")) {
+                Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+                intent.putExtra("uid", currentItem.getUid());
+                mContext.startActivity(intent);
+            }
+            else {
                 Intent intent = new Intent(mContext, ActivityProfileUser.class);
                 intent.putExtra("uid", currentItem.getUid());
                 mContext.startActivity(intent);
-
             }
         });
 
-        programmingViewHolder.userimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        programmingViewHolder.userimage.setOnClickListener(v -> {
+            if(currentItem.getType().matches("com")) {
+                Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+                intent.putExtra("uid", currentItem.getUid());
+                mContext.startActivity(intent);
+            }
+            else {
                 Intent intent = new Intent(mContext, ActivityProfileUser.class);
                 intent.putExtra("uid", currentItem.getUid());
                 mContext.startActivity(intent);
@@ -202,27 +176,17 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         }
 
         ///////////////////FLAMES///////////////////////
-//        if(bool == 1) {
+        if(bool == 1) {
             flamedCol = FirebaseFirestore.getInstance()
                     .collection("Feeds/"+currentItem.getPostID()+"/commentL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/flameL/");
             likeStore = FirebaseFirestore.getInstance()
                     .document("Feeds/"+currentItem.getPostID()+"/commentL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/");
-//        } else if(bool == 2) {
-//            flamedCol = FirebaseFirestore.getInstance()
-//                    .collection("Events/"+ currentItem.getCampus() + "/Feeds/"+currentItem.getPostID()+"/commentL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/flameL/");
-//            likeStore = FirebaseFirestore.getInstance()
-//                    .document("Events/"+ currentItem.getCampus() + "/Feeds/"+currentItem.getPostID()+"/commentL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/");
-//        } else if(bool == 3) {
-//            flamedCol = FirebaseFirestore.getInstance()
-//                    .collection("Sliders/"+ currentItem.getCampus() + "/Slides/"+currentItem.getPostID()+"/commentSL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/flameL/");
-//            likeStore = FirebaseFirestore.getInstance()
-//                    .document("Sliders/"+ currentItem.getCampus() + "/Slides/"+currentItem.getPostID()+"/commentSL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/");
-//        } else {
-//            flamedCol = FirebaseFirestore.getInstance()
-//                    .collection("Notes/"+ currentItem.getCampus() + "/Feeds/"+currentItem.getPostID()+"/commentL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/flameL/");
-//            likeStore = FirebaseFirestore.getInstance()
-//                    .document("Notes/"+ currentItem.getCampus() + "/Feeds/"+currentItem.getPostID()+"/commentL/"+currentItem.getpComID()+"/commentL/"+currentItem.getTs()+"/");
-//        }
+        } else if(bool == 2) {
+            flamedCol = FirebaseFirestore.getInstance()
+                    .collection("Reels/" + currentItem.getPostID() + "/commentL/" + currentItem.getpComID() + "/commentL/" + currentItem.getTs() + "/flameL/");
+            likeStore = FirebaseFirestore.getInstance()
+                    .document("Reels/" + currentItem.getPostID() + "/commentL/" + currentItem.getpComID() + "/commentL/" + currentItem.getTs() + "/");
+        }
 
         //INITIAL SETUP//
         if(currentItem.getLikeL() != null){
@@ -242,6 +206,8 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         }
         //INITIAL SETUP//
 
+        CollectionReference finalFlamedCol = flamedCol;
+        DocumentReference finalLikeStore = likeStore;
         PushDownAnim.setPushDownAnimTo(programmingViewHolder.flameimg)
                 .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                 .setOnClickListener(new View.OnClickListener() {
@@ -259,8 +225,8 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             ///////////////////BATCH WRITE///////////////////
                             WriteBatch batch = FirebaseFirestore.getInstance().batch();
 
-                            DocumentReference flamedDoc = flamedCol.document(FirebaseAuth.getInstance().getUid());
-                            batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                            DocumentReference flamedDoc = finalFlamedCol.document(FirebaseAuth.getInstance().getUid());
+                            batch.update(finalLikeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                             batch.delete(flamedDoc);
 
                             batch.commit().addOnSuccessListener(task -> {
@@ -268,53 +234,6 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             });
                             ///////////////////BATCH WRITE///////////////////
                         }
-
-                        else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
-                            Utility.vibrate(mContext);
-                            try {
-                                AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
-                                MediaPlayer player = new MediaPlayer();
-                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                                player.prepare();
-                                AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-                                    player.start();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
-
-                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                            currentItem.setLikeCheck(currentItem.getLikeL().size()-1);//For local changes
-
-                            programmingViewHolder.cFlamedBy.setText(String.valueOf(currentItem.getLikeL().size()));
-
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            FlamedModel flamedModel = new FlamedModel();
-                            long tsLong = System.currentTimeMillis();
-
-                            flamedModel.setPostID(currentItem.getPostID());
-                            flamedModel.setDocID(currentItem.getDocID());
-                            flamedModel.setTs(tsLong);
-                            flamedModel.setType(introPref.getType());
-                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                            flamedModel.setUserdp(PROFILEPIC);
-                            flamedModel.setUsername(USERNAME);
-                            flamedModel.setPostUid(currentItem.getUid());
-                            flamedModel.setpComID(currentItem.getpComID());
-                            flamedModel.setComment(currentItem.getComment());
-
-                            DocumentReference flamedDoc = flamedCol.document(FirebaseAuth.getInstance().getUid());
-                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                            batch.set(flamedDoc, flamedModel);
-                            batch.commit().addOnSuccessListener(task -> {
-
-                            });
-                            ///////////////////BATCH WRITE///////////////////
-                        }
-
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             Utility.vibrate(mContext);
                             try {
@@ -353,8 +272,8 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             flamedModel.setpComID(currentItem.getpComID());
                             flamedModel.setComment(currentItem.getComment());
 
-                            DocumentReference flamedDoc = flamedCol.document(FirebaseAuth.getInstance().getUid());
-                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                            DocumentReference flamedDoc = finalFlamedCol.document(FirebaseAuth.getInstance().getUid());
+                            batch.update(finalLikeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
                             batch.set(flamedDoc, flamedModel);
                             batch.commit().addOnSuccessListener(task -> {
 
