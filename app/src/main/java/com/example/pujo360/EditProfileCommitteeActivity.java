@@ -269,10 +269,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         com_type.setError("Type is missing");
                         com_type.requestFocus();
                     }
-                    if(pic==null){
+                    if(PROFILEPIC==null){
                         Utility.showToast(EditProfileCommitteeActivity.this,"Please set a Profile Photo");
                     }
-                    if(coverpicbyte==null){
+                    if(COVERPIC==null){
                         Utility.showToast(EditProfileCommitteeActivity.this,"Please set a Cover Photo");
                     }
 
