@@ -3,6 +3,7 @@ package com.example.pujo360;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,6 +95,12 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_individual);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_edit_indi);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         reg_dhak = findViewById(R.id.reg_dhak);
         cover_ind = findViewById(R.id.reg_coverpic_ind);
@@ -901,4 +909,16 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            super.onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
