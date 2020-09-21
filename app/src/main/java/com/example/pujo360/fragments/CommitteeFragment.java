@@ -1088,12 +1088,22 @@ public class CommitteeFragment extends Fragment {
                     holder.item_reels_image.setImageResource(R.drawable.image_background_grey);
                 }
 
-                holder.item_reels_video.setOnClickListener(v -> {
-                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                    intent.putExtra("position", String.valueOf(position));
-                    intent.putExtra("bool", "1");
-                    requireActivity().startActivity(intent);
-                });
+                if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
+                    holder.item_reels_image.setOnClickListener(v -> {
+                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        intent.putExtra("position", String.valueOf(position));
+                        intent.putExtra("bool", "1");
+                        requireActivity().startActivity(intent);
+                    });
+                }
+                else {
+                    holder.item_reels_video.setOnClickListener(v -> {
+                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        intent.putExtra("position", String.valueOf(position));
+                        intent.putExtra("bool", "1");
+                        requireActivity().startActivity(intent);
+                    });
+                }
 
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
                     Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
@@ -1223,6 +1233,13 @@ public class CommitteeFragment extends Fragment {
                                 reelsItemViewHolder.item_reels_video.setVisibility(View.VISIBLE);
                                 reelsItemViewHolder.item_reels_video.start();
                                 reelsItemViewHolder.item_reels_video.setOnPreparedListener(mp -> mp.setLooping(true));
+
+                                reelsItemViewHolder.item_reels_video.setOnClickListener(v2 -> {
+                                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                                    intent.putExtra("position", String.valueOf(visiblePosition));
+                                    intent.putExtra("bool", "1");
+                                    requireActivity().startActivity(intent);
+                                });
                             }
                         }
                     });

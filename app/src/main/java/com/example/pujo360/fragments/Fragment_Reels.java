@@ -28,13 +28,11 @@ import com.example.pujo360.R;
 import com.example.pujo360.ReelsActivity;
 import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.util.Utility;
-import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -143,12 +141,22 @@ public class Fragment_Reels extends Fragment {
                     holder.item_reels_image.setImageResource(R.drawable.image_background_grey);
                 }
 
-                holder.item_reels_video.setOnClickListener(v -> {
-                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                    intent.putExtra("position", String.valueOf(position));
-                    intent.putExtra("bool", "1");
-                    requireActivity().startActivity(intent);
-                });
+                if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
+                    holder.item_reels_image.setOnClickListener(v -> {
+                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        intent.putExtra("position", String.valueOf(position));
+                        intent.putExtra("bool", "1");
+                        requireActivity().startActivity(intent);
+                    });
+                }
+                else {
+                    holder.item_reels_video.setOnClickListener(v -> {
+                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        intent.putExtra("position", String.valueOf(position));
+                        intent.putExtra("bool", "1");
+                        requireActivity().startActivity(intent);
+                    });
+                }
 
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
                     Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
