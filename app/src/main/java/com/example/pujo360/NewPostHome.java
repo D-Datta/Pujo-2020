@@ -382,7 +382,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-        videopost.setOnClickListener(v -> {
+        videocam.setOnClickListener(v -> {
             if (!checkCameraPermission()) {
                 requestCameraPermission();
             }
