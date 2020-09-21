@@ -390,8 +390,8 @@ public class ViewMoreHome extends AppCompatActivity {
                         sliderView.setIndicatorRadius(5);
                         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                         sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                        sliderView.setIndicatorSelectedColor(Color.WHITE);
-                        sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                        sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
+                        sliderView.setIndicatorUnselectedColor(R.color.white);
                         sliderView.setAutoCycle(false);
 
                         ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
@@ -680,11 +680,11 @@ public class ViewMoreHome extends AppCompatActivity {
                                     sliderView.setVisibility(View.VISIBLE);
 
                                     sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                                    sliderView.setIndicatorRadius(8);
+                                    sliderView.setIndicatorRadius(5);
                                     sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                                     sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                                    sliderView.setIndicatorSelectedColor(Color.WHITE);
-                                    sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                                    sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
+                                    sliderView.setIndicatorUnselectedColor(R.color.white);
                                     sliderView.setAutoCycle(false);
 
                                     ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);

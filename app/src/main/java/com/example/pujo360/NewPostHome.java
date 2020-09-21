@@ -382,7 +382,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-        videopost.setOnClickListener(v -> {
+        videocam.setOnClickListener(v -> {
             if (!checkCameraPermission()) {
                 requestCameraPermission();
             }
@@ -417,7 +417,11 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             if(InternetConnection.checkConnection(getApplicationContext())){
                 String text_content = postcontent.getText().toString();
 
-                if(text_content.trim().isEmpty() && pic==null){
+                if(introPref.getType().matches("com") && (imagelist.size()==0 || imagelist==null))
+                {
+                    Utility.showToast(getApplicationContext(),"Post has got no pictures...");
+                }
+                else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && (imagelist.size()==0 || imagelist==null)){
                     Utility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
                 else{
