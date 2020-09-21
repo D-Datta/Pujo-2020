@@ -2088,7 +2088,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 if(my_uid.matches(FirebaseAuth.getInstance().getUid())){
                                     editprofile2.setVisibility(View.VISIBLE);
                                     editprofile2.setOnClickListener(v -> {
-                                        Intent i1 = new Intent(ActivityProfileUser.this, EditProfileActivity.class);
+                                        Intent i1 = new Intent(ActivityProfileUser.this, EditProfileCommitteeActivity.class);
                                         i1.putExtra("firstname", FirstName);
                                         i1.putExtra("lastname", LastName);
                                         i1.putExtra("username", USERNAME);

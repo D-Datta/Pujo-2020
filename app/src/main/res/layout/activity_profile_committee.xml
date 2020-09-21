@@ -219,5 +219,21 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/edit_profile_com"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_edit_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:fabCustomSize="50dp"
+        android:layout_marginEnd="10dp"
+        android:scaleType="fitXY"
+        app:rippleColor="@color/white"
+        app:elevation="10dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="115dp"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.smarteist.autoimageslider.SliderView;
@@ -49,6 +51,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ViewPager viewPager;
     private String name, type, coverpic, dp;
     public static String uid;
+    private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
+    private FirebaseUser fireuser;
+    int bool;
 
 
     @Override
@@ -68,6 +73,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         PUsername =findViewById(R.id.Pusername);
         Pcoverpic = findViewById(R.id.coverpic);
         PDetaileddesc = findViewById(R.id.detaildesc);
+        edit_profile_com = findViewById(R.id.edit_profile_com);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -78,10 +84,34 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         tabLayout.getTabAt(0);
         tabLayout.getTabAt(1);
 
+        fireuser = FirebaseAuth.getInstance().getCurrentUser();
+
         name = getIntent().getStringExtra("name");
         coverpic = getIntent().getStringExtra("coverpic");
         dp = getIntent().getStringExtra("dp");
         uid = getIntent().getStringExtra("uid");
+
+        ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
+        if(getIntent()!=null && getIntent().getStringExtra("uid")!=null){
+            uid = getIntent().getStringExtra("uid");
+            if(!uid.matches(fireuser.getUid())){
+                bool =1;//ANOTHER USER ACCOUNT
+            }
+        }
+        else{
+            uid = fireuser.getUid();
+            bool = 0;//CURRENT USER ACCOUNT
+        }
+        ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
+
+        if(uid.matches(FirebaseAuth.getInstance().getUid())) {
+            edit_profile_com.setVisibility(View.VISIBLE);
+            edit_profile_com.setOnClickListener(v -> {
+                Intent i1 = new Intent(ActivityProfileCommittee.this, EditProfileCommitteeActivity.class);
+                startActivity(i1);
+                finish();
+            });
+        }
 
         if(uid!=null)
         {
