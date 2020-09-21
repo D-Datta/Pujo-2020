@@ -72,7 +72,9 @@ public class ReelsActivity extends AppCompatActivity {
 
         lastVisible = CommitteeFragment.lastVisible;
         bool = Objects.requireNonNull(getIntent().getStringExtra("bool"));
-        uid = Objects.requireNonNull(getIntent().getStringExtra("uid"));
+        if(getIntent().getStringExtra("uid") != null) {
+            uid = getIntent().getStringExtra("uid");
+        }
 
         buildReelsRecyclerView();
         reelsList.scrollToPosition(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
