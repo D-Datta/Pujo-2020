@@ -76,7 +76,8 @@ public class SearchCityState extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
 
         if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("state_pujo")
-                ||i.getStringExtra("from").matches("state_ind"))){
+                ||i.getStringExtra("from").matches("state_ind")||i.getStringExtra("from").matches("state_pujo_edit")
+                ||i.getStringExtra("from").matches("state_ind_edit"))){
 
             try {
                 buildRecyclerViewState();
@@ -116,6 +117,14 @@ public class SearchCityState extends AppCompatActivity {
                                 }
                                 else if(i.getStringExtra("from").matches("state_pujo")){
                                     RegPujoCommittee.etstate.setText(name);
+                                    SearchCityState.super.onBackPressed();
+                                }
+//                                else if(i.getStringExtra("from").matches("state_pujo_edit")){
+//                                    EditProfileIndividualActivity.state_ind.setText(name);
+//                                    SearchCityState.super.onBackPressed();
+//                                }
+                                else if(i.getStringExtra("from").matches("state_ind_edit")){
+                                    EditProfileIndividualActivity.state_ind.setText(name);
                                     SearchCityState.super.onBackPressed();
                                 }
 
@@ -171,6 +180,14 @@ public class SearchCityState extends AppCompatActivity {
                                     RegPujoCommittee.etcity.setText(name);
                                     SearchCityState.super.onBackPressed();
                                 }
+//                                else if(i.getStringExtra("from").matches("city_pujo_edit")){
+//                                    EditProfileIndividualActivity.city_ind.setText(name);
+//                                    SearchCityState.super.onBackPressed();
+//                                }
+                                else if(i.getStringExtra("from").matches("city_ind_edit")){
+                                    EditProfileIndividualActivity.city_ind.setText(name);
+                                    SearchCityState.super.onBackPressed();
+                                }
 
                             }
                         });
@@ -212,6 +229,14 @@ public class SearchCityState extends AppCompatActivity {
                     RegPujoCommittee.etcity.setText(name);
                     SearchCityState.super.onBackPressed();
                 }
+//                else if(i.getStringExtra("from").matches("city_pujo_edit")){
+//                    EditProfileIndividualActivity.city_ind.setText(name);
+//                    SearchCityState.super.onBackPressed();
+//                }
+                else if(i.getStringExtra("from").matches("city_ind_edit")){
+                    EditProfileIndividualActivity.city_ind.setText(name);
+                    SearchCityState.super.onBackPressed();
+                }
             }
         });
 
@@ -246,6 +271,14 @@ public class SearchCityState extends AppCompatActivity {
                 }
                 else if(i.getStringExtra("from").matches("state_pujo")){
                     RegPujoCommittee.etstate.setText(name);
+                    SearchCityState.super.onBackPressed();
+                }
+//                else if(i.getStringExtra("from").matches("state_pujo_edit")){
+//                    EditProfileIndividualActivity.state_ind.setText(name);
+//                    SearchCityState.super.onBackPressed();
+//                }
+                else if(i.getStringExtra("from").matches("state_ind_edit")){
+                    EditProfileIndividualActivity.state_ind.setText(name);
                     SearchCityState.super.onBackPressed();
                 }
             }

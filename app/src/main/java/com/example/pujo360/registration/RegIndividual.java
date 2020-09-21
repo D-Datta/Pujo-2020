@@ -167,7 +167,7 @@ public class RegIndividual extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 chooseImage();
-                pictype=10;
+                pictype=0;
             }
         });
 

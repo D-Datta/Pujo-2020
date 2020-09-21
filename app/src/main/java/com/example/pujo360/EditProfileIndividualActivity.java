@@ -197,6 +197,41 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                     }
                 });
 
+        edit_dp_ind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseImage();
+                pictype=0;
+            }
+        });
+        edit_cover_ind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseImage();
+                pictype=1;
+            }
+        });
+
+        city_ind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EditProfileIndividualActivity.this, SearchCityState.class);
+                i.putExtra("from","city_ind_edit");
+                startActivity(i);
+            }
+        });
+        state_ind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(EditProfileIndividualActivity.this, SearchCityState.class);
+                i.putExtra("from","state_ind_edit");
+                startActivity(i);
+            }
+        });
+
+
+
+
         submit_ind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
