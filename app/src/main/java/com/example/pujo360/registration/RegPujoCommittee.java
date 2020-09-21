@@ -214,11 +214,11 @@ public class RegPujoCommittee extends AppCompatActivity {
                         etaddressline.requestFocus();
                     }
                     if (scity.isEmpty()) {
-                        etcity.setError("City name is missing");
+                        etcity.setError("City is missing");
                         etcity.requestFocus();
                     }
                     if (sstate.isEmpty()) {
-                        etstate.setError("Address line is missing");
+                        etstate.setError("State is missing");
                         etstate.requestFocus();
                     }
                     if (stype.isEmpty()) {
