@@ -97,7 +97,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_committee);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_edit_indi);
+        Toolbar toolbar = findViewById(R.id.toolbar_edit_com);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
