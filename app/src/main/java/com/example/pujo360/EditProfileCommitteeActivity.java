@@ -97,14 +97,14 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_committee);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_edit_indi);
+        Toolbar toolbar = findViewById(R.id.toolbar_edit_com);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         edit_coverpic = findViewById(R.id.edit_coverpic_pc);
-        edit_coverpic = findViewById(R.id.edit_coverpic_icon_pc);
+        edit_coverpic_icon = findViewById(R.id.edit_coverpic_icon_pc);
         edit_dp = findViewById(R.id.edit_dp_pc);
         edit_dp_icon = findViewById(R.id.edit_dp_icon_pc);
         com_name = findViewById(R.id.edit_committee_name);
