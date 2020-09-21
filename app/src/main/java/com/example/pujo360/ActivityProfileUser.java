@@ -1869,7 +1869,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         private CardView dpcard;
         private ProgressBar progressBar;
 
-        private TextView  username,commentCount, likesCount, comName, text_content, flamedBy, minsago, writecomment;
+        private TextView  username,commentCount, likesCount, comName, text_content, minsago, writecomment;
         private ImageView  userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
         private ApplexLinkPreview LinkPreview;
         private RecyclerView tagList, interests;
@@ -1895,7 +1895,6 @@ public class ActivityProfileUser extends AppCompatActivity {
             text_content = itemView.findViewById(R.id.text_content);
             userimage =itemView.findViewById(R.id.user_image);
             sliderView = itemView.findViewById(R.id.post_image);
-            flamedBy = itemView.findViewById(R.id.flamed_by);
             minsago=itemView.findViewById(R.id.mins_ago);
             like = itemView.findViewById(R.id.like);
 //            comName = itemView.findViewById(R.id.comName);
@@ -2089,7 +2088,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 if(my_uid.matches(FirebaseAuth.getInstance().getUid())){
                                     editprofile2.setVisibility(View.VISIBLE);
                                     editprofile2.setOnClickListener(v -> {
-                                        Intent i1 = new Intent(ActivityProfileUser.this, EditProfileActivity.class);
+                                        Intent i1 = new Intent(ActivityProfileUser.this, EditProfileCommitteeActivity.class);
                                         i1.putExtra("firstname", FirstName);
                                         i1.putExtra("lastname", LastName);
                                         i1.putExtra("username", USERNAME);

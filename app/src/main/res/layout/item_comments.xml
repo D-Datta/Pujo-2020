@@ -110,8 +110,7 @@
                 android:id="@+id/flame_comment"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/ic_drum"
-                android:padding="5dp"
+                android:src="@drawable/ic_btmnav_notifications"
                 android:layout_marginStart="4dp"/>
 
             <TextView
@@ -120,6 +119,7 @@
                 android:layout_height="match_parent"
                 android:text="100"
                 android:padding="2dp"
+                android:layout_marginStart="4dp"
                 android:fontFamily="@font/oxygen_regular"
                 android:gravity="center_vertical" />
 

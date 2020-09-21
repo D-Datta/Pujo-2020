@@ -94,6 +94,7 @@ public class CommentEdit extends AppCompatActivity {
                         intent1.putExtra("bool", i.getStringExtra("com_bool_home"));
                         intent1.putExtra("timestamp", i.getStringExtra("timestamp"));
                         intent1.putExtra("pComUid", i.getStringExtra("pComUid"));
+                        intent1.putExtra("type", i.getStringExtra("type"));
 
                         Toast.makeText(getApplicationContext(),"Comment Updated", Toast.LENGTH_LONG).show();
                         startActivity(intent1);

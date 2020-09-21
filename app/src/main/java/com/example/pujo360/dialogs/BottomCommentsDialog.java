@@ -88,7 +88,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         ImageView dismiss = v.findViewById(R.id.dismissflame);
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
         nestedScrollView.setNestedScrollingEnabled(true);
-        rootView = v.findViewById(R.id.rootView);
+        //rootView = v.findViewById(R.id.rootView);
 
         commentimg = v.findViewById(R.id.user_image_comment);
         newComment = v.findViewById(R.id.new_comment);

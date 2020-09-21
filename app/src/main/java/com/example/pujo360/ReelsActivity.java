@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import com.example.pujo360.dialogs.BottomCommentsDialog;
+import com.example.pujo360.fragments.CommitteeFragment;
 import com.example.pujo360.models.FlamedModel;
 import com.example.pujo360.models.ReelsPostModel;
 import com.example.pujo360.preferences.IntroPref;
@@ -31,6 +32,7 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -45,6 +47,9 @@ public class ReelsActivity extends AppCompatActivity {
     private RecyclerView reelsList;
     private String COMMITTEE_LOGO, COMMITTEE_NAME;
     private FirestorePagingAdapter reelsAdapter;
+    private DocumentSnapshot lastVisible;
+    private String uid;
+    private String bool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +67,17 @@ public class ReelsActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         reelsList.setLayoutManager(layoutManager);
         reelsList.setNestedScrollingEnabled(true);
-
         reelsList.setItemViewCacheSize(10);
         reelsList.setDrawingCacheEnabled(true);
-        reelsList.scrollToPosition(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
+
+        lastVisible = CommitteeFragment.lastVisible;
+        bool = Objects.requireNonNull(getIntent().getStringExtra("bool"));
+        if(getIntent().getStringExtra("uid") != null) {
+            uid = getIntent().getStringExtra("uid");
+        }
 
         buildReelsRecyclerView();
+        reelsList.scrollToPosition(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
 
         SnapHelperOneByOne snapHelperOneByOne = new SnapHelperOneByOne();
         snapHelperOneByOne.attachToRecyclerView(reelsList);
@@ -106,9 +116,26 @@ public class ReelsActivity extends AppCompatActivity {
     }
 
     private void buildReelsRecyclerView() {
-        Query query = FirebaseFirestore.getInstance()
-                .collection("Reels")
-                .orderBy("ts", Query.Direction.DESCENDING);
+        Query query = null;
+        if(bool.matches("1")) {
+            if(lastVisible != null) {
+                query = FirebaseFirestore.getInstance()
+                        .collection("Reels")
+                        .orderBy("ts", Query.Direction.DESCENDING)
+                        .startAfter(lastVisible);
+            }
+            else {
+                query = FirebaseFirestore.getInstance()
+                        .collection("Reels")
+                        .orderBy("ts", Query.Direction.DESCENDING);
+            }
+        }
+        else if(bool.matches("2")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .whereEqualTo("uid", uid)
+                    .orderBy("ts", Query.Direction.DESCENDING);
+        }
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -118,7 +145,7 @@ public class ReelsActivity extends AppCompatActivity {
 
         FirestorePagingOptions<ReelsPostModel> options = new FirestorePagingOptions.Builder<ReelsPostModel>()
                 .setLifecycleOwner(this)
-                .setQuery(query, config, snapshot -> {
+                .setQuery(Objects.requireNonNull(query), config, snapshot -> {
                     ReelsPostModel reelsPostModel = new ReelsPostModel();
                     if(snapshot.exists()) {
                         reelsPostModel = snapshot.toObject(ReelsPostModel.class);

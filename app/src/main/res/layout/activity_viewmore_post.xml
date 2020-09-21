@@ -32,7 +32,7 @@
         app:sliderIndicatorOrientation="horizontal"
         app:sliderIndicatorPadding="3dp"
         app:sliderIndicatorRadius="1dp"
-        app:sliderIndicatorSelectedColor="#5A5A5A"
+        app:sliderIndicatorSelectedColor="@color/colorPrimary"
         app:sliderIndicatorUnselectedColor="#FFF"
         app:sliderScrollTimeInSec="1"
         android:visibility="visible"
@@ -84,7 +84,6 @@
                 android:text="@string/pujo_committees"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
-                android:fontFamily="@font/oxygen_ex_bold"
                 android:textSize="18dp"
                 android:textColor="@color/white"
                 android:background="@drawable/custom_ripple_black"/>
@@ -137,7 +136,6 @@
             android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
             android:scrollbars="vertical"
-            android:fontFamily="@font/oxygen_bold"
             android:textSize="15dp"
             app:trimExpandedText="@string/read_less"
             app:trimCollapsedText="@string/read_more"
@@ -165,7 +163,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="26dp"
-                    android:src="@drawable/ic_btmnav_notifications" />
+                    android:src="@drawable/ic_normal_flame" />
 
                 <ImageView
                     android:id="@+id/comment44"
@@ -214,7 +212,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginHorizontal="8dp"
-                    android:fontFamily="@font/oxygen_ex_bold"
                     android:text="@string/_2_4k"
                     android:textColor="@color/white_transparent"
                     android:textSize="15dp" />
@@ -242,7 +239,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="6dp"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/oxygen_ex_bold"
                     android:text="@string/_154"
                     android:textColor="@color/white_transparent"
                     android:textSize="15dp"

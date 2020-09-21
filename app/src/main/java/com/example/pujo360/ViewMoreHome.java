@@ -345,8 +345,7 @@ public class ViewMoreHome extends AppCompatActivity {
                         //Position in likeList where the current USer UId is found stored in likeCheck
                     }
                     else {
-                        flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
-                        flameimg.setImageTintList(ContextCompat.getColorStateList(ViewMoreHome.this, R.color.white));
+                        flameimg.setImageResource(R.drawable.ic_normal_flame);
                     }
                 }
 
@@ -391,8 +390,8 @@ public class ViewMoreHome extends AppCompatActivity {
                         sliderView.setIndicatorRadius(5);
                         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                         sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                        sliderView.setIndicatorSelectedColor(Color.WHITE);
-                        sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                        sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
+                        sliderView.setIndicatorUnselectedColor(R.color.white);
                         sliderView.setAutoCycle(false);
 
                         ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
@@ -641,8 +640,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                             //Position in likeList where the current USer UId is found stored in likeCheck
                                         }
                                         else {
-                                            flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
-                                            flameimg.setImageTintList(ContextCompat.getColorStateList(ViewMoreHome.this, R.color.white));
+                                            flameimg.setImageResource(R.drawable.ic_normal_flame);
                                         }
                                     }
 
@@ -682,11 +680,11 @@ public class ViewMoreHome extends AppCompatActivity {
                                     sliderView.setVisibility(View.VISIBLE);
 
                                     sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                                    sliderView.setIndicatorRadius(8);
+                                    sliderView.setIndicatorRadius(5);
                                     sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                                     sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                                    sliderView.setIndicatorSelectedColor(Color.WHITE);
-                                    sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                                    sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
+                                    sliderView.setIndicatorUnselectedColor(R.color.white);
                                     sliderView.setAutoCycle(false);
 
                                     ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
@@ -781,8 +779,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     public void onClick(View v) {
                         change = 1;
                         if (LikeCheck >= 0) {//was already liked by current user
-                            flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
-                            flameimg.setImageTintList(ContextCompat.getColorStateList(ViewMoreHome.this, R.color.white));
+                            flameimg.setImageResource(R.drawable.ic_normal_flame);
                             if (likeList.size() - 1 == 0) {
                                 like_layout.setVisibility(View.GONE);
                             } else {
@@ -824,7 +821,6 @@ public class ViewMoreHome extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             flameimg.setImageResource(R.drawable.ic_flame_red);
-                            flameimg.setImageTintList(null);
                             like_layout.setVisibility(View.VISIBLE);
                             if (likeList != null)
                                 flamedBy.setText(Integer.toString(likeList.size() + 1));
@@ -868,90 +864,7 @@ public class ViewMoreHome extends AppCompatActivity {
         commentimg.setOnClickListener(v -> {
                 BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1);
                 bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-
-//            newComment.requestFocus();
-//            newComment.setFocusableInTouchMode(true);
-//            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(newComment, InputMethodManager.SHOW_IMPLICIT);
-//            ///////////ENABLE KEYBOARD//////////
         });
-
-//        send.setOnClickListener(v -> {
-//            if(InternetConnection.checkConnection(getApplicationContext())){
-//                if(newComment.getText().toString().isEmpty()){
-//                    Utility.showToast(getApplicationContext(), "Thoughts need to be typed...");
-//                }
-//                else {
-//                    send.setVisibility(View.GONE);
-//                    progressComment.setVisibility(View.VISIBLE);
-//                    String comment = newComment.getText().toString().trim();
-//                    long tsLong = System.currentTimeMillis();
-////                    String ts = Long.toString(tsLong);
-//                    CommentModel commentModel = new CommentModel();
-//
-//                    commentModel.setComment(comment);
-//                    commentModel.setType(introPref.getType());
-//                    commentModel.setUid(UID);
-//                    commentModel.setPostUid(homePostModel[0].getUid());
-//                    commentModel.setUserdp(PROFILEPIC);
-//                    commentModel.setUsername(USERNAME);
-//                    commentModel.setTs(0L); ///Pending state
-//                    commentModel.setPostID(homePostModel[0].getDocID());;
-//
-//                    newComment.setText("");
-//                    commentimg.setImageResource(R.drawable.comment_yellow);
-//                    CommentList.add(0,commentModel);
-//                    adapter.notifyItemInserted(0);
-//                    no_comment.setVisibility(View.GONE);
-//
-//                    ///////////////////BATCH WRITE///////////////////
-//                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//
-//                    DocumentReference cmtDoc = commentRef.document(Long.toString(tsLong));
-//                    commentModel.setTs(tsLong);
-//                    commentModel.setDocID(Long.toString(tsLong));
-//
-//                    batch.set(cmtDoc, commentModel);
-//                    batch.update(docRef, "cmtNo", FieldValue.increment(1));
-//
-//                    if(!UID.matches(homePostModel[0].getUid())) {
-//                        batch.update(docRef, "newTs", tsLong);
-//                    }
-//
-//                    batch.commit().addOnCompleteListener(task -> {
-//                        if(task.isSuccessful()){
-//                            change = 1;
-//                            commentCount++;
-//                            if(commentCount==1)
-//                                noofcmnts.setText(commentCount+ " comment");
-//                            else if(CommentList.size()>1)
-//                                noofcmnts.setText(commentCount+ " comments");
-//
-//                            send.setVisibility(View.VISIBLE);
-//                            progressComment.setVisibility(View.GONE);
-//                            mRecyclerView.setAdapter(adapter);
-//                            mRecyclerView.setVisibility(View.VISIBLE);
-//                        }
-//                        else {
-//                            commentModel.setTs(0L); ///Pending state
-//                            CommentList.remove(commentModel);
-//                            commentModel.setTs(-1L);
-//                            CommentList.add(0, commentModel);
-//                            adapter.notifyDataSetChanged();
-//                            send.setVisibility(View.VISIBLE);
-//                            progressComment.setVisibility(View.GONE);
-//                            Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    });
-//                    ///////////////////BATCH WRITE///////////////////
-//                }
-//            }
-//            else {
-//                Utility.showToast(getApplicationContext(), "Network unavailable...");
-//            }
-//        });
-
 
         more.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,7 +2,6 @@ package com.example.pujo360.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -10,12 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.pujo360.DisplayPictureActivity;
 import com.example.pujo360.R;
-import com.example.pujo360.ViewMoreHome;
 import com.example.pujo360.util.Utility;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
