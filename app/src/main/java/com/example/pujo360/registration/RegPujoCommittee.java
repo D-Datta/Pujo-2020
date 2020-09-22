@@ -459,24 +459,44 @@ public class RegPujoCommittee extends AppCompatActivity {
             ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                Uri resultUri = result.getUri();
+                Uri imageUri = result.getUri();
                 Bitmap bitmap = null;
+                Bitmap compressedBitmap = null;
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
+                try {
+                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
+//                Bitmap bitmap = null;
+//                try {
+//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 if(pictype==0){
                     pic = baos.toByteArray();
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 , pic.length);
+                    dp_pc.setImageBitmap(bitmap1);
                 }
                 else if(pictype==1){
                     coverpicbyte = baos.toByteArray();
+                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(coverpicbyte, 0 , coverpicbyte.length);
+                    cover_pc.setImageBitmap(bitmap2);
                 }
 
-                new ImageCompressor().execute();
+                //new ImageCompressor().execute();
 
             }
             else {//CROP ERROR

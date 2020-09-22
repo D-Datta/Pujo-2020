@@ -326,7 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="textStart"
-                    android:text="@string/address"
+                    android:text="@string/bio"
                     android:layout_marginStart="0dp"
                     android:paddingTop="10dp"
                     android:paddingHorizontal="15dp"
@@ -336,7 +336,7 @@
                     android:textColor="#212121"/>
 
                 <EditText
-                    android:id="@+id/address_line_ind"
+                    android:id="@+id/bio_line_ind"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="5dp"
@@ -347,7 +347,7 @@
                     android:background="@drawable/background_rectangle"
                     android:ems="10"
                     android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/address_line"
+                    android:hint="@string/bio"
                     android:inputType="textPersonName"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp" />

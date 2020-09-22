@@ -59,7 +59,7 @@ import static java.lang.Boolean.TRUE;
 public class EditProfileIndividualActivity extends AppCompatActivity {
 
     private ImageView reg_dhak,cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
-    private EditText fname_ind,lname_ind,username_ind,addressline_ind;
+    private EditText fname_ind,lname_ind,username_ind,bio_ind;
     public static EditText city_ind,state_ind;
     private long likeCount;
     private long commentcount;
@@ -69,7 +69,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //    private Spinner gender_ind;
     private Button submit_ind;
 
-    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC,PASSWORD,uid;
+    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC,PASSWORD,uid, BIO;
 
     private String tokenStr;
     private BaseUserModel baseUserModel;
@@ -110,7 +110,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
         fname_ind = findViewById(R.id.first_name_ind);
         lname_ind = findViewById(R.id.last_name_ind);
         username_ind = findViewById(R.id.user_name_ind);
-        addressline_ind = findViewById(R.id.address_line_ind);
+        bio_ind = findViewById(R.id.bio_line_ind);
         city_ind = findViewById(R.id.city_ind);
         state_ind = findViewById(R.id.state_ind);
 //        email_ind = findViewById(R.id.email_ind);
@@ -142,7 +142,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                             lastVisitTs = baseUserModel.getLastVisitTs();
                             if(baseUserModel.getAddressline()!=null && !baseUserModel.getAddressline().isEmpty())
                             {
-                                addressline_ind.setText(baseUserModel.getAddressline());
+                               bio_ind.setText(baseUserModel.getAddressline());
                             }
                             if(baseUserModel.getCity()!=null && !baseUserModel.getCity().isEmpty())
                             {
@@ -248,7 +248,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                 LNAME = lname_ind.getText().toString().trim();
                 USERNAME = username_ind.getText().toString().trim();
 //                EMAIL = email_ind.getText().toString().trim();
-                ADDRESS = addressline_ind.getText().toString().trim();
+                BIO = bio_ind.getText().toString().trim();
                 CITY = city_ind.getText().toString().trim();
                 STATE = state_ind.getText().toString().trim();
 //                GENDER = gender_ind.getSelectedItem().toString().trim();
@@ -314,6 +314,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                     individualModel.setFirstname(FNAME);
                     individualModel.setLastname(LNAME);
                     individualModel.setGender(GENDER);
+                    individualModel.setBio(BIO);
 
                     if (pic != null || coverpicbyte != null) {
 

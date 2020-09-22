@@ -1171,8 +1171,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //                finalUri = filePath;
 //                imageCompressor = new ImageCompressor(pic);
 //                imageCompressor.execute();
-
-
             }
 
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {

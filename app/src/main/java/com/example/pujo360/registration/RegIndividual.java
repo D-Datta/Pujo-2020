@@ -57,13 +57,13 @@ import static java.lang.Boolean.TRUE;
 public class RegIndividual extends AppCompatActivity
 {
     private ImageView reg_dhak,cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
-    private EditText fname_ind,lname_ind,username_ind,addressline_ind;
+    private EditText fname_ind,lname_ind,username_ind,bio_ind;
     public static EditText city_ind,state_ind;
     private TextView email_ind;
     private Spinner gender_ind;
     private Button submit_ind;
 
-    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC,PASSWORD;
+    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,BIO,COVERPIC,PASSWORD;
 
     private String tokenStr;
     private BaseUserModel baseUserModel;
@@ -99,7 +99,7 @@ public class RegIndividual extends AppCompatActivity
         fname_ind = findViewById(R.id.first_name_ind);
         lname_ind = findViewById(R.id.last_name_ind);
         username_ind = findViewById(R.id.user_name_ind);
-        addressline_ind = findViewById(R.id.address_line_ind);
+        bio_ind = findViewById(R.id.bio_line_ind);
         city_ind = findViewById(R.id.city_ind);
         state_ind = findViewById(R.id.state_ind);
         email_ind = findViewById(R.id.email_ind);
@@ -197,7 +197,7 @@ public class RegIndividual extends AppCompatActivity
                 LNAME = lname_ind.getText().toString().trim();
                 USERNAME = username_ind.getText().toString().trim();
                 EMAIL = email_ind.getText().toString().trim();
-                ADDRESS = addressline_ind.getText().toString().trim();
+                BIO = bio_ind.getText().toString().trim();
                 CITY = city_ind.getText().toString().trim();
                 STATE = state_ind.getText().toString().trim();
                 GENDER = gender_ind.getSelectedItem().toString().trim();
@@ -257,6 +257,7 @@ public class RegIndividual extends AppCompatActivity
                     individualModel.setFirstname(FNAME);
                     individualModel.setLastname(LNAME);
                     individualModel.setGender(GENDER);
+                    individualModel.setBio(BIO);
 
                     if (pic != null || coverpicbyte != null) {
 
@@ -802,24 +803,41 @@ public class RegIndividual extends AppCompatActivity
             ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
-                Uri resultUri = result.getUri();
+                Uri imageUri = result.getUri();
                 Bitmap bitmap = null;
+                Bitmap compressedBitmap = null;
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                try {
+                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+
 
                 if(pictype==0){
                     pic = baos.toByteArray();
+                    compressedBitmap.recycle();
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 , pic.length);
+                    dp_ind.setImageBitmap(bitmap1);
+
                 }
                 else if(pictype==1){
                     coverpicbyte = baos.toByteArray();
+                    compressedBitmap.recycle();
+                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(coverpicbyte, 0 , coverpicbyte.length);
+                    cover_ind.setImageBitmap(bitmap2);
+
                 }
 
-                new ImageCompressor().execute();
+               // new ImageCompressor().execute();
 
             }
             else {//CROP ERROR

@@ -3,6 +3,7 @@ package com.example.pujo360.models;
 public class IndividualModel {
 
     private String firstname,lastname;
+    private String bio;
 
     public String getFirstname() {
         return firstname;
@@ -10,6 +11,14 @@ public class IndividualModel {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public String getLastname() {
