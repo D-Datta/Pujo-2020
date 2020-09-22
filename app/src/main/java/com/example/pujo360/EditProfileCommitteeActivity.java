@@ -90,8 +90,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private AccessToken accessToken;
     private int pictype;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
