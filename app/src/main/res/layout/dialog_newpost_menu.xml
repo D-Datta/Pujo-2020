@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="15dp"
+    android:background="@drawable/shape"
+    android:orientation="vertical"
+    android:gravity="start|center_vertical">
+
+
+    <LinearLayout
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_ripple_white_rectangle"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_baseline_camera_24"
+            android:padding="8dp"
+            app:tint="@color/colorPrimaryDark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Camera"
+            android:textColor="@color/black"
+            android:fontFamily="@font/oxygen_bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/Photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_ripple_white_rectangle"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_baseline_photo_gallery_library_24"
+            android:padding="8dp"
+            app:tint="@color/purple" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Photos"
+            android:textColor="@color/black"
+            android:fontFamily="@font/oxygen_bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/Video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_ripple_white_rectangle"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_baseline_videocam_24"
+            android:padding="8dp"
+            app:tint="@color/link" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/video"
+            android:textColor="@color/black"
+            android:fontFamily="@font/oxygen_bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/report_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_ripple_white_rectangle"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_baseline_video_call_24"
+            android:padding="8dp"
+            app:tint="@color/tabIndicatorColor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recorder"
+            android:textColor="@color/black"
+            android:fontFamily="@font/oxygen_bold"
+            android:paddingStart="10dp"
+            android:paddingEnd="20dp"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</LinearLayout>

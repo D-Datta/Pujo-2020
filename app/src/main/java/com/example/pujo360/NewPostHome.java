@@ -59,6 +59,7 @@ import com.example.pujo360.util.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -76,6 +77,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static java.lang.Boolean.TRUE;
 
 
 public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
@@ -132,6 +135,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private DocumentReference docRef;
     private byte[] frame;
     private FrameLayout videoframe;
+    private BottomSheetDialog postMenuDialog;
 
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -176,6 +180,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         buildRecyclerView_selectedtags();
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
+        postMenuDialog = new BottomSheetDialog(NewPostHome.this);
+        postMenuDialog.setContentView(R.layout.dialog_newpost_menu);
+        postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
         introPref = new IntroPref(NewPostHome.this);
         USERNAME = introPref.getFullName();
