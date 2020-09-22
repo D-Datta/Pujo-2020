@@ -10,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -183,6 +185,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         postMenuDialog = new BottomSheetDialog(NewPostHome.this);
         postMenuDialog.setContentView(R.layout.dialog_newpost_menu);
         postMenuDialog.setCanceledOnTouchOutside(TRUE);
+        Objects.requireNonNull(postMenuDialog.getWindow());
+        postMenuDialog.show();
 
         introPref = new IntroPref(NewPostHome.this);
         USERNAME = introPref.getFullName();
