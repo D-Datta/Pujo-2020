@@ -138,7 +138,7 @@ public class Utility {
     //612, 816
     public static Bitmap decodeSampledBitmapFromFile(Bitmap bitmap, int reqWidth, int reqHeight) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.PNG, 100, out);
+        Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
         byte[] bytes = out.toByteArray();
 
         // First decode with inJustDecodeBounds=true to check dimensions

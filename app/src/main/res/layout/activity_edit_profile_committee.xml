@@ -15,7 +15,6 @@
             android:id="@+id/toolbar_edit_com"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
             app:title="Edit Profile"/>
 
     </com.google.android.material.appbar.AppBarLayout>
