@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -68,12 +69,14 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
 
@@ -931,70 +934,247 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     for (int i =0; i < count; i++)
                     {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
-                        final BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inJustDecodeBounds = true;
-                        options.inSampleSize = 2;
-                        options.inJustDecodeBounds = false;
-                        options.inTempStorage = new byte[16 * 1024];
-
-                        InputStream input = null;
+                        Bitmap bitmap = null;
+                        Bitmap compressedBitmap = null;
                         try {
-                            input = this.getContentResolver().openInputStream(imageUri);
-                        } catch (FileNotFoundException e) {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
-//                        imagesUri.add(imageUri.toString());
-//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                        pic = baos.toByteArray();
-                        imageCompressor = new ImageCompressor(pic);
-                        imageCompressor.execute();
+
+                        try {
+                            compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] pic = stream.toByteArray();
+                        compressedBitmap.recycle();
+                        imagelist.add(pic);
+
+                        if(imagelist != null && imagelist.size()>0){
+
+                            container_image.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            recyclerView.setHasFixedSize(false);
+                            final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setItemViewCacheSize(20);
+                            recyclerView.setNestedScrollingEnabled(true);
+
+                            MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
+                            recyclerView.setAdapter(multipleImageAdapter);
+                            multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
+                                @Override
+                                public void onClickListener(int position) {
+                                    imagelist.remove(position);
+                                    multipleImageAdapter.notifyDataSetChanged();
+                                }
+                            });
+
+                        }
+                        else {
+                            container_image.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.GONE);
+                        }
+
+
+//                        final BitmapFactory.Options options = new BitmapFactory.Options();
+//                        options.inJustDecodeBounds = true;
+//                        options.inSampleSize = 2;
+//                        options.inJustDecodeBounds = false;
+//                        options.inTempStorage = new byte[16 * 1024];
+//
+//                        InputStream input = null;
+//                        try {
+//                            input = this.getContentResolver().openInputStream(imageUri);
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
+//                        Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
+////                        imagesUri.add(imageUri.toString());
+////                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+//                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+//                        pic = baos.toByteArray();
+
+
+
+                        //    imageCompressor = new ImageCompressor(pic);
+              //          imageCompressor.execute();
 //                        imagelist.add(pic);
                     }
                 }
                 else if (data.getData() != null)
                 {
-                    final BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    options.inSampleSize = 2;
-                    options.inJustDecodeBounds = false;
-                    options.inTempStorage = new byte[16 * 1024];
-
-                    InputStream input = null;
+                    Bitmap bitmap = null;
+                    Bitmap compressedBitmap = null;
                     try {
-                        input = this.getContentResolver().openInputStream(data.getData());
-                    } catch (FileNotFoundException e) {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
-//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                    pic = baos.toByteArray();
-//                    imagesUri.add(data.getData().toString());
 
-                    imageCompressor = new ImageCompressor(pic);
-                    imageCompressor.execute();
+                    try {
+                        compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    compressedBitmap.recycle();
+                    imagelist.add(byteArray);
+                    if(imagelist != null && imagelist.size()>0){
+
+                        container_image.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.setHasFixedSize(false);
+                        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setItemViewCacheSize(20);
+                        recyclerView.setNestedScrollingEnabled(true);
+
+                        MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
+                        recyclerView.setAdapter(multipleImageAdapter);
+                        multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
+                            @Override
+                            public void onClickListener(int position) {
+                                imagelist.remove(position);
+                                multipleImageAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                    }
+                    else {
+                        container_image.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
+
+
+//                    final BitmapFactory.Options options = new BitmapFactory.Options();
+//                    options.inJustDecodeBounds = true;
+//                    options.inSampleSize = 2;
+//                    options.inJustDecodeBounds = false;
+//                    options.inTempStorage = new byte[16 * 1024];
+//
+//                    InputStream input = null;
+//                    try {
+//                        input = this.getContentResolver().openInputStream(data.getData());
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
+////                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+//                    pic = baos.toByteArray();
+////                    imagesUri.add(data.getData().toString());
+//
+//                    imageCompressor = new ImageCompressor(pic);
+//                    imageCompressor.execute();
 //                    imagelist.add(pic);
                 }
 
             }
-            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
+
+//            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
+//
+//                Bundle extras = data.getExtras();
+//                Bitmap bitmap = (Bitmap) Objects.requireNonNull(extras).get("data");
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                pic = baos.toByteArray();
+////                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
+////                    filePath = Uri.parse(path);
+//                filePath = data.getData();
+//                finalUri = filePath;
+//                imageCompressor = new ImageCompressor(pic);
+//                imageCompressor.execute();
+//            }
+            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
 
                 Bundle extras = data.getExtras();
-                Bitmap bitmap = (Bitmap) Objects.requireNonNull(extras).get("data");
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                pic = baos.toByteArray();
-//                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
-//                    filePath = Uri.parse(path);
-                filePath = data.getData();
-                finalUri = filePath;
-                imageCompressor = new ImageCompressor(pic);
-                imageCompressor.execute();
+                Bitmap bitmap = (Bitmap) extras.get("data");
+                Bitmap compressedBitmap = null;
+
+                try {
+                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                compressedBitmap.recycle();
+
+//                Uri imageUri = data.getClipData().getItemAt(i).getUri();
+//                Uri imageUri= data.getData();
+//                Bitmap bitmap = null;
+//                Bitmap compressedBitmap = null;
+//                try {
+//                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                try {
+//                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                byte[] pic = stream.toByteArray();
+//                compressedBitmap.recycle();
+//                imagelist.add(pic);
+
+                imagelist.add(byteArray);
+                if(imagelist != null && imagelist.size()>0){
+
+                    container_image.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setHasFixedSize(false);
+                    final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemViewCacheSize(20);
+                    recyclerView.setNestedScrollingEnabled(true);
+
+                    MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
+                    recyclerView.setAdapter(multipleImageAdapter);
+                    multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
+                        @Override
+                        public void onClickListener(int position) {
+                            imagelist.remove(position);
+                            multipleImageAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+                else {
+                    container_image.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                }
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+//                pic = baos.toByteArray();
+//                String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
+//                filePath = Uri.parse(path);
+//                finalUri = filePath;
+//                imageCompressor = new ImageCompressor(pic);
+//                imageCompressor.execute();
+
+
             }
+
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {
                 videoUri = data.getData();
 
@@ -1022,6 +1202,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     mediaController.setAnchorView(videoView);
                 }
             }
+
             ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
