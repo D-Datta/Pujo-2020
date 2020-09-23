@@ -23,6 +23,17 @@
                 android:layout_width="220dp"
                 android:layout_height="360dp">
 
+                <ImageView
+                    android:id="@+id/item_reels_image"
+                    android:layout_width="220dp"
+                    android:layout_height="360dp"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true"
+                    android:visibility="gone"/>
+
                 <VideoView
                     android:id="@+id/item_reels_video"
                     android:layout_width="220dp"
@@ -31,16 +42,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentTop="true" />
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/item_reels_image"-->
-<!--                    android:layout_width="220dp"-->
-<!--                    android:layout_height="360dp"-->
-<!--                    android:scaleType="fitXY"-->
-<!--                    android:layout_alignParentStart="true"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_alignParentBottom="true"-->
-<!--                    android:layout_alignParentTop="true" />-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"

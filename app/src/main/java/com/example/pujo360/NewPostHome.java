@@ -159,17 +159,13 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         postusername = findViewById(R.id.post_username);
         user_image = findViewById(R.id.user_image99);
-        info = findViewById(R.id.info99);
         cross = findViewById(R.id.cross99);
         cam= findViewById(R.id.camera);
         gallery = findViewById(R.id.Photos);
         postcontent = findViewById(R.id.post_content);
         postimage = findViewById(R.id.post_image);
-//        post_anon= findViewById(R.id.post_anonymous);
         post = findViewById(R.id.post);
         recyclerView = findViewById(R.id.recyclerimages);
-//        postspinner=findViewById(R.id.post_spinner);
-//        close_image = findViewById(R.id.close_image);
         icons = findViewById(R.id.icons);
         container_image = findViewById(R.id.image_container);
         LinkPreview = findViewById(R.id.LinkPreView);
