@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ import com.example.pujo360.util.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -83,7 +85,7 @@ import java.util.Objects;
 import static java.lang.Boolean.TRUE;
 
 
-public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
+public class NewPostHome extends AppCompatActivity {
 
     private ArrayList<TagModel> selected_tags;
 
@@ -182,11 +184,19 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         buildRecyclerView_selectedtags();
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
-        postMenuDialog = new BottomSheetDialog(NewPostHome.this);
-        postMenuDialog.setContentView(R.layout.dialog_newpost_menu);
-        postMenuDialog.setCanceledOnTouchOutside(TRUE);
-        Objects.requireNonNull(postMenuDialog.getWindow());
-        postMenuDialog.show();
+
+        // get the bottom sheet view
+        LinearLayout llBottomSheet = findViewById(R.id.new_post_bottomsheet);
+
+        // init the bottom sheet behavior
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+//        postMenuDialog = new BottomSheetDialog(NewPostHome.this);
+//        postMenuDialog.setContentView(R.layout.dialog_newpost_menu);
+//        postMenuDialog.setCanceledOnTouchOutside(TRUE);
+//        Objects.requireNonNull(postMenuDialog.getWindow());
+//        postMenuDialog.show();
 
         introPref = new IntroPref(NewPostHome.this);
         USERNAME = introPref.getFullName();
@@ -865,12 +875,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     }
 
-    @Override
-    public void onTagClicked(TagModel tagModel) {
-        tags_selectedRecycler.setVisibility(View.VISIBLE);
-        selected_tags.add(tagModel);
-        tagAdapter2.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onTagClicked(TagModel tagModel) {
+//        tags_selectedRecycler.setVisibility(View.VISIBLE);
+//        selected_tags.add(tagModel);
+//        tagAdapter2.notifyDataSetChanged();
+//    }
 
     ////////////TAGS////////////////
 
