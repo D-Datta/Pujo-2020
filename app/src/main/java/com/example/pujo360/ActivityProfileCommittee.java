@@ -226,7 +226,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     }
                                                 }
                                                 else{
-                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...2");
                                                 }
 
                                             }
@@ -234,22 +234,23 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...3");
                                             }
                                         });
 
                             }
                             else{
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...4");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...5");
                             }
                         });
+
         }
 
 
