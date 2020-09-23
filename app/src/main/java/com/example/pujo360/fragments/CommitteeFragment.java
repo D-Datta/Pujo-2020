@@ -8,14 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -75,6 +79,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
 
@@ -95,6 +100,8 @@ public class CommitteeFragment extends Fragment {
     private FirestorePagingAdapter adapter, reelsAdapter;
     public static DocumentSnapshot lastVisible;
     private IntroPref introPref;
+    private Query reels_query;
+    private ArrayList<Integer> positions;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -127,6 +134,7 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView.setDrawingCacheEnabled(true);
         /////////////SETUP//////////////
 
+        positions = new ArrayList<>();
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
@@ -135,48 +143,21 @@ public class CommitteeFragment extends Fragment {
         COMMITTEE_NAME = introPref.getFullName();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources()
-                        .getColor(R.color.md_blue_500));
+                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),
+                        getResources().getColor(R.color.md_blue_500));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            positions = new ArrayList<>();
             buildRecyclerView();
-        });
-
-        final int[] scrollY = {0};
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                scrollY[0] = scrollY[0] + dy;
-                if (scrollY[0] <= 2000 && dy < 0) {
-                    floatingActionButton.setVisibility(View.GONE);
-                }
-                else {
-                    if(dy < 0){
-                        floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(v -> {
-                            recyclerView.scrollToPosition(0);
-                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
-                        });
-                    } else {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                }
-            }
         });
     }
 
     private void buildRecyclerView() {
 
-        Query query = FirebaseFirestore.getInstance()
+        final Query[] query = {FirebaseFirestore.getInstance()
                 .collection("Feeds")
                 .whereEqualTo("type", "com")
-                .orderBy("newTs", Query.Direction.DESCENDING);
+                .orderBy("newTs", Query.Direction.DESCENDING)};
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -186,7 +167,7 @@ public class CommitteeFragment extends Fragment {
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
                 .setLifecycleOwner(this)
-                .setQuery(query, config, snapshot -> {
+                .setQuery(query[0], config, snapshot -> {
                     HomePostModel newPostModel = new HomePostModel();
                     if(snapshot.exists()) {
                         newPostModel = snapshot.toObject(HomePostModel.class);
@@ -269,23 +250,21 @@ public class CommitteeFragment extends Fragment {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
-                    Query query;
-
                     if(lastVisible != null) {
-                        query = FirebaseFirestore.getInstance()
+                        reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING)
                                 .limit(10)
                                 .startAfter(lastVisible);
                     }
                     else {
-                        query = FirebaseFirestore.getInstance()
+                        reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING)
                                 .limit(10);
                     }
 
-                    query.get().addOnCompleteListener(task -> {
+                    reels_query.get().addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
                             if(Objects.requireNonNull(task.getResult()).size() == 0) {
                                 programmingViewHolder.reels_item.setVisibility(View.GONE);
@@ -293,7 +272,7 @@ public class CommitteeFragment extends Fragment {
                             else {
                                 programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
                                 lastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
-                                buildReelsRecyclerView(programmingViewHolder.reelsList, programmingViewHolder.reels_item, query);
+                                buildReelsRecyclerView(programmingViewHolder.getItemViewType());
 
                                 programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                                     Intent intent = new Intent(requireActivity(), ReelsActivity.class);
@@ -871,66 +850,6 @@ public class CommitteeFragment extends Fragment {
             }
 
             @Override
-            public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-                super.onAttachedToRecyclerView(recyclerView);
-                RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-                if(manager instanceof LinearLayoutManager && getItemCount() > 0) {
-                    LinearLayoutManager llm = (LinearLayoutManager) manager;
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                            super.onScrollStateChanged(recyclerView, newState);
-                        }
-
-                        @Override
-                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                            super.onScrolled(recyclerView, dx, dy);
-                            int visiblePosition = llm.findFirstCompletelyVisibleItemPosition();
-                            if((visiblePosition == 2 || visiblePosition == getItemCount() % 8
-                                    && getItemCount() % 8 == 0) && visiblePosition != 0
-                                    && visiblePosition < getItemCount()) {
-                                View v = llm.findViewByPosition(visiblePosition);
-                                ProgrammingViewHolder programmingViewHolder = new ProgrammingViewHolder(Objects.requireNonNull(v));
-                                programmingViewHolder.slider_item.setVisibility(View.GONE);
-
-                                Query query;
-
-                                if(lastVisible != null) {
-                                    query = FirebaseFirestore.getInstance()
-                                            .collection("Reels")
-                                            .orderBy("ts", Query.Direction.DESCENDING)
-                                            .limit(10)
-                                            .startAfter(lastVisible);
-                                }
-                                else {
-                                    query = FirebaseFirestore.getInstance()
-                                            .collection("Reels")
-                                            .orderBy("ts", Query.Direction.DESCENDING)
-                                            .limit(10);
-                                }
-
-                                query.get().addOnCompleteListener(task -> {
-                                    if(task.isSuccessful()) {
-                                        if(Objects.requireNonNull(task.getResult()).size() == 0) {
-                                            programmingViewHolder.reels_item.setVisibility(View.GONE);
-                                        }
-                                        else {
-                                            programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-                                            lastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
-                                            buildReelsRecyclerView(programmingViewHolder.reelsList, programmingViewHolder.reels_item, query);
-                                        }
-                                    }
-                                    else {
-                                        programmingViewHolder.reels_item.setVisibility(View.GONE);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-
-            @Override
             public int getItemViewType(int position) { return position; }
 
             @Override
@@ -964,6 +883,120 @@ public class CommitteeFragment extends Fragment {
         contentProgress.setVisibility(View.GONE);
         progressMore.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
+
+        final int[] scrollY = {0};
+        RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                HandlerThread handlerThread = new HandlerThread("DONT_GIVE_UP", android.os.Process.THREAD_PRIORITY_BACKGROUND + android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+                handlerThread.start();
+                Looper looper = handlerThread.getLooper();
+                Handler handler = new Handler(looper);
+                List<Runnable> runnables = new ArrayList<>();
+
+                if (newState == 0) {
+                    int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+                    int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+                    if (firstVisiblePosition >= 0) {
+                        Rect rect_parent = new Rect();
+                        mRecyclerView.getGlobalVisibleRect(rect_parent);
+
+                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                            if(positions != null && positions.contains(i)) {
+
+                                final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                                ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
+
+                                int[] location = new int[2];
+                                Objects.requireNonNull(cvh).reels_item.getLocationOnScreen(location);
+                                Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_item.getWidth(), location[1] + cvh.reels_item.getHeight());
+
+                                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                                float overlapArea = x_overlap * y_overlap;
+                                float percent = (overlapArea / rect_parent_area) * 100.0f;
+
+                                if (percent >= 90) {
+                                    Runnable myRunnable = () -> {
+                                        RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
+
+                                        HandlerThread handlerThread1 = new HandlerThread("DONT_GIVE_UP", android.os.Process.THREAD_PRIORITY_BACKGROUND + android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+                                        handlerThread1.start();
+                                        Looper looper1 = handlerThread1.getLooper();
+                                        Handler handler1 = new Handler(looper1);
+
+                                        int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
+                                        int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
+
+                                        if (firstVisiblePosition1 >= 0) {
+                                            Rect rect_parent1 = new Rect();
+                                            cvh.reelsList.getGlobalVisibleRect(rect_parent1);
+
+                                            for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
+                                                final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
+                                                ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
+
+                                                int[] location1 = new int[2];
+                                                Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
+                                                Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
+
+                                                float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);
+                                                float x_overlap1 = Math.max(0, Math.min(rect_child1.right, rect_parent1.right) - Math.max(rect_child1.left, rect_parent1.left));
+                                                float y_overlap1 = Math.max(0, Math.min(rect_child1.bottom, rect_parent1.bottom) - Math.max(rect_child1.top, rect_parent1.top));
+                                                float overlapArea1 = x_overlap1 * y_overlap1;
+                                                float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
+                                                if (percent1 >= 80) {
+                                                    Runnable myRunnable1 = () -> {
+                                                        if (!cvh1.item_reels_video.isPlaying()) {
+                                                            cvh1.item_reels_video.start();
+                                                        }
+                                                    };
+                                                    handler1.post(myRunnable1);
+                                                } else {
+                                                    cvh1.item_reels_video.pause();
+                                                }
+                                            }
+                                        }
+                                    };
+                                    handler.post(myRunnable);
+                                    runnables.add(myRunnable);
+                                }
+                            }
+                        }
+                    }
+                } else if (runnables.size() > 0) {
+                    for (Runnable t : runnables) {
+                        handler.removeCallbacksAndMessages(t);
+                    }
+                    runnables.clear();
+                    handlerThread.quit();
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                scrollY[0] = scrollY[0] + dy;
+                if (scrollY[0] <= 2000 && dy < 0) {
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+                else {
+                    if(dy < 0) {
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(v -> {
+                            recyclerView.scrollToPosition(0);
+                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+                        });
+                    } else {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
     }
 
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
@@ -973,7 +1006,9 @@ public class CommitteeFragment extends Fragment {
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, reels_item;
-        RecyclerView tagList, reelsList;
+        RecyclerView tagList;
+        @SuppressLint("StaticFieldLeak")
+        RecyclerView reelsList;
         View view, view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         SliderView sliderViewpost;
@@ -1033,245 +1068,235 @@ public class CommitteeFragment extends Fragment {
         }
     }
 
+    private void buildReelsRecyclerView(int position) {
+        final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(position);
+        ProgrammingViewHolder pvh = (ProgrammingViewHolder) holder;
 
-    private void buildReelsRecyclerView(RecyclerView reelsList, LinearLayout reelsLayout, Query query) {
-        reelsList.setHasFixedSize(false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        reelsList.setLayoutManager(layoutManager);
-        reelsList.setNestedScrollingEnabled(true);
-        reelsList.setItemViewCacheSize(10);
-        reelsList.setDrawingCacheEnabled(true);
+        if(pvh != null) {
+            pvh.reelsList.setHasFixedSize(false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            pvh.reelsList.setItemAnimator(new DefaultItemAnimator());
+            pvh.reelsList.setLayoutManager(layoutManager);
+            pvh.reelsList.setNestedScrollingEnabled(true);
+            pvh.reelsList.setItemViewCacheSize(10);
+            pvh.reelsList.setDrawingCacheEnabled(true);
 
-        PagedList.Config config = new PagedList.Config.Builder()
-                .setInitialLoadSizeHint(5)
-                .setPageSize(5)
-                .setEnablePlaceholders(true)
-                .build();
+            PagedList.Config config = new PagedList.Config.Builder()
+                    .setInitialLoadSizeHint(5)
+                    .setPageSize(5)
+                    .setEnablePlaceholders(true)
+                    .build();
 
-        FirestorePagingOptions<ReelsPostModel> options = new FirestorePagingOptions.Builder<ReelsPostModel>()
-                .setLifecycleOwner(this)
-                .setQuery(query, config, snapshot -> {
-                    ReelsPostModel reelsPostModel = new ReelsPostModel();
-                    if(snapshot.exists()) {
-                        reelsPostModel = snapshot.toObject(ReelsPostModel.class);
-                        Objects.requireNonNull(reelsPostModel).setDocID(snapshot.getId());
-                    }
-                    return reelsPostModel;
-                })
-                .build();
+            FirestorePagingOptions<ReelsPostModel> options = new FirestorePagingOptions.Builder<ReelsPostModel>()
+                    .setLifecycleOwner(this)
+                    .setQuery(reels_query, config, snapshot -> {
+                        ReelsPostModel reelsPostModel = new ReelsPostModel();
+                        if(snapshot.exists()) {
+                            reelsPostModel = snapshot.toObject(ReelsPostModel.class);
+                            Objects.requireNonNull(reelsPostModel).setDocID(snapshot.getId());
+                        }
+                        return reelsPostModel;
+                    })
+                    .build();
 
-        reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
-                holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
-//                holder.item_reels_video.start();
-//                holder.item_reels_video.setOnPreparedListener(mp -> mp.setLooping(true));
-                holder.video_time.setText(currentItem.getDuration());
-                holder.pujo_com_name.setText(currentItem.getCommittee_name());
-                holder.item_reels_image.setVisibility(View.VISIBLE);
-                holder.item_reels_video.setVisibility(View.GONE);
+            reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
+                    holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
+                    holder.item_reels_video.setOnPreparedListener(mp -> mp.setLooping(true));
 
-                if (currentItem.getFrame() != null && !currentItem.getFrame().isEmpty()) {
-                    Picasso.get().load(currentItem.getFrame())
-                            .placeholder(R.drawable.image_background_grey)
-                            .into(holder.item_reels_image, new Callback() {
-                                @Override
-                                public void onSuccess() { }
+                    holder.video_time.setText(currentItem.getDuration());
+                    holder.pujo_com_name.setText(currentItem.getCommittee_name());
 
-                                @Override
-                                public void onError(Exception e) {
-                                    holder.item_reels_image.setImageResource(R.drawable.image_background_grey);
-                                }
-                            });
-                } else {
-                    holder.item_reels_image.setImageResource(R.drawable.image_background_grey);
-                }
-
-                if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
-                    holder.item_reels_image.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                        intent.putExtra("position", String.valueOf(position));
-                        intent.putExtra("bool", "1");
-                        requireActivity().startActivity(intent);
-                    });
-                }
-                else {
                     holder.item_reels_video.setOnClickListener(v -> {
                         Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                         intent.putExtra("position", String.valueOf(position));
                         intent.putExtra("bool", "1");
                         requireActivity().startActivity(intent);
                     });
-                }
 
-                if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
-                    Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(holder.pujo_com_dp, new Callback() {
-                                @Override
-                                public void onSuccess() { }
+                    if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
+                        Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(holder.pujo_com_dp, new Callback() {
+                                    @Override
+                                    public void onSuccess() { }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                }
-                            });
-                } else {
-                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-
-                holder.reels_more.setOnClickListener(v -> {
-                    if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
-                        postMenuDialog = new BottomSheetDialog(requireActivity());
-                        postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
-                        postMenuDialog.setCanceledOnTouchOutside(TRUE);
-                        postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
-
-                        postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("Are you sure?")
-                                    .setMessage("Reel will be deleted permanently")
-                                    .setPositiveButton("Delete", (dialog, which) -> {
-                                        progressDialog = new ProgressDialog(requireActivity());
-                                        progressDialog.setTitle("Deleting Reel");
-                                        progressDialog.setMessage("Please wait...");
-                                        progressDialog.setCancelable(false);
-                                        progressDialog.show();
-                                        FirebaseFirestore.getInstance()
-                                            .collection("Reels").document(currentItem.getDocID()).delete()
-                                            .addOnSuccessListener(aVoid -> {
-                                                ActivityProfileCommittee.delete = 1;
-                                                holder.itemView.setVisibility(View.GONE);
-                                                progressDialog.dismiss();
-                                            });
-                                        postMenuDialog.dismiss();
-                                    })
-                                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                                    .setCancelable(true)
-                                    .show();
-                        });
-
-                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-                            String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-                        });
-
-                        postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v1 -> {
-                            FirebaseFirestore.getInstance()
-                                    .collection("Reels").document(currentItem.getDocID())
-                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
-                            postMenuDialog.dismiss();
-                        });
-
-                        Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        postMenuDialog.show();
-
-                    } else {
-                        postMenuDialog = new BottomSheetDialog(requireActivity());
-                        postMenuDialog.setContentView(R.layout.dialog_post_menu);
-                        postMenuDialog.setCanceledOnTouchOutside(TRUE);
-
-                        postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-                            String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-                            Intent i = new Intent();
-                            i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
-                            i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
-                            postMenuDialog.dismiss();
-                        });
-
-                        postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
-                            FirebaseFirestore.getInstance()
-                                    .collection("Reels").document(currentItem.getDocID())
-                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
-                            postMenuDialog.dismiss();
-                        });
-
-                        Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        postMenuDialog.show();
-                    }
-                });
-            }
-
-            @NonNull
-            @Override
-            public ReelsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-                LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                View v = layoutInflater.inflate(R.layout.item_reels, viewGroup, false);
-                return new ReelsItemViewHolder(v);
-            }
-
-            @Override
-            public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-                super.onAttachedToRecyclerView(recyclerView);
-                RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-                if(manager instanceof LinearLayoutManager && getItemCount() > 0) {
-                    LinearLayoutManager llm = (LinearLayoutManager) manager;
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                            super.onScrollStateChanged(recyclerView, newState);
-                        }
-
-                        @Override
-                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                            super.onScrolled(recyclerView, dx, dy);
-                            int visiblePosition = llm.findFirstCompletelyVisibleItemPosition();
-                            if(visiblePosition > -1) {
-                                View v = llm.findViewByPosition(visiblePosition);
-                                ReelsItemViewHolder reelsItemViewHolder = new ReelsItemViewHolder(Objects.requireNonNull(v));
-                                reelsItemViewHolder.item_reels_image.setVisibility(View.GONE);
-                                reelsItemViewHolder.item_reels_video.setVisibility(View.VISIBLE);
-                                reelsItemViewHolder.item_reels_video.start();
-                                reelsItemViewHolder.item_reels_video.setOnPreparedListener(mp -> mp.setLooping(true));
-
-                                reelsItemViewHolder.item_reels_video.setOnClickListener(v2 -> {
-                                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                    intent.putExtra("position", String.valueOf(visiblePosition));
-                                    intent.putExtra("bool", "1");
-                                    requireActivity().startActivity(intent);
+                                    @Override
+                                    public void onError(Exception e) {
+                                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
                                 });
-                            }
+                    } else {
+                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+
+                    holder.reels_more.setOnClickListener(v -> {
+                        if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                            postMenuDialog = new BottomSheetDialog(requireActivity());
+                            postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
+                            postMenuDialog.setCanceledOnTouchOutside(TRUE);
+                            postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
+
+                            postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle("Are you sure?")
+                                        .setMessage("Reel will be deleted permanently")
+                                        .setPositiveButton("Delete", (dialog, which) -> {
+                                            progressDialog = new ProgressDialog(requireActivity());
+                                            progressDialog.setTitle("Deleting Reel");
+                                            progressDialog.setMessage("Please wait...");
+                                            progressDialog.setCancelable(false);
+                                            progressDialog.show();
+                                            FirebaseFirestore.getInstance()
+                                                    .collection("Reels").document(currentItem.getDocID()).delete()
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        ActivityProfileCommittee.delete = 1;
+                                                        holder.itemView.setVisibility(View.GONE);
+                                                        progressDialog.dismiss();
+                                                    });
+                                            postMenuDialog.dismiss();
+                                        })
+                                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                        .setCancelable(true)
+                                        .show();
+                            });
+
+                            postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
+                                String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
+                                postMenuDialog.dismiss();
+                            });
+
+                            postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v1 -> {
+                                FirebaseFirestore.getInstance()
+                                        .collection("Reels").document(currentItem.getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                                postMenuDialog.dismiss();
+                            });
+
+                            Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.show();
+
+                        }
+                        else {
+                            postMenuDialog = new BottomSheetDialog(requireActivity());
+                            postMenuDialog.setContentView(R.layout.dialog_post_menu);
+                            postMenuDialog.setCanceledOnTouchOutside(TRUE);
+
+                            postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
+                                String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
+                                postMenuDialog.dismiss();
+                            });
+
+                            postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
+                                FirebaseFirestore.getInstance()
+                                        .collection("Reels").document(currentItem.getDocID())
+                                        .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                        .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                                postMenuDialog.dismiss();
+                            });
+
+                            Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            postMenuDialog.show();
                         }
                     });
                 }
-            }
 
-            @Override
-            public int getItemViewType(int position) { return position; }
+                @NonNull
+                @Override
+                public ReelsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+                    LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+                    View v = layoutInflater.inflate(R.layout.item_reels, viewGroup, false);
+                    return new ReelsItemViewHolder(v);
+                }
 
-            @Override
-            protected void onLoadingStateChanged(@NonNull LoadingState state) {
-                super.onLoadingStateChanged(state);
-                if (state == LoadingState.FINISHED) {
-                    if (reelsAdapter.getItemCount() == 0) {
-                        reelsLayout.setVisibility(View.GONE);
-                    }
-                    else {
-                        reelsLayout.setVisibility(View.VISIBLE);
+                @Override
+                public int getItemViewType(int position) { return position; }
+            };
+            pvh.reelsList.setAdapter(reelsAdapter);
+            positions.add(position);
+
+            RecyclerView.LayoutManager manager = pvh.reelsList.getLayoutManager();
+            pvh.reelsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+
+                    HandlerThread handlerThread = new HandlerThread("DONT_GIVE_UP", android.os.Process.THREAD_PRIORITY_BACKGROUND + android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
+                    handlerThread.start();
+                    Looper looper = handlerThread.getLooper();
+                    Handler handler = new Handler(looper);
+                    List<Runnable> runnables = new ArrayList<>();
+
+                    if (newState == 0) {
+                        int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+                        int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+                        if (firstVisiblePosition >= 0) {
+                            Rect rect_parent = new Rect();
+                            pvh.reelsList.getGlobalVisibleRect(rect_parent);
+
+                            for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                                final RecyclerView.ViewHolder holder = pvh.reelsList.findViewHolderForAdapterPosition(i);
+                                ReelsItemViewHolder cvh = (ReelsItemViewHolder) holder;
+
+                                int[] location = new int[2];
+                                Objects.requireNonNull(cvh).item_reels_video.getLocationOnScreen(location);
+                                Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.item_reels_video.getWidth(), location[1] + cvh.item_reels_video.getHeight());
+
+                                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                                float overlapArea = x_overlap * y_overlap;
+                                float percent = (overlapArea / rect_parent_area) * 100.0f;
+                                if (percent >= 80) {
+                                    Runnable myRunnable = () -> {
+                                        if (!cvh.item_reels_video.isPlaying()) {
+                                            cvh.item_reels_video.start();
+                                        }
+                                    };
+                                    handler.post(myRunnable);
+                                    runnables.add(myRunnable);
+                                } else {
+                                    cvh.item_reels_video.pause();
+                                }
+                            }
+                        }
+                    } else if (runnables.size() > 0) {
+                        for (Runnable t : runnables) {
+                            handler.removeCallbacksAndMessages(t);
+                        }
+                        runnables.clear();
+                        handlerThread.quit();
                     }
                 }
-            }
-        };
-        reelsList.setAdapter(reelsAdapter);
-    }
 
+                @Override
+                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                }
+            });
+        }
+    }
 
     private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
         RelativeLayout item_reels;
         VideoView item_reels_video;
         TextView video_time;
-        ImageView pujo_com_dp, reels_more, item_reels_image;
+        ImageView pujo_com_dp, reels_more;
         TextView pujo_com_name;
 
         ReelsItemViewHolder(View itemView) {
@@ -1283,7 +1308,6 @@ public class CommitteeFragment extends Fragment {
             pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
             pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
             reels_more =  itemView.findViewById(R.id.reels_more);
-            item_reels_image = itemView.findViewById(R.id.item_reels_image);
         }
     }
 

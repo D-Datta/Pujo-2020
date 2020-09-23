@@ -2,17 +2,22 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/new_post_bottomsheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="10dp"
     android:paddingHorizontal="15dp"
     android:background="@drawable/shape"
     android:orientation="vertical"
-    android:gravity="start|center_vertical">
+    android:gravity="start|center_vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="80dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+   >
 
 
     <LinearLayout
-        android:id="@+id/camera"
+        android:id="@+id/camera2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
