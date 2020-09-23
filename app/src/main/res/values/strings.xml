@@ -110,5 +110,6 @@
     <string name="recorder">Recorder</string>
     <string name="video">Video</string>
     <string name="add_to_post">Add to post</string>
+    <string name="tag">Add Tag</string>
 
 </resources>
