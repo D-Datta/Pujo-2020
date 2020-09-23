@@ -76,6 +76,9 @@
     <string name="address_line">Address Line</string>
     <string name="city">City</string>
     <string name="state">State</string>
+    <string name="pin">Pincode</string>
+    <string name="about">About</string>
+    <string name="about_yourself">Something about you</string>
     <string name="submit">SUBMIT</string>
     <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
     <string name="trending_posts">Trending Posts</string>

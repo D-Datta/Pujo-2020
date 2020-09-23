@@ -59,7 +59,7 @@ import static java.lang.Boolean.TYPE;
 public class EditProfileCommitteeActivity extends AppCompatActivity {
 
     private ImageView edit_coverpic, edit_dp, edit_coverpic_icon, edit_dp_icon;
-    private EditText com_name, com_desc, com_type, com_address;
+    private EditText com_name, com_desc, com_type, com_address, com_pin;
     public static EditText com_state, com_city;
     private Button submit;
 
@@ -68,7 +68,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private long pujoVisits;
     private Timestamp lastVisitTs;
 
-    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PROFILEPIC,COVERPIC,uid;
+    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid;
 
     private String tokenStr;
     private BaseUserModel baseUserModel;
@@ -112,6 +112,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         com_state = findViewById(R.id.edit_committee_state);
         com_city = findViewById(R.id.edit_committee_city);
         submit = findViewById(R.id.edit_com_profile);
+        com_pin = findViewById(R.id.edit_committee_pin);
 
         mAuth=FirebaseAuth.getInstance();
         fireuser= mAuth.getCurrentUser();
@@ -145,6 +146,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                             {
                                 com_city.setText(baseUserModel.getCity());
                             }
+                            if(baseUserModel.getPin()!=null && !baseUserModel.getPin().isEmpty())
+                            {
+                                com_pin.setText(baseUserModel.getPin());
+                            }
                             if(baseUserModel.getCoverpic()!=null && !baseUserModel.getCoverpic().isEmpty())
                             {
                                 if(StoreTemp.getInstance().getCoverpic()!=null && StoreTemp.getInstance().getCoverpic().length>0){
@@ -162,7 +167,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 }
                                 else
                                 {
-                                    Picasso.get().load(baseUserModel.getDp()).into(edit_dp_icon);
+                                    Picasso.get().load(baseUserModel.getDp()).into(edit_dp);
                                 }
                             }
                             if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
@@ -239,15 +244,16 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 COMNAME = com_name.getText().toString().trim();
-                DESCRIPTION = com_address.getText().toString().trim();
+                DESCRIPTION = com_desc.getText().toString().trim();
                 PUJOTYPE = com_type.getText().toString().trim();
                 ADDRESS = com_address.getText().toString().trim();
                 CITY = com_city.getText().toString().trim();
                 STATE = com_state.getText().toString().trim();
+                PIN =com_pin.getText().toString().trim();
 
 
                 if (COMNAME.isEmpty() || CITY.isEmpty() ||PUJOTYPE.isEmpty() || ADDRESS.isEmpty()
-                        || STATE.isEmpty() || pic==null || coverpicbyte==null) {
+                        || STATE.isEmpty() || PIN.isEmpty() || PROFILEPIC==null || COVERPIC==null) {
                     if (COMNAME.isEmpty()) {
                         com_name.setError("Committee name is missing");
                         com_name.requestFocus();
@@ -264,6 +270,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         com_state.setError("State is missing");
                         com_state.requestFocus();
                     }
+                    if (PIN.isEmpty()) {
+                        com_pin.setError("Pincode is missing");
+                        com_pin.requestFocus();
+                    }
                     if (PUJOTYPE.isEmpty()) {
                         com_type.setError("Type is missing");
                         com_type.requestFocus();
@@ -279,7 +289,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 else {
 
                     progressDialog = new ProgressDialog(EditProfileCommitteeActivity.this);
-                    progressDialog.setTitle("Creating Profile");
+                    progressDialog.setTitle("Editing Your Profile");
                     progressDialog.setMessage("Hang on...");
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
@@ -312,6 +322,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setPujoVisits(pujoVisits);
                     baseUserModel.setCoverpic(COVERPIC);
                     baseUserModel.setDp(PROFILEPIC);
+                    baseUserModel.setPin(PIN);
 
 
                     pujoCommitteeModel = new PujoCommitteeModel();
