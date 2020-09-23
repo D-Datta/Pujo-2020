@@ -50,7 +50,7 @@ import com.squareup.picasso.Picasso;
 public class ActivityProfileCommittee extends AppCompatActivity {
 
     public static int delete = 0;
-    private TextView PName,PUsername,PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
+    private TextView PName,PUsername,Paddress,PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
     private TextView verify;
     private ImageView PDp,infobadge, starondp, noPost,Pcoverpic;
     private ReadMoreTextView PDetaileddesc;
@@ -87,6 +87,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         PDetaileddesc = findViewById(R.id.detaildesc);
         edit_profile_com = findViewById(R.id.edit_profile_com);
         locate = findViewById(R.id.locate);
+        Paddress = findViewById(R.id.address_com);
 
         visits = findViewById(R.id.visits);
         likes = findViewById(R.id.likes);
@@ -158,6 +159,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 if(baseUserModel.getPin()!=null && !baseUserModel.getPin().isEmpty()) {
                                     pin=baseUserModel.getPin();
                                 }
+                                String fulladd = address+"\n"+city+" , "+state+" - "+pin;
+                                Paddress.setText(fulladd);
                                 coverpic = baseUserModel.getCoverpic();
                                 if(dp!=null){
 //
@@ -219,10 +222,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     PUsername.setText(pujotype);
                                                     if(model.getDescription()!=null && !model.getDescription().isEmpty()){
                                                         desc=model.getDescription();
-                                                        String about = desc+"\n\n"+"\n"+address+"\n"+city+"\n"+state+"-"+pin;
-                                                        PDetaileddesc.setText(about);
-
-
+                                                        PDetaileddesc.setText(desc);
                                                     }
                                                 }
                                                 else{
