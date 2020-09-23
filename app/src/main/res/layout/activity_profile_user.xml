@@ -135,6 +135,7 @@
 
 
             <TextView
+                android:id="@+id/about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="all"
@@ -142,10 +143,11 @@
                 android:fontFamily="@font/oxygen_regular"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="10dp"
-                android:text="About"
+                android:text="@string/about"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColorLink="@color/toolbarStart"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
             <com.borjabravo.readmoretextview.ReadMoreTextView
                 android:id="@+id/detaildesc_noPost"
@@ -165,7 +167,9 @@
                 app:trimCollapsedText="@string/read_more"
                 app:trimExpandedText="@string/read_less"
                 app:trimLines="15"
-                app:trimMode="trimModeLine" />
+                app:trimMode="trimModeLine"
+                android:text="@string/about_yourself"
+                android:visibility="gone"/>
 
 
             <View

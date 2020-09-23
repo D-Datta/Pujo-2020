@@ -19,9 +19,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:tint="@color/white_transparent"
         android:src="@drawable/ic_play_button"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:tint="@color/white_transparent" />
 
     <RelativeLayout
         android:layout_width="match_parent"

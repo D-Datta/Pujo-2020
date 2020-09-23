@@ -7,6 +7,7 @@ public class BaseUserModel {
     private String addressline;
     private String city;
     private String state;
+    private String pin;
     private String dp;
     private String coverpic;
 
@@ -19,6 +20,7 @@ public class BaseUserModel {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
+    private long followers;
     private Timestamp lastVisitTs;
 
     public String getName() {
@@ -127,6 +129,22 @@ public class BaseUserModel {
         this.lastVisitTs = lastVisitTs;
     }
 
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
     //metrics
 
+
+    public long getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(long followers) {
+        this.followers = followers;
+    }
 }

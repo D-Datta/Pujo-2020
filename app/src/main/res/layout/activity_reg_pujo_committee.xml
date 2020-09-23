@@ -30,6 +30,7 @@
                 android:textColor="@color/black"
                 android:layout_marginVertical="15dp"
                 android:paddingHorizontal="20dp"/>
+
             <ImageView
                 android:id="@+id/reg_dhak"
                 android:layout_width="0dp"
@@ -327,6 +328,24 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp" />
 
+                <EditText
+                    android:id="@+id/committee_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_rectangle"
+                    android:ems="10"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:hint="@string/city"
+                    android:inputType="textPersonName"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:focusableInTouchMode="false"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -336,24 +355,6 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="5dp">
 
-                    <EditText
-                        android:id="@+id/committee_city"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginBottom="8dp"
-                        android:textSize="18sp"
-                        android:background="@drawable/background_rectangle"
-                        android:ems="10"
-                        android:fontFamily="@font/oxygen_regular"
-                        android:hint="@string/city"
-                        android:inputType="textPersonName"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:layout_weight="1"
-                        android:focusableInTouchMode="false"/>
                     <EditText
                         android:id="@+id/committee_state"
                         android:layout_width="0dp"
@@ -372,6 +373,23 @@
                         android:paddingEnd="20dp"
                         android:layout_weight="1"
                         android:focusableInTouchMode="false"/>
+                    <EditText
+                        android:id="@+id/committee_pin"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/pin"
+                        android:inputType="number"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="1" />
 
                 </LinearLayout>
 

@@ -4,43 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="none">
-
-        <item
-            android:id="@+id/favorites"
-            android:title="Favorites"
-            android:icon="@drawable/ic_info_outline_black_24dp" />
-
-    </group>
-
-
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
 
         <menu>
             <item
                 android:id="@+id/nav_tellafrnd"
                 android:icon="@drawable/ic_share"
-                android:title="Tell a Friend" />
+                android:title="@string/tell_a_friend" />
             <item
-                android:id="@+id/nav_help"
-                android:title="Help" />
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_outline_perm_contact_calendar_24"
+                android:title="@string/contact_us" />
             <item
                 android:id="@+id/nav_about"
                 app:showAsAction="never"
-                android:title="About" />
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="@string/about" />
 
         </menu>
 
     </item>
 
-    <item android:title="Communicate">
+    <item android:title="@string/account">
 
         <menu>
-
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="Log Out" />
+                android:icon="@drawable/ic_baseline_exit_to_app_24"
+                android:title="@string/log_out" />
         </menu>
 
     </item>

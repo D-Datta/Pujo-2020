@@ -36,7 +36,7 @@
                 android:layout_marginVertical="5dp"
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="5dp"
-                android:text="View all "
+                android:text="@string/view_all"
                 android:background="@drawable/custom_ripple_white"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/purple"
@@ -100,7 +100,7 @@
                     android:background="@drawable/layerlistbg"
                     android:fontFamily="@font/oxygen_regular"
                     android:padding="10dp"
-                    android:text="@string/type_something_n"
+                    android:text="@string/share_your_pujo_story"
                     android:textSize="15dp" />
 
             </LinearLayout>
@@ -174,11 +174,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/first_post">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                android:layout_alignParentTop="true"
-                android:background="#E2E2E2"/>
+
 
             <View
                 android:layout_width="match_parent"

@@ -41,26 +41,30 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 public class ActivityProfileCommittee extends AppCompatActivity {
 
     public static int delete = 0;
-    private TextView PName,PUsername,PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
+    private TextView PName,PUsername,Paddress,PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
     private TextView verify;
     private ImageView PDp,infobadge, starondp, noPost,Pcoverpic;
     private ReadMoreTextView PDetaileddesc;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String name, type, coverpic, dp, address, city, state;
+    private String name, pujotype, coverpic, dp, address, city, state, pin, desc;
     public static String uid;
     private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
     private FirebaseUser fireuser;
     int bool;
     private Button locate;
     private ConnectivityManager cm;
+
+    private TextView visits, likes, followers;
 
 
     @Override
@@ -83,6 +87,11 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         PDetaileddesc = findViewById(R.id.detaildesc);
         edit_profile_com = findViewById(R.id.edit_profile_com);
         locate = findViewById(R.id.locate);
+        Paddress = findViewById(R.id.address_com);
+
+        visits = findViewById(R.id.visits);
+        likes = findViewById(R.id.likes);
+        followers = findViewById(R.id.followers);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -121,7 +130,17 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 finish();
             });
         }
+        else {
+            //increment no of visitors
+            FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .document(FirebaseAuth.getInstance().getUid())
+                    .update("pujoVisits", FieldValue.increment(1));
 
+        }
+
+
+        //setup profile
         if(uid!=null)
         {
             FirebaseFirestore.getInstance().collection("Users")
@@ -137,6 +156,11 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 address = baseUserModel.getAddressline();
                                 city = baseUserModel.getCity();
                                 state = baseUserModel.getState();
+                                if(baseUserModel.getPin()!=null && !baseUserModel.getPin().isEmpty()) {
+                                    pin=baseUserModel.getPin();
+                                }
+                                String fulladd = address+"\n"+city+" , "+state+" - "+pin;
+                                Paddress.setText(fulladd);
                                 coverpic = baseUserModel.getCoverpic();
                                 if(dp!=null){
 //
@@ -157,6 +181,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
                                     PDp.setImageBitmap(scaledBitmap);
                                 }
+
                                 if(coverpic!=null){
                                     Picasso.get().load(coverpic).placeholder(R.drawable.image_background_grey).into(Pcoverpic);
                                 }
@@ -176,6 +201,11 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     Pcoverpic.setImageBitmap(scaledBitmap);
                                 }
 
+                                //metrics
+                                visits.setText(baseUserModel.getPujoVisits()+"");
+                                likes.setText(baseUserModel.getLikeCount()+"");
+                                //metrics
+
 
                                 FirebaseFirestore.getInstance().collection("Users")
                                         .document(uid)
@@ -188,11 +218,15 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 if(task.isSuccessful())
                                                 {
                                                     PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
-                                                    PUsername.setText(model.getType());
-                                                    PDetaileddesc.setText(model.getDescription());
+                                                    pujotype=model.getType();
+                                                    PUsername.setText(pujotype);
+                                                    if(model.getDescription()!=null && !model.getDescription().isEmpty()){
+                                                        desc=model.getDescription();
+                                                        PDetaileddesc.setText(desc);
+                                                    }
                                                 }
                                                 else{
-                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...2");
                                                 }
 
                                             }
@@ -200,43 +234,25 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...3");
                                             }
                                         });
 
                             }
                             else{
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...4");
                             }
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
-                }
-            });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...5");
+                            }
+                        });
+
         }
 
-        locate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(cm.getActiveNetworkInfo() != null) {
-
-                    String location = address+","+city+","+state;
-                    if (location.length() != 0) {
-                        Uri gmmIntentUri = Uri.parse("geo:0,0?z=15&q=" + Uri.encode(location));
-                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                        mapIntent.setPackage("com.google.android.apps.maps");
-                        startActivity(mapIntent);
-                    } else {
-                        Toast.makeText(ActivityProfileCommittee.this, "Field Empty", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else{
-                    Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
 
 
