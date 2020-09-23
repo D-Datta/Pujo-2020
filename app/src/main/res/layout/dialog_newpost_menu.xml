@@ -62,7 +62,7 @@
                 android:src="@drawable/ic_baseline_photo_gallery_library_24"
                 android:padding="8dp"
                 app:tint="@color/purple"
-                android:layout_toLeftOf="@+id/yay2"/>
+                android:layout_toStartOf="@+id/yay2"/>
 
             <ImageView
                 android:id="@+id/yay2"
@@ -71,7 +71,7 @@
                 android:src="@drawable/ic_baseline_videocam_24"
                 android:padding="8dp"
                 app:tint="@color/link"
-                android:layout_toLeftOf="@+id/yay"/>
+                android:layout_toStartOf="@+id/yay"/>
 
             <ImageView
                 android:id="@+id/yay"

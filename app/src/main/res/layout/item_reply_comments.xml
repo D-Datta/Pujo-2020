@@ -79,7 +79,7 @@
                 android:fontFamily="@font/oxygen_regular"
                 android:autoLink="all"
                 android:textColorLink="@color/toolbarStart"
-                android:text="Lorem Ipsum http://schemas.android.com/apk/res-au"
+                android:text=""
                 android:textColor="#212121"
                 android:paddingHorizontal="8dp"/>
 

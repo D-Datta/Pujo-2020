@@ -101,10 +101,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
-        edit_coverpic = findViewById(R.id.edit_coverpic_pc);
-        edit_coverpic_icon = findViewById(R.id.edit_coverpic_icon_pc);
-        edit_dp = findViewById(R.id.edit_dp_pc);
-        edit_dp_icon = findViewById(R.id.edit_dp_icon_pc);
+//        edit_coverpic = findViewById(R.id.edit_coverpic_pc);
+//        edit_coverpic_icon = findViewById(R.id.edit_coverpic_icon_pc);
+//        edit_dp = findViewById(R.id.edit_dp_pc);
+//        edit_dp_icon = findViewById(R.id.edit_dp_icon_pc);
         com_name = findViewById(R.id.edit_committee_name);
         com_desc = findViewById(R.id.edit_committee_description);
         com_type = findViewById(R.id.edit_committee_type);
@@ -253,10 +253,14 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
 
                 if (COMNAME.isEmpty() || CITY.isEmpty() ||PUJOTYPE.isEmpty() || ADDRESS.isEmpty()
-                        || STATE.isEmpty() || PIN.isEmpty() || PROFILEPIC==null || COVERPIC==null) {
+                        || STATE.isEmpty() || PIN.isEmpty() || DESCRIPTION.isEmpty() || PROFILEPIC==null || COVERPIC==null) {
                     if (COMNAME.isEmpty()) {
                         com_name.setError("Committee name is missing");
                         com_name.requestFocus();
+                    }
+                    if (DESCRIPTION.isEmpty()) {
+                        com_desc.setError("Description is missing");
+                        com_desc.requestFocus();
                     }
                     if (ADDRESS.isEmpty()) {
                         com_address.setError("Address line is missing");

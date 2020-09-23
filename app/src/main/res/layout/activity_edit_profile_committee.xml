@@ -5,348 +5,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".EditProfileCommitteeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="54dp">
+        android:layout_height="55dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_edit_com"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="Edit Profile"/>
+            app:title="@string/Edit_Profile"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="54dp">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#fff"
-        android:paddingBottom="10dp">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-
-                <ImageView
-                    android:id="@+id/edit_coverpic_pc"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="200dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image_background_grey"/>
-
-                <ImageView
-                    android:id="@+id/edit_coverpic_icon_pc"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/custom_ripple_white"
-                    android:src="@drawable/edit_dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginHorizontal="20dp">
-
-
-                <RelativeLayout
-                    android:id="@+id/xxx"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentBottom="true">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:layout_margin="8dp"
-                        app:cardCornerRadius="60dp">
-
-                        <ImageView
-                            android:id="@+id/edit_dp_pc"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_account_circle_black_24dp" />
-
-                    </androidx.cardview.widget.CardView>
-
-                    <ImageView
-                        android:id="@+id/edit_dp_icon_pc"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="90dp"
-                        android:padding="7dp"
-                        android:background="@drawable/custom_ripple_white"
-                        android:src="@drawable/edit_dp" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:foregroundGravity="center_vertical"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="5dp"
-                    android:layout_toEndOf="@+id/xxx"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
-                        android:paddingHorizontal="10dp"
-                        android:gravity="center"
-                        android:text="@string/choose_pic"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="#595252"
-                        android:textSize="15dp"
-                        android:layout_marginTop="25dp"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-        </FrameLayout>
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="20dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="25dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textStart"
-                    android:text="@string/committee_name"
-                    android:layout_marginStart="0dp"
-                    android:paddingTop="10dp"
-                    android:paddingHorizontal="15dp"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:textStyle="bold"
-                    android:textColor="#212121"
-                    />
-
-                <EditText
-                    android:id="@+id/edit_committee_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="18sp"
-                    android:background="@drawable/background_rectangle"
-                    android:ems="10"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/committee_name"
-                    android:inputType="textPersonName"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp" />
-
-            </LinearLayout>
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textAlignment="textStart"-->
-<!--                android:text="@string/email"-->
-<!--                android:layout_marginStart="0dp"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:paddingHorizontal="15dp"-->
-<!--                android:textSize="15sp"-->
-<!--                android:fontFamily="@font/oxygen_regular"-->
-<!--                android:textColor="#212121"-->
-<!--                />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/email_pc"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:layout_marginStart="5dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginEnd="5dp"-->
-<!--                android:layout_marginBottom="8dp"-->
-<!--                android:textSize="18sp"-->
-<!--                android:textColor="@color/cardview_dark_background"-->
-<!--                android:background="@drawable/background_rectangle"-->
-<!--                android:hint="@string/email"-->
-<!--                android:inputType="text"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:paddingStart="20dp"-->
-<!--                android:paddingEnd="20dp" />-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textStart"
-                    android:text="@string/Description"
-                    android:layout_marginStart="0dp"
-                    android:paddingTop="10dp"
-                    android:paddingHorizontal="15dp"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:textStyle="bold"
-                    android:textColor="#212121"
-                    />
-
-                <EditText
-                    android:id="@+id/edit_committee_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="18sp"
-                    android:background="@drawable/background_rectangle"
-                    android:ems="10"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/Description"
-                    android:inputType="textPersonName"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textStart"
-                    android:text="@string/Type_of_pujo"
-                    android:layout_marginStart="0dp"
-                    android:paddingTop="10dp"
-                    android:paddingHorizontal="15dp"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:textStyle="bold"
-                    android:textColor="#212121"
-                    />
-
-                <EditText
-                    android:id="@+id/edit_committee_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="18sp"
-                    android:background="@drawable/background_rectangle"
-                    android:ems="10"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/sarbojonin"
-                    android:inputType="textPersonName"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textStart"
-                    android:text="@string/address"
-                    android:layout_marginStart="0dp"
-                    android:paddingTop="10dp"
-                    android:paddingHorizontal="15dp"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:textStyle="bold"
-                    android:textColor="#212121"/>
-
-                <EditText
-                    android:id="@+id/edit_committee_addressline"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="18sp"
-                    android:background="@drawable/background_rectangle"
-                    android:ems="10"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/address_line"
-                    android:inputType="textPersonName"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp" />
-
-                <EditText
-                    android:id="@+id/edit_committee_city"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="18sp"
-                    android:background="@drawable/background_rectangle"
-                    android:ems="10"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/city"
-                    android:inputType="textPersonName"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:focusableInTouchMode="false"/>
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="5dp">
+                    android:orientation="vertical"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/committee_name"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        />
 
                     <EditText
-                        android:id="@+id/edit_committee_state"
-                        android:layout_width="0dp"
+                        android:id="@+id/edit_committee_name"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
@@ -356,15 +70,67 @@
                         android:background="@drawable/background_rectangle"
                         android:ems="10"
                         android:fontFamily="@font/oxygen_regular"
-                        android:hint="@string/state"
+                        android:hint="@string/committee_name"
                         android:inputType="textPersonName"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:layout_weight="1"
-                        android:focusableInTouchMode="false"/>
+                        android:paddingEnd="20dp" />
+
+                </LinearLayout>
+
+    <!--            <TextView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:textAlignment="textStart"-->
+    <!--                android:text="@string/email"-->
+    <!--                android:layout_marginStart="0dp"-->
+    <!--                android:paddingTop="10dp"-->
+    <!--                android:textStyle="bold"-->
+    <!--                android:paddingHorizontal="15dp"-->
+    <!--                android:textSize="15sp"-->
+    <!--                android:fontFamily="@font/oxygen_regular"-->
+    <!--                android:textColor="#212121"-->
+    <!--                />-->
+
+    <!--            <TextView-->
+    <!--                android:id="@+id/email_pc"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="50dp"-->
+    <!--                android:layout_marginStart="5dp"-->
+    <!--                android:layout_marginTop="5dp"-->
+    <!--                android:layout_marginEnd="5dp"-->
+    <!--                android:layout_marginBottom="8dp"-->
+    <!--                android:textSize="18sp"-->
+    <!--                android:textColor="@color/cardview_dark_background"-->
+    <!--                android:background="@drawable/background_rectangle"-->
+    <!--                android:hint="@string/email"-->
+    <!--                android:inputType="text"-->
+    <!--                android:gravity="center_vertical"-->
+    <!--                android:paddingStart="20dp"-->
+    <!--                android:paddingEnd="20dp" />-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/Description"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        />
+
                     <EditText
-                        android:id="@+id/edit_committee_pin"
-                        android:layout_width="0dp"
+                        android:id="@+id/edit_committee_description"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
@@ -374,38 +140,177 @@
                         android:background="@drawable/background_rectangle"
                         android:ems="10"
                         android:fontFamily="@font/oxygen_regular"
-                        android:hint="@string/pin"
-                        android:inputType="number"
+                        android:hint="@string/Description"
+                        android:inputType="textPersonName"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:layout_weight="1" />
+                        android:paddingEnd="20dp" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/Type_of_pujo"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        />
+
+                    <EditText
+                        android:id="@+id/edit_committee_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/sarbojonin"
+                        android:inputType="textPersonName"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/address"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:id="@+id/edit_committee_addressline"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/address_line"
+                        android:inputType="textPersonName"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp" />
+
+                    <EditText
+                        android:id="@+id/edit_committee_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/city"
+                        android:inputType="textPersonName"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginEnd="5dp">
+
+                        <EditText
+                            android:id="@+id/edit_committee_state"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="18sp"
+                            android:background="@drawable/background_rectangle"
+                            android:ems="10"
+                            android:fontFamily="@font/oxygen_regular"
+                            android:hint="@string/state"
+                            android:inputType="textPersonName"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:layout_weight="1"
+                            android:focusableInTouchMode="false"/>
+                        <EditText
+                            android:id="@+id/edit_committee_pin"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="8dp"
+                            android:textSize="18sp"
+                            android:background="@drawable/background_rectangle"
+                            android:ems="10"
+                            android:fontFamily="@font/oxygen_regular"
+                            android:hint="@string/pin"
+                            android:inputType="number"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <Button
+                    android:id="@+id/edit_com_profile"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/custom_button"
+                    android:backgroundTint="@color/purple"
+                    android:fontFamily="@font/oxygen_ex_bold"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/submit"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff" />
+
 
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/edit_com_profile"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
-                android:background="@drawable/custom_button"
-                android:backgroundTint="@color/purple"
-                android:fontFamily="@font/oxygen_ex_bold"
-                android:paddingStart="5dp"
-                android:layout_centerInParent="true"
-                android:paddingEnd="5dp"
-                android:text="SUBMIT"
-                android:textAllCaps="false"
-                android:textColor="#ffffff" />
-
-
         </LinearLayout>
 
-
-    </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

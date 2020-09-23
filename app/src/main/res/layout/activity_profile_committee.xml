@@ -37,19 +37,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/coverpic"
+                    <RelativeLayout
+                        android:id="@+id/cover_holder"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:adjustViewBounds="true"
-                        android:maxHeight="200dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/image_background_grey" />
+                        android:layout_height="200dp">
+
+                        <ImageView
+                            android:id="@+id/coverpic"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/image_background_grey" />
+
+                        <ImageView
+                            android:id="@+id/edit_cover"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:padding="5dp"
+                            android:background="@drawable/custom_ripple_grey_bg"
+                            android:src="@drawable/ic_outline_edit_24"
+                            app:tint="@color/purple" />
+
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:id="@+id/yyy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true">
 
@@ -60,7 +79,7 @@
                             android:layout_margin="10dp"
                             app:cardCornerRadius="65dp"
                             app:cardElevation="0dp"
-                            app:cardBackgroundColor="#E0E0E0">
+                            app:cardBackgroundColor="@color/purple">
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -84,6 +103,18 @@
                             </RelativeLayout>
 
                         </androidx.cardview.widget.CardView>
+
+                        <ImageView
+                            android:id="@+id/edit_dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:padding="5dp"
+                            android:layout_margin="5dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_outline_edit_24"
+                            app:tint="@color/purple" />
+
                     </RelativeLayout>
 
 
@@ -92,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_toEndOf="@id/yyy"
-                        android:layout_below="@id/coverpic">
+                        android:layout_below="@id/cover_holder">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -168,11 +199,10 @@
                         android:paddingStart="5dp"
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginVertical="5dp"
-                        android:layout_centerInParent="true"
                         android:paddingEnd="5dp"
                         android:text="@string/locate"
                         android:textAllCaps="false"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/white"
                         android:layout_weight="1"/>
 
 
@@ -185,13 +215,13 @@
                     android:fontFamily="@font/oxygen_bold"
                     android:maxLength="1000"
                     android:autoLink="all"
-                    android:linksClickable="true"
+                    android:linksClickable="false"
                     android:textColorLink="@color/toolbarStart"
                     android:paddingHorizontal="20dp"
                     android:paddingBottom="10dp"
-                    android:textColor="#212121"
+                    android:textColor="@color/black"
                     android:background="#fff"
-                    android:text="@string/about_yourself"
+                    android:text=""
                     android:textSize="15sp"
                     app:colorClickableText="@color/toolbarStart"
                     app:trimCollapsedText="@string/read_more"
@@ -199,17 +229,116 @@
                     app:trimLines="15"
                     app:trimMode="trimModeLine" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp"
+                    android:background="#ffffff">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:id="@+id/visits"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="10dp"
+                            android:text="--"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/visitors"
+                            android:textColor="#212121"
+                            android:paddingHorizontal="10dp"
+                            android:fontFamily="@font/oxygen_bold"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:id="@+id/followers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@color/black"
+                            android:paddingHorizontal="10dp"
+                            android:textStyle="bold"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Followers"
+                            android:paddingHorizontal="10dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/oxygen_bold"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/layout_teacherPro_postlikes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingVertical="5dp">
+                        <TextView
+                            android:id="@+id/likes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"
+                            android:textColor="@color/black"
+                            android:paddingHorizontal="10dp"
+                            android:textStyle="bold"
+                            android:textSize="15sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Likes"
+                            android:textColor="@color/black"
+                            android:paddingHorizontal="10dp"
+                            android:fontFamily="@font/oxygen_bold"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
                     android:background="#e5e5e5"/>
+
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                app:titleTextColor="#000"
+                app:titleTextColor="@color/black"
                 app:title="Utsav"
                 android:background="@color/white"
                 app:layout_collapseMode="pin"
@@ -224,7 +353,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:tabTextColor="@color/colorPrimaryDark"
-            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/purple"
             app:tabIndicatorHeight="4dp"
             app:tabIndicator="@drawable/indicator"
             app:tabIndicatorFullWidth="true"

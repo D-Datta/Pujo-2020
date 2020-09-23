@@ -108,9 +108,10 @@ public class ActivityProfileUser extends AppCompatActivity {
     ///////////////POSTS////////////////
 
     //////////////NO POSTS///////////////
-    private TextView PName,PUsername;
+    private TextView PName,PUsername, aboutheading;
     private ImageView PDp, nopost1,PCoverpic;
     private LinearLayout noProfilePost, LL;
+    private com.borjabravo.readmoretextview.ReadMoreTextView Pabout;
 
     //////////////NO POSTS///////////////
     private String my_uid;
@@ -119,7 +120,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     private IntroPref introPref;
 
     ///Current user details from intropref
-    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName;
+    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,6 +186,8 @@ public class ActivityProfileUser extends AppCompatActivity {
         PUsername = findViewById(R.id.Pusername_noPost);
         noProfilePost = findViewById(R.id.noProfilePost);
         PCoverpic=findViewById(R.id.coverpic);
+        Pabout=findViewById(R.id.detaildesc_noPost);
+        aboutheading =findViewById(R.id.about);
 
         /////////////WHEN THERE IS NO POST//////////////
 
@@ -335,6 +338,18 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                             FirstName= individualModel.getFirstname();
                                                             LastName = individualModel.getLastname();
                                                             programmingViewHolder.PName.setText(FirstName+" "+LastName);
+
+                                                            if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty()){
+                                                                ABOUT = individualModel.getBio();
+                                                                programmingViewHolder.Pabout.setVisibility(View.VISIBLE);
+                                                                programmingViewHolder.aboutheading.setVisibility(View.VISIBLE);
+                                                                programmingViewHolder.Pabout.setText(ABOUT);
+                                                            }
+                                                            else{
+                                                                programmingViewHolder.Pabout.setVisibility(View.GONE);
+                                                                programmingViewHolder.aboutheading.setVisibility(View.GONE);
+                                                            }
+
                                                         }
                                                     });
                                             UserName= userModel.getName();
@@ -1860,7 +1875,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
     private static class ProgrammingViewHolder1 extends RecyclerView.ViewHolder{
 
-        private TextView PName,PUsername,PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
+        private TextView PName,PUsername, aboutheading, PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
         private TextView verify;
         private ImageView PDp,infobadge, starondp, noPost,Pcoverpic;
         private ReadMoreTextView PDetaileddesc;
@@ -1868,6 +1883,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         private ImageButton startier, currenttier, chat;
         private CardView dpcard;
         private ProgressBar progressBar;
+        private com.borjabravo.readmoretextview.ReadMoreTextView Pabout;
 
         private TextView  username,commentCount, likesCount, comName, text_content, minsago, writecomment;
         private ImageView  userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
@@ -1888,6 +1904,8 @@ public class ActivityProfileUser extends AppCompatActivity {
             PName = itemView.findViewById(R.id.Profilename);
             PUsername =itemView.findViewById(R.id.Pusername);
             Pcoverpic = itemView.findViewById(R.id.coverpic);
+            Pabout = itemView.findViewById(R.id.detaildesc);
+            aboutheading = itemView.findViewById(R.id.about);
 
             noPost = itemView.findViewById(R.id.no_recent_post);
             tagList = itemView.findViewById(R.id.tagsList);
@@ -2028,6 +2046,17 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 FirstName = individualModel.getFirstname();
                                                 LastName = individualModel.getLastname();
                                                 PName.setText(FirstName+" "+LastName);
+                                                if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty()){
+                                                    ABOUT = individualModel.getBio();
+                                                    Pabout.setVisibility(View.VISIBLE);
+                                                    aboutheading.setVisibility(View.VISIBLE);
+                                                    Pabout.setText(ABOUT);
+                                                }
+                                                else{
+                                                    Pabout.setVisibility(View.GONE);
+                                                    aboutheading.setVisibility(View.GONE);
+                                                }
+
                                             }
 
                                         }
