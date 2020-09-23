@@ -101,10 +101,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
-        edit_coverpic = findViewById(R.id.edit_coverpic_pc);
-        edit_coverpic_icon = findViewById(R.id.edit_coverpic_icon_pc);
-        edit_dp = findViewById(R.id.edit_dp_pc);
-        edit_dp_icon = findViewById(R.id.edit_dp_icon_pc);
+//        edit_coverpic = findViewById(R.id.edit_coverpic_pc);
+//        edit_coverpic_icon = findViewById(R.id.edit_coverpic_icon_pc);
+//        edit_dp = findViewById(R.id.edit_dp_pc);
+//        edit_dp_icon = findViewById(R.id.edit_dp_icon_pc);
         com_name = findViewById(R.id.edit_committee_name);
         com_desc = findViewById(R.id.edit_committee_description);
         com_type = findViewById(R.id.edit_committee_type);
@@ -112,7 +112,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         com_state = findViewById(R.id.edit_committee_state);
         com_city = findViewById(R.id.edit_committee_city);
         submit = findViewById(R.id.edit_com_profile);
-        com_pin = findViewById(R.id.edit_committee_pin);
+//        com_pin = findViewById(R.id.edit_committee_pin);
 
         mAuth=FirebaseAuth.getInstance();
         fireuser= mAuth.getCurrentUser();

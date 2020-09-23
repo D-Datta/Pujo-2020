@@ -134,5 +134,8 @@
     <string name="utsav_durga_pujo_2020">UTSAV: Durga Pujo 2020</string>
     <string name="an_initiative_by_applex_in">~an initiative by applex.in</string>
     <string name="reply">Reply</string>
+    <string name="pin">Pin</string>
+    <string name="add_to_post">Add to post</string>
+    <string name="visitors">Visitors</string>
 
 </resources>
