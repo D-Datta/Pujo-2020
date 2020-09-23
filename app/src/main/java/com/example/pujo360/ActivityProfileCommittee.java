@@ -54,7 +54,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ReadMoreTextView PDetaileddesc;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String name, type, coverpic, dp, address, city, state, pin;
+    private String name, pujotype, coverpic, dp, address, city, state, pin, desc;
     public static String uid;
     private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
     private FirebaseUser fireuser;
@@ -191,8 +191,15 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 if(task.isSuccessful())
                                                 {
                                                     PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
-                                                    PUsername.setText(model.getType());
-                                                    PDetaileddesc.setText(model.getDescription());
+                                                    pujotype=model.getType();
+                                                    PUsername.setText(pujotype);
+                                                    if(model.getDescription()!=null && !model.getDescription().isEmpty()){
+                                                        desc=model.getDescription();
+                                                        String about = desc+"\n\n"+"ADDRESS :"+"\n"+address+"\n"+city+"\n"+state+"-"+pin;
+                                                        PDetaileddesc.setText(about);
+
+
+                                                    }
                                                 }
                                                 else{
                                                     Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");

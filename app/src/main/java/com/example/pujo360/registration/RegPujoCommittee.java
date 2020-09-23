@@ -206,10 +206,14 @@ public class RegPujoCommittee extends AppCompatActivity {
 
 
                 if (scommitteename.isEmpty() || scity.isEmpty() ||stype.isEmpty() || saddress.isEmpty()
-                        || sstate.isEmpty() || spin.isEmpty()|| pic==null || coverpicbyte==null) {
+                        || sstate.isEmpty() || spin.isEmpty()|| sdescription.isEmpty() ||pic==null || coverpicbyte==null) {
                     if (scommitteename.isEmpty()) {
                         etcommitteename.setError("Committee name is missing");
                         etcommitteename.requestFocus();
+                    }
+                    if (sdescription.isEmpty()) {
+                        etdescription.setError("Description is missing");
+                        etdescription.requestFocus();
                     }
                     if (saddress.isEmpty()) {
                         etaddressline.setError("Address line is missing");
@@ -247,7 +251,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
 
-                      docrefBase = FirebaseFirestore.getInstance().collection("Users")
+                    docrefBase = FirebaseFirestore.getInstance().collection("Users")
                               .document(userID);
 
                     docref2= FirebaseFirestore.getInstance()

@@ -112,7 +112,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         com_state = findViewById(R.id.edit_committee_state);
         com_city = findViewById(R.id.edit_committee_city);
         submit = findViewById(R.id.edit_com_profile);
-//        com_pin = findViewById(R.id.edit_committee_pin);
+        com_pin = findViewById(R.id.edit_committee_pin);
 
         mAuth=FirebaseAuth.getInstance();
         fireuser= mAuth.getCurrentUser();
@@ -253,10 +253,14 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
 
                 if (COMNAME.isEmpty() || CITY.isEmpty() ||PUJOTYPE.isEmpty() || ADDRESS.isEmpty()
-                        || STATE.isEmpty() || PIN.isEmpty() || PROFILEPIC==null || COVERPIC==null) {
+                        || STATE.isEmpty() || PIN.isEmpty() || DESCRIPTION.isEmpty() || PROFILEPIC==null || COVERPIC==null) {
                     if (COMNAME.isEmpty()) {
                         com_name.setError("Committee name is missing");
                         com_name.requestFocus();
+                    }
+                    if (DESCRIPTION.isEmpty()) {
+                        com_desc.setError("Description is missing");
+                        com_desc.requestFocus();
                     }
                     if (ADDRESS.isEmpty()) {
                         com_address.setError("Address line is missing");
