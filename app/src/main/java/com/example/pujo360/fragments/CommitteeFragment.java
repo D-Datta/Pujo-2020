@@ -239,7 +239,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
-                else if((programmingViewHolder.getItemViewType() == 2 || programmingViewHolder.getItemViewType() == getItemCount() % 8
+                else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() == getItemCount() % 8
                         && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
                         && programmingViewHolder.getItemViewType() < getItemCount()) {
 
