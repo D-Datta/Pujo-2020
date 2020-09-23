@@ -12,9 +12,15 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +28,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.pujo360.adapters.HomeTabAdapter;
 import com.example.pujo360.fragments.CommitteeFragment;
 import com.example.pujo360.fragments.FeedsFragment;
 import com.example.pujo360.preferences.IntroPref;
+import com.example.pujo360.util.DialogUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -40,6 +48,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
+
+import org.jsoup.Jsoup;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -56,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String USERNAME;
     private String PROFILEPIC;
     private String TYPE;
+
+    private String currentVersion;
+    private String[] cameraPermission;
 
 
     NavigationView navigationView;
@@ -92,6 +105,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(task -> { });
         ///////////////NOTIFICATIONS///////////////////
+
+        //////////////LATEST VERSION CHECK////////////////////
+        try {
+            currentVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        new GetLatestVersion().execute();
+        //////////////LATEST VERSION CHECK////////////////////
 
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -336,6 +359,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
 
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    public class GetLatestVersion extends AsyncTask<Void, Void, Void> {
+
+        private String latestVersion;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                latestVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=" + getPackageName())
+                        .timeout(8000)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .referrer("http://www.google.com")
+                        .get()
+                        .select(".hAyfc .htlgb")
+                        .get(7)
+                        .ownText();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if(currentVersion != null && latestVersion != null) {
+                ////////////////////FOR THE DEVELOPERS/////////////////////
+                if(Integer.parseInt(currentVersion.replace('.', '0')) > Integer.parseInt(latestVersion.replace('.', '0'))) {
+                    Log.i("DICKEYDICK", "FUCK YOU");
+                }
+                ////////////////////FOR THE DEVELOPERS/////////////////////
+                else if(!currentVersion.equalsIgnoreCase(latestVersion)) {
+
+                    MaterialDialog dialog = DialogUtils.getInstance().createAnimationDialog4(MainActivity.this);
+                    dialog.setCanceledOnTouchOutside(true);
+
+                    TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+                    TextView update = (TextView) dialog.findViewById(R.id.update);
+
+                    cancel.setOnClickListener(v -> dialog.dismiss());
+
+                    update.setOnClickListener(v -> {
+                        dialog.dismiss();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+                        startActivity(intent);
+                    });
+
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                }
+//                else if(currentVersion.equalsIgnoreCase(latestVersion) && introPref.isFirstTimeLaunchAfterUpdate()) {
+//                    if (!checkCameraPermission()) {
+//                        requestCameraPermission();
+//                    }
+//                    else {
+//                        new MoveToFolders().execute();
+//                    }
+//                }
+            }
+        }
     }
 
 }
