@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NewPostHome"
-
+    android:background="@color/lightgrey"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -321,55 +321,55 @@
     <include
         layout="@layout/dialog_newpost_menu"/>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:elevation="10dp"
-        android:background="#fff">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:elevation="10dp"-->
+<!--        android:background="#fff">-->
 
-        <ImageView
-            android:id="@+id/gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/custom_ripple_white"
-            android:src="@drawable/ic_baseline_photo_gallery_library_24" />
+<!--        <ImageView-->
+<!--            android:id="@+id/gallery"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:padding="15dp"-->
+<!--            android:tint="@color/colorPrimaryDark"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:background="@drawable/custom_ripple_white"-->
+<!--            android:src="@drawable/ic_baseline_photo_gallery_library_24" />-->
 
-        <ImageView
-            android:id="@+id/camera"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/custom_ripple_white"
-            android:src="@drawable/ic_baseline_camera_24" />
+<!--        <ImageView-->
+<!--            android:id="@+id/camera"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:padding="15dp"-->
+<!--            android:tint="@color/colorPrimaryDark"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:background="@drawable/custom_ripple_white"-->
+<!--            android:src="@drawable/ic_baseline_camera_24" />-->
 
-        <ImageView
-            android:id="@+id/video_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/custom_ripple_white"
-            android:src="@drawable/ic_baseline_videocam_24" />
+<!--        <ImageView-->
+<!--            android:id="@+id/video_gallery"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:padding="15dp"-->
+<!--            android:tint="@color/colorPrimaryDark"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:background="@drawable/custom_ripple_white"-->
+<!--            android:src="@drawable/ic_baseline_videocam_24" />-->
 
-        <ImageView
-            android:id="@+id/video_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:tint="@color/colorPrimaryDark"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/custom_ripple_white"
-            android:src="@drawable/ic_baseline_video_call_24" />
+<!--        <ImageView-->
+<!--            android:id="@+id/video_camera"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:padding="15dp"-->
+<!--            android:tint="@color/colorPrimaryDark"-->
+<!--            android:layout_marginTop="2dp"-->
+<!--            android:background="@drawable/custom_ripple_white"-->
+<!--            android:src="@drawable/ic_baseline_video_call_24" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
