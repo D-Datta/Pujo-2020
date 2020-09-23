@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewPostHome">
+    tools:context=".NewPostHome"
+
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -316,7 +318,8 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-
+    <include
+        layout="@layout/dialog_newpost_menu"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
