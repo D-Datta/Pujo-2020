@@ -84,6 +84,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static java.lang.Boolean.TRUE;
 
 import static com.example.pujo360.util.Utility.tsLong;
@@ -94,8 +96,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     private TextView postusername;
     private Button post_anon, post;
-    private ImageView cam, gallery, cross, user_image, videopost, videocam;
+    private LinearLayout cam, gallery,  videopost, videocam;
+    private RelativeLayout addToPost, icons;
     private EditText postcontent,edtagtxt;
+    private ImageView cross, user_image;
     private ImageView info, postimage;
     private Dialog dialog;
     private Button customTag, moreTags;
@@ -142,7 +146,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private DocumentReference docRef;
     private byte[] frame;
     private FrameLayout videoframe;
-    private BottomSheetDialog postMenuDialog;
 
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -159,7 +162,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         info = findViewById(R.id.info99);
         cross = findViewById(R.id.cross99);
         cam= findViewById(R.id.camera);
-        gallery = findViewById(R.id.gallery);
+        gallery = findViewById(R.id.Photos);
         postcontent = findViewById(R.id.post_content);
         postimage = findViewById(R.id.post_image);
 //        post_anon= findViewById(R.id.post_anonymous);
@@ -167,14 +170,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         recyclerView = findViewById(R.id.recyclerimages);
 //        postspinner=findViewById(R.id.post_spinner);
 //        close_image = findViewById(R.id.close_image);
-//        edit_image = findViewById(R.id.edit_image);
+        icons = findViewById(R.id.icons);
         container_image = findViewById(R.id.image_container);
         LinkPreview = findViewById(R.id.LinkPreView);
         videoView = findViewById(R.id.videoview);
-        videopost = findViewById(R.id.video_gallery);
-        videocam = findViewById(R.id.video_camera);
+        videopost = findViewById(R.id.Video);
+        videocam = findViewById(R.id.Recorder);
         customTag = findViewById(R.id.CustomTag);
-//        moreTags = findViewById(R.id.MoreTags);
+        addToPost = findViewById(R.id.add_to_post);
         videoframe = findViewById(R.id.videoframe);
 
         mAuth = FirebaseAuth.getInstance();
@@ -195,11 +198,21 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-//        postMenuDialog = new BottomSheetDialog(NewPostHome.this);
-//        postMenuDialog.setContentView(R.layout.dialog_newpost_menu);
-//        postMenuDialog.setCanceledOnTouchOutside(TRUE);
-//        Objects.requireNonNull(postMenuDialog.getWindow());
-//        postMenuDialog.show();
+        addToPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                    icons.setVisibility(View.GONE);
+
+                }
+                else{
+                    bottomSheetBehavior.setState(STATE_COLLAPSED);
+//                    icons.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
 
         introPref = new IntroPref(NewPostHome.this);
         USERNAME = introPref.getFullName();
@@ -987,6 +1000,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     Utility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
+
             else if(requestCode == IMAGE_PICK_GALLERY_CODE) {
                 if(data.getClipData()!= null)
                 {
@@ -1041,31 +1055,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             recyclerView.setVisibility(View.GONE);
                         }
 
-
-//                        final BitmapFactory.Options options = new BitmapFactory.Options();
-//                        options.inJustDecodeBounds = true;
-//                        options.inSampleSize = 2;
-//                        options.inJustDecodeBounds = false;
-//                        options.inTempStorage = new byte[16 * 1024];
-//
-//                        InputStream input = null;
-//                        try {
-//                            input = this.getContentResolver().openInputStream(imageUri);
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        }
-//                        Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
-////                        imagesUri.add(imageUri.toString());
-////                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-//                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                        pic = baos.toByteArray();
-
-
-
-                        //    imageCompressor = new ImageCompressor(pic);
-              //          imageCompressor.execute();
-//                        imagelist.add(pic);
                     }
                 }
                 else if (data.getData() != null)
@@ -1115,49 +1104,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         container_image.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.GONE);
                     }
-
-
-//                    final BitmapFactory.Options options = new BitmapFactory.Options();
-//                    options.inJustDecodeBounds = true;
-//                    options.inSampleSize = 2;
-//                    options.inJustDecodeBounds = false;
-//                    options.inTempStorage = new byte[16 * 1024];
-//
-//                    InputStream input = null;
-//                    try {
-//                        input = this.getContentResolver().openInputStream(data.getData());
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                    Bitmap bitmap = BitmapFactory.decodeStream(input, null, options);
-////                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                    pic = baos.toByteArray();
-////                    imagesUri.add(data.getData().toString());
-//
-//                    imageCompressor = new ImageCompressor(pic);
-//                    imageCompressor.execute();
-//                    imagelist.add(pic);
                 }
 
             }
-//            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
 
-//            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
-//
-//                Bundle extras = data.getExtras();
-//                Bitmap bitmap = (Bitmap) Objects.requireNonNull(extras).get("data");
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//                pic = baos.toByteArray();
-////                    String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
-////                    filePath = Uri.parse(path);
-//                filePath = data.getData();
-//                finalUri = filePath;
-//                imageCompressor = new ImageCompressor(pic);
-//                imageCompressor.execute();
-//            }
             else if(requestCode == IMAGE_PICK_CAMERA_CODE){
 
                 Bundle extras = data.getExtras();
@@ -1174,28 +1124,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
                 compressedBitmap.recycle();
-
-//                Uri imageUri = data.getClipData().getItemAt(i).getUri();
-//                Uri imageUri= data.getData();
-//                Bitmap bitmap = null;
-//                Bitmap compressedBitmap = null;
-//                try {
-//                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                try {
-//                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//                byte[] pic = stream.toByteArray();
-//                compressedBitmap.recycle();
-//                imagelist.add(pic);
 
                 imagelist.add(byteArray);
                 if(imagelist != null && imagelist.size()>0){
@@ -1224,14 +1152,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     container_image.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);
                 }
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                pic = baos.toByteArray();
-//                String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
-//                filePath = Uri.parse(path);
-//                finalUri = filePath;
-//                imageCompressor = new ImageCompressor(pic);
-//                imageCompressor.execute();
             }
 
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {

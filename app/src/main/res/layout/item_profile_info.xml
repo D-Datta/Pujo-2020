@@ -209,11 +209,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/first_post">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="14dp"
-            android:layout_alignParentTop="true"
-            android:background="#E2E2E2"/>
 
         <View
             android:layout_width="match_parent"

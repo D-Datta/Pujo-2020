@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/live"
-        android:title="LIVE"
+        android:title="@string/live"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 

@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.nav_logout) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -319,6 +320,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             }, 200);
+
+        }
+
+        else if(id == R.id.nav_tellafrnd){
+
+        }
+        else if(id == R.id.nav_contact){
+
+        }
+        else if(id == R.id.nav_about){
 
         }
 

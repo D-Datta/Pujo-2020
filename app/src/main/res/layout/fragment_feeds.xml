@@ -65,7 +65,7 @@
                         android:backgroundTint="@color/colorPrimary"
                         android:gravity="center"
                         android:paddingHorizontal="8dp"
-                        android:text="View all"
+                        android:text="@string/view_all"
                         android:textColor="@color/purple"
                         android:textSize="12dp" />
 
@@ -115,9 +115,9 @@
                     </androidx.cardview.widget.CardView>
 
                     <TextView
-                        android:text="Type something..\n"
+                        android:text="@string/share_your_pujo_story"
                         android:padding="10dp"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

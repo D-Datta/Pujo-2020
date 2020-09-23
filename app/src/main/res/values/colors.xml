@@ -21,6 +21,7 @@
 
     <color name="link">#00C853</color>
     <color name="grey">#e5e5e5</color>
+    <color name="lightgrey">#F6F6F6</color>
 
     <color name="tabIndicatorColor">#0d47a1</color>
     <color name="md_blue_400">#42A5F5</color>

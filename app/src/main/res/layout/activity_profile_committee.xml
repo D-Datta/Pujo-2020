@@ -172,7 +172,7 @@
                         android:paddingEnd="5dp"
                         android:text="@string/locate"
                         android:textAllCaps="false"
-                        android:textColor="#ffffff"
+                        android:textColor="@color/white"
                         android:layout_weight="1"/>
 
 
@@ -189,9 +189,9 @@
                     android:textColorLink="@color/toolbarStart"
                     android:paddingHorizontal="20dp"
                     android:paddingBottom="10dp"
-                    android:textColor="#212121"
+                    android:textColor="@color/black"
                     android:background="#fff"
-                    android:text="@string/about_yourself"
+                    android:text=""
                     android:textSize="15sp"
                     app:colorClickableText="@color/toolbarStart"
                     app:trimCollapsedText="@string/read_more"
@@ -202,14 +202,16 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginHorizontal="5dp"
                     android:background="#e5e5e5"/>
+
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                app:titleTextColor="#000"
+                app:titleTextColor="@color/black"
                 app:title="Utsav"
                 android:background="@color/white"
                 app:layout_collapseMode="pin"
