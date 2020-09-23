@@ -37,19 +37,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/coverpic"
+                    <RelativeLayout
+                        android:id="@+id/cover_holder"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:adjustViewBounds="true"
-                        android:maxHeight="200dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/image_background_grey" />
+                        android:layout_height="200dp">
+
+                        <ImageView
+                            android:id="@+id/coverpic"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/image_background_grey" />
+
+                        <ImageView
+                            android:id="@+id/edit_cover"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="10dp"
+                            android:padding="5dp"
+                            android:background="@drawable/custom_ripple_grey_bg"
+                            android:src="@drawable/ic_outline_edit_24"
+                            app:tint="@color/purple" />
+
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:id="@+id/yyy"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true">
 
@@ -84,6 +103,18 @@
                             </RelativeLayout>
 
                         </androidx.cardview.widget.CardView>
+
+                        <ImageView
+                            android:id="@+id/edit_dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:padding="5dp"
+                            android:layout_margin="5dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_outline_edit_24"
+                            app:tint="@color/purple" />
+
                     </RelativeLayout>
 
 
@@ -92,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_toEndOf="@id/yyy"
-                        android:layout_below="@id/coverpic">
+                        android:layout_below="@id/cover_holder">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -168,7 +199,6 @@
                         android:paddingStart="5dp"
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginVertical="5dp"
-                        android:layout_centerInParent="true"
                         android:paddingEnd="5dp"
                         android:text="@string/locate"
                         android:textAllCaps="false"
