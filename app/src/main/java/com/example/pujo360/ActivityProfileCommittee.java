@@ -7,19 +7,24 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.example.pujo360.LinkPreview.ApplexLinkPreview;
@@ -49,11 +54,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ReadMoreTextView PDetaileddesc;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String name, type, coverpic, dp;
+    private String name, type, coverpic, dp, address, city, state;
     public static String uid;
     private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
     private FirebaseUser fireuser;
     int bool;
+    private Button locate;
+    private ConnectivityManager cm;
 
 
     @Override
@@ -67,6 +74,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
+        cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         PDp = findViewById(R.id.Pdp);
         PName = findViewById(R.id.Profilename);
@@ -74,6 +82,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         Pcoverpic = findViewById(R.id.coverpic);
         PDetaileddesc = findViewById(R.id.detaildesc);
         edit_profile_com = findViewById(R.id.edit_profile_com);
+        locate = findViewById(R.id.locate);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -125,6 +134,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 name = baseUserModel.getName();
                                 PName.setText(name);
                                 dp = baseUserModel.getDp();
+                                address = baseUserModel.getAddressline();
+                                city = baseUserModel.getCity();
+                                state = baseUserModel.getState();
                                 coverpic = baseUserModel.getCoverpic();
                                 if(dp!=null){
 //
@@ -204,6 +216,29 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 }
             });
         }
+
+        locate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(cm.getActiveNetworkInfo() != null) {
+
+                    String location = address+","+city+","+state;
+                    if (location.length() != 0) {
+                        Uri gmmIntentUri = Uri.parse("geo:0,0?z=15&q=" + Uri.encode(location));
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    } else {
+                        Toast.makeText(ActivityProfileCommittee.this, "Field Empty", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
 
     }
 
