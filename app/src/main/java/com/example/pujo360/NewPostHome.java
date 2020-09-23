@@ -102,7 +102,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private ImageView cross, user_image;
     private ImageView info, postimage;
     private Dialog dialog;
-    private Button customTag, moreTags;
+    private LinearLayout customTag;
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
@@ -172,7 +172,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         videoView = findViewById(R.id.videoview);
         videopost = findViewById(R.id.Video);
         videocam = findViewById(R.id.Recorder);
-        customTag = findViewById(R.id.CustomTag);
+        customTag = findViewById(R.id.tag);
         addToPost = findViewById(R.id.add_to_post);
         videoframe = findViewById(R.id.videoframe);
 

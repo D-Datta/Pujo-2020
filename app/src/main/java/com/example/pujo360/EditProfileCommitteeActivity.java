@@ -58,7 +58,7 @@ import static java.lang.Boolean.TYPE;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
 
-    private ImageView edit_coverpic, edit_dp, edit_coverpic_icon, edit_dp_icon;
+//    private ImageView edit_coverpic, edit_dp, edit_coverpic_icon, edit_dp_icon;
     private EditText com_name, com_desc, com_type, com_address, com_pin;
     public static EditText com_state, com_city;
     private Button submit;
@@ -69,7 +69,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private Timestamp lastVisitTs;
 
     private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid;
-
     private String tokenStr;
     private BaseUserModel baseUserModel;
     private PujoCommitteeModel pujoCommitteeModel;
@@ -150,26 +149,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                             {
                                 com_pin.setText(baseUserModel.getPin());
                             }
-                            if(baseUserModel.getCoverpic()!=null && !baseUserModel.getCoverpic().isEmpty())
-                            {
-                                if(StoreTemp.getInstance().getCoverpic()!=null && StoreTemp.getInstance().getCoverpic().length>0){
-                                    edit_coverpic.setImageBitmap(BitmapFactory.decodeByteArray(StoreTemp.getInstance().getCoverpic(),0, StoreTemp.getInstance().getCoverpic().length));
-                                }
-                                else
-                                {
-                                    Picasso.get().load(baseUserModel.getCoverpic()).into(edit_coverpic);
-                                }
-                            }
-                            if(baseUserModel.getDp()!=null && !baseUserModel.getDp().isEmpty())
-                            {
-                                if(StoreTemp.getInstance().getPic()!=null && StoreTemp.getInstance().getPic().length>0){
-                                    edit_dp.setImageBitmap(BitmapFactory.decodeByteArray(StoreTemp.getInstance().getPic(),0, StoreTemp.getInstance().getPic().length));
-                                }
-                                else
-                                {
-                                    Picasso.get().load(baseUserModel.getDp()).into(edit_dp);
-                                }
-                            }
+
                             if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
                             {
                                 com_name.setText(baseUserModel.getName());
@@ -205,22 +185,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        edit_dp_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage();
-                pictype=0;
-            }
-        });
-
-        edit_coverpic_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage();
-                pictype=1;
-            }
-        });
 
         com_city.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -713,12 +677,12 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 if(pictype==0){
                     pic = baos.toByteArray();
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 , pic.length);
-                    edit_dp.setImageBitmap(bitmap1);
+//                    edit_dp.setImageBitmap(bitmap1);
                 }
                 else if(pictype==1){
                     coverpicbyte = baos.toByteArray();
                     Bitmap bitmap2 = BitmapFactory.decodeByteArray(coverpicbyte, 0 , coverpicbyte.length);
-                    edit_coverpic.setImageBitmap(bitmap2);
+//                    edit_coverpic.setImageBitmap(bitmap2);
                 }
 
                 //new ImageCompressor().execute();
@@ -894,12 +858,12 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 if(pictype==0){
                     pic = picCompressed;
                     Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 , picCompressed.length);
-                    edit_dp.setImageBitmap(bitmap);
+//                    edit_dp.setImageBitmap(bitmap);
                 }
                 else if(pictype==1){
                     coverpicbyte = picCompressed;
                     Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 , picCompressed.length);
-                    edit_coverpic.setImageBitmap(bitmap);
+//                    edit_coverpic.setImageBitmap(bitmap);
                 }
             }
         }
