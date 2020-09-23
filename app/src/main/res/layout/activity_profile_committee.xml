@@ -136,19 +136,47 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoLink="all"
-                    android:background="#FFF"
-                    android:fontFamily="@font/oxygen_ex_bold"
-                    android:textColor="@color/black"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="10dp"
-                    android:text="About"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColorLink="@color/toolbarStart"
-                    android:textSize="18sp" />
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:background="#FFF"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textColor="@color/black"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="10dp"
+                        android:text="About"
+                        android:layout_gravity="center_vertical"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColorLink="@color/toolbarStart"
+                        android:textSize="18sp"
+                        android:layout_weight="2"/>
+
+                    <Button
+                        android:id="@+id/locate"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/locatebutton"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:paddingStart="5dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_centerInParent="true"
+                        android:paddingEnd="5dp"
+                        android:text="@string/locate"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:layout_weight="1"/>
+
+
+                </LinearLayout>
 
                 <com.borjabravo.readmoretextview.ReadMoreTextView
                     android:id="@+id/detaildesc"
