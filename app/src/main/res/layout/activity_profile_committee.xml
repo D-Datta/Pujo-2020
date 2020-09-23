@@ -35,7 +35,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
                     <RelativeLayout
                         android:id="@+id/cover_holder"
@@ -69,47 +70,40 @@
                         android:id="@+id/yyy"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
+                        android:layout_marginStart="15dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true">
 
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/dp_bg"
-                            android:layout_width="130dp"
-                            android:layout_height="130dp"
-                            android:layout_margin="10dp"
-                            app:cardCornerRadius="65dp"
-                            app:cardElevation="0dp"
-                            app:cardBackgroundColor="@color/purple">
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/dp_outline"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="5dp"
+                            android:gravity="center">
 
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                app:cardCornerRadius="65dp"
+                                android:layout_margin="5dp"
+                                android:layout_height="wrap_content">
 
-                                <androidx.cardview.widget.CardView
-                                    android:layout_width="wrap_content"
-                                    app:cardCornerRadius="55dp"
-                                    android:layout_height="wrap_content">
+                                <ImageView
+                                    android:id="@+id/Pdp"
+                                    android:layout_width="130dp"
+                                    android:layout_height="130dp"
+                                    android:scaleType="centerCrop"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_account_circle_black_24dp" />
 
-                                    <ImageView
-                                        android:id="@+id/Pdp"
-                                        android:layout_width="110dp"
-                                        android:layout_height="110dp"
-                                        android:scaleType="centerCrop"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_account_circle_black_24dp" />
-
-                                </androidx.cardview.widget.CardView>
-                            </RelativeLayout>
-
-                        </androidx.cardview.widget.CardView>
+                            </androidx.cardview.widget.CardView>
+                        </RelativeLayout>
 
                         <ImageView
                             android:id="@+id/edit_dp"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:padding="5dp"
-                            android:layout_margin="5dp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:src="@drawable/ic_outline_edit_24"
@@ -140,7 +134,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/harabara"
-                                android:paddingHorizontal="10dp"
+                                android:paddingHorizontal="15dp"
                                 android:text="Name"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="@color/purple"
@@ -155,16 +149,17 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/oxygen_bold"
                                 android:maxLines="1"
-                                android:paddingHorizontal="10dp"
+                                android:paddingHorizontal="15dp"
                                 android:paddingTop="5dp"
                                 android:paddingEnd="5dp"
-                                android:text="Username"
+                                android:text="Category"
                                 android:textColor="@color/purple"
                                 android:textSize="18dp" />
 
                         </LinearLayout>
 
                     </RelativeLayout>
+
                 </RelativeLayout>
 
                 <LinearLayout
@@ -370,7 +365,7 @@
             app:tabIndicator="@drawable/indicator"
             app:tabIndicatorFullWidth="true"
             app:tabUnboundedRipple="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            />
 
     </com.google.android.material.appbar.AppBarLayout>
 

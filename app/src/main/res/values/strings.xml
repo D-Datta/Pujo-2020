@@ -138,5 +138,6 @@
     <string name="pin">Pin</string>
     <string name="add_to_post">Add to post</string>
     <string name="visitors">Visitors</string>
+    <string name="tags">Tags</string>
 
 </resources>
