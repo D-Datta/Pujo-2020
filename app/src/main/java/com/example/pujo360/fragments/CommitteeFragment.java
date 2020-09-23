@@ -15,10 +15,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +77,6 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
 
@@ -97,7 +94,7 @@ public class CommitteeFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME;
-    private FirestorePagingAdapter adapter, reelsAdapter;
+    private FirestorePagingAdapter adapter;
     public static DocumentSnapshot lastVisible;
     private IntroPref introPref;
     private Query reels_query;
@@ -241,8 +238,6 @@ public class CommitteeFragment extends Fragment {
                     else {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
-
-
                 }
                 else if((programmingViewHolder.getItemViewType() == 2 || programmingViewHolder.getItemViewType() == getItemCount() % 8
                         && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
@@ -347,7 +342,6 @@ public class CommitteeFragment extends Fragment {
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
-
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -890,11 +884,6 @@ public class CommitteeFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                HandlerThread handlerThread = new HandlerThread("DONT_GIVE_UP", android.os.Process.THREAD_PRIORITY_BACKGROUND + android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
-                handlerThread.start();
-                Looper looper = handlerThread.getLooper();
-                Handler handler = new Handler(looper);
-                List<Runnable> runnables = new ArrayList<>();
 
                 if (newState == 0) {
                     int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
@@ -921,59 +910,43 @@ public class CommitteeFragment extends Fragment {
                                 float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                                 if (percent >= 90) {
-                                    Runnable myRunnable = () -> {
-                                        RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
+                                    RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
 
-                                        HandlerThread handlerThread1 = new HandlerThread("DONT_GIVE_UP", android.os.Process.THREAD_PRIORITY_BACKGROUND + android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
-                                        handlerThread1.start();
-                                        Looper looper1 = handlerThread1.getLooper();
-                                        Handler handler1 = new Handler(looper1);
+                                    int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
+                                    int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
 
-                                        int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
-                                        int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
+                                    if (firstVisiblePosition1 >= 0) {
+                                        Rect rect_parent1 = new Rect();
+                                        cvh.reelsList.getGlobalVisibleRect(rect_parent1);
 
-                                        if (firstVisiblePosition1 >= 0) {
-                                            Rect rect_parent1 = new Rect();
-                                            cvh.reelsList.getGlobalVisibleRect(rect_parent1);
+                                        for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
+                                            final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
+                                            ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
 
-                                            for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
-                                                final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
-                                                ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
+                                            int[] location1 = new int[2];
 
-                                                int[] location1 = new int[2];
-                                                Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
-                                                Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
+                                            Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
+                                            Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
 
-                                                float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);
-                                                float x_overlap1 = Math.max(0, Math.min(rect_child1.right, rect_parent1.right) - Math.max(rect_child1.left, rect_parent1.left));
-                                                float y_overlap1 = Math.max(0, Math.min(rect_child1.bottom, rect_parent1.bottom) - Math.max(rect_child1.top, rect_parent1.top));
-                                                float overlapArea1 = x_overlap1 * y_overlap1;
-                                                float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
-                                                if (percent1 >= 80) {
-                                                    Runnable myRunnable1 = () -> {
-                                                        if (!cvh1.item_reels_video.isPlaying()) {
-                                                            cvh1.item_reels_video.start();
-                                                        }
-                                                    };
-                                                    handler1.post(myRunnable1);
-                                                } else {
-                                                    cvh1.item_reels_video.pause();
+                                            float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);
+                                            float x_overlap1 = Math.max(0, Math.min(rect_child1.right, rect_parent1.right) - Math.max(rect_child1.left, rect_parent1.left));
+                                            float y_overlap1 = Math.max(0, Math.min(rect_child1.bottom, rect_parent1.bottom) - Math.max(rect_child1.top, rect_parent1.top));
+                                            float overlapArea1 = x_overlap1 * y_overlap1;
+                                            float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
+
+                                            if (percent1 >= 80) {
+                                                if (!cvh1.item_reels_video.isPlaying()) {
+                                                    cvh1.item_reels_video.start();
                                                 }
+                                            } else {
+                                                cvh1.item_reels_video.pause();
                                             }
                                         }
-                                    };
-                                    handler.post(myRunnable);
-                                    runnables.add(myRunnable);
+                                    }
                                 }
                             }
                         }
                     }
-                } else if (runnables.size() > 0) {
-                    for (Runnable t : runnables) {
-                        handler.removeCallbacksAndMessages(t);
-                    }
-                    runnables.clear();
-                    handlerThread.quit();
                 }
             }
 
@@ -1009,7 +982,7 @@ public class CommitteeFragment extends Fragment {
         RecyclerView tagList;
         @SuppressLint("StaticFieldLeak")
         RecyclerView reelsList;
-        View view, view1, view2;
+        View view1, view2;
         com.example.pujo360.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         SliderView sliderViewpost;
 
@@ -1100,37 +1073,65 @@ public class CommitteeFragment extends Fragment {
                     })
                     .build();
 
-            reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+            FirestorePagingAdapter reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
                 @Override
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
+                    holder.item_reels_video.start();
                     holder.item_reels_video.setOnPreparedListener(mp -> mp.setLooping(true));
+
+//                    if (position != 0) {
+//                        new Handler().postDelayed(() -> holder.item_reels_video.pause(), 10000);
+//                    }
 
                     holder.video_time.setText(currentItem.getDuration());
                     holder.pujo_com_name.setText(currentItem.getCommittee_name());
 
-                    holder.item_reels_video.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                        intent.putExtra("position", String.valueOf(position));
-                        intent.putExtra("bool", "1");
-                        requireActivity().startActivity(intent);
-                    });
+                    if(holder.item_reels_video.getVisibility() == View.VISIBLE) {
+                        holder.item_reels_video.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                            intent.putExtra("position", String.valueOf(position));
+                            intent.putExtra("bool", "1");
+                            requireActivity().startActivity(intent);
+                        });
+                    }
+                    else if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
+                        holder.item_reels_image.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                            intent.putExtra("position", String.valueOf(position));
+                            intent.putExtra("bool", "1");
+                            requireActivity().startActivity(intent);
+                        });
+                    }
 
                     if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
                         Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(holder.pujo_com_dp, new Callback() {
-                                    @Override
-                                    public void onSuccess() { }
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(holder.pujo_com_dp, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                }
 
-                                    @Override
-                                    public void onError(Exception e) {
-                                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                    }
-                                });
+                                @Override
+                                public void onError(Exception e) {
+                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            });
                     } else {
                         holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
+
+                    holder.pujo_com_dp.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
+                    });
+
+                    holder.pujo_com_name.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
+                    });
 
                     holder.reels_more.setOnClickListener(v -> {
                         if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
@@ -1184,8 +1185,7 @@ public class CommitteeFragment extends Fragment {
                             Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             postMenuDialog.show();
 
-                        }
-                        else {
+                        } else {
                             postMenuDialog = new BottomSheetDialog(requireActivity());
                             postMenuDialog.setContentView(R.layout.dialog_post_menu);
                             postMenuDialog.setCanceledOnTouchOutside(TRUE);
@@ -1225,6 +1225,7 @@ public class CommitteeFragment extends Fragment {
                 @Override
                 public int getItemViewType(int position) { return position; }
             };
+
             pvh.reelsList.setAdapter(reelsAdapter);
             positions.add(position);
 
@@ -1233,12 +1234,6 @@ public class CommitteeFragment extends Fragment {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
-
-                    HandlerThread handlerThread = new HandlerThread("DONT_GIVE_UP", android.os.Process.THREAD_PRIORITY_BACKGROUND + android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE);
-                    handlerThread.start();
-                    Looper looper = handlerThread.getLooper();
-                    Handler handler = new Handler(looper);
-                    List<Runnable> runnables = new ArrayList<>();
 
                     if (newState == 0) {
                         int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
@@ -1254,6 +1249,7 @@ public class CommitteeFragment extends Fragment {
 
                                 int[] location = new int[2];
                                 Objects.requireNonNull(cvh).item_reels_video.getLocationOnScreen(location);
+
                                 Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.item_reels_video.getWidth(), location[1] + cvh.item_reels_video.getHeight());
 
                                 float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
@@ -1261,25 +1257,16 @@ public class CommitteeFragment extends Fragment {
                                 float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
                                 float overlapArea = x_overlap * y_overlap;
                                 float percent = (overlapArea / rect_parent_area) * 100.0f;
+
                                 if (percent >= 80) {
-                                    Runnable myRunnable = () -> {
-                                        if (!cvh.item_reels_video.isPlaying()) {
-                                            cvh.item_reels_video.start();
-                                        }
-                                    };
-                                    handler.post(myRunnable);
-                                    runnables.add(myRunnable);
+                                    if (!cvh.item_reels_video.isPlaying()) {
+                                        cvh.item_reels_video.start();
+                                    }
                                 } else {
                                     cvh.item_reels_video.pause();
                                 }
                             }
                         }
-                    } else if (runnables.size() > 0) {
-                        for (Runnable t : runnables) {
-                            handler.removeCallbacksAndMessages(t);
-                        }
-                        runnables.clear();
-                        handlerThread.quit();
                     }
                 }
 
@@ -1296,7 +1283,7 @@ public class CommitteeFragment extends Fragment {
         RelativeLayout item_reels;
         VideoView item_reels_video;
         TextView video_time;
-        ImageView pujo_com_dp, reels_more;
+        ImageView pujo_com_dp, reels_more, item_reels_image;
         TextView pujo_com_name;
 
         ReelsItemViewHolder(View itemView) {
@@ -1308,6 +1295,7 @@ public class CommitteeFragment extends Fragment {
             pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
             pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
             reels_more =  itemView.findViewById(R.id.reels_more);
+            item_reels_image = itemView.findViewById(R.id.item_reels_image);
         }
     }
 
@@ -1322,6 +1310,69 @@ public class CommitteeFragment extends Fragment {
             swipe = 1;
         }
         super.onResume();
+
+        RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+        int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+        int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+        if (firstVisiblePosition >= 0) {
+            Rect rect_parent = new Rect();
+            mRecyclerView.getGlobalVisibleRect(rect_parent);
+
+            for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                if(positions != null && positions.contains(i)) {
+
+                    final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
+
+                    int[] location = new int[2];
+                    Objects.requireNonNull(cvh).reels_item.getLocationOnScreen(location);
+                    Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_item.getWidth(), location[1] + cvh.reels_item.getHeight());
+
+                    float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                    float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                    float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                    float overlapArea = x_overlap * y_overlap;
+                    float percent = (overlapArea / rect_parent_area) * 100.0f;
+
+                    if (percent >= 90) {
+                        RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
+
+                        int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
+                        int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
+
+                        if (firstVisiblePosition1 >= 0) {
+                            Rect rect_parent1 = new Rect();
+                            cvh.reelsList.getGlobalVisibleRect(rect_parent1);
+
+                            for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
+                                final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
+                                ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
+
+                                int[] location1 = new int[2];
+
+                                Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
+                                Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
+
+                                float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);
+                                float x_overlap1 = Math.max(0, Math.min(rect_child1.right, rect_parent1.right) - Math.max(rect_child1.left, rect_parent1.left));
+                                float y_overlap1 = Math.max(0, Math.min(rect_child1.bottom, rect_parent1.bottom) - Math.max(rect_child1.top, rect_parent1.top));
+                                float overlapArea1 = x_overlap1 * y_overlap1;
+                                float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
+
+                                if (percent1 >= 80) {
+                                    if (!cvh1.item_reels_video.isPlaying()) {
+                                        cvh1.item_reels_video.start();
+                                    }
+                                } else {
+                                    cvh1.item_reels_video.pause();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
