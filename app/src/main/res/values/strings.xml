@@ -48,14 +48,16 @@
     </string>
 
     <string name="and_cookies">
-        <a href="https://campus24.in/cookies/">and Cookies.</a>
+        <a href="https://applex.in/cookies/">and Cookies.</a>
     </string>
 
     <string name="faq_help">
-        <a href="https://campus24.in/faq/">More further queries check out FAQs.</a>
+        <a href="https://applex.in/faq/">More further queries check out FAQs.</a>
     </string>
+
     <string name="pujo_committees">Utsav Pujo</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+
     <string name="marquee_text">Durga puja sharbojonin rajbari</string>
 
     <string-array name="Gender">
@@ -83,9 +85,9 @@
     <string name="post_content">post_content</string>
     <string name="_2_4k">2.4k</string>
     <string name="_154">154</string>
-    <string name="write_a_comment">Write a comment...</string>
+    <string name="write_a_comment">Write a comment…</string>
     <string name="_42_comments">42 comments</string>
-    <string name="search">Search...</string>
+    <string name="search">Search…</string>
     <string name="Recent_searches">Recent searches</string>
     <string name="Description">Description</string>
     <string name="Type_of_pujo">Type of Pujo</string>
@@ -95,8 +97,10 @@
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
     <string name="post_hint">How are you enjoying puja?</string>
     <string name="short_videos">Short Videos</string>
-    <string name="see_all"><![CDATA[See All -->]]></string>
+    <string name="see_all"><![CDATA[See All —>]]></string>
+
     <string name="_0_18">0:18</string>
+
     <string name="comments">Comments</string>
     <string name="type_something_n">Type something..\n</string>
     <string name="bio">Bio</string>
