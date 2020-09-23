@@ -78,9 +78,7 @@
     <string name="address_line">Address Line</string>
     <string name="city">City</string>
     <string name="state">State</string>
-    <string name="pin">Pincode</string>
     <string name="about">About</string>
-    <string name="about_yourself">Something about you</string>
     <string name="submit">SUBMIT</string>
     <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
     <string name="trending_posts">Trending Posts</string>
@@ -112,7 +110,6 @@
     <string name="communicate">Communicate</string>
     <string name="tell_a_friend">Tell a Friend</string>
     <string name="contact_us">Contact us</string>
-    <string name="about">About</string>
     <string name="account">Account</string>
     <string name="log_out">Log Out</string>
     <string name="live">LIVE</string>
@@ -120,7 +117,6 @@
     <string name="Edit_comment">Edit Comment</string>
     <string name="Search">Search</string>
     <string name="Edit_Profile">Edit Profile</string>
-    <string name="submit">SUBMIT</string>
     <string name="register_as">Register as:</string>
     <string name="committee">Committee</string>
     <string name="login_as_guest">Login as Guest</string>
