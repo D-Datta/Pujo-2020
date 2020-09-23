@@ -78,10 +78,10 @@ public class Fragment_Posts extends Fragment {
 
     private void buildRecyclerView() {
 
-            Query query = FirebaseFirestore.getInstance()
-                    .collection("Feeds")
-                    .whereEqualTo("uid", ActivityProfileCommittee.uid)
-                    .orderBy("ts", Query.Direction.DESCENDING);
+        Query query = FirebaseFirestore.getInstance()
+                .collection("Feeds")
+                .whereEqualTo("uid", ActivityProfileCommittee.uid)
+                .orderBy("ts", Query.Direction.DESCENDING);
 
 
         PagedList.Config config = new PagedList.Config.Builder()

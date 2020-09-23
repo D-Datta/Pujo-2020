@@ -20,6 +20,7 @@ public class BaseUserModel {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
+    private long followers;
     private Timestamp lastVisitTs;
 
     public String getName() {
@@ -138,4 +139,12 @@ public class BaseUserModel {
 
     //metrics
 
+
+    public long getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(long followers) {
+        this.followers = followers;
+    }
 }

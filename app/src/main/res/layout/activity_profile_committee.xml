@@ -245,14 +245,15 @@
                         android:paddingVertical="5dp">
 
                         <TextView
-                            android:id="@+id/connections"
+                            android:id="@+id/visits"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingHorizontal="10dp"
                             android:text="--"
                             android:textColor="@color/black"
-                            android:paddingHorizontal="10dp"
-                            android:textStyle="bold"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -274,7 +275,7 @@
                         android:paddingVertical="5dp">
 
                         <TextView
-                            android:id="@+id/follow_count"
+                            android:id="@+id/followers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
@@ -302,7 +303,7 @@
                         android:gravity="center"
                         android:paddingVertical="5dp">
                         <TextView
-                            android:id="@+id/rating"
+                            android:id="@+id/likes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
