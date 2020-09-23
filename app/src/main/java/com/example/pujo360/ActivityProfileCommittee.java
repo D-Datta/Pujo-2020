@@ -195,7 +195,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     PUsername.setText(pujotype);
                                                     if(model.getDescription()!=null && !model.getDescription().isEmpty()){
                                                         desc=model.getDescription();
-                                                        String about = desc+"\n\n"+"ADDRESS :"+"\n"+address+"\n"+city+"\n"+state+"-"+pin;
+                                                        String about = desc+"\n\n"+"\n"+address+"\n"+city+"\n"+state+"-"+pin;
                                                         PDetaileddesc.setText(about);
 
 

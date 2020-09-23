@@ -215,7 +215,7 @@
                     android:fontFamily="@font/oxygen_bold"
                     android:maxLength="1000"
                     android:autoLink="all"
-                    android:linksClickable="true"
+                    android:linksClickable="false"
                     android:textColorLink="@color/toolbarStart"
                     android:paddingHorizontal="20dp"
                     android:paddingBottom="10dp"
