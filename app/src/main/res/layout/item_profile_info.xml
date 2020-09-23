@@ -132,7 +132,7 @@
         android:fontFamily="@font/oxygen_regular"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
-        android:text="About"
+        android:text="@string/about"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColorLink="@color/toolbarStart"
         android:textSize="18sp" />

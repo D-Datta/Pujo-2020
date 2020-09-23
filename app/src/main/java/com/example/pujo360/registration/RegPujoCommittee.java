@@ -55,9 +55,9 @@ import static java.lang.Boolean.TRUE;
 
 public class RegPujoCommittee extends AppCompatActivity {
 
-    private EditText etcommitteename, etdescription, etaddressline, ettype;
+    private EditText etcommitteename, etdescription, etaddressline, ettype, etpin;
     public static EditText etcity,etstate;
-    private String scommitteename, sdescription, saddress, scity, stype, sstate;
+    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin;
     private TextView email_pc;
     private Button register;
     private ProgressDialog progressDialog;
@@ -101,6 +101,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         dp_pc = findViewById(R.id.reg_dp_pc);
         edit_cover_pc = findViewById(R.id.reg_edit_coverpic_icon_pc);
         edit_dp_pc = findViewById(R.id.reg_edit_dp_pc);
+        etpin = findViewById(R.id.committee_pin);
 
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -201,10 +202,11 @@ public class RegPujoCommittee extends AppCompatActivity {
                 saddress = etaddressline.getText().toString().trim();
                 scity = etcity.getText().toString().trim();
                 sstate = etstate.getText().toString().trim();
+                spin = etpin.getText().toString().trim();
 
 
                 if (scommitteename.isEmpty() || scity.isEmpty() ||stype.isEmpty() || saddress.isEmpty()
-                        || sstate.isEmpty() || pic==null || coverpicbyte==null) {
+                        || sstate.isEmpty() || spin.isEmpty()|| pic==null || coverpicbyte==null) {
                     if (scommitteename.isEmpty()) {
                         etcommitteename.setError("Committee name is missing");
                         etcommitteename.requestFocus();
@@ -220,6 +222,10 @@ public class RegPujoCommittee extends AppCompatActivity {
                     if (sstate.isEmpty()) {
                         etstate.setError("State is missing");
                         etstate.requestFocus();
+                    }
+                    if (spin.isEmpty()) {
+                        etpin.setError("Pincode is missing");
+                        etpin.requestFocus();
                     }
                     if (stype.isEmpty()) {
                         ettype.setError("Type is missing");
@@ -263,6 +269,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                       baseUserModel.setState(sstate);
                       baseUserModel.setUid(userID);
                       baseUserModel.setType(usertype);
+                      baseUserModel.setPin(spin);
 
 
                       pujoCommitteeModel = new PujoCommitteeModel();

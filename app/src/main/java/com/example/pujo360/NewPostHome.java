@@ -59,6 +59,7 @@ import com.example.pujo360.dialogs.BottomTagsDialog;
 import com.example.pujo360.util.InternetConnection;
 import com.example.pujo360.util.StoreTemp;
 import com.example.pujo360.util.Utility;
+import com.example.pujo360.videoCompressor.VideoCompress;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -76,8 +77,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -85,8 +88,9 @@ import java.util.Objects;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 import static java.lang.Boolean.TRUE;
 
+import static com.example.pujo360.util.Utility.tsLong;
 
-public class NewPostHome extends AppCompatActivity {
+public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
 
     private ArrayList<TagModel> selected_tags;
 
@@ -453,11 +457,10 @@ public class NewPostHome extends AppCompatActivity {
             if(InternetConnection.checkConnection(getApplicationContext())){
                 String text_content = postcontent.getText().toString();
 
-                if(introPref.getType().matches("com") && (imagelist.size()==0 || imagelist==null))
-                {
-                    Utility.showToast(getApplicationContext(),"Post has got no pictures...");
+                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null)) {
+                    Utility.showToast(getApplicationContext(),"Post has got no picture or video...");
                 }
-                else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && (imagelist.size()==0 || imagelist==null)){
+                else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
                     Utility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
                 else{
@@ -793,8 +796,6 @@ public class NewPostHome extends AppCompatActivity {
 
     }
 
-
-
     ////////////TAGS////////////////
     private void openDialog() {
         AlertDialog.Builder dialog= new AlertDialog.Builder(NewPostHome.this);
@@ -887,6 +888,15 @@ public class NewPostHome extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onTagClicked(TagModel tagModel) {
+//        tags_selectedRecycler.setVisibility(View.VISIBLE);
+//        selected_tags.add(tagModel);
+//        tagAdapter2.notifyDataSetChanged();
+    }
+    ////////////TAGS////////////////
+
     ///////////////////////HANDLE CAMERA AND GALLERY//////////////////////////
     private void pickGallery(){
         Intent intent= new Intent();
@@ -926,29 +936,68 @@ public class NewPostHome extends AppCompatActivity {
         if(resultCode == RESULT_OK) {
             if(requestCode == VIDEO_PICK_GALLERY_CODE) {
                 videoUri = data.getData();
+                Utility.saveVideo(videoUri, NewPostHome.this);
+
+                final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
+                final ProgressDialog[] progressDialog = new ProgressDialog[1];
 
                 MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                 retriever.setDataSource(NewPostHome.this, videoUri);
                 String mVideoDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                 long mTimeInMilliseconds= Long.parseLong(Objects.requireNonNull(mVideoDuration));
                 duration = (int)mTimeInMilliseconds/1000;
-                Bitmap bitmap = retriever.getFrameAtTime(mTimeInMilliseconds-1000);
+                Bitmap bitmap = retriever.getFrameAtTime(2000);
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
                 frame = out.toByteArray();
 
-                if(mTimeInMilliseconds/1000 > 60) {
-                    Utility.showToast(getApplicationContext(), "Video too long");
+                final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};
+
+                if(size[0] < 100) {
+                    VideoCompress.compressVideoLow(filePath[0], filePath[0].replace(".mp4", "_compressed.mp4"), new VideoCompress.CompressListener() {
+                        @Override
+                        public void onStart() {
+                            //Start Compress
+                            progressDialog[0] = new ProgressDialog(NewPostHome.this);
+                            progressDialog[0].setTitle("Uploading your video");
+                            progressDialog[0].setMessage("Please wait...");
+                            progressDialog[0].setCancelable(false);
+                            progressDialog[0].show();
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            //Finish successfully
+//                            filePath[0] = filePath[0].replace(".mp4", "_compressed.mp4");
+//                            size[0] = new File(filePath[0]).length()/(1024*1024);
+                            if(progressDialog[0] != null && progressDialog[0].isShowing()) {
+                                progressDialog[0].dismiss();
+                            }
+
+                            videoframe.setVisibility(View.VISIBLE);
+                            videoView.setVideoURI(Uri.fromFile(new File(filePath[0].replace(".mp4", "_compressed.mp4"))));
+                            videoView.start();
+                            videoUri = Uri.fromFile(new File(filePath[0].replace(".mp4", "_compressed.mp4")));
+
+                            MediaController mediaController = new MediaController(NewPostHome.this);
+                            videoView.setMediaController(mediaController);
+                            mediaController.setAnchorView(videoView);
+                        }
+
+                        @Override
+                        public void onFail() {
+                            //Failed
+                        }
+
+                        @Override
+                        public void onProgress(float percent) {
+                            //Progress
+                        }
+                    });
                 }
                 else {
-                    videoframe.setVisibility(View.VISIBLE);
-                    videoView.setVideoURI(videoUri);
-                    videoView.start();
-
-                    MediaController mediaController = new MediaController(NewPostHome.this);
-                    videoView.setMediaController(mediaController);
-                    mediaController.setAnchorView(videoView);
+                    Utility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
 
@@ -1107,29 +1156,68 @@ public class NewPostHome extends AppCompatActivity {
 
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {
                 videoUri = data.getData();
+                Utility.saveVideo(videoUri, NewPostHome.this);
+
+                final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
+                final ProgressDialog[] progressDialog = new ProgressDialog[1];
 
                 MediaMetadataRetriever retriever = new MediaMetadataRetriever();
                 retriever.setDataSource(NewPostHome.this, videoUri);
                 String mVideoDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
                 long mTimeInMilliseconds= Long.parseLong(Objects.requireNonNull(mVideoDuration));
                 duration = (int)mTimeInMilliseconds/1000;
-                Bitmap bitmap = retriever.getFrameAtTime(mTimeInMilliseconds-1000);
+                Bitmap bitmap = retriever.getFrameAtTime(2000);
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
                 frame = out.toByteArray();
 
-                if(mTimeInMilliseconds/1000 > 60) {
-                    Utility.showToast(getApplicationContext(), "Video too long");
+                final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};
+
+                if(size[0] < 100) {
+                    VideoCompress.compressVideoLow(filePath[0], filePath[0].replace(".mp4", "_compressed.mp4"), new VideoCompress.CompressListener() {
+                        @Override
+                        public void onStart() {
+                            //Start Compress
+                            progressDialog[0] = new ProgressDialog(NewPostHome.this);
+                            progressDialog[0].setTitle("Uploading your video");
+                            progressDialog[0].setMessage("Please wait...");
+                            progressDialog[0].setCancelable(false);
+                            progressDialog[0].show();
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            //Finish successfully
+//                            filePath[0] = filePath[0].replace(".mp4", "_compressed.mp4");
+//                            size[0] = new File(filePath[0]).length()/(1024*1024);
+                            if(progressDialog[0] != null && progressDialog[0].isShowing()) {
+                                progressDialog[0].dismiss();
+                            }
+
+                            videoframe.setVisibility(View.VISIBLE);
+                            videoView.setVideoURI(Uri.fromFile(new File(filePath[0].replace(".mp4", "_compressed.mp4"))));
+                            videoView.start();
+                            videoUri = Uri.fromFile(new File(filePath[0].replace(".mp4", "_compressed.mp4")));
+
+                            MediaController mediaController = new MediaController(NewPostHome.this);
+                            videoView.setMediaController(mediaController);
+                            mediaController.setAnchorView(videoView);
+                        }
+
+                        @Override
+                        public void onFail() {
+                            //Failed
+                        }
+
+                        @Override
+                        public void onProgress(float percent) {
+                            //Progress
+                        }
+                    });
                 }
                 else {
-                    videoframe.setVisibility(View.VISIBLE);
-                    videoView.setVideoURI(videoUri);
-                    videoView.start();
-
-                    MediaController mediaController = new MediaController(NewPostHome.this);
-                    videoView.setMediaController(mediaController);
-                    mediaController.setAnchorView(videoView);
+                    Utility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
 

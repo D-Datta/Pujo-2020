@@ -54,7 +54,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ReadMoreTextView PDetaileddesc;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String name, type, coverpic, dp, address, city, state;
+    private String name, type, coverpic, dp, address, city, state, pin;
     public static String uid;
     private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
     private FirebaseUser fireuser;
@@ -137,6 +137,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 address = baseUserModel.getAddressline();
                                 city = baseUserModel.getCity();
                                 state = baseUserModel.getState();
+                                if(baseUserModel.getPin()!=null && !baseUserModel.getPin().isEmpty()) {
+                                    pin=baseUserModel.getPin();
+                                }
                                 coverpic = baseUserModel.getCoverpic();
                                 if(dp!=null){
 //
@@ -222,7 +225,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             public void onClick(View view) {
                 if(cm.getActiveNetworkInfo() != null) {
 
-                    String location = address+","+city+","+state;
+                    String location = address+","+city+","+state+","+pin;
                     if (location.length() != 0) {
                         Uri gmmIntentUri = Uri.parse("geo:0,0?z=15&q=" + Uri.encode(location));
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
