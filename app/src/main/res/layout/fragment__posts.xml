@@ -22,15 +22,17 @@
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:id="@+id/none_image">
+
                 <ImageView
-                    android:id="@+id/none_image"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:src="@drawable/durga_ma2"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="45dp"
                     android:visibility="gone" />
+
             </androidx.core.widget.NestedScrollView>
 
 
@@ -49,7 +51,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_posts"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:paddingBottom="50dp"
                     android:paddingEnd="4dp"
