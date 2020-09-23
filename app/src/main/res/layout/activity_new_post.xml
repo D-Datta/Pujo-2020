@@ -165,6 +165,77 @@
                 android:background="@color/darkpurple"
                 android:layout_marginHorizontal="10dp"/>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="29dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:padding="50dp"
+                    app:cardCornerRadius="10dp">
+
+                    <Button
+                        android:id="@+id/CustomTag"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:minWidth="60dp"
+                        android:paddingHorizontal="28dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:background="@drawable/add_tags_button_background"
+                        android:textAllCaps="false"
+                        android:text="Add Tag"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/oxygen_regular"/>
+
+                </androidx.cardview.widget.CardView>
+
+<!--                    <androidx.cardview.widget.CardView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="29dp"-->
+<!--                        android:layout_marginHorizontal="20dp"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:layout_marginBottom="4dp"-->
+<!--                        android:padding="50dp"-->
+<!--                        app:cardCornerRadius="10dp">-->
+
+<!--                        <Button-->
+<!--                            android:id="@+id/CustomTag"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:minWidth="60dp"-->
+<!--                            android:paddingHorizontal="28dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:maxLines="1"-->
+<!--                            android:backgroundTint="@color/colorPrimaryDark"-->
+<!--                            android:background="@drawable/add_tags_button_background"-->
+<!--                            android:textAllCaps="false"-->
+<!--                            android:text="Add Tag"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:fontFamily="@font/oxygen_regular"/>-->
+
+<!--                    </androidx.cardview.widget.CardView>-->
+
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="100dp">-->
+<!--                        <ImageView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:src="@drawable/mandala_new"-->
+<!--                            android:tint="@color/purple"-->
+<!--                            android:paddingStart="100dp"-->
+<!--                            android:layout_alignParentEnd="true"/>-->
+<!--                    </RelativeLayout>-->
+                </RelativeLayout>
+
+
 
                  <androidx.recyclerview.widget.RecyclerView
                      android:id="@+id/tags_selectedList"
