@@ -8,12 +8,20 @@
     android:orientation="vertical"
     tools:context=".ReelsActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.example.pujo360.util.VerticalViewPager
         android:id="@+id/recyclerReelsViewAll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:descendantFocusability="blocksDescendants"
-        app:reverseLayout="false" />
+        android:transitionName="transition_grid"
+        android:foregroundGravity="center" />
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerReelsViewAll"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:clipToPadding="false"-->
+<!--        android:descendantFocusability="blocksDescendants"-->
+<!--        app:reverseLayout="false" />-->
 
 </LinearLayout>

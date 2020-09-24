@@ -7,16 +7,21 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +80,8 @@ import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -935,12 +942,9 @@ public class CommitteeFragment extends Fragment {
                                             float overlapArea1 = x_overlap1 * y_overlap1;
                                             float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
 
-                                            if (percent1 >= 80) {
-                                                if (!cvh1.item_reels_video.isPlaying()) {
-                                                    cvh1.item_reels_video.start();
-                                                }
+                                            if (percent1 >= 90) {
+                                                cvh1.item_reels_video.start();
                                             } else {
-                                                cvh1.item_reels_video.seekTo(1);
                                                 cvh1.item_reels_video.pause();
                                             }
                                         }
@@ -1080,40 +1084,47 @@ public class CommitteeFragment extends Fragment {
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                     holder.item_reels_video.start();
+
+                    Picasso.get().load(currentItem.getFrame()).fit()
+                            .into(holder.item_reels_image, new Callback() {
+                                @Override
+                                public void onSuccess() { }
+
+                                @Override
+                                public void onError(Exception e) { }
+                            });
+
                     holder.item_reels_video.setOnPreparedListener(mp -> {
                         mp.setVolume(0f, 0f);
                         mp.setLooping(true);
-                    });
 
-                    int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-                    int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+                        int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+                        int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
 
-                    if (firstVisiblePosition >= 0) {
-                        Rect rect_parent = new Rect();
-                        pvh.reelsList.getGlobalVisibleRect(rect_parent);
+                        if (firstVisiblePosition >= 0) {
+                            Rect rect_parent = new Rect();
+                            pvh.reelsList.getGlobalVisibleRect(rect_parent);
 
-                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                            int[] location = new int[2];
-                            holder.item_reels_video.getLocationOnScreen(location);
+                            for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                                int[] location = new int[2];
+                                holder.item_reels_image.getLocationOnScreen(location);
 
-                            Rect rect_child = new Rect(location[0], location[1], location[0] + holder.item_reels_video.getWidth(), location[1] + holder.item_reels_video.getHeight());
+                                Rect rect_child = new Rect(location[0], location[1], location[0] + holder.item_reels_image.getWidth(), location[1] + holder.item_reels_image.getHeight());
 
-                            float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
-                            float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
-                            float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
-                            float overlapArea = x_overlap * y_overlap;
-                            float percent = (overlapArea / rect_parent_area) * 100.0f;
+                                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                                float overlapArea = x_overlap * y_overlap;
+                                float percent = (overlapArea / rect_parent_area) * 100.0f;
 
-                            if (percent >= 80) {
-                                if (!holder.item_reels_video.isPlaying()) {
-                                    holder.item_reels_video.start();
+                                if (percent >= 90) {
+                                    holder.item_reels_image.setVisibility(View.GONE);
+                                } else {
+                                    holder.item_reels_image.setVisibility(View.VISIBLE);
                                 }
-                            } else {
-                                holder.item_reels_video.seekTo(1);
-                                holder.item_reels_video.pause();
                             }
                         }
-                    }
+                    });
 
                     holder.video_time.setText(currentItem.getDuration());
                     holder.pujo_com_name.setText(currentItem.getCommittee_name());
@@ -1245,6 +1256,18 @@ public class CommitteeFragment extends Fragment {
                     });
                 }
 
+                @Override
+                public void onViewDetachedFromWindow(@NonNull ReelsItemViewHolder holder) {
+                    super.onViewDetachedFromWindow(holder);
+                    holder.item_reels_image.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
+                    super.onViewAttachedToWindow(holder);
+
+                }
+
                 @NonNull
                 @Override
                 public ReelsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -1258,8 +1281,6 @@ public class CommitteeFragment extends Fragment {
             };
 
             pvh.reelsList.setAdapter(reelsAdapter);
-            pvh.reelsList.smoothScrollToPosition(1);
-            pvh.reelsList.smoothScrollToPosition(0);
             positions.add(position);
 
             RecyclerView.LayoutManager manager = pvh.reelsList.getLayoutManager();
@@ -1291,12 +1312,14 @@ public class CommitteeFragment extends Fragment {
                                 float overlapArea = x_overlap * y_overlap;
                                 float percent = (overlapArea / rect_parent_area) * 100.0f;
 
-                                if (percent >= 80) {
-                                    if (!cvh.item_reels_video.isPlaying()) {
-                                        cvh.item_reels_video.start();
-                                    }
+                                if (percent >= 90) {
+                                    cvh.item_reels_video.start();
+                                    cvh.item_reels_video.setOnPreparedListener(mp -> {
+                                        cvh.item_reels_image.setVisibility(View.GONE);
+                                        mp.setVolume(0f, 0f);
+                                        mp.setLooping(true);
+                                    });
                                 } else {
-                                    cvh.item_reels_video.seekTo(1);
                                     cvh.item_reels_video.pause();
                                 }
                             }
@@ -1394,10 +1417,8 @@ public class CommitteeFragment extends Fragment {
                                 float overlapArea1 = x_overlap1 * y_overlap1;
                                 float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
 
-                                if (percent1 >= 80) {
-                                    if (!cvh1.item_reels_video.isPlaying()) {
-                                        cvh1.item_reels_video.start();
-                                    }
+                                if (percent1 >= 90) {
+                                    cvh1.item_reels_video.start();
                                 } else {
                                     cvh1.item_reels_video.pause();
                                 }
