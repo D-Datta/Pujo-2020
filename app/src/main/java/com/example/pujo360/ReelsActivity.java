@@ -11,9 +11,11 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +79,6 @@ public class ReelsActivity extends AppCompatActivity {
         }
 
         buildReelsRecyclerView();
-        reelsList.scrollToPosition(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
 
         SnapHelperOneByOne snapHelperOneByOne = new SnapHelperOneByOne();
         snapHelperOneByOne.attachToRecyclerView(reelsList);
@@ -116,18 +117,19 @@ public class ReelsActivity extends AppCompatActivity {
     }
 
     private void buildReelsRecyclerView() {
+
         Query query = null;
         if(bool.matches("1")) {
             if(lastVisible != null) {
+                Log.i("BAM", bool);
+
                 query = FirebaseFirestore.getInstance()
                         .collection("Reels")
                         .orderBy("ts", Query.Direction.DESCENDING)
                         .startAfter(lastVisible);
             }
             else {
-                query = FirebaseFirestore.getInstance()
-                        .collection("Reels")
-                        .orderBy("ts", Query.Direction.DESCENDING);
+
             }
         }
         else if(bool.matches("2")) {
@@ -137,6 +139,10 @@ public class ReelsActivity extends AppCompatActivity {
                     .orderBy("ts", Query.Direction.DESCENDING);
         }
 
+        query = FirebaseFirestore.getInstance()
+                .collection("Reels")
+                .orderBy("ts", Query.Direction.DESCENDING);
+
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(3)
@@ -145,7 +151,7 @@ public class ReelsActivity extends AppCompatActivity {
 
         FirestorePagingOptions<ReelsPostModel> options = new FirestorePagingOptions.Builder<ReelsPostModel>()
                 .setLifecycleOwner(this)
-                .setQuery(Objects.requireNonNull(query), config, snapshot -> {
+                .setQuery(query, config, snapshot -> {
                     ReelsPostModel reelsPostModel = new ReelsPostModel();
                     if(snapshot.exists()) {
                         reelsPostModel = snapshot.toObject(ReelsPostModel.class);
@@ -160,6 +166,8 @@ public class ReelsActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                 holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
+                holder.reels_video.start();
+
                 holder.pujo_desc.setText(currentItem.getDescription());
                 holder.pujo_com_name.setText(currentItem.getCommittee_name());
 
@@ -232,7 +240,7 @@ public class ReelsActivity extends AppCompatActivity {
                     } else {
                         holder.like_image.setVisibility(View.VISIBLE);
                         holder.likesCount.setVisibility(View.VISIBLE);
-                        holder.likesCount.setText(currentItem.getLikeL().size());
+                        holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
 
                         holder.like_image.setOnClickListener(v -> {
                             BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
@@ -360,14 +368,64 @@ public class ReelsActivity extends AppCompatActivity {
             public int getItemViewType(int position) { return position; }
 
         };
+        reelsList.scrollToPosition(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
+
         reelsList.setAdapter(reelsAdapter);
+        Log.i("BAM", Objects.requireNonNull(getIntent().getStringExtra("position")));
+
+        RecyclerView.LayoutManager manager = reelsList.getLayoutManager();
+        reelsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == 0) {
+                    int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+                    int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+                    if (firstVisiblePosition >= 0) {
+                        Rect rect_parent = new Rect();
+                        reelsList.getGlobalVisibleRect(rect_parent);
+
+                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                            final RecyclerView.ViewHolder holder = reelsList.findViewHolderForAdapterPosition(i);
+                            ReelsItemViewHolder cvh = (ReelsItemViewHolder) holder;
+
+                            int[] location = new int[2];
+                            Objects.requireNonNull(cvh).reels_video.getLocationOnScreen(location);
+
+                            Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_video.getWidth(), location[1] + cvh.reels_video.getHeight());
+
+                            float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                            float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                            float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                            float overlapArea = x_overlap * y_overlap;
+                            float percent = (overlapArea / rect_parent_area) * 100.0f;
+
+                            if (percent >= 50) {
+                                if (!cvh.reels_video.isPlaying()) {
+                                    cvh.reels_video.start();
+                                }
+                            } else {
+                                cvh.reels_video.pause();
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
         VideoView reels_video;
-        ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel;
-        TextView pujo_com_name, pujo_headline, likesCount, commentCount, play_image, mins_ago;
+        ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel, play_image;
+        TextView pujo_com_name, pujo_headline, likesCount, commentCount, mins_ago;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         com.airbnb.lottie.LottieAnimationView progress;
 

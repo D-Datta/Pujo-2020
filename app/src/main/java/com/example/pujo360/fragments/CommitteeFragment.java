@@ -1078,7 +1078,10 @@ public class CommitteeFragment extends Fragment {
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                     holder.item_reels_video.start();
-                    holder.item_reels_video.setOnPreparedListener(mp -> mp.setLooping(true));
+                    holder.item_reels_video.setOnPreparedListener(mp -> {
+                        mp.setVolume(0f, 0f);
+                        mp.setLooping(true);
+                    });
 
 //                    if (position != 0) {
 //                        new Handler().postDelayed(() -> holder.item_reels_video.pause(), 10000);
@@ -1227,6 +1230,8 @@ public class CommitteeFragment extends Fragment {
             };
 
             pvh.reelsList.setAdapter(reelsAdapter);
+            pvh.reelsList.smoothScrollToPosition(1);
+            pvh.reelsList.smoothScrollToPosition(0);
             positions.add(position);
 
             RecyclerView.LayoutManager manager = pvh.reelsList.getLayoutManager();

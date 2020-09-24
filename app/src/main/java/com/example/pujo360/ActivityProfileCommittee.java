@@ -250,12 +250,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                             }
                         });
-
         }
-
-
-
-
     }
 
     private void setupViewPager(ViewPager viewPager)
