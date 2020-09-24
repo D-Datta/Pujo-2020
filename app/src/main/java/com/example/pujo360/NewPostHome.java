@@ -136,7 +136,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private byte[] pic;
     private ProgressDialog progressDialog;
 
-//    private ImageButton close_image, edit_image;
     private RelativeLayout container_image;
     private VideoView videoView;
     private int duration;

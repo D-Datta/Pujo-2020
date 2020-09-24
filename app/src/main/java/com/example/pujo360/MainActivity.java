@@ -3,7 +3,6 @@ package com.example.pujo360;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -11,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -24,12 +24,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.pujo360.adapters.HomeTabAdapter;
+import com.example.pujo360.drawerActivities.AboutUs;
 import com.example.pujo360.fragments.CommitteeFragment;
 import com.example.pujo360.fragments.FeedsFragment;
 import com.example.pujo360.preferences.IntroPref;
@@ -51,7 +53,6 @@ import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 
-import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         mGooglesigninclient = GoogleSignIn.getClient(this, googleSignInOptions);
+
         ///////////////NOTIFICATIONS///////////////////
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel=new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
@@ -209,47 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         name.setText(USERNAME);
 
         if(PROFILEPIC!=null){
-//            if(PROFILEPIC.matches("0")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_1);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_1);
-//            }
-//            else if(PROFILEPIC.matches("1")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_2);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_2);
-//            }
-//            else if(PROFILEPIC.matches("2")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_3);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_3);
-//            }
-//            else if(PROFILEPIC.matches("3")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_4);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_4);
-//            }
-//            else if(PROFILEPIC.matches("4")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_5);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_5);
-//            }
-//            else if(PROFILEPIC.matches("5")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_6);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_6);
-//            }
-//            else if(PROFILEPIC.matches("6")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_7);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_7);
-//            }
-//            else if(PROFILEPIC.matches("7")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_8);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_8);
-//            }
-//            else if(PROFILEPIC.matches("8")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_9);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_9);
-//            }
-//            else if(PROFILEPIC.matches("9")){
-//                displaypic.get().setImageResource(R.drawable.default_dp_10);
-//                Toolbar_img1.get().setImageResource(R.drawable.default_dp_10);
-//            }
-//            else{
+
                 Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
                 builder.downloader(new OkHttp3Downloader(getApplicationContext(), Integer.MAX_VALUE));
                 Picasso built = builder.build();
@@ -285,7 +247,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
             }
 
-//        }
     }
 
     @Override
@@ -346,14 +307,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
+//        else if(id == R.id.nav_live){
+//            drawer.closeDrawers();
+//            Utility.showToast(MainActivity.this,"Coming Soon");
+//        }
+
         else if(id == R.id.nav_tellafrnd){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    drawer.closeDrawers();
+                    Intent i=new Intent();
+                    i.setAction(Intent.ACTION_SEND);
+                    String text="Hey! Join me at Utsav App: Durga Puja 2020 and experience the world of Celebration. Download now. https://play.google.com/store/apps/details?id=com.applex.utsav";
+                    i.putExtra(Intent.EXTRA_TEXT,text);
+                    i.setType("text/plain");
+                    startActivity(Intent.createChooser(i,"Share with"));
 
+                }
+            },200);
         }
-        else if(id == R.id.nav_contact){
 
+        else if(id == R.id.nav_contact){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, Webview.class);
+                    intent.putExtra("text","https://applex.in/contact/");
+                    intent.putExtra("bool","1");
+                    startActivity(intent);
+                }
+            },200);
         }
         else if(id == R.id.nav_about){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, AboutUs.class);
+                    intent.putExtra("text","https://applex.in/contact/");
+                    intent.putExtra("bool","1");
+                    startActivity(intent);
+                }
+            },200);
+        }
 
+        else if(id== R.id.nav_rate_us){
+            Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
+            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+            // To count with Play market backstack, After pressing back button,
+            // to taken back to our application, we need to add following flags to intent.
+            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            try {
+                startActivity(goToMarket);
+            } catch (ActivityNotFoundException e) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
+            }
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -20,10 +20,25 @@
                 app:showAsAction="never"
                 android:icon="@drawable/ic_info_outline_black_24dp"
                 android:title="@string/about" />
+            <item
+                android:id="@+id/nav_rate_us"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_baseline_star_24"
+                android:title="@string/rate_us" />
 
         </menu>
 
     </item>
+
+<!--    <item android:title="Coming Soon">-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/nav_live"-->
+<!--                android:icon="@drawable/ic_baseline_live_tv_24"-->
+<!--                android:iconTint="@color/red"-->
+<!--                android:title="@string/live"/>-->
+<!--        </menu>-->
+<!--    </item>-->
 
     <item android:title="@string/account">
 
