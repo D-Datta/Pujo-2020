@@ -106,9 +106,9 @@ public class ReelsActivity extends AppCompatActivity {
 
             int currentPosition = layoutManager.getPosition(currentView);
 
-            if (velocityY > 400) {
+            if (velocityY > 800) {
                 currentPosition = position2;
-            } else if (velocityY < 400) {
+            } else if (velocityY < 800) {
                 currentPosition = position1;
             }
 

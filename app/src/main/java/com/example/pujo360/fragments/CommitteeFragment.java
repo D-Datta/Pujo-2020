@@ -32,6 +32,7 @@ import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.pujo360.ActivityProfileCommittee;
@@ -910,7 +911,7 @@ public class CommitteeFragment extends Fragment {
                                 float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                                 if (percent >= 90) {
-                                    RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
+                                    RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
 
                                     int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
                                     int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
@@ -939,6 +940,7 @@ public class CommitteeFragment extends Fragment {
                                                     cvh1.item_reels_video.start();
                                                 }
                                             } else {
+                                                cvh1.item_reels_video.seekTo(1);
                                                 cvh1.item_reels_video.pause();
                                             }
                                         }
@@ -1083,9 +1085,35 @@ public class CommitteeFragment extends Fragment {
                         mp.setLooping(true);
                     });
 
-//                    if (position != 0) {
-//                        new Handler().postDelayed(() -> holder.item_reels_video.pause(), 10000);
-//                    }
+                    int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+                    int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
+
+                    if (firstVisiblePosition >= 0) {
+                        Rect rect_parent = new Rect();
+                        pvh.reelsList.getGlobalVisibleRect(rect_parent);
+
+                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                            int[] location = new int[2];
+                            holder.item_reels_video.getLocationOnScreen(location);
+
+                            Rect rect_child = new Rect(location[0], location[1], location[0] + holder.item_reels_video.getWidth(), location[1] + holder.item_reels_video.getHeight());
+
+                            float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                            float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                            float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                            float overlapArea = x_overlap * y_overlap;
+                            float percent = (overlapArea / rect_parent_area) * 100.0f;
+
+                            if (percent >= 80) {
+                                if (!holder.item_reels_video.isPlaying()) {
+                                    holder.item_reels_video.start();
+                                }
+                            } else {
+                                holder.item_reels_video.seekTo(1);
+                                holder.item_reels_video.pause();
+                            }
+                        }
+                    }
 
                     holder.video_time.setText(currentItem.getDuration());
                     holder.pujo_com_name.setText(currentItem.getCommittee_name());
@@ -1268,6 +1296,7 @@ public class CommitteeFragment extends Fragment {
                                         cvh.item_reels_video.start();
                                     }
                                 } else {
+                                    cvh.item_reels_video.seekTo(1);
                                     cvh.item_reels_video.pause();
                                 }
                             }
