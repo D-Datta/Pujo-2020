@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.example.pujo360"
+        applicationId "com.applex.utsav"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1

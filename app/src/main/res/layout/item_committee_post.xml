@@ -275,7 +275,7 @@
                     android:textColorLink="@color/link"
                     android:textSize="15dp" />
 
-                <com.example.pujo360.LinkPreview.ApplexLinkPreview
+                <com.applex.utsav.LinkPreview.ApplexLinkPreview
                     android:id="@+id/LinkPreView"
                     android:layout_width="match_parent"
                     android:minHeight="270dp"
@@ -496,7 +496,7 @@
                             android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
-                        <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+                        <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                             android:id="@+id/LinkPreViewComment1"
                             android:layout_width="match_parent"
                             android:minHeight="82dp"
@@ -588,7 +588,7 @@
                             android:textColor="@color/black"
                             android:textColorLink="@color/toolbarStart" />
 
-                        <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+                        <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                             android:id="@+id/LinkPreViewComment2"
                             android:layout_width="match_parent"
                             android:minHeight="82dp"
