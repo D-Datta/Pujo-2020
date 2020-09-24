@@ -8,13 +8,12 @@
     android:orientation="vertical"
     tools:context=".ReelsActivity">
 
-    <com.example.pujo360.util.VerticalViewPager
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/recyclerReelsViewAll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:transitionName="transition_grid"
-        android:foregroundGravity="center" />
+        android:orientation="vertical" />
 
 <!--    <androidx.recyclerview.widget.RecyclerView-->
 <!--        android:id="@+id/recyclerReelsViewAll"-->

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -25,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +63,7 @@ import java.util.Objects;
 
 public class ReelsActivity extends AppCompatActivity {
 
-    private VerticalViewPager reelsList;
+    private ViewPager2 reelsList;
     private DocumentSnapshot lastVisible, lastVisibleReel;
     private String uid;
     private String bool;
@@ -257,20 +259,7 @@ public class ReelsActivity extends AppCompatActivity {
 //        });
     }
 
-    private static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
-        VideoView reels_video;
-        ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel, play_image;
-        TextView pujo_com_name, pujo_headline, likesCount, commentCount, mins_ago;
-        com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
-        com.airbnb.lottie.LottieAnimationView progress;
-
-        ReelsItemViewHolder(View itemView) {
-            super(itemView);
-
-
-        }
-    }
 
 
 }
