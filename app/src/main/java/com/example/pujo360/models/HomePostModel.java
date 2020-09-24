@@ -34,6 +34,8 @@ public class HomePostModel {
     private String challengeID;
 
 
+
+
     ////////////DEFAULT CONSTRUCTOR///////////
     public HomePostModel(){
         likeCheck = -1;

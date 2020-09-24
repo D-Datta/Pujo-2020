@@ -40,9 +40,15 @@ public class Fragment_Posts extends Fragment {
     private NestedScrollView noneImage;
     private FirestorePagingAdapter adapter;
 
+    private String uid;
+
 
     public Fragment_Posts() {
         // Required empty public constructor
+    }
+
+    public Fragment_Posts(String uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -69,8 +75,8 @@ public class Fragment_Posts extends Fragment {
         buildRecyclerView();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources()
-                        .getColor(R.color.md_blue_500));
+                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
+                        .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
@@ -81,7 +87,7 @@ public class Fragment_Posts extends Fragment {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds")
-                .whereEqualTo("uid", ActivityProfileCommittee.uid)
+                .whereEqualTo("uid", uid)
                 .orderBy("ts", Query.Direction.DESCENDING);
 
 

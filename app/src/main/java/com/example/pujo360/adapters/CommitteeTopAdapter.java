@@ -58,6 +58,8 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         holder.committeeName.setText(currentitem.getName());
 
+        holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
+
         if(currentitem.getCoverpic() != null){
             Picasso.get().load(currentitem.getCoverpic()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.committeeCover, new Callback() {
                 @Override
@@ -139,13 +141,14 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         TextView committeeName;
-        ImageView committeeCover, committeeDp;
+        ImageView committeeCover;
+        TextView com_views;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
 
             committeeName = itemView.findViewById(R.id.committee_name);
-//            committeeDp = itemView.findViewById(R.id.committee_dp);
+            com_views = itemView.findViewById(R.id.members);
             committeeCover = itemView.findViewById(R.id.committee_cover);
 
         }
