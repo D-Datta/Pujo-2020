@@ -276,7 +276,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     {
         ProfileAdapter profileAdapter = new ProfileAdapter(getSupportFragmentManager());
         profileAdapter.addFragment(new Fragment_Posts(), "Posts");
-        profileAdapter.addFragment(new Fragment_Reels(),"Reels");
+        profileAdapter.addFragment(new Fragment_Reels(),"Clips");
 
 
         viewPager.setAdapter(profileAdapter);

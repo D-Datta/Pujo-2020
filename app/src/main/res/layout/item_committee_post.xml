@@ -109,12 +109,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/oxygen_regular"
+            android:fontFamily="@font/oxygen_bold"
             android:gravity="center_vertical"
+            android:textColor="@color/purple"
             android:paddingHorizontal="20dp"
             android:paddingVertical="5dp"
-            android:text="@string/short_videos"
-            android:textSize="18dp" />
+            android:text="@string/utsav_clips"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -136,8 +137,9 @@
 
         <TextView
             android:id="@+id/view_all_reels"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/oxygen_regular"
