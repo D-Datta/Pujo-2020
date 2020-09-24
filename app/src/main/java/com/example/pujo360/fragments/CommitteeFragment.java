@@ -944,6 +944,11 @@ public class CommitteeFragment extends Fragment {
 
                                             if (percent1 >= 90) {
                                                 cvh1.item_reels_video.start();
+                                                cvh1.item_reels_video.setOnPreparedListener(mp -> {
+                                                    cvh1.item_reels_image.setVisibility(View.GONE);
+                                                    mp.setVolume(0f, 0f);
+                                                    mp.setLooping(true);
+                                                });
                                             } else {
                                                 cvh1.item_reels_video.pause();
                                             }
@@ -1419,6 +1424,11 @@ public class CommitteeFragment extends Fragment {
 
                                 if (percent1 >= 90) {
                                     cvh1.item_reels_video.start();
+                                    cvh1.item_reels_video.setOnPreparedListener(mp -> {
+                                        cvh1.item_reels_image.setVisibility(View.GONE);
+                                        mp.setVolume(0f, 0f);
+                                        mp.setLooping(true);
+                                    });
                                 } else {
                                     cvh1.item_reels_video.pause();
                                 }

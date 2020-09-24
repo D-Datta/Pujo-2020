@@ -71,6 +71,17 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
 
+        Picasso.get().load(currentItem.getFrame()).fit()
+                .into(holder.reels_image, new Callback() {
+                    @Override
+                    public void onSuccess() { }
+
+                    @Override
+                    public void onError(Exception e) { }
+                });
+
+        holder.reels_video.setOnPreparedListener(mediaPlayer -> holder.reels_image.setVisibility(View.GONE));
+
         holder.pujo_desc.setText(currentItem.getDescription());
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.pujo_headline.setSelected(true);
@@ -94,12 +105,10 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             return false;
         });
 
-        if(!holder.reels_video.isPlaying()) {
-            holder.itemView.setOnClickListener(view -> {
-                holder.play_image.setVisibility(View.GONE);
-                holder.reels_video.resume();
-            });
-        }
+        holder.play_image.setOnClickListener(view -> {
+            holder.play_image.setVisibility(View.GONE);
+            holder.reels_video.start();
+        });
 
         holder.back_reel.setOnClickListener(v -> ((ReelsActivity)context).onBackPressed());
         holder.save_reel.setOnClickListener(v -> save_Dialog(Uri.parse(currentItem.getVideo())));
@@ -190,7 +199,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                         batch.delete(flamedDoc);
 
-                        batch.commit().addOnSuccessListener(task -> {notifyDataSetChanged();});
+                        batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
                         ///////////////////BATCH WRITE///////////////////
                     }
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
@@ -228,7 +237,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         if (currentItem.getLikeL().size() % 5 == 0) {
                             batch.update(likeStore, "newTs", tsLong);
                         }
-                        batch.commit().addOnSuccessListener(task -> {notifyDataSetChanged();});
+                        batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
                         ///////////////////BATCH WRITE///////////////////
                     }
                 });
@@ -262,14 +271,26 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     }
 
     @Override
-    public int getItemCount() {
-        return models.size();
+    public void onViewDetachedFromWindow(@NonNull ReelsItemViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.reels_video.pause();
+        holder.reels_image.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        holder.reels_video.start();
+        holder.reels_video.setOnPreparedListener(mediaPlayer -> holder.reels_image.setVisibility(View.GONE));
+    }
+
+    @Override
+    public int getItemCount() { return models.size(); }
 
     public static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
         VideoView reels_video;
-        ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel, play_image;
+        ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel, play_image, reels_image;
         TextView pujo_com_name, pujo_headline, likesCount, commentCount, mins_ago;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
 
@@ -292,6 +313,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             commentCount = itemView.findViewById(R.id.comment_count);
             play_image = itemView.findViewById(R.id.play);
             mins_ago = itemView.findViewById(R.id.mins_ago_reels);
+            reels_image = itemView.findViewById(R.id.reels_image);
         }
     }
 
