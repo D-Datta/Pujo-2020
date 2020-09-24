@@ -190,7 +190,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                         batch.delete(flamedDoc);
 
-                        batch.commit().addOnSuccessListener(task -> {});
+                        batch.commit().addOnSuccessListener(task -> {notifyDataSetChanged();});
                         ///////////////////BATCH WRITE///////////////////
                     }
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
@@ -228,7 +228,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         if (currentItem.getLikeL().size() % 5 == 0) {
                             batch.update(likeStore, "newTs", tsLong);
                         }
-                        batch.commit().addOnSuccessListener(task -> {});
+                        batch.commit().addOnSuccessListener(task -> {notifyDataSetChanged();});
                         ///////////////////BATCH WRITE///////////////////
                     }
                 });
