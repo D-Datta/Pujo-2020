@@ -51,8 +51,14 @@ public class Fragment_Reels extends Fragment {
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;
 
+    private String uid;
+
     public Fragment_Reels() {
         // Required empty public constructor
+    }
+
+    public Fragment_Reels(String uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -79,8 +85,8 @@ public class Fragment_Reels extends Fragment {
         buildRecyclerView();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),getResources()
-                        .getColor(R.color.md_blue_500));
+                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
+                        .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
@@ -91,7 +97,7 @@ public class Fragment_Reels extends Fragment {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Reels")
-                .whereEqualTo("uid", ActivityProfileCommittee.uid)
+                .whereEqualTo("uid", uid)
                 .orderBy("ts", Query.Direction.DESCENDING);
 
         PagedList.Config config = new PagedList.Config.Builder()

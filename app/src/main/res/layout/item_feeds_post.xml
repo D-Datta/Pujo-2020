@@ -24,6 +24,8 @@
                 android:paddingVertical="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/pujo_committees"
+
+                android:textColor="@color/purple"
                 android:textSize="18sp" />
 
             <TextView
@@ -206,7 +208,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/oxygen_ex_bold"
-                                android:paddingVertical="4dp"
+                                android:paddingVertical="2dp"
                                 android:paddingHorizontal="8dp"
                                 android:background="@drawable/custom_ripple_white"
                                 android:text="@string/name"
@@ -214,12 +216,29 @@
                                 android:textSize="15dp" />
 
                             <TextView
+                                android:id="@+id/tag_pujo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jagat Mukherjee Park"
+                                android:paddingHorizontal="3dp"
+                                android:gravity="center_vertical"
+                                android:visibility="visible"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:textColor="@color/purple"
+                                android:background="@drawable/custom_ripple_white"
+                                android:textSize="14sp"
+                                app:drawableTint="@color/purple"
+                                android:drawableStart="@drawable/ic_baseline_location_on_24" />
+
+                            <TextView
                                 android:id="@+id/mins_ago"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="8dp"
                                 android:text="@string/_10_mins_ago"
-                                android:textSize="12dp" />
+                                android:paddingTop="2dp"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
