@@ -10,9 +10,11 @@
             <item
                 android:id="@+id/nav_tellafrnd"
                 android:icon="@drawable/ic_share"
+                android:iconTint="@color/darkpurple"
                 android:title="@string/tell_a_friend" />
             <item
                 android:id="@+id/nav_contact"
+                android:iconTint="@color/tabIndicatorColor"
                 android:icon="@drawable/ic_outline_perm_contact_calendar_24"
                 android:title="@string/contact_us" />
             <item
