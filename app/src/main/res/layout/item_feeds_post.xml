@@ -54,22 +54,23 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/communityRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="128dp"
+                android:layout_height="135dp"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp"/>
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="#E2E2E2"/>
 
         <LinearLayout
             android:id="@+id/type_something"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="#E2E2E2"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,32 +105,9 @@
                     android:textSize="15dp" />
 
             </LinearLayout>
+                    </LinearLayout>
 
-            <View
-                android:id="@+id/view_type_smth"
-                android:layout_width="match_parent"
-                android:layout_height="7dp"
-                android:background="#E2E2E2"/>
-        </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:background="#e2e2e2"-->
-<!--            android:paddingBottom="7dp">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingVertical="7dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:background="@drawable/shape_latest_post"-->
-<!--                android:paddingHorizontal="20dp"-->
-<!--                android:text="Trending Posts"-->
-<!--                android:textSize="18sp" />-->
-
-<!--        </LinearLayout>-->
     </LinearLayout>
 
 
@@ -174,31 +152,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/first_post">
 
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:layout_alignParentBottom="true"
-                android:background="#E2E2E2"/>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:clickable="true"
-                android:background="@drawable/post_bg"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="8dp"
                 android:elevation="2dp"
                 android:id="@+id/item_home">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:elevation="20dp">
+                    android:orientation="vertical">
+
+                    <View
+                        android:id="@+id/view_type_smth"
+                        android:layout_width="match_parent"
+                        android:layout_height="7dp"
+                        android:background="#E2E2E2"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -629,7 +600,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="20dp"
-                    android:paddingVertical="2dp"
+                    android:paddingVertical="5dp"
                     android:paddingHorizontal="10dp"
                     android:orientation="horizontal">
 
