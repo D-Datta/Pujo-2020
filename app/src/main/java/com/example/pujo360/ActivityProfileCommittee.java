@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -108,6 +109,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         coverpic = getIntent().getStringExtra("coverpic");
         dp = getIntent().getStringExtra("dp");
         uid = getIntent().getStringExtra("uid");
+
+        cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
         if(getIntent()!=null && getIntent().getStringExtra("uid")!=null){
@@ -252,6 +255,26 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                         });
 
         }
+
+        locate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(cm.getActiveNetworkInfo() != null) {
+                    String location = address+","+city+","+state+"-"+pin;
+                    if (location.length() != 0) {
+                        Uri gmmIntentUri = Uri.parse("geo:0,0?z=15&q=" + Uri.encode(location));
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    } else {
+                        Toast.makeText(ActivityProfileCommittee.this, "Field Empty", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{
+                    Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 
