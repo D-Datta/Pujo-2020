@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+
         <activity android:name="com.applex.utsav.Webview"/>
         <activity android:name="com.applex.utsav.drawerActivities.AboutUs" />
         <activity android:name="com.applex.utsav.EditProfileIndividualActivity" />
