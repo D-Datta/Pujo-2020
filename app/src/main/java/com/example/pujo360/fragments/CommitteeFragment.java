@@ -799,8 +799,8 @@ public class CommitteeFragment extends Fragment {
                                         .addOnSuccessListener(aVoid -> {
                                             ActivityProfileCommittee.delete = 1;
                                             programmingViewHolder.itemHome.setVisibility(View.GONE);
-                                            programmingViewHolder.view1.setVisibility(View.GONE);
-                                            programmingViewHolder.view2.setVisibility(View.GONE);
+//                                            programmingViewHolder.view1.setVisibility(View.GONE);
+//                                            programmingViewHolder.view2.setVisibility(View.GONE);
                                             notifyDataSetChanged();
                                             progressDialog.dismiss();
                                         });
