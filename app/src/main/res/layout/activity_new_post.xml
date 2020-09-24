@@ -165,75 +165,75 @@
                 android:background="@color/darkpurple"
                 android:layout_marginHorizontal="10dp"/>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content">-->
 
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="29dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="4dp"
-                    android:padding="50dp"
-                    app:cardCornerRadius="10dp">
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="29dp"-->
+<!--                    android:layout_marginHorizontal="20dp"-->
+<!--                    android:layout_marginTop="8dp"-->
+<!--                    android:layout_marginBottom="4dp"-->
+<!--                    android:padding="50dp"-->
+<!--                    app:cardCornerRadius="10dp">-->
 
-                    <Button
-                        android:id="@+id/CustomTag"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:minWidth="60dp"
-                        android:paddingHorizontal="28dp"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:backgroundTint="@color/colorPrimaryDark"
-                        android:background="@drawable/add_tags_button_background"
-                        android:textAllCaps="false"
-                        android:text="Add Tag"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/oxygen_regular"/>
-
-                </androidx.cardview.widget.CardView>
-
-<!--                    <androidx.cardview.widget.CardView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="29dp"-->
-<!--                        android:layout_marginHorizontal="20dp"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:layout_marginBottom="4dp"-->
-<!--                        android:padding="50dp"-->
-<!--                        app:cardCornerRadius="10dp">-->
-
-<!--                        <Button-->
-<!--                            android:id="@+id/CustomTag"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:minWidth="60dp"-->
-<!--                            android:paddingHorizontal="28dp"-->
-<!--                            android:gravity="center"-->
-<!--                            android:maxLines="1"-->
-<!--                            android:backgroundTint="@color/colorPrimaryDark"-->
-<!--                            android:background="@drawable/add_tags_button_background"-->
-<!--                            android:textAllCaps="false"-->
-<!--                            android:text="Add Tag"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:fontFamily="@font/oxygen_regular"/>-->
-
-<!--                    </androidx.cardview.widget.CardView>-->
-
-<!--                    <RelativeLayout-->
+<!--                    <Button-->
+<!--                        android:id="@+id/CustomTag"-->
 <!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="100dp">-->
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:src="@drawable/mandala_new"-->
-<!--                            android:tint="@color/purple"-->
-<!--                            android:paddingStart="100dp"-->
-<!--                            android:layout_alignParentEnd="true"/>-->
-<!--                    </RelativeLayout>-->
-                </RelativeLayout>
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:minWidth="60dp"-->
+<!--                        android:paddingHorizontal="28dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:backgroundTint="@color/colorPrimaryDark"-->
+<!--                        android:background="@drawable/add_tags_button_background"-->
+<!--                        android:textAllCaps="false"-->
+<!--                        android:text="Add Tag"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:fontFamily="@font/oxygen_regular"/>-->
+
+<!--                </androidx.cardview.widget.CardView>-->
+
+<!--&lt;!&ndash;                    <androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="29dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginHorizontal="20dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginTop="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginBottom="4dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:padding="50dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:cardCornerRadius="10dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                        <Button&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:id="@+id/CustomTag"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:minWidth="60dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:paddingHorizontal="28dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:maxLines="1"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:backgroundTint="@color/colorPrimaryDark"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:background="@drawable/add_tags_button_background"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textAllCaps="false"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:text="Add Tag"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:textColor="@color/black"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:fontFamily="@font/oxygen_regular"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    </androidx.cardview.widget.CardView>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <RelativeLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="100dp">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:src="@drawable/mandala_new"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:tint="@color/purple"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:paddingStart="100dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                            android:layout_alignParentEnd="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </RelativeLayout>&ndash;&gt;-->
+<!--                </RelativeLayout>-->
 
 
 
