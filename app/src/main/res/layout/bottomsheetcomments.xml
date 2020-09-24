@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     android:id="@+id/rootView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="200dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +35,7 @@
                 android:layout_marginStart="60dp"
                 android:paddingHorizontal="5dp"
                 android:paddingBottom="10dp"
-                android:fontFamily="@font/oxygen_regular"
+                android:fontFamily="@font/oxygen_ex_bold"
                 android:textSize="18sp"/>
 
             <ImageView
@@ -64,8 +62,10 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_marginTop="51dp"
-        android:layout_height="match_parent">
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="55dp"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/bottom_sheet_behavior">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -111,6 +111,7 @@
         android:background="@color/white"
         android:elevation="10dp"
         android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
         tools:ignore="Orientation">
 
         <androidx.cardview.widget.CardView
@@ -169,4 +170,4 @@
 
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

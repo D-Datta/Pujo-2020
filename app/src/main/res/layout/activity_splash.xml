@@ -34,7 +34,6 @@
         android:textSize="15dp"
         android:fontFamily="@font/oxygen_bold"
         android:layout_above="@+id/preptotal"
-        android:textStyle="bold"
         android:textAllCaps="false"/>
 
     <TextView

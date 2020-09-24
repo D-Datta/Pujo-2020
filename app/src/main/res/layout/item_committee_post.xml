@@ -87,11 +87,6 @@
 
             </LinearLayout>
 
-            <View
-                android:id="@+id/view_type_smth"
-                android:layout_width="match_parent"
-                android:layout_height="7dp"
-                android:background="#E2E2E2"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -103,6 +98,12 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:visibility="visible">
+
+        <View
+            android:id="@+id/view_type_smth"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="#E2E2E2"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -119,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:minHeight="200dp"
             android:orientation="horizontal"
             android:background="@color/white">
 
@@ -155,14 +157,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="14dp"
+            android:layout_height="8dp"
             android:layout_alignParentTop="true"
-            android:background="@color/light_background"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/light_background"/>
 
         <LinearLayout
@@ -170,17 +166,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:clickable="true"
-            android:background="@drawable/post_bg"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="8dp"
+            android:background="@color/white"
             android:elevation="2dp"
             android:id="@+id/item_home">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:elevation="20dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -262,7 +256,6 @@
                     android:autoLink="all"
                     android:fontFamily="@font/oxygen_bold"
                     android:paddingHorizontal="17dp"
-                    android:background="@drawable/custom_ripple_white"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
                     android:text="@string/post_content"
@@ -489,7 +482,7 @@
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
                             android:text="@string/comment_hint"
-                            android:textColor="#212121"
+                            android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
                         <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
@@ -575,13 +568,13 @@
                             android:id="@+id/comment2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lineSpacingExtra="3dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:autoLink="all"
-                            android:textColorLink="@color/toolbarStart"
+                            android:fontFamily="@font/oxygen_bold"
+                            android:lineSpacingExtra="3dp"
+                            android:paddingHorizontal="8dp"
                             android:text="@string/comment_hint"
-                            android:textColor="#212121"
-                            android:paddingHorizontal="8dp"/>
+                            android:textColor="@color/black"
+                            android:textColorLink="@color/toolbarStart" />
 
                         <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
                             android:id="@+id/LinkPreViewComment2"
@@ -610,7 +603,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="20dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="5dp"
                 android:paddingHorizontal="10dp"
                 android:orientation="horizontal">
 
