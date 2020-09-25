@@ -176,7 +176,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         //////////////POSTS SETUP////////////////////
 
         ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
-        if(getIntent()!=null && getIntent().getStringExtra("uid")!=null){
+        if(getIntent() != null && getIntent().getStringExtra("uid")!=null){
             my_uid = getIntent().getStringExtra("uid");
             if(!my_uid.matches(fireuser.getUid())){
                 bool =1;//ANOTHER USER ACCOUNT
@@ -1212,7 +1212,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 FirstName = individualModel.getFirstname();
                                                 LastName = individualModel.getLastname();
                                                 PName.setText(FirstName+" "+LastName);
-                                                if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty()){
+                                                if(individualModel.getBio() != null && !individualModel.getBio().isEmpty()){
                                                     ABOUT = individualModel.getBio();
                                                     Pabout.setVisibility(View.VISIBLE);
                                                     aboutheading.setVisibility(View.VISIBLE);

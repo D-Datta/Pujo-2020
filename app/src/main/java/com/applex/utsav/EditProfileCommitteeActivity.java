@@ -317,7 +317,11 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home){
-            super.onBackPressed();
+            Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+            StoreTemp.getInstance().setPic(null);
+            StoreTemp.getInstance().setCoverpic(null);
+            startActivity(i);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

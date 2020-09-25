@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,6 +92,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private Button locate;
     private Button follow, edit_profile_com;
 
+    private LinearLayout selfProfile, elseProfile;
+
 
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
@@ -135,6 +138,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         editDp = findViewById(R.id.edit_dp);
         editCover = findViewById(R.id.edit_cover);
 
+        selfProfile = findViewById(R.id.selfProfile);
+        elseProfile = findViewById(R.id.elseProfile);
+
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
 
@@ -168,6 +174,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         if(uid.matches(FirebaseAuth.getInstance().getUid())) {
             editCover.setVisibility(View.VISIBLE);
             editDp.setVisibility(View.VISIBLE);
+
+            selfProfile.setVisibility(View.VISIBLE);
+            elseProfile.setVisibility(View.GONE);
 
             edit_profile_com.setVisibility(View.VISIBLE);
             edit_profile_com.setOnClickListener(v -> {
@@ -203,6 +212,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             });
         }
         else {
+            selfProfile.setVisibility(View.GONE);
+            elseProfile.setVisibility(View.VISIBLE);
+
             edit_profile_com.setVisibility(View.GONE);
             editCover.setVisibility(View.GONE);
             editDp.setVisibility(View.GONE);

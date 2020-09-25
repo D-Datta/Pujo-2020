@@ -925,9 +925,12 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == android.R.id.home){
-            super.onBackPressed();
+            Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+            StoreTemp.getInstance().setPic(null);
+            StoreTemp.getInstance().setCoverpic(null);
+            startActivity(i);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
