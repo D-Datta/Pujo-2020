@@ -141,8 +141,8 @@ public class CommitteeFragment extends Fragment {
         COMMITTEE_NAME = introPref.getFullName();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.toolbarStart),
-                        getResources().getColor(R.color.md_blue_500));
+                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                        getResources().getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             positions = new ArrayList<>();

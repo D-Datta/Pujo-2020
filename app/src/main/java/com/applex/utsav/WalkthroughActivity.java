@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.applex.utsav.preferences.IntroPref;
+import com.applex.utsav.registration.LoginActivity;
 
 import co.gofynd.gravityview.GravityView;
 
@@ -209,7 +210,7 @@ public class WalkthroughActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         introPref.setIsFirstTimeLaunch(false);
-        startActivity(new Intent(WalkthroughActivity.this,LoginActivity.class));
+        startActivity(new Intent(WalkthroughActivity.this, LoginActivity.class));
         finish();
     }
 

@@ -35,7 +35,7 @@
         <activity android:name="com.applex.utsav.registration.RegPujoCommittee" />
         <activity android:name="com.applex.utsav.registration.RegChoice" />
         <activity android:name="com.applex.utsav.WalkthroughActivity" />
-        <activity android:name="com.applex.utsav.LoginActivity" />
+        <activity android:name="com.applex.utsav.registration.LoginActivity" />
         <activity android:name="com.applex.utsav.ReelsActivity" />
         <activity
             android:name="com.applex.utsav.Splash"

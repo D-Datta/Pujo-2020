@@ -1,4 +1,4 @@
-package com.applex.utsav;
+package com.applex.utsav.registration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,11 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.MainActivity;
+import com.applex.utsav.R;
 import com.applex.utsav.models.AccessToken;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.registration.RegChoice;
 import com.applex.utsav.util.InternetConnection;
 import com.applex.utsav.util.Utility;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;

@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.preferences.IntroPref;
+import com.applex.utsav.registration.LoginActivity;
 import com.applex.utsav.util.InternetConnection;
 import com.applex.utsav.util.Utility;
 import com.google.android.gms.tasks.OnFailureListener;
