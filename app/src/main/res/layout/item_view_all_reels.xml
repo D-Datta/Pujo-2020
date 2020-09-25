@@ -74,7 +74,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="25dp"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="22dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginVertical="10dp">
 
@@ -145,7 +145,7 @@
                 android:id="@+id/progressAnim"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                app:lottie_autoPlay="true"
+                app:lottie_autoPlay="false"
                 app:lottie_fileName="video_play.json"
                 app:lottie_loop="true" />
 
@@ -153,7 +153,7 @@
                 android:id="@+id/headline"
                 android:layout_width="150dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
                 android:text="@string/marquee_text"
                 android:textColor="@color/white"
                 android:gravity="center_vertical"
@@ -170,7 +170,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingEnd="17dp"
-            android:layout_marginVertical="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -182,7 +183,7 @@
                     android:id="@+id/drumbeat"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:layout_marginStart="26dp"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/custom_ripple_transparent"
                     android:padding="5dp"
                     android:src="@drawable/ic_drum" />
@@ -236,7 +237,7 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_gravity="end|center_vertical"
-                    android:padding="7dp"
+                    android:padding="8dp"
                     android:src="@drawable/ic_comment_viewmore"
                     app:tint="@color/white_transparent"/>
 

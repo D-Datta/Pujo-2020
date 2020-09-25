@@ -944,6 +944,7 @@ public class CommitteeFragment extends Fragment {
                                                     mp.setLooping(true);
                                                 });
                                             } else {
+                                                cvh1.item_reels_video.seekTo(1);
                                                 cvh1.item_reels_video.pause();
                                             }
                                         }
@@ -1095,6 +1096,10 @@ public class CommitteeFragment extends Fragment {
 
                     holder.item_reels_video.setOnPreparedListener(mp -> {
                         holder.item_reels_image.setVisibility(View.GONE);
+                        if(position == 1) {
+                            holder.item_reels_video.seekTo(1);
+                            holder.item_reels_video.pause();
+                        }
                         mp.setVolume(0f, 0f);
                         mp.setLooping(true);
                     });
@@ -1287,6 +1292,7 @@ public class CommitteeFragment extends Fragment {
                                         mp.setLooping(true);
                                     });
                                 } else {
+                                    cvh.item_reels_video.seekTo(1);
                                     cvh.item_reels_video.pause();
                                 }
                             }
@@ -1392,6 +1398,7 @@ public class CommitteeFragment extends Fragment {
                                         mp.setLooping(true);
                                     });
                                 } else {
+                                    cvh1.item_reels_video.seekTo(1);
                                     cvh1.item_reels_video.pause();
                                 }
                             }

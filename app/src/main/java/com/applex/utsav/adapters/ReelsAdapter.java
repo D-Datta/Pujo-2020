@@ -81,9 +81,14 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     public void onError(Exception e) { }
                 });
 
-        holder.reels_video.setOnPreparedListener(mediaPlayer -> holder.reels_image.setVisibility(View.GONE));
-
         holder.video_playing.playAnimation();
+
+
+//        holder.reels_video.setOnPreparedListener(mediaPlayer -> {
+//            holder.play_image.setVisibility(View.GONE);
+//            holder.reels_image.setVisibility(View.GONE);
+//        });
+
         holder.pujo_desc.setText(currentItem.getDescription());
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.pujo_headline.setSelected(true);
