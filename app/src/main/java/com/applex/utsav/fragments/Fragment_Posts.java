@@ -95,6 +95,7 @@ public class Fragment_Posts extends Fragment {
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .build();
+
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
                 .setLifecycleOwner(this)
                 .setQuery(query, config, snapshot -> {
