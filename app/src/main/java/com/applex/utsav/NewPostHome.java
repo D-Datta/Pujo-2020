@@ -604,7 +604,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             }
 
                             if (!text_content.isEmpty()) {
-                                reelsPostModel.setHeadline(text_content.trim());
+                                reelsPostModel.setDescription(text_content.trim());
                             }
 
                             Long tsLong = System.currentTimeMillis();
