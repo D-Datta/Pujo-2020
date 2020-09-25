@@ -2452,9 +2452,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 else if (imageCoverOrDp == 0 && from == 1){
                     final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
                     ProgrammingViewHolder1 pvh = (ProgrammingViewHolder1) holder;
-                    if(pvh!=null){
-                        pvh.PDp.setImageBitmap(bitmap);
-                    }
+                    pvh.PDp.setImageBitmap(bitmap);
                 }
                 else if (imageCoverOrDp == 1 && from == 0){
                     PCoverpic.setImageBitmap(bitmap);
@@ -2462,9 +2460,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 else if (imageCoverOrDp == 1 && from == 1){
                     final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
                     ProgrammingViewHolder1 pvh = (ProgrammingViewHolder1) holder;
-                    if(pvh!=null){
-                        pvh.Pcoverpic.setImageBitmap(bitmap);
-                    }
+                    pvh.Pcoverpic.setImageBitmap(bitmap);
                 }
 //                appBarImage.setImageBitmap(bitmap);
                 pic = picCompressed;
