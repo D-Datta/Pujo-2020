@@ -81,6 +81,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     int bool;
     private Button locate;
     private ConnectivityManager cm;
+    private BaseUserModel baseUserModel;
 
     private TextView visits, likes, followers;
 
@@ -209,6 +210,34 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .update("pujoVisits", FieldValue.increment(1));
         }
 
+        PDp.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getDp() != null && baseUserModel.getDp().length()>2) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getDp());
+                    startActivity(intent);
+                }
+            }
+            else {
+                Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Pcoverpic.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getCoverpic() != null) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         //setup profile
         if(uid!=null) {
             FirebaseFirestore.getInstance().collection("Users")
@@ -218,7 +247,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()){
-                                BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                                baseUserModel = task.getResult().toObject(BaseUserModel.class);
                                 name = baseUserModel.getName();
                                 PName.setText(name);
                                 dp = baseUserModel.getDp();
@@ -319,6 +348,33 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             }
                         });
         }
+        PDp.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getDp() != null && baseUserModel.getDp().length()>2) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getDp());
+                    startActivity(intent);
+                }
+            }
+            else {
+                Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Pcoverpic.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getCoverpic() != null) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         locate.setOnClickListener(new View.OnClickListener() {
             @Override
