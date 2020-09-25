@@ -74,8 +74,7 @@ public class BottomCommentsDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.bottomsheetcomments, container, false);
-        return v;
+        return inflater.inflate(R.layout.bottomsheetcomments, container, false);
     }
 
     @Override
