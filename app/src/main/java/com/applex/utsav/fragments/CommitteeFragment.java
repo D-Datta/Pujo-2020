@@ -60,7 +60,6 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -96,10 +95,10 @@ public class CommitteeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME;
     private FirestorePagingAdapter adapter;
-    public static DocumentSnapshot lastVisible;
     private IntroPref introPref;
     private Query reels_query;
     private ArrayList<Integer> positions;
+    private int query_position;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -255,14 +254,16 @@ public class CommitteeFragment extends Fragment {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
-                    if(lastVisible != null) {
+                    if(programmingViewHolder.getItemViewType() != 1) {
+                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING)
                                 .limit(10)
-                                .startAfter(lastVisible);
+                                .startAfter(query_position);
                     }
                     else {
+                        query_position = 0;
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING)
@@ -276,13 +277,13 @@ public class CommitteeFragment extends Fragment {
                             }
                             else {
                                 programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-                                lastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
                                 buildReelsRecyclerView(programmingViewHolder.getItemViewType());
 
                                 programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                                     Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                                     intent.putExtra("position", "0");
                                     intent.putExtra("bool", "1");
+                                    intent.putExtra("query_pos", String.valueOf(query_position));
                                     requireActivity().startActivity(intent);
                                 });
                             }
@@ -1121,6 +1122,7 @@ public class CommitteeFragment extends Fragment {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
+                            intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -1129,6 +1131,7 @@ public class CommitteeFragment extends Fragment {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
+                            intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
                     }
