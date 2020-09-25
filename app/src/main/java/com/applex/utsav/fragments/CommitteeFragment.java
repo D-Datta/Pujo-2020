@@ -1080,6 +1080,7 @@ public class CommitteeFragment extends Fragment {
                     .build();
 
             FirestorePagingAdapter reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+                @SuppressLint("SetTextI18n")
                 @Override
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
@@ -1098,7 +1099,11 @@ public class CommitteeFragment extends Fragment {
                     });
 
                     holder.video_time.setText(currentItem.getDuration());
-                    holder.pujo_com_name.setText(currentItem.getCommittee_name());
+                    if(currentItem.getCommittee_name().length() > 15) {
+                        holder.pujo_com_name.setText(currentItem.getCommittee_name().substring(0, 15) + "...");
+                    } else {
+                        holder.pujo_com_name.setText(currentItem.getCommittee_name());
+                    }
 
                     if(holder.item_reels_video.getVisibility() == View.VISIBLE) {
                         holder.item_reels_video.setOnClickListener(v -> {
