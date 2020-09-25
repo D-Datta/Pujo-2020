@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:minHeight="250dp"
+            android:minHeight="340dp"
             android:orientation="horizontal"
             android:background="@color/white">
 
@@ -142,13 +142,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/oxygen_regular"
+            android:fontFamily="@font/oxygen_bold"
             android:background="@drawable/custom_ripple_white"
             android:paddingHorizontal="20dp"
             android:paddingTop="5dp"
             android:text="@string/see_all"
             android:paddingBottom="5dp"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -492,7 +492,7 @@
                             android:fontFamily="@font/oxygen_bold"
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
-                            android:text="@string/comment_hint"
+                            android:text=""
                             android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
@@ -584,7 +584,7 @@
                             android:fontFamily="@font/oxygen_bold"
                             android:lineSpacingExtra="3dp"
                             android:paddingHorizontal="8dp"
-                            android:text="@string/comment_hint"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textColorLink="@color/toolbarStart" />
 

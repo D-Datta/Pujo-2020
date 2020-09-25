@@ -34,6 +34,7 @@ import com.applex.utsav.drawerActivities.AboutUs;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.preferences.IntroPref;
+import com.applex.utsav.registration.LoginActivity;
 import com.applex.utsav.util.DialogUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;

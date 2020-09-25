@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.applex.utsav.registration.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
