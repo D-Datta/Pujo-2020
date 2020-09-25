@@ -1288,7 +1288,7 @@ public class CommitteeFragment extends Fragment {
                                     cvh.item_reels_video.start();
                                     cvh.item_reels_video.setOnPreparedListener(mp -> {
                                         requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                        cvh.item_reels_image.setVisibility(View.GONE);
+                                        new Handler().postDelayed(() -> cvh.item_reels_image.setVisibility(View.GONE), 500);
                                         mp.setVolume(0f, 0f);
                                         mp.setLooping(true);
                                     });
