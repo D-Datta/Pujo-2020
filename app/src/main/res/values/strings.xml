@@ -152,5 +152,7 @@
     <string name="gallery">Gallery</string>
     <string name="follow">FOLLOW</string>
     <string name="loading">Loading...</string>
+    <string name="upvotes">Upvotes</string>
+    <string name="likes">Likes</string>
 
 </resources>

@@ -258,7 +258,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 if(baseUserModel.getFollowerL() != null){
                                                     if(baseUserModel.getFollowerL().size()-1 == 0){
                                                         followers.setText("0");
-                                                        followers.setVisibility(View.GONE);
                                                     }
                                                     else if(baseUserModel.getFollowerL().size()-1 == 1){
                                                         followers.setText((baseUserModel.getFollowerL().size()-1));
