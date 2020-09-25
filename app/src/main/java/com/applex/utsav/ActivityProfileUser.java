@@ -2494,7 +2494,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 introPref.setUserdp(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -2503,7 +2503,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             if(task.isSuccessful()){
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -2511,7 +2511,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 }))
 
                         .addOnFailureListener(e -> {
-                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                             progressDialog.dismiss();
 
                         });
