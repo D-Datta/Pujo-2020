@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -213,6 +215,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             FirebaseFirestore.getInstance().collection("Users")
                     .document(uid).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()){
@@ -273,7 +276,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 likes.setText(baseUserModel.getLikeCount()+"");
                                 //metrics
 
-
                                 FirebaseFirestore.getInstance().collection("Users")
                                         .document(uid)
                                         .collection("com")
@@ -319,13 +321,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                         });
         }
 
-
         locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(cm.getActiveNetworkInfo() != null) {
-                    String location = address+","+city+","+state+"-"+pin;
-                    Uri gmmIntentUri = Uri.parse("geo:0,0?z=15&q=" + Uri.encode(location));
+                    String location = name+","+address+","+city+","+state+"-"+pin;
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+Uri.encode(location)+"&mode=w");
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     startActivity(mapIntent);
@@ -335,12 +336,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
-    private void setupViewPager(ViewPager viewPager)
-    {
+    private void setupViewPager(ViewPager viewPager) {
         ProfileAdapter profileAdapter = new ProfileAdapter(getSupportFragmentManager());
         profileAdapter.addFragment(new Fragment_Posts(uid), "Posts");
         profileAdapter.addFragment(new Fragment_Reels(uid),"Clips");

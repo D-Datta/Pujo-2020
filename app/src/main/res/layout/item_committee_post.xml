@@ -128,19 +128,19 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reelsRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
                 android:paddingHorizontal="5dp"
                 android:clipToPadding="false"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="5dp"/>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/view_all_reels"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="end"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/oxygen_regular"
             android:background="@drawable/custom_ripple_white"

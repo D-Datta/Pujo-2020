@@ -32,7 +32,9 @@ import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
@@ -74,7 +76,6 @@ import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -984,9 +985,7 @@ public class CommitteeFragment extends Fragment {
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, reels_item;
         RecyclerView tagList;
-        @SuppressLint("StaticFieldLeak")
         RecyclerView reelsList;
-        View view1, view2;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         SliderView sliderViewpost;
 
@@ -1051,6 +1050,7 @@ public class CommitteeFragment extends Fragment {
 
         if(pvh != null) {
             pvh.reelsList.setHasFixedSize(false);
+            SnapHelper snapHelper = new PagerSnapHelper();
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             pvh.reelsList.setItemAnimator(new DefaultItemAnimator());
@@ -1058,6 +1058,7 @@ public class CommitteeFragment extends Fragment {
             pvh.reelsList.setNestedScrollingEnabled(true);
             pvh.reelsList.setItemViewCacheSize(10);
             pvh.reelsList.setDrawingCacheEnabled(true);
+            snapHelper.attachToRecyclerView(pvh.reelsList);
 
             PagedList.Config config = new PagedList.Config.Builder()
                     .setInitialLoadSizeHint(5)
@@ -1093,35 +1094,9 @@ public class CommitteeFragment extends Fragment {
                             });
 
                     holder.item_reels_video.setOnPreparedListener(mp -> {
+                        holder.item_reels_image.setVisibility(View.GONE);
                         mp.setVolume(0f, 0f);
                         mp.setLooping(true);
-
-                        int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
-                        int lastVisiblePosition = layoutManager.findLastVisibleItemPosition();
-
-                        if (firstVisiblePosition >= 0) {
-                            Rect rect_parent = new Rect();
-                            pvh.reelsList.getGlobalVisibleRect(rect_parent);
-
-                            for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                                int[] location = new int[2];
-                                holder.item_reels_image.getLocationOnScreen(location);
-
-                                Rect rect_child = new Rect(location[0], location[1], location[0] + holder.item_reels_image.getWidth(), location[1] + holder.item_reels_image.getHeight());
-
-                                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
-                                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
-                                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
-                                float overlapArea = x_overlap * y_overlap;
-                                float percent = (overlapArea / rect_parent_area) * 100.0f;
-
-                                if (percent >= 90) {
-                                    holder.item_reels_image.setVisibility(View.GONE);
-                                } else {
-                                    holder.item_reels_image.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
                     });
 
                     holder.video_time.setText(currentItem.getDuration());
@@ -1258,12 +1233,6 @@ public class CommitteeFragment extends Fragment {
                 public void onViewDetachedFromWindow(@NonNull ReelsItemViewHolder holder) {
                     super.onViewDetachedFromWindow(holder);
                     holder.item_reels_image.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
-                    super.onViewAttachedToWindow(holder);
-
                 }
 
                 @NonNull

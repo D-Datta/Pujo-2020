@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -83,6 +83,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
         holder.reels_video.setOnPreparedListener(mediaPlayer -> holder.reels_image.setVisibility(View.GONE));
 
+        holder.video_playing.playAnimation();
         holder.pujo_desc.setText(currentItem.getDescription());
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.pujo_headline.setSelected(true);
@@ -294,6 +295,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         ImageView pujo_com_dp, like_image, commentimg, like, comment, share,back_reel,save_reel, play_image, reels_image;
         TextView pujo_com_name, pujo_headline, likesCount, commentCount, mins_ago;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
+        LottieAnimationView video_playing;
 
         ReelsItemViewHolder(View itemView) {
             super(itemView);
@@ -315,6 +317,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             play_image = itemView.findViewById(R.id.play);
             mins_ago = itemView.findViewById(R.id.mins_ago_reels);
             reels_image = itemView.findViewById(R.id.reels_image);
+            video_playing = itemView.findViewById(R.id.progressAnim);
         }
     }
 

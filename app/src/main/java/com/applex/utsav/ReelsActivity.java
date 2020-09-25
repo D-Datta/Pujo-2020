@@ -19,6 +19,7 @@ public class ReelsActivity extends AppCompatActivity {
     private String uid;
     private ArrayList<ReelsPostModel> models;
     private ReelsAdapter adapter;
+    private Query query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class ReelsActivity extends AppCompatActivity {
 
         models = new ArrayList<>();
 
-        Query query;
         if(bool.matches("1")) {
             if(lastVisible != null) {
                 Log.i("BAM", bool);
@@ -48,6 +48,9 @@ public class ReelsActivity extends AppCompatActivity {
             else {
 
             }
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .orderBy("ts", Query.Direction.DESCENDING);
         }
         else if(bool.matches("2")) {
             query = FirebaseFirestore.getInstance()
@@ -56,9 +59,7 @@ public class ReelsActivity extends AppCompatActivity {
                     .orderBy("ts", Query.Direction.DESCENDING);
         }
 
-        query = FirebaseFirestore.getInstance()
-                .collection("Reels")
-                .orderBy("ts", Query.Direction.DESCENDING);
+
 
         query.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
