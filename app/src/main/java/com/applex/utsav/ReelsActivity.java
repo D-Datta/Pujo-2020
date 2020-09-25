@@ -25,7 +25,6 @@ import android.widget.VideoView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
-import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -34,7 +33,6 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -51,6 +49,7 @@ public class ReelsActivity extends AppCompatActivity {
     private Query query;
     private String COMMITTEE_LOGO, COMMITTEE_NAME;
     private IntroPref introPref;
+    private int query_pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +62,28 @@ public class ReelsActivity extends AppCompatActivity {
 
         reelsList = findViewById(R.id.recyclerReelsViewAll);
 
-        DocumentSnapshot lastVisible = CommitteeFragment.lastVisible;
         String bool = Objects.requireNonNull(getIntent().getStringExtra("bool"));
+
         if(getIntent().getStringExtra("uid") != null) {
             uid = getIntent().getStringExtra("uid");
         }
 
-        if(bool.matches("1")) { //
-            if(lastVisible != null) {
+        if(getIntent().getStringExtra("query_pos") != null) {
+            query_pos = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("query_pos")));
+        }
+
+        if(bool.matches("1")) {
+            if(query_pos != 0) {
                 query = FirebaseFirestore.getInstance()
                         .collection("Reels")
                         .orderBy("ts", Query.Direction.DESCENDING)
-                        .startAfter(lastVisible);
+                        .startAfter(query_pos);
             }
             else {
-
+                query = FirebaseFirestore.getInstance()
+                        .collection("Reels")
+                        .orderBy("ts", Query.Direction.DESCENDING);
             }
-            query = FirebaseFirestore.getInstance()
-                    .collection("Reels")
-                    .orderBy("ts", Query.Direction.DESCENDING);
         }
         else if(bool.matches("2")) {
             query = FirebaseFirestore.getInstance()
@@ -317,7 +319,6 @@ public class ReelsActivity extends AppCompatActivity {
                     BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
-
             }
 
             @Override
@@ -345,7 +346,7 @@ public class ReelsActivity extends AppCompatActivity {
 
         reelsList.setAdapter(adapter);
         Log.i("BAM", Objects.requireNonNull(getIntent().getStringExtra("position")));
-        reelsList.setCurrentItem(2);
+        reelsList.setCurrentItem(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
     }
 
     public static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
