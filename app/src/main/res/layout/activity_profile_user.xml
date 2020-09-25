@@ -29,13 +29,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="54dp"
             android:id="@+id/noProfilePost"
             android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
 
                 <ImageView
                     android:id="@+id/coverpic"
@@ -45,6 +48,18 @@
                     android:maxHeight="200dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/image_background_grey" />
+                <ImageView
+                    android:id="@+id/edit_coverpic_icon_ind"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/custom_ripple_white"
+                    android:src="@drawable/edit_dp" />
+
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -87,8 +102,17 @@
 
                                 </androidx.cardview.widget.CardView>
                             </RelativeLayout>
-
                         </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:id="@+id/edit_dp_icon_ind"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="90dp"
+                            android:padding="7dp"
+                            android:background="@drawable/custom_ripple_white"
+                            android:src="@drawable/edit_dp" />
+
                     </RelativeLayout>
 
 

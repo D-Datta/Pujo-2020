@@ -54,7 +54,8 @@ import static java.lang.Boolean.TRUE;
 
 public class EditProfileIndividualActivity extends AppCompatActivity {
 
-    private ImageView reg_dhak,cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
+    private ImageView reg_dhak;
+//    private ImageView cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
     private EditText fname_ind,lname_ind,username_ind,bio_ind;
     public static EditText city_ind,state_ind;
     private long likeCount;
@@ -99,10 +100,10 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
         reg_dhak = findViewById(R.id.reg_dhak);
-        cover_ind = findViewById(R.id.reg_coverpic_ind);
-        dp_ind = findViewById(R.id.reg_dp_ind);
-        edit_cover_ind = findViewById(R.id.reg_edit_coverpic_icon_ind);
-        edit_dp_ind = findViewById(R.id.reg_edit_dp_ind);
+//        cover_ind = findViewById(R.id.reg_coverpic_ind);
+//        dp_ind = findViewById(R.id.reg_dp_ind);
+//        edit_cover_ind = findViewById(R.id.reg_edit_coverpic_icon_ind);
+//        edit_dp_ind = findViewById(R.id.reg_edit_dp_ind);
         fname_ind = findViewById(R.id.first_name_ind);
         lname_ind = findViewById(R.id.last_name_ind);
         username_ind = findViewById(R.id.user_name_ind);
@@ -136,34 +137,31 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                             likeCount = baseUserModel.getLikeCount();
                             pujoVisits = baseUserModel.getPujoVisits();
                             lastVisitTs = baseUserModel.getLastVisitTs();
-                            if(baseUserModel.getAddressline()!=null && !baseUserModel.getAddressline().isEmpty())
-                            {
-                               bio_ind.setText(baseUserModel.getAddressline());
-                            }
+
                             if(baseUserModel.getCity()!=null && !baseUserModel.getCity().isEmpty())
                             {
                                 city_ind.setText(baseUserModel.getCity());
                             }
-                            if(baseUserModel.getCoverpic()!=null && !baseUserModel.getCoverpic().isEmpty())
-                            {
-                                if(StoreTemp.getInstance().getCoverpic()!=null && StoreTemp.getInstance().getCoverpic().length>0){
-                                    cover_ind.setImageBitmap(BitmapFactory.decodeByteArray(StoreTemp.getInstance().getCoverpic(),0, StoreTemp.getInstance().getCoverpic().length));
-                                }
-                                else
-                                {
-                                    Picasso.get().load(baseUserModel.getCoverpic()).into(cover_ind);
-                                }
-                            }
-                            if(baseUserModel.getDp()!=null && !baseUserModel.getDp().isEmpty())
-                            {
-                                if(StoreTemp.getInstance().getPic()!=null && StoreTemp.getInstance().getPic().length>0){
-                                    dp_ind.setImageBitmap(BitmapFactory.decodeByteArray(StoreTemp.getInstance().getPic(),0, StoreTemp.getInstance().getPic().length));
-                                }
-                                else
-                                {
-                                    Picasso.get().load(baseUserModel.getDp()).into(dp_ind);
-                                }
-                            }
+//                            if(baseUserModel.getCoverpic()!=null && !baseUserModel.getCoverpic().isEmpty())
+//                            {
+//                                if(StoreTemp.getInstance().getCoverpic()!=null && StoreTemp.getInstance().getCoverpic().length>0){
+//                                    cover_ind.setImageBitmap(BitmapFactory.decodeByteArray(StoreTemp.getInstance().getCoverpic(),0, StoreTemp.getInstance().getCoverpic().length));
+//                                }
+//                                else
+//                                {
+//                                    Picasso.get().load(baseUserModel.getCoverpic()).into(cover_ind);
+//                                }
+//                            }
+//                            if(baseUserModel.getDp()!=null && !baseUserModel.getDp().isEmpty())
+//                            {
+//                                if(StoreTemp.getInstance().getPic()!=null && StoreTemp.getInstance().getPic().length>0){
+//                                    dp_ind.setImageBitmap(BitmapFactory.decodeByteArray(StoreTemp.getInstance().getPic(),0, StoreTemp.getInstance().getPic().length));
+//                                }
+//                                else
+//                                {
+//                                    Picasso.get().load(baseUserModel.getDp()).into(dp_ind);
+//                                }
+//                            }
                             if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
                             {
                                 username_ind.setText(baseUserModel.getName());
@@ -197,24 +195,28 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                             {
                                 lname_ind.setText(individualModel.getLastname());
                             }
+                            if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty())
+                            {
+                                bio_ind.setText(individualModel.getBio());
+                            }
                         }
                     }
                 });
 
-        edit_dp_ind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage();
-                pictype=0;
-            }
-        });
-        edit_cover_ind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chooseImage();
-                pictype=1;
-            }
-        });
+//        edit_dp_ind.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                chooseImage();
+//                pictype=0;
+//            }
+//        });
+//        edit_cover_ind.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                chooseImage();
+//                pictype=1;
+//            }
+//        });
 
         city_ind.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -698,12 +700,12 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                 if(pictype==0){
                     pic = baos.toByteArray();
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 , pic.length);
-                    dp_ind.setImageBitmap(bitmap1);
+//                    dp_ind.setImageBitmap(bitmap1);
                 }
                 else if(pictype==1){
                     coverpicbyte = baos.toByteArray();
                     Bitmap bitmap2 = BitmapFactory.decodeByteArray(coverpicbyte, 0 , coverpicbyte.length);
-                    cover_ind.setImageBitmap(bitmap2);
+//                    cover_ind.setImageBitmap(bitmap2);
                 }
 
                // new ImageCompressor().execute();
@@ -879,12 +881,12 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                 if(pictype==0){
                     pic = picCompressed;
                     Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 , picCompressed.length);
-                    dp_ind.setImageBitmap(bitmap);
+//                    dp_ind.setImageBitmap(bitmap);
                 }
                 else if(pictype==1){
                     coverpicbyte = picCompressed;
                     Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 , picCompressed.length);
-                    cover_ind.setImageBitmap(bitmap);
+//                    cover_ind.setImageBitmap(bitmap);
                 }
             }
         }
