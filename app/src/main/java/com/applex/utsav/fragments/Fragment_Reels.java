@@ -125,7 +125,7 @@ public class Fragment_Reels extends Fragment {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                 holder.video_time.setText(currentItem.getDuration());
                 holder.item_reels_image.setVisibility(View.VISIBLE);
-                holder.video_views.setText(currentItem.getVideoviews() + " views");
+                holder.video_views.setText(currentItem.getVideoViews() + " views");
 
                 if(currentItem.getHeadline().length() > 15) {
                     holder.headline.setText(currentItem.getHeadline().substring(0, 15) + "...");

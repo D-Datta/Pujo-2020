@@ -91,6 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
+                        android:fontFamily="@font/oxygen_regular"
                         android:text="420 views"
                         android:textColor="@color/white"
                         android:textSize="12dp"
