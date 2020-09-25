@@ -128,7 +128,7 @@ public class FlamedByAdapter extends RecyclerView.Adapter<FlamedByAdapter.Progra
 //            PName = itemView.findViewById(R.id.Profilename);
             PUsername = itemView.findViewById(R.id.Lusername);
 //            PDescription = itemView.findViewById(R.id.Pdescription);
-            PInstitute = itemView.findViewById(R.id.Linstitute);
+//            PInstitute = itemView.findViewById(R.id.Linstitute);
 //            PDetaileddesc = itemView.findViewById(R.id.username);
             time = itemView.findViewById(R.id.time);
             userimage = itemView.findViewById(R.id.Ldp);

@@ -48,17 +48,6 @@
                 android:paddingVertical="2dp"
                 android:maxLines="2"
                 android:fontFamily="@font/harabara" />
-            <TextView
-                android:id="@+id/Linstitute"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Institute"
-                android:textSize="12sp"
-                android:textColor="#212121"
-                android:paddingHorizontal="5dp"
-                android:fontFamily="@font/oxygen_regular"
-                android:paddingVertical="2dp"
-                android:background="@android:color/transparent"/>
 
             <TextView
                 android:id="@+id/time"
