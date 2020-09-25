@@ -23,22 +23,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-
-        <activity android:name="com.applex.utsav.Webview"/>
-        <activity android:name="com.applex.utsav.drawerActivities.AboutUs" />
-        <activity android:name="com.applex.utsav.EditProfileIndividualActivity" />
-        <activity android:name="com.applex.utsav.EditProfileCommitteeActivity" />
-        <activity android:name="com.applex.utsav.ActivityProfileCommittee" />
-        <activity android:name="com.applex.utsav.ActivityProfileUser" />
-        <activity android:name="com.applex.utsav.SearchCityState" />
-        <activity android:name="com.applex.utsav.registration.RegIndividual" />
-        <activity android:name="com.applex.utsav.registration.RegPujoCommittee" />
-        <activity android:name="com.applex.utsav.registration.RegChoice" />
-        <activity android:name="com.applex.utsav.WalkthroughActivity" />
-        <activity android:name="com.applex.utsav.registration.LoginActivity" />
-        <activity android:name="com.applex.utsav.ReelsActivity" />
+        <activity android:name=".ActivityNotification"></activity>
+        <activity android:name=".Webview" />
+        <activity android:name=".drawerActivities.AboutUs" />
+        <activity android:name=".EditProfileIndividualActivity" />
+        <activity android:name=".EditProfileCommitteeActivity" />
+        <activity android:name=".ActivityProfileCommittee" />
+        <activity android:name=".ActivityProfileUser" />
+        <activity android:name=".SearchCityState" />
+        <activity android:name=".registration.RegIndividual" />
+        <activity android:name=".registration.RegPujoCommittee" />
+        <activity android:name=".registration.RegChoice" />
+        <activity android:name=".WalkthroughActivity" />
+        <activity android:name=".registration.LoginActivity" />
+        <activity android:name=".ReelsActivity" />
         <activity
-            android:name="com.applex.utsav.Splash"
+            android:name=".Splash"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -48,12 +48,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.applex.utsav.CommentReplyActivity"
+            android:name=".CommentReplyActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.applex.utsav.CommentEdit"
+            android:name=".CommentEdit"
             android:screenOrientation="portrait" />
-        <activity android:name="com.applex.utsav.GateWayActivity">
+        <activity android:name=".GateWayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -76,13 +76,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.applex.utsav.ProfilePictureActivity"
+            android:name=".ProfilePictureActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.applex.utsav.CommitteeViewAll"
+            android:name=".CommitteeViewAll"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.applex.utsav.NewPostHome"
+            android:name=".NewPostHome"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
 
@@ -99,7 +99,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name="com.applex.utsav.ViewMoreHome"
+            android:name=".ViewMoreHome"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="Home" />
@@ -112,7 +112,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name="com.applex.utsav.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>

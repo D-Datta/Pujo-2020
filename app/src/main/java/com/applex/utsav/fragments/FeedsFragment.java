@@ -53,9 +53,9 @@ import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.StoreTemp;
+import com.applex.utsav.utility.BasicUtility;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -174,7 +174,7 @@ public class FeedsFragment extends Fragment {
 //                startActivity(i);
 //            }
 //            else
-//                Utility.showToast(getContext(), "Network Unavailable...");
+//                BasicUtility.showToast(getContext(), "Network Unavailable...");
 //        });
 
 
@@ -298,7 +298,7 @@ public class FeedsFragment extends Fragment {
                                     startActivity(i);
                                 }
                                 else
-                                    Utility.showToast(getContext(), "Network Unavailable...");
+                                    BasicUtility.showToast(getContext(), "Network Unavailable...");
                             }
                         });
 
@@ -323,7 +323,7 @@ public class FeedsFragment extends Fragment {
                 }
 
                 DocumentReference likeStore;
-                String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 feedViewHolder.minsago.setText(timeAgo);
                 if (timeAgo != null) {
                     if (timeAgo.matches("just now")) {
@@ -572,7 +572,7 @@ public class FeedsFragment extends Fragment {
                                 ///////////////////BATCH WRITE///////////////////
                             }
                             else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                Utility.vibrate(requireActivity());
+                                BasicUtility.vibrate(requireActivity());
                                 try {
                                     AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                     MediaPlayer player = new MediaPlayer();
@@ -686,9 +686,9 @@ public class FeedsFragment extends Fragment {
                                         feedViewHolder.link_preview1.setVisibility(View.GONE);
                                     }
 
-                                    feedViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel.getTs()));
-                                    if (Utility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(Utility.getTimeAgo(commentModel.getTs())).matches("just now")) {
+                                    feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
+                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
+                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
                                             feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                         } else {
                                             feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -739,9 +739,9 @@ public class FeedsFragment extends Fragment {
                                                 feedViewHolder.link_preview1.setVisibility(View.GONE);
                                             }
 
-                                            feedViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel1.getTs()));
-                                            if (Utility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
+                                            feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
                                                     feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -777,9 +777,9 @@ public class FeedsFragment extends Fragment {
                                                 feedViewHolder.link_preview2.setVisibility(View.GONE);
                                             }
 
-                                            feedViewHolder.cmnt2_minsago.setText(Utility.getTimeAgo(commentModel2.getTs()));
-                                            if (Utility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
+                                            feedViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
                                                     feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -898,7 +898,7 @@ public class FeedsFragment extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Feeds/").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -915,7 +915,7 @@ public class FeedsFragment extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Feeds/").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
 
                         });
@@ -946,7 +946,7 @@ public class FeedsFragment extends Fragment {
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: Utility.showToast(getActivity(), "Something went wrong...");
+                    case ERROR: BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
@@ -1064,11 +1064,11 @@ public class FeedsFragment extends Fragment {
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(TRUE);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(getContext())){
-                Utility.requestStoragePermission(getContext());
+            if(!BasicUtility.checkStoragePermission(getContext())){
+                BasicUtility.requestStoragePermission(getContext());
             }
             else {
-                boolean bool = Utility.saveImage(bitmap, getContext());
+                boolean bool = BasicUtility.saveImage(bitmap, getContext());
                 if(bool){
                     Toast.makeText(getContext(), "Saved to device", Toast.LENGTH_SHORT).show();
                     myDialogue.dismiss();

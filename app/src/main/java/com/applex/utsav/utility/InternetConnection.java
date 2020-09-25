@@ -1,4 +1,4 @@
-package com.applex.utsav.util;
+package com.applex.utsav.utility;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

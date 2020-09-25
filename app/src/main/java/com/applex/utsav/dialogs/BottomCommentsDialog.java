@@ -8,21 +8,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,11 +29,9 @@ import com.applex.utsav.R;
 import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.Utility;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.InternetConnection;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
 
-public class BottomCommentsDialog extends BottomSheetDialogFragment {
+public class BottomCommentsDialog extends DialogFragment {
 
     private RecyclerView commentRecycler;
     private CommentAdapter commentAdapter;
@@ -65,7 +61,6 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     private CollectionReference commentRef;
     private BottomSheetDialog commentMenuDialog;
     private ProgressDialog progressDialog;
-    private CoordinatorLayout rootView;
     private String uid;
 
     public BottomCommentsDialog(String root,String docID, String uid, int bool) {
@@ -79,20 +74,22 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.bottomsheetcomments, container, false);
-        Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return inflater.inflate(R.layout.bottomsheetcomments, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
         commentRecycler =v.findViewById(R.id.flamed_recycler);
         progressBar = v.findViewById(R.id.progress5);
         ImageView dismiss = v.findViewById(R.id.dismissflame);
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
         nestedScrollView.setNestedScrollingEnabled(true);
-        //rootView = v.findViewById(R.id.rootView);
 
+        no_comment = v.findViewById(R.id.no_comments);
         commentimg = v.findViewById(R.id.user_image_comment);
         newComment = v.findViewById(R.id.new_comment);
         send = v.findViewById(R.id.send_comment);
-        no_comment = v.findViewById(R.id.no_comments);
         progressComment = v.findViewById(R.id.commentProgress);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -119,25 +116,22 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
             }
         });
 
-        //new KeyboardUtil(requireActivity(), rootView);
-
         if(bool == 1) {
             newComment.requestFocus();
-            Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
+            Objects.requireNonNull(requireActivity().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
 
         Picasso.get().load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
-            .placeholder(R.drawable.ic_account_circle_black_24dp)
-            .into(commentimg, new Callback() {
-                @Override
-                public void onSuccess() { }
+                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                .into(commentimg, new Callback() {
+                    @Override
+                    public void onSuccess() { }
 
-                @Override
-                public void onError(Exception e) {
-                    commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
-            });
+                    @Override
+                    public void onError(Exception e) {
+                        commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                });
 
         commentimg.setOnClickListener(v2 -> {
             newComment.requestFocus();
@@ -151,7 +145,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
         send.setOnClickListener(v2 -> {
             if(InternetConnection.checkConnection(requireActivity())) {
                 if(newComment.getText().toString().isEmpty()) {
-                    Utility.showToast(requireActivity(), "Thoughts need to be typed...");
+                    BasicUtility.showToast(requireActivity(), "Thoughts need to be typed...");
                 }
                 else {
                     send.setVisibility(View.GONE);
@@ -205,45 +199,25 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                 }
             }
             else {
-                Utility.showToast(requireActivity(), "Network unavailable...");
+                BasicUtility.showToast(requireActivity(), "Network unavailable...");
             }
         });
 
         buildRecyclerView_comments();
 
         dismiss.setOnClickListener(v1 -> BottomCommentsDialog.super.onDestroyView());
-        return v;
     }
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setOnShowListener(dialogInterface -> {
-            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
-            setupFullHeight(bottomSheetDialog);
-        });
-        return  dialog;
-    }
-
-    private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
-        FrameLayout bottomSheet = bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
-        BottomSheetBehavior behavior = BottomSheetBehavior.from(Objects.requireNonNull(bottomSheet));
-        ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
-
-        int windowHeight = getWindowHeight();
-        if (layoutParams != null) {
-            layoutParams.height = windowHeight;
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        //Make dialog full screen with transparent background
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            Objects.requireNonNull(dialog.getWindow()).setLayout(width, height);
         }
-        bottomSheet.setLayoutParams(layoutParams);
-        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-    }
-
-    private int getWindowHeight() {
-        // Calculate window height for fullscreen use
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        return displayMetrics.heightPixels;
     }
 
     private void buildRecyclerView_comments(){
@@ -322,7 +296,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                             commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                                 commentRef.document(models.get(position).getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(requireActivity(), "Comment has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(requireActivity(), "Comment has been reported."));
                                 commentMenuDialog.dismiss();
                             });
                         }
@@ -334,7 +308,7 @@ public class BottomCommentsDialog extends BottomSheetDialogFragment {
                             commentMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                                 commentRef.document(models.get(position).getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(requireActivity(), "Comment has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(requireActivity(), "Comment has been reported."));
                                 commentMenuDialog.dismiss();
                             });
                         }

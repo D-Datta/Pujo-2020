@@ -31,7 +31,7 @@ import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.models.PujoCommitteeModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -131,7 +131,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         Log.w("TAG", "getInstanceId failed", task.getException());
-                        Utility.showToast(getApplicationContext(),"Error creating token");
+                        BasicUtility.showToast(getApplicationContext(),"Error creating token");
                         return;
                     }
                     // Get new Instance ID token
@@ -236,10 +236,10 @@ public class RegPujoCommittee extends AppCompatActivity {
                         ettype.requestFocus();
                     }
                     if(pic==null){
-                        Utility.showToast(RegPujoCommittee.this,"Please set a Profile Photo");
+                        BasicUtility.showToast(RegPujoCommittee.this,"Please set a Profile Photo");
                     }
                     if(coverpicbyte==null){
-                        Utility.showToast(RegPujoCommittee.this,"Please set a Cover Photo");
+                        BasicUtility.showToast(RegPujoCommittee.this,"Please set a Cover Photo");
                     }
 
                 }
@@ -328,7 +328,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                                                           public void onComplete(@NonNull Task<Void> task) {
                                                                                                               if(task.isSuccessful()){
                                                                                                                   progressDialog.dismiss();
-                                                                                                                  Utility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                                  BasicUtility.showToast(getApplicationContext(), "Profile Created");
                                                                                                                   Intent intent = new Intent(RegPujoCommittee.this, MainActivity.class);
                                                                                                                   intent.putExtra("uid", fireuser.getUid());
                                                                                                                   startActivity(intent);
@@ -336,7 +336,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                                                               }
                                                                                                               else{
                                                                                                                   progressDialog.dismiss();
-                                                                                                                  Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                                  BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                               }
                                                                                                           }
                                                                                                       })
@@ -344,13 +344,13 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                                                                   @Override
                                                                                                                   public void onFailure(@NonNull Exception e) {
                                                                                                                       progressDialog.dismiss();
-                                                                                                                      Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                                      BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                                   }
                                                                                                               });
                                                                                                   }
                                                                                                   else{
                                                                                                       progressDialog.dismiss();
-                                                                                                      Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                      BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                   }
                                                                                               }
                                                                                           })
@@ -358,13 +358,13 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                                                       @Override
                                                                                                       public void onFailure(@NonNull Exception e) {
                                                                                                           progressDialog.dismiss();
-                                                                                                          Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                          BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                       }
                                                                                                   });
                                                                                       }
                                                                                       else{
                                                                                           progressDialog.dismiss();
-                                                                                          Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                          BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                       }
                                                                                   }
                                                                               })
@@ -372,13 +372,13 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                                           @Override
                                                                                           public void onFailure(@NonNull Exception e) {
                                                                                               progressDialog.dismiss();
-                                                                                              Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                              BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                           }
                                                                                       });
 
                                                                           } else {
                                                                               progressDialog.dismiss();
-                                                                              Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                              BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                           }
                                                                       }
                                                                   })
@@ -386,7 +386,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                               @Override
                                                                               public void onFailure(@NonNull Exception e) {
                                                                                   progressDialog.dismiss();
-                                                                                  Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                  BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                               }
                                                                           });
                                                               }
@@ -396,7 +396,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                                               }
                                               else {
                                                   progressDialog.dismiss();
-                                                  Utility.showToast(RegPujoCommittee.this,"Please set Profile Photo and Cover Photo");
+                                                  BasicUtility.showToast(RegPujoCommittee.this,"Please set Profile Photo and Cover Photo");
                                               }
                                           }
                                       });
@@ -405,12 +405,12 @@ public class RegPujoCommittee extends AppCompatActivity {
                           }
                           else{
                               progressDialog.dismiss();
-                              Utility.showToast(RegPujoCommittee.this,"Please set Profile Photo and Cover Photo");
+                              BasicUtility.showToast(RegPujoCommittee.this,"Please set Profile Photo and Cover Photo");
                           }
                       }
                       else{
                           progressDialog.dismiss();
-                          Utility.showToast(RegPujoCommittee.this,"Please set Profile Photo and Cover Photo");
+                          BasicUtility.showToast(RegPujoCommittee.this,"Please set Profile Photo and Cover Photo");
                       }
                 }
 
@@ -480,7 +480,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 }
 
                 try {
-                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

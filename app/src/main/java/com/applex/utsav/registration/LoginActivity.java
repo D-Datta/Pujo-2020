@@ -26,8 +26,8 @@ import com.applex.utsav.models.AccessToken;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.InternetConnection;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -314,14 +314,14 @@ public class LoginActivity extends AppCompatActivity {
 //                                .addOnFailureListener(new OnFailureListener() {
 //                                    @Override
 //                                    public void onFailure(@NonNull Exception e) {
-//                                        Utility.showToast(getApplicationContext(), "No Internet Connection");
+//                                        BasicUtility.showToast(getApplicationContext(), "No Internet Connection");
 //                                    }
 //                                });
 
                     }
                 }
                 else {
-                    Utility.showToast(LoginActivity.this,"Please check internet connection...");
+                    BasicUtility.showToast(LoginActivity.this,"Please check internet connection...");
                 }
 
             }
@@ -382,7 +382,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                                 public void onSuccess(InstanceIdResult instanceIdResult) {
                                                                                     if (instanceIdResult == null) {
                                                                                         Log.w("TAG", "getInstanceId failed");
-                                                                                        Utility.showToast(getApplicationContext(), "Error creating token");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Error creating token");
                                                                                         return;
                                                                                     } else {
                                                                                         progress.setVisibility(GONE);
@@ -452,7 +452,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                             .addOnFailureListener(new OnFailureListener() {
                                                                                 @Override
                                                                                 public void onFailure(@NonNull Exception e) {
-                                                                                    Utility.showToast(getApplicationContext(), "No internet connection");
+                                                                                    BasicUtility.showToast(getApplicationContext(), "No internet connection");
                                                                                 }
                                                                             });
                                                                 } else {
@@ -469,7 +469,7 @@ public class LoginActivity extends AppCompatActivity {
                                                         .addOnFailureListener(new OnFailureListener() {
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
                                                             }
                                                         });
                                             } else {
@@ -483,7 +483,7 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         progress.setVisibility(GONE);
-                                        Utility.showToast(getApplicationContext(), "Account does not exist or invalid credentials.");
+                                        BasicUtility.showToast(getApplicationContext(), "Account does not exist or invalid credentials.");
                                     }
                                 });
 
@@ -511,7 +511,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                                                    .addOnCompleteListener(t -> {
 //                                                                        if (!t.isSuccessful()) {
 //                                                                            Log.w("TAG", "getInstanceId failed", t.getException());
-//                                                                            Utility.showToast(getApplicationContext(),"Error creating token");
+//                                                                            BasicUtility.showToast(getApplicationContext(),"Error creating token");
 //                                                                            return;
 //                                                                        }
 //                                                                        else {
@@ -564,7 +564,7 @@ public class LoginActivity extends AppCompatActivity {
 //                });
 
                     }
-                } else Utility.showToast(getApplicationContext(),"Check Internet connectivity.");
+                } else BasicUtility.showToast(getApplicationContext(),"Check Internet connectivity.");
             }
 
         });
@@ -628,7 +628,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                 public void onSuccess(InstanceIdResult instanceIdResult) {
                                                                     if(instanceIdResult == null) {
                                                                         Log.w("TAG", "getInstanceId failed");
-                                                                        Utility.showToast(getApplicationContext(),"Error creating token");
+                                                                        BasicUtility.showToast(getApplicationContext(),"Error creating token");
                                                                         return;
                                                                     }
                                                                     else {
@@ -676,7 +676,7 @@ public class LoginActivity extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
                                             }
                                         });
                             }
@@ -689,7 +689,7 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnFailureListener(this, new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Utility.showToast(getApplicationContext(), "Something went wrong...");
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
                         }
                     });
 
@@ -716,7 +716,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                                        .addOnCompleteListener(t -> {
 //                                                            if (!t.isSuccessful()) {
 //                                                                Log.w("TAG", "getInstanceId failed", t.getException());
-//                                                                Utility.showToast(getApplicationContext(),"Error creating token");
+//                                                                BasicUtility.showToast(getApplicationContext(),"Error creating token");
 //                                                                return;
 //                                                            }
 //                                                            else {
@@ -770,7 +770,7 @@ public class LoginActivity extends AppCompatActivity {
 
         }
         else {
-            Utility.showToast(getApplicationContext(), "Network unavailable...");
+            BasicUtility.showToast(getApplicationContext(), "Network unavailable...");
         }
 
     }

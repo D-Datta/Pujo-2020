@@ -24,7 +24,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.adapters.ProfileAdapter;
 import com.applex.utsav.fragments.Fragment_Posts;
@@ -40,7 +40,6 @@ import com.applex.utsav.fragments.Fragment_Reels;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.PujoCommitteeModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -206,7 +205,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             //increment no of visitors
             FirebaseFirestore.getInstance()
                     .collection("Users")
-                    .document(FirebaseAuth.getInstance().getUid())
+                    .document(uid)
                     .update("pujoVisits", FieldValue.increment(1));
         }
 
@@ -295,7 +294,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     }
                                                 }
                                                 else{
-                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                    BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                                                 }
 
                                             }
@@ -303,20 +302,20 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                                             }
                                         });
 
                             }
                             else{
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                             }
                         });
         }
@@ -586,7 +585,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 introPref.setDefaultdp(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -595,7 +594,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                             if(task.isSuccessful()){
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -603,7 +602,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 }))
 
                         .addOnFailureListener(e -> {
-                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                             progressDialog.dismiss();
 
                         });

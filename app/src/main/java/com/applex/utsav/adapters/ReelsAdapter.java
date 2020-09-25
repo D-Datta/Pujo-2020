@@ -28,7 +28,7 @@ import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -93,7 +93,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.reels_video.start();
         });
 
-        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+        String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
         holder.mins_ago.setText(timeAgo);
         if (timeAgo != null) {
             if (timeAgo.matches("just now")) {
@@ -166,74 +166,74 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
         /////FLAME/////
         PushDownAnim.setPushDownAnimTo(holder.like)
-                .setScale(PushDownAnim.MODE_STATIC_DP, 6)
-                .setOnClickListener(v -> {
+            .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+            .setOnClickListener(v -> {
 
-                    //play animation, play audio
+                //play animation, play audio
 
-                    if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                        if (currentItem.getLikeL().size() - 1 == 0) {
-                            holder.likesCount.setVisibility(View.GONE);
-                            holder.like_image.setVisibility(View.GONE);
-                        } else {
-                            holder.likesCount.setVisibility(View.VISIBLE);
-                            holder.like_image.setVisibility(View.VISIBLE);
-                            holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
-                        }
-                        ///////////REMOVE CURRENT USER LIKE/////////////
-                        currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
-                        currentItem.setLikeCheck(-1);
-
-                        ///////////////////BATCH WRITE///////////////////
-                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-
-                        DocumentReference flamedDoc = likeStore.collection("flameL")
-                                .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                        batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-                        batch.delete(flamedDoc);
-
-                        batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
-                        ///////////////////BATCH WRITE///////////////////
-                    }
-                    else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                        Utility.vibrate(context);
+                if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                    if (currentItem.getLikeL().size() - 1 == 0) {
+                        holder.likesCount.setVisibility(View.GONE);
+                        holder.like_image.setVisibility(View.GONE);
+                    } else {
                         holder.likesCount.setVisibility(View.VISIBLE);
                         holder.like_image.setVisibility(View.VISIBLE);
-                        if (currentItem.getLikeL() != null) {
-                            holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
-                        } else {
-                            holder.likesCount.setText("1");
-                        }
-
-                        //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                        currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                        currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
-                        //For local changes current item like added to remote list end
-
-                        ///////////////////BATCH WRITE///////////////////
-                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                        FlamedModel flamedModel = new FlamedModel();
-                        long tsLong = System.currentTimeMillis();
-
-                        flamedModel.setPostID(currentItem.getDocID());
-                        flamedModel.setTs(tsLong);
-                        flamedModel.setType(new IntroPref(context).getType());
-                        flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                        flamedModel.setUserdp(COMMITTEE_LOGO);
-                        flamedModel.setUsername(COMMITTEE_NAME);
-                        flamedModel.setPostUid(currentItem.getUid());
-
-                        DocumentReference flamedDoc = likeStore.collection("flameL")
-                                .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                        batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                        batch.set(flamedDoc, flamedModel);
-                        if (currentItem.getLikeL().size() % 5 == 0) {
-                            batch.update(likeStore, "newTs", tsLong);
-                        }
-                        batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
-                        ///////////////////BATCH WRITE///////////////////
+                        holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
-                });
+                    ///////////REMOVE CURRENT USER LIKE/////////////
+                    currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                    currentItem.setLikeCheck(-1);
+
+                    ///////////////////BATCH WRITE///////////////////
+                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
+                    DocumentReference flamedDoc = likeStore.collection("flameL")
+                            .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                    batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                    batch.delete(flamedDoc);
+
+                    batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
+                    ///////////////////BATCH WRITE///////////////////
+                }
+                else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                    BasicUtility.vibrate(context);
+                    holder.likesCount.setVisibility(View.VISIBLE);
+                    holder.like_image.setVisibility(View.VISIBLE);
+                    if (currentItem.getLikeL() != null) {
+                        holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
+                    } else {
+                        holder.likesCount.setText("1");
+                    }
+
+                    //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                    currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                    currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                    //For local changes current item like added to remote list end
+
+                    ///////////////////BATCH WRITE///////////////////
+                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                    FlamedModel flamedModel = new FlamedModel();
+                    long tsLong = System.currentTimeMillis();
+
+                    flamedModel.setPostID(currentItem.getDocID());
+                    flamedModel.setTs(tsLong);
+                    flamedModel.setType(new IntroPref(context).getType());
+                    flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                    flamedModel.setUserdp(COMMITTEE_LOGO);
+                    flamedModel.setUsername(COMMITTEE_NAME);
+                    flamedModel.setPostUid(currentItem.getUid());
+
+                    DocumentReference flamedDoc = likeStore.collection("flameL")
+                            .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                    batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                    batch.set(flamedDoc, flamedModel);
+                    if (currentItem.getLikeL().size() % 5 == 0) {
+                        batch.update(likeStore, "newTs", tsLong);
+                    }
+                    batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
+                    ///////////////////BATCH WRITE///////////////////
+                }
+            });
         /////FLAME/////
 
         /////COMMENT/////
@@ -261,6 +261,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
+
     }
 
     @Override
@@ -322,11 +323,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(true);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(context)) {
-                Utility.requestStoragePermission(context);
+            if(!BasicUtility.checkStoragePermission(context)) {
+                BasicUtility.requestStoragePermission(context);
             }
             else {
-                boolean bool = Utility.downloadVideo(url, context);
+                boolean bool = BasicUtility.downloadVideo(url, context);
                 if(bool) {
                     Toast.makeText(context, "Saved to device", Toast.LENGTH_SHORT).show();
                 }

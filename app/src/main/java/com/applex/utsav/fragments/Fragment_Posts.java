@@ -21,8 +21,8 @@ import android.widget.RelativeLayout;
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.models.HomePostModel;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -95,6 +95,7 @@ public class Fragment_Posts extends Fragment {
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .build();
+
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
                 .setLifecycleOwner(this)
                 .setQuery(query, config, snapshot -> {
@@ -159,7 +160,7 @@ public class Fragment_Posts extends Fragment {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: Utility.showToast(getContext(), "Something went wrong..."); break;
+                    case ERROR: BasicUtility.showToast(getContext(), "Something went wrong..."); break;
                     case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE); break;
                     case LOADED: progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {

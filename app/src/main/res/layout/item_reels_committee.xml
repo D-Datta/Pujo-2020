@@ -35,15 +35,15 @@
                     android:layout_alignParentTop="true"
                     android:visibility="visible"/>
 
-                <VideoView
-                    android:id="@+id/item_reels_video"
-                    android:layout_width="250dp"
-                    android:layout_height="400dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentTop="true"
-                    android:visibility="gone"/>
+<!--                <VideoView-->
+<!--                    android:id="@+id/item_reels_video"-->
+<!--                    android:layout_width="250dp"-->
+<!--                    android:layout_height="400dp"-->
+<!--                    android:layout_alignParentStart="true"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:layout_alignParentTop="true"-->
+<!--                    android:visibility="gone"/>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"

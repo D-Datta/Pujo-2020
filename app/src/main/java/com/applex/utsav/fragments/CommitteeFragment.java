@@ -30,7 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,9 +53,9 @@ import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.models.SliderModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -208,7 +207,7 @@ public class CommitteeFragment extends Fragment {
                             HomeSliderAdapter adapter1 = new HomeSliderAdapter(getContext(), itemGroups, 2);
                             programmingViewHolder.sliderView.setSliderAdapter(adapter1);
                         })
-                        .addOnFailureListener(e -> Utility.showToast(getContext(), "No Internet Connection"));
+                        .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
 
                     if(introPref.getType().matches("com")){
                         programmingViewHolder.new_post_layout.setVisibility(View.VISIBLE);
@@ -226,7 +225,7 @@ public class CommitteeFragment extends Fragment {
                                 startActivity(i);
                             }
                             else
-                                Utility.showToast(getContext(), "Network Unavailable...");
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
                         });
 
                         if (COMMITEE_LOGO != null) {
@@ -290,7 +289,7 @@ public class CommitteeFragment extends Fragment {
                 }
 
                 DocumentReference likeStore;
-                String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 programmingViewHolder.minsago.setText(timeAgo);
                 if (timeAgo != null) {
                     if (timeAgo.matches("just now")) {
@@ -501,7 +500,7 @@ public class CommitteeFragment extends Fragment {
                             ///////////////////BATCH WRITE///////////////////
                         }
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                            Utility.vibrate(requireActivity());
+                            BasicUtility.vibrate(requireActivity());
                             try {
                                 AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
@@ -612,9 +611,9 @@ public class CommitteeFragment extends Fragment {
                                         programmingViewHolder.link_preview1.setVisibility(View.GONE);
                                     }
 
-                                    programmingViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel.getTs()));
-                                    if (Utility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(Utility.getTimeAgo(commentModel.getTs())).matches("just now")) {
+                                    programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
+                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
+                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
                                             programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                         } else {
                                             programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -665,9 +664,9 @@ public class CommitteeFragment extends Fragment {
                                                 programmingViewHolder.link_preview1.setVisibility(View.GONE);
                                             }
 
-                                            programmingViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel1.getTs()));
-                                            if (Utility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
+                                            programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
                                                     programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -703,9 +702,9 @@ public class CommitteeFragment extends Fragment {
                                                 programmingViewHolder.link_preview2.setVisibility(View.GONE);
                                             }
 
-                                            programmingViewHolder.cmnt2_minsago.setText(Utility.getTimeAgo(commentModel2.getTs()));
-                                            if (Utility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
+                                            programmingViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
                                                     programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -809,7 +808,7 @@ public class CommitteeFragment extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Feeds").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
 
@@ -827,7 +826,7 @@ public class CommitteeFragment extends Fragment {
                             FirebaseFirestore.getInstance()
                                 .collection("Feeds").document(currentItem.getDocID())
                                 .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -856,7 +855,7 @@ public class CommitteeFragment extends Fragment {
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR:
-                        Utility.showToast(getActivity(), "Something went wrong...");
+                        BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE:
                         progressMore.setVisibility(View.VISIBLE);
@@ -1198,7 +1197,7 @@ public class CommitteeFragment extends Fragment {
                                 FirebaseFirestore.getInstance()
                                         .collection("Reels").document(currentItem.getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                        .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                                        .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Reel has been reported."));
                                 postMenuDialog.dismiss();
                             });
 
@@ -1224,7 +1223,7 @@ public class CommitteeFragment extends Fragment {
                                 FirebaseFirestore.getInstance()
                                         .collection("Reels").document(currentItem.getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                        .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                                        .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Reel has been reported."));
                                 postMenuDialog.dismiss();
                             });
 

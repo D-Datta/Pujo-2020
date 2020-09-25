@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.applex.utsav.R;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Callback;
@@ -108,11 +108,11 @@ public class ViewmoreSliderAdapter extends SliderViewAdapter<ViewmoreSliderAdapt
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(TRUE);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(mContext)){
-                Utility.requestStoragePermission(mContext);
+            if(!BasicUtility.checkStoragePermission(mContext)){
+                BasicUtility.requestStoragePermission(mContext);
             }
             else {
-                Boolean bool = Utility.saveImage(bitmap, mContext);
+                Boolean bool = BasicUtility.saveImage(bitmap, mContext);
 
                 if(bool){
                     Toast.makeText(mContext, "Saved to device", Toast.LENGTH_SHORT).show();

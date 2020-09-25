@@ -277,7 +277,7 @@
                         android:maxLines="10"
                         android:ellipsize="end"
                         android:textColorLink="@color/link"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <com.applex.utsav.LinkPreview.ApplexLinkPreview
                         android:id="@+id/LinkPreView"

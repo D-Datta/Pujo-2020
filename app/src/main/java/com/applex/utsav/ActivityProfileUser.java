@@ -51,6 +51,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -65,8 +66,7 @@ import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.IndividualModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -490,7 +490,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         else{
                                             //profile doesn't exist in database
                                             ActivityProfileUser.super.onBackPressed();
-                                            Utility.showToast(ActivityProfileUser.this,"Profile is temporarily unavailable");
+                                            BasicUtility.showToast(ActivityProfileUser.this,"Profile is temporarily unavailable");
                                         }
 
 
@@ -504,7 +504,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                      ////////////////FOR THE FIRST POST////////////////
 //                    DocumentReference likeStore;
 //                    if(currentItem != null) {
-//                        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+//                        String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
 //                        holder1.minsago.setText(timeAgo);
 //                        if(timeAgo != null) {
 //                            if(timeAgo.matches("just now")) {
@@ -826,7 +826,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                                        }
 //
 //                                        else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
-//                                            Utility.vibrate(ActivityProfileUser.this);
+//                                            BasicUtility.vibrate(ActivityProfileUser.this);
 //                                            try {
 //                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
 //                                                MediaPlayer player = new MediaPlayer();
@@ -876,7 +876,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                                        }
 //
 //                                        else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-//                                            Utility.vibrate(getApplicationContext());
+//                                            BasicUtility.vibrate(getApplicationContext());
 //                                            try {
 //                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
 //                                                MediaPlayer player = new MediaPlayer();
@@ -1053,7 +1053,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
 //                                                        @Override
 //                                                        public void onSuccess(Void aVoid) {
-//                                                            Utility.showToast(getApplicationContext(),"Post has been reported.");
+//                                                            BasicUtility.showToast(getApplicationContext(),"Post has been reported.");
 //                                                        }
 //                                                    });
 //                                            postMenuDialog.dismiss();
@@ -1095,7 +1095,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
 //                                                        @Override
 //                                                        public void onSuccess(Void aVoid) {
-//                                                            Utility.showToast(getApplicationContext(),"Post has been reported.");
+//                                                            BasicUtility.showToast(getApplicationContext(),"Post has been reported.");
 //                                                        }
 //                                                    });
 //                                            postMenuDialog.dismiss();
@@ -1127,7 +1127,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 DocumentReference likeStore;
 //                    if(currentItem != null) {
 //                        ProgrammingViewHolder1 programmingViewHolder = (ProgrammingViewHolder1) holder;
-                String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 programmingViewHolder.minsago.setText(timeAgo);
                 if (timeAgo != null) {
                     if (timeAgo.matches("just now")) {
@@ -1496,7 +1496,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     ///////////////////BATCH WRITE///////////////////
                                 }
                                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                    Utility.vibrate(getApplicationContext());
+                                    BasicUtility.vibrate(getApplicationContext());
                                     try {
                                         AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
                                         MediaPlayer player = new MediaPlayer();
@@ -1614,9 +1614,9 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         programmingViewHolder.link_preview1.setVisibility(View.GONE);
                                     }
 
-                                    programmingViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel.getTs()));
-                                    if (Utility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(Utility.getTimeAgo(commentModel.getTs())).matches("just now")) {
+                                    programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
+                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
+                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
                                             programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                         } else {
                                             programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -1667,9 +1667,9 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 programmingViewHolder.link_preview1.setVisibility(View.GONE);
                                             }
 
-                                            programmingViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel1.getTs()));
-                                            if (Utility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
+                                            programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
                                                     programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -1705,9 +1705,9 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 programmingViewHolder.link_preview2.setVisibility(View.GONE);
                                             }
 
-                                            programmingViewHolder.cmnt2_minsago.setText(Utility.getTimeAgo(commentModel2.getTs()));
-                                            if (Utility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
+                                            programmingViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
                                                     programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -1842,7 +1842,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    Utility.showToast(getApplicationContext(),"Post has been reported.");
+                                                    BasicUtility.showToast(getApplicationContext(),"Post has been reported.");
                                                 }
                                             });
                                     postMenuDialog.dismiss();
@@ -1869,7 +1869,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    Utility.showToast(getApplicationContext(),"Post has been reported.");
+                                                    BasicUtility.showToast(getApplicationContext(),"Post has been reported.");
                                                 }
                                             });
                                     postMenuDialog.dismiss();
@@ -1906,7 +1906,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: Utility.showToast(getApplicationContext(), "Something went wrong..."); break;
+                    case ERROR: BasicUtility.showToast(getApplicationContext(), "Something went wrong..."); break;
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE); break;
                     case LOADED: progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
@@ -2069,11 +2069,11 @@ public class ActivityProfileUser extends AppCompatActivity {
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(TRUE);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(ActivityProfileUser.this)){
-                Utility.requestStoragePermission(ActivityProfileUser.this);
+            if(!BasicUtility.checkStoragePermission(ActivityProfileUser.this)){
+                BasicUtility.requestStoragePermission(ActivityProfileUser.this);
             }
             else {
-                boolean bool = Utility.saveImage(bitmap, ActivityProfileUser.this);
+                boolean bool = BasicUtility.saveImage(bitmap, ActivityProfileUser.this);
                 if(bool){
                     Toast.makeText(ActivityProfileUser.this, "Saved to device", Toast.LENGTH_SHORT).show();
                     myDialogue.dismiss();
@@ -2220,7 +2220,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             }
                                             else {
                                                 imageCoverOrDp = 0; //dp
-                                                from = 1; //general
+                                                from = 0; //general
                                                 pickGallery();
                                             }
                                         }
@@ -2234,7 +2234,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                             }
                             else{
                                 ActivityProfileUser.super.onBackPressed();
-                                Utility.showToast(ActivityProfileUser.this, "Profile is temporarily unavailable");
+                                BasicUtility.showToast(ActivityProfileUser.this, "Profile is temporarily unavailable");
                             }
 
                         }
@@ -2494,7 +2494,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                 introPref.setUserdp(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -2503,7 +2503,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             if(task.isSuccessful()){
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -2511,7 +2511,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 }))
 
                         .addOnFailureListener(e -> {
-                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                             progressDialog.dismiss();
 
                         });

@@ -27,7 +27,7 @@ import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.models.ReelsPostModel;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -225,7 +225,7 @@ public class Fragment_Reels extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Reel has been reported."));
                             postMenuDialog.dismiss();
                         });
 
@@ -251,7 +251,7 @@ public class Fragment_Reels extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Reel has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Reel has been reported."));
                             postMenuDialog.dismiss();
                         });
 
@@ -271,7 +271,7 @@ public class Fragment_Reels extends Fragment {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: Utility.showToast(getContext(), "Something went wrong..."); break;
+                    case ERROR: BasicUtility.showToast(getContext(), "Something went wrong..."); break;
                     case LOADING_MORE: progressmorereels.setVisibility(View.VISIBLE); break;
                     case LOADED: progressmorereels.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
