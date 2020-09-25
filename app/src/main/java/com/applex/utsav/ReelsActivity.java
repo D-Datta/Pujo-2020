@@ -36,10 +36,9 @@ public class ReelsActivity extends AppCompatActivity {
 
         models = new ArrayList<>();
 
-        if(bool.matches("1")) {
+        if(bool.matches("1")) { //
             if(lastVisible != null) {
                 Log.i("BAM", bool);
-
                 query = FirebaseFirestore.getInstance()
                         .collection("Reels")
                         .orderBy("ts", Query.Direction.DESCENDING)
@@ -60,7 +59,6 @@ public class ReelsActivity extends AppCompatActivity {
         }
 
 
-
         query.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
@@ -73,5 +71,7 @@ public class ReelsActivity extends AppCompatActivity {
                 reelsList.setCurrentItem(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
             }
         });
+
     }
+
 }

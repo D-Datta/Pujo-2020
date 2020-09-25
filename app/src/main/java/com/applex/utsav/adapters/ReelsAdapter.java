@@ -261,6 +261,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
+
     }
 
     @Override
