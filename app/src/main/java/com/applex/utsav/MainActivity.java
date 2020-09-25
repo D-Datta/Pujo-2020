@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         View hView;
         hView = navigationView.getHeaderView(0);
+        navigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple)));
         name = hView.findViewById(R.id.nav_Name);
         displaypic = hView.findViewById(R.id.displaypic);
 
