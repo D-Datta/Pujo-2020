@@ -492,7 +492,7 @@
                             android:fontFamily="@font/oxygen_bold"
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
-                            android:text="@string/comment_hint"
+                            android:text=""
                             android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
@@ -584,7 +584,7 @@
                             android:fontFamily="@font/oxygen_bold"
                             android:lineSpacingExtra="3dp"
                             android:paddingHorizontal="8dp"
-                            android:text="@string/comment_hint"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textColorLink="@color/toolbarStart" />
 
