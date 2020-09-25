@@ -69,40 +69,15 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         COMMITTEE_LOGO = introPref.getUserdp();
         COMMITTEE_NAME = introPref.getFullName();
 
+        holder.play_image.setVisibility(View.VISIBLE);
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
-
-        Picasso.get().load(currentItem.getFrame()).fit()
-                .into(holder.reels_image, new Callback() {
-                    @Override
-                    public void onSuccess() { }
-
-                    @Override
-                    public void onError(Exception e) { }
-                });
-
-        holder.video_playing.playAnimation();
-
-
-//        holder.reels_video.setOnPreparedListener(mediaPlayer -> {
-//            holder.play_image.setVisibility(View.GONE);
-//            holder.reels_image.setVisibility(View.GONE);
-//        });
+        Picasso.get().load(currentItem.getFrame()).fit().into(holder.reels_image);
 
         holder.pujo_desc.setText(currentItem.getDescription());
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.pujo_headline.setSelected(true);
         holder.pujo_headline.setSingleLine();
-
-        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
-        holder.mins_ago.setText(timeAgo);
-        if (timeAgo != null) {
-            if (timeAgo.matches("just now")) {
-                holder.mins_ago.setTextColor(Color.parseColor("#7700C853"));
-            } else {
-                holder.mins_ago.setTextColor(ContextCompat.getColor(context, R.color.white_transparent));
-            }
-        }
 
         holder.reels_video.setOnCompletionListener(v -> verticalViewPager.setCurrentItem(position + 1, true));
 
@@ -116,6 +91,16 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.play_image.setVisibility(View.GONE);
             holder.reels_video.start();
         });
+
+        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+        holder.mins_ago.setText(timeAgo);
+        if (timeAgo != null) {
+            if (timeAgo.matches("just now")) {
+                holder.mins_ago.setTextColor(Color.parseColor("#7700C853"));
+            } else {
+                holder.mins_ago.setTextColor(ContextCompat.getColor(context, R.color.white_transparent));
+            }
+        }
 
         holder.back_reel.setOnClickListener(v -> ((ReelsActivity)context).onBackPressed());
         holder.save_reel.setOnClickListener(v -> save_Dialog(currentItem.getVideo()));
@@ -282,13 +267,18 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         super.onViewDetachedFromWindow(holder);
         holder.reels_video.pause();
         holder.reels_image.setVisibility(View.VISIBLE);
+        holder.play_image.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
-        holder.reels_video.setOnPreparedListener(mediaPlayer -> holder.reels_image.setVisibility(View.GONE));
+        holder.reels_video.setOnPreparedListener(mediaPlayer -> {
+            holder.video_playing.playAnimation();
+            holder.play_image.setVisibility(View.GONE);
+            holder.reels_image.setVisibility(View.GONE);
+        });
     }
 
     @Override

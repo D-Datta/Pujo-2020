@@ -1050,15 +1050,15 @@ public class CommitteeFragment extends Fragment {
         ProgrammingViewHolder pvh = (ProgrammingViewHolder) holder;
 
         if(pvh != null) {
-            pvh.reelsList.setHasFixedSize(false);
-            SnapHelper snapHelper = new PagerSnapHelper();
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            pvh.reelsList.setItemAnimator(new DefaultItemAnimator());
+            pvh.reelsList.setHasFixedSize(false);
             pvh.reelsList.setLayoutManager(layoutManager);
             pvh.reelsList.setNestedScrollingEnabled(true);
             pvh.reelsList.setItemViewCacheSize(10);
             pvh.reelsList.setDrawingCacheEnabled(true);
+
+            SnapHelper snapHelper = new PagerSnapHelper();
             snapHelper.attachToRecyclerView(pvh.reelsList);
 
             PagedList.Config config = new PagedList.Config.Builder()
@@ -1085,14 +1085,7 @@ public class CommitteeFragment extends Fragment {
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                     holder.item_reels_video.start();
 
-                    Picasso.get().load(currentItem.getFrame()).fit()
-                            .into(holder.item_reels_image, new Callback() {
-                                @Override
-                                public void onSuccess() { }
-
-                                @Override
-                                public void onError(Exception e) { }
-                            });
+                    Picasso.get().load(currentItem.getFrame()).fit().into(holder.item_reels_image);
 
                     holder.item_reels_video.setOnPreparedListener(mp -> {
                         holder.item_reels_image.setVisibility(View.GONE);
