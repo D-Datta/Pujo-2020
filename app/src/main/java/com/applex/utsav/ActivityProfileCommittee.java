@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -134,18 +135,11 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
 
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.getTabAt(0);
-        tabLayout.getTabAt(1);
-
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
 
         name = getIntent().getStringExtra("name");
         coverpic = getIntent().getStringExtra("coverpic");
         dp = getIntent().getStringExtra("dp");
-        uid = getIntent().getStringExtra("uid");
 
         cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -161,6 +155,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             bool = 0;//CURRENT USER ACCOUNT
         }
         ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
+
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0);
+        tabLayout.getTabAt(1);
 
         if(uid.matches(FirebaseAuth.getInstance().getUid())) {
             editCover.setVisibility(View.VISIBLE);
@@ -397,7 +397,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         ProfileAdapter profileAdapter = new ProfileAdapter(getSupportFragmentManager());
         profileAdapter.addFragment(new Fragment_Posts(uid), "Posts");
         profileAdapter.addFragment(new Fragment_Reels(uid),"Clips");
-
 
         viewPager.setAdapter(profileAdapter);
 
