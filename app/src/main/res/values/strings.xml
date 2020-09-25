@@ -12,7 +12,7 @@
     <string name="utsav">Utsav</string>
     <string name="or">OR</string>
     <string name="from">from</string>
-    <string name="locate">LOCATE</string>
+    <string name="locate">Locate</string>
 
 
     <string name="enter_committeeName">Enter Committee Name</string>
@@ -151,5 +151,6 @@
     <string name="photos">Photos</string>
     <string name="gallery">Gallery</string>
     <string name="follow">FOLLOW</string>
+    <string name="loading">Loading...</string>
 
 </resources>
