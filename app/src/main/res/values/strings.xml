@@ -144,10 +144,12 @@
     <string name="rate_us">"Rate us "</string>
     <string name="an_initiative_of">an initiative of</string>
     <string name="utsav_clips">Utsav Clips</string>
+    <string name="your_posts">Your Posts</string>
     <string name="pujo">Pujo</string>
     <string name="videos">Videos</string>
     <string name="camera">Camera</string>
     <string name="photos">Photos</string>
     <string name="gallery">Gallery</string>
+    <string name="follow">FOLLOW</string>
 
 </resources>

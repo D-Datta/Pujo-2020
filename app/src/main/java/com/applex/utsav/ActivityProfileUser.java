@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.paging.PagedList;
@@ -30,7 +29,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,16 +41,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applex.utsav.utility.BasicUtility;
-import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.SliderAdapter;
@@ -106,7 +102,7 @@ import static java.lang.Boolean.TRUE;
 
 public class ActivityProfileUser extends AppCompatActivity {
 
-    private ImageView editprofile2;
+    private Button editProfile;
     private FirebaseUser fireuser;
     private FloatingActionButton floatingActionButton;
     private ProgressDialog progressDialog;
@@ -115,7 +111,6 @@ public class ActivityProfileUser extends AppCompatActivity {
     private Dialog postMenuDialog;
     private FirestorePagingAdapter adapter1;
 
-    private ConnectivityManager cm;
     private int imageCoverOrDp = 0; //dp = 0, cover = 1
     private int from = 0; //general = 0, item = 1
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -138,7 +133,6 @@ public class ActivityProfileUser extends AppCompatActivity {
     //////////////NO POSTS///////////////
     private TextView PName,PUsername, aboutheading;
     private ImageView PDp, nopost1,PCoverpic, edit_dp, edit_cover;
-    private LinearLayout noProfilePost, LL;
     private com.borjabravo.readmoretextview.ReadMoreTextView Pabout;
 
     //////////////NO POSTS///////////////
@@ -150,6 +144,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     ///Current user details from intropref
     private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,23 +154,21 @@ public class ActivityProfileUser extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle("Profile");
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        cm = (ConnectivityManager) ActivityProfileUser.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         introPref = new IntroPref(this);
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
-        editprofile2 =findViewById(R.id.edit_profile2);
+        editProfile = findViewById(R.id.edit_profile);
 
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
-        nopost1 = findViewById(R.id.no_recent_com_post1);
         floatingActionButton = findViewById(R.id.to_the_top_profile);
-        LL = findViewById(R.id.view_post_exist);
 
         //////////////POSTS SETUP////////////////////
         swipeRefreshLayout= findViewById(R.id.swiperefresh1);
@@ -203,7 +196,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setItemViewCacheSize(20);
+        mRecyclerView.setItemViewCacheSize(10);
 
         buildRecycler();
 
@@ -212,20 +205,25 @@ public class ActivityProfileUser extends AppCompatActivity {
         USERNAME = introPref.getFullName();
         ///////////////RECYCLER VIEW////////////////////
 
-        /////////////WHEN THERE IS NO POST//////////////
-        PDp = findViewById(R.id.Pdp_no_post);
-        PName = findViewById(R.id.Profilename_noPost);
-        PUsername = findViewById(R.id.Pusername_noPost);
-        noProfilePost = findViewById(R.id.noProfilePost);
-        PCoverpic=findViewById(R.id.coverpic);
-        Pabout=findViewById(R.id.detaildesc_noPost);
-        aboutheading =findViewById(R.id.about);
+
+        /////////////App BAR MENu//////////////
+
+        PDp = findViewById(R.id.Pdp);
+        PName = findViewById(R.id.Profilename);
+        PUsername = findViewById(R.id.Pusername);
+        PCoverpic = findViewById(R.id.coverpic);
+        Pabout = findViewById(R.id.detaildesc);
+        aboutheading = findViewById(R.id.about);
         edit_dp = findViewById(R.id.edit_dp_icon_ind);
         edit_cover = findViewById(R.id.edit_coverpic_icon_ind);
-        /////////////WHEN THERE IS NO POST//////////////
+        nopost1 = findViewById(R.id.none_image);
+        loadUserDetails();
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.toolbarStart),
-                getResources().getColor(R.color.md_blue_500));
+        /////////////App BAR MENu//////////////
+
+
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(this::buildRecycler);
 
         final int[] scrollY = {0};
@@ -287,840 +285,26 @@ public class ActivityProfileUser extends AppCompatActivity {
                             newPostModel = snapshot.toObject(HomePostModel.class);
                             newPostModel.setDocID(snapshot.getId());
                         }
-                        if(bool != 0){
-                            if(!newPostModel.getUsN().matches("Anonymous"))
-                                return newPostModel;
-                            else {
-                                return null;
-                            }
-                        }
-                        else {
-                            return newPostModel;
-                        }
+                        return newPostModel;
                     }
                 })
                 .build();
 
         adapter1 = new FirestorePagingAdapter<HomePostModel, RecyclerView.ViewHolder>(options) {
-
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                     LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
                     View v = layoutInflater.inflate(R.layout.item_profile_info, viewGroup, false);
-                    return new ProgrammingViewHolder1(v);
-
+                    return new ProgrammingViewHolder(v);
             }
 
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
 
-                ProgrammingViewHolder1 programmingViewHolder = (ProgrammingViewHolder1) holder;
-                if(holder.getItemViewType() == 0) {
-                    ///////////////////////LOAD PROFILE DETAILS///////////////////////
+                ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
 
-                    programmingViewHolder.profile_header.setVisibility(View.VISIBLE);
-                    programmingViewHolder.PDp.setOnClickListener(v -> {
-                        if(userModel != null) {
-                            if (userModel.getDp() != null && userModel.getDp().length()>2) {
-                                Intent intent = new Intent(ActivityProfileUser.this, ProfilePictureActivity.class);
-                                intent.putExtra("Bitmap", userModel.getDp());
-                                intent.putExtra("from", "profile");
-                                startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(ActivityProfileUser.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    programmingViewHolder.Pcoverpic.setOnClickListener(v -> {
-                        if(userModel != null) {
-                            if (userModel.getCoverpic() != null) {
-                                Intent intent = new Intent(ActivityProfileUser.this, ProfilePictureActivity.class);
-                                intent.putExtra("from", "profile");
-                                intent.putExtra("Bitmap", userModel.getCoverpic());
-                                startActivity(intent);
-                            }
-                        }
-                        else {
-                            Toast.makeText(ActivityProfileUser.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    documentReference= FirebaseFirestore.getInstance().collection("Users")
-                            .document(my_uid);
-
-                    documentReference.get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if(task.isSuccessful()){
-                                        if(task.getResult().exists()){
-                                            userModel = task.getResult().toObject(BaseUserModel.class);
-                                            FirebaseFirestore.getInstance().collection("Users")
-                                                    .document(my_uid).collection("indi").document(my_uid).get()
-                                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                            IndividualModel individualModel= task.getResult().toObject(IndividualModel.class);
-                                                            FirstName= individualModel.getFirstname();
-                                                            LastName = individualModel.getLastname();
-                                                            programmingViewHolder.PName.setText(FirstName+" "+LastName);
-
-                                                            if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty()){
-                                                                ABOUT = individualModel.getBio();
-                                                                programmingViewHolder.Pabout.setVisibility(View.VISIBLE);
-                                                                programmingViewHolder.aboutheading.setVisibility(View.VISIBLE);
-                                                                programmingViewHolder.Pabout.setText(ABOUT);
-                                                            }
-                                                            else{
-                                                                programmingViewHolder.Pabout.setVisibility(View.GONE);
-                                                                programmingViewHolder.aboutheading.setVisibility(View.GONE);
-                                                            }
-
-                                                        }
-                                                    });
-                                            UserName= userModel.getName();
-                                            programmingViewHolder.PUsername.setText('@'+UserName);
-
-                                            if(userModel.getDp()!=null){
-
-                                                PROFILEPIC = userModel.getDp();
-                                                Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(programmingViewHolder.PDp);
-//                                                if(PROFILEPIC!=null){
-//                                                    Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(holder1.PDp);
-//                                                }
-//                                                else{
-//                                                    Picasso.get().load(PROFILEPIC).into(holder1.PDp);
-//                                                }
-
-                                            }
-                                            else {
-                                                programmingViewHolder.PDp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                                Display display = getWindowManager().getDefaultDisplay();
-                                                int displayWidth = display.getWidth();
-                                                BitmapFactory.Options options = new BitmapFactory.Options();
-                                                options.inJustDecodeBounds = true;
-                                                BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-                                                int width = options.outWidth;
-                                                if (width > displayWidth) {
-                                                    int widthRatio = Math.round((float) width / (float) displayWidth);
-                                                    options.inSampleSize = widthRatio;
-                                                }
-                                                options.inJustDecodeBounds = false;
-                                                Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-//                                                coverpic.setImageBitmap(scaledBitmap);
-//                                    holder1.Pcoverpic.setImageBitmap(scaledBitmap);
-                                                programmingViewHolder.PDp.setImageBitmap(scaledBitmap);
-                                            }
-
-                                            if(userModel.getCoverpic()!=null){
-                                                COVERPIC = userModel.getCoverpic();
-                                                Picasso.get().load(COVERPIC).placeholder(R.drawable.image_background_grey).into(programmingViewHolder.Pcoverpic);
-                                            }
-                                            else {
-//                                                Picasso.get().load(R.drawable.coverpicpng).into(holder1.Pcoverpic);
-                                                Display display = getWindowManager().getDefaultDisplay();
-                                                int displayWidth = display.getWidth();
-                                                BitmapFactory.Options options = new BitmapFactory.Options();
-                                                options.inJustDecodeBounds = true;
-                                                BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
-                                                int width = options.outWidth;
-                                                if (width > displayWidth) {
-                                                    int widthRatio = Math.round((float) width / (float) displayWidth);
-                                                    options.inSampleSize = widthRatio;
-                                                }
-                                                options.inJustDecodeBounds = false;
-                                                Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
-//                                                coverpic.setImageBitmap(scaledBitmap);
-                                                programmingViewHolder.Pcoverpic.setImageBitmap(scaledBitmap);
-                                            }
-
-                                            if(my_uid.matches(FirebaseAuth.getInstance().getUid())){
-                                                programmingViewHolder.edit_cover.setVisibility(View.VISIBLE);
-                                                programmingViewHolder.edit_dp.setVisibility(View.VISIBLE);
-                                                editprofile2.setVisibility(View.VISIBLE);
-                                                editprofile2.setOnClickListener(v -> {
-                                                    Intent i1 = new Intent(ActivityProfileUser.this, EditProfileIndividualActivity.class);
-//                                                    i1.putExtra("firstname", FirstName);            i1.putExtra("lastname", LastName);
-//                                                    i1.putExtra("username", USERNAME);             i1.putExtra("profilepic",PROFILEPIC );
-                                                    startActivity(i1);
-                                                    finish();
-                                                });
-                                                programmingViewHolder.edit_cover.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        if (!checkStoragePermission()) {
-                                                            requestStoragePermission();
-                                                        }
-                                                        else {
-                                                            imageCoverOrDp = 1; //cover
-                                                            from = 1; //item
-                                                            pickGallery();
-                                                        }
-                                                    }
-                                                });
-                                                programmingViewHolder.edit_dp.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        if (!checkStoragePermission()) {
-                                                            requestStoragePermission();
-                                                        }
-                                                        else {
-                                                            imageCoverOrDp = 0; //dp
-                                                            from = 1; //item
-                                                            pickGallery();
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                            else{
-                                                programmingViewHolder.edit_cover.setVisibility(View.GONE);
-                                                programmingViewHolder.edit_dp.setVisibility(View.GONE);
-                                                editprofile2.setVisibility(View.GONE);
-                                            }
-                                        }
-                                        else{
-                                            //profile doesn't exist in database
-                                            ActivityProfileUser.super.onBackPressed();
-                                            BasicUtility.showToast(ActivityProfileUser.this,"Profile is temporarily unavailable");
-                                        }
-
-
-                                    }
-                                }
-
-                            });
-                    ///////////////////////LOAD PROFILE DETAILS///////////////////////
-
-
-                     ////////////////FOR THE FIRST POST////////////////
-//                    DocumentReference likeStore;
-//                    if(currentItem != null) {
-//                        String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
-//                        holder1.minsago.setText(timeAgo);
-//                        if(timeAgo != null) {
-//                            if(timeAgo.matches("just now")) {
-//                                holder1.minsago.setTextColor(Color.parseColor("#00C853"));
-//                            }
-//                            else {
-//                                holder1.minsago.setTextColor(Color.parseColor("#aa212121"));
-//                            }
-//                        }
-//                        if(currentItem.getChallengeID()!=null){
-//                            holder1.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary) ));
-//                            holder1.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary) ));
-//                        }
-//                        else {
-//                            holder1.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white) ));
-//                            holder1.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white) ));
-//                        }
-//
-//                        ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
-//
-//                        likeStore = FirebaseFirestore.getInstance()
-//                                .document("Feeds/"+currentItem.getDocID()+"/");
-//
-//                        holder1.comName.setVisibility(View.GONE);
-//
-//
-//                        holder1.menuPost.setVisibility(View.VISIBLE);
-//                        ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
-//
-//
-//                        ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-//                        if(PROFILEPIC!=null){
-//                            Picasso.get().load(PROFILEPIC).fit().centerCrop()
-//                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-//                                    .memoryPolicy(MemoryPolicy.NO_STORE)
-//                                    .into(holder1.profileimage);
-//
-//                        }
-//                        else {
-//                            holder1.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                        }
-//
-//                        ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-//
-//                        ///////////TAGLIST///////////////
-//                        ///////////TAG RECYCLER SETUP////////////////
-//                        holder1.tagList.setHasFixedSize(false);
-//                        WeakReference<LinearLayoutManager> linearLayoutManager = new WeakReference<>(new LinearLayoutManager(getApplicationContext()));
-//                        linearLayoutManager.get().setOrientation(LinearLayoutManager.HORIZONTAL);
-//                        holder1.tagList.setNestedScrollingEnabled(true);
-//                        holder1.tagList.setLayoutManager(linearLayoutManager.get());
-//                        ///////////TAG RECYCLER SETUP////////////////
-//                        if(currentItem.getTagL()!=null && currentItem.getTagL().size()>0 ) {
-//                            holder1.tagList.setVisibility(View.VISIBLE);
-//                            TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL() , getApplicationContext());
-//                            holder1.tagList.setAdapter(tagAdapter);
-//                        }
-//                        else {
-//                            holder1.tagList.setAdapter(null);
-//                            holder1.tagList.setVisibility(View.GONE);
-//                        }
-//                        /////////TAGLIST///////////////
-//
-//
-//                        //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
-//
-//                            ////////////NORMAL POST///////////////
-//                            if(currentItem.getDp()!= null && !currentItem.getDp().isEmpty()){
-//
-//                                    Picasso.get().load(currentItem.getDp()).fit().centerCrop()
-//                                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-//                                            .memoryPolicy(MemoryPolicy.NO_STORE)
-//                                            .into(holder1.userimage, new Callback() {
-//                                                @Override
-//                                                public void onSuccess() {
-//
-//                                                }
-//
-//                                                @Override
-//                                                public void onError(Exception e) {
-//                                                    holder1.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                                                }
-//                                            });
-//
-//                            }
-//                            else {
-//                                holder1.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                            }
-//                            holder1.username.setText(currentItem.getUsN());
-//
-//
-//
-//                        ///////////////OPEN VIEW MORE//////////////
-//                        holder1.itemHome.setOnClickListener(v -> {
-//                            Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                            intent.putExtra("username", currentItem.getUsN());
-//                            intent.putExtra("userdp", currentItem.getDp());
-//                            intent.putExtra("docID", currentItem.getDocID());
-//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//
-//                            intent.putExtra("comName", currentItem.getComName());
-//                            intent.putExtra("comID", currentItem.getComID());
-//
-//                            intent.putExtra("likeL", currentItem.getLikeL());
-//                            intent.putExtra("postPic", currentItem.getImg());
-//                            intent.putExtra("postText", currentItem.getTxt());
-//                            intent.putExtra("bool", Integer.toString(bool));
-//                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//
-//                            intent.putExtra("uid", currentItem.getUid());
-//                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                            startActivity(intent);
-//                        });
-//
-//                        //change
-//                        holder1.postimage.setOnClickListener(v -> {
-//                            Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                            intent.putExtra("username", currentItem.getUsN());
-//                            intent.putExtra("userdp", currentItem.getDp());
-//                            intent.putExtra("docID", currentItem.getDocID());
-//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                            //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//                            intent.putExtra("comName", currentItem.getComName());
-//                            intent.putExtra("comID", currentItem.getComID());
-//                            //            intent.putExtra("tagL", currentItem.getTagL());
-//                            intent.putExtra("likeL", currentItem.getLikeL());
-//                            intent.putExtra("postPic", currentItem.getImg());
-//                            intent.putExtra("postText", currentItem.getTxt());
-//                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                            intent.putExtra("bool", Integer.toString(bool));;
-//
-//                            intent.putExtra("uid", currentItem.getUid());
-//                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                            startActivity(intent);
-//                        });
-//
-//                        holder1.flamedBy.setOnClickListener(v -> {
-//                            Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                            intent.putExtra("username", currentItem.getUsN());
-//                            intent.putExtra("userdp", currentItem.getDp());
-//                            intent.putExtra("docID", currentItem.getDocID());
-//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                            intent.putExtra("comName", currentItem.getComName());
-//                            intent.putExtra("comID", currentItem.getComID());
-//                            //            intent.putExtra("tagL", currentItem.getTagL());
-//                            intent.putExtra("likeL", currentItem.getLikeL());
-//                            intent.putExtra("postPic", currentItem.getImg());
-//                            intent.putExtra("postText", currentItem.getTxt());
-//                            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                            intent.putExtra("bool", Integer.toString(bool));
-//
-//                            intent.putExtra("uid", currentItem.getUid());
-//                            intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//
-//                            intent.putExtra("likeLOpen", "likeLOpen");
-//                            startActivity(intent);
-//
-//                        });
-//                        ///////////////OPEN VIEW MORE//////////////
-//
-//                        //////////////////////////TEXT & IMAGE FOR POST//////////////////////
-//
-//                        if(currentItem.getTxt()==null || currentItem.getTxt().isEmpty()){
-//                            holder1.text_content.setVisibility(View.GONE);
-//                            holder1.LinkPreview.setVisibility(View.GONE);
-//                            holder1.text_content.setText(null);
-//                        }
-//                        else{
-//                            holder1.text_content.setVisibility(View.VISIBLE);
-//                            holder1.text_content.setText(currentItem.getTxt());
-//                            if(holder1.text_content.getUrls().length>0){
-//                                URLSpan urlSnapItem = holder1.text_content.getUrls()[0];
-//                                String url = urlSnapItem.getURL();
-//                                if(url.contains("http")){
-//                                    holder1.LinkPreview.setVisibility(View.VISIBLE);
-//                                    holder1.LinkPreview.setLink(url ,new ViewListener() {
-//                                        @Override
-//                                        public void onSuccess(boolean status) {
-//                                        }
-//
-//                                        @Override
-//                                        public void onError(Exception e) {
-//                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-//                                                @Override
-//                                                public void run() {
-//                                                    //do stuff like remove view etc
-//                                                    holder1.LinkPreview.setVisibility(View.GONE);
-//                                                }
-//                                            });
-//                                        }
-//                                    });
-//                                }
-//
-//                            } else {
-//                                holder1.LinkPreview.setVisibility(View.GONE);
-//                            }
-//
-//                        }
-//
-////                        String postimage_url = currentItem.getImg();
-////                        if(postimage_url!=null){
-////                            holder1.postimage.setVisibility(View.VISIBLE);
-////                            Picasso.get().load(postimage_url)
-////                                    .placeholder(R.drawable.image_background_grey)
-////                                    .memoryPolicy(MemoryPolicy.NO_STORE)
-////                                    .into(holder1.postimage);
-////
-////                            holder1.postimage.setOnLongClickListener(v -> {
-////
-////                                Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-////                                    @Override
-////                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-////                                        save_Dialog(bitmap);
-////                                    }
-////                                    @Override
-////                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-////                                        Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-////                                    }
-////                                    @Override
-////                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-////
-////                                    }
-////
-////                                });
-////                                return true;
-////                            });
-////                        }
-////                        else
-////                            holder1.postimage.setVisibility(View.GONE);
-//                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-//                            holder1.postimage.setVisibility(View.VISIBLE);
-//                            holder1.postimage.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-//                            holder1.postimage.setIndicatorRadius(8);
-//                            holder1.postimage.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-//                            holder1.postimage.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-//                            holder1.postimage.setIndicatorSelectedColor(Color.WHITE);
-//                            holder1.postimage.setIndicatorUnselectedColor(R.color.colorAccent);
-//                            holder1.postimage.setAutoCycle(false);
-//
-//                            SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem);
-//
-//                            holder1.postimage.setSliderAdapter(sliderAdapter);
-//                        }
-//                        else
-//                        {
-//                            holder1.postimage.setVisibility(View.GONE);
-//                        }
-//
-//
-//                        //////////////////////////TEXT & IMAGE FOR POST//////////////////////
-//
-//
-//
-//                        ///////////////////FLAMES///////////////////////
-//
-//                        //INITIAL SETUP//
-//                        if(currentItem.getLikeL() != null){
-//                            /////////////////UPDATNG FLAMED BY NO.//////////////////////
-//                            if(currentItem.getLikeL().size() == 0){
-//                                holder1.flamedBy.setText("Not flamed yet");
-//                            }
-//                            else if(currentItem.getLikeL().size() == 1)
-//                                holder1.flamedBy.setText("Flamed by 1");
-//                            else {
-//                                holder1.flamedBy.setText("Flamed by "+currentItem.getLikeL().size()+" people");
-//                            }
-//
-//                            for(int j = 0; j < currentItem.getLikeL().size(); j++){
-//                                if(currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-//                                    holder1.like.setImageResource(R.drawable.ic_flame_red);
-//                                    currentItem.setLikeCheck(j);
-//                                    if((currentItem.getLikeL().size()-1) == 1)
-//                                        holder1.flamedBy.setText("Flamed by you & "+ (currentItem.getLikeL().size()-1) +" other");
-//                                    else if((currentItem.getLikeL().size()-1) == 0){
-//                                        holder1.flamedBy.setText("Flamed by you");
-//                                    }
-//                                    else
-//                                        holder1.flamedBy.setText("Flamed by you & "+ (currentItem.getLikeL().size()-1) +" others");
-//                                    //Position in likeList where the current USer UId is found stored in likeCheck
-//                                }
-//                            }
-//                        }
-//                        else{
-//                            holder1.flamedBy.setText("Not flamed yet");
-//                            holder1.like.setImageResource(R.drawable.ic_btmnav_notifications);
-//                        }
-//                        //INITIAL SETUP//
-//
-//
-//                        PushDownAnim.setPushDownAnimTo(holder1.like)
-//                                .setScale(PushDownAnim.MODE_STATIC_DP, 6)
-//                                .setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                        if(currentItem.getLikeCheck() >= 0){//was already liked by current user
-//                                            holder1.like.setImageResource(R.drawable.ic_btmnav_notifications);
-//                                            if(currentItem.getLikeL().size()-1 == 0){
-//                                                holder1.flamedBy.setText("Not flamed yet");
-//                                            }
-//                                            else
-//                                                holder1.flamedBy.setText("Flamed by "+ (currentItem.getLikeL().size()-1) +" people");
-//                                            ///////////REMOVE CURRENT USER LIKE/////////////
-//                                            currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
-//                                            currentItem.setLikeCheck(-1);
-//
-//                                            //                likeStore.update("likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-//
-//                                            ///////////////////BATCH WRITE///////////////////
-//                                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//
-//                                            DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-//                                            batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-//                                            batch.delete(flamedDoc);
-//
-//                                            batch.commit().addOnSuccessListener(task -> {
-//
-//                                            });
-//                                            ///////////////////BATCH WRITE///////////////////
-//                                        }
-//
-//                                        else if(currentItem.getLikeCheck() < 0 && currentItem.getLikeL()!=null){
-//                                            BasicUtility.vibrate(ActivityProfileUser.this);
-//                                            try {
-//                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
-//                                                MediaPlayer player = new MediaPlayer();
-//                                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-//                                                player.prepare();
-//                                                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//                                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-//                                                    player.start();
-//                                            } catch (IOException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                            holder1.like.setImageResource(R.drawable.ic_flame_red);
-//                                            if(currentItem.getLikeL().size() == 0)
-//                                                holder1.flamedBy.setText("Flamed by you");
-//                                            else if(currentItem.getLikeL().size() == 1)
-//                                                holder1.flamedBy.setText("Flamed by you & "+currentItem.getLikeL().size()+" other");
-//                                            else
-//                                                holder1.flamedBy.setText("Flamed by you & "+ currentItem.getLikeL().size() +" others");
-//
-//                                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
-//                                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-//                                            currentItem.setLikeCheck(currentItem.getLikeL().size()-1);//For local changes
-//
-//                                            ///////////////////BATCH WRITE///////////////////
-//                                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//                                            FlamedModel flamedModel = new FlamedModel();
-//                                            long tsLong = System.currentTimeMillis();
-//
-//                                            flamedModel.setPostID(currentItem.getDocID());
-//                                            flamedModel.setTs(tsLong);
-//                                            flamedModel.setType(introPref.getType());
-//                                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-//                                            flamedModel.setUserdp(PROFILEPIC);
-//                                            flamedModel.setUsername(USERNAME);
-//                                            flamedModel.setPostUid(currentItem.getUid());
-//
-//                                            DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-//                                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-//                                            batch.set(flamedDoc, flamedModel);
-//                                            if(currentItem.getLikeL().size() % 5 == 0){
-//                                                batch.update(likeStore,"newTs", tsLong);
-//                                            }
-//                                            batch.commit().addOnSuccessListener(task -> {
-//
-//                                            });
-//                                            ///////////////////BATCH WRITE///////////////////
-//                                        }
-//
-//                                        else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-//                                            BasicUtility.vibrate(getApplicationContext());
-//                                            try {
-//                                                AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
-//                                                MediaPlayer player = new MediaPlayer();
-//                                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-//                                                player.prepare();
-//                                                AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//                                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-//                                                    player.start();
-//                                            } catch (IOException e) {
-//                                                e.printStackTrace();
-//                                            }
-//                                            holder1.like.setImageResource(R.drawable.ic_flame_red);
-//                                            if(currentItem.getLikeL()!=null)
-//                                                holder1.flamedBy.setText("Flamed by you & "+ (currentItem.getLikeL().size() + 1) +" people");
-//                                            else
-//                                                holder1.flamedBy.setText("Flamed by you");
-//
-//                                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
-//                                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-//                                            currentItem.setLikeCheck(currentItem.getLikeL().size()-1);
-//                                            //For local changes current item like added to remote list end
-//
-//                                            ///////////////////BATCH WRITE///////////////////
-//                                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//                                            FlamedModel flamedModel = new FlamedModel();
-//                                            long tsLong = System.currentTimeMillis();
-//
-//                                            flamedModel.setPostID(currentItem.getDocID());
-//                                            flamedModel.setTs(tsLong);
-//                                            flamedModel.setType(introPref.getType());
-//                                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-//                                            flamedModel.setUserdp(PROFILEPIC);
-//                                            flamedModel.setUsername(USERNAME);
-//                                            flamedModel.setPostUid(currentItem.getUid());
-//
-//                                            DocumentReference flamedDoc = likeStore.collection("flameL").document(FirebaseAuth.getInstance().getUid());
-//                                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-//                                            batch.set(flamedDoc, flamedModel);
-//                                            if(currentItem.getLikeL().size() % 5 == 0){
-//                                                batch.update(likeStore,"newTs", tsLong);
-//                                            }
-//                                            batch.commit().addOnSuccessListener(task -> {
-//
-//                                            });
-//                                            ///////////////////BATCH WRITE///////////////////
-//                                        }
-//                                    }
-//                                });
-//
-//
-//                        if(currentItem.getCmtNo()>0){
-//                            holder1.commentimg.setImageResource(R.drawable.comment_yellow);
-//                            if(currentItem.getCmtNo()==1)
-//                                holder1.commentCount.setText(currentItem.getCmtNo()+" comment");
-//                            else if(currentItem.getCmtNo()>1)
-//                                holder1.commentCount.setText(currentItem.getCmtNo()+" comments");
-//
-//                        }
-//                        else {
-//                            holder1.commentimg.setImageResource(R.drawable.ic_comment);
-//                            holder1.commentCount.setText("No comments");
-//                        }
-//
-//
-//                        ////////POST MENU///////
-//                        holder1.menuPost.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                if( currentItem.getUid().matches(FirebaseAuth.getInstance().getUid())) {
-//                                    postMenuDialog = new BottomSheetDialog(ActivityProfileUser.this);
-//
-//                                    postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
-//                                    postMenuDialog.setCanceledOnTouchOutside(TRUE);
-//
-//                                    postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-//                                        Intent i= new Intent(getApplicationContext(),NewPostHome.class);
-//                                        i.putExtra("target","100"); //target value for edit post
-//                                        i.putExtra("bool", Integer.toString(bool));
-//                                        i.putExtra("usN", currentItem.getUsN());
-//                                        i.putExtra("dp", currentItem.getDp());
-//                                        i.putExtra("uid", currentItem.getUid());
-//
-//                                        i.putExtra("img", currentItem.getImg());
-//                                        i.putExtra("txt", currentItem.getTxt());
-//                                        i.putExtra("comID", currentItem.getComID());
-//                                        i.putExtra("comName", currentItem.getComName());
-//
-//                                        i.putExtra("ts", Long.toString(currentItem.getTs()));
-//                                        i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-//
-//                                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//
-//                                        i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-//
-//                                        i.putExtra("likeL", currentItem.getLikeL());
-//                                        i.putExtra("likeCheck", currentItem.getLikeCheck());
-//                                        i.putExtra("docID", currentItem.getDocID());
-//                                        i.putExtra("reportL", currentItem.getReportL());
-//                                        i.putExtra("challengeID", currentItem.getChallengeID());
-//                                        startActivity(i);
-//
-//                                        postMenuDialog.dismiss();
-//
-//                                    });
-//
-//                                    postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
-//                                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfileUser.this);
-//                                        builder.setTitle("Are you sure?")
-//                                                .setMessage("Post will be deleted permanently")
-//                                                .setPositiveButton("Delete", (dialog, which) -> {
-//                                                    progressDialog =new ProgressDialog(ActivityProfileUser.this) ;
-//                                                    progressDialog.setTitle("Deleting Post");
-//                                                    progressDialog.setMessage("Please wait...");
-//                                                    progressDialog.setCancelable(false);
-//                                                    progressDialog.show();
-//                                                    FirebaseFirestore.getInstance()
-//                                                            .collection("Feeds/").document(currentItem
-//                                                            .getDocID()).delete()
-//                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                                @Override
-//                                                                public void onSuccess(Void aVoid) {
-//                                                                    CommitteeFragment.changed = 1;
-//                                                                    holder1.first_post.setVisibility(View.GONE);
-//                                                                    progressDialog.dismiss();
-//                                                                    FirebaseFirestore.getInstance()
-//                                                                            .collection("Feeds/")
-//                                                                            .whereEqualTo("uid", my_uid)
-//                                                                            .orderBy("ts", Query.Direction.DESCENDING)
-//                                                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                                                                        @Override
-//                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                                                            if(task.isSuccessful()) {
-//                                                                                if(task.getResult().size() == 0) {
-//                                                                                    holder1.noPost.setVisibility(View.VISIBLE);
-//                                                                                }
-//                                                                                else {
-//                                                                                    holder1.noPost.setVisibility(View.GONE);
-//                                                                                }
-//                                                                            }
-//                                                                        }
-//                                                                    });
-//                                                                }
-//                                                            });
-//                                                    postMenuDialog.dismiss();
-//
-//                                                })
-//                                                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-//                                                .setCancelable(true)
-//                                                .show();
-//
-//                                    });
-//
-//                                    postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            //                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
-//                                            String link = "https://www.utsavapp.in/android/feeds/"+currentItem.getDocID();
-//                                            Intent i=new Intent();
-//                                            i.setAction(Intent.ACTION_SEND);
-//                                            i.putExtra(Intent.EXTRA_TEXT, link);
-//                                            i.setType("text/plain");
-//                                            startActivity(Intent.createChooser(i,"Share with"));
-//                                            postMenuDialog.dismiss();
-//
-//                                        }
-//                                    });
-//
-//                                    postMenuDialog.findViewById(R.id.report_post).setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            FirebaseFirestore.getInstance()
-//                                                    .collection("Feeds/").document(currentItem.getDocID())
-//                                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-//                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                        @Override
-//                                                        public void onSuccess(Void aVoid) {
-//                                                            BasicUtility.showToast(getApplicationContext(),"Post has been reported.");
-//                                                        }
-//                                                    });
-//                                            postMenuDialog.dismiss();
-//
-//                                        }
-//                                    });
-//
-//                                    Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                                    postMenuDialog.show();
-//
-//                                }
-//                                else {
-//                                    postMenuDialog = new BottomSheetDialog(ActivityProfileUser.this);
-//
-//                                    postMenuDialog.setContentView(R.layout.dialog_post_menu);
-//                                    postMenuDialog.setCanceledOnTouchOutside(TRUE);
-//
-//                                    postMenuDialog.findViewById(R.id.share_post).setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            //                                        String id = gFeedsList.get(position).get.replaceAll(" ","_");
-//                                            String link = "https://www.utsavapp.in/android/feeds/"+currentItem.getDocID();
-//                                            Intent i=new Intent();
-//                                            i.setAction(Intent.ACTION_SEND);
-//                                            i.putExtra(Intent.EXTRA_TEXT, link);
-//                                            i.setType("text/plain");
-//                                            startActivity(Intent.createChooser(i,"Share with"));
-//                                            postMenuDialog.dismiss();
-//
-//                                        }
-//                                    });
-//
-//                                    postMenuDialog.findViewById(R.id.report_post).setOnClickListener(new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View v) {
-//                                            FirebaseFirestore.getInstance()
-//                                                    .collection("Feeds/").document(currentItem.getDocID())
-//                                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-//                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                        @Override
-//                                                        public void onSuccess(Void aVoid) {
-//                                                            BasicUtility.showToast(getApplicationContext(),"Post has been reported.");
-//                                                        }
-//                                                    });
-//                                            postMenuDialog.dismiss();
-//
-//                                        }
-//                                    });
-//                                    Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                                    postMenuDialog.show();
-//
-//                                }
-//                            }
-//                        });
-//                        ////////POST MENU///////
-//                    }
-//                    else{
-//                        ((ProgrammingViewHolder1) holder).itemHome.setVisibility(View.GONE);
-//                        ((ProgrammingViewHolder1) holder).view1.setVisibility(View.GONE);
-//                        ((ProgrammingViewHolder1) holder).view2.setVisibility(View.GONE);
-//                    }
-
-                    ////////////////FOR THE FIRST POST////////////////
-                }
-                else{
-                    programmingViewHolder.profile_header.setVisibility(View.GONE);
-                    programmingViewHolder.postHolder.setVisibility(View.VISIBLE);
-                }
-
-//                else{
                 DocumentReference likeStore;
-//                    if(currentItem != null) {
-//                        ProgrammingViewHolder1 programmingViewHolder = (ProgrammingViewHolder1) holder;
                 String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 programmingViewHolder.minsago.setText(timeAgo);
                 if (timeAgo != null) {
@@ -1130,19 +314,10 @@ public class ActivityProfileUser extends AppCompatActivity {
                         programmingViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
                     }
                 }
-//                        if(currentItem.getChallengeID()!=null){
-//                            programmingViewHolder.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary) ));
-//                            programmingViewHolder.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary) ));
-//                        }
-//                        else {
-//                            programmingViewHolder.itemHome.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white) ));
-//                            programmingViewHolder.menuPost.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white) ));
-//                        }
 
                 ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
                 likeStore = FirebaseFirestore.getInstance()
                         .document("Feeds/"+currentItem.getDocID()+"/");
-//                        programmingViewHolder.comName.setVisibility(View.GONE);
 
                 programmingViewHolder.menuPost.setVisibility(View.VISIBLE);
                 ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
@@ -1177,19 +352,6 @@ public class ActivityProfileUser extends AppCompatActivity {
                     programmingViewHolder.tagList.setVisibility(View.GONE);
                 }
                 /////////TAGLIST///////////////
-
-//                    //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
-//                    programmingViewHolder.userimage.setOnClickListener(v -> {
-//                        Intent intent = new Intent(ActivityProfileUser.this, ActivityProfileUser.class);
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        startActivity(intent);
-//                    });
-//                    programmingViewHolder.username.setOnClickListener(v -> {
-//                        Intent intent = new Intent(ActivityProfileUser.this, ActivityProfileUser.class);
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        startActivity(intent);
-//                    });
-//                    //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
 
                 //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
@@ -1795,8 +957,6 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                         public void onSuccess(Void aVoid) {
                                                             CommitteeFragment.changed=1;
                                                             programmingViewHolder.itemHome.setVisibility(View.GONE);
-//                                                            programmingViewHolder.view1.setVisibility(View.GONE);
-//                                                            programmingViewHolder.view2.setVisibility(View.GONE);
                                                             notifyDataSetChanged();
                                                             FirebaseFirestore.getInstance()
                                                                     .collection("Feeds/")
@@ -1807,10 +967,10 @@ public class ActivityProfileUser extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                                     if(task.isSuccessful()) {
                                                                         if(task.getResult().size() == 0) {
-                                                                            programmingViewHolder.noPost.setVisibility(View.VISIBLE);
+                                                                            nopost1.setVisibility(View.VISIBLE);
                                                                         }
                                                                         else {
-                                                                            programmingViewHolder.noPost.setVisibility(View.GONE);
+                                                                            nopost1.setVisibility(View.GONE);
                                                                         }
                                                                     }
                                                                 }
@@ -1877,14 +1037,6 @@ public class ActivityProfileUser extends AppCompatActivity {
                     }
                 });
                 ////////POST MENU///////
-//                    }
-//                    else{
-//                        ((ProgrammingViewHolder1) holder).itemHome.setVisibility(View.GONE);
-////                        ((ProgrammingViewHolder2) holder).view1.setVisibility(View.GONE);
-////                        ((ProgrammingViewHolder2) holder).view2.setVisibility(View.GONE);
-//                    }
-
-//                }
 
             }
 
@@ -1910,14 +1062,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                     case FINISHED: contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         if(adapter1.getItemCount() == 0) {
-                            noPostView();
+                            loadUserDetails();
                             if(swipeRefreshLayout.isRefreshing()) {
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         }
                         else {
-                            LL.setVisibility(View.VISIBLE);
-                            noProfilePost.setVisibility(View.GONE);
                             nopost1.setVisibility(View.GONE);
                         }
                         break;
@@ -1935,24 +1085,13 @@ public class ActivityProfileUser extends AppCompatActivity {
     }
 
 
-    private static class ProgrammingViewHolder1 extends RecyclerView.ViewHolder{
+    private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView PName,PUsername, aboutheading, PDescription,PInstitute,Pcourse,totalcount,flamecount,commentcount;
-        private TextView verify;
-        private ImageView PDp,infobadge, starondp, noPost,Pcoverpic, edit_dp, edit_cover;
-        private ReadMoreTextView PDetaileddesc;
-        private LinearLayout instituteBG;
-        private ImageButton startier, currenttier, chat;
-        private CardView dpcard;
-        private ProgressBar progressBar;
-        private com.borjabravo.readmoretextview.ReadMoreTextView Pabout;
-
-        private TextView  username,commentCount, likesCount, comName, text_content, minsago, writecomment;
-        private ImageView  userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
+        private TextView  username,commentCount, likesCount, text_content, minsago, writecomment;
+        private ImageView  userimage, like, commentimg,profileimage, menuPost, share;
         private ApplexLinkPreview LinkPreview;
-        private RecyclerView tagList, interests;
-        private LinearLayout itemHome, display, like_layout, comment_layout, commentLayout1, commentLayout2, postHolder, profile_header;
-        private RelativeLayout first_post;
+        private RecyclerView tagList;
+        private LinearLayout itemHome, like_layout, comment_layout, commentLayout1, commentLayout2, postHolder, profile_header;
         private SliderView sliderView;
         private ImageView dp_cmnt1, dp_cmnt2;
         private TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2;
@@ -1960,18 +1099,9 @@ public class ActivityProfileUser extends AppCompatActivity {
         private View view1, view2;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
 
-        public ProgrammingViewHolder1(@NonNull View itemView) {
+        public ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
-            PDp = itemView.findViewById(R.id.Pdp);
-            PName = itemView.findViewById(R.id.Profilename);
-            PUsername =itemView.findViewById(R.id.Pusername);
-            Pcoverpic = itemView.findViewById(R.id.coverpic);
-            Pabout = itemView.findViewById(R.id.detaildesc);
-            aboutheading = itemView.findViewById(R.id.about);
-            edit_dp = itemView.findViewById(R.id.edit_dp_icon_ind);
-            edit_cover = itemView.findViewById(R.id.edit_coverpic_icon_ind);
 
-            noPost = itemView.findViewById(R.id.no_recent_post);
             tagList = itemView.findViewById(R.id.tagsList);
             username = itemView.findViewById(R.id.username);
             text_content = itemView.findViewById(R.id.text_content);
@@ -1987,15 +1117,12 @@ public class ActivityProfileUser extends AppCompatActivity {
             itemHome =itemView.findViewById(R.id.item_home);
             share =itemView.findViewById(R.id.share);
             LinkPreview =itemView.findViewById(R.id.LinkPreView);
-            first_post = itemView.findViewById(R.id.first_post);
 
 //            view1 = itemView.findViewById(R.id.view1);
 //            view2 = itemView.findViewById(R.id.view2);
             postHolder = itemView.findViewById(R.id.post);
             profile_header = itemView.findViewById(R.id.profile_header);
 
-            like_image = itemView.findViewById(R.id.like_image);
-            comment_image = itemView.findViewById(R.id.comment_image);
             likesCount = itemView.findViewById(R.id.no_of_likes);
             commentCount = itemView.findViewById(R.id.no_of_comments);
             like_layout = itemView.findViewById(R.id.like_layout);
@@ -2018,45 +1145,6 @@ public class ActivityProfileUser extends AppCompatActivity {
         }
     }
 
-//    private static class ProgrammingViewHolder2 extends RecyclerView.ViewHolder{
-//
-//        TextView  username,commentCount, comName, text_content, flamedBy, minsago, writecomment;
-//        ImageView  userimage, flameimg, commentimg,profileimage, menuPost, share, noPost;
-//        ApplexLinkPreview LinkPreview;
-//        RecyclerView tagList;
-//        LinearLayout itemHome;
-//        View view, view1, view2;
-//        SliderView postimage;
-//
-//        @SuppressLint("CutPasteId")
-//        public ProgrammingViewHolder2(@NonNull View itemView) {
-//            super(itemView);
-//
-//            tagList = itemView.findViewById(R.id.tagsList66);
-//            username = itemView.findViewById(R.id.username);
-//            text_content = itemView.findViewById(R.id.text_content);
-//            userimage =itemView.findViewById(R.id.user_image);
-//            postimage = itemView.findViewById(R.id.post_image);
-//            flamedBy = itemView.findViewById(R.id.flamed_by);
-//            minsago=itemView.findViewById(R.id.mins_ago);
-//            flameimg = itemView.findViewById(R.id.flame);
-//            comName = itemView.findViewById(R.id.comName);
-//            commentimg = itemView.findViewById(R.id.comment);
-//            commentCount = itemView.findViewById(R.id.no_of_comments);
-//            profileimage = itemView.findViewById(R.id.profile_image);
-//            menuPost = itemView.findViewById(R.id.delete_post);
-//            writecomment =itemView.findViewById(R.id.write_comment);
-//            itemHome =itemView.findViewById(R.id.item_home);
-//            share =itemView.findViewById(R.id.share);
-//            LinkPreview =itemView.findViewById(R.id.LinkPreView);
-//
-//            view= itemView.findViewById(R.id.view);
-//            view1= itemView.findViewById(R.id.view1);
-//            view2= itemView.findViewById(R.id.view2);
-//
-//            noPost= itemView.findViewById(R.id.no_recent_post1);
-//        }
-//    }
 
     private void save_Dialog(Bitmap bitmap) {
         Dialog myDialogue = new Dialog(ActivityProfileUser.this);
@@ -2083,9 +1171,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         bitmap.recycle();
     }
 
-    private void noPostView() {
-        LL.setVisibility(View.GONE);
-        noProfilePost.setVisibility(View.VISIBLE);
+    private void loadUserDetails() {
         nopost1.setVisibility(View.VISIBLE);
         ///////////////////////LOAD PROFILE DETAILS///////////////////////
 
@@ -2099,6 +1185,22 @@ public class ActivityProfileUser extends AppCompatActivity {
                         if(task.isSuccessful()){
                             if(task.getResult().exists()){
                                 userModel = task.getResult().toObject(BaseUserModel.class);
+
+                                if(userModel.getCoverpic() != null){
+                                    Picasso.get().load(userModel.getCoverpic())
+                                            .error(R.drawable.image_background_grey)
+                                            .placeholder(R.drawable.image_background_grey)
+                                            .into(PCoverpic);
+                                }
+
+                                if(userModel.getDp() != null){
+                                    Picasso.get().load(userModel.getDp())
+                                            .error(R.drawable.image_background_grey)
+                                            .placeholder(R.drawable.image_background_grey)
+                                            .into(PDp);
+                                }
+
+
                                 FirebaseFirestore.getInstance().collection("Users")
                                         .document(my_uid).collection("indi").document(my_uid)
                                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -2132,13 +1234,11 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                                 if(userModel.getDp()!=null){
                                     PROFILEPIC = userModel.getDp();
-//                                    Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
                                     if(PROFILEPIC!=null){
                                         Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
                                     }
                                 }
                                 else{
-//                                        Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
                                     Display display = getWindowManager().getDefaultDisplay();
                                     int displayWidth = display.getWidth();
                                     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -2151,8 +1251,6 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     }
                                     options.inJustDecodeBounds = false;
                                     Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-//                                                coverpic.setImageBitmap(scaledBitmap);
-//                                    holder1.Pcoverpic.setImageBitmap(scaledBitmap);
                                     PDp.setImageBitmap(scaledBitmap);
                                 }
 
@@ -2173,23 +1271,15 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     }
                                     options.inJustDecodeBounds = false;
                                     Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
-//                                                coverpic.setImageBitmap(scaledBitmap);
-//                                    holder1.Pcoverpic.setImageBitmap(scaledBitmap);
                                     PCoverpic.setImageBitmap(scaledBitmap);
                                 }
 
                                 if(my_uid.matches(FirebaseAuth.getInstance().getUid())){
                                     edit_cover.setVisibility(View.VISIBLE);
                                     edit_dp.setVisibility(View.VISIBLE);
-                                    editprofile2.setVisibility(View.VISIBLE);
-                                    editprofile2.setOnClickListener(v -> {
+                                    editProfile.setVisibility(View.VISIBLE);
+                                    editProfile.setOnClickListener(v -> {
                                         Intent i1 = new Intent(ActivityProfileUser.this, EditProfileIndividualActivity.class);
-//                                        i1.putExtra("firstname", FirstName);
-//                                        i1.putExtra("lastname", LastName);
-//                                        i1.putExtra("username", USERNAME);
-//                                        i1.putExtra("profilepic",PROFILEPIC );
-//                                        i1.putExtra("coverpic",COVERPIC);
-
                                         startActivity(i1);
                                         finish();
                                     });
@@ -2223,7 +1313,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 else{
                                     edit_cover.setVisibility(View.GONE);
                                     edit_dp.setVisibility(View.GONE);
-                                    editprofile2.setVisibility(View.GONE);
+                                    editProfile.setVisibility(View.GONE);
                                 }
                             }
                             else{
@@ -2267,7 +1357,9 @@ public class ActivityProfileUser extends AppCompatActivity {
         });
     }
 
+
     //////////////////////PREMISSIONS//////////////////////////
+
     private void requestStoragePermission() {
         ActivityCompat.requestPermissions(ActivityProfileUser.this, storagePermission,STORAGE_REQUEST_CODE);
     }
@@ -2276,6 +1368,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         return ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE ) == (PackageManager.PERMISSION_GRANTED);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -2343,6 +1436,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         }
     }
     //////////////////////PREMISSIONS//////////////////////////
+
     private void pickGallery(){
         Intent intent= new Intent();
         intent.setType("image/*");
@@ -2444,19 +1538,14 @@ public class ActivityProfileUser extends AppCompatActivity {
                     PDp.setImageBitmap(bitmap);
                 }
                 else if (imageCoverOrDp == 0 && from == 1){
-                    final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
-                    ProgrammingViewHolder1 pvh = (ProgrammingViewHolder1) holder;
-                    pvh.PDp.setImageBitmap(bitmap);
+                    PDp.setImageBitmap(bitmap);
                 }
                 else if (imageCoverOrDp == 1 && from == 0){
                     PCoverpic.setImageBitmap(bitmap);
                 }
                 else if (imageCoverOrDp == 1 && from == 1){
-                    final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(0);
-                    ProgrammingViewHolder1 pvh = (ProgrammingViewHolder1) holder;
-                    pvh.Pcoverpic.setImageBitmap(bitmap);
+                    PCoverpic.setImageBitmap(bitmap);
                 }
-//                appBarImage.setImageBitmap(bitmap);
                 pic = picCompressed;
                 FirebaseStorage storage;
                 StorageReference storageReference;
@@ -2536,21 +1625,8 @@ public class ActivityProfileUser extends AppCompatActivity {
     }
 
 
-    private String getAlphaNumericString (int n)
-    {
-        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
-        StringBuilder sb = new StringBuilder(n);
-        for (int i=0; i<n; i++)
-        {
-            int index = (int) (AlphaNumericString.length()*Math.random());
-            sb.append(AlphaNumericString.charAt(index));
-        }
-        return sb.toString();
-    }
-
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == android.R.id.home) {
             super.onBackPressed();
         }

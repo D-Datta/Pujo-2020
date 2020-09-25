@@ -77,10 +77,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private String name, pujotype, coverpic, dp, address, city, state, pin, desc;
 
     public String uid;
-    private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
     private FirebaseUser fireuser;
     int bool;
-    private Button locate;
     private ConnectivityManager cm;
     private BaseUserModel baseUserModel;
 
@@ -88,6 +86,11 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
     private int imageCoverOrDp = 0; //dp = 0, cover = 1
     private ImageView editDp, editCover;
+
+
+    private Button locate;
+    private Button follow, edit_profile_com;
+
 
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
@@ -98,7 +101,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ProgressDialog progressDialog;
     byte[] pic;
 
-    IntroPref introPref;
+    private IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -608,7 +611,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 else {
                     Pcoverpic.setImageBitmap(bitmap);
                 }
-//                appBarImage.setImageBitmap(bitmap);
                 pic = picCompressed;
                 FirebaseStorage storage;
                 StorageReference storageReference;
