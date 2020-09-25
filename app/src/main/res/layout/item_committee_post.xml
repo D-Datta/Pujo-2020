@@ -77,8 +77,10 @@
                 <TextView
                     android:id="@+id/type_smthng"
                     android:text="@string/share_your_pujo_story"
-                    android:padding="10dp"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="15dp"
                     android:textSize="15sp"
+                    android:gravity="center_vertical"
                     android:fontFamily="@font/oxygen_regular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

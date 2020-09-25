@@ -152,6 +152,7 @@ public class Fragment_Reels extends Fragment {
                 holder.item_reels_image.setOnClickListener(v -> {
                     Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                     intent.putExtra("position", String.valueOf(position));
+                    intent.putExtra("uid", uid);
                     intent.putExtra("bool", "2");
                     requireActivity().startActivity(intent);
                 });
@@ -245,7 +246,7 @@ public class Fragment_Reels extends Fragment {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: BasicUtility.showToast(getContext(), "Something went wrong.22.."); break;
+                    case ERROR: BasicUtility.showToast(getContext(), "Something went wrong..."); break;
                     case LOADING_MORE: progressmorereels.setVisibility(View.VISIBLE); break;
                     case LOADED: progressmorereels.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
