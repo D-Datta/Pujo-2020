@@ -206,7 +206,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             //increment no of visitors
             FirebaseFirestore.getInstance()
                     .collection("Users")
-                    .document(FirebaseAuth.getInstance().getUid())
+                    .document(uid)
                     .update("pujoVisits", FieldValue.increment(1));
         }
 

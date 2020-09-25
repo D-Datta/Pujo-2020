@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -184,25 +185,35 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         // init the bottom sheet behavior
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        icons.setVisibility(View.GONE);
 
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
-            icons.setVisibility(View.VISIBLE);
-        }
-        else{
-            icons.setVisibility(View.GONE);
-        }
+        llBottomSheet.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    icons.setVisibility(View.GONE);
+
+                }
+                else{
+                    bottomSheetBehavior.setState(STATE_COLLAPSED);
+                    icons.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
 
         addToPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                    icons.setVisibility(View.GONE);
+                    icons.setVisibility(View.GONE);
 
                 }
                 else{
                     bottomSheetBehavior.setState(STATE_COLLAPSED);
-//                    icons.setVisibility(View.VISIBLE);
+                    icons.setVisibility(View.VISIBLE);
                 }
 
             }
