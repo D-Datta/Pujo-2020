@@ -29,7 +29,7 @@
         android:id="@+id/from"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="an initiaitive of"
+        android:text="@string/an_initiative_of"
         android:gravity="center|bottom"
         android:textSize="15dp"
         android:fontFamily="@font/oxygen_bold"
