@@ -270,7 +270,6 @@
                         android:autoLink="all"
                         android:fontFamily="@font/oxygen_bold"
                         android:paddingHorizontal="17dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:paddingTop="8dp"
                         android:paddingBottom="5dp"
                         android:text="@string/post_content"
@@ -498,7 +497,7 @@
                                 android:autoLink="all"
                                 android:textColorLink="@color/toolbarStart"
                                 android:text=""
-                                android:textColor="#212121"
+                                android:textColor="@color/black"
                                 android:paddingHorizontal="8dp"/>
 
                             <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
@@ -588,8 +587,8 @@
                                 android:fontFamily="@font/oxygen_bold"
                                 android:autoLink="all"
                                 android:textColorLink="@color/toolbarStart"
-                                android:text="@string/comment_hint"
-                                android:textColor="#212121"
+                                android:text=""
+                                android:textColor="@color/black"
                                 android:paddingHorizontal="8dp"/>
 
                             <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
