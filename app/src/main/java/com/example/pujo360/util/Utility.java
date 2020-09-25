@@ -2,6 +2,7 @@ package com.example.pujo360.util;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.os.Environment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -76,6 +78,7 @@ public class Utility {
         InputStream in;
         OutputStream out;
         try {
+            Log.i("NONGRAMI", "BAR KORE DEBO");
             File file = new File(myDir, "VID-" + tsLong + ".mp4");
             file.createNewFile();
             in = context.getContentResolver().openInputStream(uri);
@@ -91,9 +94,36 @@ public class Utility {
             Objects.requireNonNull(in).close();
             return true;
         } catch (IOException e) {
+            Log.i("SHUTIYE", "LAL KORE DEBO");
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static boolean downloadVideo(String url, Context context) {
+        File myDir = new File(context.getExternalFilesDir(null), "/Utsav");
+        if (!myDir.exists()) {
+            myDir.mkdirs();
+        }
+        tsLong = System.currentTimeMillis();
+        try {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            request.setDescription("download");
+            request.setTitle("VID-" + tsLong + ".mp4");
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(context.getExternalFilesDir(null) + "/Utsav", "VID-" + tsLong + ".mp4");
+
+            DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+            manager.enqueue(request);
+            return true;
+
+        } catch (Exception e) {
+            Log.i("SHUTIYE", "LAL KORE DEBO");
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     public static String getTimeAgo(Long timestamp) {

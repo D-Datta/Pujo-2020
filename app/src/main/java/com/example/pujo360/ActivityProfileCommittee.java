@@ -206,7 +206,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     }
                 }
             });
-
         }
         else {
             edit_profile_com.setVisibility(View.GONE);
@@ -217,9 +216,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .collection("Users")
                     .document(FirebaseAuth.getInstance().getUid())
                     .update("pujoVisits", FieldValue.increment(1));
-
         }
-
 
         //setup profile
         if(uid!=null) {

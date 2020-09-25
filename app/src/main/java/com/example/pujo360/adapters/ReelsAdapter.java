@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +112,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         });
 
         holder.back_reel.setOnClickListener(v -> ((ReelsActivity)context).onBackPressed());
-        holder.save_reel.setOnClickListener(v -> save_Dialog(Uri.parse(currentItem.getVideo())));
+        holder.save_reel.setOnClickListener(v -> save_Dialog(currentItem.getVideo()));
 
         //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
         holder.pujo_com_dp.setOnClickListener(v -> {
@@ -317,7 +318,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         }
     }
 
-    private void save_Dialog(Uri uri) {
+    private void save_Dialog(String url) {
         Dialog myDialogue = new Dialog(context);
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(true);
@@ -326,7 +327,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 Utility.requestStoragePermission(context);
             }
             else {
-                boolean bool = Utility.saveVideo(uri, context);
+                boolean bool = Utility.downloadVideo(url, context);
                 if(bool) {
                     Toast.makeText(context, "Saved to device", Toast.LENGTH_SHORT).show();
                 }
