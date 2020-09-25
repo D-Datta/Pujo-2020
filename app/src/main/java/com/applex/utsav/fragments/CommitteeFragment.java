@@ -939,7 +939,8 @@ public class CommitteeFragment extends Fragment {
                                             if (percent1 >= 90) {
                                                 cvh1.item_reels_video.start();
                                                 cvh1.item_reels_video.setOnPreparedListener(mp -> {
-                                                    cvh1.item_reels_image.setVisibility(View.GONE);
+                                                    requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                    new Handler().postDelayed(() -> cvh1.item_reels_image.setVisibility(View.GONE), 500);
                                                     mp.setVolume(0f, 0f);
                                                     mp.setLooping(true);
                                                 });
@@ -1089,7 +1090,8 @@ public class CommitteeFragment extends Fragment {
                     Picasso.get().load(currentItem.getFrame()).fit().into(holder.item_reels_image);
 
                     holder.item_reels_video.setOnPreparedListener(mp -> {
-                        holder.item_reels_image.setVisibility(View.GONE);
+                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        new Handler().postDelayed(() -> holder.item_reels_image.setVisibility(View.GONE), 500);
                         if(position == 1) {
                             holder.item_reels_video.seekTo(1);
                             holder.item_reels_video.pause();
@@ -1285,6 +1287,7 @@ public class CommitteeFragment extends Fragment {
                                 if (percent >= 90) {
                                     cvh.item_reels_video.start();
                                     cvh.item_reels_video.setOnPreparedListener(mp -> {
+                                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                         cvh.item_reels_image.setVisibility(View.GONE);
                                         mp.setVolume(0f, 0f);
                                         mp.setLooping(true);
@@ -1391,7 +1394,8 @@ public class CommitteeFragment extends Fragment {
                                 if (percent1 >= 90) {
                                     cvh1.item_reels_video.start();
                                     cvh1.item_reels_video.setOnPreparedListener(mp -> {
-                                        cvh1.item_reels_image.setVisibility(View.GONE);
+                                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        new Handler().postDelayed(() -> cvh1.item_reels_image.setVisibility(View.GONE), 500);
                                         mp.setVolume(0f, 0f);
                                         mp.setLooping(true);
                                     });

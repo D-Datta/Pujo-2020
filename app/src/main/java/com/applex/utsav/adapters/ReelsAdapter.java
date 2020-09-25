@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -274,11 +275,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
-        holder.reels_video.setOnPreparedListener(mediaPlayer -> {
+        holder.reels_video.setOnPreparedListener(mediaPlayer -> new Handler().postDelayed(() -> {
             holder.video_playing.playAnimation();
             holder.play_image.setVisibility(View.GONE);
             holder.reels_image.setVisibility(View.GONE);
-        });
+        }, 500));
     }
 
     @Override
