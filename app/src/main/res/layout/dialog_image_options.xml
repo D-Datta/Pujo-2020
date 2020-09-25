@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape2"
-    android:layout_marginHorizontal="10dp"
     android:gravity="center_vertical"
     android:paddingVertical="15dp"
-    android:paddingHorizontal="25dp"
+    android:paddingHorizontal="15dp"
     android:id="@+id/saveToInternal">
 
     <ImageView

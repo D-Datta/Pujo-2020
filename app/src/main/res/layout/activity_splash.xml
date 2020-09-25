@@ -29,13 +29,11 @@
         android:id="@+id/from"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="from"
+        android:text="@string/an_initiative_of"
         android:gravity="center|bottom"
-        android:textColor="#212121"
         android:textSize="15dp"
         android:fontFamily="@font/oxygen_bold"
         android:layout_above="@+id/preptotal"
-        android:textStyle="bold"
         android:textAllCaps="false"/>
 
     <TextView
@@ -47,8 +45,8 @@
         android:text="@string/applex_in"
         android:fontFamily="@font/oxygen_ex_bold"
         android:layout_marginBottom="20dp"
-        android:textColor="#212121"
-        android:textSize="15dp" />
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>

@@ -24,6 +24,8 @@
                 android:paddingVertical="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/pujo_committees"
+
+                android:textColor="@color/purple"
                 android:textSize="18sp" />
 
             <TextView
@@ -36,7 +38,7 @@
                 android:layout_marginVertical="5dp"
                 android:layout_centerVertical="true"
                 android:layout_marginHorizontal="5dp"
-                android:text="View all "
+                android:text="@string/view_all"
                 android:background="@drawable/custom_ripple_white"
                 android:backgroundTint="@color/colorPrimary"
                 android:textColor="@color/purple"
@@ -54,22 +56,23 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/communityRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="128dp"
+                android:layout_height="135dp"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp"/>
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="#E2E2E2"/>
 
         <LinearLayout
             android:id="@+id/type_something"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="#E2E2E2"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,43 +96,20 @@
 
                 <TextView
                     android:id="@+id/type_smthng"
-                    android:text="@string/type_something_n"
-                    android:padding="10dp"
-                    android:textSize="15dp"
-                    android:fontFamily="@font/oxygen_regular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/layerlistbg"/>
+                    android:background="@drawable/layerlistbg"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:padding="10dp"
+                    android:text="@string/share_your_pujo_story"
+                    android:textSize="15dp" />
 
             </LinearLayout>
+                    </LinearLayout>
 
-            <View
-                android:id="@+id/view_type_smth"
-                android:layout_width="match_parent"
-                android:layout_height="7dp"
-                android:background="#E2E2E2"/>
-        </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            android:background="#e2e2e2"-->
-<!--            android:paddingBottom="7dp">-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingVertical="7dp"-->
-<!--                android:gravity="center_vertical"-->
-<!--                android:background="@drawable/shape_latest_post"-->
-<!--                android:paddingHorizontal="20dp"-->
-<!--                android:text="Trending Posts"-->
-<!--                android:textSize="18sp" />-->
-
-<!--        </LinearLayout>-->
     </LinearLayout>
 
 
@@ -174,35 +154,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/first_post">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                android:layout_alignParentTop="true"
-                android:background="#E2E2E2"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="22dp"
-                android:layout_alignParentBottom="true"
-                android:background="#E2E2E2"/>
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:clickable="true"
-                android:background="@drawable/post_bg"
-                android:layout_marginTop="6dp"
-                android:layout_marginBottom="8dp"
                 android:elevation="2dp"
                 android:id="@+id/item_home">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:elevation="20dp">
+                    android:orientation="vertical">
+
+                    <View
+                        android:id="@+id/view_type_smth"
+                        android:layout_width="match_parent"
+                        android:layout_height="7dp"
+                        android:background="#E2E2E2"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -239,7 +208,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/oxygen_ex_bold"
-                                android:paddingVertical="4dp"
+                                android:paddingVertical="2dp"
                                 android:paddingHorizontal="8dp"
                                 android:background="@drawable/custom_ripple_white"
                                 android:text="@string/name"
@@ -247,12 +216,29 @@
                                 android:textSize="15dp" />
 
                             <TextView
+                                android:id="@+id/tag_pujo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jagat Mukherjee Park"
+                                android:paddingHorizontal="3dp"
+                                android:gravity="center_vertical"
+                                android:visibility="visible"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                android:textColor="@color/purple"
+                                android:background="@drawable/custom_ripple_white"
+                                android:textSize="14sp"
+                                app:drawableTint="@color/purple"
+                                android:drawableStart="@drawable/ic_baseline_location_on_24" />
+
+                            <TextView
                                 android:id="@+id/mins_ago"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="8dp"
                                 android:text="@string/_10_mins_ago"
-                                android:textSize="12dp" />
+                                android:paddingTop="2dp"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -284,7 +270,6 @@
                         android:autoLink="all"
                         android:fontFamily="@font/oxygen_bold"
                         android:paddingHorizontal="17dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:paddingTop="8dp"
                         android:paddingBottom="5dp"
                         android:text="@string/post_content"
@@ -294,7 +279,7 @@
                         android:textColorLink="@color/link"
                         android:textSize="15dp" />
 
-                    <com.example.pujo360.LinkPreview.ApplexLinkPreview
+                    <com.applex.utsav.LinkPreview.ApplexLinkPreview
                         android:id="@+id/LinkPreView"
                         android:layout_width="match_parent"
                         android:minHeight="270dp"
@@ -511,11 +496,11 @@
                                 android:fontFamily="@font/oxygen_bold"
                                 android:autoLink="all"
                                 android:textColorLink="@color/toolbarStart"
-                                android:text="@string/comment_hint"
-                                android:textColor="#212121"
+                                android:text=""
+                                android:textColor="@color/black"
                                 android:paddingHorizontal="8dp"/>
 
-                            <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+                            <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                                 android:id="@+id/LinkPreViewComment1"
                                 android:layout_width="match_parent"
                                 android:minHeight="82dp"
@@ -602,11 +587,11 @@
                                 android:fontFamily="@font/oxygen_bold"
                                 android:autoLink="all"
                                 android:textColorLink="@color/toolbarStart"
-                                android:text="@string/comment_hint"
-                                android:textColor="#212121"
+                                android:text=""
+                                android:textColor="@color/black"
                                 android:paddingHorizontal="8dp"/>
 
-                            <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+                            <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                                 android:id="@+id/LinkPreViewComment2"
                                 android:layout_width="match_parent"
                                 android:minHeight="82dp"
@@ -633,7 +618,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="20dp"
-                    android:paddingVertical="2dp"
+                    android:paddingVertical="5dp"
                     android:paddingHorizontal="10dp"
                     android:orientation="horizontal">
 

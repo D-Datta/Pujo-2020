@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_ripple_white"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="10dp"
@@ -14,22 +13,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_centerVertical="true"
         android:paddingStart="20dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
-            app:cardCornerRadius="40dp"
+            app:cardCornerRadius="42.5dp"
             android:layout_marginTop="26dp"
             app:cardElevation="7dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp">
+            android:layout_marginHorizontal="5dp"
+            android:layout_width="85dp"
+            android:layout_height="85dp">
+
             <ImageView
                 android:id="@+id/displaypic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_account_circle_black_24dp"
-                android:contentDescription="TODO" />
+                android:src="@drawable/ic_account_circle_black_24dp" />
+
         </androidx.cardview.widget.CardView>
 
         <RelativeLayout
@@ -38,29 +40,17 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/nav_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:foregroundGravity="center_vertical"
-                android:gravity="center"
-                android:paddingVertical="15dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/nav_Name"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:paddingEnd="5dp"
-                    android:text="Name"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-
-            </LinearLayout>
-
+                android:paddingHorizontal="5dp"
+                android:layout_marginVertical="20dp"
+                android:text="Name"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </LinearLayout>

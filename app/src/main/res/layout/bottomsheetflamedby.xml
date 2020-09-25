@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flamed by"
+                android:text="@string/liked_by"
                 android:paddingTop="10dp"
                 android:layout_marginStart="60dp"
                 android:paddingHorizontal="5dp"

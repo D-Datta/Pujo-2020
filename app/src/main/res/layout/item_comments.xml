@@ -78,11 +78,11 @@
                 android:fontFamily="@font/oxygen_regular"
                 android:autoLink="all"
                 android:textColorLink="@color/toolbarStart"
-                android:text="Lorem Ipsum http://schemas.android.com/apk/res-au"
-                android:textColor="#212121"
+                android:text=""
+                android:textColor="@color/black"
                 android:paddingHorizontal="8dp"/>
 
-            <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+            <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                 android:id="@+id/LinkPreViewComment"
                 android:layout_width="match_parent"
                 android:minHeight="82dp"
@@ -145,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="12dp"
-                android:text="Reply"
+                android:text="@string/reply"
                 android:paddingHorizontal="12dp"
                 android:fontFamily="@font/oxygen_regular"
                 android:gravity="center_vertical|end" />

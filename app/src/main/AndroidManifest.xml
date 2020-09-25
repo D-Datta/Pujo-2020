@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.pujo360">
+    package="com.applex.utsav">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -16,27 +16,29 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:fullBackupContent="@xml/backup_descriptor"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".EditProfileIndividualActivity"/>
-        <activity android:name=".EditProfileCommitteeActivity" />
-        <activity android:name=".ActivityProfileCommittee" />
-        <activity android:name=".ActivityProfileUser" />
-        <activity android:name=".SearchCityState" />
-        <activity android:name=".registration.RegIndividual" />
-        <activity android:name=".registration.RegPujoCommittee" />
-        <activity android:name=".registration.RegChoice" />
-        <activity android:name=".WalkthroughActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ReelsActivity" />
+        <activity android:name="com.applex.utsav.Webview"/>
+        <activity android:name="com.applex.utsav.drawerActivities.AboutUs" />
+        <activity android:name="com.applex.utsav.EditProfileIndividualActivity" />
+        <activity android:name="com.applex.utsav.EditProfileCommitteeActivity" />
+        <activity android:name="com.applex.utsav.ActivityProfileCommittee" />
+        <activity android:name="com.applex.utsav.ActivityProfileUser" />
+        <activity android:name="com.applex.utsav.SearchCityState" />
+        <activity android:name="com.applex.utsav.registration.RegIndividual" />
+        <activity android:name="com.applex.utsav.registration.RegPujoCommittee" />
+        <activity android:name="com.applex.utsav.registration.RegChoice" />
+        <activity android:name="com.applex.utsav.WalkthroughActivity" />
+        <activity android:name="com.applex.utsav.registration.LoginActivity" />
+        <activity android:name="com.applex.utsav.ReelsActivity" />
         <activity
-            android:name=".Splash"
+            android:name="com.applex.utsav.Splash"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -46,12 +48,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CommentReplyActivity"
+            android:name="com.applex.utsav.CommentReplyActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CommentEdit"
+            android:name="com.applex.utsav.CommentEdit"
             android:screenOrientation="portrait" />
-        <activity android:name=".GateWayActivity">
+        <activity android:name="com.applex.utsav.GateWayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -74,27 +76,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfilePictureActivity"
+            android:name="com.applex.utsav.ProfilePictureActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CommitteeViewAll"
+            android:name="com.applex.utsav.CommitteeViewAll"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".NewPostHome"
+            android:name="com.applex.utsav.NewPostHome"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SEND" />-->
 
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.OPENABLE" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.SEND" /> -->
 
-<!--                <data android:mimeType="image/*" />-->
-<!--                <data android:mimeType="text/plain" />-->
-<!--            </intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.OPENABLE" /> -->
+
+
+            <!-- <data android:mimeType="image/*" /> -->
+            <!-- <data android:mimeType="text/plain" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".ViewMoreHome"
+            android:name="com.applex.utsav.ViewMoreHome"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="Home" />
@@ -107,7 +112,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.applex.utsav.MainActivity"
             android:configChanges="uiMode"
             android:screenOrientation="portrait">
             <intent-filter>

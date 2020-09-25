@@ -12,6 +12,7 @@
     <string name="utsav">Utsav</string>
     <string name="or">OR</string>
     <string name="from">from</string>
+    <string name="locate">LOCATE</string>
 
 
     <string name="enter_committeeName">Enter Committee Name</string>
@@ -47,14 +48,16 @@
     </string>
 
     <string name="and_cookies">
-        <a href="https://campus24.in/cookies/">and Cookies.</a>
+        <a href="https://applex.in/cookies/">and Cookies.</a>
     </string>
 
     <string name="faq_help">
-        <a href="https://campus24.in/faq/">More further queries check out FAQs.</a>
+        <a href="https://applex.in/faq/">More further queries check out FAQs.</a>
     </string>
+
     <string name="pujo_committees">Utsav Pujo</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+
     <string name="marquee_text">Durga puja sharbojonin rajbari</string>
 
     <string-array name="Gender">
@@ -65,16 +68,17 @@
 
     <string name="reg">Registration</string>
     <string name="name">Name</string>
-    <string name="fname">First Name</string>
-    <string name="lname">Last Name</string>
-    <string name="username">Username</string>
+    <string name="fname">First Name*</string>
+    <string name="lname">Last Name*</string>
+    <string name="username">Username*</string>
     <string name="attherate">\@</string>
     <string name="email">Email</string>
-    <string name="choose_gender">Choose Gender</string>
+    <string name="choose_gender">Choose Gender*</string>
     <string name="address">Address</string>
     <string name="address_line">Address Line</string>
     <string name="city">City</string>
     <string name="state">State</string>
+    <string name="about">About</string>
     <string name="submit">SUBMIT</string>
     <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
     <string name="trending_posts">Trending Posts</string>
@@ -82,9 +86,9 @@
     <string name="post_content">post_content</string>
     <string name="_2_4k">2.4k</string>
     <string name="_154">154</string>
-    <string name="write_a_comment">Write a comment...</string>
+    <string name="write_a_comment">Write a comment…</string>
     <string name="_42_comments">42 comments</string>
-    <string name="search">Search...</string>
+    <string name="search">Search…</string>
     <string name="Recent_searches">Recent searches</string>
     <string name="Description">Description</string>
     <string name="Type_of_pujo">Type of Pujo*</string>
@@ -94,9 +98,51 @@
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
     <string name="post_hint">How are you enjoying puja?</string>
     <string name="short_videos">Short Videos</string>
-    <string name="see_all"><![CDATA[See All -->]]></string>
+    <string name="see_all"><![CDATA[See All —>]]></string>
+    <string name="about_yourself">Something about you</string>
+
     <string name="_0_18">0:18</string>
+
     <string name="comments">Comments</string>
     <string name="type_something_n">Type something..\n</string>
+    <string name="bio">Bio</string>
+    <string name="recorder">Recorder</string>
+    <string name="video">Video</string>
+    <string name="communicate">Communicate</string>
+    <string name="tell_a_friend">Share with a Friend</string>
+    <string name="about_us">About us</string>
+    <string name="account">Account</string>
+    <string name="log_out">Log Out</string>
+    <string name="live">LIVE</string>
+    <string name="update">Update</string>
+    <string name="Edit_comment">Edit Comment</string>
+    <string name="Search">Search</string>
+    <string name="Edit_Profile">Edit Profile</string>
+    <string name="register_as">Register as:</string>
+    <string name="committee">Committee</string>
+    <string name="login_as_guest">Login as Guest</string>
+    <string name="individual">Individual</string>
+    <string name="replies">Replies</string>
+    <string name="liked_by">Liked by</string>
+    <string name="report_comment">Report Comment</string>
+    <string name="share_post">Share Post</string>
+    <string name="report_post">Report Post</string>
+    <string name="edit_post">Edit Post</string>
+    <string name="delete_comment">Delete Comment</string>
+    <string name="delete_post">Delete Post</string>
+    <string name="share_your_pujo_story">Share your pujo story...</string>
+    <string name="view_all">View all</string>
+    <string name="utsav_durga_pujo_2020">UTSAV: Durga Pujo 2020</string>
+    <string name="an_initiative_by_applex_in">~an initiative by applex.in</string>
+    <string name="reply">Reply</string>
+    <string name="pin">Pin</string>
+    <string name="add_to_post">Add to post</string>
+    <string name="visitors">Visitors</string>
+    <string name="tag">Add tag</string>
+    <string name="tags">Tags</string>
+    <string name="contact_us">Contact us</string>
+    <string name="rate_us">"Rate us "</string>
+    <string name="an_initiative_of">an initiative of</string>
+    <string name="utsav_clips">Utsav Clips</string>
 
 </resources>

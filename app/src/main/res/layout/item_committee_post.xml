@@ -75,9 +75,9 @@
 
                 <TextView
                     android:id="@+id/type_smthng"
-                    android:text="@string/type_something_n"
+                    android:text="@string/share_your_pujo_story"
                     android:padding="10dp"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -87,36 +87,7 @@
 
             </LinearLayout>
 
-            <View
-                android:id="@+id/view_type_smth"
-                android:layout_width="match_parent"
-                android:layout_height="7dp"
-                android:background="#E2E2E2"/>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/light_background">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_latest_post"
-                android:fontFamily="@font/oxygen_bold"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="20dp"
-                android:paddingVertical="7dp"
-                android:text="@string/trending_posts"
-                android:textSize="18dp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@color/light_background"/>
 
     </LinearLayout>
 
@@ -128,29 +99,37 @@
         android:background="@color/white"
         android:visibility="visible">
 
+        <View
+            android:id="@+id/view_type_smth"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="#E2E2E2"/>
+
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/oxygen_regular"
+            android:fontFamily="@font/oxygen_bold"
             android:gravity="center_vertical"
+            android:textColor="@color/purple"
             android:paddingHorizontal="20dp"
             android:paddingVertical="5dp"
-            android:text="@string/short_videos"
-            android:textSize="18dp" />
+            android:text="@string/utsav_clips"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:minHeight="340dp"
             android:orientation="horizontal"
-            android:background="@color/white"
-            android:layout_marginHorizontal="6dp">
+            android:background="@color/white">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reelsRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="5dp"
                 android:clipToPadding="false"
                 android:paddingBottom="10dp" />
 
@@ -158,16 +137,18 @@
 
         <TextView
             android:id="@+id/view_all_reels"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/oxygen_regular"
+            android:fontFamily="@font/oxygen_bold"
             android:background="@drawable/custom_ripple_white"
             android:paddingHorizontal="20dp"
             android:paddingTop="5dp"
             android:text="@string/see_all"
-            android:textSize="18dp" />
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -178,14 +159,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="14dp"
+            android:layout_height="8dp"
             android:layout_alignParentTop="true"
-            android:background="@color/light_background"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/light_background"/>
 
         <LinearLayout
@@ -193,17 +168,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:clickable="true"
-            android:background="@drawable/post_bg"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="8dp"
+            android:background="@color/white"
             android:elevation="2dp"
             android:id="@+id/item_home">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:elevation="20dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -214,20 +187,28 @@
                     android:gravity="center_vertical"
                     android:paddingHorizontal="10dp">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="3dp"
-                        app:cardCornerRadius="25dp">
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/dp_outline">
 
-                        <ImageView
-                            android:id="@+id/user_image"
+                        <androidx.cardview.widget.CardView
                             android:layout_width="50dp"
-                            android:background="@drawable/custom_ripple_white"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop" />
+                            android:layout_height="50dp"
+                            android:layout_margin="5dp"
+                            app:cardCornerRadius="25dp">
 
-                    </androidx.cardview.widget.CardView>
+                            <ImageView
+                                android:id="@+id/user_image"
+                                android:layout_width="50dp"
+                                android:background="@drawable/custom_ripple_white"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop" />
+
+                        </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
+
+
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -285,7 +266,6 @@
                     android:autoLink="all"
                     android:fontFamily="@font/oxygen_bold"
                     android:paddingHorizontal="17dp"
-                    android:background="@drawable/custom_ripple_white"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
                     android:text="@string/post_content"
@@ -295,7 +275,7 @@
                     android:textColorLink="@color/link"
                     android:textSize="15dp" />
 
-                <com.example.pujo360.LinkPreview.ApplexLinkPreview
+                <com.applex.utsav.LinkPreview.ApplexLinkPreview
                     android:id="@+id/LinkPreView"
                     android:layout_width="match_parent"
                     android:minHeight="270dp"
@@ -451,7 +431,7 @@
                 android:id="@+id/comment_layout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
+                android:paddingHorizontal="5dp"
                 android:paddingTop="8dp">
 
                 <LinearLayout
@@ -462,6 +442,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
+                        android:layout_marginHorizontal="5dp"
                         app:cardCornerRadius="25dp">
 
                         <ImageView
@@ -483,7 +464,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:padding="4dp"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="5dp"
                         android:background="@drawable/background_rectangle"
                         android:orientation="vertical">
 
@@ -511,11 +492,11 @@
                             android:fontFamily="@font/oxygen_bold"
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
-                            android:text="@string/comment_hint"
-                            android:textColor="#212121"
+                            android:text=""
+                            android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
-                        <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+                        <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                             android:id="@+id/LinkPreViewComment1"
                             android:layout_width="match_parent"
                             android:minHeight="82dp"
@@ -542,7 +523,7 @@
                 android:id="@+id/comment_layout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
+                android:paddingHorizontal="5dp"
                 android:paddingTop="8dp">
 
                 <LinearLayout
@@ -553,6 +534,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
+                        android:layout_marginHorizontal="5dp"
                         app:cardCornerRadius="25dp">
 
                         <ImageView
@@ -574,7 +556,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:padding="4dp"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="5dp"
                         android:background="@drawable/background_rectangle"
                         android:orientation="vertical">
 
@@ -598,15 +580,15 @@
                             android:id="@+id/comment2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lineSpacingExtra="3dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:autoLink="all"
-                            android:textColorLink="@color/toolbarStart"
-                            android:text="@string/comment_hint"
-                            android:textColor="#212121"
-                            android:paddingHorizontal="8dp"/>
+                            android:fontFamily="@font/oxygen_bold"
+                            android:lineSpacingExtra="3dp"
+                            android:paddingHorizontal="8dp"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textColorLink="@color/toolbarStart" />
 
-                        <com.example.pujo360.LinkPreview.ApplexLinkPreviewShort
+                        <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
                             android:id="@+id/LinkPreViewComment2"
                             android:layout_width="match_parent"
                             android:minHeight="82dp"
@@ -633,8 +615,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="20dp"
-                android:paddingVertical="2dp"
-                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="5dp"
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
@@ -642,7 +624,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginVertical="5dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginHorizontal="5dp"
                     app:cardCornerRadius="20dp">
 
                     <ImageView
@@ -661,6 +643,7 @@
                     android:hint="@string/write_a_comment"
                     android:paddingHorizontal="13dp"
                     android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
                     android:gravity="center_vertical"
                     android:background="@drawable/background_rectangle"
                     android:layout_gravity="center_vertical" />

@@ -44,8 +44,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="15dp"
-        android:background="@color/dark_black_transparent"
-        android:layout_marginEnd="5dp">
+        android:background="@color/dark_black_transparent">
 
         <ImageView
             android:id="@+id/back"
@@ -55,7 +54,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_arrow_back_black_24dp"
             android:layout_marginStart="5dp"
-            android:background="@drawable/custom_ripple_black"/>
+            android:background="@drawable/custom_ripple_transparent"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="40dp"
@@ -84,16 +83,16 @@
                 android:text="@string/pujo_committees"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textColor="@color/white"
-                android:background="@drawable/custom_ripple_black"/>
+                android:background="@drawable/custom_ripple_transparent"/>
 
             <TextView
                 android:id="@+id/mins_ago44"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/_10_mins_ago"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textColor="@color/white_transparent"/>
 
         </LinearLayout>
@@ -105,7 +104,7 @@
             app:tint="@color/white"
             android:layout_gravity="center|end"
             android:src="@drawable/ic_more_horiz_black_24dp"
-            android:background="@drawable/custom_ripple_black"/>
+            android:background="@drawable/custom_ripple_transparent"/>
 
     </LinearLayout>
 
@@ -170,7 +169,7 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:layout_marginHorizontal="10dp"
-                    android:background="@drawable/custom_ripple_black"
+                    android:background="@drawable/custom_ripple_transparent"
                     android:padding="5dp"
                     android:src="@drawable/ic_conch_shell" />
 
@@ -178,7 +177,7 @@
                     android:id="@+id/share44"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:background="@drawable/custom_ripple_black"
+                    android:background="@drawable/custom_ripple_transparent"
                     android:padding="5dp"
                     android:src="@drawable/ic_blossom"
                     app:tint="@color/white" />
@@ -196,7 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:background="@drawable/custom_ripple_black">
+                android:background="@drawable/custom_ripple_transparent">
 
             <ImageView
                     android:id="@+id/like_image"
@@ -222,7 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:background="@drawable/custom_ripple_black">
+                android:background="@drawable/custom_ripple_transparent">
 
                 <ImageView
                     android:id="@+id/comment_image"

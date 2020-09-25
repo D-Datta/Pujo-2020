@@ -8,12 +8,19 @@
     android:orientation="vertical"
     tools:context=".ReelsActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/recyclerReelsViewAll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:descendantFocusability="blocksDescendants"
-        app:reverseLayout="false" />
+        android:orientation="vertical" />
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerReelsViewAll"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:clipToPadding="false"-->
+<!--        android:descendantFocusability="blocksDescendants"-->
+<!--        app:reverseLayout="false" />-->
 
 </LinearLayout>

@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            app:title="Search"
+            app:title="@string/Search"
             android:background="@color/white"
             app:titleTextColor="@color/black_transparent"
             android:elevation="10dp"
