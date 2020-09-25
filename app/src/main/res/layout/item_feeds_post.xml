@@ -117,6 +117,7 @@
                 android:layout_marginHorizontal="20dp">
 
                 <LinearLayout
+                    android:id="@+id/post_icons_ll"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -169,7 +170,7 @@
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/ic_baseline_videocam_24"
+                        android:src="@drawable/ic_baseline_video_call_24"
                         android:padding="8dp"
                         app:tint="@color/link" />
 

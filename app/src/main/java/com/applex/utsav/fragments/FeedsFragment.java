@@ -302,6 +302,19 @@ public class FeedsFragment extends Fragment {
                             }
                         });
 
+                        feedViewHolder.newPostIconsLL.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(InternetConnection.checkConnection(requireActivity())){
+                                    Intent i= new Intent(getContext(), NewPostHome.class);
+                                    i.putExtra("target", "2");
+                                    startActivity(i);
+                                }
+                                else
+                                    BasicUtility.showToast(getContext(), "Network Unavailable...");
+                            }
+                        });
+
                         if (DP != null) {
                             Picasso.get().load(DP).fit().centerCrop()
                                     .placeholder(R.drawable.ic_account_circle_black_24dp)
@@ -994,7 +1007,7 @@ public class FeedsFragment extends Fragment {
         TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
         SliderView sliderView;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, new_post_layout;
+        LinearLayout itemHome, new_post_layout, newPostIconsLL;
         RelativeLayout first_post;
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
@@ -1033,6 +1046,7 @@ public class FeedsFragment extends Fragment {
             type_dp = itemView.findViewById(R.id.Pdp);
             type_something = itemView.findViewById(R.id.type_smthng);
             new_post_layout = itemView.findViewById(R.id.type_something);
+            newPostIconsLL = itemView.findViewById(R.id.post_icons_ll);
 
 
             like_image = itemView.findViewById(R.id.like_image);

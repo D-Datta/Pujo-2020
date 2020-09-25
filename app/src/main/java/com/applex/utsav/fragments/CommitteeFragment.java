@@ -227,6 +227,15 @@ public class CommitteeFragment extends Fragment {
                             else
                                 BasicUtility.showToast(getContext(), "Network Unavailable...");
                         });
+                        programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
+                            if(InternetConnection.checkConnection(requireActivity())) {
+                                Intent i= new Intent(getContext(), NewPostHome.class);
+                                i.putExtra("target", "2");
+                                startActivity(i);
+                            }
+                            else
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        });
 
                         if (COMMITEE_LOGO != null) {
                             Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
@@ -240,6 +249,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
+
                 else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() == getItemCount() % 8
                         && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
                         && programmingViewHolder.getItemViewType() < getItemCount()) {
@@ -984,7 +994,7 @@ public class CommitteeFragment extends Fragment {
         TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, reels_item;
+        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, newPostIconsLL, reels_item;
         RecyclerView tagList;
         RecyclerView reelsList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
@@ -1038,6 +1048,7 @@ public class CommitteeFragment extends Fragment {
             type_dp = itemView.findViewById(R.id.Pdp);
             type_something = itemView.findViewById(R.id.type_smthng);
             new_post_layout = itemView.findViewById(R.id.type_something);
+            newPostIconsLL= itemView.findViewById(R.id.post_icons_ll);
 
             slider_item = itemView.findViewById(R.id.slider_item);
             reels_item = itemView.findViewById(R.id.reels_item);

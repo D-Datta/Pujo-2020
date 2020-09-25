@@ -149,7 +149,7 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_baseline_videocam_24"
+                    android:src="@drawable/ic_baseline_video_call_24"
                     android:padding="8dp"
                     app:tint="@color/link" />
 
