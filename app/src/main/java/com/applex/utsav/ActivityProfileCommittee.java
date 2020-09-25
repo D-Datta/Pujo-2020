@@ -638,7 +638,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     if(imageCoverOrDp == 0){
                                         docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
-                                                introPref.setDefaultdp(generatedFilePath);
+                                                introPref.setUserdp(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
                                                 BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
