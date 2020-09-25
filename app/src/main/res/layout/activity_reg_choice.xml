@@ -82,9 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginVertical="10dp"
-                android:text="@string/committee"
+                android:text="@string/pujo"
+                android:fontFamily="@font/oxygen_ex_bold"
                 android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -126,26 +127,27 @@
                 android:layout_gravity="center"
                 android:layout_marginVertical="10dp"
                 android:text="@string/individual"
+                android:fontFamily="@font/oxygen_ex_bold"
                 android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:textSize="20dp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/login_guest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/card_individual"
-        android:layout_marginHorizontal="30dp"
-        android:gravity="center"
-        android:text="@string/login_as_guest"
-        android:textColor="@color/white"
-        android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_individual"
-        app:layout_constraintVertical_bias="0.161"
-        tools:layout_editor_absoluteX="30dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/login_guest"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/card_individual"-->
+<!--        android:layout_marginHorizontal="30dp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="@string/login_as_guest"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="18dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/card_individual"-->
+<!--        app:layout_constraintVertical_bias="0.161"-->
+<!--        tools:layout_editor_absoluteX="30dp" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
