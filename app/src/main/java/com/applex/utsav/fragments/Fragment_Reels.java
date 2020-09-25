@@ -1,11 +1,11 @@
 package com.applex.utsav.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
+
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -50,12 +52,7 @@ public class Fragment_Reels extends Fragment {
     private FirestorePagingAdapter adapter;
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;
-
     private String uid;
-
-    public Fragment_Reels() {
-        // Required empty public constructor
-    }
 
     public Fragment_Reels(String uid) {
         this.uid = uid;
@@ -123,13 +120,18 @@ public class Fragment_Reels extends Fragment {
                 return new ProgrammingViewHolder(v);
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
-                holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                 holder.video_time.setText(currentItem.getDuration());
-                holder.pujo_com_name.setText(currentItem.getCommittee_name());
                 holder.item_reels_image.setVisibility(View.VISIBLE);
-                holder.item_reels_video.setVisibility(View.GONE);
+                holder.video_views.setText(currentItem.getVideoviews() + " views");
+
+                if(currentItem.getHeadline().length() > 15) {
+                    holder.headline.setText(currentItem.getHeadline().substring(0, 15) + "...");
+                } else {
+                    holder.headline.setText(currentItem.getHeadline());
+                }
 
                 if (currentItem.getFrame() != null && !currentItem.getFrame().isEmpty()) {
                     Picasso.get().load(currentItem.getFrame())
@@ -147,38 +149,12 @@ public class Fragment_Reels extends Fragment {
                     holder.item_reels_image.setImageResource(R.drawable.image_background_grey);
                 }
 
-                if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
-                    holder.item_reels_image.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                        intent.putExtra("position", String.valueOf(position));
-                        intent.putExtra("bool", "1");
-                        requireActivity().startActivity(intent);
-                    });
-                }
-                else {
-                    holder.item_reels_video.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                        intent.putExtra("position", String.valueOf(position));
-                        intent.putExtra("bool", "1");
-                        requireActivity().startActivity(intent);
-                    });
-                }
-
-                if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
-                    Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(holder.pujo_com_dp, new Callback() {
-                                @Override
-                                public void onSuccess() { }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                }
-                            });
-                } else {
-                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                }
+                holder.item_reels_image.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                    intent.putExtra("position", String.valueOf(position));
+                    intent.putExtra("bool", "2");
+                    requireActivity().startActivity(intent);
+                });
 
                 holder.reels_more.setOnClickListener(v -> {
                     if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
@@ -262,16 +238,14 @@ public class Fragment_Reels extends Fragment {
             }
 
             @Override
-            public int getItemViewType(int position) {
-                return position;
-            }
+            public int getItemViewType(int position) { return position; }
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: BasicUtility.showToast(getContext(), "Something went wrong..."); break;
+                    case ERROR: BasicUtility.showToast(getContext(), "Something went wrong.22.."); break;
                     case LOADING_MORE: progressmorereels.setVisibility(View.VISIBLE); break;
                     case LOADED: progressmorereels.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
@@ -298,21 +272,18 @@ public class Fragment_Reels extends Fragment {
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         RelativeLayout item_reels;
-        VideoView item_reels_video;
-        TextView video_time;
-        ImageView pujo_com_dp, reels_more, item_reels_image;
-        TextView pujo_com_name;
+        TextView video_time, video_views, headline;
+        ImageView reels_more, item_reels_image;
 
         ProgrammingViewHolder(View itemView) {
             super(itemView);
 
             item_reels = itemView.findViewById(R.id.item_reels);
-            item_reels_video = itemView.findViewById(R.id.item_reels_video);
             video_time = itemView.findViewById(R.id.video_time);
-            pujo_com_dp = itemView.findViewById(R.id.pujo_com_dp);
-            pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
+            headline = itemView.findViewById(R.id.pujo_headline);
             reels_more =  itemView.findViewById(R.id.reels_more);
             item_reels_image = itemView.findViewById(R.id.item_reels_image);
+            video_views = itemView.findViewById(R.id.pujo_video_views);
         }
     }
 }

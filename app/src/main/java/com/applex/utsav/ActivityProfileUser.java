@@ -212,7 +212,6 @@ public class ActivityProfileUser extends AppCompatActivity {
         USERNAME = introPref.getFullName();
         ///////////////RECYCLER VIEW////////////////////
 
-
         /////////////WHEN THERE IS NO POST//////////////
         PDp = findViewById(R.id.Pdp_no_post);
         PName = findViewById(R.id.Profilename_noPost);
@@ -223,9 +222,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         aboutheading =findViewById(R.id.about);
         edit_dp = findViewById(R.id.edit_dp_icon_ind);
         edit_cover = findViewById(R.id.edit_coverpic_icon_ind);
-
         /////////////WHEN THERE IS NO POST//////////////
-
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.toolbarStart),
                 getResources().getColor(R.color.md_blue_500));
@@ -266,10 +263,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 }
             }
         });
-
-
     }
-
 
     private void buildRecycler(){
         Query query = FirebaseFirestore.getInstance()
