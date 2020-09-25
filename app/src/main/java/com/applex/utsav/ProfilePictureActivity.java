@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -89,11 +89,11 @@ public class ProfilePictureActivity extends AppCompatActivity {
     }
     private void save_Dialog(Bitmap bitmap) {
 
-        if(!Utility.checkStoragePermission(ProfilePictureActivity.this)){
-            Utility.requestStoragePermission(ProfilePictureActivity.this);
+        if(!BasicUtility.checkStoragePermission(ProfilePictureActivity.this)){
+            BasicUtility.requestStoragePermission(ProfilePictureActivity.this);
         }
         else {
-            boolean bool = Utility.saveImage(bitmap, ProfilePictureActivity.this);
+            boolean bool = BasicUtility.saveImage(bitmap, ProfilePictureActivity.this);
             if(bool){
                 Toast.makeText(ProfilePictureActivity.this, "Saved to device", Toast.LENGTH_SHORT).show();
             }

@@ -15,8 +15,8 @@ import android.widget.EditText;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.PujoCommitteeModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.StoreTemp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -201,10 +201,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         com_type.requestFocus();
                     }
                     if(PROFILEPIC==null){
-                        Utility.showToast(EditProfileCommitteeActivity.this,"Please set a Profile Photo");
+                        BasicUtility.showToast(EditProfileCommitteeActivity.this,"Please set a Profile Photo");
                     }
                     if(COVERPIC==null){
-                        Utility.showToast(EditProfileCommitteeActivity.this,"Please set a Cover Photo");
+                        BasicUtility.showToast(EditProfileCommitteeActivity.this,"Please set a Cover Photo");
                     }
 
                 }
@@ -262,7 +262,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             progressDialog.dismiss();
-                                            Utility.showToast(getApplicationContext(), "Profile Edited");
+                                            BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                             Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
                                             intent.putExtra("uid", fireuser.getUid());
                                             startActivity(intent);
@@ -270,7 +270,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                         }
                                         else{
                                             progressDialog.dismiss();
-                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                         }
                                     }
                                 })
@@ -278,13 +278,13 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 progressDialog.dismiss();
-                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                             }
                                         });
 
                             } else {
                                 progressDialog.dismiss();
-                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                             }
                         }
                     })
@@ -292,7 +292,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     progressDialog.dismiss();
-                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                 }
                             });
 

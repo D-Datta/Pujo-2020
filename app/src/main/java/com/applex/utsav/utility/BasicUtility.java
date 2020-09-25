@@ -1,4 +1,4 @@
-package com.applex.utsav.util;
+package com.applex.utsav.utility;
 
 import android.Manifest;
 import android.app.Activity;
@@ -30,7 +30,7 @@ import java.util.Objects;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
-public class Utility {
+public class BasicUtility {
 
 //    private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;

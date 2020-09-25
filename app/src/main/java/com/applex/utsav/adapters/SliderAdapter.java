@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.models.HomePostModel;
-import com.applex.utsav.util.StoreTemp;
+import com.applex.utsav.utility.StoreTemp;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;

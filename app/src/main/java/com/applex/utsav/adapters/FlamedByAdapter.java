@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.R;
 import com.applex.utsav.models.FlamedModel;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class FlamedByAdapter extends RecyclerView.Adapter<FlamedByAdapter.Progra
     public void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position) {
         FlamedModel currentItem = itemDatalist.get(position);
 
-        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+        String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
         holder.time.setText(timeAgo);
         if(timeAgo != null) {
             if(timeAgo.matches("just now")) {

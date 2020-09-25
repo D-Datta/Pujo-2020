@@ -11,7 +11,7 @@
     android:orientation="vertical"
     android:gravity="start|center_vertical"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="80dp"
+    app:behavior_peekHeight="70dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
    >
 

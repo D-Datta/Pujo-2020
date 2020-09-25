@@ -12,8 +12,8 @@ import android.widget.ProgressBar;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -134,7 +134,7 @@ public class Splash extends AppCompatActivity {
                 }
             }
             else {
-                Utility.showToast(getApplicationContext(), "Network unavailable...");
+                BasicUtility.showToast(getApplicationContext(), "Network unavailable...");
 
             }
         }

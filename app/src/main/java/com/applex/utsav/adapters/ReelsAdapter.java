@@ -28,7 +28,7 @@ import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -93,7 +93,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.reels_video.start();
         });
 
-        String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+        String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
         holder.mins_ago.setText(timeAgo);
         if (timeAgo != null) {
             if (timeAgo.matches("just now")) {
@@ -196,7 +196,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         ///////////////////BATCH WRITE///////////////////
                     }
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                        Utility.vibrate(context);
+                        BasicUtility.vibrate(context);
                         holder.likesCount.setVisibility(View.VISIBLE);
                         holder.like_image.setVisibility(View.VISIBLE);
                         if (currentItem.getLikeL() != null) {
@@ -322,11 +322,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(true);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(context)) {
-                Utility.requestStoragePermission(context);
+            if(!BasicUtility.checkStoragePermission(context)) {
+                BasicUtility.requestStoragePermission(context);
             }
             else {
-                boolean bool = Utility.downloadVideo(url, context);
+                boolean bool = BasicUtility.downloadVideo(url, context);
                 if(bool) {
                     Toast.makeText(context, "Saved to device", Toast.LENGTH_SHORT).show();
                 }

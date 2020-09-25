@@ -23,7 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.applex.utsav.models.BaseUserModel;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -170,7 +170,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR:
-                        Utility.showToast(CommitteeViewAll.this, "Something went wrong...");
+                        BasicUtility.showToast(CommitteeViewAll.this, "Something went wrong...");
                         break;
                     case LOADING_MORE:
                         progressMoreCom.setVisibility(View.VISIBLE);

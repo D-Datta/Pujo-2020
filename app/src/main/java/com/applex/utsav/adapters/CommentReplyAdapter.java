@@ -30,7 +30,7 @@ import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReplyCommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.dialogs.BottomFlamedByDialog3;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -98,7 +98,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
             programmingViewHolder.minsago.setTextColor(Color.parseColor("#FF9800"));
         }
         else {
-            String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+            String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
             programmingViewHolder.minsago.setText(timeAgo);
             if(timeAgo != null) {
                 if (timeAgo.matches("just now")) {
@@ -235,7 +235,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             ///////////////////BATCH WRITE///////////////////
                         }
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                            Utility.vibrate(mContext);
+                            BasicUtility.vibrate(mContext);
                             try {
                                 AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();

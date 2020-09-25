@@ -27,8 +27,8 @@ import com.applex.utsav.models.AccessToken;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.IndividualModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.StoreTemp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -265,7 +265,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                         username_ind.requestFocus();
                     }
 //                    if (GENDER.isEmpty()) {
-//                        Utility.showToast(RegIndividual.this,"Gender Miising");
+//                        BasicUtility.showToast(RegIndividual.this,"Gender Miising");
 //                    }
 
                 }
@@ -353,7 +353,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     if(task.isSuccessful()){
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Profile Edited");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                                                         Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
                                                                                         intent.putExtra("uid", fireuser.getUid());
                                                                                         startActivity(intent);
@@ -361,7 +361,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                                     }
                                                                                     else{
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                     }
                                                                                 }
                                                                             })
@@ -369,13 +369,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                                         @Override
                                                                                         public void onFailure(@NonNull Exception e) {
                                                                                             progressDialog.dismiss();
-                                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                         }
                                                                                     });
 
                                                                         } else {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     }
                                                                 })
@@ -383,7 +383,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                             @Override
                                                                             public void onFailure(@NonNull Exception e) {
                                                                                 progressDialog.dismiss();
-                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                             }
                                                                         });
                                                             }
@@ -403,7 +403,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Profile Edited");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                                         Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
                                                                         intent.putExtra("uid", fireuser.getUid());
                                                                         startActivity(intent);
@@ -411,7 +411,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                     }
                                                                     else{
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                     }
                                                                 }
                                                             })
@@ -419,13 +419,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onFailure(@NonNull Exception e) {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
 
                                                         } else {
                                                             progressDialog.dismiss();
-                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
                                                     }
                                                 })
@@ -433,7 +433,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
                                                                 progressDialog.dismiss();
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                             }
                                                         });
                                             }
@@ -479,7 +479,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     if(task.isSuccessful()){
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Profile Edited");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                                                         Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
                                                                                         intent.putExtra("uid", fireuser.getUid());
                                                                                         startActivity(intent);
@@ -487,7 +487,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                                     }
                                                                                     else{
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                     }
                                                                                 }
                                                                             })
@@ -495,13 +495,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                                         @Override
                                                                                         public void onFailure(@NonNull Exception e) {
                                                                                             progressDialog.dismiss();
-                                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                         }
                                                                                     });
 
                                                                         } else {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     }
                                                                 })
@@ -509,7 +509,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                             @Override
                                                                             public void onFailure(@NonNull Exception e) {
                                                                                 progressDialog.dismiss();
-                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                             }
                                                                         });
                                                             }
@@ -529,7 +529,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Profile Edited");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                                         Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
                                                                         intent.putExtra("uid", fireuser.getUid());
                                                                         startActivity(intent);
@@ -537,7 +537,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                     }
                                                                     else{
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                     }
                                                                 }
                                                             })
@@ -545,13 +545,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onFailure(@NonNull Exception e) {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
 
                                                         } else {
                                                             progressDialog.dismiss();
-                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
                                                     }
                                                 })
@@ -559,7 +559,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
                                                                 progressDialog.dismiss();
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                             }
                                                         });
                                             }
@@ -584,7 +584,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 progressDialog.dismiss();
-                                                Utility.showToast(getApplicationContext(), "Profile Edited");
+                                                BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                 Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
                                                 intent.putExtra("uid", fireuser.getUid());
                                                 startActivity(intent);
@@ -592,7 +592,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                             }
                                             else{
                                                 progressDialog.dismiss();
-                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                             }
                                         }
                                     })
@@ -600,13 +600,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
                                                     progressDialog.dismiss();
-                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                 }
                                             });
                                 }
                                 else{
                                     progressDialog.dismiss();
-                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                 }
                             }
                         })
@@ -614,7 +614,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         progressDialog.dismiss();
-                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                     }
                                 });
                     }
@@ -686,7 +686,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                 }
 
                 try {
-                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
