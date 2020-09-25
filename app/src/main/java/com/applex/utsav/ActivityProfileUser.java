@@ -2220,7 +2220,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             }
                                             else {
                                                 imageCoverOrDp = 0; //dp
-                                                from = 1; //general
+                                                from = 0; //general
                                                 pickGallery();
                                             }
                                         }
