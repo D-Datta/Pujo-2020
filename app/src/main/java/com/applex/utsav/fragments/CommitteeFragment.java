@@ -92,7 +92,7 @@ public class CommitteeFragment extends Fragment {
     private ProgressBar progressMore, contentProgress;
     private ProgressDialog progressDialog;
     private Dialog  postMenuDialog;
-    private FloatingActionButton floatingActionButton;
+
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME;
     private FirestorePagingAdapter adapter;
@@ -120,7 +120,6 @@ public class CommitteeFragment extends Fragment {
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
-        floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -966,25 +965,25 @@ public class CommitteeFragment extends Fragment {
                 }
             }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                scrollY[0] = scrollY[0] + dy;
-                if (scrollY[0] <= 2000 && dy < 0) {
-                    floatingActionButton.setVisibility(View.GONE);
-                }
-                else {
-                    if(dy < 0) {
-                        floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(v -> {
-                            recyclerView.scrollToPosition(0);
-                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
-                        });
-                    } else {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                }
-            }
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                scrollY[0] = scrollY[0] + dy;
+//                if (scrollY[0] <= 2000 && dy < 0) {
+//                    floatingActionButton.setVisibility(View.GONE);
+//                }
+//                else {
+//                    if(dy < 0) {
+//                        floatingActionButton.setVisibility(View.VISIBLE);
+//                        floatingActionButton.setOnClickListener(v -> {
+//                            recyclerView.scrollToPosition(0);
+//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+//                        });
+//                    } else {
+//                        floatingActionButton.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
         });
     }
 

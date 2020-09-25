@@ -139,7 +139,18 @@
     <string name="pin">Pin</string>
     <string name="add_to_post">Add to post</string>
     <string name="visitors">Visitors</string>
+    <string name="tag">Add tag</string>
     <string name="tags">Tags</string>
+    <string name="contact_us">Contact us</string>
+    <string name="rate_us">"Rate us "</string>
+    <string name="an_initiative_of">an initiative of</string>
     <string name="utsav_clips">Utsav Clips</string>
+    <string name="your_posts">Your Posts</string>
+    <string name="pujo">Pujo</string>
+    <string name="videos">Videos</string>
+    <string name="camera">Camera</string>
+    <string name="photos">Photos</string>
+    <string name="gallery">Gallery</string>
+    <string name="follow">FOLLOW</string>
 
 </resources>

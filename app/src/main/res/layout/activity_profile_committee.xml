@@ -30,12 +30,12 @@
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="parallax"
                 android:layout_marginTop="55dp"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white">
+                    android:layout_height="wrap_content">
 
                     <RelativeLayout
                         android:id="@+id/cover_holder"
@@ -69,7 +69,7 @@
                         android:id="@+id/yyy"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginStart="10dp"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true">
 
@@ -173,15 +173,56 @@
                         android:autoLink="all"
                         android:background="#FFF"
                         android:fontFamily="@font/oxygen_ex_bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/purple"
                         android:paddingHorizontal="20dp"
-                        android:paddingVertical="10dp"
+                        android:paddingVertical="5dp"
                         android:text="@string/about"
                         android:layout_gravity="center_vertical"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColorLink="@color/toolbarStart"
+                        android:textColorLink="@color/colorPrimary"
                         android:textSize="18sp"
                         android:layout_weight="2"/>
+
+                </LinearLayout>
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/detaildesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oxygen_bold"
+                    android:maxLength="1000"
+                    android:autoLink="all"
+                    android:linksClickable="false"
+                    android:textColorLink="@color/colorPrimary"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/black"
+                    android:background="#fff"
+                    android:text="@string/lorem_ipsum"
+                    android:textSize="15sp"
+                    app:colorClickableText="@color/purple"
+                    app:trimCollapsedText="@string/read_more"
+                    app:trimExpandedText="@string/read_less"
+                    app:trimLines="15"
+                    app:trimMode="trimModeLine" />
+
+                <TextView
+                    android:id="@+id/address_com"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="2dp"
+                    android:background="@color/white"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/oxygen_bold"/>
+
+                <LinearLayout
+                    android:id="@+id/elseProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="5dp">
 
                     <Button
                         android:id="@+id/locate"
@@ -200,47 +241,56 @@
                         android:textColor="@color/white"
                         android:layout_weight="1"/>
 
+                    <Button
+                        android:id="@+id/edit_profile"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/locatebutton"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:paddingStart="20dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="15dp"
+                        android:text="@string/follow"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
                 </LinearLayout>
 
-                <com.borjabravo.readmoretextview.ReadMoreTextView
-                    android:id="@+id/detaildesc"
+                <LinearLayout
+                    android:id="@+id/selfProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/oxygen_bold"
-                    android:maxLength="1000"
-                    android:autoLink="all"
-                    android:linksClickable="false"
-                    android:textColorLink="@color/toolbarStart"
-                    android:paddingHorizontal="20dp"
-                    android:paddingBottom="10dp"
-                    android:textColor="@color/black"
-                    android:background="#fff"
-                    android:text=""
-                    android:textSize="15sp"
-                    app:colorClickableText="@color/toolbarStart"
-                    app:trimCollapsedText="@string/read_more"
-                    app:trimExpandedText="@string/read_less"
-                    app:trimLines="15"
-                    app:trimMode="trimModeLine" />
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="5dp">
 
-                <TextView
-                    android:id="@+id/address_com"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/address"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="2dp"
-                    android:background="@color/white"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/oxygen_regular"/>
+                    <Button
+                        android:id="@+id/edit_profile_com"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/locatebutton"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:drawableStart="@drawable/ic_outline_edit_24"
+                        android:paddingStart="20dp"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="15dp"
+                        android:text="@string/Edit_Profile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingVertical="8dp"
-                    android:background="#ffffff">
+                    android:paddingVertical="5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -373,22 +423,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/edit_profile_com"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_edit_black_24dp"
-        android:tint="@color/colorPrimary"
-        app:fabCustomSize="50dp"
-        android:layout_marginEnd="10dp"
-        android:scaleType="fitXY"
-        app:rippleColor="@color/white"
-        app:elevation="10dp"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="115dp"
-        android:padding="5dp"
-        android:visibility="gone"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

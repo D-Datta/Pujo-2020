@@ -88,11 +88,8 @@ import static java.lang.Boolean.TRUE;
 
 public class FeedsFragment extends Fragment {
 
-    private Dialog dialog;
-//    private ImageView noPostYet1;
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
-    private FloatingActionButton create_post, floatingActionButton;
     private SwipeRefreshLayout swipeRefreshLayout, swiperefreshNoPost;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
@@ -138,14 +135,6 @@ public class FeedsFragment extends Fragment {
 
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
-        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
-        create_post = view.findViewById(R.id.create_post_ind);
-//        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
-
-        if(introPref.getType().matches("com")) {
-            create_post.setVisibility(View.GONE);
-        }
-        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -166,16 +155,6 @@ public class FeedsFragment extends Fragment {
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
-
-//        create_post.setOnClickListener(v -> {
-//            if(InternetConnection.checkConnection(getActivity())){
-//                Intent i= new Intent(getContext(), NewPostHome.class);
-//                i.putExtra("target", "2");
-//                startActivity(i);
-//            }
-//            else
-//                BasicUtility.showToast(getContext(), "Network Unavailable...");
-//        });
 
 
         buildRecyclerView();
@@ -199,42 +178,6 @@ public class FeedsFragment extends Fragment {
             buildRecyclerView();
         });
         //SWIPE REFRESH//
-
-        final int[] scrollY = {0};
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                scrollY[0] = scrollY[0] + dy;
-                if (scrollY[0] <= 2000 && dy < 0) {
-                    floatingActionButton.setVisibility(View.GONE);
-                }
-                else {
-                    if(dy < 0){
-                        floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("ObjectAnimatorBinding")
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView.scrollToPosition(0);
-                                recyclerView.postDelayed(new Runnable() {
-                                    public void run() {
-                                        recyclerView.scrollToPosition(0);
-                                    }
-                                },300);
-                            }
-                        });
-                    } else {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
 
     }
 
@@ -266,8 +209,6 @@ public class FeedsFragment extends Fragment {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
-
-                floatingActionButton.setVisibility(View.GONE);
 
                 FeedViewHolder feedViewHolder = (FeedViewHolder)holder;
 
@@ -1021,8 +962,6 @@ public class FeedsFragment extends Fragment {
             view_all = itemView.findViewById(R.id.community_view_all);
             cRecyclerView = itemView.findViewById(R.id.communityRecycler);
 
-            //sliderView = itemView.findViewById(R.id.imageSlider);
-
             tagList = itemView.findViewById(R.id.tagsList);
             username = itemView.findViewById(R.id.username);
             text_content = itemView.findViewById(R.id.text_content);
@@ -1030,7 +969,6 @@ public class FeedsFragment extends Fragment {
             sliderView = itemView.findViewById(R.id.post_image);
             minsago = itemView.findViewById(R.id.mins_ago);
             like = itemView.findViewById(R.id.like);
-//            comName = itemView.findViewById(R.id.comName);
             commentimg = itemView.findViewById(R.id.comment);
             profileimage = itemView.findViewById(R.id.profile_image);
             menuPost = itemView.findViewById(R.id.delete_post);
@@ -1111,7 +1049,7 @@ public class FeedsFragment extends Fragment {
         Query query =  FirebaseFirestore.getInstance()
                 .collection("Users")
                 .whereEqualTo("type", "com")
-//                .orderBy("random", Query.Direction.DESCENDING)
+                .orderBy("pujoVisits", Query.Direction.DESCENDING)
                 .limit(10);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -1137,7 +1075,6 @@ public class FeedsFragment extends Fragment {
         viewNoPost.setVisibility(View.VISIBLE);
         viewPostExist.setVisibility(View.GONE);
         contentProgCom.setVisibility(View.GONE);
-//        noPostYet1.setVisibility(View.VISIBLE);
 
         view_all_NoPost.setOnClickListener(v ->
                 startActivity(new Intent(getActivity(), CommitteeViewAll.class))
@@ -1146,8 +1083,6 @@ public class FeedsFragment extends Fragment {
         buildCommunityRecyclerView(comRecyclerView);
 
     }
-
-
 
 
     @Override
