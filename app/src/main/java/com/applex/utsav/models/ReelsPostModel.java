@@ -15,7 +15,7 @@ public class ReelsPostModel {
     private String headline;
     private String frame;
 
-    private long videoviews;
+    private long videoViews;
 
     private String uid;
 
@@ -152,11 +152,11 @@ public class ReelsPostModel {
         this.video = video;
     }
 
-    public long getVideoviews() {
-        return videoviews;
+    public long getVideoViews() {
+        return videoViews;
     }
 
-    public void setVideoviews(long videoviews) {
-        this.videoviews = videoviews;
+    public void setVideoViews(long videoViews) {
+        this.videoViews = videoViews;
     }
 }
