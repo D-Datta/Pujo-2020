@@ -135,7 +135,6 @@ public class ReelsActivity extends AppCompatActivity {
 
                 holder.pujo_desc.setText(currentItem.getDescription());
                 holder.pujo_com_name.setText(currentItem.getCommittee_name());
-                holder.pujo_headline.setSelected(true);
                 holder.pujo_headline.setSingleLine();
 
                 holder.reels_video.setOnCompletionListener(v -> reelsList.setCurrentItem(position + 1, true));
@@ -324,6 +323,7 @@ public class ReelsActivity extends AppCompatActivity {
             @Override
             public void onViewDetachedFromWindow(@NonNull ReelsItemViewHolder holder) {
                 super.onViewDetachedFromWindow(holder);
+                holder.pujo_headline.setSelected(false);
                 holder.reels_video.pause();
                 holder.reels_image.setVisibility(View.VISIBLE);
                 holder.play_image.setVisibility(View.VISIBLE);
@@ -334,6 +334,7 @@ public class ReelsActivity extends AppCompatActivity {
                 super.onViewAttachedToWindow(holder);
                 holder.reels_video.start();
                 holder.reels_video.setOnPreparedListener(mediaPlayer -> new Handler().postDelayed(() -> {
+                    holder.pujo_headline.setSelected(true);
                     holder.video_playing.playAnimation();
                     holder.play_image.setVisibility(View.GONE);
                     holder.reels_image.setVisibility(View.GONE);

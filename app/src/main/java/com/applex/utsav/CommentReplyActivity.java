@@ -464,18 +464,15 @@ public class CommentReplyActivity extends AppCompatActivity {
         if(i.getStringExtra("ReplyCommentNo")!=null){
             commentModel[0].setrCmtNo(Integer.parseInt(i.getStringExtra("ReplyCommentNo")));
             if(commentModel[0].getrCmtNo()>0){
-                replyComment.setImageResource(R.drawable.comment_yellow);
                 repliedByNo.setText(String.valueOf(commentModel[0].getrCmtNo()));
             }
             else {
-                replyComment.setImageResource(R.drawable.ic_comment);
                 repliedByNo.setText("0");
                 checkGetMore = -1;
             }
             commentCount = Integer.parseInt(i.getStringExtra("ReplyCommentNo"));
         }
         else {
-            replyComment.setImageResource(R.drawable.ic_comment);
             repliedByNo.setText("0");
             commentCount = 0;
             checkGetMore = -1;
@@ -645,7 +642,6 @@ public class CommentReplyActivity extends AppCompatActivity {
                     commentModel1.setComUid(i.getStringExtra("pComUid"));
 
                     newComment.setText("");
-                    replyComment.setImageResource(R.drawable.comment_yellow);
                     CommentList.add(0,commentModel1);
                     adapter.notifyItemInserted(0);
 
@@ -724,7 +720,6 @@ public class CommentReplyActivity extends AppCompatActivity {
                         }
                         if(CommentList.size()>0) {
                             adapter.notifyDataSetChanged();
-                            replyComment.setImageResource(R.drawable.comment_yellow);
 
                             if(task.getResult().size()>0)
                                 lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
