@@ -159,7 +159,8 @@
             <EditText
                 android:id="@+id/post_headline"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="wrap_content"
+                android:minHeight="50dp"
                 android:minLines="1"
                 android:fontFamily="@font/oxygen_regular"
                 android:textColor="@color/black"
@@ -168,7 +169,8 @@
                 android:autoLink="all"
                 android:hint="@string/headline"
                 android:gravity="top"
-                android:padding="10dp"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="15dp"
                 android:layout_marginTop="5dp"
                 android:textSize="20sp" />
 

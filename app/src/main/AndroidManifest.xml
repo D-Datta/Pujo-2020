@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ActivityTagPujo"></activity>
+
+        <activity android:name=".ActivityTagPujo"/>
         <activity android:name=".ActivityNotification" />
         <activity android:name=".Webview" />
         <activity android:name=".drawerActivities.AboutUs" />
@@ -37,7 +38,10 @@
         <activity android:name=".registration.RegChoice" />
         <activity android:name=".WalkthroughActivity" />
         <activity android:name=".registration.LoginActivity" />
-        <activity android:name=".ReelsActivity" />
+
+        <activity android:name=".ReelsActivity"
+            android:theme=""/>
+
         <activity
             android:name=".Splash"
             android:screenOrientation="portrait"

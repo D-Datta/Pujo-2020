@@ -11,6 +11,7 @@
     android:gravity="start|center_vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="55dp"
+    android:elevation="10dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <RelativeLayout
@@ -18,12 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e5e5e5"
-            android:layout_alignParentTop="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -93,7 +88,7 @@
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
@@ -124,7 +119,7 @@
         android:id="@+id/Photos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
@@ -155,7 +150,7 @@
         android:id="@+id/Video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
@@ -186,7 +181,7 @@
         android:id="@+id/Recorder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
@@ -219,7 +214,7 @@
         android:id="@+id/tag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
+        android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">

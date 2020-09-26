@@ -74,6 +74,16 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentBottom="true">
 
+                            <ImageView
+                                android:id="@+id/edit_dp_icon_ind"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginStart="90dp"
+                                android:padding="7dp"
+                                android:background="@drawable/custom_ripple_white"
+                                android:src="@drawable/edit_dp" />
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/dp_bg"
                                 android:layout_width="130dp"
@@ -91,12 +101,12 @@
                                     <androidx.cardview.widget.CardView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        app:cardCornerRadius="50dp">
+                                        app:cardCornerRadius="55dp">
 
                                         <ImageView
                                             android:id="@+id/Pdp"
-                                            android:layout_width="100dp"
-                                            android:layout_height="100dp"
+                                            android:layout_width="110dp"
+                                            android:layout_height="110dp"
                                             android:layout_gravity="center"
                                             android:scaleType="centerCrop"
                                             android:src="@drawable/ic_account_circle_black_24dp" />
@@ -105,15 +115,6 @@
 
                                 </RelativeLayout>
                             </androidx.cardview.widget.CardView>
-                            <ImageView
-                                android:id="@+id/edit_dp_icon_ind"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_marginStart="90dp"
-                                android:padding="7dp"
-                                android:background="@drawable/custom_ripple_white"
-                                android:src="@drawable/edit_dp" />
 
                         </RelativeLayout>
 

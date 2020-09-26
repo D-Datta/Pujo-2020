@@ -73,6 +73,17 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentBottom="true">
 
+                        <ImageView
+                            android:id="@+id/edit_dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:padding="5dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/custom_ripple_white"
+                            android:src="@drawable/ic_outline_edit_24"
+                            app:tint="@color/purple" />
+
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -98,16 +109,6 @@
                             </androidx.cardview.widget.CardView>
                         </RelativeLayout>
 
-                        <ImageView
-                            android:id="@+id/edit_dp"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:padding="5dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:background="@drawable/custom_ripple_white"
-                            android:src="@drawable/ic_outline_edit_24"
-                            app:tint="@color/purple" />
 
                     </RelativeLayout>
 
@@ -302,31 +303,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/selfProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp">
-
-                    <Button
-                        android:id="@+id/edit_profile_com"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_button"
-                        android:fontFamily="@font/oxygen_ex_bold"
-                        android:drawableStart="@drawable/ic_outline_edit_24"
-                        android:paddingStart="20dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="5dp"
-                        android:paddingEnd="40dp"
-                        android:text="@string/Edit_Profile"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -382,11 +358,36 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/oxygen_bold"/>
 
+                <LinearLayout
+                    android:id="@+id/selfProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp">
+
+                    <Button
+                        android:id="@+id/edit_profile_com"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/custom_button"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:drawableStart="@drawable/ic_outline_edit_24"
+                        android:paddingStart="20dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="40dp"
+                        android:text="@string/Edit_Profile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="2dp"
                     android:background="#e5e5e5"/>
 
             </LinearLayout>
