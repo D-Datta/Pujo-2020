@@ -39,8 +39,7 @@
         <activity android:name=".WalkthroughActivity" />
         <activity android:name=".registration.LoginActivity" />
 
-        <activity android:name=".ReelsActivity"
-            android:theme=""/>
+        <activity android:name=".ReelsActivity"/>
 
         <activity
             android:name=".Splash"

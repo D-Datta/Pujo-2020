@@ -469,11 +469,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         post.setOnClickListener(v -> {
             if(InternetConnection.checkConnection(getApplicationContext())){
                 String text_content = postcontent.getText().toString();
+                String headline = head_content.getText().toString();
 
-                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null) && (head_content.getText() == null)) {
+                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null) && (headline.trim().isEmpty())) {
                     BasicUtility.showToast(getApplicationContext(),"Post has got no picture or video...");
                 }
-                else if(introPref.getType().matches("com") && (head_content.getText() == null)) {
+                else if(introPref.getType().matches("com") && (headline.trim().isEmpty()) && (imagelist.size()>0 || videoUri != null)) {
                     BasicUtility.showToast(getApplicationContext(),"Post has got no headline...");
                 }
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
