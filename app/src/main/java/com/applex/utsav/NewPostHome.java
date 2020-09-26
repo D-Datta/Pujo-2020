@@ -140,9 +140,11 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private DocumentReference docRef;
     private byte[] frame;
     private FrameLayout videoframe;
-    BottomSheetBehavior bottomSheetBehavior;
 
     private TextView tagPujo;
+
+    private LinearLayout llBottomSheet;
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -210,7 +212,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         }
 
         // get the bottom sheet view
-        LinearLayout llBottomSheet = findViewById(R.id.new_post_bottomsheet);
+        llBottomSheet = findViewById(R.id.new_post_bottomsheet);
 
         // init the bottom sheet behavior
         bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
@@ -818,7 +820,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         });
 
-
         tagPujo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -826,6 +827,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 startActivityForResult(intent1, TAG_PUJO);
             }
         });
+
+        postcontent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(STATE_COLLAPSED);
+            }
+        });
+
 
     }
 
@@ -1225,9 +1234,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                         @Override
                         public void onSuccess() {
-                            //Finish successfully
-//                            filePath[0] = filePath[0].replace(".mp4", "_compressed.mp4");
-//                            size[0] = new File(filePath[0]).length()/(1024*1024);
                             if(progressDialog[0] != null && progressDialog[0].isShowing()) {
                                 progressDialog[0].dismiss();
                             }
@@ -1295,6 +1301,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
             ////////////////////////CROP//////////////////////
 
+            bottomSheetBehavior.setState(STATE_COLLAPSED);
         }
     }
     ///////////////////////HANDLE CAMERA AND GALLERY///////////////////////////
