@@ -7,68 +7,81 @@
     android:layout_height="match_parent"
     tools:context=".ActivityNotification">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="10dp"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Light">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            app:title="Notifications"
+            android:background="@color/white"
+            app:titleTextColor="@color/black"
+            android:elevation="10dp"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:focusableInTouchMode="true">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="1dp"
+                android:background="#e5e5e5"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Recent"
-                    android:fontFamily="@font/oxygen_bold"
-                    android:background="#fff"
-                    android:textSize="18sp"
-                    android:paddingHorizontal="20dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="5dp"/>
+            <ImageView
+                android:id="@+id/no_recent_notiff"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/durga_ma2"
+                android:background="#E2E2E2"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="45dp"
+                android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/no_recent_notiff"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progress_more"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:src="@drawable/durga_ma2"
-                    android:background="#E2E2E2"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="45dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:layout_alignParentBottom="true"
                     android:visibility="gone" />
 
-                <RelativeLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerNotif"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingBottom="50dp"
+                    android:descendantFocusability="blocksDescendants"
+                    app:reverseLayout="false" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerNotif"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        android:paddingBottom="50dp"
-                        android:descendantFocusability="blocksDescendants"
-                        app:reverseLayout="false" />
+            </RelativeLayout>
 
-                    <ProgressBar
-                        android:id="@+id/progress_more"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:padding="10dp"
-                        android:layout_alignParentBottom="true"
-                        android:visibility="gone" />
+        </LinearLayout>
 
-                </RelativeLayout>
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
