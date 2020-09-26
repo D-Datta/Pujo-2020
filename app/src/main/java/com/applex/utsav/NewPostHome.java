@@ -140,10 +140,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private DocumentReference docRef;
     private byte[] frame;
     private FrameLayout videoframe;
-    BottomSheetBehavior bottomSheetBehavior;
 
     private TextView tagPujo;
-
 
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
