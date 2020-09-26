@@ -14,11 +14,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -136,6 +134,7 @@ public class ReelsActivity extends AppCompatActivity {
 
                 holder.pujo_desc.setText(currentItem.getDescription());
                 holder.pujo_com_name.setText(currentItem.getCommittee_name());
+                holder.pujo_headline.setText(currentItem.getHeadline());
                 holder.pujo_headline.setSingleLine();
 
                 if(!currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
@@ -187,16 +186,16 @@ public class ReelsActivity extends AppCompatActivity {
 
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
                     Picasso.get().load(currentItem.getCommittee_dp()).fit().centerCrop()
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(holder.pujo_com_dp, new Callback() {
-                                @Override
-                                public void onSuccess() { }
+                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                        .into(holder.pujo_com_dp, new Callback() {
+                            @Override
+                            public void onSuccess() { }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                }
-                            });
+                            @Override
+                            public void onError(Exception e) {
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        });
                 } else {
                     holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
@@ -245,7 +244,7 @@ public class ReelsActivity extends AppCompatActivity {
                                 else {
                                     holder.likesCount.setVisibility(View.VISIBLE);
                                     holder.like_image.setVisibility(View.VISIBLE);
-                                    holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
+                                    holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()-1));
                                 }
                                 ///////////REMOVE CURRENT USER LIKE/////////////
                                 currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
@@ -259,12 +258,12 @@ public class ReelsActivity extends AppCompatActivity {
                                 batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                                 batch.delete(flamedDoc);
 
-                                batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
+                                batch.commit().addOnSuccessListener(task -> {});
                                 ///////////////////BATCH WRITE///////////////////
                             }
                             else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                 BasicUtility.vibrate(ReelsActivity.this);
-                                holder.like.setImageResource(R.drawable.ic_flame_red);//was already liked by current user
+                                holder.like.setImageResource(R.drawable.ic_flame_red);
                                 holder.likesCount.setVisibility(View.VISIBLE);
                                 holder.like_image.setVisibility(View.VISIBLE);
                                 if (currentItem.getLikeL() != null) {
@@ -298,7 +297,7 @@ public class ReelsActivity extends AppCompatActivity {
                                 if (currentItem.getLikeL().size() % 5 == 0) {
                                     batch.update(likeStore, "newTs", tsLong);
                                 }
-                                batch.commit().addOnSuccessListener(task -> notifyDataSetChanged());
+                                batch.commit().addOnSuccessListener(task -> {});
                                 ///////////////////BATCH WRITE///////////////////
                             }
                         });
