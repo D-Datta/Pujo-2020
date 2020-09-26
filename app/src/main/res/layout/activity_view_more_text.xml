@@ -88,7 +88,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="65dp"
         android:background="@color/dark_black_transparent"
         android:orientation="vertical">
@@ -113,16 +113,16 @@
             android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
             android:scrollbars="vertical"
-            android:textSize="22dp"
+            android:textSize="25dp"
             app:trimExpandedText="@string/read_less"
             app:trimCollapsedText="@string/read_more"
             app:trimMode="trimModeLength"
-            app:trimLength="120"
+            app:trimLength="220"
             app:colorClickableText="@color/white_transparent"
             android:visibility="visible"
             android:textColor="@color/white"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="100dp"/>
+            android:layout_marginBottom="50dp"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -133,6 +133,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:orientation="horizontal">
 
@@ -164,6 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
                 <LinearLayout
