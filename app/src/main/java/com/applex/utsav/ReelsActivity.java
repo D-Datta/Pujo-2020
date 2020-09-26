@@ -127,15 +127,23 @@ public class ReelsActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
+                holder.pujo_com_name.setText(currentItem.getCommittee_name());
                 holder.play_image.setVisibility(View.VISIBLE);
                 holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                 holder.reels_video.start();
                 Picasso.get().load(currentItem.getFrame()).fit().into(holder.reels_image);
 
-                holder.pujo_desc.setText(currentItem.getDescription());
-                holder.pujo_com_name.setText(currentItem.getCommittee_name());
-                holder.pujo_headline.setText(currentItem.getHeadline());
-                holder.pujo_headline.setSingleLine();
+                if(currentItem.getDescription() != null) {
+                    holder.pujo_desc.setText(currentItem.getDescription());
+                }
+                else {
+                    holder.pujo_desc.setVisibility(View.GONE);
+                }
+
+                if(currentItem.getHeadline() != null) {
+                    holder.pujo_headline.setText(currentItem.getHeadline());
+                    holder.pujo_headline.setSingleLine();
+                }
 
                 if(!currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
                     FirebaseFirestore.getInstance()

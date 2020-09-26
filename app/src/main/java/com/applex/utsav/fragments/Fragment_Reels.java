@@ -127,10 +127,12 @@ public class Fragment_Reels extends Fragment {
                 holder.item_reels_image.setVisibility(View.VISIBLE);
                 holder.video_views.setText(currentItem.getVideoViews() + " views");
 
-                if(currentItem.getHeadline().length() > 15) {
-                    holder.headline.setText(currentItem.getHeadline().substring(0, 15) + "...");
-                } else {
-                    holder.headline.setText(currentItem.getHeadline());
+                if(currentItem.getHeadline() != null) {
+                    if(currentItem.getHeadline().length() > 15) {
+                        holder.headline.setText(currentItem.getHeadline().substring(0, 15) + "...");
+                    } else {
+                        holder.headline.setText(currentItem.getHeadline());
+                    }
                 }
 
                 if (currentItem.getFrame() != null && !currentItem.getFrame().isEmpty()) {
