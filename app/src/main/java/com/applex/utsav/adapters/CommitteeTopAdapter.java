@@ -1,5 +1,6 @@
 package com.applex.utsav.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -51,13 +52,19 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
         return new CommitteeTopAdapter.ProgrammingViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CommitteeTopAdapter.ProgrammingViewHolder holder, int position) {
         BaseUserModel currentitem = mList.get(position);
 
         holder.committeeName.setText(currentitem.getName());
 
-        holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
+        if(currentitem.getPujoVisits() == 1) {
+            holder.com_views.setText(currentitem.getPujoVisits() + " Visit");
+        }
+        else {
+            holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
+        }
 
         if(currentitem.getCoverpic() != null){
             Picasso.get().load(currentitem.getCoverpic()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.committeeCover, new Callback() {

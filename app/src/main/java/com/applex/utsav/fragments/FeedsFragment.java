@@ -107,8 +107,6 @@ public class FeedsFragment extends Fragment {
 
     private String DP, USERNAME;
 
-
-
     public FeedsFragment() {
         // Required empty public constructor
     }
@@ -146,7 +144,6 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setItemViewCacheSize(10);
         //////////////RECYCLER VIEW////////////////////
 
-
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
         contentProgCom = view.findViewById(R.id.content_progress_community);
         view_all_NoPost = view.findViewById(R.id.community_view_all);
@@ -155,8 +152,6 @@ public class FeedsFragment extends Fragment {
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
-
-
         buildRecyclerView();
 
         //SWIPE REFRESH//
