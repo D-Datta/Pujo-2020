@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".ActivityNotification"></activity>
+        <activity android:name=".ActivityTagPujo"></activity>
+        <activity android:name=".ActivityNotification" />
         <activity android:name=".Webview" />
         <activity android:name=".drawerActivities.AboutUs" />
         <activity android:name=".EditProfileIndividualActivity" />

@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
@@ -283,22 +284,21 @@ public class FeedsFragment extends Fragment {
                 }
 
 
-//                if (currentItem.getComName() != null) {
-//                    feedViewHolder.comName.setVisibility(View.VISIBLE);
-//                    feedViewHolder.comName.setText(currentItem.getComName());
-//                    feedViewHolder.comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-//
-//                    feedViewHolder.comName.setOnClickListener(v -> {
-//                        //To be changed
-//                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
-//                        intent.putExtra("uid", currentItem.getComID());
-//                        startActivity(intent);
-//                    });
-//                }
-//                else {
-//                    feedViewHolder.comName.setVisibility(View.GONE);
-//                    feedViewHolder.comName.setText(null);
-//                }
+                if (currentItem.getPujoTag() != null) {
+                    feedViewHolder.pujoTagHolder.setVisibility(View.VISIBLE);
+                    feedViewHolder.pujoTagHolder.setText(currentItem.getPujoTag().getPujoName());
+
+                    feedViewHolder.pujoTagHolder.setOnClickListener(v -> {
+                        //To be changed
+                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+                        intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
+                        startActivity(intent);
+                    });
+                }
+                else {
+                    feedViewHolder.pujoTagHolder.setVisibility(View.GONE);
+                    feedViewHolder.pujoTagHolder.setText(null);
+                }
 
                 ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
@@ -937,6 +937,8 @@ public class FeedsFragment extends Fragment {
         ImageView noPost;
         RecyclerView cRecyclerView;
 
+        TextView pujoTagHolder;
+
         TextView username,commentCount, likesCount, text_content, minsago, writecomment;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
         ImageView dp_cmnt1, dp_cmnt2, type_dp;
@@ -1002,6 +1004,8 @@ public class FeedsFragment extends Fragment {
             cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
             dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
+
+            pujoTagHolder = itemView.findViewById(R.id.tag_pujo);
 
         }
     }

@@ -27,6 +27,9 @@ public class ReelsPostModel {
     @Exclude
     private int likeCheck;
 
+    private PujoTagModel pujoTag;
+
+
     public ReelsPostModel() {
         likeCheck = -1;
     }
@@ -158,5 +161,14 @@ public class ReelsPostModel {
 
     public void setVideoViews(long videoViews) {
         this.videoViews = videoViews;
+    }
+
+
+    public PujoTagModel getPujoTag() {
+        return pujoTag;
+    }
+
+    public void setPujoTag(PujoTagModel pujoTag) {
+        this.pujoTag = pujoTag;
     }
 }

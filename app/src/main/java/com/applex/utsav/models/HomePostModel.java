@@ -34,7 +34,7 @@ public class HomePostModel {
     private String challengeID;
 
 
-
+    private PujoTagModel pujoTag;
 
     ////////////DEFAULT CONSTRUCTOR///////////
     public HomePostModel(){
@@ -184,6 +184,13 @@ public class HomePostModel {
         this.challengeID = challengeID;
     }
 
+    public PujoTagModel getPujoTag() {
+        return pujoTag;
+    }
+
+    public void setPujoTag(PujoTagModel pujoTag) {
+        this.pujoTag = pujoTag;
+    }
     public void setHeadline(String headline) {
         this.headline = headline;
     }

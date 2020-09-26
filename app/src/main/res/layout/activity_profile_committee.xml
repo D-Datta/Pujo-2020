@@ -166,131 +166,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@color/white">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:autoLink="all"
-                        android:background="#FFF"
-                        android:fontFamily="@font/oxygen_ex_bold"
-                        android:textColor="@color/purple"
-                        android:paddingHorizontal="20dp"
-                        android:paddingVertical="5dp"
-                        android:text="@string/about"
-                        android:layout_gravity="center_vertical"
-                        android:textColorLink="@color/colorPrimary"
-                        android:textSize="18sp"
-                        android:layout_weight="2"/>
-
-                </LinearLayout>
-
-                <com.borjabravo.readmoretextview.ReadMoreTextView
-                    android:id="@+id/detaildesc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/oxygen_bold"
-                    android:maxLength="1000"
-                    android:autoLink="all"
-                    android:linksClickable="false"
-                    android:textColorLink="@color/colorPrimary"
-                    android:paddingHorizontal="20dp"
-                    android:paddingBottom="10dp"
-                    android:textColor="@color/black"
-                    android:background="#fff"
-                    android:text=""
-                    android:textSize="15sp"
-                    app:colorClickableText="@color/purple"
-                    app:trimCollapsedText="@string/read_more"
-                    app:trimExpandedText="@string/read_less"
-                    app:trimLines="15"
-                    app:trimMode="trimModeLine" />
-
-                <TextView
-                    android:id="@+id/address_com"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/address"
-                    android:paddingHorizontal="20dp"
-                    android:paddingVertical="2dp"
-                    android:background="@color/white"
-                    android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/oxygen_bold"/>
-
-                <LinearLayout
-                    android:id="@+id/elseProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp"
-                    android:paddingTop="5dp">
-
-                    <Button
-                        android:id="@+id/locate"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/locatebutton"
-                        android:fontFamily="@font/oxygen_ex_bold"
-                        android:drawableStart="@drawable/ic_baseline_location_on_24"
-                        android:paddingStart="20dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginVertical="5dp"
-                        android:paddingEnd="15dp"
-                        android:text="@string/locate"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-
-                    <Button
-                        android:id="@+id/follow"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/locatebutton"
-                        android:fontFamily="@font/oxygen_ex_bold"
-                        android:paddingStart="20dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginVertical="5dp"
-                        android:paddingEnd="15dp"
-                        android:text="@string/loading"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/selfProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp">
-
-                    <Button
-                        android:id="@+id/edit_profile_com"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/custom_button"
-                        android:fontFamily="@font/oxygen_ex_bold"
-                        android:drawableStart="@drawable/ic_outline_edit_24"
-                        android:paddingStart="20dp"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="5dp"
-                        android:paddingEnd="40dp"
-                        android:text="@string/Edit_Profile"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:paddingVertical="5dp">
 
                     <LinearLayout
@@ -381,6 +256,131 @@
 
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/elseProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp"
+                    android:paddingTop="5dp">
+
+                    <Button
+                        android:id="@+id/locate"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/locatebutton"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:drawableStart="@drawable/ic_baseline_location_on_24"
+                        android:paddingStart="20dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="15dp"
+                        android:text="@string/locate"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/follow"
+                        android:layout_width="0dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/locatebutton"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:paddingStart="20dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="15dp"
+                        android:text="@string/loading"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/selfProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="5dp">
+
+                    <Button
+                        android:id="@+id/edit_profile_com"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/custom_button"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:drawableStart="@drawable/ic_outline_edit_24"
+                        android:paddingStart="20dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="40dp"
+                        android:text="@string/Edit_Profile"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:background="#FFF"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textColor="@color/purple"
+                        android:paddingHorizontal="20dp"
+                        android:paddingVertical="5dp"
+                        android:text="@string/about"
+                        android:layout_gravity="center_vertical"
+                        android:textColorLink="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:layout_weight="2"/>
+
+                </LinearLayout>
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/detaildesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oxygen_bold"
+                    android:maxLength="1000"
+                    android:autoLink="all"
+                    android:linksClickable="false"
+                    android:textColorLink="@color/colorPrimary"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/black"
+                    android:background="#fff"
+                    android:text=""
+                    android:textSize="15sp"
+                    app:colorClickableText="@color/purple"
+                    app:trimCollapsedText="@string/read_more"
+                    app:trimExpandedText="@string/read_less"
+                    app:trimLines="15"
+                    app:trimMode="trimModeLine" />
+
+                <TextView
+                    android:id="@+id/address_com"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="2dp"
+                    android:background="@color/white"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/oxygen_bold"/>
 
 
                 <View

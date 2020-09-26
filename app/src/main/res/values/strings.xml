@@ -67,7 +67,6 @@
     </string-array>
 
     <string name="reg">Registration</string>
-    <string name="name">Name</string>
     <string name="fname">First Name*</string>
     <string name="lname">Last Name*</string>
     <string name="username">Username*</string>
@@ -154,6 +153,8 @@
     <string name="loading">Loading...</string>
     <string name="upvotes">Upvotes</string>
     <string name="likes">Likes</string>
+    <string name="tag_your_pujo">Tag your pujo</string>
+    <string name="name">Name</string>
     <string name="headline">Headline:</string>
     <string name="head_content">head_content</string>
 
