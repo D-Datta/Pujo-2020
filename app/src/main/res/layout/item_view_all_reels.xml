@@ -16,8 +16,8 @@
     <ImageView
         android:id="@+id/reels_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"/>
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter" />
 
     <ImageView
         android:id="@+id/play"
@@ -94,7 +94,7 @@
                     android:text="@string/pujo_committees"
                     android:textStyle="bold"
                     android:layout_gravity="center_vertical"
-                    android:textSize="18sp"
+                    android:textSize="18dp"
                     android:textColor="@color/white"/>
 
                 <TextView
@@ -113,14 +113,14 @@
             android:id="@+id/text_content44"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingTop="8dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
             android:paddingEnd="20dp"
             android:autoLink="all"
             android:textColorLink="@color/colorPrimary"
             android:text="@string/lorem_ipsum"
             android:scrollbars="vertical"
-            android:textSize="15sp"
+            android:textSize="16dp"
             app:trimExpandedText="@string/read_less"
             app:trimCollapsedText="@string/read_more"
             app:trimMode="trimModeLength"
@@ -135,6 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
             android:layout_marginStart="20dp">
 
             <com.airbnb.lottie.LottieAnimationView
@@ -154,7 +155,7 @@
                 android:textColor="@color/white"
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
-                android:textSize="18sp"
+                android:textSize="15dp"
                 android:singleLine="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
