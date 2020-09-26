@@ -91,6 +91,7 @@ public class FeedsFragment extends Fragment {
 
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
+    private FloatingActionButton create_post;
     private SwipeRefreshLayout swipeRefreshLayout, swiperefreshNoPost;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
@@ -134,6 +135,14 @@ public class FeedsFragment extends Fragment {
 
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
+//        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
+        create_post = view.findViewById(R.id.create_post_ind);
+//        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
+
+        if(introPref.getType().matches("com")) {
+            create_post.setVisibility(View.GONE);
+        }
+        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -175,6 +184,42 @@ public class FeedsFragment extends Fragment {
         });
         //SWIPE REFRESH//
 
+//        final int[] scrollY = {0};
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                scrollY[0] = scrollY[0] + dy;
+//                if (scrollY[0] <= 2000 && dy < 0) {
+//                    floatingActionButton.setVisibility(View.GONE);
+//                }
+//                else {
+//                    if(dy < 0){
+//                        floatingActionButton.setVisibility(View.VISIBLE);
+//                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//                            @SuppressLint("ObjectAnimatorBinding")
+//                            @Override
+//                            public void onClick(View v) {
+//                                recyclerView.scrollToPosition(0);
+//                                recyclerView.postDelayed(new Runnable() {
+//                                    public void run() {
+//                                        recyclerView.scrollToPosition(0);
+//                                    }
+//                                },300);
+//                            }
+//                        });
+//                    } else {
+//                        floatingActionButton.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
+//        });
+
     }
 
     private void buildRecyclerView() {
@@ -205,6 +250,8 @@ public class FeedsFragment extends Fragment {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
+
+//                floatingActionButton.setVisibility(View.GONE);
 
                 FeedViewHolder feedViewHolder = (FeedViewHolder)holder;
 

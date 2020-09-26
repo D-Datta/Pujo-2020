@@ -119,6 +119,7 @@ public class CommitteeFragment extends Fragment {
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
+//        floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);

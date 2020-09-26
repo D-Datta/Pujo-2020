@@ -16,6 +16,8 @@
         android:layout_centerVertical="true"
         android:paddingStart="20dp">
 
+
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
             app:cardCornerRadius="42.5dp"
