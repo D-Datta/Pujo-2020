@@ -383,7 +383,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else {
                     programmingViewHolder.head_content.setVisibility(View.VISIBLE);
-                    programmingViewHolder.head_content.setText(currentItem.getTxt());
+                    programmingViewHolder.head_content.setText(currentItem.getHeadline());
                 }
 
                 if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
