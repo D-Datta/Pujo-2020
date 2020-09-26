@@ -157,5 +157,7 @@
     <string name="name">Name</string>
     <string name="headline">Headline:</string>
     <string name="head_content">head_content</string>
+    <string name="continue_with_phone_no">Continue with Phone No.</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
 
 </resources>
