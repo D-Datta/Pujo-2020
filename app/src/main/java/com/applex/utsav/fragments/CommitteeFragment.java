@@ -119,6 +119,7 @@ public class CommitteeFragment extends Fragment {
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
+//        floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -382,7 +383,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else {
                     programmingViewHolder.head_content.setVisibility(View.VISIBLE);
-                    programmingViewHolder.head_content.setText(currentItem.getTxt());
+                    programmingViewHolder.head_content.setText(currentItem.getHeadline());
                 }
 
                 if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {

@@ -189,6 +189,38 @@
     </LinearLayout>
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_post_ind"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_add_white_24dp"
+        android:tint="@color/colorPrimary"
+        app:fabCustomSize="50dp"
+        android:layout_marginEnd="10dp"
+        android:scaleType="fitXY"
+        app:rippleColor="@color/white"
+        app:elevation="10dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="115dp"
+        android:padding="5dp"/>
+
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/to_the_top_campus"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        app:fabCustomSize="35dp"-->
+<!--        android:layout_marginEnd="17dp"-->
+<!--        app:borderWidth="0dp"-->
+<!--        android:src="@drawable/ic_baseline_keyboard_arrow_up_24"-->
+<!--        android:backgroundTint="#989898"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:rippleColor="#fff"-->
+<!--        app:elevation="10dp"-->
+<!--        android:layout_gravity="end|bottom"-->
+<!--        android:layout_marginBottom="172dp"-->
+<!--        android:padding="5dp"-->
+<!--        android:visibility="gone"/>-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

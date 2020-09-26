@@ -140,6 +140,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private DocumentReference docRef;
     private byte[] frame;
     private FrameLayout videoframe;
+    BottomSheetBehavior bottomSheetBehavior;
 
     private TextView tagPujo;
 
@@ -288,15 +289,22 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             else if(intent.getStringExtra("target").matches("11")){ //Challenge
                 postingIn.add("Global");
+                //post_anon.setVisibility(View.GONE);
+                //info.setVisibility(View.GONE);
 
             }
 
             else if(intent.getStringExtra("target").matches("4")){ //Community
                 postingIn.add(intent.getStringExtra("comName"));
+//                postingIn.add("Your Campus");
+//                postingIn.add("Global");
+                //post_anon.setVisibility(View.GONE);
+               // info.setVisibility(View.GONE);
 
             }
 
             if(intent.getStringExtra("target").matches("100")){// EDIT POST
+                //post_anon.setVisibility(View.GONE);
                 if(intent.getStringExtra("usN")!=null){
                     editPostModel.setUsN(intent.getStringExtra("usN"));
                     postusername.setText(editPostModel.getUsN());
@@ -321,6 +329,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 if(intent.getStringExtra("challengeID")!=null){
                     postingIn.add("Global");
 
+                    //post_anon.setVisibility(View.GONE);
+                    //info.setVisibility(View.GONE);
                     editPostModel.setChallengeID(intent.getStringExtra("challengeID"));
                 }
 
@@ -359,6 +369,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                 if(intent.getStringExtra("comID")!=null){
                     postingIn.add(intent.getStringExtra("comName"));
+                    //post_anon.setVisibility(View.GONE);
+                    //info.setVisibility(View.GONE);
                     editPostModel.setComID(intent.getStringExtra("comID"));
                 }
 
@@ -399,6 +411,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     }
                 }
             }
+
             else if (type.startsWith("image/")) {
                 filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 finalUri = filePath;
@@ -968,6 +981,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         if(resultCode == RESULT_OK) {
             if(requestCode == VIDEO_PICK_GALLERY_CODE) {
                 videoUri = data.getData();
+                bottomSheetBehavior.setState(STATE_COLLAPSED);
                 BasicUtility.saveVideo(videoUri, NewPostHome.this);
 
                 final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
@@ -1035,7 +1049,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             else if(requestCode == IMAGE_PICK_GALLERY_CODE) {
                 if(data.getClipData()!= null)
-                {
+                {   bottomSheetBehavior.setState(STATE_COLLAPSED);
                     int count = data.getClipData().getItemCount();
                     for (int i =0; i < count; i++)
                     {
@@ -1145,6 +1159,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 Bundle extras = data.getExtras();
                 Bitmap bitmap = (Bitmap) extras.get("data");
                 Bitmap compressedBitmap = null;
+                bottomSheetBehavior.setState(STATE_COLLAPSED);
 
                 try {
                     compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
@@ -1188,6 +1203,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {
                 videoUri = data.getData();
+                bottomSheetBehavior.setState(STATE_COLLAPSED);
                 BasicUtility.saveVideo(videoUri, NewPostHome.this);
 
                 final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
@@ -1266,6 +1282,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 finalUri = result.getUri();
+                bottomSheetBehavior.setState(STATE_COLLAPSED);
 
                 Bitmap bitmap = null;
                 try {
@@ -1281,6 +1298,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             }
             else {//CROP ERROR
+
                 Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
             }
             ////////////////////////CROP//////////////////////
