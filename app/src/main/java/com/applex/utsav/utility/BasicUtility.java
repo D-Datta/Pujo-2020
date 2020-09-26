@@ -82,6 +82,7 @@ public class BasicUtility {
             out.close();
             Objects.requireNonNull(in).close();
             return true;
+
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -135,17 +136,23 @@ public class BasicUtility {
         final long diff = (long) (now - time);
         if (diff < MINUTE_MILLIS) {
             return "just now";
-        } else if (diff < 2 * MINUTE_MILLIS) {
+        }
+        else if (diff < 2 * MINUTE_MILLIS) {
             return "a min ago";
-        } else if (diff < 50 * MINUTE_MILLIS) {
+        }
+        else if (diff < 50 * MINUTE_MILLIS) {
             return diff / MINUTE_MILLIS + " mins ago";
-        } else if (diff < 120 * MINUTE_MILLIS) {
+        }
+        else if (diff < 120 * MINUTE_MILLIS) {
             return "an hour ago";
-        } else if (diff < 24 * HOUR_MILLIS) {
+        }
+        else if (diff < 24 * HOUR_MILLIS) {
             return diff / HOUR_MILLIS + " hours ago";
-        } else if (diff < 48 * HOUR_MILLIS) {
+        }
+        else if (diff < 48 * HOUR_MILLIS) {
             return "yesterday";
-        } else {
+        }
+        else {
             return diff / DAY_MILLIS + " days ago";
         }
     }
@@ -170,7 +177,6 @@ public class BasicUtility {
 
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
     }
-
 
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -223,5 +229,4 @@ public class BasicUtility {
         return ContextCompat.checkSelfPermission(mContext,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
     }
-
 }
