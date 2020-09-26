@@ -65,7 +65,8 @@
             android:name=".CommentEdit"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".GateWayActivity">
+        <activity android:name=".GateWayActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -73,7 +74,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="www.utsavapp.in"
+                    android:host="www.applex.in"
                     android:scheme="https" />
             </intent-filter>
             <intent-filter>
@@ -83,7 +84,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="www.utsavapp.in"
+                    android:host="www.applex.in"
                     android:scheme="http" />
             </intent-filter>
         </activity>

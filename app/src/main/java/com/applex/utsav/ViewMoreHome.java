@@ -93,7 +93,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private CommentAdapter adapter;
 
     private IntroPref introPref;
-    private String PROFILEPIC;
+    private String PROFILEPIC, link;
     private String USERNAME, UID, TYPE;
 
     private ArrayList<String> likeList;
@@ -1096,7 +1096,10 @@ public class ViewMoreHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                String id = postCampus.replaceAll(" ","_");
-                String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
+                if(homePostModel[0].getImg() != null && homePostModel[0].getImg().size()>0)
+                    link = "https://www.applex.in/utsav-app/feeds/" + "1/" + homePostModel[0].getDocID();
+                else
+                    link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homePostModel[0].getDocID();
                 Intent i = new Intent();
                 i.setAction(Intent.ACTION_SEND);
                 i.putExtra(Intent.EXTRA_TEXT, link);

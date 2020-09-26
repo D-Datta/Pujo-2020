@@ -16,14 +16,13 @@ public class AboutUs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-
-        Toolbar toolbar= findViewById(R.id.toolb);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Edit Comment");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
-
+//
+//        Toolbar toolbar= findViewById(R.id.toolb);
+//        setSupportActionBar(toolbar);
+//        toolbar.setTitle("Edit Comment");
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
     }
 
