@@ -592,7 +592,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         }
                     }
                     else {
-                        Long timestampLong = System.currentTimeMillis();
+                        long timestampLong = System.currentTimeMillis();
 //                        ts = tsLong.toString();
                         progressDialog = new ProgressDialog(NewPostHome.this);
                         progressDialog.setTitle("Uploading");
@@ -600,7 +600,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         progressDialog.show();
 
                         if(videoUri != null) {
-                            docRef = firebaseFirestore.collection("Reels").document();
+                            docRef = firebaseFirestore.collection("Reels").document(String.valueOf(timestampLong));
 
                             reelsPostModel = new ReelsPostModel();
                             reelsPostModel.setCommittee_name(introPref.getFullName());

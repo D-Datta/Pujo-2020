@@ -138,6 +138,13 @@ public class ReelsActivity extends AppCompatActivity {
                 holder.pujo_com_name.setText(currentItem.getCommittee_name());
                 holder.pujo_headline.setSingleLine();
 
+                if(!currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+                    FirebaseFirestore.getInstance()
+                            .collection("Reels")
+                            .document(String.valueOf(currentItem.getTs()))
+                            .update("videoViews", FieldValue.increment(1));
+                }
+
                 holder.reels_video.setOnCompletionListener(v -> reelsList.setCurrentItem(position + 1, true));
 
                 holder.reels_video.setOnLongClickListener(view -> {
