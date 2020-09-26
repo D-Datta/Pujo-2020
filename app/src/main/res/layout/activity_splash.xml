@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="150dp"
-        android:src="@drawable/logo_"
+        android:src="@drawable/utsav_logo"
         tools:ignore="UseAppTint" />
 
     <ProgressBar
@@ -47,6 +47,5 @@
         android:layout_marginBottom="20dp"
         android:textColor="@color/black"
         android:textSize="18sp" />
-
 
 </RelativeLayout>
