@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Utsav</string>
 
     <string name="login">Login</string>
@@ -155,4 +155,13 @@
     <string name="upvotes">Upvotes</string>
     <string name="likes">Likes</string>
 
+    <string name="aboutUtsav">Due to this current pandemic, it\'s evident that Durga Pujo 2020 is not going to be the same as every year.\n\nHowever, in an effort to not let the spirit of Durga Puja fade away totally, we , a group of students from Kolkata have taken the initiative to create an android app ,<b>"Utsav"</b> through which the people of Bengal will be able to participate in the festivities, right from the safety of their homes. \n\n A viewer’s choice award will be given to the best Pujo of 2020 based on public interaction.</string>
+
+<!--    <string name="utsavFeature">Photos \n \nVideos \nLocate various pujo \nParticipation in Live Contests \nPre-Pujo updates</string>-->
+
+    <string name="utsavFeature1">Photos</string>
+    <string name="utsavFeature2">360 degree shots</string>
+    <string name="utsavFeature3">Locate various pujo</string>
+    <string name="utsavFeature4">Participation in Live Contests</string>
+    <string name="utsavFeature5">Pre-Pujo updates</string>
 </resources>
