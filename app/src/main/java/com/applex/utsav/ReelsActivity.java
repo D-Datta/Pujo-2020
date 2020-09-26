@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -229,10 +230,12 @@ public class ReelsActivity extends AppCompatActivity {
                             //play animation, play audio
 
                             if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
+                                holder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
                                 if (currentItem.getLikeL().size() - 1 == 0) {
                                     holder.likesCount.setVisibility(View.GONE);
                                     holder.like_image.setVisibility(View.GONE);
-                                } else {
+                                }
+                                else {
                                     holder.likesCount.setVisibility(View.VISIBLE);
                                     holder.like_image.setVisibility(View.VISIBLE);
                                     holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
@@ -254,6 +257,7 @@ public class ReelsActivity extends AppCompatActivity {
                             }
                             else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                 BasicUtility.vibrate(ReelsActivity.this);
+                                holder.like.setImageResource(R.drawable.ic_flame_red);//was already liked by current user
                                 holder.likesCount.setVisibility(View.VISIBLE);
                                 holder.like_image.setVisibility(View.VISIBLE);
                                 if (currentItem.getLikeL() != null) {
@@ -346,8 +350,7 @@ public class ReelsActivity extends AppCompatActivity {
         };
 
         reelsList.setAdapter(adapter);
-        Log.i("BAM", Objects.requireNonNull(getIntent().getStringExtra("position")));
-        reelsList.setCurrentItem(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))));
+        reelsList.getViewTreeObserver().addOnGlobalLayoutListener(() -> reelsList.setCurrentItem(Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("position"))), false));
     }
 
     public static class ReelsItemViewHolder extends RecyclerView.ViewHolder {

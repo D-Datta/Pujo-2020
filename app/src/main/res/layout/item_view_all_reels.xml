@@ -184,11 +184,10 @@
                 <ImageView
                     android:id="@+id/drumbeat"
                     android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_height="42dp"
                     android:layout_marginStart="20dp"
                     android:background="@drawable/custom_ripple_transparent"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_drum" />
+                    android:src="@drawable/ic_normal_flame" />
 
                 <ImageView
                     android:id="@+id/comment"
