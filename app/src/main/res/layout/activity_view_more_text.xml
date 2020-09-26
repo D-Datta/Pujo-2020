@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="15dp"
-        android:background="@color/dark_black_transparent">
+        android:background="@color/black_transparent">
 
         <ImageView
             android:id="@+id/back"
