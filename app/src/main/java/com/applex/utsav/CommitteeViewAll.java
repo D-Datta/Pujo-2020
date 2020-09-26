@@ -141,10 +141,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(CommitteeViewAll.this, ActivityProfileCommittee.class);
-                        intent.putExtra("name", currentItem.getName());
-                        intent.putExtra("comID",currentItem.getUid());
-                        intent.putExtra("coverpic",currentItem.getCoverpic());
-                        intent.putExtra("dp",currentItem.getDp());
+                        intent.putExtra("uid",currentItem.getUid());
                         startActivity(intent);
                     }
                 });

@@ -36,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
@@ -43,6 +44,7 @@ import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
+import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.TagAdapter;
@@ -90,6 +92,7 @@ public class FeedsFragment extends Fragment {
 
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
+    private FloatingActionButton create_post;
     private SwipeRefreshLayout swipeRefreshLayout, swiperefreshNoPost;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
@@ -106,8 +109,6 @@ public class FeedsFragment extends Fragment {
     private IntroPref introPref;
 
     private String DP, USERNAME;
-
-
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -135,6 +136,14 @@ public class FeedsFragment extends Fragment {
 
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
+//        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
+        create_post = view.findViewById(R.id.create_post_ind);
+//        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
+
+        if(introPref.getType().matches("com")) {
+            create_post.setVisibility(View.GONE);
+        }
+        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -146,7 +155,6 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setItemViewCacheSize(10);
         //////////////RECYCLER VIEW////////////////////
 
-
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
         contentProgCom = view.findViewById(R.id.content_progress_community);
         view_all_NoPost = view.findViewById(R.id.community_view_all);
@@ -155,8 +163,6 @@ public class FeedsFragment extends Fragment {
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
-
-
         buildRecyclerView();
 
         //SWIPE REFRESH//
@@ -178,6 +184,42 @@ public class FeedsFragment extends Fragment {
             buildRecyclerView();
         });
         //SWIPE REFRESH//
+
+//        final int[] scrollY = {0};
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                scrollY[0] = scrollY[0] + dy;
+//                if (scrollY[0] <= 2000 && dy < 0) {
+//                    floatingActionButton.setVisibility(View.GONE);
+//                }
+//                else {
+//                    if(dy < 0){
+//                        floatingActionButton.setVisibility(View.VISIBLE);
+//                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//                            @SuppressLint("ObjectAnimatorBinding")
+//                            @Override
+//                            public void onClick(View v) {
+//                                recyclerView.scrollToPosition(0);
+//                                recyclerView.postDelayed(new Runnable() {
+//                                    public void run() {
+//                                        recyclerView.scrollToPosition(0);
+//                                    }
+//                                },300);
+//                            }
+//                        });
+//                    } else {
+//                        floatingActionButton.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
+//        });
 
     }
 
@@ -209,6 +251,8 @@ public class FeedsFragment extends Fragment {
             @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
+
+//                floatingActionButton.setVisibility(View.GONE);
 
                 FeedViewHolder feedViewHolder = (FeedViewHolder)holder;
 
@@ -288,22 +332,21 @@ public class FeedsFragment extends Fragment {
                 }
 
 
-//                if (currentItem.getComName() != null) {
-//                    feedViewHolder.comName.setVisibility(View.VISIBLE);
-//                    feedViewHolder.comName.setText(currentItem.getComName());
-//                    feedViewHolder.comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-//
-//                    feedViewHolder.comName.setOnClickListener(v -> {
-//                        //To be changed
-//                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
-//                        intent.putExtra("uid", currentItem.getComID());
-//                        startActivity(intent);
-//                    });
-//                }
-//                else {
-//                    feedViewHolder.comName.setVisibility(View.GONE);
-//                    feedViewHolder.comName.setText(null);
-//                }
+                if (currentItem.getPujoTag() != null) {
+                    feedViewHolder.pujoTagHolder.setVisibility(View.VISIBLE);
+                    feedViewHolder.pujoTagHolder.setText(currentItem.getPujoTag().getPujoName());
+
+                    feedViewHolder.pujoTagHolder.setOnClickListener(v -> {
+                        //To be changed
+                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+                        intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
+                        startActivity(intent);
+                    });
+                }
+                else {
+                    feedViewHolder.pujoTagHolder.setVisibility(View.GONE);
+                    feedViewHolder.pujoTagHolder.setText(null);
+                }
 
                 ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
@@ -456,8 +499,29 @@ public class FeedsFragment extends Fragment {
                 else {
                     feedViewHolder.sliderView.setVisibility(View.GONE);
                     feedViewHolder.text_content.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
-                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        startActivity(intent);
+//                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+//                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
 
@@ -942,6 +1006,8 @@ public class FeedsFragment extends Fragment {
         ImageView noPost;
         RecyclerView cRecyclerView;
 
+        TextView pujoTagHolder;
+
         TextView username,commentCount, likesCount, text_content, minsago, writecomment;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
         ImageView dp_cmnt1, dp_cmnt2, type_dp;
@@ -1007,6 +1073,8 @@ public class FeedsFragment extends Fragment {
             cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
             dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
+
+            pujoTagHolder = itemView.findViewById(R.id.tag_pujo);
 
         }
     }

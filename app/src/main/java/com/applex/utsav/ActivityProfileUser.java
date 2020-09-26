@@ -574,8 +574,29 @@ public class ActivityProfileUser extends AppCompatActivity {
                 {
                     programmingViewHolder.sliderView.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
-                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                        Intent intent = new Intent(ActivityProfileUser.this, ViewMoreText.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        startActivity(intent);
+//                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+//                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
 

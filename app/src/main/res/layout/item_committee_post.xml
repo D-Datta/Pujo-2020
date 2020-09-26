@@ -179,7 +179,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:id="@+id/view_type_smth"
@@ -339,6 +339,22 @@
                     android:clipToPadding="false"
                     android:paddingHorizontal="8dp"
                     android:paddingTop="5dp" />
+
+                <TextView
+                    android:id="@+id/head_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autoLink="all"
+                    android:fontFamily="@font/oxygen_ex_bold"
+                    android:paddingHorizontal="17dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/head_content"
+                    android:textColor="@color/black"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColorLink="@color/link"
+                    android:textSize="17dp" />
 
                 <TextView
                     android:id="@+id/text_content"

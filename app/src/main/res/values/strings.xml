@@ -67,7 +67,6 @@
     </string-array>
 
     <string name="reg">Registration</string>
-    <string name="name">Name</string>
     <string name="fname">First Name*</string>
     <string name="lname">Last Name*</string>
     <string name="username">Username*</string>
@@ -154,6 +153,10 @@
     <string name="loading">Loading...</string>
     <string name="upvotes">Upvotes</string>
     <string name="likes">Likes</string>
+    <string name="tag_your_pujo">Tag your pujo</string>
+    <string name="name">Name</string>
+    <string name="headline">Headline:</string>
+    <string name="head_content">head_content</string>
 
     <string name="aboutUtsav">Due to this current pandemic, it\'s evident that Durga Pujo 2020 is not going to be the same as every year.\n\nHowever, in an effort to not let the spirit of Durga Puja fade away totally, we , a group of students from Kolkata have taken the initiative to create an android app ,<b>"Utsav"</b> through which the people of Bengal will be able to participate in the festivities, right from the safety of their homes. \n\n A viewer’s choice award will be given to the best Pujo of 2020 based on public interaction.</string>
 

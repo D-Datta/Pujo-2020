@@ -27,6 +27,9 @@ public class ReelsPostModel {
     @Exclude
     private int likeCheck;
 
+    private PujoTagModel pujoTag;
+
+
     public ReelsPostModel() {
         likeCheck = -1;
     }
@@ -55,10 +58,6 @@ public class ReelsPostModel {
         this.likeCheck = likeCheck;
     }
 
-    public String getHeadline() {
-        return headline;
-    }
-
     public String getUid() {
         return uid;
     }
@@ -73,6 +72,10 @@ public class ReelsPostModel {
 
     public void setHeadline(String headline) {
         this.headline = headline;
+    }
+
+    public String getHeadline() {
+        return headline;
     }
 
     public ArrayList<String> getReportL() {
@@ -158,5 +161,14 @@ public class ReelsPostModel {
 
     public void setVideoViews(long videoViews) {
         this.videoViews = videoViews;
+    }
+
+
+    public PujoTagModel getPujoTag() {
+        return pujoTag;
+    }
+
+    public void setPujoTag(PujoTagModel pujoTag) {
+        this.pujoTag = pujoTag;
     }
 }

@@ -27,7 +27,7 @@ public class GateWayActivity extends AppCompatActivity {
                 if(params.size()>3){
                     campus = params.get(2).replaceAll("_", " ");
                     postID = params.get(3);
-                    if(params.get(1).matches("Home")){
+                    if(params.get(1).matches("Home")) {
                         Intent i= new Intent(GateWayActivity.this, ViewMoreHome.class);
                         i.putExtra("campus", campus);
                         i.putExtra("postID", postID);

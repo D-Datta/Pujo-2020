@@ -1,7 +1,11 @@
 package com.applex.utsav;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,25 +25,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-
-import com.applex.utsav.utility.BasicUtility;
-import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.adapters.ViewmoreSliderAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
+import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.dialogs.BottomFlamedByDialog;
+import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.StoreTemp;
+import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -63,12 +61,12 @@ import java.util.Objects;
 
 import static java.lang.Boolean.TRUE;
 
-public class ViewMoreHome extends AppCompatActivity {
+public class ViewMoreText extends AppCompatActivity {
 
-//    private ImageView send;
-//    private EditText newComment;
-    private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage;
-    private SliderView sliderView;
+    private ImageView send;
+    //    private EditText newComment;
+    private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage,img;
+//    private SliderView sliderView;
 
     private LinearLayout like_layout,comment_layout;
 
@@ -87,7 +85,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
 
-//    private RecyclerView mRecyclerView;
+    //    private RecyclerView mRecyclerView;
     private RecyclerView tagRecycler;
     private ArrayList<CommentModel> CommentList;
     private CommentAdapter adapter;
@@ -99,7 +97,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private ArrayList<String> likeList;
     private ArrayList<String> images;
 
-//    private CollectionReference commentRef;
+    //    private CollectionReference commentRef;
     private DocumentReference docRef;
     private CollectionReference flamedRef;
     DocumentReference docref3;
@@ -113,16 +111,15 @@ public class ViewMoreHome extends AppCompatActivity {
     private int commentCount = 0;
     String bool;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewmore_post);
+        setContentView(R.layout.activity_view_more_text);
 
         introPref = new IntroPref(this);
 
         share = findViewById(R.id.share44);
-        sliderView = findViewById(R.id.post_image44);
+        img = findViewById(R.id.post_image45);
         commentimg = findViewById(R.id.comment44);
         username = findViewById(R.id.username44);
         userimage = findViewById(R.id.user_image44);
@@ -421,7 +418,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                     bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                 } else
-                    Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewMoreText.this, "No flames", Toast.LENGTH_SHORT).show();
             }
             ///////////When viewing likelist from fragment global/campus////////////////
 
@@ -432,39 +429,39 @@ public class ViewMoreHome extends AppCompatActivity {
                         BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                         bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                     } else
-                        Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewMoreText.this, "No flames", Toast.LENGTH_SHORT).show();
                 }
             });
             ///////////////LIKE SETUP//////////////
 
             ////////////////POST PIC///////////////
-            Bundle args = getIntent().getBundleExtra("BUNDLE");
-            if (args != null) {
-                if ((ArrayList<String>) args.getSerializable("ARRAYLIST") != null
-                        && ((ArrayList<String>) args.getSerializable("ARRAYLIST")).size() > 0) {
-
-                    images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
-
-                    if (images != null && images.size() > 0) {
-                        sliderView.setVisibility(View.VISIBLE);
-
-                        sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                        sliderView.setIndicatorRadius(5);
-                        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                        sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
-                        sliderView.setIndicatorUnselectedColor(R.color.white);
-                        sliderView.setAutoCycle(false);
-
-                        ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
-
-                        sliderView.setSliderAdapter(viewmoreSliderAdapter);
-                    } else {
-                        sliderView.setVisibility(View.GONE);
-                    }
-
-                }
-            }
+//            Bundle args = getIntent().getBundleExtra("BUNDLE");
+//            if (args != null) {
+//                if ((ArrayList<String>) args.getSerializable("ARRAYLIST") != null
+//                        && ((ArrayList<String>) args.getSerializable("ARRAYLIST")).size() > 0) {
+//
+//                    images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
+//
+//                    if (images != null && images.size() > 0) {
+//                        sliderView.setVisibility(View.VISIBLE);
+//
+//                        sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+//                        sliderView.setIndicatorRadius(5);
+//                        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+//                        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+//                        sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
+//                        sliderView.setIndicatorUnselectedColor(R.color.white);
+//                        sliderView.setAutoCycle(false);
+//
+//                        ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreText.this, images);
+//
+//                        sliderView.setSliderAdapter(viewmoreSliderAdapter);
+//                    } else {
+//                        sliderView.setVisibility(View.GONE);
+//                    }
+//
+//                }
+//            }
             ////////////////POST PIC///////////////
 
 
@@ -530,9 +527,8 @@ public class ViewMoreHome extends AppCompatActivity {
                 commentCount = 0;
                 checkGetMore = -1;
             }
-
-
-        } else {// from fcm notification or notiff tab or external link
+        }
+        else {// from fcm notification or notiff tab or external link
             docref3 = FirebaseFirestore.getInstance()
                     .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
                     .document("notifCount");
@@ -718,32 +714,32 @@ public class ViewMoreHome extends AppCompatActivity {
                                             BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                                         } else
-                                            Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ViewMoreText.this, "No flames", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 ///////////////LIKE SETUP//////////////
 
 
                                 ////////////////POST PIC///////////////
-                                images = homePostModel[0].getImg();
-
-                                if (images != null && images.size() > 0) {
-                                    sliderView.setVisibility(View.VISIBLE);
-
-                                    sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                                    sliderView.setIndicatorRadius(5);
-                                    sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                                    sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                                    sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
-                                    sliderView.setIndicatorUnselectedColor(R.color.white);
-                                    sliderView.setAutoCycle(false);
-
-                                    ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
-
-                                    sliderView.setSliderAdapter(viewmoreSliderAdapter);
-                                } else {
-                                    sliderView.setVisibility(View.GONE);
-                                }
+//                                images = homePostModel[0].getImg();
+//
+//                                if (images != null && images.size() > 0) {
+//                                    sliderView.setVisibility(View.VISIBLE);
+//
+//                                    sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+//                                    sliderView.setIndicatorRadius(5);
+//                                    sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+//                                    sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+//                                    sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
+//                                    sliderView.setIndicatorUnselectedColor(R.color.white);
+//                                    sliderView.setAutoCycle(false);
+//
+//                                    ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreText.this, images);
+//
+//                                    sliderView.setSliderAdapter(viewmoreSliderAdapter);
+//                                } else {
+//                                    sliderView.setVisibility(View.GONE);
+//                                }
                                 ////////////////POST PIC///////////////
 
 
@@ -812,9 +808,9 @@ public class ViewMoreHome extends AppCompatActivity {
 //                                    NotificationFragment.removeNotif = Integer.parseInt(getIntent().getStringExtra("position"));
                                 }
                                 if (isTaskRoot()) {
-                                    startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                    startActivity(new Intent(ViewMoreText.this, MainActivity.class));
                                 } else {
-                                    ViewMoreHome.super.onBackPressed();
+                                    ViewMoreText.super.onBackPressed();
                                 }
                             }
 
@@ -822,7 +818,6 @@ public class ViewMoreHome extends AppCompatActivity {
                     });
 
         }
-
         PushDownAnim.setPushDownAnimTo(flameimg)
                 .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                 .setOnClickListener(new View.OnClickListener() {
@@ -847,7 +842,7 @@ public class ViewMoreHome extends AppCompatActivity {
                             if (likeList.size() - 1 == 0) {
                                 like_layout.setVisibility(View.GONE);
                             } else {
-                                BasicUtility.vibrate(ViewMoreHome.this);
+                                BasicUtility.vibrate(ViewMoreText.this);
                                 like_layout.setVisibility(View.VISIBLE);
                                 flamedBy.setText(Integer.toString(likeList.size() - 1));
                             }
@@ -865,7 +860,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     change = 1;
                                 } else {
-                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ViewMoreText.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
 
                             });
@@ -874,11 +869,11 @@ public class ViewMoreHome extends AppCompatActivity {
                         } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             BasicUtility.vibrate(getApplicationContext());
                             try {
-                                AssetFileDescriptor afd = ViewMoreHome.this.getAssets().openFd("dhak.mp3");
+                                AssetFileDescriptor afd = ViewMoreText.this.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
                                 player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                 player.prepare();
-                                AudioManager audioManager = (AudioManager) ViewMoreHome.this.getSystemService(Context.AUDIO_SERVICE);
+                                AudioManager audioManager = (AudioManager) ViewMoreText.this.getSystemService(Context.AUDIO_SERVICE);
                                 if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                     player.start();
                             } catch (IOException e) {
@@ -931,7 +926,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     change = 1;
                                 } else {
-                                    Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ViewMoreText.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
 
                             });
@@ -939,10 +934,9 @@ public class ViewMoreHome extends AppCompatActivity {
                         }
                     }
                 });
-
         commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1);
-                bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1);
+            bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
         });
 
         more.setOnClickListener(new View.OnClickListener() {
@@ -950,7 +944,7 @@ public class ViewMoreHome extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())) {
-                    postMenuDialog = new BottomSheetDialog(ViewMoreHome.this);
+                    postMenuDialog = new BottomSheetDialog(ViewMoreText.this);
                     postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
@@ -992,7 +986,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ViewMoreHome.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ViewMoreText.this);
                             builder.setTitle("Are you sure?")
                                     .setMessage("Post will be deleted permanently")
                                     .setPositiveButton("Delete", (dialog, which) -> {
@@ -1004,13 +998,13 @@ public class ViewMoreHome extends AppCompatActivity {
                                                         change = 1;
 //                                                        ProfileActivity.delete = 1;
                                                         if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
-                                                            startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                            startActivity(new Intent(ViewMoreText.this, MainActivity.class));
                                                             finish();
                                                         } else if (isTaskRoot()) {
-                                                            startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                            startActivity(new Intent(ViewMoreText.this, MainActivity.class));
                                                             finish();
                                                         } else {
-                                                            ViewMoreHome.super.onBackPressed();
+                                                            ViewMoreText.super.onBackPressed();
                                                         }
                                                     }
                                                 });
@@ -1041,7 +1035,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.show();
 
                 } else {
-                    postMenuDialog = new BottomSheetDialog(ViewMoreHome.this);
+                    postMenuDialog = new BottomSheetDialog(ViewMoreText.this);
 
                     postMenuDialog.setContentView(R.layout.dialog_post_menu);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
@@ -1074,23 +1068,21 @@ public class ViewMoreHome extends AppCompatActivity {
             }
         });
 
-
         back.setOnClickListener(v -> {
             if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
-                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                startActivity(new Intent(ViewMoreText.this, MainActivity.class));
                 finish();
             }
             if (isTaskRoot()) {
-                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                startActivity(new Intent(ViewMoreText.this, MainActivity.class));
                 finish();
             } else {
                 if (change == 1)
-                    Toast.makeText(ViewMoreHome.this, "Swipe to refresh", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewMoreText.this, "Swipe to refresh", Toast.LENGTH_SHORT).show();
                 super.onBackPressed();
             }
 
         });
-
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1107,18 +1099,15 @@ public class ViewMoreHome extends AppCompatActivity {
             }
         });
     }
-
-
-
     @Override
     public void onBackPressed() {
         if(isTaskRoot()){
-            startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+            startActivity(new Intent(ViewMoreText.this, MainActivity.class));
             finish();
         }
         else {
             if(change == 1)
-                Toast.makeText(ViewMoreHome.this, "Swipe to refresh", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ViewMoreText.this, "Swipe to refresh", Toast.LENGTH_SHORT).show();
             super.onBackPressed();
         }
     }
@@ -1132,5 +1121,6 @@ public class ViewMoreHome extends AppCompatActivity {
         }
         super.onResume();
     }
+
 
 }

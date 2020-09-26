@@ -42,6 +42,7 @@ import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
+import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.adapters.TagAdapter;
@@ -119,6 +120,7 @@ public class CommitteeFragment extends Fragment {
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
+//        floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -219,7 +221,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.type_something.setOnClickListener(view -> {
                             if(InternetConnection.checkConnection(requireActivity())) {
                                 Intent i= new Intent(getContext(), NewPostHome.class);
-                                i.putExtra("target", "2");
+                                i.putExtra("target", "1");
                                 startActivity(i);
                             }
                             else
@@ -228,7 +230,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
                             if(InternetConnection.checkConnection(requireActivity())) {
                                 Intent i= new Intent(getContext(), NewPostHome.class);
-                                i.putExtra("target", "2");
+                                i.putExtra("target", "1");
                                 startActivity(i);
                             }
                             else
@@ -376,6 +378,15 @@ public class CommitteeFragment extends Fragment {
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+                if(currentItem.getHeadline() == null || currentItem.getHeadline().isEmpty()) {
+                    programmingViewHolder.head_content.setVisibility(View.GONE);
+                    programmingViewHolder.head_content.setText(null);
+                }
+                else {
+                    programmingViewHolder.head_content.setVisibility(View.VISIBLE);
+                    programmingViewHolder.head_content.setText(currentItem.getHeadline());
+                }
+
                 if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
                     programmingViewHolder.text_content.setVisibility(View.GONE);
                     programmingViewHolder.LinkPreview.setVisibility(View.GONE);
@@ -448,8 +459,31 @@ public class CommitteeFragment extends Fragment {
                 } else {
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
-                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        startActivity(intent);
+
+
+//                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
+//                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
@@ -889,7 +923,6 @@ public class CommitteeFragment extends Fragment {
         progressMore.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
 
-        final int[] scrollY = {0};
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -991,7 +1024,7 @@ public class CommitteeFragment extends Fragment {
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         SliderView sliderView;
-        TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
+        TextView username,commentCount, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, newPostIconsLL, reels_item;
@@ -1053,6 +1086,7 @@ public class CommitteeFragment extends Fragment {
             slider_item = itemView.findViewById(R.id.slider_item);
             reels_item = itemView.findViewById(R.id.reels_item);
             normal_item = itemView.findViewById(R.id.normal_item);
+            head_content = itemView.findViewById(R.id.head_content);
         }
     }
 
@@ -1395,6 +1429,7 @@ public class CommitteeFragment extends Fragment {
                                 int[] location1 = new int[2];
 
                                 Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
+                                cvh1.item_reels_image.setVisibility(View.VISIBLE);
                                 Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
 
                                 float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);

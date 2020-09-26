@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#fff"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".Splash">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="150dp"
+        android:padding="130dp"
         android:src="@drawable/utsav_logo"
         tools:ignore="UseAppTint" />
 

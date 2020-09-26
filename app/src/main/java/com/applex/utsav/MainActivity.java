@@ -82,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     GoogleSignInClient mGooglesigninclient;
 
+    ImageView notif;
+    TextView notifDot;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +164,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbarImage.setOnClickListener(v -> {
             drawer.openDrawer(GravityCompat.START);
         });
+
+
+        //NOTIFICATION
+        notif = findViewById(R.id.notif);
+        notifDot = findViewById(R.id.notif_badge);
+
+        notif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ActivityNotification.class));
+            }
+        });
+
+
 
         TabLayout tabs = findViewById(R.id.tabs);
         ViewPager viewPager = findViewById(R.id.view_pager);

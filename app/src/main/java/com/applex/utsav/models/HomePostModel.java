@@ -11,11 +11,11 @@ public class HomePostModel {
     private String usN, dp, uid, type;
     private String txt;
 
-    private String single_img;
     private ArrayList<String> img;
     private String comID, comName;
     private long ts;
     private long newTs;
+    private String headline;
 
     private ArrayList<TagModel> tagL;
 
@@ -34,7 +34,7 @@ public class HomePostModel {
     private String challengeID;
 
 
-
+    private PujoTagModel pujoTag;
 
     ////////////DEFAULT CONSTRUCTOR///////////
     public HomePostModel(){
@@ -113,14 +113,6 @@ public class HomePostModel {
         return img;
     }
 
-    public String getSingle_img() {
-        return single_img;
-    }
-
-    public void setSingle_img(String single_img) {
-        this.single_img = single_img;
-    }
-
     public void setImg(ArrayList<String> img) {
         this.img = img;
     }
@@ -192,4 +184,18 @@ public class HomePostModel {
         this.challengeID = challengeID;
     }
 
+    public PujoTagModel getPujoTag() {
+        return pujoTag;
+    }
+
+    public void setPujoTag(PujoTagModel pujoTag) {
+        this.pujoTag = pujoTag;
+    }
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
+
+    public String getHeadline() {
+        return headline;
+    }
 }
