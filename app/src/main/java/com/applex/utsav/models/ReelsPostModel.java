@@ -55,10 +55,6 @@ public class ReelsPostModel {
         this.likeCheck = likeCheck;
     }
 
-    public String getHeadline() {
-        return headline;
-    }
-
     public String getUid() {
         return uid;
     }
@@ -73,6 +69,10 @@ public class ReelsPostModel {
 
     public void setHeadline(String headline) {
         this.headline = headline;
+    }
+
+    public String getHeadline() {
+        return headline;
     }
 
     public ArrayList<String> getReportL() {

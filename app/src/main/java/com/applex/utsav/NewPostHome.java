@@ -91,8 +91,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private Button post_anon, post;
     private LinearLayout cam, gallery,  videopost, videocam;
     private RelativeLayout addToPost, icons;
-    private EditText postcontent,edtagtxt;
-    private ImageView cross, user_image;
+    private EditText postcontent, edtagtxt, head_content;
+    private ImageView cross, user_image, video_cam_icon, video_gal_icon;
     private ImageView info, postimage;
     private Dialog dialog;
     private LinearLayout customTag;
@@ -167,6 +167,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         customTag = findViewById(R.id.tag);
         addToPost = findViewById(R.id.add_to_post);
         videoframe = findViewById(R.id.videoframe);
+        video_cam_icon = findViewById(R.id.video_cam_icon);
+        video_gal_icon = findViewById(R.id.video_gal_icon);
+        head_content = findViewById(R.id.post_headline);
 
         mAuth = FirebaseAuth.getInstance();
         fireuser = mAuth.getCurrentUser();
@@ -179,25 +182,36 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
+        if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("1")) {
+            video_cam_icon.setVisibility(View.VISIBLE);
+            video_gal_icon.setVisibility(View.VISIBLE);
+            head_content.setVisibility(View.VISIBLE);
+        }
+        else if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("2")) {
+            video_cam_icon.setVisibility(View.GONE);
+            video_gal_icon.setVisibility(View.GONE);
+            head_content.setVisibility(View.GONE);
+        }
+
         // get the bottom sheet view
         LinearLayout llBottomSheet = findViewById(R.id.new_post_bottomsheet);
 
         // init the bottom sheet behavior
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        icons.setVisibility(View.GONE);
+        //icons.setVisibility(View.GONE);
 
         llBottomSheet.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent dragEvent) {
                 if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    icons.setVisibility(View.GONE);
+                    //icons.setVisibility(View.GONE);
 
                 }
                 else{
                     bottomSheetBehavior.setState(STATE_COLLAPSED);
-                    icons.setVisibility(View.VISIBLE);
+                    //icons.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
@@ -462,8 +476,11 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             if(InternetConnection.checkConnection(getApplicationContext())){
                 String text_content = postcontent.getText().toString();
 
-                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null)) {
+                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null) && (head_content.getText() == null)) {
                     BasicUtility.showToast(getApplicationContext(),"Post has got no picture or video...");
+                }
+                else if(introPref.getType().matches("com") && (head_content.getText() == null)) {
+                    BasicUtility.showToast(getApplicationContext(),"Post has got no headline...");
                 }
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
                     BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
@@ -618,6 +635,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                 reelsPostModel.setDescription(text_content.trim());
                             }
 
+                            if(!head_content.getText().toString().isEmpty()) {
+                                reelsPostModel.setHeadline(head_content.getText().toString().trim());
+                            }
+
                             Long tsLong = System.currentTimeMillis();
                             ts = tsLong.toString();
                             StorageReference referenceVideo = storageReferenece.child("Reels/").child("Videos").child(fireuser.getUid() + "_" + ts + "post_vid");
@@ -690,6 +711,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             }
                             if(!text_content.isEmpty()) {
                                 homePostModel.setTxt(text_content.trim());
+                            }
+                            if(!head_content.getText().toString().isEmpty()) {
+                                homePostModel.setHeadline(head_content.getText().toString().trim());
                             }
 
                             if (imagelist != null && imagelist.size() > 0) {

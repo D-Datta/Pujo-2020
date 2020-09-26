@@ -48,7 +48,6 @@
                 app:layout_constraintStart_toEndOf="@+id/cross99"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <Button
                 android:id="@+id/post"
                 android:layout_width="wrap_content"
@@ -245,6 +244,23 @@
                      android:layout_marginBottom="0dp"/>
 
             </LinearLayout>
+
+            <EditText
+                android:id="@+id/post_headline"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@null"
+                android:minLines="1"
+                android:fontFamily="@font/oxygen_regular"
+                android:textColor="@color/black"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textColorLink="@color/toolbarStart"
+                android:autoLink="all"
+                android:hint="@string/headline"
+                android:gravity="top"
+                android:padding="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/post_content"

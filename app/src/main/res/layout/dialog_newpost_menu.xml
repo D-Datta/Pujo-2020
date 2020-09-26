@@ -61,19 +61,19 @@
                 android:src="@drawable/ic_baseline_photo_gallery_library_24"
                 android:padding="8dp"
                 app:tint="@color/purple"
-                android:layout_toStartOf="@+id/yay2"/>
+                android:layout_toStartOf="@+id/video_gal_icon"/>
 
             <ImageView
-                android:id="@+id/yay2"
+                android:id="@+id/video_gal_icon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_videocam_24"
                 android:padding="8dp"
                 app:tint="@color/link"
-                android:layout_toStartOf="@+id/yay"/>
+                android:layout_toStartOf="@+id/video_cam_icon"/>
 
             <ImageView
-                android:id="@+id/yay"
+                android:id="@+id/video_cam_icon"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_video_call_24"

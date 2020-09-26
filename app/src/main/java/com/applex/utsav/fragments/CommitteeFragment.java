@@ -219,7 +219,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.type_something.setOnClickListener(view -> {
                             if(InternetConnection.checkConnection(requireActivity())) {
                                 Intent i= new Intent(getContext(), NewPostHome.class);
-                                i.putExtra("target", "2");
+                                i.putExtra("target", "1");
                                 startActivity(i);
                             }
                             else
@@ -228,7 +228,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
                             if(InternetConnection.checkConnection(requireActivity())) {
                                 Intent i= new Intent(getContext(), NewPostHome.class);
-                                i.putExtra("target", "2");
+                                i.putExtra("target", "1");
                                 startActivity(i);
                             }
                             else
@@ -376,6 +376,15 @@ public class CommitteeFragment extends Fragment {
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+                if(currentItem.getHeadline() == null || currentItem.getHeadline().isEmpty()) {
+                    programmingViewHolder.head_content.setVisibility(View.GONE);
+                    programmingViewHolder.head_content.setText(null);
+                }
+                else {
+                    programmingViewHolder.head_content.setVisibility(View.VISIBLE);
+                    programmingViewHolder.head_content.setText(currentItem.getTxt());
+                }
+
                 if (currentItem.getTxt() == null || currentItem.getTxt().isEmpty()) {
                     programmingViewHolder.text_content.setVisibility(View.GONE);
                     programmingViewHolder.LinkPreview.setVisibility(View.GONE);
@@ -889,7 +898,6 @@ public class CommitteeFragment extends Fragment {
         progressMore.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
 
-        final int[] scrollY = {0};
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -991,7 +999,7 @@ public class CommitteeFragment extends Fragment {
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         SliderView sliderView;
-        TextView username,commentCount, text_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
+        TextView username,commentCount, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, newPostIconsLL, reels_item;
@@ -1053,6 +1061,7 @@ public class CommitteeFragment extends Fragment {
             slider_item = itemView.findViewById(R.id.slider_item);
             reels_item = itemView.findViewById(R.id.reels_item);
             normal_item = itemView.findViewById(R.id.normal_item);
+            head_content = itemView.findViewById(R.id.head_content);
         }
     }
 
