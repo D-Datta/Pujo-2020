@@ -108,7 +108,7 @@ public class FeedsFragment extends Fragment {
     private FirestorePagingAdapter adapter;
     private IntroPref introPref;
 
-    private String DP, USERNAME;
+    private String DP, USERNAME, link;
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -654,7 +654,10 @@ public class FeedsFragment extends Fragment {
                 feedViewHolder.share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String link = "https://www.utsavapp.in/android/feeds/" + currentItem.getDocID();
+                        if(currentItem.getImg() != null && currentItem.getImg().size()>0)
+                            link = "https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                        else
+                            link = "https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
                         Intent i = new Intent();
                         i.setAction(Intent.ACTION_SEND);
                         i.putExtra(Intent.EXTRA_TEXT, link);
