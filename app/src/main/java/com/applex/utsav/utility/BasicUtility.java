@@ -9,17 +9,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,28 +25,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Objects;
-
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class BasicUtility {
 
-//    private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
-    private static final String TAG = "SAVE_IMAGE_BITMAP_NOT_WORKING";
     public static Long tsLong;
-//    private String[] cameraPermission;
-    /**
-     * CHECK WHETHER INTERNET CONNECTION IS AVAILABLE OR NOT
-     */
 
     public static void showToast(Context context, String data) {
         Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
     }
 
-    public static Boolean saveImage(Bitmap finalBitmap, Context context) {
-        File myDir = new File(context.getExternalFilesDir(null), "/Utsav");
-        if (!myDir.exists()) {
-            myDir.mkdirs();
+    public static boolean saveImage(Bitmap finalBitmap, Context context) {
+        File myDir = new File(Environment.getExternalStorageDirectory() + "/Utsav/Images");
+        myDir.mkdirs();
+        if (myDir.exists()) {
+            myDir.mkdir();
         }
         tsLong = System.currentTimeMillis();
         try {
@@ -60,14 +52,14 @@ public class BasicUtility {
             out.close();
             MediaStore.Images.Media.insertImage(context.getContentResolver(), finalBitmap, "IMG-" + tsLong + ".jpg" , "Downloaded from Utsav");
             return true;
-
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public static Boolean saveVideo(Uri uri, Context context) {
+    public static boolean saveVideo(Uri uri, Context context) {
         File myDir = new File(context.getExternalFilesDir(null), "/Utsav");
         if (!myDir.exists()) {
             myDir.mkdirs();
@@ -76,7 +68,6 @@ public class BasicUtility {
         InputStream in;
         OutputStream out;
         try {
-            Log.i("NONGRAMI", "BAR KORE DEBO");
             File file = new File(myDir, "VID-" + tsLong + ".mp4");
             file.createNewFile();
             in = context.getContentResolver().openInputStream(uri);
@@ -92,36 +83,31 @@ public class BasicUtility {
             Objects.requireNonNull(in).close();
             return true;
         } catch (IOException e) {
-            Log.i("SHUTIYE", "LAL KORE DEBO");
             e.printStackTrace();
             return false;
         }
     }
 
     public static boolean downloadVideo(String url, Context context) {
-        File myDir = new File(context.getExternalFilesDir(null), "/Utsav");
-        if (!myDir.exists()) {
-            myDir.mkdirs();
+        File myDir = new File(Environment.getExternalStorageDirectory() + "/Utsav/Videos");
+        myDir.mkdirs();
+        if (myDir.exists()) {
+            myDir.mkdir();
         }
         tsLong = System.currentTimeMillis();
         try {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.setDescription("download");
-            request.setTitle("VID-" + tsLong + ".mp4");
-            request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir(context.getExternalFilesDir(null) + "/Utsav", "VID-" + tsLong + ".mp4");
+            request.setDestinationInExternalFilesDir(context, Environment.getExternalStorageDirectory() + "/Utsav/Videos", "VID-" + tsLong + ".mp4");
 
             DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             manager.enqueue(request);
             return true;
 
         } catch (Exception e) {
-            Log.i("SHUTIYE", "LAL KORE DEBO");
             e.printStackTrace();
             return false;
         }
-
     }
 
     public static String getTimeAgo(Long timestamp) {

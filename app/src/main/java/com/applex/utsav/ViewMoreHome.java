@@ -1127,33 +1127,6 @@ public class ViewMoreHome extends AppCompatActivity {
 //        });
 //    }
 
-    private void save_Dialog(Bitmap bitmap) {
-        Dialog myDialogue;
-        myDialogue = new Dialog(ViewMoreHome.this);
-        myDialogue.setContentView(R.layout.dialog_image_options);
-        myDialogue.setCanceledOnTouchOutside(TRUE);
-        myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!BasicUtility.checkStoragePermission(ViewMoreHome.this)){
-                BasicUtility.requestStoragePermission(ViewMoreHome.this);
-            }
-            else {
-                    Boolean bool = BasicUtility.saveImage(bitmap, ViewMoreHome.this);
-
-                    if(bool){
-                        Toast.makeText(ViewMoreHome.this, "Saved to device", Toast.LENGTH_SHORT).show();
-                        myDialogue.dismiss();
-                    }
-                    else{
-                        Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                        myDialogue.dismiss();
-                    }
-
-            }
-        });
-        myDialogue.show();
-        Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
-
 
     @Override
     public void onBackPressed() {
