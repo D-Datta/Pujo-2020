@@ -10,12 +10,14 @@
     <VideoView
         android:id="@+id/reels_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"/>
 
     <ImageView
         android:id="@+id/reels_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"/>
 
     <ImageView
         android:id="@+id/play"
