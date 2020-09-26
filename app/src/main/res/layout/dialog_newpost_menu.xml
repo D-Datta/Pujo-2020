@@ -10,7 +10,7 @@
     android:paddingBottom="5dp"
     android:gravity="start|center_vertical"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="65dp"
+    app:behavior_peekHeight="55dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <RelativeLayout
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_to_post"
-            android:paddingVertical="10dp"
+            android:paddingVertical="15dp"
             android:fontFamily="@font/oxygen_ex_bold"
             android:textColor="@color/purple"
             android:textSize="18sp"
@@ -94,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
 
@@ -124,6 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
 
@@ -154,6 +156,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
 
@@ -184,6 +187,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
 
@@ -216,6 +220,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
+        android:paddingVertical="5dp"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:gravity="center_vertical">
 

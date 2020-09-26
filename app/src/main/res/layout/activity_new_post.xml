@@ -94,14 +94,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_gravity="center_vertical"
                         app:cardCornerRadius="25dp">
 
@@ -145,8 +146,6 @@
                     </LinearLayout>
             </LinearLayout>
 
-
-
                  <androidx.recyclerview.widget.RecyclerView
                      android:id="@+id/tags_selectedList"
                      android:layout_width="match_parent"
@@ -165,7 +164,7 @@
                 android:fontFamily="@font/oxygen_regular"
                 android:textColor="@color/black"
                 android:inputType="textMultiLine|textCapSentences"
-                android:textColorLink="@color/toolbarStart"
+                android:textColorLink="@color/colorPrimary"
                 android:autoLink="all"
                 android:hint="@string/headline"
                 android:gravity="top"
