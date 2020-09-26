@@ -50,6 +50,7 @@ import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.MultipleImageAdapter;
 import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.models.HomePostModel;
+import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.models.TagModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -88,20 +89,19 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private ArrayList<TagModel> selected_tags;
 
     private TextView postusername;
-    private Button post_anon, post;
+    private Button post;
     private LinearLayout cam, gallery,  videopost, videocam;
     private RelativeLayout addToPost, icons;
     private EditText postcontent, edtagtxt, head_content;
     private ImageView cross, user_image, video_cam_icon, video_gal_icon;
-    private ImageView info, postimage;
-    private Dialog dialog;
+    private ImageView postimage;
     private LinearLayout customTag;
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
     private RecyclerView recyclerView;
 
-    private String textdata="", colorValue;
+    private String textdata = "", colorValue;
     private RecyclerView tags_selectedRecycler;
     private TagAdapter tagAdapter2;
     private ImageCompressor imageCompressor;
@@ -111,7 +111,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private StorageReference storageReferenece;
     private ArrayList<String> generatedFilePath = new ArrayList<>();
 
-    private StorageReference reference;
     private Uri downloadUri;
     private String ts, USERNAME, PROFILEPIC;
 
@@ -124,6 +123,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private static final int VIDEO_PICK_CAMERA_CODE = 4000;
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
+    private static final int TAG_PUJO = 100;
+
+
     String[] cameraPermission;
     String[] storagePermission;
     private byte[] pic;
@@ -138,6 +140,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private DocumentReference docRef;
     private byte[] frame;
     private FrameLayout videoframe;
+
+    private TextView tagPujo;
 
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -178,18 +182,25 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         tags_selectedRecycler = findViewById(R.id.tags_selectedList) ;
         selected_tags = new ArrayList<>();
+        tagPujo = findViewById(R.id.pujo_tag);
+
         buildRecyclerView_selectedtags();
+
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
-        if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("1")) {
+        if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("1")) { //committee
+            tagPujo.setVisibility(View.GONE);
+
             video_cam_icon.setVisibility(View.VISIBLE);
             video_gal_icon.setVisibility(View.VISIBLE);
             videopost.setVisibility(View.VISIBLE);
             videocam.setVisibility(View.VISIBLE);
             head_content.setVisibility(View.VISIBLE);
         }
-        else if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("2")) {
+        else if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("2")) { //indi
+            tagPujo.setVisibility(View.VISIBLE);
+
             video_cam_icon.setVisibility(View.GONE);
             video_gal_icon.setVisibility(View.GONE);
             head_content.setVisibility(View.GONE);
@@ -246,7 +257,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             Picasso.get().load(PROFILEPIC).into(user_image);
         }
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
+
+
         editPostModel= new HomePostModel();
+        reelsPostModel = new ReelsPostModel();
+        homePostModel = new HomePostModel();
+
 
         ///////////////SHARED CONTENT///////////////
         Intent intent = getIntent();
@@ -256,31 +272,27 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         if(type == null && intent.getStringExtra("target")!=null){
             List<String> postingIn = new ArrayList<>();
 
-            if(intent.getStringExtra("target").matches("3")){
+            if(intent.getStringExtra("target").matches("1")){
                 postingIn.add("Your Campus");
                 postingIn.add("Global");
             }
             else if(intent.getStringExtra("target").matches("2")){
+                tagPujo.setVisibility(View.VISIBLE);
                 postingIn.add("Global");
                 postingIn.add("Your Campus");
             }
 
             else if(intent.getStringExtra("target").matches("11")){ //Challenge
                 postingIn.add("Global");
-                post_anon.setVisibility(View.GONE);
-                info.setVisibility(View.GONE);
+
             }
 
             else if(intent.getStringExtra("target").matches("4")){ //Community
                 postingIn.add(intent.getStringExtra("comName"));
-//                postingIn.add("Your Campus");
-//                postingIn.add("Global");
-                post_anon.setVisibility(View.GONE);
-                info.setVisibility(View.GONE);
+
             }
 
             if(intent.getStringExtra("target").matches("100")){// EDIT POST
-                post_anon.setVisibility(View.GONE);
                 if(intent.getStringExtra("usN")!=null){
                     editPostModel.setUsN(intent.getStringExtra("usN"));
                     postusername.setText(editPostModel.getUsN());
@@ -304,8 +316,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                 if(intent.getStringExtra("challengeID")!=null){
                     postingIn.add("Global");
-                    post_anon.setVisibility(View.GONE);
-                    info.setVisibility(View.GONE);
+
                     editPostModel.setChallengeID(intent.getStringExtra("challengeID"));
                 }
 
@@ -344,8 +355,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                 if(intent.getStringExtra("comID")!=null){
                     postingIn.add(intent.getStringExtra("comName"));
-                    post_anon.setVisibility(View.GONE);
-                    info.setVisibility(View.GONE);
                     editPostModel.setComID(intent.getStringExtra("comID"));
                 }
 
@@ -361,9 +370,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             }
 
-            ArrayAdapter<String> arrayAdapter;
-            arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, postingIn);
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         }
 
         ///////////////////SHARED CONTENT////////////////////
@@ -417,6 +424,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         }
         //////////////////SHARED CONTENT///////////////////
 
+
         ///////////////////////IMAGE HANDLING////////////////////////
         gallery.setOnClickListener(v -> {
             if (!checkStoragePermission()) {
@@ -454,24 +462,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-//        edit_image.setOnClickListener(v -> {
-//            CropImage.activity(filePath)
-//                    .setActivityTitle("Crop Image")
-//                    .setAllowRotation(TRUE)
-//                    .setAllowCounterRotation(TRUE)
-//                    .setAllowFlipping(TRUE)
-//                    .setAutoZoomEnabled(TRUE)
-//                    .setMultiTouchEnabled(FALSE)
-//                    .setGuidelines(CropImageView.Guidelines.ON)
-//                    .start(NewPostHome.this);
-//        });
-//
-//        close_image.setOnClickListener(v -> {
-//            filePath = null;
-//            finalUri = null;
-//            pic = null;
-//            container_image.setVisibility(View.GONE);
-//        });
         ///////////////////////IMAGE HANDLING////////////////////////
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -534,11 +524,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                                                     i.putExtra("userdp", editPostModel.getDp());
                                                                     i.putExtra("docID", editPostModel.getDocID());
                                                                     StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-                                                                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-
-//                                                                    i.putExtra("comName", editPostModel.getComName());
-//                                                                    i.putExtra("comID", editPostModel.getComID());
-//                                                                    i.putExtra("institute", editPostModel.getInstitute());
 
                                                                     i.putExtra("likeL", editPostModel.getLikeL());
                                                                     i.putExtra("postPic", editPostModel.getImg());
@@ -583,11 +568,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                         i.putExtra("userdp", editPostModel.getDp());
                                         i.putExtra("docID", editPostModel.getDocID());
                                         StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-                                        //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-
-//                                        i.putExtra("comName", editPostModel.getComName());
-//                                        i.putExtra("comID", editPostModel.getComID());
-//                                        i.putExtra("institute", editPostModel.getInstitute());
 
                                         i.putExtra("likeL", editPostModel.getLikeL());
                                         i.putExtra("postPic", editPostModel.getImg());
@@ -623,7 +603,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         if(videoUri != null) {
                             docRef = firebaseFirestore.collection("Reels").document(String.valueOf(timestampLong));
 
-                            reelsPostModel = new ReelsPostModel();
                             reelsPostModel.setCommittee_name(introPref.getFullName());
                             reelsPostModel.setCommittee_dp(introPref.getUserdp());
                             reelsPostModel.setTs(timestampLong);
@@ -690,7 +669,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         else {
                             docRef = firebaseFirestore.collection("Feeds").document();
 
-                            homePostModel = new HomePostModel();
                             homePostModel.setUsN(introPref.getFullName());
 
                             homePostModel.setDp(introPref.getUserdp());
@@ -787,7 +765,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             else {
                 BasicUtility.showToast(getApplicationContext(), "Network unavailable...");
             }
-
         });
 
         customTag.setOnClickListener(new View.OnClickListener() {
@@ -825,6 +802,15 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         .show();
             }
 
+        });
+
+
+        tagPujo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(NewPostHome.this, ActivityTagPujo.class);
+                startActivityForResult(intent1, TAG_PUJO);
+            }
         });
 
     }
@@ -961,6 +947,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             startActivityForResult(intent, VIDEO_PICK_CAMERA_CODE);
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
@@ -1252,6 +1239,18 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 else {
                     BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
+            }
+
+            else if(requestCode == TAG_PUJO){
+                PujoTagModel pujoTag = new PujoTagModel();
+                pujoTag.setPujoName(data.getStringExtra("name"));
+                pujoTag.setPujoUid(data.getStringExtra("uid"));
+
+                homePostModel.setPujoTag(pujoTag);
+                editPostModel.setPujoTag(pujoTag);
+                reelsPostModel.setPujoTag(pujoTag);
+
+                tagPujo.setText(data.getStringExtra("name"));
             }
 
             ////////////////////////CROP//////////////////////
