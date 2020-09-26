@@ -167,4 +167,10 @@
     <string name="utsavFeature3">Locate various pujo</string>
     <string name="utsavFeature4">Participation in Live Contests</string>
     <string name="utsavFeature5">Pre-Pujo updates</string>
+
+    <string name="linkCampus24">
+        <a href="https://play.google.com/store/apps/details?id=com.adarshbarnwal.notesapp&amp;hl=en_IN"></a>
+    </string>
+
+
 </resources>
