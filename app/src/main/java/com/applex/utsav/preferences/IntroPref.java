@@ -26,7 +26,6 @@ public class IntroPref {
     private static final String IS_FIRST_TIME_LAUNCH = "firstTime";
     private static final String USERDP = "userdp";
     private static final String FULLNAME = "fullname";
-    private static final String DEFAULTDP = "defaultdp";
     private static final String USERTYPE = "type";
     private static final String GENDER= "gender";
     private static final String ACCOUNT= "account";
@@ -88,18 +87,6 @@ public class IntroPref {
         editor.apply();
     }
     ///USERDP///
-
-    ///DEFAULTDP///
-    public String getDefaultdp(){
-        return preferences.getString(DEFAULTDP, null);
-    }
-
-    public void setDefaultdp(String defaultdp){
-        editor.putString(DEFAULTDP, defaultdp);
-        editor.apply();
-    }
-    ///DEFAULTDP///
-
 
     ///FULLNAME///
     public String getFullName(){

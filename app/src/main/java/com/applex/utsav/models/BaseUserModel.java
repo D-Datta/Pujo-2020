@@ -1,6 +1,8 @@
 package com.applex.utsav.models;
 
+import java.sql.Array;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class BaseUserModel {
     private String name;
@@ -22,6 +24,8 @@ public class BaseUserModel {
     private long pujoVisits;
     private long followers;
     private Timestamp lastVisitTs;
+
+    private ArrayList<String> followerL;
 
     public String getName() {
         return name;
@@ -146,5 +150,13 @@ public class BaseUserModel {
 
     public void setFollowers(long followers) {
         this.followers = followers;
+    }
+
+    public ArrayList<String> getFollowerL() {
+        return followerL;
+    }
+
+    public void setFollowerL(ArrayList<String> followerL) {
+        this.followerL = followerL;
     }
 }

@@ -36,8 +36,8 @@ import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReplyCommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.dialogs.BottomFlamedByDialog2;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.InternetConnection;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -157,7 +157,7 @@ public class CommentReplyActivity extends AppCompatActivity {
 
         ////////////SETTING DETAILS OF THE MAIN COMMENT////////////
         user_image = i.getStringExtra("userdp");
-        minsago.setText(Utility.getTimeAgo(Long.parseLong(i.getStringExtra("timestamp"))));
+        minsago.setText(BasicUtility.getTimeAgo(Long.parseLong(i.getStringExtra("timestamp"))));
         username.setText(i.getStringExtra("username"));
 
         comment.setText(i.getStringExtra("comment"));
@@ -292,7 +292,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                         ///////////////////BATCH WRITE///////////////////
                     }
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                        Utility.vibrate(getApplicationContext());
+                        BasicUtility.vibrate(getApplicationContext());
                         try {
                             AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
                             MediaPlayer player = new MediaPlayer();
@@ -423,7 +423,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 orgCommentColRef.document(docID)
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> {
-                                            Utility.showToast(CommentReplyActivity.this, "Comment has been reported.");
+                                            BasicUtility.showToast(CommentReplyActivity.this, "Comment has been reported.");
                                         });
                                 commentMenuDialog.dismiss();
 
@@ -442,7 +442,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 orgCommentColRef.document(docID)
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> {
-                                            Utility.showToast(CommentReplyActivity.this, "Comment has been reported.");
+                                            BasicUtility.showToast(CommentReplyActivity.this, "Comment has been reported.");
                                         });
                                 commentMenuDialog.dismiss();
                             }
@@ -464,18 +464,15 @@ public class CommentReplyActivity extends AppCompatActivity {
         if(i.getStringExtra("ReplyCommentNo")!=null){
             commentModel[0].setrCmtNo(Integer.parseInt(i.getStringExtra("ReplyCommentNo")));
             if(commentModel[0].getrCmtNo()>0){
-                replyComment.setImageResource(R.drawable.comment_yellow);
                 repliedByNo.setText(String.valueOf(commentModel[0].getrCmtNo()));
             }
             else {
-                replyComment.setImageResource(R.drawable.ic_comment);
                 repliedByNo.setText("0");
                 checkGetMore = -1;
             }
             commentCount = Integer.parseInt(i.getStringExtra("ReplyCommentNo"));
         }
         else {
-            replyComment.setImageResource(R.drawable.ic_comment);
             repliedByNo.setText("0");
             commentCount = 0;
             checkGetMore = -1;
@@ -516,7 +513,7 @@ public class CommentReplyActivity extends AppCompatActivity {
 //                                    commentRef.document(CommentList.get(position).getDocID())
 //                                            .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
 //                                            .addOnSuccessListener(aVoid -> {
-//                                                Utility.showToast(ViewMoreHome.this, "Comment has been reported.");
+//                                                BasicUtility.showToast(ViewMoreHome.this, "Comment has been reported.");
 //                                            });
                                     commentMenuDialog.dismiss();
 
@@ -575,7 +572,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 commentColRef.document(CommentList.get(position).getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> {
-                                            Utility.showToast(CommentReplyActivity.this, "Comment has been reported.");
+                                            BasicUtility.showToast(CommentReplyActivity.this, "Comment has been reported.");
                                         });
                                 commentMenuDialog.dismiss();
 
@@ -594,7 +591,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 commentColRef.document(CommentList.get(position).getDocID())
                                         .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                         .addOnSuccessListener(aVoid -> {
-                                            Utility.showToast(CommentReplyActivity.this, "Comment has been reported.");
+                                            BasicUtility.showToast(CommentReplyActivity.this, "Comment has been reported.");
                                         });
                                 commentMenuDialog.dismiss();
                             }
@@ -624,7 +621,7 @@ public class CommentReplyActivity extends AppCompatActivity {
         send.setOnClickListener(v -> {
             if(InternetConnection.checkConnection(getApplicationContext())){
                 if(newComment.getText().toString().isEmpty()){
-                    Utility.showToast(getApplicationContext(), "Thoughts need to be typed...");
+                    BasicUtility.showToast(getApplicationContext(), "Thoughts need to be typed...");
                 }
                 else {
                     send.setVisibility(View.GONE);
@@ -645,7 +642,6 @@ public class CommentReplyActivity extends AppCompatActivity {
                     commentModel1.setComUid(i.getStringExtra("pComUid"));
 
                     newComment.setText("");
-                    replyComment.setImageResource(R.drawable.comment_yellow);
                     CommentList.add(0,commentModel1);
                     adapter.notifyItemInserted(0);
 
@@ -691,7 +687,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                 }
             }
             else {
-                Utility.showToast(getApplicationContext(), "Network unavailable...");
+                BasicUtility.showToast(getApplicationContext(), "Network unavailable...");
             }
         });
 
@@ -724,7 +720,6 @@ public class CommentReplyActivity extends AppCompatActivity {
                         }
                         if(CommentList.size()>0) {
                             adapter.notifyDataSetChanged();
-                            replyComment.setImageResource(R.drawable.comment_yellow);
 
                             if(task.getResult().size()>0)
                                 lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
@@ -746,7 +741,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                         }
                     }
                     else {
-                        Utility.showToast(getApplicationContext(),"Something went wrong...");
+                        BasicUtility.showToast(getApplicationContext(),"Something went wrong...");
                     }
 
                     progressBar.setVisibility(View.GONE);

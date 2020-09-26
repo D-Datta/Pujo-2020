@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,14 +25,18 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.applex.utsav.models.SeenModel;
+import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.adapters.ProfileAdapter;
 import com.applex.utsav.fragments.Fragment_Posts;
@@ -38,7 +44,6 @@ import com.applex.utsav.fragments.Fragment_Reels;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.PujoCommitteeModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -49,6 +54,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -75,16 +81,24 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private String name, pujotype, coverpic, dp, address, city, state, pin, desc;
 
     public String uid;
-    private com.google.android.material.floatingactionbutton.FloatingActionButton edit_profile_com;
     private FirebaseUser fireuser;
     int bool;
-    private Button locate;
     private ConnectivityManager cm;
+    private BaseUserModel baseUserModel;
 
     private TextView visits, likes, followers;
+    boolean isFollower = false;
+    boolean isLoadingFinished = false;
 
     private int imageCoverOrDp = 0; //dp = 0, cover = 1
     private ImageView editDp, editCover;
+
+
+    private Button locate;
+    private Button follow, edit_profile_com;
+
+    private LinearLayout selfProfile, elseProfile;
+
 
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
@@ -95,7 +109,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ProgressDialog progressDialog;
     byte[] pic;
 
-    IntroPref introPref;
+    private IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,21 +143,19 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         editDp = findViewById(R.id.edit_dp);
         editCover = findViewById(R.id.edit_cover);
 
+        selfProfile = findViewById(R.id.selfProfile);
+        elseProfile = findViewById(R.id.elseProfile);
+
+        follow = findViewById(R.id.follow);
+
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
-
-        setupViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.getTabAt(0);
-        tabLayout.getTabAt(1);
 
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
 
         name = getIntent().getStringExtra("name");
         coverpic = getIntent().getStringExtra("coverpic");
         dp = getIntent().getStringExtra("dp");
-        uid = getIntent().getStringExtra("uid");
 
         cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -160,9 +172,18 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         }
         ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
 
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0);
+        tabLayout.getTabAt(1);
+
         if(uid.matches(FirebaseAuth.getInstance().getUid())) {
             editCover.setVisibility(View.VISIBLE);
             editDp.setVisibility(View.VISIBLE);
+
+            selfProfile.setVisibility(View.VISIBLE);
+            elseProfile.setVisibility(View.GONE);
 
             edit_profile_com.setVisibility(View.VISIBLE);
             edit_profile_com.setOnClickListener(v -> {
@@ -196,30 +217,164 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     }
                 }
             });
-
         }
         else {
+            selfProfile.setVisibility(View.GONE);
+            elseProfile.setVisibility(View.VISIBLE);
+
             edit_profile_com.setVisibility(View.GONE);
             editCover.setVisibility(View.GONE);
             editDp.setVisibility(View.GONE);
             //increment no of visitors
             FirebaseFirestore.getInstance()
                     .collection("Users")
-                    .document(FirebaseAuth.getInstance().getUid())
+                    .document(uid)
                     .update("pujoVisits", FieldValue.increment(1));
+
+            follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isLoadingFinished){
+                        if(isFollower){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfileCommittee.this);
+                            builder.setTitle("Withdraw vote for "+ baseUserModel.getName()+"?")
+                                    .setMessage("Are you sure?")
+                                    .setPositiveButton("Withdraw", (dialog, which) -> {
+
+                                        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(uid);
+
+                                        DocumentReference followerRef = docRef.collection("Followers").document(fireuser.getUid());
+
+                                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                        batch.update(docRef, "followerL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                        batch.delete(followerRef);
+
+                                        batch.commit().addOnCompleteListener(task -> {
+                                            if(task.isSuccessful()){
+                                                follow.setText("Upvote");
+                                                follow.setBackgroundResource(R.drawable.custom_button);
+                                                follow.setTextColor(getResources().getColor(R.color.white));
+
+                                                if(baseUserModel.getFollowerL() != null){
+                                                    if(baseUserModel.getFollowerL().size()-1 == 0){
+                                                        followers.setText("0");
+                                                    }
+                                                    else if(baseUserModel.getFollowerL().size()-1 == 1){
+                                                        followers.setText((baseUserModel.getFollowerL().size()-1));
+                                                    }
+                                                    else {
+                                                        followers.setText((baseUserModel.getFollowerL().size()-1));
+                                                    }
+                                                }
+                                                else {
+                                                    followers.setText("0");
+                                                    followers.setVisibility(View.GONE);
+                                                }
+
+                                                isFollower = false;
+                                                baseUserModel.getFollowerL().remove(fireuser.getUid());
+                                            }
+                                            else {
+                                                Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    })
+                                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                    .setCancelable(true)
+                                    .show();
+                        }
+                        else {
+                            SeenModel seenModel = new SeenModel();
+                            seenModel.setUid(fireuser.getUid());
+                            seenModel.setUserdp(introPref.getUserdp());
+                            seenModel.setUsername(introPref.getFullName());
+                            seenModel.setType(introPref.getType());
+
+                            DocumentReference docRef = FirebaseFirestore.getInstance()
+                                    .collection("Users")
+                                    .document(uid);
+
+                            DocumentReference followerRef = docRef.collection("Followers").document(fireuser.getUid());
+
+                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                            batch.update(docRef, "followerL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                            batch.set(followerRef, seenModel);
+
+                            batch.commit().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()){
+                                    follow.setText("Upvoted");
+                                    follow.setBackgroundResource(R.drawable.custom_button_outline);
+                                    follow.setTextColor(getResources().getColor(R.color.purple));
+
+                                    if(baseUserModel.getFollowerL() != null){
+                                        if(baseUserModel.getFollowerL().size()-1 == 0){
+                                            followers.setText("0");
+                                        }
+                                        else if(baseUserModel.getFollowerL().size()+1 == 1){
+                                            followers.setText((baseUserModel.getFollowerL().size()+1)+"");
+                                        }
+                                        else {
+                                            followers.setText((baseUserModel.getFollowerL().size()+1)+"");
+                                        }
+                                    }
+                                    else {
+                                        followers.setText("0");
+                                    }
+
+                                    baseUserModel.getFollowerL().add(fireuser.getUid());
+                                    isFollower = true;
+                                }
+                                else {
+                                    Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+
+                    }
+
+                }
+            });
 
         }
 
+        PDp.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getDp() != null && baseUserModel.getDp().length()>2) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getDp());
+                    startActivity(intent);
+                }
+            }
+            else {
+                Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Pcoverpic.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getCoverpic() != null) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //setup profile
         if(uid!=null) {
             FirebaseFirestore.getInstance().collection("Users")
                     .document(uid).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()){
-                                BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                                baseUserModel = task.getResult().toObject(BaseUserModel.class);
                                 name = baseUserModel.getName();
                                 PName.setText(name);
                                 dp = baseUserModel.getDp();
@@ -276,7 +431,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 likes.setText(baseUserModel.getLikeCount()+"");
                                 //metrics
 
-
                                 FirebaseFirestore.getInstance().collection("Users")
                                         .document(uid)
                                         .collection("com")
@@ -296,7 +450,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     }
                                                 }
                                                 else{
-                                                    Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                    BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                                                 }
 
                                             }
@@ -304,31 +458,95 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                                             }
                                         });
 
+                                if(baseUserModel.getFollowerL() != null){
+                                    if(baseUserModel.getFollowerL().size() == 0){
+                                        followers.setText("0");
+                                    }
+                                    else if(baseUserModel.getFollowerL().size() == 1){
+                                        followers.setText(baseUserModel.getFollowerL().size()+"");
+                                    }
+                                    else {
+                                        followers.setText(baseUserModel.getFollowerL().size()+"");
+                                    }
+                                    for(String uid : baseUserModel.getFollowerL()){
+                                        if(uid.matches(fireuser.getUid())){
+                                            isFollower = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else {
+                                    followers.setText("0");
+                                }
+
+                                if(isFollower){
+                                    follow.setText("Upvoted");
+                                    follow.setBackgroundResource(R.drawable.custom_button_outline);
+                                    follow.setTextColor(getResources().getColor(R.color.purple));
+
+                                }
+                                else {
+                                    follow.setText("Upvote");
+                                    follow.setBackgroundResource(R.drawable.custom_button);
+                                    follow.setTextColor(getResources().getColor(R.color.white));
+
+                                }
+
+                                isLoadingFinished = true;
+
                             }
                             else{
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Utility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
                             }
                         });
         }
 
 
+        PDp.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getDp() != null && baseUserModel.getDp().length()>2) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getDp());
+                    startActivity(intent);
+                }
+            }
+            else {
+                Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Pcoverpic.setOnClickListener(v -> {
+            if(baseUserModel != null) {
+                if (baseUserModel.getCoverpic() != null) {
+                    Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
+                    intent.putExtra("from", "profile");
+                    intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(cm.getActiveNetworkInfo() != null) {
-                    String location = address+","+city+","+state+"-"+pin;
-                    Uri gmmIntentUri = Uri.parse("geo:0,0?z=15&q=" + Uri.encode(location));
+                    String location = name+","+address+","+city+","+state+"-"+pin;
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+Uri.encode(location)+"&mode=w");
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     startActivity(mapIntent);
@@ -338,16 +556,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
-    private void setupViewPager(ViewPager viewPager)
-    {
+    private void setupViewPager(ViewPager viewPager) {
         ProfileAdapter profileAdapter = new ProfileAdapter(getSupportFragmentManager());
         profileAdapter.addFragment(new Fragment_Posts(uid), "Posts");
         profileAdapter.addFragment(new Fragment_Reels(uid),"Clips");
-
 
         viewPager.setAdapter(profileAdapter);
 
@@ -559,7 +773,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 else {
                     Pcoverpic.setImageBitmap(bitmap);
                 }
-//                appBarImage.setImageBitmap(bitmap);
                 pic = picCompressed;
                 FirebaseStorage storage;
                 StorageReference storageReference;
@@ -588,10 +801,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     if(imageCoverOrDp == 0){
                                         docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
-                                                introPref.setDefaultdp(generatedFilePath);
+                                                introPref.setUserdp(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -600,7 +813,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                             if(task.isSuccessful()){
                                                 progressDialog.dismiss();
                                             }else{
-                                                Utility.showToast(getApplicationContext(),"Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
                                             }
                                         });
                                     }
@@ -608,7 +821,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 }))
 
                         .addOnFailureListener(e -> {
-                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                             progressDialog.dismiss();
 
                         });

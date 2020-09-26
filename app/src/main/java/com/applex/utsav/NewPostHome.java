@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.style.URLSpan;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -53,9 +54,9 @@ import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.models.TagModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.dialogs.BottomTagsDialog;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.StoreTemp;
 import com.applex.utsav.videoCompressor.VideoCompress;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -80,7 +81,7 @@ import java.util.Objects;
 
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
-import static com.applex.utsav.util.Utility.tsLong;
+import static com.applex.utsav.utility.BasicUtility.tsLong;
 
 public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
 
@@ -184,18 +185,35 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         // init the bottom sheet behavior
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        icons.setVisibility(View.GONE);
+
+        llBottomSheet.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    icons.setVisibility(View.GONE);
+
+                }
+                else{
+                    bottomSheetBehavior.setState(STATE_COLLAPSED);
+                    icons.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
 
         addToPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                    icons.setVisibility(View.GONE);
+                    icons.setVisibility(View.GONE);
 
                 }
                 else{
                     bottomSheetBehavior.setState(STATE_COLLAPSED);
-//                    icons.setVisibility(View.VISIBLE);
+                    icons.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -445,10 +463,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 String text_content = postcontent.getText().toString();
 
                 if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null)) {
-                    Utility.showToast(getApplicationContext(),"Post has got no picture or video...");
+                    BasicUtility.showToast(getApplicationContext(),"Post has got no picture or video...");
                 }
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
-                    Utility.showToast(getApplicationContext(),"Post has got nothing...");
+                    BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
                 else{
                     if(intent.getStringExtra("target")!=null && intent.getStringExtra("target").matches("100")){
@@ -518,13 +536,13 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                                                     NewPostHome.super.onBackPressed();
                                                                 }
                                                             } else {
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
                                                             }
                                                         });
                                                     }
                                                 }))
                                         .addOnFailureListener(e -> {
-                                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                                             if (progressDialog != null)
                                                 progressDialog.dismiss();
                                         });
@@ -567,7 +585,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                     }
 
                                 } else {
-                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
 
                                 }
                             });
@@ -597,7 +615,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             }
 
                             if (!text_content.isEmpty()) {
-                                reelsPostModel.setHeadline(text_content.trim());
+                                reelsPostModel.setDescription(text_content.trim());
                             }
 
                             Long tsLong = System.currentTimeMillis();
@@ -613,7 +631,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                             });
                                         }
                                         else {
-                                            Utility.showToast(getApplicationContext(), "Something went wrong");
+                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                                         }
                                     });
 
@@ -634,12 +652,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                                             NewPostHome.super.onBackPressed();
                                                         }
                                                     } else {
-                                                        Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
                                                     }
                                                 });
                                             }))
                                     .addOnFailureListener(e -> {
-                                        Utility.showToast(getApplicationContext(), "Something went wrong");
+                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                                         if (progressDialog != null)
                                             progressDialog.dismiss();
                                     });
@@ -700,13 +718,13 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                                                         NewPostHome.super.onBackPressed();
                                                                     }
                                                                 } else {
-                                                                    Utility.showToast(getApplicationContext(), "Something went wrong...");
+                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
                                                                 }
                                                             });
                                                         }
                                                     }))
                                             .addOnFailureListener(e -> {
-                                                Utility.showToast(getApplicationContext(), "Something went wrong");
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                                                 if (progressDialog != null)
                                                     progressDialog.dismiss();
                                             });
@@ -739,7 +757,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 }
             }
             else {
-                Utility.showToast(getApplicationContext(), "Network unavailable...");
+                BasicUtility.showToast(getApplicationContext(), "Network unavailable...");
             }
 
         });
@@ -923,7 +941,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         if(resultCode == RESULT_OK) {
             if(requestCode == VIDEO_PICK_GALLERY_CODE) {
                 videoUri = data.getData();
-                Utility.saveVideo(videoUri, NewPostHome.this);
+                BasicUtility.saveVideo(videoUri, NewPostHome.this);
 
                 final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
                 final ProgressDialog[] progressDialog = new ProgressDialog[1];
@@ -984,7 +1002,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     });
                 }
                 else {
-                    Utility.showToast(getApplicationContext(), "Video size too large");
+                    BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
 
@@ -1004,7 +1022,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         }
 
                         try {
-                            compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                            compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -1055,7 +1073,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     }
 
                     try {
-                        compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                        compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -1102,7 +1120,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 Bitmap compressedBitmap = null;
 
                 try {
-                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -1143,7 +1161,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {
                 videoUri = data.getData();
-                Utility.saveVideo(videoUri, NewPostHome.this);
+                BasicUtility.saveVideo(videoUri, NewPostHome.this);
 
                 final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
                 final ProgressDialog[] progressDialog = new ProgressDialog[1];
@@ -1204,7 +1222,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     });
                 }
                 else {
-                    Utility.showToast(getApplicationContext(), "Video size too large");
+                    BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
 

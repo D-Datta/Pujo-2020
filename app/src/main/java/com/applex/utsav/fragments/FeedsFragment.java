@@ -53,9 +53,9 @@ import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.InternetConnection;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.StoreTemp;
+import com.applex.utsav.utility.BasicUtility;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -88,11 +88,8 @@ import static java.lang.Boolean.TRUE;
 
 public class FeedsFragment extends Fragment {
 
-    private Dialog dialog;
-//    private ImageView noPostYet1;
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
-    private FloatingActionButton create_post, floatingActionButton;
     private SwipeRefreshLayout swipeRefreshLayout, swiperefreshNoPost;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
@@ -138,14 +135,6 @@ public class FeedsFragment extends Fragment {
 
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
-        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
-        create_post = view.findViewById(R.id.create_post_ind);
-//        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
-
-        if(introPref.getType().matches("com")) {
-            create_post.setVisibility(View.GONE);
-        }
-        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -166,16 +155,6 @@ public class FeedsFragment extends Fragment {
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
-
-//        create_post.setOnClickListener(v -> {
-//            if(InternetConnection.checkConnection(getActivity())){
-//                Intent i= new Intent(getContext(), NewPostHome.class);
-//                i.putExtra("target", "2");
-//                startActivity(i);
-//            }
-//            else
-//                Utility.showToast(getContext(), "Network Unavailable...");
-//        });
 
 
         buildRecyclerView();
@@ -199,42 +178,6 @@ public class FeedsFragment extends Fragment {
             buildRecyclerView();
         });
         //SWIPE REFRESH//
-
-        final int[] scrollY = {0};
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                scrollY[0] = scrollY[0] + dy;
-                if (scrollY[0] <= 2000 && dy < 0) {
-                    floatingActionButton.setVisibility(View.GONE);
-                }
-                else {
-                    if(dy < 0){
-                        floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("ObjectAnimatorBinding")
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView.scrollToPosition(0);
-                                recyclerView.postDelayed(new Runnable() {
-                                    public void run() {
-                                        recyclerView.scrollToPosition(0);
-                                    }
-                                },300);
-                            }
-                        });
-                    } else {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
 
     }
 
@@ -267,8 +210,6 @@ public class FeedsFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
 
-                floatingActionButton.setVisibility(View.GONE);
-
                 FeedViewHolder feedViewHolder = (FeedViewHolder)holder;
 
                 if(position == 0){
@@ -298,7 +239,20 @@ public class FeedsFragment extends Fragment {
                                     startActivity(i);
                                 }
                                 else
-                                    Utility.showToast(getContext(), "Network Unavailable...");
+                                    BasicUtility.showToast(getContext(), "Network Unavailable...");
+                            }
+                        });
+
+                        feedViewHolder.newPostIconsLL.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(InternetConnection.checkConnection(requireActivity())){
+                                    Intent i= new Intent(getContext(), NewPostHome.class);
+                                    i.putExtra("target", "2");
+                                    startActivity(i);
+                                }
+                                else
+                                    BasicUtility.showToast(getContext(), "Network Unavailable...");
                             }
                         });
 
@@ -323,7 +277,7 @@ public class FeedsFragment extends Fragment {
                 }
 
                 DocumentReference likeStore;
-                String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+                String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 feedViewHolder.minsago.setText(timeAgo);
                 if (timeAgo != null) {
                     if (timeAgo.matches("just now")) {
@@ -572,7 +526,7 @@ public class FeedsFragment extends Fragment {
                                 ///////////////////BATCH WRITE///////////////////
                             }
                             else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                Utility.vibrate(requireActivity());
+                                BasicUtility.vibrate(requireActivity());
                                 try {
                                     AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                     MediaPlayer player = new MediaPlayer();
@@ -686,9 +640,9 @@ public class FeedsFragment extends Fragment {
                                         feedViewHolder.link_preview1.setVisibility(View.GONE);
                                     }
 
-                                    feedViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel.getTs()));
-                                    if (Utility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(Utility.getTimeAgo(commentModel.getTs())).matches("just now")) {
+                                    feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
+                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
+                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
                                             feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                         } else {
                                             feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -739,9 +693,9 @@ public class FeedsFragment extends Fragment {
                                                 feedViewHolder.link_preview1.setVisibility(View.GONE);
                                             }
 
-                                            feedViewHolder.cmnt1_minsago.setText(Utility.getTimeAgo(commentModel1.getTs()));
-                                            if (Utility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
+                                            feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
                                                     feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -777,9 +731,9 @@ public class FeedsFragment extends Fragment {
                                                 feedViewHolder.link_preview2.setVisibility(View.GONE);
                                             }
 
-                                            feedViewHolder.cmnt2_minsago.setText(Utility.getTimeAgo(commentModel2.getTs()));
-                                            if (Utility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(Utility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
+                                            feedViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
+                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
+                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
                                                     feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                                                 } else {
                                                     feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
@@ -898,7 +852,7 @@ public class FeedsFragment extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Feeds/").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -915,7 +869,7 @@ public class FeedsFragment extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Feeds/").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> Utility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
 
                         });
@@ -946,7 +900,7 @@ public class FeedsFragment extends Fragment {
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: Utility.showToast(getActivity(), "Something went wrong...");
+                    case ERROR: BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
@@ -994,7 +948,7 @@ public class FeedsFragment extends Fragment {
         TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
         SliderView sliderView;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, new_post_layout;
+        LinearLayout itemHome, new_post_layout, newPostIconsLL;
         RelativeLayout first_post;
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
@@ -1008,8 +962,6 @@ public class FeedsFragment extends Fragment {
             view_all = itemView.findViewById(R.id.community_view_all);
             cRecyclerView = itemView.findViewById(R.id.communityRecycler);
 
-            //sliderView = itemView.findViewById(R.id.imageSlider);
-
             tagList = itemView.findViewById(R.id.tagsList);
             username = itemView.findViewById(R.id.username);
             text_content = itemView.findViewById(R.id.text_content);
@@ -1017,7 +969,6 @@ public class FeedsFragment extends Fragment {
             sliderView = itemView.findViewById(R.id.post_image);
             minsago = itemView.findViewById(R.id.mins_ago);
             like = itemView.findViewById(R.id.like);
-//            comName = itemView.findViewById(R.id.comName);
             commentimg = itemView.findViewById(R.id.comment);
             profileimage = itemView.findViewById(R.id.profile_image);
             menuPost = itemView.findViewById(R.id.delete_post);
@@ -1033,6 +984,7 @@ public class FeedsFragment extends Fragment {
             type_dp = itemView.findViewById(R.id.Pdp);
             type_something = itemView.findViewById(R.id.type_smthng);
             new_post_layout = itemView.findViewById(R.id.type_something);
+            newPostIconsLL = itemView.findViewById(R.id.post_icons_ll);
 
 
             like_image = itemView.findViewById(R.id.like_image);
@@ -1064,11 +1016,11 @@ public class FeedsFragment extends Fragment {
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(TRUE);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(getContext())){
-                Utility.requestStoragePermission(getContext());
+            if(!BasicUtility.checkStoragePermission(getContext())){
+                BasicUtility.requestStoragePermission(getContext());
             }
             else {
-                boolean bool = Utility.saveImage(bitmap, getContext());
+                boolean bool = BasicUtility.saveImage(bitmap, getContext());
                 if(bool){
                     Toast.makeText(getContext(), "Saved to device", Toast.LENGTH_SHORT).show();
                     myDialogue.dismiss();
@@ -1097,7 +1049,7 @@ public class FeedsFragment extends Fragment {
         Query query =  FirebaseFirestore.getInstance()
                 .collection("Users")
                 .whereEqualTo("type", "com")
-//                .orderBy("random", Query.Direction.DESCENDING)
+                .orderBy("pujoVisits", Query.Direction.DESCENDING)
                 .limit(10);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -1123,7 +1075,6 @@ public class FeedsFragment extends Fragment {
         viewNoPost.setVisibility(View.VISIBLE);
         viewPostExist.setVisibility(View.GONE);
         contentProgCom.setVisibility(View.GONE);
-//        noPostYet1.setVisibility(View.VISIBLE);
 
         view_all_NoPost.setOnClickListener(v ->
                 startActivity(new Intent(getActivity(), CommitteeViewAll.class))
@@ -1132,8 +1083,6 @@ public class FeedsFragment extends Fragment {
         buildCommunityRecyclerView(comRecyclerView);
 
     }
-
-
 
 
     @Override

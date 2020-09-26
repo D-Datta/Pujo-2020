@@ -32,7 +32,7 @@ import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.IndividualModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -130,7 +130,7 @@ public class RegIndividual extends AppCompatActivity
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
                         Log.w("TAG", "getInstanceId failed", task.getException());
-                        Utility.showToast(getApplicationContext(),"Error creating token");
+                        BasicUtility.showToast(getApplicationContext(),"Error creating token");
                         return;
                     }
                     // Get new Instance ID token
@@ -218,7 +218,7 @@ public class RegIndividual extends AppCompatActivity
                         username_ind.requestFocus();
                     }
                     if (GENDER.isEmpty()) {
-                        Utility.showToast(RegIndividual.this,"Gender Miising");
+                        BasicUtility.showToast(RegIndividual.this,"Gender Miising");
                     }
 
                 }
@@ -308,7 +308,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                                             if(task.isSuccessful()){
                                                                                                                 progressDialog.dismiss();
-                                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
                                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                                 startActivity(intent);
@@ -316,7 +316,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                                             }
                                                                                                             else{
                                                                                                                 progressDialog.dismiss();
-                                                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                             }
                                                                                                         }
                                                                                                     })
@@ -324,13 +324,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                                                 @Override
                                                                                                                 public void onFailure(@NonNull Exception e) {
                                                                                                                     progressDialog.dismiss();
-                                                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                                 }
                                                                                                             });
                                                                                                 }
                                                                                                 else{
                                                                                                     progressDialog.dismiss();
-                                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                 }
                                                                                             }
                                                                                         })
@@ -338,13 +338,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                                     @Override
                                                                                                     public void onFailure(@NonNull Exception e) {
                                                                                                         progressDialog.dismiss();
-                                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                     }
                                                                                                 });
                                                                                     }
                                                                                     else{
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                     }
                                                                                 }
                                                                             })
@@ -352,13 +352,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                         @Override
                                                                                         public void onFailure(@NonNull Exception e) {
                                                                                             progressDialog.dismiss();
-                                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                         }
                                                                                     });
 
                                                                         } else {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     }
                                                                 })
@@ -366,7 +366,7 @@ public class RegIndividual extends AppCompatActivity
                                                                             @Override
                                                                             public void onFailure(@NonNull Exception e) {
                                                                                 progressDialog.dismiss();
-                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                             }
                                                                         });
                                                             }
@@ -394,7 +394,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                             if(task.isSuccessful()){
                                                                                                 progressDialog.dismiss();
-                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                 startActivity(intent);
@@ -402,7 +402,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                             }
                                                                                             else{
                                                                                                 progressDialog.dismiss();
-                                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                             }
                                                                                         }
                                                                                     })
@@ -410,13 +410,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                                 @Override
                                                                                                 public void onFailure(@NonNull Exception e) {
                                                                                                     progressDialog.dismiss();
-                                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                 }
                                                                                             });
                                                                                 }
                                                                                 else{
                                                                                     progressDialog.dismiss();
-                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                 }
                                                                             }
                                                                         })
@@ -424,13 +424,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                     @Override
                                                                                     public void onFailure(@NonNull Exception e) {
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                     }
                                                                                 });
                                                                     }
                                                                     else{
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                     }
                                                                 }
                                                             })
@@ -438,13 +438,13 @@ public class RegIndividual extends AppCompatActivity
                                                                         @Override
                                                                         public void onFailure(@NonNull Exception e) {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
 
                                                         } else {
                                                             progressDialog.dismiss();
-                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
                                                     }
                                                 })
@@ -452,7 +452,7 @@ public class RegIndividual extends AppCompatActivity
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
                                                                 progressDialog.dismiss();
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                             }
                                                         });
                                             }
@@ -506,7 +506,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                                             if(task.isSuccessful()){
                                                                                                                 progressDialog.dismiss();
-                                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
                                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                                 startActivity(intent);
@@ -514,7 +514,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                                             }
                                                                                                             else{
                                                                                                                 progressDialog.dismiss();
-                                                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                             }
                                                                                                         }
                                                                                                     })
@@ -522,13 +522,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                                                 @Override
                                                                                                                 public void onFailure(@NonNull Exception e) {
                                                                                                                     progressDialog.dismiss();
-                                                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                                 }
                                                                                                             });
                                                                                                 }
                                                                                                 else{
                                                                                                     progressDialog.dismiss();
-                                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                 }
                                                                                             }
                                                                                         })
@@ -536,13 +536,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                                     @Override
                                                                                                     public void onFailure(@NonNull Exception e) {
                                                                                                         progressDialog.dismiss();
-                                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                     }
                                                                                                 });
                                                                                     }
                                                                                     else{
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                     }
                                                                                 }
                                                                             })
@@ -550,13 +550,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                         @Override
                                                                                         public void onFailure(@NonNull Exception e) {
                                                                                             progressDialog.dismiss();
-                                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                         }
                                                                                     });
 
                                                                         } else {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     }
                                                                 })
@@ -564,7 +564,7 @@ public class RegIndividual extends AppCompatActivity
                                                                             @Override
                                                                             public void onFailure(@NonNull Exception e) {
                                                                                 progressDialog.dismiss();
-                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                             }
                                                                         });
                                                             }
@@ -592,7 +592,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                                             if(task.isSuccessful()){
                                                                                                 progressDialog.dismiss();
-                                                                                                Utility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
                                                                                                 Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                                                 intent.putExtra("uid", fireuser.getUid());
                                                                                                 startActivity(intent);
@@ -600,7 +600,7 @@ public class RegIndividual extends AppCompatActivity
                                                                                             }
                                                                                             else{
                                                                                                 progressDialog.dismiss();
-                                                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                             }
                                                                                         }
                                                                                     })
@@ -608,13 +608,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                                 @Override
                                                                                                 public void onFailure(@NonNull Exception e) {
                                                                                                     progressDialog.dismiss();
-                                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                                 }
                                                                                             });
                                                                                 }
                                                                                 else{
                                                                                     progressDialog.dismiss();
-                                                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                 }
                                                                             }
                                                                         })
@@ -622,13 +622,13 @@ public class RegIndividual extends AppCompatActivity
                                                                                     @Override
                                                                                     public void onFailure(@NonNull Exception e) {
                                                                                         progressDialog.dismiss();
-                                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                     }
                                                                                 });
                                                                     }
                                                                     else{
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                     }
                                                                 }
                                                             })
@@ -636,13 +636,13 @@ public class RegIndividual extends AppCompatActivity
                                                                         @Override
                                                                         public void onFailure(@NonNull Exception e) {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
 
                                                         } else {
                                                             progressDialog.dismiss();
-                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
                                                     }
                                                 })
@@ -650,7 +650,7 @@ public class RegIndividual extends AppCompatActivity
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
                                                                 progressDialog.dismiss();
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                             }
                                                         });
                                             }
@@ -683,7 +683,7 @@ public class RegIndividual extends AppCompatActivity
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Profile Created");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Created");
                                                                         Intent intent = new Intent(RegIndividual.this, MainActivity.class);
                                                                         intent.putExtra("uid", fireuser.getUid());
                                                                         startActivity(intent);
@@ -691,7 +691,7 @@ public class RegIndividual extends AppCompatActivity
                                                                     }
                                                                     else{
                                                                         progressDialog.dismiss();
-                                                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                     }
                                                                 }
                                                             })
@@ -699,13 +699,13 @@ public class RegIndividual extends AppCompatActivity
                                                                         @Override
                                                                         public void onFailure(@NonNull Exception e) {
                                                                             progressDialog.dismiss();
-                                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
                                                         }
                                                         else{
                                                             progressDialog.dismiss();
-                                                            Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
                                                     }
                                                 })
@@ -713,13 +713,13 @@ public class RegIndividual extends AppCompatActivity
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
                                                                 progressDialog.dismiss();
-                                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                             }
                                                         });
                                             }
                                             else{
                                                 progressDialog.dismiss();
-                                                Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                             }
                                         }
                                     })
@@ -727,13 +727,13 @@ public class RegIndividual extends AppCompatActivity
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
                                                     progressDialog.dismiss();
-                                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                 }
                                             });
                                 }
                                 else{
                                     progressDialog.dismiss();
-                                    Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                 }
                             }
                         })
@@ -741,7 +741,7 @@ public class RegIndividual extends AppCompatActivity
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         progressDialog.dismiss();
-                                        Utility.showToast(getApplicationContext(), "Something went wrong.");
+                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                     }
                                 });
                     }
@@ -813,7 +813,7 @@ public class RegIndividual extends AppCompatActivity
                 }
 
                 try {
-                    compressedBitmap = Utility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

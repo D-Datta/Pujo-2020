@@ -1,4 +1,4 @@
-package com.applex.utsav.util;
+package com.applex.utsav.utility;
 
 
 import com.applex.utsav.models.TagModel;

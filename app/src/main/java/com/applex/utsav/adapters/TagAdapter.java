@@ -72,7 +72,7 @@ public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ProgrammingViewH
 //            if(i>0){
 //
 //                NewPostActivity.selected_tags.add(mList.get(i));
-//                // Utility.showToast(mcontext, "added");
+//                // BasicUtility.showToast(mcontext, "added");
 //            }
 //
 //

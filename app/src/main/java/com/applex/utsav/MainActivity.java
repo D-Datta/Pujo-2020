@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -35,7 +36,7 @@ import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
-import com.applex.utsav.util.DialogUtils;
+import com.applex.utsav.utility.DialogUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         View hView;
         hView = navigationView.getHeaderView(0);
+        navigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple)));
         name = hView.findViewById(R.id.nav_Name);
         displaypic = hView.findViewById(R.id.displaypic);
 
@@ -309,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        else if(id == R.id.nav_live){
 //            drawer.closeDrawers();
-//            Utility.showToast(MainActivity.this,"Coming Soon");
+//            BasicUtility.showToast(MainActivity.this,"Coming Soon");
 //        }
 
         else if(id == R.id.nav_tellafrnd){

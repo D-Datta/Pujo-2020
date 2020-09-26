@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.TagAdapter;
@@ -36,8 +37,7 @@ import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
-import com.applex.utsav.util.StoreTemp;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.StoreTemp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -184,7 +184,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
             }
 
-            minsago.setText(Utility.getTimeAgo(homePostModel[0].getTs()));
+            minsago.setText(BasicUtility.getTimeAgo(homePostModel[0].getTs()));
             homePostModel[0].setDocID(i.getStringExtra("docID"));
 
             //SETTING DATABASE REF WRT BOOL VALUE//
@@ -518,7 +518,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL");
                                 //SETTING DATABASE REF WRT BOOL VALUE//
 
-                                minsago.setText(Utility.getTimeAgo(homePostModel[0].getTs()));
+                                minsago.setText(BasicUtility.getTimeAgo(homePostModel[0].getTs()));
 
                                 ////////////COMMUNITY/////////
 //                                if(homePostModel[0].getComName()!=null){
@@ -770,7 +770,7 @@ public class ViewMoreHome extends AppCompatActivity {
                             if (likeList.size() - 1 == 0) {
                                 like_layout.setVisibility(View.GONE);
                             } else {
-                                Utility.vibrate(ViewMoreHome.this);
+                                BasicUtility.vibrate(ViewMoreHome.this);
                                 like_layout.setVisibility(View.VISIBLE);
                                 flamedBy.setText(Integer.toString(likeList.size() - 1));
                             }
@@ -795,7 +795,7 @@ public class ViewMoreHome extends AppCompatActivity {
                             ///////////////////BATCH WRITE///////////////////
 
                         } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                            Utility.vibrate(getApplicationContext());
+                            BasicUtility.vibrate(getApplicationContext());
                             try {
                                 AssetFileDescriptor afd = ViewMoreHome.this.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
@@ -942,7 +942,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Utility.showToast(getApplicationContext(), "Post has been reported.");
+                                            BasicUtility.showToast(getApplicationContext(), "Post has been reported.");
                                         }
                                     });
                             postMenuDialog.dismiss();
@@ -967,7 +967,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Utility.showToast(getApplicationContext(), "Post has been reported.");
+                                            BasicUtility.showToast(getApplicationContext(), "Post has been reported.");
                                         }
                                     });
                             postMenuDialog.dismiss();
@@ -1082,7 +1082,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //                        }
 //                    }
 //                    else {
-//                        Utility.showToast(getApplicationContext(),"Something went wrong...");
+//                        BasicUtility.showToast(getApplicationContext(),"Something went wrong...");
 //                    }
 //
 //                    progressBar.setVisibility(View.GONE);
@@ -1126,33 +1126,6 @@ public class ViewMoreHome extends AppCompatActivity {
 //            }
 //        });
 //    }
-
-    private void save_Dialog(Bitmap bitmap) {
-        Dialog myDialogue;
-        myDialogue = new Dialog(ViewMoreHome.this);
-        myDialogue.setContentView(R.layout.dialog_image_options);
-        myDialogue.setCanceledOnTouchOutside(TRUE);
-        myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!Utility.checkStoragePermission(ViewMoreHome.this)){
-                Utility.requestStoragePermission(ViewMoreHome.this);
-            }
-            else {
-                    Boolean bool = Utility.saveImage(bitmap, ViewMoreHome.this);
-
-                    if(bool){
-                        Toast.makeText(ViewMoreHome.this, "Saved to device", Toast.LENGTH_SHORT).show();
-                        myDialogue.dismiss();
-                    }
-                    else{
-                        Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                        myDialogue.dismiss();
-                    }
-
-            }
-        });
-        myDialogue.show();
-        Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
 
 
     @Override

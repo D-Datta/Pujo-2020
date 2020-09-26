@@ -29,7 +29,7 @@ import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.dialogs.BottomFlamedByDialog2;
-import com.applex.utsav.util.Utility;
+import com.applex.utsav.utility.BasicUtility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -95,7 +95,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
             programmingViewHolder.minsago.setTextColor(Color.parseColor("#FF9800"));
         }
         else {
-            String timeAgo = Utility.getTimeAgo(currentItem.getTs());
+            String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
             programmingViewHolder.minsago.setText(timeAgo);
             if(timeAgo != null) {
                 if (timeAgo.matches("just now")) {
@@ -226,7 +226,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                     ///////////////////BATCH WRITE///////////////////
                 }
                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                    Utility.vibrate(mContext);
+                    BasicUtility.vibrate(mContext);
                     try {
                         AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
                         MediaPlayer player = new MediaPlayer();
@@ -286,7 +286,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
 
         /////////////////COMMENTS REPLY SETUP/////////////////
         if(currentItem.getrCmtNo() > 0) {
-            programmingViewHolder.commentimg.setImageResource(R.drawable.comment_yellow);
             programmingViewHolder.cRepliedBy.setText(String.valueOf(currentItem.getrCmtNo()));
             programmingViewHolder.view_replies.setText("View Replies");
             programmingViewHolder.view_replies.setOnClickListener(v -> {
@@ -309,7 +308,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         }
         else {
             programmingViewHolder.cRepliedBy.setText("0");
-            programmingViewHolder.commentimg.setImageResource(R.drawable.ic_comment);
             programmingViewHolder.view_replies.setText("Reply");
             programmingViewHolder.view_replies.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, CommentReplyActivity.class);
