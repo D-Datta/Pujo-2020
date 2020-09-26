@@ -1395,6 +1395,7 @@ public class CommitteeFragment extends Fragment {
                                 int[] location1 = new int[2];
 
                                 Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
+                                cvh1.item_reels_image.setVisibility(View.VISIBLE);
                                 Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
 
                                 float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);

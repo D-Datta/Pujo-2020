@@ -225,6 +225,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             edit_profile_com.setVisibility(View.GONE);
             editCover.setVisibility(View.GONE);
             editDp.setVisibility(View.GONE);
+
             //increment no of visitors
             FirebaseFirestore.getInstance()
                     .collection("Users")

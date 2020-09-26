@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginStart="4dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
     app:cardCornerRadius="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -12,6 +12,7 @@
         android:id="@+id/committee_cover"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:foreground="@color/black_transparent"
         android:scaleType="centerCrop"/>
 
     <LinearLayout
@@ -24,22 +25,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/dp_outline"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:padding="4dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="20dp">
+
                 <ImageView
                     android:id="@+id/committee_dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:scaleType="centerCrop"/>
+
             </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
-
 
         <TextView
             android:id="@+id/committee_name"

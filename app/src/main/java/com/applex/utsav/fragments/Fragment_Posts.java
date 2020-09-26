@@ -67,7 +67,7 @@ public class Fragment_Posts extends Fragment {
         noneImage = view.findViewById(R.id.none_image);
 
         recyclerview.setHasFixedSize(false);
-        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setItemViewCacheSize(10);
