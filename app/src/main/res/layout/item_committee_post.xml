@@ -79,7 +79,7 @@
                     android:text="@string/share_your_pujo_story"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="15dp"
-                    android:textSize="15sp"
+                    android:textSize="15dp"
                     android:gravity="center_vertical"
                     android:fontFamily="@font/oxygen_regular"
                     android:layout_width="match_parent"

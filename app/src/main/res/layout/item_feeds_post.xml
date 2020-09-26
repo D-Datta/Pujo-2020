@@ -102,7 +102,8 @@
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/layerlistbg"
                     android:fontFamily="@font/oxygen_regular"
-                    android:padding="10dp"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="15dp"
                     android:text="@string/share_your_pujo_story"
                     android:textSize="15dp" />
 
