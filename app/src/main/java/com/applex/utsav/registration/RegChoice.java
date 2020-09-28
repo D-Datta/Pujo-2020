@@ -17,7 +17,7 @@ import com.applex.utsav.preferences.IntroPref;
 public class RegChoice extends AppCompatActivity {
 
     private CardView cardCommittee, cardIndividual;
-    String email,password;
+    String email, password;
     private IntroPref introPref;
 
     @Override
@@ -50,7 +50,6 @@ public class RegChoice extends AppCompatActivity {
         cardIndividual = findViewById(R.id.card_individual);
         introPref = new IntroPref(RegChoice.this);
 
-        Intent i = getIntent();
         if(getIntent().getStringExtra("value")!=null){
             if(getIntent().getStringExtra("value").matches("emailpass")){
                 email = getIntent().getStringExtra("email");
@@ -59,7 +58,9 @@ public class RegChoice extends AppCompatActivity {
             else if(getIntent().getStringExtra("value").matches("google")){
                 email = getIntent().getStringExtra("email");
             }
-
+            else if(getIntent().getStringExtra("value").matches("phone")){
+                email = getIntent().getStringExtra("email");
+            }
         }
 
 

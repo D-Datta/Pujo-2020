@@ -141,8 +141,8 @@
     <string name="add_to_post">পোস্টে যোগ করুন</string>
     <string name="visitors">দর্শনার্থী</string>
     <string name="tags">ট্যাগ</string>
-
-
+    <string name="continue_with_phone_no">Continue with Phone No.</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
 
 
 </resources>
