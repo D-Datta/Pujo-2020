@@ -105,8 +105,6 @@ public class Splash extends AppCompatActivity {
                                         }, Splash_time_out);
                                     }
                                 });
-
-
                     }
                     else {
                         new Handler().postDelayed(new Runnable() {

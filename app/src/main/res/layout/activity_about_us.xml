@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -153,7 +154,6 @@
                 <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
@@ -175,7 +175,6 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
@@ -198,7 +197,6 @@
                 <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
@@ -221,7 +219,6 @@
                 <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
@@ -244,7 +241,6 @@
                 <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
@@ -288,7 +284,6 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/custom_ripple_white"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
@@ -299,6 +294,7 @@
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -321,6 +317,7 @@
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -343,6 +340,7 @@
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -365,6 +363,7 @@
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         android:textSize="16sp" />
                 </LinearLayout>
 
