@@ -219,21 +219,30 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         //icons.setVisibility(View.GONE);
 
-        llBottomSheet.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    //icons.setVisibility(View.GONE);
+//        llBottomSheet.setOnDragListener(new View.OnDragListener() {
+//            @Override
+//            public boolean onDrag(View view, DragEvent dragEvent) {
+//                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+//                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                    icons.setVisibility(View.GONE);
+//
+//                }
+//                else{
+//                    bottomSheetBehavior.setState(STATE_COLLAPSED);
+//                    //icons.setVisibility(View.VISIBLE);
+//                }
+//                return false;
+//            }
+//        });
 
-                }
-                else{
-                    bottomSheetBehavior.setState(STATE_COLLAPSED);
-                    //icons.setVisibility(View.VISIBLE);
-                }
-                return false;
-            }
-        });
+        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            icons.setVisibility(View.VISIBLE);
+        }
+        else{
+            bottomSheetBehavior.setState(STATE_COLLAPSED);
+            icons.setVisibility(View.GONE);
+        }
 
         addToPost.setOnClickListener(new View.OnClickListener() {
             @Override

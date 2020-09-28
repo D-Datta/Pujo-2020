@@ -149,103 +149,101 @@ public class ViewMoreHome extends AppCompatActivity {
 
         likeList = new ArrayList<>();
 
+//
+//        Display display1 = getWindowManager().getDefaultDisplay();
+//        int displayWidth1 = display1.getWidth();
+//        BitmapFactory.Options options1 = new BitmapFactory.Options();
+//        options1.inJustDecodeBounds = true;
+//
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
+////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options);
+////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options);
+////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options);
+////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options);
+//
+//
+//        int width1 = options1.outWidth;
+//        if (width1 > displayWidth1) {
+//            options1.inSampleSize = Math.round((float) width1 / (float) displayWidth1);
+//        }
+//        options1.inJustDecodeBounds = false;
+//
+//        Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
+//        flameimg.setImageBitmap(scaledBitmap1);
 
-        Display display1 = getWindowManager().getDefaultDisplay();
-        int displayWidth1 = display1.getWidth();
-        BitmapFactory.Options options1 = new BitmapFactory.Options();
-        options1.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options);
-
-
-        int width1 = options1.outWidth;
-        if (width1 > displayWidth1) {
-            options1.inSampleSize = Math.round((float) width1 / (float) displayWidth1);
-        }
-        options1.inJustDecodeBounds = false;
-
-        Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
-        flameimg.setImageBitmap(scaledBitmap1);
-
-
-
-
-        Display display2 = getWindowManager().getDefaultDisplay();
-        int displayWidth2 = display2.getWidth();
-        BitmapFactory.Options options2 = new BitmapFactory.Options();
-        options2.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
-
-        int width2 = options2.outWidth;
-        if (width2 > displayWidth2) {
-            options2.inSampleSize = Math.round((float) width2 / (float) displayWidth2);
-        }
-        options2.inJustDecodeBounds = false;
-
-        Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
-        commentimg.setImageBitmap(scaledBitmap2);
+//
+//        Display display2 = getWindowManager().getDefaultDisplay();
+//        int displayWidth2 = display2.getWidth();
+//        BitmapFactory.Options options2 = new BitmapFactory.Options();
+//        options2.inJustDecodeBounds = true;
+//
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
+//
+//        int width2 = options2.outWidth;
+//        if (width2 > displayWidth2) {
+//            options2.inSampleSize = Math.round((float) width2 / (float) displayWidth2);
+//        }
+//        options2.inJustDecodeBounds = false;
+//
+//        Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
+//        commentimg.setImageBitmap(scaledBitmap2);
 
 
 
 
 
-        Display display3 = getWindowManager().getDefaultDisplay();
-        int displayWidth3 = display3.getWidth();
-        BitmapFactory.Options options3 = new BitmapFactory.Options();
-        options3.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options3);
-
-        int width3 = options3.outWidth;
-        if (width3 > displayWidth3) {
-            options3.inSampleSize = Math.round((float) width3 / (float) displayWidth3);
-        }
-        options3.inJustDecodeBounds = false;
-
-        Bitmap scaledBitmap3 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options3);
-        share.setImageBitmap(scaledBitmap3);
-
-
+//        Display display3 = getWindowManager().getDefaultDisplay();
+//        int displayWidth3 = display3.getWidth();
+//        BitmapFactory.Options options3 = new BitmapFactory.Options();
+//        options3.inJustDecodeBounds = true;
+//
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options3);
+//
+//        int width3 = options3.outWidth;
+//        if (width3 > displayWidth3) {
+//            options3.inSampleSize = Math.round((float) width3 / (float) displayWidth3);
+//        }
+//        options3.inJustDecodeBounds = false;
+//
+//        Bitmap scaledBitmap3 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options3);
+//        share.setImageBitmap(scaledBitmap3);
 
 
 
-        Display display4 = getWindowManager().getDefaultDisplay();
-        int displayWidth4 = display4.getWidth();
-        BitmapFactory.Options options4 = new BitmapFactory.Options();
-        options4.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options3);
-
-        int width4 = options4.outWidth;
-        if (width4 > displayWidth4) {
-            options4.inSampleSize = Math.round((float) width4 / (float) displayWidth4);
-        }
-        options3.inJustDecodeBounds = false;
-
-        Bitmap scaledBitmap4 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options3);
-        likeimage.setImageBitmap(scaledBitmap4);
 
 
-        Display display5 = getWindowManager().getDefaultDisplay();
-        int displayWidth5 = display5.getWidth();
-        BitmapFactory.Options options5 = new BitmapFactory.Options();
-        options5.inJustDecodeBounds = true;
+//        Display display4 = getWindowManager().getDefaultDisplay();
+//        int displayWidth4 = display4.getWidth();
+//        BitmapFactory.Options options4 = new BitmapFactory.Options();
+//        options4.inJustDecodeBounds = true;
+//
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options3);
+//
+//        int width4 = options4.outWidth;
+//        if (width4 > displayWidth4) {
+//            options4.inSampleSize = Math.round((float) width4 / (float) displayWidth4);
+//        }
+//        options4.inJustDecodeBounds = false;
+//
+//        Bitmap scaledBitmap4 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options3);
+//        likeimage.setImageBitmap(scaledBitmap4);
 
-        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options3);
-
-        int width5 = options3.outWidth;
-        if (width5 > displayWidth5) {
-            options3.inSampleSize = Math.round((float) width5 / (float) displayWidth5);
-        }
-        options3.inJustDecodeBounds = false;
-
-        Bitmap scaledBitmap5 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options3);
-        share.setImageBitmap(scaledBitmap5);
+//
+//        Display display5 = getWindowManager().getDefaultDisplay();
+//        int displayWidth5 = display5.getWidth();
+//        BitmapFactory.Options options5 = new BitmapFactory.Options();
+//        options5.inJustDecodeBounds = true;
+//
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options5);
+//
+//        int width5 = options5.outWidth;
+//        if (width5 > displayWidth5) {
+//            options5.inSampleSize = Math.round((float) width5 / (float) displayWidth5);
+//        }
+//        options5.inJustDecodeBounds = false;
+//
+//        Bitmap scaledBitmap5 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options5);
+//        share.setImageBitmap(scaledBitmap5);
 
 
 
@@ -371,42 +369,43 @@ public class ViewMoreHome extends AppCompatActivity {
                 for(int j = 0; j < likeList.size(); j++){
                     if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
 
-                        Display display6 = getWindowManager().getDefaultDisplay();
-                        int displayWidth6 = display6.getWidth();
-                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-                        options6.inJustDecodeBounds = true;
-
-                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-
-                        int width6 = options6.outWidth;
-                        if (width6 > displayWidth6) {
-                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-                        }
-                        options6.inJustDecodeBounds = false;
-
-                        Bitmap scaledBitmap6=  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-                        flameimg.setImageBitmap(scaledBitmap6);
+                        flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_flame_red));
+//                        Display display6 = getWindowManager().getDefaultDisplay();
+//                        int displayWidth6 = display6.getWidth();
+//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
+//                        options6.inJustDecodeBounds = true;
+//
+//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
+//
+//                        int width6 = options6.outWidth;
+//                        if (width6 > displayWidth6) {
+//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
+//                        }
+//                        options6.inJustDecodeBounds = false;
+//
+//                        Bitmap scaledBitmap6=  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
+//                        flameimg.setImageBitmap(scaledBitmap6);
 
                         flameimg.setImageTintList(null);
                         LikeCheck = j;
 
                     }
                     else {
-                        Display display6 = getWindowManager().getDefaultDisplay();
-                        int displayWidth6 = display6.getWidth();
-                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-                        options6.inJustDecodeBounds = true;
-
-                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-
-                        int width6 = options6.outWidth;
-                        if (width6 > displayWidth6) {
-                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-                        }
-                        options6.inJustDecodeBounds = false;
-
-                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-                        flameimg.setImageBitmap(scaledBitmap11);
+//                        Display display6 = getWindowManager().getDefaultDisplay();
+//                        int displayWidth6 = display6.getWidth();
+//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
+//                        options6.inJustDecodeBounds = true;
+//
+//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
+//
+//                        int width6 = options6.outWidth;
+//                        if (width6 > displayWidth6) {
+//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
+//                        }
+//                        options6.inJustDecodeBounds = false;
+//
+//                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
+                        flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_normal_flame));
 
                     }
                 }
@@ -652,20 +651,20 @@ public class ViewMoreHome extends AppCompatActivity {
                                     for(int j = 0; j < likeList.size(); j++){
                                         if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
 
-                                            Display display7 = getWindowManager().getDefaultDisplay();
-                                            int displayWidth7 = display7.getWidth();
-                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-                                            options7.inJustDecodeBounds = true;
-                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-
-                                            int width7 = options7.outWidth;
-                                            if (width7 > displayWidth7) {
-                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-                                            }
-                                            options7.inJustDecodeBounds = false;
-
-                                            Bitmap scaledBitmap7 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-                                            flameimg.setImageBitmap(scaledBitmap7);
+//                                            Display display7 = getWindowManager().getDefaultDisplay();
+//                                            int displayWidth7 = display7.getWidth();
+//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
+//                                            options7.inJustDecodeBounds = true;
+//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
+//
+//                                            int width7 = options7.outWidth;
+//                                            if (width7 > displayWidth7) {
+//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
+//                                            }
+//                                            options7.inJustDecodeBounds = false;
+//
+//                                            Bitmap scaledBitmap7 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
+                                            flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_flame_red));
                                             flameimg.setImageTintList(null);
                                             LikeCheck = j;
 //                                            if((likeList.size()-1) == 1)

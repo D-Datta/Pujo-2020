@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dark_black">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/post_image45"
@@ -112,8 +111,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/dark_black_transparent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/dark_black_transparent">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tagsList_recycler44"
@@ -161,7 +161,8 @@
                     android:id="@+id/flame44"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="26dp" />
+                    android:layout_marginStart="26dp"
+                    android:src="@drawable/ic_normal_flame"/>
 
                 <ImageView
                     android:id="@+id/comment44"
@@ -169,15 +170,16 @@
                     android:layout_height="38dp"
                     android:layout_marginHorizontal="10dp"
                     android:background="@drawable/custom_ripple_transparent"
-                    android:padding="5dp" />
+                    android:padding="5dp"
+                    android:src="@drawable/ic_conch_shell"/>
 
                 <ImageView
                     android:id="@+id/share44"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
-                    android:background="@drawable/custom_ripple_transparent"
                     android:padding="5dp"
-                    app:tint="@color/white" />
+                    app:tint="@color/pink"
+                    android:src="@drawable/ic_blossom" />
 
             </LinearLayout>
 
@@ -199,7 +201,8 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:padding="7dp"
-                    app:tint="@color/white_transparent" />
+                    app:tint="@color/white_transparent"
+                    android:src="@drawable/ic_baseline_favorite_24"/>
 
                 <TextView
                     android:id="@+id/flamed_by44"
@@ -225,7 +228,8 @@
                     android:layout_height="35dp"
                     android:layout_gravity="end|center_vertical"
                     android:padding="8dp"
-                    app:tint="@color/white_transparent"/>
+                    app:tint="@color/white_transparent"
+                    android:src="@drawable/ic_comment_viewmore"/>
 
                 <TextView
                     android:id="@+id/no_of_comments44"

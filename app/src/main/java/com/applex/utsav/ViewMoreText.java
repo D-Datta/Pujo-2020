@@ -168,9 +168,6 @@ public class ViewMoreText extends AppCompatActivity {
         Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
         flameimg.setImageBitmap(scaledBitmap1);
 
-
-
-
         Display display2 = getWindowManager().getDefaultDisplay();
         int displayWidth2 = display2.getWidth();
         BitmapFactory.Options options2 = new BitmapFactory.Options();
@@ -186,9 +183,6 @@ public class ViewMoreText extends AppCompatActivity {
 
         Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
         commentimg.setImageBitmap(scaledBitmap2);
-
-
-
 
 
         Display display3 = getWindowManager().getDefaultDisplay();
