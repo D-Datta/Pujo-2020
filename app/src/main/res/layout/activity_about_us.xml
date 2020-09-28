@@ -37,7 +37,6 @@
                 android:layout_marginEnd="-5dp"
                 tools:ignore="MissingConstraints" />
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,6 +68,7 @@
                 android:fontFamily="@font/oxygen_bold"
                 android:text="@string/aboutUtsav"
                 android:textSize="15sp" />
+
 
 <!--            <LinearLayout-->
 <!--                android:layout_width="match_parent"-->
@@ -121,7 +121,6 @@
 <!--                    android:paddingBottom="5dp"-->
 <!--                    android:contentDescription="Text"-->
 <!--                    android:src="@drawable/ic_format_align_left_black_24dp" />-->
-
 <!--            </LinearLayout>-->
 
             <TextView
@@ -258,8 +257,8 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
-
             </LinearLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -271,14 +270,37 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginHorizontal="20dp"
                 android:paddingHorizontal="20dp"
                 android:background="@drawable/bg_solid"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="5dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/custom_ripple_white"
+                        android:src="@drawable/ic_blossom"
+                        app:tint="#F3B3B3" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/oxygen_bold"
+                        android:text="@string/linkSnaplingo"
+                        android:layout_gravity="left"
+                        android:paddingHorizontal="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -287,25 +309,20 @@
                     android:layout_marginVertical="5dp">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/custom_ripple_white"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/oxygen_bold"
-                        android:text="Campus 24"
+                        android:text="@string/linkCampus24"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/linkCampus24"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -314,25 +331,21 @@
                     android:layout_marginVertical="5dp">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/custom_ripple_white"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/oxygen_bold"
-                        android:text="Jee AB 360"
+                        android:text="@string/linkJEE"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/linkCampus24"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -340,25 +353,21 @@
                     android:layout_marginVertical="5dp">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/custom_ripple_white"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_blossom"
                         app:tint="#F3B3B3" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/oxygen_bold"
-                        android:text="Snaplingo"
+                        android:text="@string/linkInnovacion"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/linkCampus24"/>
+
             </LinearLayout>
 
         </LinearLayout>

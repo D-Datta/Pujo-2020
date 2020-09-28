@@ -17,11 +17,7 @@
                 android:iconTint="@color/tabIndicatorColor"
                 android:icon="@drawable/ic_outline_perm_contact_calendar_24"
                 android:title="@string/contact_us" />
-            <item
-                android:id="@+id/nav_about"
-                app:showAsAction="never"
-                android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="@string/about" />
+
             <item
                 android:id="@+id/nav_rate_us"
                 app:showAsAction="never"
@@ -29,7 +25,23 @@
                 android:title="@string/rate_us" />
 
         </menu>
+    </item>
 
+    <item android:title="@string/useful_information">
+
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="@string/about" />
+
+            <item
+                android:id="@+id/nav_privacy"
+                app:showAsAction="never"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="@string/privacy_nav" />
+        </menu>
     </item>
 
 <!--    <item android:title="Coming Soon">-->

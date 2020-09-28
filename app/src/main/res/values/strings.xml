@@ -99,6 +99,8 @@
     <string name="short_videos">Short Videos</string>
     <string name="see_all"><![CDATA[See All —>]]></string>
     <string name="about_yourself">Something about you</string>
+    <string name="useful_information">Useful Information</string>
+    <string name="privacy_nav">Privacy</string>
 
     <string name="_0_18">0:18</string>
 
@@ -168,8 +170,20 @@
     <string name="utsavFeature4">Participation in Live Contests</string>
     <string name="utsavFeature5">Pre-Pujo updates</string>
 
+    <string name="linkJEE">
+        <a href="https://play.google.com/store/apps/details?id=com.adarshbarnwal.notesapp&amp;hl=en_IN">Jee AB 360</a>
+    </string>
+
     <string name="linkCampus24">
-        <a href="https://play.google.com/store/apps/details?id=com.adarshbarnwal.notesapp&amp;hl=en_IN"></a>
+        <a href="https://play.google.com/store/apps/details?id=com.bytera.campus24">Campus 24</a>
+    </string>
+
+    <string name="linkSnaplingo">
+        <a href="https://play.google.com/store/apps/details?id=com.applex.snaplingo">Snaplingo</a>
+    </string>
+
+    <string name="linkInnovacion">
+        <a href="https://play.google.com/store/apps/details?id=com.applex.innovacion">Innovacion</a>
     </string>
 
 
