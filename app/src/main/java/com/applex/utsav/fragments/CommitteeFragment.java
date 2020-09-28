@@ -1159,6 +1159,7 @@ public class CommitteeFragment extends Fragment {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
+                            intent.putExtra("docID", currentItem.getDocID());
                             intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
@@ -1168,6 +1169,7 @@ public class CommitteeFragment extends Fragment {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
+                            intent.putExtra("docID", currentItem.getDocID());
                             intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });

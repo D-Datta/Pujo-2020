@@ -31,8 +31,10 @@ import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -46,11 +48,16 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private Context context;
     private ViewPager2 reelsList;
     private IntroPref introPref;
+    private String bool;
+    private String uid;
 
-    public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models, ViewPager2 reelsList) {
+    public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
+                        ViewPager2 reelsList, String bool, String uid) {
         this.models = models;
         this.context = context;
         this.reelsList = reelsList;
+        this.bool = bool;
+        this.uid = uid;
         introPref = new IntroPref(context);
     }
 
@@ -67,6 +74,18 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     @Override
     public void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position) {
         ReelsPostModel currentItem = models.get(position);
+
+        FirebaseFirestore.getInstance().collection("Reels")
+                .whereEqualTo("docID", currentItem.getDocID())
+                .get().addOnCompleteListener(task -> {
+                    DocumentSnapshot reelslastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
+                    if(position == 0) {
+                        fetchBefore(bool, reelslastVisible, models, uid);
+                    }
+                    else if(position == models.size()-1) {
+                        fetchAfter(bool, reelslastVisible, models, uid);
+                    }
+                });
 
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.play_image.setVisibility(View.VISIBLE);
@@ -356,5 +375,75 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         });
         myDialogue.show();
         Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+    private void fetchAfter(String bool, DocumentSnapshot reelslastVisible, ArrayList<ReelsPostModel> models, String uid) {
+        Query query = null;
+
+        if(bool.matches("1")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .orderBy("ts", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .startAfter(reelslastVisible);
+        }
+        else if(bool.matches("2")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .whereEqualTo("uid", uid)
+                    .orderBy("ts", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .startAfter(reelslastVisible);
+        }
+
+        Objects.requireNonNull(query).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
+                ArrayList<ReelsPostModel> reelsPostModels = new ArrayList<>();
+                DocumentSnapshot document = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
+                ReelsPostModel reelsPostModel = document.toObject(ReelsPostModel.class);
+                Objects.requireNonNull(reelsPostModel).setDocID(document.getId());
+                reelsPostModels.add(reelsPostModel);
+
+                if(models.size() > 0) {
+                    models.addAll(models.size(), reelsPostModels);
+                    notifyItemInserted(models.size());
+                }
+            }
+        });
+    }
+
+    private void fetchBefore(String bool, DocumentSnapshot reelslastVisible, ArrayList<ReelsPostModel> models, String uid) {
+        Query query = null;
+
+        if(bool.matches("1")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .orderBy("ts", Query.Direction.ASCENDING)
+                    .limit(1)
+                    .startAfter(reelslastVisible);
+        }
+        else if(bool.matches("2")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .whereEqualTo("uid", uid)
+                    .orderBy("ts", Query.Direction.ASCENDING)
+                    .limit(1)
+                    .startAfter(reelslastVisible);
+        }
+
+        Objects.requireNonNull(query).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
+                ArrayList<ReelsPostModel> reelsPostModels = new ArrayList<>();
+                DocumentSnapshot document = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
+                ReelsPostModel reelsPostModel = document.toObject(ReelsPostModel.class);
+                Objects.requireNonNull(reelsPostModel).setDocID(document.getId());
+                reelsPostModels.add(reelsPostModel);
+
+                if(models.size() > 0) {
+                    models.addAll(0, reelsPostModels);
+                    notifyItemInserted(0);
+                }
+            }
+        });
     }
 }
