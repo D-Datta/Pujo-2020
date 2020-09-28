@@ -59,11 +59,14 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         holder.committeeName.setText(currentitem.getName());
 
-        if(currentitem.getPujoVisits() == 1) {
+        if(currentitem.getPujoVisits() > 1) {
+            if(currentitem.getPujoVisits() > 1000) {
+                holder.com_views.setText(currentitem.getPujoVisits()/1000 + "." + (currentitem.getPujoVisits() % 1000)/100 + "K Visits");
+            } else {
+                holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
+            }
+        } else {
             holder.com_views.setText(currentitem.getPujoVisits() + " Visit");
-        }
-        else {
-            holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
         }
 
         if(currentitem.getCoverpic() != null){

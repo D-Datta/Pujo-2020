@@ -428,8 +428,25 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 }
 
                                 //metrics
-                                visits.setText(baseUserModel.getPujoVisits()+"");
-                                likes.setText(baseUserModel.getLikeCount()+"");
+                                if(baseUserModel.getPujoVisits() > 1) {
+                                    if(baseUserModel.getPujoVisits() > 1000) {
+                                        visits.setText(baseUserModel.getPujoVisits()/1000 + "." + (baseUserModel.getPujoVisits() % 1000)/100 + "K");
+                                    } else {
+                                        visits.setText(baseUserModel.getPujoVisits() + "");
+                                    }
+                                } else {
+                                    visits.setText(baseUserModel.getPujoVisits() + "");
+                                }
+
+                                if(baseUserModel.getLikeCount() > 1) {
+                                    if(baseUserModel.getLikeCount() > 1000) {
+                                        likes.setText(baseUserModel.getLikeCount()/1000 + "." + (baseUserModel.getLikeCount() % 1000)/100 + "K");
+                                    } else {
+                                        likes.setText(baseUserModel.getLikeCount() + "");
+                                    }
+                                } else {
+                                    likes.setText(baseUserModel.getLikeCount() + "");
+                                }
                                 //metrics
 
                                 FirebaseFirestore.getInstance().collection("Users")

@@ -125,7 +125,15 @@ public class Fragment_Reels extends Fragment {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
                 holder.video_time.setText(currentItem.getDuration());
                 holder.item_reels_image.setVisibility(View.VISIBLE);
-                holder.video_views.setText(currentItem.getVideoViews() + " views");
+                if(currentItem.getVideoViews() > 1) {
+                    if(currentItem.getVideoViews() > 1000) {
+                        holder.video_views.setText(currentItem.getVideoViews()/1000 + "." + (currentItem.getVideoViews() % 1000)/100 + "K views");
+                    } else {
+                        holder.video_views.setText(currentItem.getVideoViews() + " views");
+                    }
+                } else {
+                    holder.video_views.setText(currentItem.getVideoViews() + " view");
+                }
 
                 if(currentItem.getHeadline() != null) {
                     if(currentItem.getHeadline().length() > 15) {
@@ -153,7 +161,7 @@ public class Fragment_Reels extends Fragment {
 
                 holder.item_reels_image.setOnClickListener(v -> {
                     Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                    intent.putExtra("position", String.valueOf(position));
+                    intent.putExtra("docID", currentItem.getDocID());
                     intent.putExtra("uid", uid);
                     intent.putExtra("bool", "2");
                     requireActivity().startActivity(intent);
