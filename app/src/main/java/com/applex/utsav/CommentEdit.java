@@ -2,6 +2,7 @@ package com.applex.utsav;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -10,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.applex.utsav.preferences.IntroPref;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
 import java.util.Objects;
 
 public class CommentEdit extends AppCompatActivity {
@@ -23,10 +28,19 @@ public class CommentEdit extends AppCompatActivity {
     private ImageView userimage_comment;
     private CollectionReference commentRef;
     private ProgressDialog progressDialog;
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_comment_edit);
 
         Toolbar toolbar = findViewById(R.id.toolbar12);

@@ -32,6 +32,7 @@ public class IntroPref {
     private static final String FOLDER = "preptotal";
     private static final String BATCHID = "batchID";
     private static final String CITY = "city";
+    private static final String LANGUAGE = "language";
     private Gson gson;
 
     @SuppressLint("CommitPrefEdits")
@@ -76,6 +77,16 @@ public class IntroPref {
         editor.apply();
     }
     //CITY////
+    ///LANG///
+    public String getLanguage(){
+        return preferences.getString(LANGUAGE, "en");
+    }
+
+    public void setLanguage(String language){
+        editor.putString(LANGUAGE, language);
+        editor.apply();
+    }
+    ///LANG///
 
     ///USERDP///
     public String getUserdp(){

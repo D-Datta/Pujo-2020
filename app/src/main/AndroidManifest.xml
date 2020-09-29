@@ -23,8 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-
-        <activity android:name=".ViewMoreText"/>
+        <activity android:name=".LanguageChoice"></activity>
+        <activity android:name=".ViewMoreText" />
         <activity android:name=".ActivityTagPujo" />
         <activity android:name=".ActivityNotification" />
         <activity android:name=".Webview" />
@@ -38,14 +38,11 @@
         <activity android:name=".registration.RegPujoCommittee" />
         <activity android:name=".registration.RegChoice" />
         <activity android:name=".WalkthroughActivity" />
-
         <activity android:name=".registration.LoginActivity" />
         <activity android:name=".registration.LoginActivityPhone" />
-
         <activity
             android:name=".ReelsActivity"
             android:theme="@style/EventTheme" />
-
         <activity
             android:name=".Splash"
             android:screenOrientation="portrait"
@@ -56,16 +53,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CommentReplyActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".CommentEdit"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".GateWayActivity"
+        <activity
+            android:name=".GateWayActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -88,15 +83,12 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ProfilePictureActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".CommitteeViewAll"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".NewPostHome"
             android:screenOrientation="portrait"

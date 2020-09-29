@@ -44,7 +44,7 @@ public class Splash extends AppCompatActivity {
         if (introPref.isFirstTimeLaunch()) {
             new Handler().postDelayed(() -> {
                 introPref.setIsFirstTimeLaunch(false);
-                startActivity(new Intent(Splash.this, WalkthroughActivity.class));
+                startActivity(new Intent(Splash.this, LanguageChoice.class));
                 finish();
             },Splash_time_out);
         }

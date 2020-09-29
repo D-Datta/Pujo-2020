@@ -18,6 +18,7 @@
     <color name="dark_black">#000</color>
     <color name="dark_black_transparent">#44000000</color>
     <color name="black_transparent">#55212121</color>
+    <color name="black_transparent2">#AA212121</color>
 
     <color name="white">#fff</color>
     <color name="white_transparent">#88ffffff</color>

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -95,6 +96,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Objects;
 
 import static java.lang.Boolean.FALSE;
@@ -148,6 +150,14 @@ public class ActivityProfileUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_profile_user);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -162,7 +172,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
-        introPref = new IntroPref(this);
+
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
         editProfile = findViewById(R.id.edit_profile);
