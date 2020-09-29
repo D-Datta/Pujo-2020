@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -37,7 +38,7 @@ public class Fragment_Posts extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerview;
     private ProgressBar contentprogressposts,progressmoreposts;
-    private NestedScrollView noneImage;
+    private LinearLayout noneImage;
     private FirestorePagingAdapter adapter;
 
     private String uid;

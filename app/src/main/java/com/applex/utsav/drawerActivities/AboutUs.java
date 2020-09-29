@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.applex.utsav.R;
 
 import java.util.Objects;
 
 public class AboutUs extends AppCompatActivity {
+
+    private TextView tsnaplingo, tcampus24, tjee, tinnovacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,15 @@ public class AboutUs extends AppCompatActivity {
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
 //        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
+        tsnaplingo = findViewById(R.id.link_snaplingo);
+        tcampus24 = findViewById(R.id.link_campus24);
+        tjee = findViewById(R.id.link_jeeab360);
+        tinnovacion = findViewById(R.id.link_innovacion);
+
+        tsnaplingo.setMovementMethod(LinkMovementMethod.getInstance());
+        tcampus24.setMovementMethod(LinkMovementMethod.getInstance());
+        tjee.setMovementMethod(LinkMovementMethod.getInstance());
+        tinnovacion.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 

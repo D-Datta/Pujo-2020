@@ -83,7 +83,28 @@
                     android:descendantFocusability="blocksDescendants"
                     app:reverseLayout="false"/>
 
+                <LinearLayout
+                    android:id="@+id/emptyLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/dui_dhaki"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nocommittee"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/red"/>
+                </LinearLayout>
+
             </RelativeLayout>
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

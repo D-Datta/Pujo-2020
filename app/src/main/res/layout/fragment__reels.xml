@@ -20,18 +20,26 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/none_image"
+                android:orientation="vertical">
                 <ImageView
-                    android:id="@+id/none_image"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
-                    android:src="@drawable/durga_ma2"
+                    android:src="@drawable/ic_selfie"
                     android:paddingHorizontal="20dp"
-                    android:paddingVertical="45dp"
-                    android:visibility="gone" />
-            </androidx.core.widget.NestedScrollView>
+                    android:paddingVertical="45dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/noreels"
+                    android:textColor="@color/red"
+                    android:textSize="20dp"
+                    android:gravity="center"/>
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/content_progress_reels"
