@@ -8,6 +8,11 @@
 
         <menu>
             <item
+                android:id="@+id/nav_select_lang"
+                android:icon="@drawable/ic_baseline_translate_24"
+                android:iconTint="@color/darkpurple"
+                android:title="@string/set_app_lang" />
+            <item
                 android:id="@+id/nav_tellafrnd"
                 android:icon="@drawable/ic_outline_share_24"
                 android:iconTint="@color/darkpurple"

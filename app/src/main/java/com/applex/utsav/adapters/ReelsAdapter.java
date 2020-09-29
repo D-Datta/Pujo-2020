@@ -91,7 +91,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.play_image.setVisibility(View.VISIBLE);
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
-        Picasso.get().load(currentItem.getFrame()).fit().into(holder.reels_image);
+        Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
 
         if(currentItem.getDescription() != null) {
             holder.pujo_desc.setText(currentItem.getDescription());
@@ -112,7 +112,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     .update("videoViews", FieldValue.increment(1));
         }
 
-        holder.reels_video.setOnCompletionListener(v -> reelsList.setCurrentItem(position + 1, true));
+        //holder.reels_video.setOnCompletionListener(v -> reelsList.setCurrentItem(position + 1, true));
 
         holder.reels_video.setOnLongClickListener(view -> {
             holder.reels_video.pause();
@@ -337,6 +337,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
         holder.reels_video.setOnPreparedListener(mediaPlayer -> new Handler().postDelayed(() -> {
+            mediaPlayer.setLooping(true);
             holder.pujo_headline.setSelected(true);
             holder.video_playing.playAnimation();
             holder.play_image.setVisibility(View.GONE);

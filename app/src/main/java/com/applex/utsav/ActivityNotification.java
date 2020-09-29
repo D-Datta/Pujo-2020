@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.applex.utsav.fragments.Fragment_Posts;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.NotifModel;
+import com.applex.utsav.preferences.IntroPref;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -40,6 +42,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import static java.lang.Boolean.TRUE;
@@ -55,10 +58,18 @@ public class ActivityNotification extends AppCompatActivity {
     private ImageView noNotif;
 
     public static int removeNotif = -1;
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(ActivityNotification.this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_notification);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -95,6 +96,7 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Objects;
 
 import static java.lang.Boolean.FALSE;
@@ -104,6 +106,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
     private Button editProfile;
     private FirebaseUser fireuser;
+    private LinearLayout emptyLayout;
     private FloatingActionButton floatingActionButton;
     private ProgressDialog progressDialog;
     ///////////////POSTS////////////////
@@ -148,6 +151,14 @@ public class ActivityProfileUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_profile_user);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -162,10 +173,11 @@ public class ActivityProfileUser extends AppCompatActivity {
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
-        introPref = new IntroPref(this);
+
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
         editProfile = findViewById(R.id.edit_profile);
+        emptyLayout = findViewById(R.id.emptyLayout);
 
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
         floatingActionButton = findViewById(R.id.to_the_top_profile);
@@ -1087,12 +1099,10 @@ public class ActivityProfileUser extends AppCompatActivity {
                         progressMore.setVisibility(View.GONE);
                         if(adapter1.getItemCount() == 0) {
                             loadUserDetails();
-                            if(swipeRefreshLayout.isRefreshing()) {
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
+                            emptyLayout.setVisibility(View.VISIBLE);
                         }
                         else {
-                            nopost1.setVisibility(View.GONE);
+                            emptyLayout.setVisibility(View.GONE);
                         }
                         break;
                 }

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -48,6 +49,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Locale;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -91,6 +93,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_edit_profile_individual);
 
         Toolbar toolbar = findViewById(R.id.toolbar_edit_indi);
@@ -119,7 +128,6 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
         storage= FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        introPref= new IntroPref(EditProfileIndividualActivity.this);
         uid = FirebaseAuth.getInstance().getUid();
 
         FirebaseFirestore.getInstance().collection("Users").document(uid)

@@ -3,17 +3,20 @@ package com.applex.utsav;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -27,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -54,6 +58,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,9 +94,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        introPref = new IntroPref(MainActivity.this);
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        setContentView(R.layout.activity_main);
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -323,10 +334,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-//        else if(id == R.id.nav_live){
-//            drawer.closeDrawers();
-//            BasicUtility.showToast(MainActivity.this,"Coming Soon");
-//        }
+        else if(id == R.id.nav_select_lang){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    drawer.closeDrawers();
+                    Dialog dialog = new Dialog(MainActivity.this);
+                    dialog.setContentView(R.layout.select_language_dialog);
+                    dialog.setCanceledOnTouchOutside(true);
+
+                    RadioButton bangla = dialog.findViewById(R.id.bangla);
+                    RadioButton english = dialog.findViewById(R.id.english);
+
+                    if(introPref.getLanguage().matches("en")) {
+                        english.setChecked(true);
+                        bangla.setChecked(false);
+                    }
+                    else if(introPref.getLanguage().matches("bn")) {
+                        bangla.setChecked(true);
+                        english.setChecked(false);
+                    }
+                    english.setOnClickListener(v -> {
+                        english.setChecked(true);
+                        bangla.setChecked(false);
+                    });
+
+                    bangla.setOnClickListener(v -> {
+                        bangla.setChecked(true);
+                        english.setChecked(false);
+                    });
+
+                    dialog.findViewById(R.id.cancel).setOnClickListener(v -> dialog.dismiss());
+
+                    dialog.findViewById(R.id.done).setOnClickListener(v-> {
+                        if(english.isChecked()) {
+                            introPref.setLanguage("en");
+                        }
+                        else if(bangla.isChecked()) {
+                            introPref.setLanguage("bn");
+                        }
+
+                        new Handler().postDelayed(() -> {
+                            dialog.dismiss();
+                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }, 200);
+                    });
+
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+
+                }
+            },200);
+
+        }
 
         else if(id == R.id.nav_tellafrnd){
             new Handler().postDelayed(new Runnable() {

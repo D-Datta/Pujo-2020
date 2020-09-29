@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import com.applex.utsav.adapters.CitySearchAdapter;
 import com.applex.utsav.adapters.StateSearchAdapter;
 import com.applex.utsav.models.CitySearchModel;
 import com.applex.utsav.models.StateSearchModel;
+import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.RegIndividual;
 import com.applex.utsav.registration.RegPujoCommittee;
 
@@ -26,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SearchCityState extends AppCompatActivity {
 
@@ -40,10 +43,18 @@ public class SearchCityState extends AppCompatActivity {
     private ArrayList<CitySearchModel> citySearchModels= new ArrayList<>();
     private ArrayList<StateSearchModel> stateSearchModels= new ArrayList<>();
     private ProgressBar progress;
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_search_city_state);
 
         i = getIntent();

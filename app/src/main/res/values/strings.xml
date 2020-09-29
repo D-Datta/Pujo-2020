@@ -104,6 +104,12 @@
 
     <string name="_0_18">0:18</string>
 
+    <string name="nocommittee">No committees to show</string>
+    <string name="noposts">You have not posted anything yet.\nPost now!!</string>
+    <string name="no_posts">No posts to display</string>
+    <string name="noreels">No reels to display. \nCreate a reel now!!</string>
+    <string name="first_comments">Be the first one to comment</string>
+
     <string name="comments">Comments</string>
     <string name="type_something_n">Type something..\n</string>
     <string name="bio">Bio</string>
@@ -164,7 +170,7 @@
 
     <string name="aboutUtsav">Due to this current pandemic, it\'s evident that Durga Pujo 2020 is not going to be the same as every year.\n\nHowever, in an effort to not let the spirit of Durga Puja fade away totally, we , a group of students from Kolkata have taken the initiative to create an android app ,<b>"Utsav"</b> through which the people of Bengal will be able to participate in the festivities, right from the safety of their homes. \n\n A viewer’s choice award will be given to the best Pujo of 2020 based on public interaction.</string>
 
-<!--    <string name="utsavFeature">Photos \n \nVideos \nLocate various pujo \nParticipation in Live Contests \nPre-Pujo updates</string>-->
+    <!--    <string name="utsavFeature">Photos \n \nVideos \nLocate various pujo \nParticipation in Live Contests \nPre-Pujo updates</string>-->
 
     <string name="utsavFeature1">Photos</string>
     <string name="utsavFeature2">360 degree shots</string>
@@ -172,21 +178,24 @@
     <string name="utsavFeature4">Participation in Live Contests</string>
     <string name="utsavFeature5">Pre-Pujo updates</string>
 
-    <string name="linkJEE">
+    <string name="linkJEE" translatable="false">
         <a href="https://play.google.com/store/apps/details?id=com.adarshbarnwal.notesapp&amp;hl=en_IN">Jee AB 360</a>
     </string>
 
-    <string name="linkCampus24">
+    <string name="linkCampus24" translatable="false">
         <a href="https://play.google.com/store/apps/details?id=com.bytera.campus24">Campus 24</a>
     </string>
 
-    <string name="linkSnaplingo">
+    <string name="linkSnaplingo" translatable="false">
         <a href="https://play.google.com/store/apps/details?id=com.applex.snaplingo">Snaplingo</a>
     </string>
 
-    <string name="linkInnovacion">
+    <string name="linkInnovacion" translatable="false">
         <a href="https://play.google.com/store/apps/details?id=com.applex.innovacion">Innovacion</a>
     </string>
+    <string name="new_post">New Post</string>
+    <string name="Post">Post</string>
+    <string name="set_app_lang">Set App language</string>
 
 
 </resources>

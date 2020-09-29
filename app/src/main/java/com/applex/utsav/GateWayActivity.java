@@ -1,6 +1,7 @@
 package com.applex.utsav;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -8,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.applex.utsav.models.HomePostModel;
+import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
 import com.applex.utsav.utility.StoreTemp;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,12 +20,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 public class GateWayActivity extends AppCompatActivity {
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_gate_way_activty);
         String campus;
         String postID;

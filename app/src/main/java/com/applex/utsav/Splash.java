@@ -44,7 +44,7 @@ public class Splash extends AppCompatActivity {
         if (introPref.isFirstTimeLaunch()) {
             new Handler().postDelayed(() -> {
                 introPref.setIsFirstTimeLaunch(false);
-                startActivity(new Intent(Splash.this, WalkthroughActivity.class));
+                startActivity(new Intent(Splash.this, LanguageChoice.class));
                 finish();
             },Splash_time_out);
         }
@@ -52,7 +52,7 @@ public class Splash extends AppCompatActivity {
             if(InternetConnection.checkConnection(getApplicationContext())){
                 if (fireuser != null) {
                     progress.setVisibility(View.VISIBLE);
-                    if (fireuser.isEmailVerified()) {
+//                    if (fireuser.isEmailVerified()) {
                         FirebaseFirestore.getInstance().document("Users/"+FirebaseAuth.getInstance().getUid()+"/")
                                 .get()
                                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -66,7 +66,6 @@ public class Splash extends AppCompatActivity {
                                                 introPref.setUserdp(userModel.getDp());
                                                 introPref.setType(userModel.getType());
                                                 introPref.setFullName(userModel.getName());
-//                                                introPref.setCity(userModel.getCity());
 
                                                 Intent homeIntent = new Intent(Splash.this, MainActivity.class);
                                                 homeIntent.putExtra("value", "splash");
@@ -78,10 +77,7 @@ public class Splash extends AppCompatActivity {
                                             }, Splash_time_out);
                                         }
                                         else {
-
                                             new Handler().postDelayed(() -> {
-                                                //                        progress.setVisibility(View.GONE);
-
                                                 Intent homeIntent = new Intent(Splash.this, LoginActivity.class);
                                                 homeIntent.putExtra("value", "splash");
                                                 homeIntent.putExtra("email", fireuser.getEmail());
@@ -105,19 +101,19 @@ public class Splash extends AppCompatActivity {
                                         }, Splash_time_out);
                                     }
                                 });
-                    }
-                    else {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                //            progress.setVisibility(View.GONE);
-
-                                Intent intent = new Intent(Splash.this, LoginActivity.class);
-                                Splash.this.startActivity(intent);
-                                Splash.this.finish();
-                            }
-                        }, Splash_time_out);
-                    }
+//                    }
+//                    else {
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                //            progress.setVisibility(View.GONE);
+//
+//                                Intent intent = new Intent(Splash.this, LoginActivity.class);
+//                                Splash.this.startActivity(intent);
+//                                Splash.this.finish();
+//                            }
+//                        }, Splash_time_out);
+//                    }
                 }
                 else {
                     new Handler().postDelayed(new Runnable() {

@@ -3,8 +3,7 @@
     <string name="app_name">উৎসব</string>
 
     <string name="login">প্রবেশ করুন</string>
-    <string name="sign_up">
-নিবন্ধন করুন</string>
+    <string name="sign_up">নিবন্ধন করুন</string>
     <string name="don_t_have_an_account_yet">এখনও অ্যাকাউন্ট নেই?</string>
     <string name="skip_for_now">এড়িয়ে যান</string>
     <string name="enter_email">ইমেইল প্রদান করুন</string>
@@ -15,6 +14,10 @@
     <string name="or">অথবা</string>
     <string name="from">হইতে</string>
     <string name="locate">অবস্থান</string>
+    <string name="useful_information">দরকারী তথ্য</string>
+    <string name="privacy_nav">গোপনীয়তা</string>
+    <string name="about_us">আমাদের সম্পর্কে</string>
+    <string name="tag">ট্যাগ যুক্ত করুন</string>
 
 
     <string name="enter_committeeName">কমিটির নাম লিখুন</string>
@@ -68,7 +71,7 @@
         <item>অন্যান্য</item>
     </string-array>
 
-    <string name="reg">Registration</string>
+    <string name="reg">নিবন্ধন</string>
     <string name="name">নাম</string>
     <string name="fname">নামের প্রথম অংশ*</string>
     <string name="lname">নামের শেষাংশ*</string>
@@ -141,8 +144,34 @@
     <string name="add_to_post">পোস্টে যোগ করুন</string>
     <string name="visitors">দর্শনার্থী</string>
     <string name="tags">ট্যাগ</string>
-    <string name="continue_with_phone_no">Continue with Phone No.</string>
-    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="continue_with_phone_no">ফোন নম্বর সহ চালিয়ে যান</string>
+    <string name="enter_mobile_number">মোবাইল নম্বর প্রবেশ করান</string>
+    <string name="new_post">নতুন পোস্ট</string>
+    <string name="utsavFeature1">ফটো</string>
+    <string name="utsavFeature2">360 ডিগ্রী শট</string>
+    <string name="utsavFeature3">বিভিন্ন পুজো সন্ধান করুন</string>
+    <string name="utsavFeature4">সরাসরি প্রতিযোগিতায় অংশ নেওয়া</string>
+    <string name="utsavFeature5">প্রাক পুজো আপডেট</string>
 
+    <string name="rate_us">"আপনার মতামত দিন"</string>
+    <string name="an_initiative_of">একটি উদ্যোগ</string>
+    <string name="utsav_clips">উত্সব ক্লিপস</string>
+    <string name="your_posts">আপনার পোস্ট</string>
+    <string name="pujo">পুজো</string>
+    <string name="videos">ভিডিও</string>
+    <string name="camera">ক্যামেরা</string>
+    <string name="photos">ফটো</string>
+    <string name="gallery">গ্যালারী</string>
+    <string name="follow">অনুসরণ করুন</string>
+    <string name="loading">লোড হচ্ছে ...</string>
+    <string name="upvotes">উপভোটস</string>
+    <string name="likes">পছন্দ</string>
+    <string name="tag_your_pujo">আপনার পুজো ট্যাগ করুন</string>
+    <string name="headline">শিরোনাম:</string>
+    <string name="head_content">head_content</string>
+
+    <string name="aboutUtsav">এই বর্তমান মহামারীর কারণে এটা স্পষ্ট যে দুর্গাপুজো ২০২০ প্রতিবছরের মতো হবে না \ কলকাতার শিক্ষার্থীরা একটি অ্যান্ড্রয়েড অ্যাপ তৈরি করার উদ্যোগ নিয়েছে, <b> "উত্সব" </b> যার মাধ্যমে বাংলার মানুষ তাদের বাড়ির সুরক্ষা থেকে শুরু করে উত্সবে অংশ নিতে সক্ষম হবে able \ n \ n দর্শকের পছন্দের পুরষ্কার জনগণের কথোপকথনের ভিত্তিতে ২০২০ সালের সেরা পুজোতে দেওয়া হবে।</string>
+    <string name="Post">পোস্ট</string>
+    <string name="set_app_lang">অ্যাপ্লিকেশন ভাষা সেট করুন:</string>
 
 </resources>

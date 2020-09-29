@@ -2,12 +2,14 @@ package com.applex.utsav;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.applex.utsav.models.BaseUserModel;
+import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -31,19 +34,31 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 public class CommitteeViewAll extends AppCompatActivity {
 
     RecyclerView cRecyclerView;
     ProgressBar progress;
     ProgressBar progressMoreCom;
+    private LinearLayout emptyLayout;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private FirestorePagingAdapter adapter;
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_committee_view_all);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -60,6 +75,7 @@ public class CommitteeViewAll extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         cRecyclerView = findViewById(R.id.community_view_all);
         cRecyclerView.setHasFixedSize(true);
+        emptyLayout = findViewById(R.id.emptyLayout);
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(CommitteeViewAll.this, 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -185,7 +201,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         if(adapter.getItemCount() == 0) {
-
+                            emptyLayout.setVisibility(View.VISIBLE);
                         }
                         break;
                 }
