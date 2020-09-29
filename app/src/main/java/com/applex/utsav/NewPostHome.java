@@ -98,11 +98,11 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private TextView postusername;
     private Button post;
     private LinearLayout cam, gallery,  videopost, videocam;
-    private RelativeLayout addToPost, icons;
+    private RelativeLayout addToPost;
     private EditText postcontent, edtagtxt, head_content;
     private ImageView cross, user_image, video_cam_icon, video_gal_icon;
     private ImageView postimage;
-    private LinearLayout customTag;
+    private LinearLayout customTag, icons;
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
