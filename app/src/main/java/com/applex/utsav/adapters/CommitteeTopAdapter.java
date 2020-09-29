@@ -83,7 +83,7 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         }
         else{
-            holder.committeeCover.setImageResource(R.drawable.community_default);
+            holder.committeeCover.setImageResource(R.drawable.durga_ma);
         }
 
 //        if(currentitem.getDp() != null){
