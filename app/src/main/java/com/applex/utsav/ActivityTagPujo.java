@@ -62,9 +62,7 @@ public class ActivityTagPujo extends AppCompatActivity {
                                 finish();
                             }
                         });
-
                         tagsRecycler.setAdapter(adapter);
-
                     }
                 });
 

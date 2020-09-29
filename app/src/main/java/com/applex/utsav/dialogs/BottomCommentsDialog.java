@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -56,8 +57,9 @@ public class BottomCommentsDialog extends DialogFragment {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1, bool;
     private EditText newComment;
-    private ImageView send, no_comment, commentimg;
+    private ImageView send, commentimg;
     private DocumentReference docRef;
+    private LinearLayout no_comment;
     private CollectionReference commentRef;
     private BottomSheetDialog commentMenuDialog;
     private ProgressDialog progressDialog;
@@ -86,7 +88,7 @@ public class BottomCommentsDialog extends DialogFragment {
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
         nestedScrollView.setNestedScrollingEnabled(true);
 
-        no_comment = v.findViewById(R.id.no_comments);
+        no_comment = v.findViewById(R.id.emptyLayout);
         commentimg = v.findViewById(R.id.user_image_comment);
         newComment = v.findViewById(R.id.new_comment);
         send = v.findViewById(R.id.send_comment);

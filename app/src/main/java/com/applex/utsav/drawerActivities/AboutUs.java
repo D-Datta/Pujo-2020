@@ -37,8 +37,6 @@ public class AboutUs extends AppCompatActivity {
         tcampus24.setMovementMethod(LinkMovementMethod.getInstance());
         tjee.setMovementMethod(LinkMovementMethod.getInstance());
         tinnovacion.setMovementMethod(LinkMovementMethod.getInstance());
-
-
     }
 
 

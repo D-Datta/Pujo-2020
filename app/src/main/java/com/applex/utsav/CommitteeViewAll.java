@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class CommitteeViewAll extends AppCompatActivity {
     RecyclerView cRecyclerView;
     ProgressBar progress;
     ProgressBar progressMoreCom;
+    private LinearLayout emptyLayout;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -60,6 +62,7 @@ public class CommitteeViewAll extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         cRecyclerView = findViewById(R.id.community_view_all);
         cRecyclerView.setHasFixedSize(true);
+        emptyLayout = findViewById(R.id.emptyLayout);
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(CommitteeViewAll.this, 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -185,7 +188,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         if(adapter.getItemCount() == 0) {
-
+                            emptyLayout.setVisibility(View.VISIBLE);
                         }
                         break;
                 }
