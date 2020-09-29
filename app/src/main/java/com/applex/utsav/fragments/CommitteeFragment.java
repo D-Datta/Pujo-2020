@@ -51,7 +51,6 @@ import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
-import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.ReelsPostModel;
@@ -70,7 +69,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -511,10 +509,6 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         startActivity(intent);
-
-
-//                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
-//                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
@@ -542,7 +536,6 @@ public class CommitteeFragment extends Fragment {
                             currentItem.setLikeCheck(j);
                         }
                     }
-
                 } else {
                     programmingViewHolder.like_layout.setVisibility(View.GONE);
                 }
@@ -650,149 +643,84 @@ public class CommitteeFragment extends Fragment {
 
                 if (currentItem.getCmtNo() > 0) {
                     programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
                     programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    if(currentItem.getCmtNo() == 1) {
-                        programmingViewHolder.commentLayout2.setVisibility(View.GONE);
-                        FirebaseFirestore.getInstance().collection("Feeds/" + currentItem.getDocID() + "/commentL")
-                                .get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                QuerySnapshot querySnapshot = task.getResult();
-                                if (querySnapshot != null) {
-                                    CommentModel commentModel = querySnapshot.getDocuments().get(0).toObject(CommentModel.class);
-                                    Picasso.get().load(Objects.requireNonNull(commentModel).getUserdp())
-                                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                            .into(programmingViewHolder.dp_cmnt1);
-                                    programmingViewHolder.name_cmnt1.setText(commentModel.getUsername());
+                    programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                    programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
+                    Picasso.get().load(currentItem.getCom1_dp())
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(programmingViewHolder.dp_cmnt1);
 
-                                    programmingViewHolder.cmnt1.setText(commentModel.getComment());
-                                    if (programmingViewHolder.cmnt1.getUrls().length > 0) {
-                                        URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
-                                        String url = urlSnapItem.getURL();
-                                        if (url.contains("http")) {
-                                            programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                                            programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                                @Override
-                                                public void onSuccess(boolean status) { }
+                    programmingViewHolder.cmnt1.setText(currentItem.getCom1());
+                    if (programmingViewHolder.cmnt1.getUrls().length > 0) {
+                        URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
+                        String url = urlSnapItem.getURL();
+                        if (url.contains("http")) {
+                            programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                            programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                @Override
+                                public void onSuccess(boolean status) { }
 
-                                                @Override
-                                                public void onError(Exception e) {
-                                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                                        //do stuff like remove view etc
-                                                        programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    } else {
+                                @Override
+                                public void onError(Exception e) {
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        //do stuff like remove view etc
                                         programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                    }
-
-                                    programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
-                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
-                                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                                        } else {
-                                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance()
-                                .collection("Feeds/" + currentItem.getDocID() + "/commentL")
-                                .get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                QuerySnapshot querySnapshot = task.getResult();
-                                if (querySnapshot != null) {
-                                    querySnapshot.getQuery().orderBy("ts", Query.Direction.DESCENDING)
-                                            .get().addOnCompleteListener(task1 -> {
-                                        QuerySnapshot querySnapshot1 = task1.getResult();
-                                        if (querySnapshot1 != null) {
-                                            CommentModel commentModel1 = querySnapshot1.getDocuments().get(0).toObject(CommentModel.class);
-                                            Picasso.get().load(Objects.requireNonNull(commentModel1).getUserdp())
-                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                                    .into(programmingViewHolder.dp_cmnt1);
-                                            programmingViewHolder.name_cmnt1.setText(commentModel1.getUsername());
-
-                                            programmingViewHolder.cmnt1.setText(commentModel1.getComment());
-                                            if (programmingViewHolder.cmnt1.getUrls().length > 0) {
-                                                URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
-                                                String url = urlSnapItem.getURL();
-                                                if (url.contains("http")) {
-                                                    programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                                                    programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                                        @Override
-                                                        public void onSuccess(boolean status) { }
-
-                                                        @Override
-                                                        public void onError(Exception e) {
-                                                            new Handler(Looper.getMainLooper()).post(() -> {
-                                                                //do stuff like remove view etc
-                                                                programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                            }
-
-                                            programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
-                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
-                                                    programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                                                } else {
-                                                    programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                                }
-                                            }
-
-                                            CommentModel commentModel2 = querySnapshot1.getDocuments().get(1).toObject(CommentModel.class);
-                                            Picasso.get().load(Objects.requireNonNull(commentModel2).getUserdp())
-                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                                    .into(programmingViewHolder.dp_cmnt2);
-                                            programmingViewHolder.name_cmnt2.setText(commentModel2.getUsername());
-
-                                            programmingViewHolder.cmnt2.setText(commentModel2.getComment());
-                                            if (programmingViewHolder.cmnt2.getUrls().length > 0) {
-                                                URLSpan urlSnapItem = programmingViewHolder.cmnt2.getUrls()[0];
-                                                String url = urlSnapItem.getURL();
-                                                if (url.contains("http")) {
-                                                    programmingViewHolder.link_preview2.setVisibility(View.VISIBLE);
-                                                    programmingViewHolder.link_preview2.setLink(url, new ViewListener() {
-                                                        @Override
-                                                        public void onSuccess(boolean status) { }
-
-                                                        @Override
-                                                        public void onError(Exception e) {
-                                                            new Handler(Looper.getMainLooper()).post(() -> {
-                                                                //do stuff like remove view etc
-                                                                programmingViewHolder.link_preview2.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                programmingViewHolder.link_preview2.setVisibility(View.GONE);
-                                            }
-
-                                            programmingViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
-                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
-                                                    programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
-                                                } else {
-                                                    programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                                }
-                                            }
-                                        }
                                     });
                                 }
+                            });
+                        }
+                    } else {
+                        programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                    }
+
+                    programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
+                    if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
+                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
+                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                        }
+                    }
+
+                    if(currentItem.getCmtNo() == 2) {
+                        programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
+                        programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
+                        Picasso.get().load(currentItem.getCom2_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(programmingViewHolder.dp_cmnt2);
+
+                        programmingViewHolder.cmnt2.setText(currentItem.getCom2());
+                        if (programmingViewHolder.cmnt2.getUrls().length > 0) {
+                            URLSpan urlSnapItem = programmingViewHolder.cmnt2.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) { }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
                             }
-                        });
+                        } else {
+                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        programmingViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom2_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom2_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
+                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
+                        }
                     }
 
                     programmingViewHolder.comment_layout.setOnClickListener(v -> {
@@ -1030,26 +958,6 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
             }
-
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                scrollY[0] = scrollY[0] + dy;
-//                if (scrollY[0] <= 2000 && dy < 0) {
-//                    floatingActionButton.setVisibility(View.GONE);
-//                }
-//                else {
-//                    if(dy < 0) {
-//                        floatingActionButton.setVisibility(View.VISIBLE);
-//                        floatingActionButton.setOnClickListener(v -> {
-//                            recyclerView.scrollToPosition(0);
-//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
-//                        });
-//                    } else {
-//                        floatingActionButton.setVisibility(View.GONE);
-//                    }
-//                }
-//            }
         });
     }
 
