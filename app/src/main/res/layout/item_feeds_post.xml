@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/custom_ripple_white"
-                android:paddingVertical="5dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="16dp">
 
