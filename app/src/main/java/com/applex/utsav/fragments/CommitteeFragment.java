@@ -1231,12 +1231,18 @@ public class CommitteeFragment extends Fragment {
                             });
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-//                                String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-//                                Intent i = new Intent();
-//                                i.setAction(Intent.ACTION_SEND);
-//                                i.putExtra(Intent.EXTRA_TEXT, link);
-//                                i.setType("text/plain");
-//                                startActivity(Intent.createChooser(i, "Share with"));
+//                                if(bool.matches("1")){
+//                                    link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+//                                }
+//                                else if (bool.matches("2")){
+//                                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
+//                                }
+                                link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
                                 postMenuDialog.dismiss();
                             });
 
