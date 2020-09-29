@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/dark_black"
     android:layout_height="match_parent">
 
     <ImageView
@@ -114,7 +115,6 @@
         android:orientation="vertical"
         android:background="@color/dark_black_transparent">
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tagsList_recycler44"
             android:layout_width="match_parent"
@@ -177,7 +177,6 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="5dp"
-                    app:tint="@color/pink"
                     android:src="@drawable/ic_blossom" />
 
             </LinearLayout>

@@ -97,16 +97,17 @@
 
                 <TextView
                     android:id="@+id/type_smthng"
+                    android:text="@string/share_your_pujo_story"
+                    android:paddingVertical="10dp"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15dp"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/oxygen_regular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@drawable/layerlistbg"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:paddingVertical="10dp"
-                    android:paddingHorizontal="15dp"
-                    android:text="@string/share_your_pujo_story"
-                    android:textSize="15dp" />
+                    android:background="@drawable/layerlistbg"/>
 
             </LinearLayout>
 
@@ -116,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/custom_ripple_white"
-                android:paddingVertical="5dp"
+                android:layout_marginBottom="7dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="16dp">
 
@@ -433,8 +434,7 @@
                                 android:layout_height="38dp"
                                 android:background="@drawable/custom_ripple_white"
                                 android:padding="5dp"
-                                android:src="@drawable/ic_blossom"
-                                app:tint="#F3B3B3" />
+                                android:src="@drawable/ic_blossom" />
 
                         </LinearLayout>
 

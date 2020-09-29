@@ -76,7 +76,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
@@ -86,7 +85,6 @@ public class CommitteeFragment extends Fragment {
 
     public static int changed = 0;
     public static int delete = 0;
-    public static int swipe = 0;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressMore, contentProgress;
@@ -120,7 +118,6 @@ public class CommitteeFragment extends Fragment {
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
-//        floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -250,50 +247,73 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-                else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() == getItemCount() % 8
-                        && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
-                        && programmingViewHolder.getItemViewType() < getItemCount()) {
+                else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                     if(programmingViewHolder.getItemViewType() != 1) {
-                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
-                        reels_query = FirebaseFirestore.getInstance()
+                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1) + 1;
+                        Query query1 = FirebaseFirestore.getInstance()
                                 .collection("Reels")
-                                .orderBy("ts", Query.Direction.DESCENDING)
-                                .limit(10)
-                                .startAfter(query_position);
+                                .orderBy("ts", Query.Direction.DESCENDING);
+
+                        query1.get().addOnCompleteListener(task -> {
+                            reels_query = FirebaseFirestore.getInstance()
+                                    .collection("Reels")
+                                    .orderBy("ts", Query.Direction.DESCENDING)
+                                    .startAt(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
+
+                            reels_query.get().addOnCompleteListener(task1 -> {
+                                if(task1.isSuccessful()) {
+                                    if(Objects.requireNonNull(task1.getResult()).size() == 0) {
+                                        programmingViewHolder.reels_item.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+                                        buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+
+                                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                                            intent.putExtra("docID", Objects.requireNonNull(task1.getResult().getDocuments().get(0).get("docID")).toString());
+                                            intent.putExtra("bool", "1");
+                                            requireActivity().startActivity(intent);
+                                        });
+                                    }
+                                }
+                                else {
+                                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+                                }
+                            });
+                        });
                     }
                     else {
                         query_position = 0;
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
-                                .orderBy("ts", Query.Direction.DESCENDING)
-                                .limit(10);
-                    }
+                                .orderBy("ts", Query.Direction.DESCENDING);
 
-                    reels_query.get().addOnCompleteListener(task -> {
-                        if(task.isSuccessful()) {
-                            if(Objects.requireNonNull(task.getResult()).size() == 0) {
-                                programmingViewHolder.reels_item.setVisibility(View.GONE);
+                        reels_query.get().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()) {
+                                if(Objects.requireNonNull(task.getResult()).size() == 0) {
+                                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+                                }
+                                else {
+                                    programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+                                    buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+
+                                    programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                                        intent.putExtra("docID", Objects.requireNonNull(task.getResult().getDocuments().get(0).get("docID")).toString());
+                                        intent.putExtra("bool", "1");
+                                        requireActivity().startActivity(intent);
+                                    });
+                                }
                             }
                             else {
-                                programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-                                buildReelsRecyclerView(programmingViewHolder.getItemViewType());
-
-                                programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                    intent.putExtra("position", "0");
-                                    intent.putExtra("bool", "1");
-                                    intent.putExtra("query_pos", String.valueOf(query_position));
-                                    requireActivity().startActivity(intent);
-                                });
+                                programmingViewHolder.reels_item.setVisibility(View.GONE);
                             }
-                        }
-                        else {
-                            programmingViewHolder.reels_item.setVisibility(View.GONE);
-                        }
-                    });
+                        });
+                    }
                 }
                 else {
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -443,7 +463,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("likeL", currentItem.getLikeL());
                         if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                             Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
                         }
                         intent.putExtra("postText", currentItem.getTxt());
@@ -469,7 +489,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("likeL", currentItem.getLikeL());
                         if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                             Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
                         }
                         intent.putExtra("postText", currentItem.getTxt());
@@ -804,7 +824,7 @@ public class CommitteeFragment extends Fragment {
                             i.putExtra("type", currentItem.getType());
                             if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                                 Bundle args = new Bundle();
-                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                args.putSerializable("ARRAYLIST", currentItem.getImg());
                                 i.putExtra("BUNDLE", args);
                             }
                             i.putExtra("txt", currentItem.getTxt());
@@ -839,8 +859,6 @@ public class CommitteeFragment extends Fragment {
                                         .addOnSuccessListener(aVoid -> {
                                             ActivityProfileCommittee.delete = 1;
                                             programmingViewHolder.itemHome.setVisibility(View.GONE);
-//                                            programmingViewHolder.view1.setVisibility(View.GONE);
-//                                            programmingViewHolder.view2.setVisibility(View.GONE);
                                             notifyDataSetChanged();
                                             progressDialog.dismiss();
                                         });
@@ -1110,8 +1128,9 @@ public class CommitteeFragment extends Fragment {
             snapHelper.attachToRecyclerView(pvh.reelsList);
 
             PagedList.Config config = new PagedList.Config.Builder()
-                    .setInitialLoadSizeHint(5)
-                    .setPageSize(5)
+                    .setInitialLoadSizeHint(10)
+                    .setPageSize(10)
+                    .setPrefetchDistance(0)
                     .setEnablePlaceholders(true)
                     .build();
 
@@ -1157,20 +1176,16 @@ public class CommitteeFragment extends Fragment {
                     if(holder.item_reels_video.getVisibility() == View.VISIBLE) {
                         holder.item_reels_video.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                            intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
                             intent.putExtra("docID", currentItem.getDocID());
-                            intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
                     }
                     else if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
                         holder.item_reels_image.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                            intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
                             intent.putExtra("docID", currentItem.getDocID());
-                            intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -1227,6 +1242,9 @@ public class CommitteeFragment extends Fragment {
                                                         ActivityProfileCommittee.delete = 1;
                                                         holder.itemView.setVisibility(View.GONE);
                                                         progressDialog.dismiss();
+                                                        if(getItemCount() == 0) {
+                                                            pvh.reels_item.setVisibility(View.GONE);
+                                                        }
                                                     });
                                             postMenuDialog.dismiss();
                                         })
@@ -1236,12 +1254,18 @@ public class CommitteeFragment extends Fragment {
                             });
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-//                                String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-//                                Intent i = new Intent();
-//                                i.setAction(Intent.ACTION_SEND);
-//                                i.putExtra(Intent.EXTRA_TEXT, link);
-//                                i.setType("text/plain");
-//                                startActivity(Intent.createChooser(i, "Share with"));
+//                                if(bool.matches("1")){
+//                                    link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+//                                }
+//                                else if (bool.matches("2")){
+//                                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
+//                                }
+                                link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
                                 postMenuDialog.dismiss();
                             });
 
@@ -1268,6 +1292,12 @@ public class CommitteeFragment extends Fragment {
 //                                i.putExtra(Intent.EXTRA_TEXT, link);
 //                                i.setType("text/plain");
 //                                startActivity(Intent.createChooser(i, "Share with"));
+                                link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
                                 postMenuDialog.dismiss();
                             });
 
@@ -1301,6 +1331,23 @@ public class CommitteeFragment extends Fragment {
 
                 @Override
                 public int getItemViewType(int position) { return position; }
+
+                @Override
+                protected void onLoadingStateChanged(@NonNull LoadingState state) {
+                    super.onLoadingStateChanged(state);
+                    switch (state) {
+                        case ERROR:
+                            BasicUtility.showToast(getActivity(), "Something went wrong...");
+                            break;
+                        case FINISHED:
+                            if(adapter.getItemCount() == 0) {
+                                pvh.reels_item.setVisibility(View.GONE);
+                            } else {
+                                pvh.reels_item.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                    }
+                }
             };
 
             pvh.reelsList.setAdapter(reelsAdapter);
@@ -1383,13 +1430,10 @@ public class CommitteeFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if((changed > 0 || delete > 0) && swipe == 0) {
+        if((changed > 0 || delete > 0)) {
             buildRecyclerView();
             changed = 0;
             delete = 0;
-        }
-        else {
-            swipe = 1;
         }
         super.onResume();
 
@@ -1418,7 +1462,7 @@ public class CommitteeFragment extends Fragment {
                     float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                     if (percent >= 90) {
-                        RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
+                        RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
 
                         int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
                         int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();

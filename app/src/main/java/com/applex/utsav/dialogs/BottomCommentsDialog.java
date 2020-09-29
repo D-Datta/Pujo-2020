@@ -207,7 +207,10 @@ public class BottomCommentsDialog extends DialogFragment {
 
         buildRecyclerView_comments();
 
-        dismiss.setOnClickListener(v1 -> BottomCommentsDialog.super.onDestroyView());
+        dismiss.setOnClickListener(v1 -> {
+            BasicUtility.hideKeyboard(requireActivity());
+            BottomCommentsDialog.super.onDestroyView();
+        });
     }
 
     @Override

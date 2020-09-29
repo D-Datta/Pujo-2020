@@ -49,7 +49,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private ViewPager2 reelsList;
     private IntroPref introPref;
     private String bool;
-    private String uid;
+    private String uid,link;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
                         ViewPager2 reelsList, String bool, String uid) {
@@ -181,6 +181,15 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 holder.likesCount.setVisibility(View.VISIBLE);
                 holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
 
+                for(int j = 0; j < currentItem.getLikeL().size(); j++){
+                    if(currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
+                        holder.like.setImageResource(R.drawable.ic_flame_red);
+                        currentItem.setLikeCheck(j);
+                        holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
+                        //Position in likeList where the current USer UId is found stored in likeCheck
+                    }
+                }
+
                 holder.like_image.setOnClickListener(v -> {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
                     bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
@@ -204,7 +213,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     //play animation, play audio
 
                     if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                        holder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
+                        holder.like.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
                         if (currentItem.getLikeL().size() - 1 == 0) {
                             holder.likesCount.setVisibility(View.GONE);
                             holder.like_image.setVisibility(View.GONE);
@@ -295,6 +304,22 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.comment.setOnClickListener(v -> {
             BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+        });
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(bool.matches("1")){
+                    link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                }
+                else if (bool.matches("2")){
+                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
+                }
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_TEXT, link);
+                i.setType("text/plain");
+                context.startActivity(Intent.createChooser(i, "Share with"));
+            }
         });
     }
 

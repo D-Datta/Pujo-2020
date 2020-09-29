@@ -49,6 +49,8 @@ import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.MultipleImageAdapter;
 import com.applex.utsav.adapters.TagAdapter;
+import com.applex.utsav.fragments.CommitteeFragment;
+import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
@@ -235,26 +237,23 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //            }
 //        });
 
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            icons.setVisibility(View.VISIBLE);
-        }
-        else{
-            bottomSheetBehavior.setState(STATE_COLLAPSED);
-            icons.setVisibility(View.GONE);
-        }
+//        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+//            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            icons.setVisibility(View.VISIBLE);
+//        }
+//        else{
+//            bottomSheetBehavior.setState(STATE_COLLAPSED);
+//            icons.setVisibility(View.GONE);
+//        }
 
         addToPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    icons.setVisibility(View.GONE);
-
                 }
                 else{
                     bottomSheetBehavior.setState(STATE_COLLAPSED);
-                    icons.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -511,6 +510,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
 
+                        if(introPref.getType().matches("indi")){
+                            FeedsFragment.changed=1;
+                            ActivityProfileUser.change=1;
+                        }
+                        else if(introPref.getType().matches("com")){
+                            CommitteeFragment.changed=1;
+                        }
+
                         docRef = firebaseFirestore.collection("Feeds").document(editPostModel.getDocID());
 
                         ts = Long.toString(editPostModel.getTs());
@@ -624,6 +631,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         progressDialog.setTitle("Uploading");
                         progressDialog.setMessage("Please wait...");
                         progressDialog.show();
+
+                        if(introPref.getType().matches("indi")){
+                            FeedsFragment.changed=1;
+                            ActivityProfileUser.change=1;
+                        }
+                        else if(introPref.getType().matches("com")){
+                            CommitteeFragment.changed=1;
+                        }
 
                         if(videoUri != null) {
                             docRef = firebaseFirestore.collection("Reels").document(String.valueOf(timestampLong));
@@ -769,8 +784,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
                                             progressDialog.dismiss();
-                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                            finish();
+//                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                            finish();
+                                            if (isTaskRoot()) {
+                                                startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                finish();
+                                            } else {
+                                                NewPostHome.super.onBackPressed();
+                                            }
                                         } else {
                                             Toast.makeText(getApplicationContext(), "Post creation failed", Toast.LENGTH_LONG).show();
                                             progressDialog.dismiss();
