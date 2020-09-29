@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/ic_path_grag_pink_ulto"
         android:paddingBottom="10dp">
 
         <LinearLayout
@@ -184,41 +183,49 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="textStart"
-                android:text="@string/email"
-                android:layout_marginStart="0dp"
-                android:paddingTop="10dp"
-                android:textStyle="bold"
-                android:paddingHorizontal="15dp"
-                android:textSize="15sp"
-                android:fontFamily="@font/oxygen_regular"
-                android:textColor="#212121"
-                />
-
-            <TextView
-                android:id="@+id/email_pc"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="8dp"
-                android:textSize="18sp"
-                android:textColor="@color/cardview_dark_background"
-                android:background="@drawable/background_rectangle"
-                android:hint="@string/email"
-                android:inputType="text"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="@string/email"
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textColor="#212121" />
+
+                <TextView
+                    android:id="@+id/email_pc"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:background="@drawable/background_rectangle"
+                    android:hint="@string/email"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -231,8 +238,7 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
                     android:textStyle="bold"
-                    android:textColor="#212121"
-                    />
+                    android:textColor="#212121" />
 
                 <EditText
                     android:id="@+id/committee_description"
@@ -256,7 +262,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -292,12 +299,12 @@
             </LinearLayout>
 
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="5dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
