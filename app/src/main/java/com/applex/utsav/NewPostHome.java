@@ -235,26 +235,23 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //            }
 //        });
 
-        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            icons.setVisibility(View.VISIBLE);
-        }
-        else{
-            bottomSheetBehavior.setState(STATE_COLLAPSED);
-            icons.setVisibility(View.GONE);
-        }
+//        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
+//            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//            icons.setVisibility(View.VISIBLE);
+//        }
+//        else{
+//            bottomSheetBehavior.setState(STATE_COLLAPSED);
+//            icons.setVisibility(View.GONE);
+//        }
 
         addToPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    icons.setVisibility(View.GONE);
-
                 }
                 else{
                     bottomSheetBehavior.setState(STATE_COLLAPSED);
-                    icons.setVisibility(View.VISIBLE);
                 }
 
             }

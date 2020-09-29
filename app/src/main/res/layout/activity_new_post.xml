@@ -159,19 +159,20 @@
                 android:id="@+id/post_headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="50dp"
+                android:minHeight="80dp"
                 android:minLines="1"
                 android:fontFamily="@font/oxygen_regular"
                 android:textColor="@color/black"
                 android:inputType="textMultiLine|textCapSentences"
                 android:textColorLink="@color/colorPrimary"
                 android:autoLink="all"
+                android:background="@null"
                 android:hint="@string/headline"
                 android:gravity="top"
                 android:paddingVertical="5dp"
                 android:paddingHorizontal="15dp"
                 android:layout_marginTop="5dp"
-                android:textSize="20sp" />
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/post_content"
@@ -189,7 +190,7 @@
                 android:paddingVertical="10dp"
                 android:paddingHorizontal="15dp"
                 android:layout_marginTop="5dp"
-                android:textSize="20sp" />
+                android:textSize="17dp" />
 
             <com.applex.utsav.LinkPreview.ApplexLinkPreview
                 android:id="@+id/LinkPreView"

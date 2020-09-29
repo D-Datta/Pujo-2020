@@ -156,11 +156,10 @@ public class ViewMoreHome extends AppCompatActivity {
 //        options1.inJustDecodeBounds = true;
 //
 //        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
-////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options);
-////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options);
-////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options);
-////        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options);
-//
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options1);
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options1);
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options1);
+//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options1);
 //
 //        int width1 = options1.outWidth;
 //        if (width1 > displayWidth1) {
@@ -170,7 +169,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //
 //        Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
 //        flameimg.setImageBitmap(scaledBitmap1);
-
+//
 //
 //        Display display2 = getWindowManager().getDefaultDisplay();
 //        int displayWidth2 = display2.getWidth();

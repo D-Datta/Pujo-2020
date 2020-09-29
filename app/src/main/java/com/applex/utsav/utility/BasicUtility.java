@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -206,9 +207,13 @@ public class BasicUtility {
         return s;
     }
 
-    public static void hideKeyboard(Context context, ConstraintLayout layout) {
-        InputMethodManager imm = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(layout.getWindowToken(), 0);
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService(INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if(view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     public static void vibrate(Context context) {
