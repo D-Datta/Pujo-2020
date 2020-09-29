@@ -1434,14 +1434,14 @@ public class CommitteeFragment extends Fragment {
 
     @Override
     public void onResume() {
-        if((changed > 0 || delete > 0) && swipe == 0) {
+        if(changed > 0 || delete > 0) {
             buildRecyclerView();
             changed = 0;
             delete = 0;
         }
-        else {
-            swipe = 1;
-        }
+//        else {
+//            swipe = 1;
+//        }
         super.onResume();
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();

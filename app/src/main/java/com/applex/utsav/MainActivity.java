@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onPageSelected(int position) {
-                CommitteeFragment.swipe = 1;
+//                CommitteeFragment.swipe = 1;
             }
 
             @Override
