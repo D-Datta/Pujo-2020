@@ -1,6 +1,5 @@
 package com.applex.utsav.models;
 
-import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -22,10 +21,14 @@ public class BaseUserModel {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
-    private long followers;
+    private long upvotes;
     private Timestamp lastVisitTs;
+    private ArrayList<String> upvoteL;
 
-    private ArrayList<String> followerL;
+    public BaseUserModel() {
+        upvoteL = new ArrayList<>();
+    }
+
 
     public String getName() {
         return name;
@@ -144,19 +147,19 @@ public class BaseUserModel {
     //metrics
 
 
-    public long getFollowers() {
-        return followers;
+    public long getUpvotes() {
+        return upvotes;
     }
 
-    public void setFollowers(long followers) {
-        this.followers = followers;
+    public void setUpvotes(long upvotes) {
+        this.upvotes = upvotes;
     }
 
-    public ArrayList<String> getFollowerL() {
-        return followerL;
+    public ArrayList<String> getUpvoteL() {
+        return upvoteL;
     }
 
-    public void setFollowerL(ArrayList<String> followerL) {
-        this.followerL = followerL;
+    public void setUpvoteL(ArrayList<String> upvoteL) {
+        this.upvoteL = upvoteL;
     }
 }

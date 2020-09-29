@@ -397,7 +397,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 app:titleTextColor="@color/black"
-                app:title="Utsav"
+                app:title="@string/app_name"
                 android:background="@color/white"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />

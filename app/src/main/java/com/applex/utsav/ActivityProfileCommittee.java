@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,8 +87,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private ConnectivityManager cm;
     private BaseUserModel baseUserModel;
 
-    private TextView visits, likes, followers;
-    boolean isFollower = false;
+    private TextView visits, likes, upvoters;
+    boolean isUpvoted = false;
     boolean isLoadingFinished = false;
 
     private int imageCoverOrDp = 0; //dp = 0, cover = 1
@@ -148,7 +147,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
         visits = findViewById(R.id.visits);
         likes = findViewById(R.id.likes);
-        followers = findViewById(R.id.followers);
+        upvoters = findViewById(R.id.followers);
         editDp = findViewById(R.id.edit_dp);
         editCover = findViewById(R.id.edit_cover);
 
@@ -245,7 +244,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(isLoadingFinished){
-                        if(isFollower){
+                        if(isUpvoted){
                             AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfileCommittee.this);
                             builder.setTitle("Withdraw vote for "+ baseUserModel.getName()+"?")
                                     .setMessage("Are you sure?")
@@ -253,10 +252,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                                         DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(uid);
 
-                                        DocumentReference followerRef = docRef.collection("Followers").document(fireuser.getUid());
+                                        DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
 
                                         WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                        batch.update(docRef, "followerL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                        batch.update(docRef, "upvoteL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                                         batch.delete(followerRef);
 
                                         batch.commit().addOnCompleteListener(task -> {
@@ -265,24 +264,24 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 follow.setBackgroundResource(R.drawable.custom_button);
                                                 follow.setTextColor(getResources().getColor(R.color.white));
 
-                                                if(baseUserModel.getFollowerL() != null){
-                                                    if(baseUserModel.getFollowerL().size()-1 == 0){
-                                                        followers.setText("0");
+                                                if(baseUserModel.getUpvoteL() != null){
+                                                    if(baseUserModel.getUpvoteL().size()-1 == 0){
+                                                        upvoters.setText("0");
                                                     }
-                                                    else if(baseUserModel.getFollowerL().size()-1 == 1){
-                                                        followers.setText((baseUserModel.getFollowerL().size()-1));
+                                                    else if(baseUserModel.getUpvoteL().size()-1 == 1){
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1));
                                                     }
                                                     else {
-                                                        followers.setText((baseUserModel.getFollowerL().size()-1));
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1));
                                                     }
                                                 }
                                                 else {
-                                                    followers.setText("0");
-                                                    followers.setVisibility(View.GONE);
+                                                    upvoters.setText("0");
+                                                    upvoters.setVisibility(View.GONE);
                                                 }
 
-                                                isFollower = false;
-                                                baseUserModel.getFollowerL().remove(fireuser.getUid());
+                                                isUpvoted = false;
+                                                baseUserModel.getUpvoteL().remove(fireuser.getUid());
                                             }
                                             else {
                                                 Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
@@ -304,10 +303,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     .collection("Users")
                                     .document(uid);
 
-                            DocumentReference followerRef = docRef.collection("Followers").document(fireuser.getUid());
+                            DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
 
                             WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            batch.update(docRef, "followerL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                            batch.update(docRef, "upvoteL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
                             batch.set(followerRef, seenModel);
 
                             batch.commit().addOnCompleteListener(task -> {
@@ -316,23 +315,23 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     follow.setBackgroundResource(R.drawable.custom_button_outline);
                                     follow.setTextColor(getResources().getColor(R.color.purple));
 
-                                    if(baseUserModel.getFollowerL() != null){
-                                        if(baseUserModel.getFollowerL().size()-1 == 0){
-                                            followers.setText("0");
+                                    if(baseUserModel.getUpvoteL() != null){
+                                        if(baseUserModel.getUpvoteL().size()-1 == 0){
+                                            upvoters.setText("0");
                                         }
-                                        else if(baseUserModel.getFollowerL().size()+1 == 1){
-                                            followers.setText((baseUserModel.getFollowerL().size()+1)+"");
+                                        else if(baseUserModel.getUpvoteL().size()+1 == 1){
+                                            upvoters.setText((baseUserModel.getUpvoteL().size()+1)+"");
                                         }
                                         else {
-                                            followers.setText((baseUserModel.getFollowerL().size()+1)+"");
+                                            upvoters.setText((baseUserModel.getUpvoteL().size()+1)+"");
                                         }
                                     }
                                     else {
-                                        followers.setText("0");
+                                        upvoters.setText("0");
                                     }
 
-                                    baseUserModel.getFollowerL().add(fireuser.getUid());
-                                    isFollower = true;
+                                    baseUserModel.getUpvoteL().add(fireuser.getUid());
+                                    isUpvoted = true;
                                 }
                                 else {
                                     Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
@@ -489,28 +488,28 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                             }
                                         });
 
-                                if(baseUserModel.getFollowerL() != null){
-                                    if(baseUserModel.getFollowerL().size() == 0){
-                                        followers.setText("0");
+                                if(baseUserModel.getUpvoteL() != null){
+                                    if(baseUserModel.getUpvoteL().size() == 0){
+                                        upvoters.setText("0");
                                     }
-                                    else if(baseUserModel.getFollowerL().size() == 1){
-                                        followers.setText(baseUserModel.getFollowerL().size()+"");
+                                    else if(baseUserModel.getUpvoteL().size() == 1){
+                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
                                     }
                                     else {
-                                        followers.setText(baseUserModel.getFollowerL().size()+"");
+                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
                                     }
-                                    for(String uid : baseUserModel.getFollowerL()){
+                                    for(String uid : baseUserModel.getUpvoteL()){
                                         if(uid.matches(fireuser.getUid())){
-                                            isFollower = true;
+                                            isUpvoted = true;
                                             break;
                                         }
                                     }
                                 }
                                 else {
-                                    followers.setText("0");
+                                    upvoters.setText("0");
                                 }
 
-                                if(isFollower){
+                                if(isUpvoted){
                                     follow.setText("Upvoted");
                                     follow.setBackgroundResource(R.drawable.custom_button_outline);
                                     follow.setTextColor(getResources().getColor(R.color.purple));
