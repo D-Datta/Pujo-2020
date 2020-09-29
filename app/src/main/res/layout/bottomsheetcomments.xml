@@ -83,7 +83,7 @@
                 android:fitsSystemWindows="true"
                 android:overScrollMode="never"
                 app:reverseLayout="false"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:paddingBottom="50dp" />
 
             <LinearLayout
