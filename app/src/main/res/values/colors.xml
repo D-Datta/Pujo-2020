@@ -13,6 +13,7 @@
     <color name="darkpurple">#490531</color>
     <color name="purple">#730D4F</color>
     <color name="pink">#EB2C65</color>
+    <color name="text_bg">#F47EA4</color>
 
     <color name="black">#212121</color>
     <color name="dark_black">#000</color>

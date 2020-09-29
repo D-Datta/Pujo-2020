@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple">
+    android:background="@color/text_bg">
 
     <ImageView
         android:id="@+id/post_image45"
@@ -18,11 +18,11 @@
         android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp"
-        android:background="@color/black_transparent">
+        android:padding="15dp">
 
         <ImageView
             android:id="@+id/back"
@@ -85,12 +85,12 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="65dp"
-        android:background="@color/dark_black_transparent"
-        android:orientation="vertical">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="70dp"-->
+<!--        android:background="@color/black_transparent"-->
+<!--        android:orientation="vertical">-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tagsList_recycler44"
@@ -99,7 +99,8 @@
             android:layout_marginStart="27dp"
             android:layout_marginEnd="17dp"
             android:clipToPadding="false"
-            android:paddingTop="5dp" />
+            android:paddingTop="5dp"
+            android:layout_below="@+id/top"/>
 
         <com.borjabravo.readmoretextview.ReadMoreTextView
             android:id="@+id/text_content44"
@@ -117,17 +118,22 @@
             app:trimCollapsedText="@string/read_more"
             app:trimMode="trimModeLength"
             app:trimLength="220"
+            android:fontFamily="@font/oxygen_bold"
             app:colorClickableText="@color/white_transparent"
             android:visibility="visible"
             android:textColor="@color/white"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="50dp" />
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
+            android:gravity="center" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginVertical="15dp"
             android:layout_marginEnd="17dp"
-            android:layout_marginVertical="15dp">
+            android:layout_alignParentBottom="true">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -149,15 +155,13 @@
                     android:layout_height="38dp"
                     android:layout_marginHorizontal="10dp"
                     android:padding="5dp"
-                    app:tint="@color/white"
-                    android:src="@drawable/ic_comment_viewmore"/>
+                    android:src="@drawable/ic_conch_shell"/>
 
                 <ImageView
                     android:id="@+id/share44"
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="5dp"
-                    app:tint="@color/white"
                     android:src="@drawable/ic_blossom"/>
             </LinearLayout>
 
@@ -180,7 +184,8 @@
                         android:layout_width="35dp"
                         android:layout_height="35dp"
                         android:padding="7dp"
-                        app:tint="@color/white_transparent" />
+                        app:tint="@color/white_transparent"
+                        android:src="@drawable/ic_baseline_favorite_24"/>
 
                     <TextView
                         android:id="@+id/flamed_by44"
@@ -206,7 +211,8 @@
                         android:layout_height="35dp"
                         android:layout_gravity="end|center_vertical"
                         android:padding="8dp"
-                        app:tint="@color/white_transparent"/>
+                        app:tint="@color/white_transparent"
+                        android:src="@drawable/ic_comment_viewmore"/>
 
                     <TextView
                         android:id="@+id/no_of_comments44"
@@ -224,6 +230,6 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 </RelativeLayout>
