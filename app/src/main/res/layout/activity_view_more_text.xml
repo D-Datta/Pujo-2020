@@ -92,41 +92,54 @@
 <!--        android:background="@color/black_transparent"-->
 <!--        android:orientation="vertical">-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tagsList_recycler44"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="27dp"
-            android:layout_marginEnd="17dp"
-            android:clipToPadding="false"
-            android:paddingTop="5dp"
-            android:layout_below="@+id/top"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
-        <com.borjabravo.readmoretextview.ReadMoreTextView
-            android:id="@+id/text_content44"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingTop="8dp"
-            android:paddingHorizontal="20dp"
-            android:autoLink="all"
-            android:textColorLink="@color/link"
-            android:text="@string/lorem_ipsum"
-            android:scrollbars="vertical"
-            android:textSize="25dp"
-            app:trimExpandedText="@string/read_less"
-            app:trimCollapsedText="@string/read_more"
-            app:trimMode="trimModeLength"
-            app:trimLength="220"
-            android:fontFamily="@font/oxygen_bold"
-            app:colorClickableText="@color/white_transparent"
-            android:visibility="visible"
-            android:textColor="@color/white"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
-            android:gravity="center" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tagsList_recycler44"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="27dp"
+                android:layout_marginEnd="17dp"
+                android:clipToPadding="false"
+                android:paddingTop="5dp" />
+
+            <com.borjabravo.readmoretextview.ReadMoreTextView
+                android:id="@+id/text_content44"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="20dp"
+                android:autoLink="all"
+                android:textColorLink="@color/link"
+                android:text="@string/lorem_ipsum"
+                android:scrollbars="vertical"
+                android:textSize="25dp"
+                app:trimExpandedText="@string/read_less"
+                app:trimCollapsedText="@string/read_more"
+                app:trimMode="trimModeLength"
+                app:trimLength="220"
+                android:fontFamily="@font/oxygen_bold"
+                app:colorClickableText="@color/white_transparent"
+                android:visibility="visible"
+                android:textColor="@color/white"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_centerInParent="true"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
         <RelativeLayout
             android:layout_width="match_parent"

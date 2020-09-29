@@ -882,9 +882,7 @@ public class FeedsFragment extends Fragment {
 
                     }
                 });
-                ////////POST MENU///////
-
-
+                ////////POST MENU//////
             }
 
             @NonNull
@@ -992,7 +990,6 @@ public class FeedsFragment extends Fragment {
             new_post_layout = itemView.findViewById(R.id.type_something);
             newPostIconsLL = itemView.findViewById(R.id.post_icons_ll);
 
-
             like_image = itemView.findViewById(R.id.like_image);
             comment_image = itemView.findViewById(R.id.comment_image);
             likesCount = itemView.findViewById(R.id.no_of_likes);
@@ -1018,32 +1015,6 @@ public class FeedsFragment extends Fragment {
 
         }
     }
-
-    private void save_Dialog(Bitmap bitmap) {
-        Dialog myDialogue = new Dialog(getActivity());
-        myDialogue.setContentView(R.layout.dialog_image_options);
-        myDialogue.setCanceledOnTouchOutside(TRUE);
-        myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!BasicUtility.checkStoragePermission(getContext())){
-                BasicUtility.requestStoragePermission(getContext());
-            }
-            else {
-                boolean bool = BasicUtility.saveImage(bitmap, getContext());
-                if(bool){
-                    Toast.makeText(getContext(), "Saved to device", Toast.LENGTH_SHORT).show();
-                    myDialogue.dismiss();
-                }
-                else{
-                    Toast.makeText(getContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-                    myDialogue.dismiss();
-                }
-            }
-        });
-        myDialogue.show();
-        Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    }
-
-
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView) {
         cRecyclerView.setHasFixedSize(true);
@@ -1112,6 +1083,4 @@ public class FeedsFragment extends Fragment {
         System.gc();
         super.finalize();
     }
-
-
 }
