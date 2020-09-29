@@ -71,7 +71,7 @@ public class GateWayActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-                    else if(params.get(1).matches("reels")){
+                    else if(params.get(1).matches("clips")){
                         if(params.get(2).matches("1")){
                             Intent i= new Intent(GateWayActivity.this, ReelsActivity.class);
 //                            i.putExtra("campus", "Text");

@@ -200,7 +200,7 @@ public class Fragment_Reels extends Fragment {
                         });
 
                         postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-                            String link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
+                            String link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
                             i.putExtra(Intent.EXTRA_TEXT, link);

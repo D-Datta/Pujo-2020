@@ -1211,7 +1211,7 @@ public class CommitteeFragment extends Fragment {
 //                                i.putExtra(Intent.EXTRA_TEXT, link);
 //                                i.setType("text/plain");
 //                                startActivity(Intent.createChooser(i, "Share with"));
-                                link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                                link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
                                 i.putExtra(Intent.EXTRA_TEXT, link);

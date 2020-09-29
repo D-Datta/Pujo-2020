@@ -309,10 +309,10 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             @Override
             public void onClick(View view) {
                 if(bool.matches("1")){
-                    link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                    link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                 }
                 else if (bool.matches("2")){
-                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
+                    link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
                 }
                 Intent i = new Intent();
                 i.setAction(Intent.ACTION_SEND);
