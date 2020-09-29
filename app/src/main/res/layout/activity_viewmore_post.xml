@@ -178,7 +178,6 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:padding="5dp"
-                    app:tint="@color/pink"
                     android:src="@drawable/ic_blossom" />
 
             </LinearLayout>

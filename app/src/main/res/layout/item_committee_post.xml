@@ -442,8 +442,7 @@
                             android:layout_height="38dp"
                             android:background="@drawable/custom_ripple_white"
                             android:padding="5dp"
-                            android:src="@drawable/ic_blossom"
-                            app:tint="#F3B3B3" />
+                            android:src="@drawable/ic_blossom" />
 
                     </LinearLayout>
 
