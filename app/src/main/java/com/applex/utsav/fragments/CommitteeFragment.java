@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -249,49 +251,73 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-                else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() == getItemCount() % 8
-                        && getItemCount() % 8 == 0) && programmingViewHolder.getItemViewType() != 0
-                        && programmingViewHolder.getItemViewType() < getItemCount()) {
+                else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                     if(programmingViewHolder.getItemViewType() != 1) {
-                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
-                        reels_query = FirebaseFirestore.getInstance()
+                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1) + 1;
+                        Query query1 = FirebaseFirestore.getInstance()
                                 .collection("Reels")
-                                .orderBy("ts", Query.Direction.DESCENDING)
-                                .limit(10)
-                                .startAfter(query_position);
+                                .orderBy("ts", Query.Direction.DESCENDING);
+
+                        query1.get().addOnCompleteListener(task -> {
+                            reels_query = FirebaseFirestore.getInstance()
+                                    .collection("Reels")
+                                    .orderBy("ts", Query.Direction.DESCENDING)
+                                    .startAt(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
+
+                            reels_query.get().addOnCompleteListener(task1 -> {
+                                if(task1.isSuccessful()) {
+                                    if(Objects.requireNonNull(task1.getResult()).size() == 0) {
+                                        programmingViewHolder.reels_item.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+                                        buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+
+                                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                                            intent.putExtra("docID", Objects.requireNonNull(task1.getResult().getDocuments().get(0).get("docID")).toString());
+                                            intent.putExtra("bool", "1");
+                                            requireActivity().startActivity(intent);
+                                        });
+                                    }
+                                }
+                                else {
+                                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+                                }
+                            });
+                        });
                     }
                     else {
                         query_position = 0;
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
-                                .orderBy("ts", Query.Direction.DESCENDING)
-                                .limit(10);
-                    }
+                                .orderBy("ts", Query.Direction.DESCENDING);
 
-                    reels_query.get().addOnCompleteListener(task -> {
-                        if(task.isSuccessful()) {
-                            if(Objects.requireNonNull(task.getResult()).size() == 0) {
-                                programmingViewHolder.reels_item.setVisibility(View.GONE);
+                        reels_query.get().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()) {
+                                if(Objects.requireNonNull(task.getResult()).size() == 0) {
+                                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+                                }
+                                else {
+                                    programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+                                    buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+
+                                    programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                                        intent.putExtra("docID", Objects.requireNonNull(task.getResult().getDocuments().get(0).get("docID")).toString());
+                                        intent.putExtra("bool", "1");
+                                        requireActivity().startActivity(intent);
+                                    });
+                                }
                             }
                             else {
-                                programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-                                buildReelsRecyclerView(programmingViewHolder.getItemViewType());
-
-                                programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                                    Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                    intent.putExtra("docID", Objects.requireNonNull(task.getResult().getDocuments().get(0).get("docID")).toString());
-                                    intent.putExtra("bool", "1");
-                                    requireActivity().startActivity(intent);
-                                });
+                                programmingViewHolder.reels_item.setVisibility(View.GONE);
                             }
-                        }
-                        else {
-                            programmingViewHolder.reels_item.setVisibility(View.GONE);
-                        }
-                    });
+                        });
+                    }
                 }
                 else {
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -1106,8 +1132,9 @@ public class CommitteeFragment extends Fragment {
             snapHelper.attachToRecyclerView(pvh.reelsList);
 
             PagedList.Config config = new PagedList.Config.Builder()
-                    .setInitialLoadSizeHint(5)
-                    .setPageSize(5)
+                    .setInitialLoadSizeHint(10)
+                    .setPageSize(10)
+                    .setPrefetchDistance(0)
                     .setEnablePlaceholders(true)
                     .build();
 
@@ -1269,6 +1296,12 @@ public class CommitteeFragment extends Fragment {
 //                                i.putExtra(Intent.EXTRA_TEXT, link);
 //                                i.setType("text/plain");
 //                                startActivity(Intent.createChooser(i, "Share with"));
+                                link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                                Intent i = new Intent();
+                                i.setAction(Intent.ACTION_SEND);
+                                i.putExtra(Intent.EXTRA_TEXT, link);
+                                i.setType("text/plain");
+                                startActivity(Intent.createChooser(i, "Share with"));
                                 postMenuDialog.dismiss();
                             });
 
