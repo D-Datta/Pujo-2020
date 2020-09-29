@@ -721,6 +721,8 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
                             }
                         }
+                    } else {
+                        programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
                     programmingViewHolder.comment_layout.setOnClickListener(v -> {
