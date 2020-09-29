@@ -275,7 +275,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                                        @Override
 //                                                        public void onComplete(@NonNull Task<Void> task) {
 //                                                            if (task.isSuccessful()) {
-                                                                Toast.makeText(LoginActivity.this, "Please verify your email and register", Toast.LENGTH_LONG).show();
+//                                                                Toast.makeText(LoginActivity.this, "Please verify your email and register", Toast.LENGTH_LONG).show();
                                                                 progress.setVisibility(GONE);
 
                                                                 Intent intent = new Intent(LoginActivity.this, RegChoice.class);
@@ -342,7 +342,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, "Either email or password incorrect", Toast.LENGTH_LONG).show();
                                             progress.setVisibility(GONE);
                                         } else {
-                                            FirebaseUser fireuser = mAuth.getCurrentUser();
+//                                            FirebaseUser fireuser = mAuth.getCurrentUser();
 //                                            if (fireuser.isEmailVerified()) {
                                                 progress.setVisibility(GONE);
 
