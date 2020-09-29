@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.R;
 import com.applex.utsav.models.FlamedModel;
@@ -98,10 +99,47 @@ public class FlamedByAdapter extends RecyclerView.Adapter<FlamedByAdapter.Progra
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ActivityProfileUser.class);
-                intent.putExtra("uid",currentItem.getUid());
-                mContext.startActivity(intent);
+            public void onClick(View view) {
+                if(currentItem.getType().matches("com")) {
+                    Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    mContext.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(mContext, ActivityProfileUser.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    mContext.startActivity(intent);
+                }
+            }
+        });
+        holder.PUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentItem.getType().matches("com")) {
+                    Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    mContext.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(mContext, ActivityProfileUser.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    mContext.startActivity(intent);
+                }
+            }
+        });
+        holder.userimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentItem.getType().matches("com")) {
+                    Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    mContext.startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(mContext, ActivityProfileUser.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    mContext.startActivity(intent);
+                }
             }
         });
 
