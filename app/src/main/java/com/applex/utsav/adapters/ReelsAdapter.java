@@ -49,7 +49,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private ViewPager2 reelsList;
     private IntroPref introPref;
     private String bool;
-    private String uid;
+    private String uid,link;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
                         ViewPager2 reelsList, String bool, String uid) {
@@ -304,6 +304,17 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.comment.setOnClickListener(v -> {
             BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+        });
+        holder.share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                link = "https://www.applex.in/utsav-app/reels/" + "0/" + currentItem.getDocID();
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_TEXT, link);
+                i.setType("text/plain");
+                context.startActivity(Intent.createChooser(i, "Share with"));
+            }
         });
     }
 

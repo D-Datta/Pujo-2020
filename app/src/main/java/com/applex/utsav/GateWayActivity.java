@@ -60,6 +60,17 @@ public class GateWayActivity extends AppCompatActivity {
                             finish();
                         }
                     }
+                    else if(params.get(1).matches("reels")){
+                        if(params.get(2).matches("0")){
+                            Intent i= new Intent(GateWayActivity.this, ReelsActivity.class);
+//                            i.putExtra("campus", "Text");
+                            i.putExtra("bool", "1");
+                            i.putExtra("docID", postID);
+                            i.putExtra("from", "link");
+                            startActivity(i);
+                            finish();
+                        }
+                    }
                 }
                 else {
                     startActivity(new Intent(GateWayActivity.this, MainActivity.class));
