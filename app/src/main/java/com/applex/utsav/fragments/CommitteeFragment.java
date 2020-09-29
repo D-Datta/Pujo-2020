@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -121,7 +119,6 @@ public class CommitteeFragment extends Fragment {
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
-//        floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
