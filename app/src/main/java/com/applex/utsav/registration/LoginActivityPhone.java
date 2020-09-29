@@ -2,6 +2,7 @@ package com.applex.utsav.registration;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.MainActivity;
+import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.models.AccessToken;
 import com.applex.utsav.models.BaseUserModel;
@@ -38,6 +40,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -65,6 +68,13 @@ public class LoginActivityPhone extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(LoginActivityPhone.this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_login_phone);
 
         introPref = new IntroPref(LoginActivityPhone.this);

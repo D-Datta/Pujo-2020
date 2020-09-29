@@ -2,13 +2,17 @@ package com.applex.utsav;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.models.ReelsPostModel;
+import com.applex.utsav.preferences.IntroPref;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ReelsActivity extends AppCompatActivity {
@@ -19,10 +23,18 @@ public class ReelsActivity extends AppCompatActivity {
     private ReelsAdapter adapter;
     private ArrayList<ReelsPostModel> models;
     private String docID;
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_reels);
 
         models = new ArrayList<>();

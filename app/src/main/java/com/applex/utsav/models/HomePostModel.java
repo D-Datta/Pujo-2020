@@ -17,6 +17,10 @@ public class HomePostModel {
     private long newTs;
     private String headline;
 
+    private String com1_usn, com1_dp, com1;
+    private String com2_usn, com2_dp, com2;
+    private long com1_ts, com2_ts;
+
     private ArrayList<TagModel> tagL;
 
     private long cmtNo;
@@ -197,5 +201,69 @@ public class HomePostModel {
 
     public String getHeadline() {
         return headline;
+    }
+
+    public String getCom1_usn() {
+        return com1_usn;
+    }
+
+    public void setCom1_usn(String com1_usn) {
+        this.com1_usn = com1_usn;
+    }
+
+    public String getCom1_dp() {
+        return com1_dp;
+    }
+
+    public void setCom1_dp(String com1_dp) {
+        this.com1_dp = com1_dp;
+    }
+
+    public String getCom1() {
+        return com1;
+    }
+
+    public void setCom1(String com1) {
+        this.com1 = com1;
+    }
+
+    public String getCom2_usn() {
+        return com2_usn;
+    }
+
+    public void setCom2_usn(String com2_usn) {
+        this.com2_usn = com2_usn;
+    }
+
+    public String getCom2_dp() {
+        return com2_dp;
+    }
+
+    public void setCom2_dp(String com2_dp) {
+        this.com2_dp = com2_dp;
+    }
+
+    public String getCom2() {
+        return com2;
+    }
+
+    public void setCom2(String com2) {
+        this.com2 = com2;
+    }
+
+    public long getCom1_ts() {
+        return com1_ts;
+    }
+
+    public void setCom1_ts(long com1_ts) {
+        this.com1_ts = com1_ts;
+    }
+
+    public long getCom2_ts() {
+        return com2_ts;
+    }
+
+    public void setCom2_ts(long com2_ts) {
+        this.com2_ts = com2_ts;
     }
 }

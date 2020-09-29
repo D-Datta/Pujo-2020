@@ -249,7 +249,7 @@ public class FeedsFragment extends Fragment {
                 .build();
 
         adapter = new FirestorePagingAdapter<HomePostModel, RecyclerView.ViewHolder>(options) {
-            @SuppressLint("UseCompatLoadingForDrawables")
+            @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
 
@@ -669,149 +669,84 @@ public class FeedsFragment extends Fragment {
 
                 if (currentItem.getCmtNo() > 0) {
                     feedViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
                     feedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    if(currentItem.getCmtNo() == 1) {
-                        feedViewHolder.commentLayout2.setVisibility(View.GONE);
-                        FirebaseFirestore.getInstance().collection("Feeds/" + currentItem.getDocID() + "/commentL")
-                                .get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                QuerySnapshot querySnapshot = task.getResult();
-                                if (querySnapshot != null) {
-                                    CommentModel commentModel = querySnapshot.getDocuments().get(0).toObject(CommentModel.class);
-                                    Picasso.get().load(Objects.requireNonNull(commentModel).getUserdp())
-                                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                            .into(feedViewHolder.dp_cmnt1);
-                                    feedViewHolder.name_cmnt1.setText(commentModel.getUsername());
+                    feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                    feedViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
+                    Picasso.get().load(currentItem.getCom1_dp())
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(feedViewHolder.dp_cmnt1);
 
-                                    feedViewHolder.cmnt1.setText(commentModel.getComment());
-                                    if (feedViewHolder.cmnt1.getUrls().length > 0) {
-                                        URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
-                                        String url = urlSnapItem.getURL();
-                                        if (url.contains("http")) {
-                                            feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                                            feedViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                                @Override
-                                                public void onSuccess(boolean status) { }
+                    feedViewHolder.cmnt1.setText(currentItem.getCom1());
+                    if (feedViewHolder.cmnt1.getUrls().length > 0) {
+                        URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
+                        String url = urlSnapItem.getURL();
+                        if (url.contains("http")) {
+                            feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                            feedViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                @Override
+                                public void onSuccess(boolean status) { }
 
-                                                @Override
-                                                public void onError(Exception e) {
-                                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                                        //do stuff like remove view etc
-                                                        feedViewHolder.link_preview1.setVisibility(View.GONE);
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    } else {
+                                @Override
+                                public void onError(Exception e) {
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        //do stuff like remove view etc
                                         feedViewHolder.link_preview1.setVisibility(View.GONE);
-                                    }
-
-                                    feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
-                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
-                                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                                        } else {
-                                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        feedViewHolder.commentLayout2.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance()
-                                .collection("Feeds/" + currentItem.getDocID() + "/commentL")
-                                .get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                QuerySnapshot querySnapshot = task.getResult();
-                                if (querySnapshot != null) {
-                                    querySnapshot.getQuery().orderBy("ts", Query.Direction.DESCENDING)
-                                            .get().addOnCompleteListener(task1 -> {
-                                        QuerySnapshot querySnapshot1 = task1.getResult();
-                                        if (querySnapshot1 != null) {
-                                            CommentModel commentModel1 = querySnapshot1.getDocuments().get(0).toObject(CommentModel.class);
-                                            Picasso.get().load(Objects.requireNonNull(commentModel1).getUserdp())
-                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                                    .into(feedViewHolder.dp_cmnt1);
-                                            feedViewHolder.name_cmnt1.setText(commentModel1.getUsername());
-
-                                            feedViewHolder.cmnt1.setText(commentModel1.getComment());
-                                            if (feedViewHolder.cmnt1.getUrls().length > 0) {
-                                                URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
-                                                String url = urlSnapItem.getURL();
-                                                if (url.contains("http")) {
-                                                    feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                                                    feedViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                                        @Override
-                                                        public void onSuccess(boolean status) { }
-
-                                                        @Override
-                                                        public void onError(Exception e) {
-                                                            new Handler(Looper.getMainLooper()).post(() -> {
-                                                                //do stuff like remove view etc
-                                                                feedViewHolder.link_preview1.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                feedViewHolder.link_preview1.setVisibility(View.GONE);
-                                            }
-
-                                            feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
-                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
-                                                    feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                                                } else {
-                                                    feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                                }
-                                            }
-
-                                            CommentModel commentModel2 = querySnapshot1.getDocuments().get(1).toObject(CommentModel.class);
-                                            Picasso.get().load(Objects.requireNonNull(commentModel2).getUserdp())
-                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                                    .into(feedViewHolder.dp_cmnt2);
-                                            feedViewHolder.name_cmnt2.setText(commentModel2.getUsername());
-
-                                            feedViewHolder.cmnt2.setText(commentModel2.getComment());
-                                            if (feedViewHolder.cmnt2.getUrls().length > 0) {
-                                                URLSpan urlSnapItem = feedViewHolder.cmnt2.getUrls()[0];
-                                                String url = urlSnapItem.getURL();
-                                                if (url.contains("http")) {
-                                                    feedViewHolder.link_preview2.setVisibility(View.VISIBLE);
-                                                    feedViewHolder.link_preview2.setLink(url, new ViewListener() {
-                                                        @Override
-                                                        public void onSuccess(boolean status) { }
-
-                                                        @Override
-                                                        public void onError(Exception e) {
-                                                            new Handler(Looper.getMainLooper()).post(() -> {
-                                                                //do stuff like remove view etc
-                                                                feedViewHolder.link_preview2.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                feedViewHolder.link_preview2.setVisibility(View.GONE);
-                                            }
-
-                                            feedViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
-                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
-                                                    feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
-                                                } else {
-                                                    feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                                }
-                                            }
-                                        }
                                     });
                                 }
+                            });
+                        }
+                    } else {
+                        feedViewHolder.link_preview1.setVisibility(View.GONE);
+                    }
+
+                    feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
+                    if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
+                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
+                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                        }
+                    }
+
+                    if(currentItem.getCmtNo() == 2) {
+                        feedViewHolder.commentLayout2.setVisibility(View.VISIBLE);
+                        feedViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
+                        Picasso.get().load(currentItem.getCom2_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(feedViewHolder.dp_cmnt2);
+
+                        feedViewHolder.cmnt2.setText(currentItem.getCom2());
+                        if (feedViewHolder.cmnt2.getUrls().length > 0) {
+                            URLSpan urlSnapItem = feedViewHolder.cmnt2.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                feedViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) { }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
                             }
-                        });
+                        } else {
+                            feedViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        feedViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom2_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom2_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
+                                feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
+                        }
                     }
 
                     feedViewHolder.comment_layout.setOnClickListener(v -> {
@@ -835,7 +770,6 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
                 ///////////////////FLAMES AND COMMENTS///////////////////////
-
 
                 ////////POST MENU///////
                 feedViewHolder.menuPost.setOnClickListener(v -> {

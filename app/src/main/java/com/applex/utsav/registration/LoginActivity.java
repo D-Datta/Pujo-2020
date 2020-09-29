@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.MainActivity;
+import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.models.AccessToken;
 import com.applex.utsav.models.BaseUserModel;
@@ -48,6 +50,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.util.Locale;
+
 import static android.view.View.GONE;
 
 public class LoginActivity extends AppCompatActivity {
@@ -74,10 +78,18 @@ public class LoginActivity extends AppCompatActivity {
     String tokenStr;
 
     TextView terms;
+    IntroPref introPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        introPref = new IntroPref(LoginActivity.this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_login);
 
 

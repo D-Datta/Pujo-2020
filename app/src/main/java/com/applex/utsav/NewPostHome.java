@@ -5,14 +5,18 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.media.MediaMetadataRetriever;
+import android.media.VolumeShaper;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -80,6 +84,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
@@ -148,12 +153,22 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
 
+    Context context;
+    Resources resources;
+
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_post);
+        introPref = new IntroPref(NewPostHome.this);
+        String lang= introPref.getLanguage();
+        Locale locale= new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config= new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        this.setContentView(R.layout.activity_new_post);
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -188,6 +203,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         tags_selectedRecycler = findViewById(R.id.tags_selectedList) ;
         selected_tags = new ArrayList<>();
         tagPujo = findViewById(R.id.pujo_tag);
+        TextView newPostToolb= findViewById(R.id.new_post_toolb);
+//
+//        context = LocaleHelper.setLocale(NewPostHome.this, "bn");
+//        resources = context.getResources();
+//        newPostToolb.setText(resources.getText(R.string.new_post));
+
+
+
 
         buildRecyclerView_selectedtags();
 
