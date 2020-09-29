@@ -76,7 +76,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import static java.lang.Boolean.TRUE;
@@ -283,9 +282,8 @@ public class CommitteeFragment extends Fragment {
 
                                 programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                                     Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                    intent.putExtra("position", "0");
+                                    intent.putExtra("docID", Objects.requireNonNull(task.getResult().getDocuments().get(0).get("docID")).toString());
                                     intent.putExtra("bool", "1");
-                                    intent.putExtra("query_pos", String.valueOf(query_position));
                                     requireActivity().startActivity(intent);
                                 });
                             }
@@ -443,7 +441,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("likeL", currentItem.getLikeL());
                         if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                             Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
                         }
                         intent.putExtra("postText", currentItem.getTxt());
@@ -469,7 +467,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("likeL", currentItem.getLikeL());
                         if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                             Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
                         }
                         intent.putExtra("postText", currentItem.getTxt());
@@ -804,7 +802,7 @@ public class CommitteeFragment extends Fragment {
                             i.putExtra("type", currentItem.getType());
                             if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                                 Bundle args = new Bundle();
-                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                args.putSerializable("ARRAYLIST", currentItem.getImg());
                                 i.putExtra("BUNDLE", args);
                             }
                             i.putExtra("txt", currentItem.getTxt());
@@ -839,8 +837,6 @@ public class CommitteeFragment extends Fragment {
                                         .addOnSuccessListener(aVoid -> {
                                             ActivityProfileCommittee.delete = 1;
                                             programmingViewHolder.itemHome.setVisibility(View.GONE);
-//                                            programmingViewHolder.view1.setVisibility(View.GONE);
-//                                            programmingViewHolder.view2.setVisibility(View.GONE);
                                             notifyDataSetChanged();
                                             progressDialog.dismiss();
                                         });
@@ -1157,20 +1153,16 @@ public class CommitteeFragment extends Fragment {
                     if(holder.item_reels_video.getVisibility() == View.VISIBLE) {
                         holder.item_reels_video.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                            intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
                             intent.putExtra("docID", currentItem.getDocID());
-                            intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
                     }
                     else if(holder.item_reels_image.getVisibility() == View.VISIBLE) {
                         holder.item_reels_image.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                            intent.putExtra("position", String.valueOf(position));
                             intent.putExtra("bool", "1");
                             intent.putExtra("docID", currentItem.getDocID());
-                            intent.putExtra("query_pos", String.valueOf(query_position));
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -1227,6 +1219,9 @@ public class CommitteeFragment extends Fragment {
                                                         ActivityProfileCommittee.delete = 1;
                                                         holder.itemView.setVisibility(View.GONE);
                                                         progressDialog.dismiss();
+                                                        if(getItemCount() == 0) {
+                                                            pvh.reels_item.setVisibility(View.GONE);
+                                                        }
                                                     });
                                             postMenuDialog.dismiss();
                                         })
@@ -1301,6 +1296,23 @@ public class CommitteeFragment extends Fragment {
 
                 @Override
                 public int getItemViewType(int position) { return position; }
+
+                @Override
+                protected void onLoadingStateChanged(@NonNull LoadingState state) {
+                    super.onLoadingStateChanged(state);
+                    switch (state) {
+                        case ERROR:
+                            BasicUtility.showToast(getActivity(), "Something went wrong...");
+                            break;
+                        case FINISHED:
+                            if(adapter.getItemCount() == 0) {
+                                pvh.reels_item.setVisibility(View.GONE);
+                            } else {
+                                pvh.reels_item.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                    }
+                }
             };
 
             pvh.reelsList.setAdapter(reelsAdapter);
@@ -1418,7 +1430,7 @@ public class CommitteeFragment extends Fragment {
                     float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                     if (percent >= 90) {
-                        RecyclerView.LayoutManager manager1 = ((ProgrammingViewHolder) Objects.requireNonNull(cvh)).reelsList.getLayoutManager();
+                        RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
 
                         int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
                         int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();

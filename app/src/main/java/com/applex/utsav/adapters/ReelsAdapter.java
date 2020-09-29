@@ -181,6 +181,15 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 holder.likesCount.setVisibility(View.VISIBLE);
                 holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
 
+                for(int j = 0; j < currentItem.getLikeL().size(); j++){
+                    if(currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
+                        holder.like.setImageResource(R.drawable.ic_flame_red);
+                        currentItem.setLikeCheck(j);
+                        holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
+                        //Position in likeList where the current USer UId is found stored in likeCheck
+                    }
+                }
+
                 holder.like_image.setOnClickListener(v -> {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
                     bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
@@ -204,7 +213,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     //play animation, play audio
 
                     if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                        holder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
+                        holder.like.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
                         if (currentItem.getLikeL().size() - 1 == 0) {
                             holder.likesCount.setVisibility(View.GONE);
                             holder.like_image.setVisibility(View.GONE);
