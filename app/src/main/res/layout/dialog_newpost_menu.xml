@@ -27,14 +27,17 @@
             android:paddingVertical="15dp"
             android:fontFamily="@font/oxygen_ex_bold"
             android:textColor="@color/purple"
-            android:textSize="18sp"
+            android:textSize="18dp"
             android:gravity="center_vertical"
-            android:paddingHorizontal="15dp" />
+            android:paddingHorizontal="25dp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/icons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="15dp"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true">
 
             <ImageView
@@ -42,8 +45,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_tag_24"
                 android:padding="8dp"
-                app:tint="@color/pink"
-                android:layout_toLeftOf="@+id/yay4"/>
+                app:tint="@color/pink" />
 
             <ImageView
                 android:id="@+id/yay4"
@@ -51,8 +53,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_camera_24"
                 android:padding="8dp"
-                app:tint="@color/colorPrimaryDark"
-                android:layout_toLeftOf="@+id/yay3"/>
+                app:tint="@color/colorPrimaryDark" />
 
             <ImageView
                 android:id="@+id/yay3"
@@ -60,8 +61,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_photo_gallery_library_24"
                 android:padding="8dp"
-                app:tint="@color/purple"
-                android:layout_toStartOf="@+id/video_gal_icon"/>
+                app:tint="@color/purple" />
 
             <ImageView
                 android:id="@+id/video_gal_icon"
@@ -69,8 +69,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_videocam_24"
                 android:padding="8dp"
-                app:tint="@color/link"
-                android:layout_toStartOf="@+id/video_cam_icon"/>
+                app:tint="@color/link" />
 
             <ImageView
                 android:id="@+id/video_cam_icon"
@@ -78,9 +77,9 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_video_call_24"
                 android:padding="8dp"
-                app:tint="@color/tabIndicatorColor"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
+                app:tint="@color/tabIndicatorColor" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -111,10 +110,12 @@
             android:textSize="15sp" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/grey"/>
+
     <LinearLayout
         android:id="@+id/Photos"
         android:layout_width="match_parent"
