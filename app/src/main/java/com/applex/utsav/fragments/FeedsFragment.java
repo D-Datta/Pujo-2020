@@ -26,6 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1168,6 +1169,12 @@ public class FeedsFragment extends Fragment {
             comDelete = 0;
         }
         super.onResume();
+    }
+    @Override
+    protected void finalize() throws Throwable {
+        Log.d("FINALIZE","called IN FRG CMPUS!!!!!!!!!!!!!");
+        System.gc();
+        super.finalize();
     }
 
 
