@@ -96,7 +96,7 @@ public class ActivityNotification extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         notifRecycler.setLayoutManager(linearLayoutManager);
         notifRecycler.setItemAnimator(new DefaultItemAnimator());
-        notifRecycler.setItemViewCacheSize(20);
+        notifRecycler.setItemViewCacheSize(10);
 
         buildRecyclerView();
 

@@ -29,7 +29,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="terms_conditions">
         <a href="https://campus24.in/terms/">By signing in, you agree to our Terms and Conditions,</a>
@@ -195,7 +194,7 @@
     </string>
     <string name="new_post">New Post</string>
     <string name="Post">Post</string>
-    <string name="set_app_lang">Set App language</string>
+    <string name="set_app_lang">Select language</string>
 
 
 </resources>
