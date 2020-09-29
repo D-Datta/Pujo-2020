@@ -75,7 +75,7 @@
     <string name="choose_gender">Choose Gender*</string>
     <string name="address">Address</string>
     <string name="address_line">Address Line</string>
-    <string name="city">City</string>
+    <string name="city">City/District</string>
     <string name="state">State</string>
     <string name="about">About</string>
     <string name="submit">SUBMIT</string>

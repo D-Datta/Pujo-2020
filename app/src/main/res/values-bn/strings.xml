@@ -81,7 +81,7 @@
     <string name="choose_gender">লিঙ্গ নির্বাচন করুন*</string>
     <string name="address">ঠিকানা</string>
     <string name="address_line">ঠিকানা লাইন</string>
-    <string name="city">শহর</string>
+    <string name="city">শহর/জেলা</string>
     <string name="state">রাজ্য</string>
     <string name="choose_pic">আপনার প্রোফাইল ছবি এবং কভার ছবি পছন্দ করুন</string>
     <string name="trending_posts">ট্রেন্ডিং পোস্ট</string>
