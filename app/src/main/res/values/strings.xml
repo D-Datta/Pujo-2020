@@ -104,6 +104,12 @@
 
     <string name="_0_18">0:18</string>
 
+    <string name="nocommittee">No committees to show</string>
+    <string name="noposts">You have not posted anything yet.\nPost now!!</string>
+    <string name="no_posts">No posts to display</string>
+    <string name="noreels">No reels to display. \nCreate a reel now!!</string>
+    <string name="first_comments">Be the first one to comment</string>
+
     <string name="comments">Comments</string>
     <string name="type_something_n">Type something..\n</string>
     <string name="bio">Bio</string>

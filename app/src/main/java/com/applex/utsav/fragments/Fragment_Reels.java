@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class Fragment_Reels extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerview;
     private ProgressBar contentprogressreels,progressmorereels;
-    private ImageView noneImage;
+    private LinearLayout noneImage;
     private FirestorePagingAdapter adapter;
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;

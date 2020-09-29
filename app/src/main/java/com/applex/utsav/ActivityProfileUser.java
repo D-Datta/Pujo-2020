@@ -106,6 +106,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
     private Button editProfile;
     private FirebaseUser fireuser;
+    private LinearLayout emptyLayout;
     private FloatingActionButton floatingActionButton;
     private ProgressDialog progressDialog;
     ///////////////POSTS////////////////
@@ -176,6 +177,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
         editProfile = findViewById(R.id.edit_profile);
+        emptyLayout = findViewById(R.id.emptyLayout);
 
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
         floatingActionButton = findViewById(R.id.to_the_top_profile);
@@ -1097,12 +1099,10 @@ public class ActivityProfileUser extends AppCompatActivity {
                         progressMore.setVisibility(View.GONE);
                         if(adapter1.getItemCount() == 0) {
                             loadUserDetails();
-                            if(swipeRefreshLayout.isRefreshing()) {
-                                swipeRefreshLayout.setRefreshing(false);
-                            }
+                            emptyLayout.setVisibility(View.VISIBLE);
                         }
                         else {
-                            nopost1.setVisibility(View.GONE);
+                            emptyLayout.setVisibility(View.GONE);
                         }
                         break;
                 }

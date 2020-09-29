@@ -20,20 +20,30 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/none_image">
-
+                android:orientation="vertical"
+                android:id="@+id/none_image"
+                android:visibility="gone"
+                android:layout_marginVertical="30dp">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="300dp"
                     android:src="@drawable/durga_ma2"
                     android:paddingHorizontal="20dp"
-                    android:paddingVertical="45dp"
-                    android:visibility="gone" />
+                    android:layout_gravity="center" />
 
-            </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/no_posts"
+                    android:textSize="20dp"
+                    android:textColor="@color/red"
+                    android:layout_marginVertical="20dp"/>
+
+            </LinearLayout>
 
 
             <ProgressBar
@@ -58,7 +68,6 @@
                     android:overScrollMode="never"
                     android:descendantFocusability="blocksDescendants"
                     app:reverseLayout="false"/>
-
                 <ProgressBar
                     android:id="@+id/progress_more_posts"
                     android:layout_width="match_parent"
@@ -66,6 +75,8 @@
                     android:layout_alignParentBottom="true"
                     android:padding="10dp"
                     android:visibility="gone" />
+
+
 
             </RelativeLayout>
         </LinearLayout>
