@@ -14,18 +14,22 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applex.utsav.fragments.Fragment_Posts;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.NotifModel;
 import com.applex.utsav.preferences.IntroPref;
+import com.applex.utsav.utility.BasicUtility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -54,11 +58,12 @@ public class ActivityNotification extends AppCompatActivity {
     private ProgressBar progressMore;
 
     private ArrayList<NotifModel> notifModels;
-    private Dialog postMenuDialog;
     private ImageView noNotif;
 
     public static int removeNotif = -1;
     IntroPref introPref;
+
+    private FirestorePagingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,93 +120,173 @@ public class ActivityNotification extends AppCompatActivity {
                 .setPageSize(10)
                 .build();
 
-        FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
+        FirestorePagingOptions<NotifModel> options = new FirestorePagingOptions.Builder<NotifModel>()
                 .setLifecycleOwner(this)
                 .setQuery(query, config, snapshot -> {
-                    HomePostModel homePostModel = snapshot.toObject(HomePostModel.class);
-                    Objects.requireNonNull(homePostModel).setDocID(snapshot.getId());
-                    return homePostModel;
+                    NotifModel notifModel = snapshot.toObject(NotifModel.class);
+                    Objects.requireNonNull(notifModel).setDocID(snapshot.getId());
+                    return notifModel;
                 })
                 .build();
 
-//        adapter = new FirestorePagingAdapter<HomePostModel, Fragment_Posts.ProgrammingViewHolder>(options) {
-//            @NonNull
-//            @Override
-//            public Fragment_Posts.ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-//                View v = layoutInflater.inflate(R.layout.item_profile_com_post, parent, false);
-//                return  new Fragment_Posts.ProgrammingViewHolder(v);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(@NonNull Fragment_Posts.ProgrammingViewHolder holder, int position, @NonNull HomePostModel model) {
-//
-//                if(model.getImg() != null) {
-//                    Picasso.get().load(model.getImg().get(0)).into(holder.post_image);
-//                }
-//
-//                if(model.getImg()!=null) {
-//                    holder.post_image.setOnClickListener((View.OnClickListener) view -> {
-//                        Intent intent = new Intent(getContext(), ViewMoreHome.class);
-//                        intent.putExtra("username", model.getUsN());
-//                        intent.putExtra("userdp", model.getDp());
-//                        intent.putExtra("docID", model.getDocID());
-//                        StoreTemp.getInstance().setTagTemp(model.getTagL());
-//                        intent.putExtra("comName", model.getComName());
-//                        intent.putExtra("comID", model.getComID());
-//                        intent.putExtra("likeL", model.getLikeL());
-//                        if (model.getImg() != null && model.getImg().size() > 0) {
-//                            Bundle args = new Bundle();
-//                            args.putSerializable("ARRAYLIST", (Serializable) model.getImg());
-//                            intent.putExtra("BUNDLE", args);
-//                        }
-//                        intent.putExtra("postText", model.getTxt());
-//                        intent.putExtra("bool", "3");
-//                        intent.putExtra("commentNo", Long.toString(model.getCmtNo()));
-//                        intent.putExtra("newTs", Long.toString(model.getNewTs()));
-//                        intent.putExtra("uid", model.getUid());
-//                        intent.putExtra("timestamp", Long.toString(model.getTs()));
-//                        intent.putExtra("type", model.getType());
-//                        startActivity(intent);
-//                    });
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public int getItemViewType(int position) {
-//                return position;
-//            }
-//
-//            @Override
-//            protected void onLoadingStateChanged(@NonNull LoadingState state) {
-//
-//                super.onLoadingStateChanged(state);
-//                switch (state) {
-//                    case ERROR: Utility.showToast(getContext(), "Something went wrong..."); break;
-//                    case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE); break;
-//                    case LOADED: progressmoreposts.setVisibility(View.GONE);
-//                        if(swipeRefreshLayout.isRefreshing()) {
-//                            swipeRefreshLayout.setRefreshing(false);
-//                        }
-//                        break;
-//                    case FINISHED: contentprogressposts.setVisibility(View.GONE);
-//                        progressmoreposts.setVisibility(View.GONE);
-//                        if(swipeRefreshLayout.isRefreshing()) {
-//                            swipeRefreshLayout.setRefreshing(false);
-//                        }
-//                        if(adapter!=null && adapter.getItemCount() == 0)
-//                            noneImage.setVisibility(View.VISIBLE);
-//                        break;
-//                }
-//            }
-//        };
-//
-//        contentprogressposts.setVisibility(View.GONE);
-//        noneImage.setVisibility(View.GONE);
-//        recyclerview.setAdapter(adapter);
+        adapter = new FirestorePagingAdapter<NotifModel, ProgrammingViewHolder>(options) {
+            @NonNull
+            @Override
+            public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+                View v = layoutInflater.inflate(R.layout.item_notif, parent, false);
+                return new ProgrammingViewHolder(v);
+            }
 
+            @Override
+            protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull NotifModel model) {
+
+                NotifModel currentItem  = notifModels.get(position);
+
+                String userimage_url = currentItem.getDp();
+                if(userimage_url!=null){
+                    Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.dp);
+                }
+                else{
+                    holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+
+                holder.title.setText(currentItem.getUsN()+" "+currentItem.getTitle());
+
+                holder.minsago.setText(BasicUtility.getTimeAgo(currentItem.getTs()));
+
+                if(currentItem.getTitle().contains("commented") || currentItem.getTitle().contains("replied"))
+                {
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_conch_shell);
+                    holder.comment.setVisibility(View.VISIBLE);
+                    holder.comment.setText("\""+currentItem.getComTxt()+"\"");
+                }
+                if(currentItem.getTitle().contains("liked"))
+                {
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
+                    holder.comment.setVisibility(View.GONE);
+                }
+                if(currentItem.getTitle().contains("liked") && currentItem.getTitle().contains("comment"))
+                {
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
+                    holder.comment.setVisibility(View.VISIBLE);
+                    holder.comment.setText("\""+currentItem.getComTxt()+"\"");
+                }
+
+                if(currentItem.isSeen()){
+                    holder.notifCard.setBackgroundColor(ActivityNotification.this.getResources().getColor(R.color.white));
+                }
+
+                holder.notifCard.setOnClickListener(v -> {
+                    String postID= currentItem.getPostID();
+
+                    if(currentItem.getBool() == 2 || currentItem.getTitle().contains("event")){
+                        currentItem.setSeen(true);
+                        FirebaseFirestore.getInstance()
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+Long.toString(currentItem.getTs())+"/")
+                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(!task.isSuccessful())
+                                    Log.d("Notif update", "updated"+currentItem.getTs());
+                            }
+                        });
+                        Intent i= new Intent(ActivityNotification.this, ReelsActivity.class);
+                        i.putExtra("postID", postID);
+                        i.putExtra("position", Integer.toString(position));
+                        startActivity(i);
+                        notifyItemChanged(position);
+                    }
+                    else if(currentItem.getBool() == 1 || currentItem.getTitle().contains("post")){
+                        currentItem.setSeen(true);
+                        FirebaseFirestore.getInstance()
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getTs()+"/")
+                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(!task.isSuccessful())
+                                    Log.d("Notif update", "updated"+currentItem.getTs());
+                            }
+                        });
+                        Intent i= new Intent(ActivityNotification.this, ViewMoreHome.class);
+                        i.putExtra("postID", postID);
+                        i.putExtra("position", Integer.toString(position));
+                        startActivity(i);
+                        notifyItemChanged(position);
+                    }
+                    else if(currentItem.getBool() == 3){
+                        currentItem.setSeen(true);
+                        FirebaseFirestore.getInstance()
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getTs()+"/")
+                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(!task.isSuccessful())
+                                    Log.d("Notif update", "updated"+currentItem.getTs());
+                            }
+                        });
+//                        Intent i= new Intent(ActivityNotification.this, ViewMoreSlider.class);
+//                        i.putExtra("postID", postID);
+//                        i.putExtra("position", Integer.toString(position));
+
+//                        startActivity(i);
+                        notifyItemChanged(position);
+                    }
+
+                });
+
+            }
+
+            @Override
+            public int getItemViewType(int position) {
+                return position;
+            }
+
+            @Override
+            protected void onLoadingStateChanged(@NonNull LoadingState state) {
+
+                super.onLoadingStateChanged(state);
+                switch (state) {
+                    case ERROR: BasicUtility.showToast(ActivityNotification.this, "Something went wrong..."); break;
+                    case LOADING_MORE: progressMore.setVisibility(View.VISIBLE); break;
+                    case LOADED: progressMore.setVisibility(View.GONE);
+                        if(swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                        break;
+                    case FINISHED: progressMore.setVisibility(View.GONE);
+                        if(swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                        if(adapter!=null && adapter.getItemCount() == 0)
+                            noNotif.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        };
+
+        progressMore.setVisibility(View.GONE);
+        noNotif.setVisibility(View.GONE);
+        notifRecycler.setAdapter(adapter);
+
+    }
+
+    public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
+
+        ImageView dp, bottomOfDp, dots;
+        LinearLayout notifCard;
+        TextView title, minsago, comment;
+
+        ProgrammingViewHolder(@NonNull View itemView){
+            super(itemView);
+            dp = itemView.findViewById(R.id.dp);
+            bottomOfDp = itemView.findViewById(R.id.bottom_of_dp);
+            notifCard= itemView.findViewById(R.id.notif_card);
+            title= itemView.findViewById(R.id.notif_title);
+            minsago= itemView.findViewById(R.id.timestamp);
+            comment= itemView.findViewById(R.id.notif_comment);
+            dots = itemView.findViewById(R.id.notif_delete);
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
