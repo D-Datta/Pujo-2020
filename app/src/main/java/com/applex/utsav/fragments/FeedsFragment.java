@@ -747,6 +747,8 @@ public class FeedsFragment extends Fragment {
                                 feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
                             }
                         }
+                    } else {
+                        feedViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
                     feedViewHolder.comment_layout.setOnClickListener(v -> {
