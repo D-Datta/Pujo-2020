@@ -37,6 +37,7 @@ import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.CommentModel;
+import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
@@ -54,6 +55,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.applex.utsav.ViewMoreHome.homePostModel;
+import static com.applex.utsav.adapters.ReelsAdapter.currentItem;
 import static java.lang.Boolean.TRUE;
 
 public class BottomCommentsDialog extends DialogFragment {
@@ -119,8 +123,6 @@ public class BottomCommentsDialog extends DialogFragment {
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
         finalcmntno = cmntno;
-        StoreTemp.getInstance().setCmtNo(cmntno);
-        Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null) {
@@ -204,28 +206,30 @@ public class BottomCommentsDialog extends DialogFragment {
                             progressComment.setVisibility(View.GONE);
                             commentRecycler.setVisibility(View.VISIBLE);
                             buildRecyclerView_comments();
-                            Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
-                            finalcmntno=StoreTemp.getInstance().getCmtNo()+1;
-                            StoreTemp.getInstance().setCmtNo(finalcmntno);
-                            Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
 
                             if(from.matches("ViewMoreHome")){
+                                finalcmntno=homePostModel[0].getCmtNo()+1;
                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
                                 CommitteeFragment.changed=1;
                                 FeedsFragment.changed=1;
                                 ActivityProfileUser.change=1;
+                                homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ViewMoreText")){
+                                finalcmntno=homePostModel[0].getCmtNo()+1;
                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
                                 FeedsFragment.changed=1;
                                 ActivityProfileUser.change=1;
+                                homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ReelsAdapter")){
+                                finalcmntno=currentItem.getCmtNo()+1;
                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                 CommitteeFragment.changed=1;
+                                currentItem.setCmtNo(finalcmntno);
                             }
                         }
                         else {
@@ -322,49 +326,42 @@ public class BottomCommentsDialog extends DialogFragment {
                                     if(task1.isSuccessful()) {
                                         models.remove(position);
                                         commentAdapter.notifyItemRemoved(position);
-                                        Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
 
-                                        finalcmntno = StoreTemp.getInstance().getCmtNo()-total;
-                                        StoreTemp.getInstance().setCmtNo(finalcmntno);
-
-                                        Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
-
-                                        if(finalcmntno<=0){
-                                            if(from.matches("ViewMoreHome")){
-                                               ViewMoreHome.comment_layout.setVisibility(View.GONE);
-                                               CommitteeFragment.changed=1;
-                                               FeedsFragment.changed=1;
-                                               ActivityProfileUser.change=1;
-                                            }
-                                            else if(from.matches("ViewMoreText")){
-                                                ViewMoreText.comment_layout.setVisibility(View.GONE);
-                                                FeedsFragment.changed=1;
-                                                ActivityProfileUser.change=1;
-                                            }
-                                            else if(from.matches("ReelsAdapter")){
-                                                ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.GONE);
-                                                CommitteeFragment.changed=1;
-                                            }
-                                        }
-                                        else{
-                                            if(from.matches("ViewMoreHome")){
+                                        if(from.matches("ViewMoreHome")){
+                                            finalcmntno = homePostModel[0].getCmtNo()-total;
+                                            homePostModel[0].setCmtNo(finalcmntno);
+                                            if(finalcmntno <= 0) {
+                                                ViewMoreHome.comment_layout.setVisibility(View.GONE);
+                                            } else {
                                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
-                                                CommitteeFragment.changed=1;
-                                                FeedsFragment.changed=1;
-                                                ActivityProfileUser.change=1;
                                             }
-                                            else if(from.matches("ViewMoreText")){
+                                            CommitteeFragment.changed=1;
+                                            FeedsFragment.changed=1;
+                                            ActivityProfileUser.change=1;
+                                        }
+                                        else if(from.matches("ViewMoreText")){
+                                            finalcmntno = homePostModel[0].getCmtNo()-total;
+                                            homePostModel[0].setCmtNo(finalcmntno);
+                                            if(finalcmntno <= 0) {
+                                                ViewMoreText.comment_layout.setVisibility(View.GONE);
+                                            } else {
                                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
-                                                FeedsFragment.changed=1;
-                                                ActivityProfileUser.change=1;
                                             }
-                                            else if(from.matches("ReelsAdapter")){
+                                            FeedsFragment.changed=1;
+                                            ActivityProfileUser.change=1;
+                                        }
+                                        else if(from.matches("ReelsAdapter")){
+                                            finalcmntno=currentItem.getCmtNo()+1;
+                                            currentItem.setCmtNo(finalcmntno);
+                                            if(finalcmntno <= 0) {
+                                                ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.GONE);
+                                            } else {
                                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
-                                                CommitteeFragment.changed=1;
                                             }
+                                            CommitteeFragment.changed=1;
                                         }
                                         if(commentAdapter.getItemCount() == 0){
                                             no_comment.setVisibility(View.VISIBLE);
