@@ -40,7 +40,6 @@ public class WalkthroughActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough);
 
-
         introPref = new IntroPref(this);
         if(introPref.isFirstTimeLaunch()){
             launchHomeScreen();
@@ -55,8 +54,8 @@ public class WalkthroughActivity extends AppCompatActivity {
         layouts = new int[]{
                 R.layout.intro_one,
                 R.layout.intro_two,
-                R.layout.intro_three,
-                R.layout.intro_four
+                R.layout.intro_three
+//                R.layout.intro_four
         };
 
 
@@ -153,7 +152,7 @@ public class WalkthroughActivity extends AppCompatActivity {
             boolean isSupported = false;
             ///////////////SET IMAGE BITMAP/////////////////////
             if(position == 0) {
-                ImageView lighting_image = view.findViewById(R.id.lighting);
+//                ImageView lighting_image = view.findViewById(R.id.lighting);
                 ImageView durga_image = view.findViewById(R.id.ma_durga);
 
                 Display display = getWindowManager().getDefaultDisplay();
@@ -171,7 +170,7 @@ public class WalkthroughActivity extends AppCompatActivity {
                 options.inJustDecodeBounds = false;
 
                 Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
-                lighting_image.setImageBitmap(scaledBitmap1);
+              //  lighting_image.setImageBitmap(scaledBitmap1);
 
                 Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
                 durga_image.setImageBitmap(scaledBitmap2);

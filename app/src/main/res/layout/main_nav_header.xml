@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
     android:theme="@style/ThemeOverlay.AppCompat.Light">
 
     <LinearLayout
@@ -14,9 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:paddingStart="20dp">
-
-
+        android:paddingStart="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
@@ -64,7 +61,10 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/decorative_item"/>
 
-
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

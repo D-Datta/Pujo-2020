@@ -733,34 +733,35 @@ public class CommitteeFragment extends Fragment {
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
-                        postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
-                            i.putExtra("target", "100"); //target value for edit post
-                            i.putExtra("bool", "2");
-                            i.putExtra("usN", currentItem.getUsN());
-                            i.putExtra("dp", currentItem.getDp());
-                            i.putExtra("uid", currentItem.getUid());
-                            i.putExtra("type", currentItem.getType());
-                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                                Bundle args = new Bundle();
-                                args.putSerializable("ARRAYLIST", currentItem.getImg());
-                                i.putExtra("BUNDLE", args);
-                            }
-                            i.putExtra("txt", currentItem.getTxt());
-                            i.putExtra("comID", currentItem.getComID());
-                            i.putExtra("comName", currentItem.getComName());
-                            i.putExtra("ts", Long.toString(currentItem.getTs()));
-                            i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-                            i.putExtra("likeL", currentItem.getLikeL());
-                            i.putExtra("likeCheck", currentItem.getLikeCheck());
-                            i.putExtra("docID", currentItem.getDocID());
-                            i.putExtra("reportL", currentItem.getReportL());
-                            i.putExtra("challengeID", currentItem.getChallengeID());
-                            startActivity(i);
-                            postMenuDialog.dismiss();
-                        });
+                        postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
+//                        postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+//                            Intent i = new Intent(getContext(), NewPostHome.class);
+//                            i.putExtra("target", "100"); //target value for edit post
+//                            i.putExtra("bool", "2");
+//                            i.putExtra("usN", currentItem.getUsN());
+//                            i.putExtra("dp", currentItem.getDp());
+//                            i.putExtra("uid", currentItem.getUid());
+//                            i.putExtra("type", currentItem.getType());
+//                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+//                                Bundle args = new Bundle();
+//                                args.putSerializable("ARRAYLIST", currentItem.getImg());
+//                                i.putExtra("BUNDLE", args);
+//                            }
+//                            i.putExtra("txt", currentItem.getTxt());
+//                            i.putExtra("comID", currentItem.getComID());
+//                            i.putExtra("comName", currentItem.getComName());
+//                            i.putExtra("ts", Long.toString(currentItem.getTs()));
+//                            i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+//                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
+//                            i.putExtra("likeL", currentItem.getLikeL());
+//                            i.putExtra("likeCheck", currentItem.getLikeCheck());
+//                            i.putExtra("docID", currentItem.getDocID());
+//                            i.putExtra("reportL", currentItem.getReportL());
+//                            i.putExtra("challengeID", currentItem.getChallengeID());
+//                            startActivity(i);
+//                            postMenuDialog.dismiss();
+//                        });
 
                         postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -1025,6 +1026,7 @@ public class CommitteeFragment extends Fragment {
             pvh.reelsList.setDrawingCacheEnabled(true);
 
             SnapHelper snapHelper = new PagerSnapHelper();
+            pvh.reelsList.setOnFlingListener(null);
             snapHelper.attachToRecyclerView(pvh.reelsList);
 
             PagedList.Config config = new PagedList.Config.Builder()
