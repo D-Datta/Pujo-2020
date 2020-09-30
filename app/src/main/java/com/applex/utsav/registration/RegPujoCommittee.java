@@ -499,7 +499,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
 //                Bitmap bitmap = null;
 //                try {

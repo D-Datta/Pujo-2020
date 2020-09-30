@@ -1179,32 +1179,6 @@ public class ActivityProfileUser extends AppCompatActivity {
         }
     }
 
-
-    private void save_Dialog(Bitmap bitmap) {
-        Dialog myDialogue = new Dialog(ActivityProfileUser.this);
-        myDialogue.setContentView(R.layout.dialog_image_options);
-        myDialogue.setCanceledOnTouchOutside(TRUE);
-        myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!BasicUtility.checkStoragePermission(ActivityProfileUser.this)){
-                BasicUtility.requestStoragePermission(ActivityProfileUser.this);
-            }
-            else {
-                boolean bool = BasicUtility.saveImage(bitmap, ActivityProfileUser.this);
-                if(bool){
-                    Toast.makeText(ActivityProfileUser.this, "Saved to device", Toast.LENGTH_SHORT).show();
-                    myDialogue.dismiss();
-                }
-                else{
-                    Toast.makeText(ActivityProfileUser.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-                    myDialogue.dismiss();
-                }
-            }
-        });
-        myDialogue.show();
-        Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        bitmap.recycle();
-    }
-
     private void loadUserDetails() {
         nopost1.setVisibility(View.VISIBLE);
         ///////////////////////LOAD PROFILE DETAILS///////////////////////
@@ -1448,19 +1422,104 @@ public class ActivityProfileUser extends AppCompatActivity {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 Uri resultUri = result.getUri();
 
+                progressDialog = new ProgressDialog(ActivityProfileUser.this);
+                progressDialog.setTitle("Updating Profile");
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
                 Bitmap bitmap = null;
+                Bitmap compressedBitmap = null;
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ByteArrayOutputStream baos =new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                pic = baos.toByteArray();
 
-                /////////////COMPRESS AND UPDATE//////////////
-                new ImageCompressor().execute();
-                /////////////COMPRESS AND UPDATE//////////////
+                try {
+                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+                pic = baos.toByteArray();
+                compressedBitmap.recycle();
+
+                if(pic!= null) {
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 ,pic.length);
+                    if(imageCoverOrDp == 0 && from == 0){
+                        PDp.setImageBitmap(bitmap1);
+                    }
+                    else if (imageCoverOrDp == 0 && from == 1){
+                        PDp.setImageBitmap(bitmap1);
+                    }
+                    else if (imageCoverOrDp == 1 && from == 0){
+                        PCoverpic.setImageBitmap(bitmap1);
+                    }
+                    else if (imageCoverOrDp == 1 && from == 1){
+                        PCoverpic.setImageBitmap(bitmap1);
+                    }
+                    FirebaseStorage storage;
+                    StorageReference storageReference;
+                    StorageReference reference;
+                    storage = FirebaseStorage.getInstance();
+                    storageReference = storage.getReference();
+
+                    if(imageCoverOrDp == 1){
+                        reference = storageReference.child("Profile/")
+                                .child(FirebaseAuth.getInstance().getUid()+"/")
+                                .child( FirebaseAuth.getInstance().getUid()+"_cover");
+                    }
+                    else {
+                        reference = storageReference.child("Profile/")
+                                .child(FirebaseAuth.getInstance().getUid()+"/")
+                                .child( FirebaseAuth.getInstance().getUid()+"_dp");
+                    }
+
+                    reference.putBytes(pic)
+                            .addOnSuccessListener(taskSnapshot ->
+                                    reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                        Uri downloadUri = uri;
+                                        String generatedFilePath = downloadUri.toString();
+                                        DocumentReference docref = FirebaseFirestore.getInstance()
+                                                .collection("Users").document(FirebaseAuth.getInstance().getUid());
+                                        if(imageCoverOrDp == 0){
+                                            docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
+                                                if(task.isSuccessful()){
+                                                    introPref.setUserdp(generatedFilePath);
+                                                    progressDialog.dismiss();
+                                                }else{
+                                                    BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
+                                                }
+                                            });
+                                        }
+                                        else {
+                                            docref.update("coverpic", generatedFilePath).addOnCompleteListener(task -> {
+                                                if(task.isSuccessful()){
+                                                    progressDialog.dismiss();
+                                                }else{
+                                                    BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
+                                                }
+                                            });
+                                        }
+
+                                    }))
+
+                            .addOnFailureListener(e -> {
+                                BasicUtility.showToast(getApplicationContext(), "Something went wrong");
+                                progressDialog.dismiss();
+
+                            });
+
+                }
+
+
+
+
+//                /////////////COMPRESS AND UPDATE//////////////
+//                new ImageCompressor().execute();
+//                /////////////COMPRESS AND UPDATE//////////////
 
             }
             else {//CROP ERROR
@@ -1477,187 +1536,6 @@ public class ActivityProfileUser extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Image"),IMAGE_PICK_GALLERY_CODE);
     }
-
-    class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
-
-        private final float maxHeight = 1080.0f;
-        private final float maxWidth = 720.0f;
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = new ProgressDialog(ActivityProfileUser.this);
-            progressDialog.setTitle("Updating Profile");
-            progressDialog.setMessage("Please wait...");
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        public byte[] doInBackground(Void... strings) {
-            Bitmap scaledBitmap = null;
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            Bitmap bmp = BitmapFactory.decodeByteArray(pic, 0, pic.length, options);
-
-            int actualHeight = options.outHeight;
-            int actualWidth = options.outWidth;
-
-            float imgRatio = (float) actualWidth / (float) actualHeight;
-            float maxRatio = maxWidth / maxHeight;
-
-            if (actualHeight > maxHeight || actualWidth > maxWidth) {
-                if (imgRatio < maxRatio) {
-                    imgRatio = maxHeight / actualHeight;
-                    actualWidth = (int) (imgRatio * actualWidth);
-                    actualHeight = (int) maxHeight;
-                } else if (imgRatio > maxRatio) {
-                    imgRatio = maxWidth / actualWidth;
-                    actualHeight = (int) (imgRatio * actualHeight);
-                    actualWidth = (int) maxWidth;
-                } else {
-                    actualHeight = (int) maxHeight;
-                    actualWidth = (int) maxWidth;
-
-                }
-            }
-
-            options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-            options.inJustDecodeBounds = false;
-            options.inDither = false;
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inTempStorage = new byte[16 * 1024];
-
-            try {
-                bmp = BitmapFactory.decodeByteArray(pic, 0, pic.length, options);
-            } catch (OutOfMemoryError exception) {
-                exception.printStackTrace();
-
-            }
-            try {
-                scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
-            } catch (OutOfMemoryError exception) {
-                exception.printStackTrace();
-            }
-
-            float ratioX = actualWidth / (float) options.outWidth;
-            float ratioY = actualHeight / (float) options.outHeight;
-            float middleX = actualWidth / 4.0f;
-            float middleY = actualHeight / 4.0f;
-
-            Matrix scaleMatrix = new Matrix();
-            scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-            Canvas canvas = new Canvas(scaledBitmap);
-            canvas.setMatrix(scaleMatrix);
-            canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 4, middleY - bmp.getHeight() / 4, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-            if(bmp!=null)
-            {
-                bmp.recycle();
-            }
-            scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-            byte[] by = out.toByteArray();
-            return by;
-        }
-
-        @Override
-        protected void onPostExecute(byte[] picCompressed) {
-            if(picCompressed!= null) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 ,picCompressed.length);
-                if(imageCoverOrDp == 0 && from == 0){
-                    PDp.setImageBitmap(bitmap);
-                }
-                else if (imageCoverOrDp == 0 && from == 1){
-                    PDp.setImageBitmap(bitmap);
-                }
-                else if (imageCoverOrDp == 1 && from == 0){
-                    PCoverpic.setImageBitmap(bitmap);
-                }
-                else if (imageCoverOrDp == 1 && from == 1){
-                    PCoverpic.setImageBitmap(bitmap);
-                }
-                pic = picCompressed;
-                FirebaseStorage storage;
-                StorageReference storageReference;
-                StorageReference reference;
-                storage = FirebaseStorage.getInstance();
-                storageReference = storage.getReference();
-
-                if(imageCoverOrDp == 1){
-                    reference = storageReference.child("Profile/")
-                            .child(FirebaseAuth.getInstance().getUid()+"/")
-                            .child( FirebaseAuth.getInstance().getUid()+"_cover");
-                }
-                else {
-                    reference = storageReference.child("Profile/")
-                            .child(FirebaseAuth.getInstance().getUid()+"/")
-                            .child( FirebaseAuth.getInstance().getUid()+"_dp");
-                }
-
-                reference.putBytes(picCompressed)
-                        .addOnSuccessListener(taskSnapshot ->
-                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                    Uri downloadUri = uri;
-                                    String generatedFilePath = downloadUri.toString();
-                                    DocumentReference docref = FirebaseFirestore.getInstance()
-                                            .collection("Users").document(FirebaseAuth.getInstance().getUid());
-                                    if(imageCoverOrDp == 0){
-                                        docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
-                                            if(task.isSuccessful()){
-                                                introPref.setUserdp(generatedFilePath);
-                                                progressDialog.dismiss();
-                                            }else{
-                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
-                                            }
-                                        });
-                                    }
-                                    else {
-                                        docref.update("coverpic", generatedFilePath).addOnCompleteListener(task -> {
-                                            if(task.isSuccessful()){
-                                                progressDialog.dismiss();
-                                            }else{
-                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
-                                            }
-                                        });
-                                    }
-
-                                }))
-
-                        .addOnFailureListener(e -> {
-                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
-                            progressDialog.dismiss();
-
-                        });
-
-            }
-        }
-
-        private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-            final int height = options.outHeight;
-            final int width = options.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-                final int heightRatio = Math.round((float) height / (float) reqHeight);
-                final int widthRatio = Math.round((float) width / (float) reqWidth);
-                inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-            }
-            final float totalPixels = width * height;
-            final float totalReqPixelsCap = reqWidth * reqHeight * 2;
-
-            while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-                inSampleSize++;
-            }
-
-            return inSampleSize;
-        }
-
-    }
-
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
