@@ -290,6 +290,9 @@ public class RegPujoCommittee extends AppCompatActivity {
                       pujoCommitteeModel.setDescription(sdescription);
                       pujoCommitteeModel.setType(stype);
 
+                      introPref.setFullName(scommitteename);
+                      introPref.setGender(null);
+
                       if(pic!=null && coverpicbyte!=null){
                           NotifCount notifCount= new NotifCount();
                           notifCount.setNotifCount(0);

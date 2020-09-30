@@ -29,14 +29,14 @@ public class IndividualModel {
         this.lastname = lastname;
     }
 
-    private String gender;
-
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+//    private String gender;
+//
+//
+//    public String getGender() {
+//        return gender;
+//    }
+//
+//    public void setGender(String gender) {
+//        this.gender = gender;
+//    }
 }

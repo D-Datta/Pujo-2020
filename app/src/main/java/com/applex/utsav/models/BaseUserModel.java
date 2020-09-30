@@ -11,6 +11,8 @@ public class BaseUserModel {
     private String pin;
     private String dp;
     private String coverpic;
+    private String gender;
+
 
     private String uid;
     private String email;
@@ -161,5 +163,14 @@ public class BaseUserModel {
 
     public void setUpvoteL(ArrayList<String> upvoteL) {
         this.upvoteL = upvoteL;
+    }
+
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

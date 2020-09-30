@@ -140,6 +140,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                             BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
                             PROFILEPIC = baseUserModel.getDp();
                             COVERPIC = baseUserModel.getCoverpic();
+                            GENDER = baseUserModel.getGender();
                             EMAIL = baseUserModel.getEmail();
                             commentcount = baseUserModel.getCommentcount();
                             likeCount = baseUserModel.getLikeCount();
@@ -194,7 +195,6 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             IndividualModel individualModel = task.getResult().toObject(IndividualModel.class);
-                            GENDER = individualModel.getGender();
                             if(individualModel.getFirstname()!=null && !individualModel.getFirstname().isEmpty())
                             {
                                 fname_ind.setText(individualModel.getFirstname());
@@ -315,11 +315,11 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                     baseUserModel.setPujoVisits(pujoVisits);
                     baseUserModel.setCoverpic(COVERPIC);
                     baseUserModel.setDp(PROFILEPIC);
+                    baseUserModel.setGender(GENDER);
 
                     individualModel = new IndividualModel();
                     individualModel.setFirstname(FNAME);
                     individualModel.setLastname(LNAME);
-                    individualModel.setGender(GENDER);
                     individualModel.setBio(BIO);
 
                     if (pic != null || coverpicbyte != null) {

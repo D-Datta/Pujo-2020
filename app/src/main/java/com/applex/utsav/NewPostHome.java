@@ -119,7 +119,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private ArrayList<String> generatedFilePath = new ArrayList<>();
 
     private Uri downloadUri;
-    private String ts, USERNAME, PROFILEPIC;
+    private String ts, USERNAME, PROFILEPIC, GENDER;
 
     private FirebaseAuth mAuth;
     private FirebaseUser fireuser;
@@ -290,6 +290,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         if(PROFILEPIC!= null){
             Picasso.get().load(PROFILEPIC).into(user_image);
         }
+
+        GENDER = introPref.getGender();
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
 
@@ -749,6 +751,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             homePostModel.setTs(timestampLong);
                             homePostModel.setNewTs(timestampLong);
                             homePostModel.setType(introPref.getType());
+                            homePostModel.setGender(GENDER);
 
                             homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 

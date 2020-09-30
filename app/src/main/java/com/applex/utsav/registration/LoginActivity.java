@@ -388,6 +388,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                                         introPref.setType(userModel.getType());
                                                                                         introPref.setUserdp(userModel.getDp());
                                                                                         introPref.setFullName(userModel.getName());
+                                                                                        introPref.setGender(userModel.getGender());
                                                                                         Intent i1 = new Intent(LoginActivity.this, MainActivity.class);
                                                                                         i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                                         i1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -527,6 +528,7 @@ public class LoginActivity extends AppCompatActivity {
                                                                             introPref.setType(userModel.getType());
                                                                             introPref.setUserdp(userModel.getDp());
                                                                             introPref.setFullName(userModel.getName());
+                                                                            introPref.setGender(userModel.getGender());
                                                                             Intent i1 = new Intent(LoginActivity.this, MainActivity.class);
                                                                             startActivity(i1);
                                                                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

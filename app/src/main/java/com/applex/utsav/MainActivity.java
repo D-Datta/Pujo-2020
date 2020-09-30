@@ -303,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 introPref.setFullName(null);
                                 introPref.setUserdp(null);
                                 introPref.setType(null);
+                                introPref.setGender(null);
 
                                 FirebaseFirestore.getInstance()
                                         .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/AccessToken/")

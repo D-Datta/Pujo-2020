@@ -240,6 +240,7 @@ public class LoginActivityPhone extends AppCompatActivity {
                                                                     introPref.setType(userModel.getType());
                                                                     introPref.setUserdp(userModel.getDp());
                                                                     introPref.setFullName(userModel.getName());
+                                                                    introPref.setGender(userModel.getGender());
                                                                     Intent i1 = new Intent(LoginActivityPhone.this, MainActivity.class);
                                                                     startActivity(i1);
                                                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

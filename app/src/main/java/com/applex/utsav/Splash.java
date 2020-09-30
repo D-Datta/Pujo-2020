@@ -66,6 +66,7 @@ public class Splash extends AppCompatActivity {
                                                 introPref.setUserdp(userModel.getDp());
                                                 introPref.setType(userModel.getType());
                                                 introPref.setFullName(userModel.getName());
+                                                introPref.setGender(userModel.getGender());
 
                                                 Intent homeIntent = new Intent(Splash.this, MainActivity.class);
                                                 homeIntent.putExtra("value", "splash");

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 @IgnoreExtraProperties
 public class HomePostModel {
 
-    private String usN, dp, uid, type;
+    private String usN, dp, uid, type, gender;
     private String txt;
 
     private ArrayList<String> img;
@@ -265,5 +265,12 @@ public class HomePostModel {
 
     public void setCom2_ts(long com2_ts) {
         this.com2_ts = com2_ts;
+    }
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

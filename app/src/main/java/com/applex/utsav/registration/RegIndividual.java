@@ -262,12 +262,15 @@ public class RegIndividual extends AppCompatActivity
                     baseUserModel.setCity(CITY);
                     baseUserModel.setState(STATE);
                     baseUserModel.setType(introPref.getType());
+                    baseUserModel.setGender(GENDER);
 
                     individualModel = new IndividualModel();
                     individualModel.setFirstname(FNAME);
                     individualModel.setLastname(LNAME);
-                    individualModel.setGender(GENDER);
                     individualModel.setBio(BIO);
+
+                    introPref.setFullName(USERNAME);
+                    introPref.setGender(GENDER);
 
                     if (pic != null || coverpicbyte != null) {
 
