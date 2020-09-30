@@ -99,6 +99,8 @@ public class CommitteeFragment extends Fragment {
     private ArrayList<Integer> positions;
     private int query_position;
 
+    private DocumentSnapshot lastReelDocument;
+
     public CommitteeFragment() {
         // Required empty public constructor
     }
@@ -255,6 +257,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
+
                 else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -262,25 +265,26 @@ public class CommitteeFragment extends Fragment {
 
                     if(programmingViewHolder.getItemViewType() != 1) {
                         query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
-                        Query query1 = FirebaseFirestore.getInstance()
-                                .collection("Reels")
-                                .orderBy("ts", Query.Direction.DESCENDING);
-
-                        query1.get().addOnCompleteListener(task -> {
+//                        Query query1 = FirebaseFirestore.getInstance()
+//                                .collection("Reels")
+//                                .orderBy("ts", Query.Direction.DESCENDING);
+//
+//                        query1.get().addOnCompleteListener(task -> {
 
                             reels_query = FirebaseFirestore.getInstance()
                                     .collection("Reels")
                                     .orderBy("ts", Query.Direction.DESCENDING)
-                                    .startAfter(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
+                                    .startAfter(lastReelDocument);
+//                                    .startAfter(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
 
-                            buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+                            buildReelsRecyclerView(position, programmingViewHolder);
 
                             programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                                 Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                                 intent.putExtra("bool", "1");
                                 requireActivity().startActivity(intent);
                             });
-                        });
+//                        });
                     }
                     else {
                         query_position = 0;
@@ -288,7 +292,7 @@ public class CommitteeFragment extends Fragment {
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING);
 
-                        buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+                        buildReelsRecyclerView(position, programmingViewHolder);
 
                         programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
@@ -860,11 +864,11 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-
             if (newState == 0) {
                 int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
                 int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
@@ -1006,14 +1010,15 @@ public class CommitteeFragment extends Fragment {
         }
     }
 
-    private void buildReelsRecyclerView(int position) {
-        final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(position);
-        ProgrammingViewHolder pvh = (ProgrammingViewHolder) holder;
+    private void buildReelsRecyclerView(int position, ProgrammingViewHolder pvh) {
+//        final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(position);
+//        ProgrammingViewHolder pvh = (ProgrammingViewHolder) holder;
 
         if(pvh != null) {
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            pvh.reelsList.setHasFixedSize(false);
+            pvh.reelsList.setHasFixedSize(true);
             pvh.reelsList.setLayoutManager(layoutManager);
             pvh.reelsList.setNestedScrollingEnabled(true);
             pvh.reelsList.setItemViewCacheSize(10);
@@ -1024,7 +1029,7 @@ public class CommitteeFragment extends Fragment {
 
             PagedList.Config config = new PagedList.Config.Builder()
                     .setInitialLoadSizeHint(10)
-                    .setPageSize(10)
+                    .setPageSize(1)
                     .setPrefetchDistance(0)
                     .setEnablePlaceholders(true)
                     .build();
@@ -1036,6 +1041,7 @@ public class CommitteeFragment extends Fragment {
                         if(snapshot.exists()) {
                             reelsPostModel = snapshot.toObject(ReelsPostModel.class);
                             Objects.requireNonNull(reelsPostModel).setDocID(snapshot.getId());
+                            lastReelDocument = snapshot;
                         }
                         return reelsPostModel;
                     })
@@ -1234,6 +1240,9 @@ public class CommitteeFragment extends Fragment {
                         case ERROR:
                             BasicUtility.showToast(getActivity(), "Something went wrong...");
                             break;
+                        case LOADED:
+//                            BasicUtility.showToast(getActivity(), "top10 "+ position);
+                            break;
                         case FINISHED:
                             if(adapter.getItemCount() == 0) {
                                 pvh.reels_item.setVisibility(View.GONE);
@@ -1299,6 +1308,10 @@ public class CommitteeFragment extends Fragment {
                     super.onScrolled(recyclerView, dx, dy);
                 }
             });
+        }
+
+        else {
+            BasicUtility.showToast(getActivity(), "Something went wrong...");
         }
     }
 
@@ -1400,17 +1413,6 @@ public class CommitteeFragment extends Fragment {
                 }
             }
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        System.gc();
-        super.finalize();
     }
 
 

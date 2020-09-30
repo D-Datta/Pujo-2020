@@ -513,14 +513,8 @@
 
         </LinearLayout>
 
-        <!--            <ImageView-->
-        <!--                android:layout_width="200dp"-->
-        <!--                android:layout_height="200dp"-->
-        <!--                android:layout_marginBottom="257dp"-->
-        <!--                android:src="@drawable/mandala" />-->
-
-
     </RelativeLayout>
+
     </LinearLayout>
 
 </LinearLayout>
