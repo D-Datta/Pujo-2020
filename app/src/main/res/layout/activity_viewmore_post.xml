@@ -237,8 +237,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="@string/_154"
                     android:textColor="@color/white_transparent"
-                    android:textSize="15dp"
-                    android:textStyle="bold" />
+                    android:textSize="15dp" />
             </LinearLayout>
 
             </LinearLayout>

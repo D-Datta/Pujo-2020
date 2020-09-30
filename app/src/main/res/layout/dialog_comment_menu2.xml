@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/ic_edit_black_24dp"
+            android:src="@drawable/ic_outline_edit_24"
             android:padding="8dp" />
 
         <TextView
@@ -80,5 +80,7 @@
             android:paddingEnd="30dp"
             android:textColor="@android:color/holo_red_light"
             android:textSize="18sp" />
+
     </LinearLayout>
+
 </LinearLayout>

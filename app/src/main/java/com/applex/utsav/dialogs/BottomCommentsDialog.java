@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.StoreTemp;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -91,6 +93,7 @@ public class BottomCommentsDialog extends DialogFragment {
         return inflater.inflate(R.layout.bottomsheetcomments, container, false);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
@@ -116,6 +119,8 @@ public class BottomCommentsDialog extends DialogFragment {
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
         finalcmntno = cmntno;
+        StoreTemp.getInstance().setCmtNo(cmntno);
+        Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null) {
@@ -194,11 +199,16 @@ public class BottomCommentsDialog extends DialogFragment {
 
                     batch.commit().addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
+                            no_comment.setVisibility(View.GONE);
                             send.setVisibility(View.VISIBLE);
                             progressComment.setVisibility(View.GONE);
                             commentRecycler.setVisibility(View.VISIBLE);
                             buildRecyclerView_comments();
-                            finalcmntno=finalcmntno+1;
+                            Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
+                            finalcmntno=StoreTemp.getInstance().getCmtNo()+1;
+                            StoreTemp.getInstance().setCmtNo(finalcmntno);
+                            Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
+
                             if(from.matches("ViewMoreHome")){
                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
@@ -217,7 +227,6 @@ public class BottomCommentsDialog extends DialogFragment {
                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                 CommitteeFragment.changed=1;
                             }
-
                         }
                         else {
                             commentModel.setTs(0L); ///Pending state
@@ -258,6 +267,7 @@ public class BottomCommentsDialog extends DialogFragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void buildRecyclerView_comments(){
         progressBar.setVisibility(View.VISIBLE);
         models = new ArrayList<>();
@@ -309,11 +319,17 @@ public class BottomCommentsDialog extends DialogFragment {
                                 batch.update(docRef, "cmtNo", FieldValue.increment(-(total)));
 
                                 batch.commit().addOnCompleteListener(task1 -> {
-                                    if(task1.isSuccessful()){
+                                    if(task1.isSuccessful()) {
                                         models.remove(position);
                                         commentAdapter.notifyItemRemoved(position);
-                                        finalcmntno = finalcmntno-1;
-                                        if(finalcmntno==0){
+                                        Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
+
+                                        finalcmntno = StoreTemp.getInstance().getCmtNo()-total;
+                                        StoreTemp.getInstance().setCmtNo(finalcmntno);
+
+                                        Log.i("BAM", StoreTemp.getInstance().getCmtNo() + "");
+
+                                        if(finalcmntno<=0){
                                             if(from.matches("ViewMoreHome")){
                                                ViewMoreHome.comment_layout.setVisibility(View.GONE);
                                                CommitteeFragment.changed=1;
@@ -403,6 +419,9 @@ public class BottomCommentsDialog extends DialogFragment {
                     } else {
                         checkGetMore = 0;
                     }
+                }
+                else  {
+                    no_comment.setVisibility(View.VISIBLE);
                 }
             }
             progressBar.setVisibility(View.GONE);

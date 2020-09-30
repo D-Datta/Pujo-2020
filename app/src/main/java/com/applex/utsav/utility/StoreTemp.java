@@ -12,7 +12,7 @@ public class StoreTemp {
     private ArrayList<TagModel> tagTemp;
     private byte[] pic;
 
-
+    private long cmtNo;
     private byte[] coverpic;
 
     public ArrayList<TagModel> getTagTemp() {
@@ -44,6 +44,13 @@ public class StoreTemp {
         this.coverpic = coverpic;
     }
 
+    public long getCmtNo() {
+        return cmtNo;
+    }
+
+    public void setCmtNo(long cmtNo) {
+        this.cmtNo = cmtNo;
+    }
 
     private ArrayList<String> likeList;
 
