@@ -670,6 +670,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                             reelsPostModel.setCommittee_name(introPref.getFullName());
                             reelsPostModel.setCommittee_dp(introPref.getUserdp());
+                            reelsPostModel.setType(introPref.getType());
                             reelsPostModel.setTs(timestampLong);
                             reelsPostModel.setDocID(String.valueOf(timestampLong));
 

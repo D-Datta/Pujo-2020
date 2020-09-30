@@ -31,6 +31,7 @@ import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.adapters.ViewmoreSliderAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
+import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
@@ -367,42 +368,41 @@ public class ViewMoreText extends AppCompatActivity {
                 for(int j = 0; j < likeList.size(); j++){
                     if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
 
-                        Display display6 = getWindowManager().getDefaultDisplay();
-                        int displayWidth6 = display6.getWidth();
-                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-                        options6.inJustDecodeBounds = true;
+//                        Display display6 = getWindowManager().getDefaultDisplay();
+//                        int displayWidth6 = display6.getWidth();
+//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
+//                        options6.inJustDecodeBounds = true;
+//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
+//                        int width6 = options6.outWidth;
+//                        if (width6 > displayWidth6) {
+//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
+//                        }
+//                        options6.inJustDecodeBounds = false;
+//                        Bitmap scaledBitmap6=  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
+//                        flameimg.setImageBitmap(scaledBitmap6);
+//                        flameimg.setImageTintList(null);
+//                        LikeCheck = j;
 
-                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-
-                        int width6 = options6.outWidth;
-                        if (width6 > displayWidth6) {
-                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-                        }
-                        options6.inJustDecodeBounds = false;
-
-                        Bitmap scaledBitmap6=  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-                        flameimg.setImageBitmap(scaledBitmap6);
-
+                        flameimg.setImageResource(R.drawable.ic_flame_red);
                         flameimg.setImageTintList(null);
                         LikeCheck = j;
 
                     }
                     else {
-                        Display display6 = getWindowManager().getDefaultDisplay();
-                        int displayWidth6 = display6.getWidth();
-                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-                        options6.inJustDecodeBounds = true;
+//                        Display display6 = getWindowManager().getDefaultDisplay();
+//                        int displayWidth6 = display6.getWidth();
+//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
+//                        options6.inJustDecodeBounds = true;
+//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
+//                        int width6 = options6.outWidth;
+//                        if (width6 > displayWidth6) {
+//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
+//                        }
+//                        options6.inJustDecodeBounds = false;
+//                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
+//                        flameimg.setImageBitmap(scaledBitmap11);
 
-                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-
-                        int width6 = options6.outWidth;
-                        if (width6 > displayWidth6) {
-                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-                        }
-                        options6.inJustDecodeBounds = false;
-
-                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-                        flameimg.setImageBitmap(scaledBitmap11);
+                        flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
 
                     }
                 }
@@ -647,22 +647,24 @@ public class ViewMoreText extends AppCompatActivity {
                                     for(int j = 0; j < likeList.size(); j++){
                                         if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
 
-                                            Display display7 = getWindowManager().getDefaultDisplay();
-                                            int displayWidth7 = display7.getWidth();
-                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-                                            options7.inJustDecodeBounds = true;
-                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-
-                                            int width7 = options7.outWidth;
-                                            if (width7 > displayWidth7) {
-                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-                                            }
-                                            options7.inJustDecodeBounds = false;
-
-                                            Bitmap scaledBitmap7 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-                                            flameimg.setImageBitmap(scaledBitmap7);
+                                            flameimg.setImageResource(R.drawable.ic_flame_red);
                                             flameimg.setImageTintList(null);
                                             LikeCheck = j;
+
+//                                            Display display7 = getWindowManager().getDefaultDisplay();
+//                                            int displayWidth7 = display7.getWidth();
+//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
+//                                            options7.inJustDecodeBounds = true;
+//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
+//                                            int width7 = options7.outWidth;
+//                                            if (width7 > displayWidth7) {
+//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
+//                                            }
+//                                            options7.inJustDecodeBounds = false;
+//                                            Bitmap scaledBitmap7 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
+//                                            flameimg.setImageBitmap(scaledBitmap7);
+//                                            flameimg.setImageTintList(null);
+//                                            LikeCheck = j;
 //                                            if((likeList.size()-1) == 1)
 //                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" other");
 //                                            else if((likeList.size()-1) == 0){
@@ -673,20 +675,20 @@ public class ViewMoreText extends AppCompatActivity {
                                             //Position in likeList where the current USer UId is found stored in likeCheck
                                         }
                                         else {
-                                            Display display7 = getWindowManager().getDefaultDisplay();
-                                            int displayWidth7 = display7.getWidth();
-                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-                                            options7.inJustDecodeBounds = true;
-                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
+//                                            Display display7 = getWindowManager().getDefaultDisplay();
+//                                            int displayWidth7 = display7.getWidth();
+//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
+//                                            options7.inJustDecodeBounds = true;
+//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
+//                                            int width7 = options7.outWidth;
+//                                            if (width7 > displayWidth7) {
+//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
+//                                            }
+//                                            options7.inJustDecodeBounds = false;
+//                                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
+//                                            flameimg.setImageBitmap(scaledBitmap11);
 
-                                            int width7 = options7.outWidth;
-                                            if (width7 > displayWidth7) {
-                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-                                            }
-                                            options7.inJustDecodeBounds = false;
-
-                                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
-                                            flameimg.setImageBitmap(scaledBitmap11);
+                                            flameimg.setImageResource(R.drawable.ic_btmnav_notifications);
                                         }
                                     }
 
@@ -825,19 +827,21 @@ public class ViewMoreText extends AppCompatActivity {
                         change = 1;
                         if (LikeCheck >= 0) {//was already liked by current user
 
-                            Display display7 = getWindowManager().getDefaultDisplay();
-                            int displayWidth7 = display7.getWidth();
-                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-                            options7.inJustDecodeBounds = true;
-                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-                            int width7 = options7.outWidth;
-                            if (width7 > displayWidth7) {
-                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-                            }
-                            options7.inJustDecodeBounds = false;
+//                            Display display7 = getWindowManager().getDefaultDisplay();
+//                            int displayWidth7 = display7.getWidth();
+//                            BitmapFactory.Options options7 = new BitmapFactory.Options();
+//                            options7.inJustDecodeBounds = true;
+//                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
+//                            int width7 = options7.outWidth;
+//                            if (width7 > displayWidth7) {
+//                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
+//                            }
+//                            options7.inJustDecodeBounds = false;
+//                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
+//                            flameimg.setImageBitmap(scaledBitmap11);
 
-                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-                            flameimg.setImageBitmap(scaledBitmap11);
+                            flameimg.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
+
                             if (likeList.size() - 1 == 0) {
                                 like_layout.setVisibility(View.GONE);
                             } else {
@@ -858,6 +862,7 @@ public class ViewMoreText extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
+                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreText.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
@@ -884,16 +889,15 @@ public class ViewMoreText extends AppCompatActivity {
                             int displayWidth8 = display8.getWidth();
                             BitmapFactory.Options options8 = new BitmapFactory.Options();
                             options8.inJustDecodeBounds = true;
-                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options8);
+                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options8);
                             int width8 = options8.outWidth;
-
                             if (width8 > displayWidth8) {
                                 options8.inSampleSize = Math.round((float) width8 / (float) displayWidth8);
                             }
                             options8.inJustDecodeBounds = false;
-
-                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options8);
+                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options8);
                             flameimg.setImageBitmap(scaledBitmap11);
+
                             like_layout.setVisibility(View.VISIBLE);
                             if (likeList != null)
                                 flamedBy.setText(Integer.toString(likeList.size() + 1));
@@ -911,6 +915,7 @@ public class ViewMoreText extends AppCompatActivity {
                             flamedModel.setPostID(homePostModel[0].getDocID());
                             flamedModel.setTs(tsLong);
                             flamedModel.setUid(UID);
+                            flamedModel.setType(introPref.getType());
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);
                             flamedModel.setPostUid(homePostModel[0].getUid());
@@ -924,6 +929,7 @@ public class ViewMoreText extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
+                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreText.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }

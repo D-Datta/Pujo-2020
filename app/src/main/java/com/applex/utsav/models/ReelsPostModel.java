@@ -14,6 +14,7 @@ public class ReelsPostModel {
     private String docID;
     private String headline;
     private String frame;
+    private String type;
 
     private long videoViews;
 
@@ -171,4 +172,13 @@ public class ReelsPostModel {
     public void setPujoTag(PujoTagModel pujoTag) {
         this.pujoTag = pujoTag;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.applex.utsav.fragments.CommitteeFragment;
+import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.adapters.CommentAdapter;
@@ -702,6 +703,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //
 //                                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
 //                                            flameimg.setImageBitmap(scaledBitmap11);
+
                                             flameimg.setImageResource(R.drawable.ic_normal_flame);
 
                                         }
@@ -853,9 +855,9 @@ public class ViewMoreHome extends AppCompatActivity {
 //                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
 //                            }
 //                            options7.inJustDecodeBounds = false;
-//
 //                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
 //                            flameimg.setImageBitmap(scaledBitmap11);
+
                             flameimg.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
 
                             if (likeList.size() - 1 == 0) {
@@ -879,6 +881,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     change = 1;
                                     CommitteeFragment.changed=1;
+                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
@@ -906,14 +909,13 @@ public class ViewMoreHome extends AppCompatActivity {
                             options8.inJustDecodeBounds = true;
                             BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options8);
                             int width8 = options8.outWidth;
-
                             if (width8 > displayWidth8) {
                                 options8.inSampleSize = Math.round((float) width8 / (float) displayWidth8);
                             }
                             options8.inJustDecodeBounds = false;
-
                             Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options8);
                             flameimg.setImageBitmap(scaledBitmap11);
+
                             like_layout.setVisibility(View.VISIBLE);
                             if (likeList != null)
                                 flamedBy.setText(Integer.toString(likeList.size() + 1));
@@ -946,6 +948,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     change = 1;
                                     CommitteeFragment.changed=1;
+                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
