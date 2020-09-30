@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,15 +39,18 @@ import java.util.Locale;
 
 public class CommitteeViewAll extends AppCompatActivity {
 
-    RecyclerView cRecyclerView;
-    ProgressBar progress;
-    ProgressBar progressMoreCom;
+    private RecyclerView cRecyclerView;
+    private ProgressBar progress;
+    private ProgressBar progressMoreCom;
     private LinearLayout emptyLayout;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private FirestorePagingAdapter adapter;
     IntroPref introPref;
+
+    ImageView search, back;
+    EditText searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +65,25 @@ public class CommitteeViewAll extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_committee_view_all);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        search = findViewById(R.id.search);
+        back = findViewById(R.id.back);
+        searchText = findViewById(R.id.search_text);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_search_24);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!searchText.getText().toString().isEmpty()){
+                    buildRecyclerView(searchText.getText().toString());
+                }
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommitteeViewAll.super.onBackPressed();
+            }
+        });
 
 
         progress = findViewById(R.id.content_progress);
@@ -82,25 +99,36 @@ public class CommitteeViewAll extends AppCompatActivity {
         cRecyclerView.setLayoutManager(gridLayoutManager);
 
 
-        buildRecyclerView();
+        buildRecyclerView(null);
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
                 .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
-            buildRecyclerView();
+            searchText.setText(null);
+            buildRecyclerView(null);
         });
 
     }
 
 
-    private void buildRecyclerView() {
+    private void buildRecyclerView(String search) {
 
-        Query query =  FirebaseFirestore.getInstance()
-                .collection("Users")
-                .whereEqualTo("type", "com")
-//                .orderBy("lastVisitTs", Query.Direction.DESCENDING)
-                .limit(10);
+        Query query;
+        if(search != null){
+            query = FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .whereEqualTo("type", "com")
+                    .whereGreaterThanOrEqualTo("name", searchText.getText().toString())
+                    .limit(10);
+        }
+        else {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .whereEqualTo("type", "com")
+                    .limit(10);
+        }
+
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -231,51 +259,14 @@ public class CommitteeViewAll extends AppCompatActivity {
     }
 
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            Toast.makeText(getApplicationContext(), "Go to Search Activity", Toast.LENGTH_SHORT).show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.toolbar_search_menu, menu);
-//        MenuItem menuItem = menu.findItem(R.id.action_search);
-//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-//        searchView.setQueryHint("Search Community");
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                ArrayList<CommunityModel> searchedCommunities = new ArrayList<>();
-//                for(CommunityModel communityModel: CommunityGrps){
-//                    if(communityModel.getName().toLowerCase().contains(newText.toLowerCase())){
-//                        searchedCommunities.add(communityModel);
-//                    }
-//                }
-//                communityAdapter = new CommunityAdapter(searchedCommunities, CommunityViewAll.this, 20);
-//                cRecyclerView.setAdapter(communityAdapter);
-//                return true;
-//            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-//    @Override
-//    protected void onResume() {
-//        if(changed > 0 || delete == 2){
-//            buildCommunityRecyclerView();
-//            changed = 0;
-//            delete = 0;
-//            FeedsFragment.changed = 0;
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == android.R.id.home) {
+//            Toast.makeText(getApplicationContext(), "Go to Search Activity", Toast.LENGTH_SHORT).show();
 //        }
-//        super.onResume();
+//        return super.onOptionsItemSelected(item);
 //    }
+
+
+
 }

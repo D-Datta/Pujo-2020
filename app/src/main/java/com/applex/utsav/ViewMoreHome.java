@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -120,6 +121,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private int commentCount = 0;
     String bool;
 
+    public static final HomePostModel[] homePostModel = {new HomePostModel()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,12 +260,8 @@ public class ViewMoreHome extends AppCompatActivity {
 //        share.setImageBitmap(scaledBitmap5);
 
 
-
-
-
         Intent i = getIntent();
 
-        final HomePostModel[] homePostModel = {new HomePostModel()};
 
         if (getIntent().getExtras().getString("campus") == null) {
             homePostModel[0].setUid(i.getStringExtra("uid"));
@@ -999,40 +997,42 @@ public class ViewMoreHome extends AppCompatActivity {
                     postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
-                    postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(getApplicationContext(), NewPostHome.class);
+                    postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
 
-                            i.putExtra("target", "100"); //target value for edit post
-                            i.putExtra("FromViewMoreHome", "True");
-                            i.putExtra("bool", bool);
-                            i.putExtra("usN", homePostModel[0].getUsN());
-                            i.putExtra("dp", homePostModel[0].getDp());
-                            i.putExtra("uid", homePostModel[0].getUid());
-
-                            i.putExtra("img", homePostModel[0].getImg());
-                            i.putExtra("txt", homePostModel[0].getTxt());
-                            i.putExtra("comID", homePostModel[0].getComID());
-                            i.putExtra("comName", homePostModel[0].getComName());
-
-                            i.putExtra("ts", Long.toString(homePostModel[0].getTs()));
-                            i.putExtra("newTs", Long.toString(homePostModel[0].getNewTs()));
-
-                            i.putExtra("cmtNo", Long.toString(homePostModel[0].getCmtNo()));
-                            StoreTemp.getInstance().setTagTemp(homePostModel[0].getTagL());
-
-                            i.putExtra("likeL", homePostModel[0].getLikeL());
-                            i.putExtra("likeCheck", homePostModel[0].getLikeCheck());
-                            i.putExtra("docID", homePostModel[0].getDocID());
-                            i.putExtra("reportL", homePostModel[0].getReportL());
-                            i.putExtra("challengeID", homePostModel[0].getChallengeID());
-                            startActivity(i);
-                            finish();
-
-                            postMenuDialog.dismiss();
-                        }
-                    });
+//                    postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            Intent i = new Intent(getApplicationContext(), NewPostHome.class);
+//
+//                            i.putExtra("target", "100"); //target value for edit post
+//                            i.putExtra("FromViewMoreHome", "True");
+//                            i.putExtra("bool", bool);
+//                            i.putExtra("usN", homePostModel[0].getUsN());
+//                            i.putExtra("dp", homePostModel[0].getDp());
+//                            i.putExtra("uid", homePostModel[0].getUid());
+//
+//                            i.putExtra("img", homePostModel[0].getImg());
+//                            i.putExtra("txt", homePostModel[0].getTxt());
+//                            i.putExtra("comID", homePostModel[0].getComID());
+//                            i.putExtra("comName", homePostModel[0].getComName());
+//
+//                            i.putExtra("ts", Long.toString(homePostModel[0].getTs()));
+//                            i.putExtra("newTs", Long.toString(homePostModel[0].getNewTs()));
+//
+//                            i.putExtra("cmtNo", Long.toString(homePostModel[0].getCmtNo()));
+//                            StoreTemp.getInstance().setTagTemp(homePostModel[0].getTagL());
+//
+//                            i.putExtra("likeL", homePostModel[0].getLikeL());
+//                            i.putExtra("likeCheck", homePostModel[0].getLikeCheck());
+//                            i.putExtra("docID", homePostModel[0].getDocID());
+//                            i.putExtra("reportL", homePostModel[0].getReportL());
+//                            i.putExtra("challengeID", homePostModel[0].getChallengeID());
+//                            startActivity(i);
+//                            finish();
+//
+//                            postMenuDialog.dismiss();
+//                        }
+//                    });
 
                     postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(new View.OnClickListener() {
                         @Override
