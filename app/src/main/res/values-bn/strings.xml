@@ -103,16 +103,16 @@
     <string name="see_all">সব ক্লিপস দেখুন —></string>
     <string name="about_yourself">নিজের সম্পর্কে কিছু</string>
 
-    <string name="nocommittee">No committees to show</string>
-    <string name="noposts">You have not posted anything yet.\nPost now!!</string>
-    <string name="no_posts">No posts to display</string>
-    <string name="noreels">No reels to display. \nCreate a reel now!!</string>
-    <string name="first_comments">Be the first one to comment</string>
+    <string name="nocommittee">কোনো কমিটি নেই</string>
+    <string name="noposts">এখনো কোনো পোস্ট করেননি \n পোস্ট করুন!!</string>
+    <string name="no_posts">কোনো পোস্ট নেই</string>
+    <string name="noreels">কোনো রিল নেই \nরিল তৈরি করুন!!</string>
+    <string name="first_comments">প্রথম কমেন্ট করুন</string>
 
     <string name="_0_18">0:১৮</string>
 
     <string name="comments">মন্তব্য</string>
-    <string name="type_something_n">কিছু লেখো..\n</string>
+    <string name="type_something_n">কিছু লিখুন..\n</string>
     <string name="bio">বায়ো</string>
     <string name="recorder">রেকর্ডার</string>
     <string name="video">ভিডিও</string>
@@ -180,5 +180,6 @@
     <string name="set_app_lang">ভাষা সেট করুন</string>
     <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">বিভিন্ন বোনেদী বারিসের পুজো, তাদের heritageতিহ্য, কমিটি, সংখ্যালঘুদের পাশাপাশি কয়েকটি জায়গায় পুজোর অভিজ্ঞতা যেমন কলম্বিয়া, চাটিসগড়, আগরতলা ইত্যাদি বিভিন্ন জায়গায় অনুষ্ঠিত হয়</string>
     <string name="edit_comment">Edit Comment</string>
+    <string name="intro_three">Photos \n 360 degree shots \n Videos \nLocate various pujo \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Pujo updates</string>
 
 </resources>
