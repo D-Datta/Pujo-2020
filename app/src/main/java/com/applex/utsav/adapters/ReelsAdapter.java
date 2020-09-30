@@ -1,17 +1,23 @@
 package com.applex.utsav.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -174,34 +180,32 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         //INITIAL SETUP//
         if (currentItem.getLikeL() != null) {
             if (currentItem.getLikeL().size() == 0) {
-                holder.like_image.setVisibility(View.GONE);
-                holder.likesCount.setVisibility(View.GONE);
+                holder.like_layout.setVisibility(View.GONE);
             } else {
-                holder.like_image.setVisibility(View.VISIBLE);
-                holder.likesCount.setVisibility(View.VISIBLE);
+                holder.like_layout.setVisibility(View.VISIBLE);
                 holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
 
                 for(int j = 0; j < currentItem.getLikeL().size(); j++){
                     if(currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
                         holder.like.setImageResource(R.drawable.ic_flame_red);
+                        holder.like.setImageTintList(null);
                         currentItem.setLikeCheck(j);
-                        holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
+//                        holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
                         //Position in likeList where the current USer UId is found stored in likeCheck
+                    }
+                    else{
+                        holder.like.setImageResource(R.drawable.ic_normal_flame);
                     }
                 }
 
-                holder.like_image.setOnClickListener(v -> {
+                holder.like_layout.setOnClickListener(v -> {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
                     bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
                 });
-                holder.likesCount.setOnClickListener(v -> {
-                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
-                    bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
-                });
+
             }
         } else {
-            holder.like_image.setVisibility(View.GONE);
-            holder.likesCount.setVisibility(View.GONE);
+            holder.like_layout.setVisibility(View.GONE);
         }
         //INITIAL SETUP//
 
@@ -215,12 +219,10 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
                         holder.like.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
                         if (currentItem.getLikeL().size() - 1 == 0) {
-                            holder.likesCount.setVisibility(View.GONE);
-                            holder.like_image.setVisibility(View.GONE);
+                            holder.like_layout.setVisibility(View.GONE);
                         }
                         else {
-                            holder.likesCount.setVisibility(View.VISIBLE);
-                            holder.like_image.setVisibility(View.VISIBLE);
+                            holder.like_layout.setVisibility(View.VISIBLE);
                             holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()-1));
                         }
                         ///////////REMOVE CURRENT USER LIKE/////////////
@@ -240,9 +242,23 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     }
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                         BasicUtility.vibrate(context);
-                        holder.like.setImageResource(R.drawable.ic_flame_red);
-                        holder.likesCount.setVisibility(View.VISIBLE);
-                        holder.like_image.setVisibility(View.VISIBLE);
+
+                        WindowManager manager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+                        Display display8 = manager.getDefaultDisplay();
+                        int displayWidth8 = display8.getWidth();
+                        BitmapFactory.Options options8 = new BitmapFactory.Options();
+                        options8.inJustDecodeBounds = true;
+                        BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_flame_red, options8);
+                        int width8 = options8.outWidth;
+                        if (width8 > displayWidth8) {
+                            options8.inSampleSize = Math.round((float) width8 / (float) displayWidth8);
+                        }
+                        options8.inJustDecodeBounds = false;
+                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_flame_red, options8);
+                        holder.like.setImageBitmap(scaledBitmap11);
+
+//                        holder.like.setImageResource(R.drawable.ic_flame_red);
+                        holder.like_layout.setVisibility(View.VISIBLE);
                         if (currentItem.getLikeL() != null) {
                             holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
                         } else {
@@ -282,8 +298,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
         /////COMMENT/////
         if (currentItem.getCmtNo() > 0) {
-            holder.commentimg.setVisibility(View.VISIBLE);
-            holder.commentCount.setVisibility(View.VISIBLE);
+            holder.comment_layout.setVisibility(View.VISIBLE);
             holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
             holder.commentimg.setOnClickListener(v -> {
@@ -296,8 +311,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             });
         }
         else {
-            holder.commentimg.setVisibility(View.GONE);
-            holder.commentCount.setVisibility(View.GONE);
+            holder.comment_layout.setVisibility(View.GONE);
         }
         /////COMMENT/////
 
@@ -357,6 +371,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         TextView pujo_com_name, pujo_headline, likesCount, commentCount, mins_ago;
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         LottieAnimationView video_playing;
+        LinearLayout like_layout,comment_layout;
 
         ReelsItemViewHolder(View itemView) {
             super(itemView);
@@ -379,6 +394,8 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             mins_ago = itemView.findViewById(R.id.mins_ago_reels);
             reels_image = itemView.findViewById(R.id.reels_image);
             video_playing = itemView.findViewById(R.id.progressAnim);
+            like_layout = itemView.findViewById(R.id.like_layout);
+            comment_layout = itemView.findViewById(R.id.comment_layout);
         }
     }
 

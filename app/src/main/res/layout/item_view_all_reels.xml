@@ -211,6 +211,13 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
+            <LinearLayout
+                android:id="@+id/like_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/custom_ripple_transparent">
+
                 <ImageView
                     android:id="@+id/like_image"
                     android:layout_width="28dp"
@@ -229,14 +236,22 @@
                     android:textColor="@color/white_transparent"
                     android:textSize="12dp" />
 
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/custom_ripple_transparent">
+
                 <ImageView
-                    android:id="@+id/comment_image"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:padding="6dp"
-                    android:src="@drawable/ic_comment_viewmore"
-                    app:tint="@color/white_transparent"/>
+                        android:id="@+id/comment_image"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:padding="6dp"
+                        android:src="@drawable/ic_comment_viewmore"
+                        app:tint="@color/white_transparent"/>
 
                 <TextView
                     android:id="@+id/comment_count"
@@ -248,6 +263,8 @@
                     android:textColor="@color/white_transparent"
                     android:textSize="12dp"
                     android:textStyle="bold" />
+
+            </LinearLayout>
 
             </LinearLayout>
 
