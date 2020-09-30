@@ -71,12 +71,15 @@ public class ViewMoreHome extends AppCompatActivity {
 
 //    private ImageView send;
 //    private EditText newComment;
-    private ImageView commentimg, userimage, flameimg, back, likeimage, commentimage;
+    private ImageView commentimg, userimage, flameimg, back, likeimage;
     private SliderView sliderView;
 
-    private LinearLayout like_layout,comment_layout;
+    private LinearLayout like_layout;
+    public static LinearLayout comment_layout;
+    public static ImageView commentimage;
+    public static TextView noofcmnts;
 
-    private TextView username, minsago,  flamedBy, noofcmnts, comName;
+    private TextView username, minsago,  flamedBy, comName;
     private ReadMoreTextView textContent;
     private int LikeCheck = -1;
     private int change = 0;
@@ -521,7 +524,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                     comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreHome", null);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreHome", null,homePostModel[0].getCmtNo());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
@@ -573,19 +576,19 @@ public class ViewMoreHome extends AppCompatActivity {
                     bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                 }
                 else if (type.matches("comment")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", null);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", null,homePostModel[0].getCmtNo());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
                 else if(type.matches("comment_flame")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type,homePostModel[0].getCmtNo());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
                 else if(type.matches("comment_reply")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type,homePostModel[0].getCmtNo());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
                 else if(type.matches("comment_reply_flame")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type,homePostModel[0].getCmtNo());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
             }
@@ -826,7 +829,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                         noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                                         comment_layout.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreHome", null);
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreHome", null,homePostModel[0].getCmtNo());
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
 
@@ -983,7 +986,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 });
 
         commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1,"ViewMoreHome", null);
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1,"ViewMoreHome", null,homePostModel[0].getCmtNo());
                 bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
         });
 

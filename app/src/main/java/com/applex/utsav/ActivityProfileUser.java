@@ -741,12 +741,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null,currentItem.getCmtNo());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null,currentItem.getCmtNo());
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -913,17 +913,17 @@ public class ActivityProfileUser extends AppCompatActivity {
                     }
 
                     programmingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
                 }

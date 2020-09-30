@@ -25,9 +25,16 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommentEdit;
 import com.applex.utsav.R;
+import com.applex.utsav.ViewMoreHome;
+import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommentAdapter;
+import com.applex.utsav.adapters.ReelsAdapter;
+import com.applex.utsav.fragments.CommitteeFragment;
+import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
@@ -65,14 +72,16 @@ public class BottomCommentsDialog extends DialogFragment {
     private ProgressDialog progressDialog;
     private String uid;
     private String type;
+    private long cmntno, finalcmntno;
 
-    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type) {
+    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno) {
         this.root = root;
         this.docID = docID;
         this.uid = uid;
         this.bool = bool;
         this.from = from;
         this.type = type;
+        this.cmntno = cmntno;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -106,6 +115,7 @@ public class BottomCommentsDialog extends DialogFragment {
 
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
+        finalcmntno = cmntno;
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null) {
@@ -188,6 +198,26 @@ public class BottomCommentsDialog extends DialogFragment {
                             progressComment.setVisibility(View.GONE);
                             commentRecycler.setVisibility(View.VISIBLE);
                             buildRecyclerView_comments();
+                            finalcmntno=finalcmntno+1;
+                            if(from.matches("ViewMoreHome")){
+                                ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
+                                ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
+                                CommitteeFragment.changed=1;
+                                FeedsFragment.changed=1;
+                                ActivityProfileUser.change=1;
+                            }
+                            else if(from.matches("ViewMoreText")){
+                                ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
+                                ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
+                                FeedsFragment.changed=1;
+                                ActivityProfileUser.change=1;
+                            }
+                            else if(from.matches("ReelsAdapter")){
+                                ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                CommitteeFragment.changed=1;
+                            }
+
                         }
                         else {
                             commentModel.setTs(0L); ///Pending state
@@ -282,6 +312,44 @@ public class BottomCommentsDialog extends DialogFragment {
                                     if(task1.isSuccessful()){
                                         models.remove(position);
                                         commentAdapter.notifyItemRemoved(position);
+                                        finalcmntno = finalcmntno-1;
+                                        if(finalcmntno==0){
+                                            if(from.matches("ViewMoreHome")){
+                                               ViewMoreHome.comment_layout.setVisibility(View.GONE);
+                                               CommitteeFragment.changed=1;
+                                               FeedsFragment.changed=1;
+                                               ActivityProfileUser.change=1;
+                                            }
+                                            else if(from.matches("ViewMoreText")){
+                                                ViewMoreText.comment_layout.setVisibility(View.GONE);
+                                                FeedsFragment.changed=1;
+                                                ActivityProfileUser.change=1;
+                                            }
+                                            else if(from.matches("ReelsAdapter")){
+                                                ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.GONE);
+                                                CommitteeFragment.changed=1;
+                                            }
+                                        }
+                                        else{
+                                            if(from.matches("ViewMoreHome")){
+                                                ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
+                                                ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
+                                                CommitteeFragment.changed=1;
+                                                FeedsFragment.changed=1;
+                                                ActivityProfileUser.change=1;
+                                            }
+                                            else if(from.matches("ViewMoreText")){
+                                                ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
+                                                ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
+                                                FeedsFragment.changed=1;
+                                                ActivityProfileUser.change=1;
+                                            }
+                                            else if(from.matches("ReelsAdapter")){
+                                                ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                CommitteeFragment.changed=1;
+                                            }
+                                        }
                                         if(commentAdapter.getItemCount() == 0){
                                             no_comment.setVisibility(View.VISIBLE);
                                         }
