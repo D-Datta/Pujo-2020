@@ -13,13 +13,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/ic_path_grad_shape_pink"
         android:scaleType="centerCrop"
-        tools:layout_editor_absoluteX="-60dp"
+        tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/logo"
+        android:background="@drawable/utsav_logo"
         app:layout_constraintBottom_toTopOf="@+id/button_english"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.916"
@@ -31,19 +31,18 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="392dp"
         android:fontFamily="@font/harabara"
         android:gravity="center_vertical|end"
         android:paddingHorizontal="40dp"
         android:text="Select Language:"
         android:textColor="@color/grey2"
         android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/button_english"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914" />
+        app:layout_constraintVertical_bias="0.963" />
 
     <TextView
         android:layout_width="match_parent"
