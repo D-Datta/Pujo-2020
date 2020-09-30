@@ -36,23 +36,23 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="terms_conditions">
-        <a href="https://campus24.in/terms/">সাইন ইন করে আপনি আমাদের শর্তাদি এবং শর্তাদি সম্মত হন,</a>
+        <a href="https://applex.in/utsav-app-terms-and-conditions/">সাইন ইন করে আপনি আমাদের শর্তাদি এবং শর্তাদি সম্মত হন,</a>
     </string>
 
     <string name="terms_conditions_about">
-        <a href="https://campus24.in/terms/">আমাদের শর্তাবলী দেখুন.</a>
+        <a href="https://applex.in/utsav-app-terms-and-conditions/">আমাদের শর্তাবলী দেখুন.</a>
     </string>
 
     <string name="privacy_about">
-        <a href="https://campus24.in/privacy/">আমাদের গোপনীয় নীতি দেখুন.</a>
+        <a href="https://applex.in/utsav-app-privacy-policy/">আমাদের গোপনীয় নীতি দেখুন.</a>
     </string>
 
     <string name="privacy">
-        <a href="https://campus24.in/privacy/">গোপনীয় নীতি</a>
+        <a href="https://applex.in/utsav-app-privacy-policy/">গোপনীয় নীতি</a>
     </string>
 
     <string name="and_cookies">
-        <a href="https://applex.in/cookies/">এবং কুকিজ.</a>
+        <a href="https://applex.in/utsav-app-privacy-policy/">এবং কুকিজ.</a>
     </string>
 
     <string name="faq_help">
@@ -102,6 +102,12 @@
     <string name="short_videos">ছোট ভিডিও</string>
     <string name="see_all">সব দেখুন —></string>
     <string name="about_yourself">নিজের সম্পর্কে কিছু</string>
+
+    <string name="nocommittee">No committees to show</string>
+    <string name="noposts">You have not posted anything yet.\nPost now!!</string>
+    <string name="no_posts">No posts to display</string>
+    <string name="noreels">No reels to display. \nCreate a reel now!!</string>
+    <string name="first_comments">Be the first one to comment</string>
 
     <string name="_0_18">0:১৮</string>
 
