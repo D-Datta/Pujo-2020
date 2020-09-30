@@ -25,7 +25,7 @@
     <string name="enter_committeeAddressline">ঠিকানা লিখুন </string>
     <string name="enter_committeeCity">শহরের নাম লিখুন </string>
     <string name="enter_committeeState">রাজ্যর নাম লিখুন  </string>
-    <string name="enter_committeeType">পুজোর প্রকার লিখুন (e.g : Sarbojonin)  </string>
+    <string name="enter_committeeType">পুজোর প্রকার লিখুন (উদাহরণ : সর্বজনীন)  </string>
     <string name="upload_logo">কমিটির লোগো আপলোড করুন</string>
     <string name="upload_coverpic">কভার ফটো আপলোড করুন </string>
 
@@ -62,7 +62,7 @@
     <string name="pujo_committees">উৎসব পুজো</string>
     <string name="lorem_ipsum">লোরেম ইপসাম কেবল মুদ্রণ এবং টাইপসেটিং শিল্পের নকল পাঠ্য। লোরেম ইপসাম ১৫00 এর দশক থেকে শিল্পের স্ট্যান্ডার্ড নকল পাঠ্য। ১৯৬0 এর দশকে এটি লোরেম ইপসাম প্যাসেজ সমেত লেট্রেসেট শিট প্রকাশের মাধ্যমে এবং সম্প্রতি এলডাস পেজমেকারের মতো ডেস্কটপ প্রকাশনা সফটওয়্যার সহ লোরেম ইপসামের সংস্করণ সহ জনপ্রিয় হয়েছিল।</string>
 
-    <string name="marquee_text">দুর্গাপূজা শারবোজনিন রাজবাড়ী</string>
+    <string name="marquee_text">দুর্গাপূজা সর্বজনীন রাজবাড়ী</string>
 
     <string-array name="Gender">
         <item>পুরুষ</item>
@@ -94,11 +94,11 @@
     <string name="Recent_searches">সাম্প্রতিক সন্ধান</string>
     <string name="Description">বিবরণ</string>
     <string name="Type_of_pujo">পুজোর ধরণ</string>
-    <string name="sarbojonin">Example : সরবোজোনিন</string>
+    <string name="sarbojonin">Example : সর্বজনীন</string>
     <string name="committee_name">কমিটির নাম</string>
     <string name="save_to_device">ডিভাইসে সংরক্ষণ করুন</string>
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
-    <string name="post_hint">পূজা উপভোগ করছেন কেমন?</string>
+    <string name="post_hint">পুজো কেমন উপভোগ করছেন?</string>
     <string name="short_videos">ছোট ভিডিও</string>
     <string name="see_all">সব দেখুন —></string>
     <string name="about_yourself">নিজের সম্পর্কে কিছু</string>
@@ -118,9 +118,9 @@
     <string name="log_out">লগ আউট</string>
     <string name="live">লাইভ</string>
     <string name="update">আপডেট</string>
-    <string name="Edit_comment">মন্তব্য সম্পাদনা করুন</string>
+    <string name="Edit_comment">মন্তব্য বদল করুন</string>
     <string name="Search">সন্ধান</string>
-    <string name="Edit_Profile">প্রোফাইল সম্পাদনা করুন</string>
+    <string name="Edit_Profile">প্রোফাইলে কিছু বদল করুন</string>
     <string name="submit">জমা দিন</string>
     <string name="register_as">তালিকাভুক্ত করুন:</string>
     <string name="committee">কমিটির</string>
@@ -128,14 +128,14 @@
     <string name="individual">স্বতন্ত্র</string>
     <string name="replies">জবাব</string>
     <string name="liked_by">পছন্দ করেছেন</string>
-    <string name="report_comment">প্রতিবেদন মন্তব্য </string>
+    <string name="report_comment">মন্তব্য রিপোর্ট করুন</string>
     <string name="share_post">শেয়ার পোস্ট</string>
-    <string name="report_post">রিপোর্ট পোস্ট</string>
-    <string name="edit_post">পোস্ট সম্পাদনা করুন</string>
-    <string name="delete_comment">মন্তব্য মুছুন</string>
-    <string name="delete_post">পোস্ট মুছুন</string>
-    <string name="share_your_pujo_story">আপনার পুজো গল্প শেয়ার করুন…</string>
-    <string name="view_all">সব  দেখুন</string>
+    <string name="report_post">পোস্ট রিপোর্ট করুন</string>
+    <string name="edit_post">পোস্ট বদল করুন</string>
+    <string name="delete_comment">মন্তব্য সরান</string>
+    <string name="delete_post">পোস্ট সরান</string>
+    <string name="share_your_pujo_story">আপনার পুজোর গল্প শেয়ার করুন…</string>
+    <string name="view_all">সব ক্লিপস দেখুন</string>
     <string name="utsav_durga_pujo_2020">উৎসব: দুর্গা পুজো ২0২0</string>
     <string name="an_initiative_by_applex_in">~applex.in দ্বারা একটি উদ্যোগ</string>
     <string name="reply">জবাব দিন</string>
@@ -144,7 +144,7 @@
     <string name="visitors">দর্শনার্থী</string>
     <string name="tags">ট্যাগ</string>
     <string name="continue_with_phone_no">ফোন নম্বর সহ চালিয়ে যান</string>
-    <string name="enter_mobile_number">মোবাইল নম্বর প্রবেশ করান</string>
+    <string name="enter_mobile_number">মোবাইল নম্বর দিন</string>
     <string name="new_post">নতুন পোস্ট</string>
     <string name="utsavFeature1">ফটো</string>
     <string name="utsavFeature2">360 ডিগ্রী শট</string>
@@ -154,7 +154,7 @@
 
     <string name="rate_us">"আপনার মতামত দিন"</string>
     <string name="an_initiative_of">একটি উদ্যোগ</string>
-    <string name="utsav_clips">উত্সব ক্লিপস</string>
+    <string name="utsav_clips">উৎসব ক্লিপস</string>
     <string name="your_posts">আপনার পোস্ট</string>
     <string name="pujo">পুজো</string>
     <string name="videos">ভিডিও</string>
@@ -169,7 +169,7 @@
     <string name="headline">শিরোনাম:</string>
     <string name="head_content">head_content</string>
 
-    <string name="aboutUtsav">এই বর্তমান মহামারীর কারণে এটা স্পষ্ট যে দুর্গাপুজো ২০২০ প্রতিবছরের মতো হবে না \ কলকাতার শিক্ষার্থীরা একটি অ্যান্ড্রয়েড অ্যাপ তৈরি করার উদ্যোগ নিয়েছে, <b> "উত্সব" </b> যার মাধ্যমে বাংলার মানুষ তাদের বাড়ির সুরক্ষা থেকে শুরু করে উত্সবে অংশ নিতে সক্ষম হবে able \ n \ n দর্শকের পছন্দের পুরষ্কার জনগণের কথোপকথনের ভিত্তিতে ২০২০ সালের সেরা পুজোতে দেওয়া হবে।</string>
+    <string name="aboutUtsav">এই বর্তমান মহামারীর কারণে এটা স্পষ্ট যে দুর্গাপুজো ২০২০ প্রতিবছরের মতো হবে না \ কলকাতার শিক্ষার্থীরা একটি অ্যান্ড্রয়েড অ্যাপ তৈরি করার উদ্যোগ নিয়েছে, <b> "উৎসব" </b> যার মাধ্যমে বাংলার মানুষ তাদের বাড়ির সুরক্ষা থেকে শুরু করে উৎসবে অংশ নিতে সক্ষম হবে able \ n \ n দর্শকের পছন্দের পুরষ্কার জনগণের কথোপকথনের ভিত্তিতে ২০২০ সালের সেরা পুজোতে দেওয়া হবে।</string>
     <string name="Post">পোস্ট</string>
     <string name="set_app_lang">ভাষা সেট করুন</string>
     <string name="edit_comment">Edit Comment</string>
