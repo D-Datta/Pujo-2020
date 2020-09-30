@@ -105,6 +105,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                 .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            searchText.setText(null);
             buildRecyclerView(null);
         });
 
