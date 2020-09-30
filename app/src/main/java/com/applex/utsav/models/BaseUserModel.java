@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class BaseUserModel {
+
     private String name;
     private String addressline;
     private String city;
@@ -12,7 +13,6 @@ public class BaseUserModel {
     private String dp;
     private String coverpic;
     private String gender;
-
 
     private String uid;
     private String email;
