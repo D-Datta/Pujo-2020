@@ -521,7 +521,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                     comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreHome");
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
@@ -803,7 +803,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                         noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                                         comment_layout.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreHome");
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
 
@@ -960,7 +960,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 });
 
         commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1);
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1,"ViewMoreHome");
                 bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
         });
 

@@ -53,7 +53,7 @@ public class BottomCommentsDialog extends DialogFragment {
     private CommentAdapter commentAdapter;
     private ArrayList<CommentModel> models;
     private ProgressBar progressBar, progressComment;
-    private String docID,root;
+    private String docID,root,from;
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1, bool;
     private EditText newComment;
@@ -65,11 +65,12 @@ public class BottomCommentsDialog extends DialogFragment {
     private ProgressDialog progressDialog;
     private String uid;
 
-    public BottomCommentsDialog(String root,String docID, String uid, int bool) {
+    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from) {
         this.root = root;
         this.docID = docID;
         this.uid = uid;
         this.bool = bool;
+        this.from = from;
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -510,7 +510,7 @@ public class ViewMoreText extends AppCompatActivity {
                     noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                     comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreText");
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
@@ -786,7 +786,7 @@ public class ViewMoreText extends AppCompatActivity {
                                         noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
 
                                         comment_layout.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2);
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreText");
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
 
@@ -940,7 +940,7 @@ public class ViewMoreText extends AppCompatActivity {
                     }
                 });
         commentimg.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1);
+            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1,"ViewMoreText");
             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
         });
 
