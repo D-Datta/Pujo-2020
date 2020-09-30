@@ -36,8 +36,6 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.applex.utsav.ActivityNotification;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -118,7 +116,7 @@ public class CommitteeFragment extends Fragment {
         Locale.setDefault(locale);
         Configuration config= new Configuration();
         config.locale = locale;
-        getActivity().getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
+        Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
@@ -255,13 +253,12 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
-
                 else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                     if(programmingViewHolder.getItemViewType() != 1) {
-                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1) + 1;
+                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
                         Query query1 = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING);
@@ -270,28 +267,14 @@ public class CommitteeFragment extends Fragment {
                             reels_query = FirebaseFirestore.getInstance()
                                     .collection("Reels")
                                     .orderBy("ts", Query.Direction.DESCENDING)
-                                    .startAt(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
+                                    .startAfter(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
 
-                            reels_query.get().addOnCompleteListener(task1 -> {
-                                if(task1.isSuccessful()) {
-                                    if(Objects.requireNonNull(task1.getResult()).size() == 0) {
-                                        programmingViewHolder.reels_item.setVisibility(View.GONE);
-                                    }
-                                    else {
-                                        programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-                                        buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+                            buildReelsRecyclerView(programmingViewHolder.getItemViewType());
 
-                                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                            intent.putExtra("docID", Objects.requireNonNull(task1.getResult().getDocuments().get(0).get("docID")).toString());
-                                            intent.putExtra("bool", "1");
-                                            requireActivity().startActivity(intent);
-                                        });
-                                    }
-                                }
-                                else {
-                                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-                                }
+                            programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                                Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                                intent.putExtra("bool", "1");
+                                requireActivity().startActivity(intent);
                             });
                         });
                     }
@@ -301,26 +284,12 @@ public class CommitteeFragment extends Fragment {
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING);
 
-                        reels_query.get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                if(Objects.requireNonNull(task.getResult()).size() == 0) {
-                                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-                                }
-                                else {
-                                    programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-                                    buildReelsRecyclerView(programmingViewHolder.getItemViewType());
+                        buildReelsRecyclerView(programmingViewHolder.getItemViewType());
 
-                                    programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                        intent.putExtra("docID", Objects.requireNonNull(task.getResult().getDocuments().get(0).get("docID")).toString());
-                                        intent.putExtra("bool", "1");
-                                        requireActivity().startActivity(intent);
-                                    });
-                                }
-                            }
-                            else {
-                                programmingViewHolder.reels_item.setVisibility(View.GONE);
-                            }
+                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                            intent.putExtra("bool", "1");
+                            requireActivity().startActivity(intent);
                         });
                     }
                 }
