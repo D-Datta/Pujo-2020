@@ -195,6 +195,7 @@
     <string name="new_post">New Post</string>
     <string name="Post">Post</string>
     <string name="set_app_lang">Select language</string>
+    <string name="edit_comment">Edit Comment</string>
 
 
 </resources>
