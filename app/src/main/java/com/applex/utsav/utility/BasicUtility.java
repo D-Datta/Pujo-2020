@@ -200,13 +200,6 @@ public class BasicUtility {
         return inSampleSize;
     }
 
-    public static String getFittingString(String s, int length) {
-        if (s.length() > length) {
-            s = s.substring(0, length) + "\u2026";
-        }
-        return s;
-    }
-
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager)activity.getSystemService(INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
