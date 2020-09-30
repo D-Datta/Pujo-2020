@@ -256,6 +256,7 @@ public class CommitteeFragment extends Fragment {
                 else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
+                    programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
                     if(programmingViewHolder.getItemViewType() != 1) {
                         query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);

@@ -52,7 +52,9 @@ public class ReelsActivity extends AppCompatActivity {
             String docID = getIntent().getStringExtra("docID");
             query = FirebaseFirestore.getInstance().collection("Reels").whereEqualTo("docID", docID);
         } else {
-            query = FirebaseFirestore.getInstance().collection("Reels");
+            query = FirebaseFirestore.getInstance().collection("Reels")
+                    .orderBy("ts", Query.Direction.DESCENDING)
+                    .limit(1);
         }
 
         buildRecyclerView();
