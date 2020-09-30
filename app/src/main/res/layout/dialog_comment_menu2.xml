@@ -80,5 +80,7 @@
             android:paddingEnd="30dp"
             android:textColor="@android:color/holo_red_light"
             android:textSize="18sp" />
+
     </LinearLayout>
+
 </LinearLayout>
