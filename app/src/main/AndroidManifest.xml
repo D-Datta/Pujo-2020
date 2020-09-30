@@ -23,22 +23,39 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".LanguageChoice"/>
-        <activity android:name=".ActivityTagPujo" />
-        <activity android:name=".ActivityNotification" />
-        <activity android:name=".Webview" />
-        <activity android:name=".drawerActivities.AboutUs" />
-        <activity android:name=".EditProfileIndividualActivity" />
-        <activity android:name=".EditProfileCommitteeActivity" />
-        <activity android:name=".ActivityProfileCommittee" />
-        <activity android:name=".ActivityProfileUser" />
-        <activity android:name=".SearchCityState" />
-        <activity android:name=".registration.RegIndividual" />
-        <activity android:name=".registration.RegPujoCommittee" />
-        <activity android:name=".registration.RegChoice" />
-        <activity android:name=".WalkthroughActivity" />
-        <activity android:name=".registration.LoginActivity" />
-        <activity android:name=".registration.LoginActivityPhone" />
+
+        <activity android:name=".LanguageChoice"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityTagPujo"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityNotification"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Webview"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".drawerActivities.AboutUs"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EditProfileIndividualActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EditProfileCommitteeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityProfileCommittee"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityProfileUser"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SearchCityState"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".registration.RegIndividual"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".registration.RegPujoCommittee"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".registration.RegChoice"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".WalkthroughActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".registration.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".registration.LoginActivityPhone"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".Splash"
@@ -166,7 +183,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="" />
+            android:resource="@drawable/ic_stat_onesignal_default" />
         <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more. -->
         <meta-data
