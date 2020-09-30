@@ -60,6 +60,7 @@ public class ReelsActivity extends AppCompatActivity {
         buildRecyclerView();
     }
 
+
     private void buildRecyclerView() {
 
         query.get().addOnCompleteListener(task -> {
