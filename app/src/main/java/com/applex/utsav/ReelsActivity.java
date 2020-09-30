@@ -2,7 +2,6 @@ package com.applex.utsav;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import com.applex.utsav.adapters.ReelsAdapter;
@@ -22,7 +21,7 @@ public class ReelsActivity extends AppCompatActivity {
     private Query query;
     private ReelsAdapter adapter;
     private ArrayList<ReelsPostModel> models;
-    private String docID, type;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +49,14 @@ public class ReelsActivity extends AppCompatActivity {
         }
 
         if(getIntent().getStringExtra("docID") != null) {
-            docID = getIntent().getStringExtra("docID");
+            String docID = getIntent().getStringExtra("docID");
+            query = FirebaseFirestore.getInstance().collection("Reels").whereEqualTo("docID", docID);
+        } else {
+            query = FirebaseFirestore.getInstance().collection("Reels")
+                    .orderBy("ts", Query.Direction.DESCENDING)
+                    .limit(1);
         }
 
-        query = FirebaseFirestore.getInstance().collection("Reels").whereEqualTo("docID", docID);
         buildRecyclerView();
     }
 
