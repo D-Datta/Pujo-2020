@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -120,6 +121,7 @@ public class ViewMoreHome extends AppCompatActivity {
     private int commentCount = 0;
     String bool;
 
+    public static final HomePostModel[] homePostModel = {new HomePostModel()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,12 +260,8 @@ public class ViewMoreHome extends AppCompatActivity {
 //        share.setImageBitmap(scaledBitmap5);
 
 
-
-
-
         Intent i = getIntent();
 
-        final HomePostModel[] homePostModel = {new HomePostModel()};
 
         if (getIntent().getExtras().getString("campus") == null) {
             homePostModel[0].setUid(i.getStringExtra("uid"));

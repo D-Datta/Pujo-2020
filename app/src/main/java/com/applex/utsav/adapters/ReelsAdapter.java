@@ -56,6 +56,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private String bool;
     private String uid,link;
     private String type;
+    public static ReelsPostModel currentItem;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
                         ViewPager2 reelsList, String bool, String uid, String type) {
@@ -80,7 +81,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position) {
-        ReelsPostModel currentItem = models.get(position);
+        currentItem = models.get(position);
 
         FirebaseFirestore.getInstance().collection("Reels")
                 .whereEqualTo("docID", currentItem.getDocID())
