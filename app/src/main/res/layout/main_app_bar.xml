@@ -58,10 +58,11 @@
                 android:textSize="30dp" />
 
             <FrameLayout
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="-50dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -81,9 +82,10 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="end"
-                    android:layout_marginStart="-30dp"
                     android:background="@drawable/individual_chats_count"
                     android:gravity="center"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginTop="5dp"
                     android:textColor="#212121"
                     android:textSize="9dp"
                     android:visibility="visible"/>

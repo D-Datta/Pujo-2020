@@ -61,6 +61,7 @@ public class ActivityNotification extends AppCompatActivity {
     private ImageView noNotif;
 
     public static int removeNotif = -1;
+    public static boolean active = false;
     IntroPref introPref;
 
     private FirestorePagingAdapter adapter;
@@ -297,5 +298,15 @@ public class ActivityNotification extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        active = true;
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        active = false;
+    }
 }

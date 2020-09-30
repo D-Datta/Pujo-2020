@@ -352,6 +352,17 @@ public class CommentReplyActivity extends AppCompatActivity {
                 });
         //////////////////FLAME SETUP////////////////////////
 
+        if(getIntent().getStringExtra("notiType") != null &&
+                Objects.requireNonNull(getIntent().getStringExtra("notiType")).matches("comment_reply_flame")) {
+            BottomFlamedByDialog2 bottomSheetDialog = null;
+            if(bool.matches("1")) {
+                bottomSheetDialog = new BottomFlamedByDialog2("Feeds", postID, docID);
+            } else if(bool.matches("2")) {
+                bottomSheetDialog = new BottomFlamedByDialog2("Reels", postID, docID);
+            }
+            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+        }
+
         flamedByComment.setOnClickListener(v -> {
             if(likeList !=null && likeList.size() > 0) {
                 BottomFlamedByDialog2 bottomSheetDialog = null;

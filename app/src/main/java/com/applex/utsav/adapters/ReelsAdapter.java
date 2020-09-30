@@ -1,7 +1,6 @@
 package com.applex.utsav.adapters;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -56,14 +55,16 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private IntroPref introPref;
     private String bool;
     private String uid,link;
+    private String type;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
-                        ViewPager2 reelsList, String bool, String uid) {
+                        ViewPager2 reelsList, String bool, String uid, String type) {
         this.models = models;
         this.context = context;
         this.reelsList = reelsList;
         this.bool = bool;
         this.uid = uid;
+        this.type = type;
         introPref = new IntroPref(context);
     }
 
@@ -92,6 +93,29 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         fetchAfter(bool, reelslastVisible, models, uid);
                     }
                 });
+
+        if(type != null) {
+            if(type.matches("flame")) {
+                BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
+                bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
+            }
+            else if (type.matches("comment")) {
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null);
+                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+            }
+            else if(type.matches("comment_flame")) {
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type);
+                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+            }
+            else if(type.matches("comment_reply")) {
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type);
+                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+            }
+            else if(type.matches("comment_reply_flame")) {
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type);
+                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+            }
+        }
 
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.play_image.setVisibility(View.VISIBLE);
@@ -185,7 +209,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 holder.like_layout.setVisibility(View.VISIBLE);
                 holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
 
-                for(int j = 0; j < currentItem.getLikeL().size(); j++){
+                for(int j = 0; j < currentItem.getLikeL().size(); j++) {
                     if(currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
                         holder.like.setImageResource(R.drawable.ic_flame_red);
                         holder.like.setImageTintList(null);
@@ -302,11 +326,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
             holder.commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter");
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
             holder.commentCount.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter");
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
         }
@@ -316,24 +340,21 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         /////COMMENT/////
 
         holder.comment.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter");
+            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter", null);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
-        holder.share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(bool.matches("1")){
-                    link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
-                }
-                else if (bool.matches("2")){
-                    link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
-                }
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_TEXT, link);
-                i.setType("text/plain");
-                context.startActivity(Intent.createChooser(i, "Share with"));
+        holder.share.setOnClickListener(view -> {
+            if(bool.matches("1")){
+                link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
             }
+            else if (bool.matches("2")){
+                link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+            }
+            Intent i = new Intent();
+            i.setAction(Intent.ACTION_SEND);
+            i.putExtra(Intent.EXTRA_TEXT, link);
+            i.setType("text/plain");
+            context.startActivity(Intent.createChooser(i, "Share with"));
         });
     }
 

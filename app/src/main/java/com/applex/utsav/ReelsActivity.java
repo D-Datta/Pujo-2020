@@ -22,13 +22,12 @@ public class ReelsActivity extends AppCompatActivity {
     private Query query;
     private ReelsAdapter adapter;
     private ArrayList<ReelsPostModel> models;
-    private String docID;
-    IntroPref introPref;
+    private String docID, type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        introPref = new IntroPref(this);
+        IntroPref introPref = new IntroPref(this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
         Locale.setDefault(locale);
@@ -41,6 +40,10 @@ public class ReelsActivity extends AppCompatActivity {
         reelsList = findViewById(R.id.recyclerReelsViewAll);
 
         bool = Objects.requireNonNull(getIntent().getStringExtra("bool"));
+
+        if(Objects.requireNonNull(getIntent().getExtras()).getString("type") != null) {
+            type = getIntent().getExtras().getString("type");
+        }
 
         if(getIntent().getStringExtra("uid") != null) {
             uid = getIntent().getStringExtra("uid");
@@ -89,7 +92,7 @@ public class ReelsActivity extends AppCompatActivity {
                     }
                 });
 
-                adapter = new ReelsAdapter(ReelsActivity.this, models, reelsList, bool, uid);
+                adapter = new ReelsAdapter(ReelsActivity.this, models, reelsList, bool, uid, type);
                 reelsList.setAdapter(adapter);
             }
         });

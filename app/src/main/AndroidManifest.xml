@@ -23,8 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".LanguageChoice"></activity>
-        <activity android:name=".ViewMoreText" />
+        <activity android:name=".LanguageChoice"/>
         <activity android:name=".ActivityTagPujo" />
         <activity android:name=".ActivityNotification" />
         <activity android:name=".Webview" />
@@ -40,9 +39,7 @@
         <activity android:name=".WalkthroughActivity" />
         <activity android:name=".registration.LoginActivity" />
         <activity android:name=".registration.LoginActivityPhone" />
-        <activity
-            android:name=".ReelsActivity"
-            android:theme="@style/EventTheme" />
+
         <activity
             android:name=".Splash"
             android:screenOrientation="portrait"
@@ -110,7 +107,26 @@
             android:name=".ViewMoreHome"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="Home" />
+                <action android:name="Feeds" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ViewMoreText"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="Feeds_Text" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReelsActivity"
+            android:theme="@style/EventTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="Reels" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -127,6 +143,35 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.applex.utsav.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <service
+            android:name=".utility.MessagingService"
+            android:directBootAware="true"
+            android:exported="false"
+            tools:targetApi="n">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimaryDark" />
     </application>
 
 </manifest>

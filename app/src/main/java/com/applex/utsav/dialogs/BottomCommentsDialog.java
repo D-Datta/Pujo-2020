@@ -64,13 +64,15 @@ public class BottomCommentsDialog extends DialogFragment {
     private BottomSheetDialog commentMenuDialog;
     private ProgressDialog progressDialog;
     private String uid;
+    private String type;
 
-    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from) {
+    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type) {
         this.root = root;
         this.docID = docID;
         this.uid = uid;
         this.bool = bool;
         this.from = from;
+        this.type = type;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -144,7 +146,7 @@ public class BottomCommentsDialog extends DialogFragment {
         });
 
         models = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getActivity(), models, 2);
+        commentAdapter = new CommentAdapter(getActivity(), models, 2, type);
         send.setOnClickListener(v2 -> {
             if(InternetConnection.checkConnection(requireActivity())) {
                 if(newComment.getText().toString().isEmpty()) {
@@ -238,7 +240,7 @@ public class BottomCommentsDialog extends DialogFragment {
                     models.add(commentModel);
                 }
                 if (models.size() > 0) {
-                    commentAdapter = new CommentAdapter(getActivity(), models, 2);
+                    commentAdapter = new CommentAdapter(getActivity(), models, 2, type);
                     commentAdapter.onClickListener(position -> {
                         if( models.get(position).getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                 || uid.matches(FirebaseAuth.getInstance().getUid())) {

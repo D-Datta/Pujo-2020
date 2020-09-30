@@ -3,7 +3,6 @@ package com.applex.utsav;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -13,7 +12,10 @@ import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -32,15 +34,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
 import com.applex.utsav.utility.DialogUtils;
+import com.applex.utsav.utility.MessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -49,21 +52,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
-
 import org.jsoup.Jsoup;
-
 import java.util.Locale;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Button ImageView360;
     @SuppressLint("StaticFieldLeak")
     static MainActivity instance;
     private DrawerLayout drawer;
@@ -75,8 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String TYPE;
 
     private String currentVersion;
-    private String[] cameraPermission;
-
+    BroadcastReceiver myReceiver;
 
     NavigationView navigationView;
     ///NAV DRAWER VARIABLES/////
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     ImageView notif;
     TextView notifDot;
-
+    DocumentReference docref3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,17 +178,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //NOTIFICATION
+        docref3= FirebaseFirestore.getInstance()
+                .collection("Users/"+ FirebaseAuth.getInstance().getUid()+"/notifCount/")
+                .document("notifCount");
+
         notif = findViewById(R.id.notif);
         notifDot = findViewById(R.id.notif_badge);
 
-        notif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ActivityNotification.class));
-            }
+        if(MessagingService.nCount == null) {
+            notifDot.setVisibility(View.GONE);
+        }
+        else
+            notifDot.setVisibility(View.VISIBLE);
+
+        notifDot.setText(MessagingService.nCount);
+
+        notif.setOnClickListener(view -> {
+            NotifCount notifCount= new NotifCount();
+            notifCount.setNotifCount(0);
+            docref3.set(notifCount).addOnCompleteListener(task -> Log.d("Check", "nCount set to 0"));
+            notifDot.setVisibility(View.GONE);
+            startActivity(new Intent(MainActivity.this, ActivityNotification.class));
         });
-
-
 
         TabLayout tabs = findViewById(R.id.tabs);
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -196,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         tabs.getTabAt(0);
         tabs.getTabAt(1);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -222,6 +233,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+
+        myReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                notifCountInApp();
+            }
+        };
+        registerReceiver(myReceiver, new IntentFilter(MessagingService.INTENT_FILTER));
+        /////////////ADD NOTIFICATION BADGE IN MENU ITEM//////////////////
+
+        final NotifCount[] notifCount = {new NotifCount()};
+        docref3.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                DocumentSnapshot documentSnapshot=task.getResult();
+                if(Objects.requireNonNull(documentSnapshot).exists()){
+                    notifCount[0] = documentSnapshot.toObject(NotifCount.class);
+                    MessagingService.nCount = Integer.toString(Objects.requireNonNull(notifCount[0]).getNotifCount());
+                    if(Integer.parseInt(MessagingService.nCount) > 0) {
+                        notifDot.setVisibility(View.VISIBLE);
+                    }
+                    notifDot.setText(MessagingService.nCount);
+                }
+            }
+        });
+
         introPref = new IntroPref(MainActivity.this);
         USERNAME = introPref.getFullName();
         PROFILEPIC = introPref.getUserdp();
@@ -512,4 +548,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void notifCountInApp() {
+        if(MessagingService.nCount == null || MessagingService.nCount.matches("0") ) {
+            notifDot.setVisibility(View.GONE);
+        }
+        else {
+            notifDot.setVisibility(View.VISIBLE);
+        }
+        notifDot.setText(MessagingService.nCount);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(myReceiver);
+    }
 }

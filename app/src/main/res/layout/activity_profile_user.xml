@@ -27,7 +27,6 @@
                 android:id="@+id/profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="55dp"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -247,7 +246,7 @@
                 android:layout_height="55dp"
                 android:id="@+id/toolbar"
                 app:titleTextColor="@color/black"
-                android:background="@color/white"
+                android:background="@color/black_transparent"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
