@@ -425,6 +425,7 @@ public class CommitteeFragment extends Fragment {
                 }
 
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0){
+                    programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderViewpost.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderViewpost.setIndicatorRadius(5);
@@ -460,9 +461,9 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("type", currentItem.getType());
                         startActivity(intent);
                     });
-
                 }
                 else {
+                    programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreText.class);
@@ -556,6 +557,10 @@ public class CommitteeFragment extends Fragment {
                                 AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
                                 if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                     player.start();
+                                if(!player.isPlaying()) {
+                                    programmingViewHolder.dhak_anim.cancelAnimation();
+                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                }
                                 player.setOnCompletionListener(mediaPlayer -> {
                                     programmingViewHolder.dhak_anim.cancelAnimation();
                                     programmingViewHolder.dhak_anim.setVisibility(View.GONE);
@@ -563,6 +568,7 @@ public class CommitteeFragment extends Fragment {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+
                             programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
                             programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
                             if (currentItem.getLikeL() != null){
@@ -969,7 +975,7 @@ public class CommitteeFragment extends Fragment {
         SliderView sliderViewpost;
         LottieAnimationView dhak_anim;
 
-        RelativeLayout normal_item;
+        RelativeLayout normal_item, rlLayout;
         LinearLayout slider_item;
 
         ProgrammingViewHolder(@NonNull View itemView) {
@@ -1024,6 +1030,7 @@ public class CommitteeFragment extends Fragment {
             normal_item = itemView.findViewById(R.id.normal_item);
             head_content = itemView.findViewById(R.id.head_content);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
+            rlLayout = itemView.findViewById(R.id.rlLayout);
         }
     }
 

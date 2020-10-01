@@ -39,6 +39,17 @@
         app:sliderStartAutoCycle="true"
         android:layout_centerInParent="true"/>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/dhak_anim"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="false"
+        android:padding="100dp"
+        android:background="@color/dark_black_transparent2"
+        app:lottie_fileName="dhakbajano.json"
+        app:lottie_loop="true" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
