@@ -1125,10 +1125,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         }
 
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                         byte[] pic = stream.toByteArray();
                         compressedBitmap.recycle();
                         imagelist.add(pic);
+
+                        BasicUtility.showToast(NewPostHome.this, pic.length/1024+"");
 
                         if(imagelist != null && imagelist.size()>0){
 
@@ -1176,10 +1178,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     }
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                     byte[] byteArray = stream.toByteArray();
                     compressedBitmap.recycle();
                     imagelist.add(byteArray);
+
+                    BasicUtility.showToast(NewPostHome.this, byteArray.length/1024+"");
+
+
                     if(imagelist != null && imagelist.size()>0){
 
                         container_image.setVisibility(View.VISIBLE);
@@ -1188,7 +1194,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemViewCacheSize(20);
+                        recyclerView.setItemViewCacheSize(10);
                         recyclerView.setNestedScrollingEnabled(true);
 
                         MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
@@ -1224,7 +1230,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 }
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                 byte[] byteArray = stream.toByteArray();
                 compressedBitmap.recycle();
 
@@ -1237,7 +1243,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setItemViewCacheSize(20);
+                    recyclerView.setItemViewCacheSize(10);
                     recyclerView.setNestedScrollingEnabled(true);
 
                     MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
@@ -1273,7 +1279,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 Bitmap bitmap = retriever.getFrameAtTime(2000);
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 80, out);
                 frame = out.toByteArray();
 
                 final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};

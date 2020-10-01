@@ -167,6 +167,7 @@ public class CommitteeFragment extends Fragment {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
+                .setPrefetchDistance(4)
                 .setEnablePlaceholders(true)
                 .build();
 
