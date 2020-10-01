@@ -69,8 +69,8 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
             holder.com_views.setText(currentitem.getPujoVisits() + " Visit");
         }
 
-        if(currentitem.getCoverpic() != null){
-            Picasso.get().load(currentitem.getCoverpic()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.committeeCover, new Callback() {
+        if(currentitem.getDp() != null){
+            Picasso.get().load(currentitem.getDp()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.committeeCover, new Callback() {
                 @Override
                 public void onSuccess() {
 

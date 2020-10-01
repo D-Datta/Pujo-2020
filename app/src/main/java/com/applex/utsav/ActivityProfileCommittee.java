@@ -272,10 +272,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                         upvoters.setText("0");
                                                     }
                                                     else if(baseUserModel.getUpvoteL().size()-1 == 1){
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1));
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1)+"");
                                                     }
                                                     else {
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1));
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1)+"");
                                                     }
                                                 }
                                                 else {
@@ -338,7 +338,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     follow.setTextColor(getResources().getColor(R.color.purple));
 
                                     if(baseUserModel.getUpvoteL() != null){
-                                        if(baseUserModel.getUpvoteL().size()-1 == 0){
+                                        if(baseUserModel.getUpvoteL().size()+1 == 0){
                                             upvoters.setText("0");
                                         }
                                         else if(baseUserModel.getUpvoteL().size()+1 == 1){
