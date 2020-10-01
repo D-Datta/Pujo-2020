@@ -939,7 +939,7 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
     }
 
-    private static class FeedViewHolder extends RecyclerView.ViewHolder{
+    public static class FeedViewHolder extends RecyclerView.ViewHolder{
 
         TextView view_all;
         ImageView noPost;
@@ -947,7 +947,11 @@ public class FeedsFragment extends Fragment {
 
         TextView pujoTagHolder;
 
-        TextView username,commentCount, likesCount, text_content, minsago, writecomment;
+        @SuppressLint("StaticFieldLeak")
+        public static TextView commentCount;
+        public static LinearLayout comment_layout;
+
+        TextView username, likesCount, text_content, minsago, writecomment;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
         ImageView dp_cmnt1, dp_cmnt2, type_dp;
         TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
@@ -958,7 +962,7 @@ public class FeedsFragment extends Fragment {
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
 
-        LinearLayout postHolder, like_layout, comment_layout, commentLayout1, commentLayout2;
+        LinearLayout postHolder, like_layout, commentLayout1, commentLayout2;
         LinearLayout committeeHolder;
 
 

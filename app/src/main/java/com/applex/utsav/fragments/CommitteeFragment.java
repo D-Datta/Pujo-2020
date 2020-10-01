@@ -942,13 +942,15 @@ public class CommitteeFragment extends Fragment {
         });
     }
 
-    private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
+    public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
+        public static TextView commentCount;
+        public static LinearLayout comment_layout;
         SliderView sliderView;
-        TextView username,commentCount, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
+        TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,comment_layout,new_post_layout, newPostIconsLL, reels_item;
+        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL, reels_item;
         RecyclerView tagList;
         RecyclerView reelsList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;

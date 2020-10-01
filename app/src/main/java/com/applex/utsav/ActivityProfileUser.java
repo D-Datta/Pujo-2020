@@ -1120,13 +1120,16 @@ public class ActivityProfileUser extends AppCompatActivity {
     }
 
 
-    private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
+    public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView  username,commentCount, likesCount, text_content, minsago, writecomment;
+        public static TextView commentCount;
+        public static LinearLayout comment_layout;
+
+        private TextView  username, likesCount, text_content, minsago, writecomment;
         private ImageView  userimage, like, commentimg,profileimage, menuPost, share;
         private ApplexLinkPreview LinkPreview;
         private RecyclerView tagList;
-        private LinearLayout itemHome, like_layout, comment_layout, commentLayout1, commentLayout2, postHolder, profile_header;
+        private LinearLayout itemHome, like_layout, commentLayout1, commentLayout2, postHolder, profile_header;
         private SliderView sliderView;
         private ImageView dp_cmnt1, dp_cmnt2;
         private TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2;

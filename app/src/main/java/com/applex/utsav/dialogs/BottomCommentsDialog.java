@@ -42,6 +42,8 @@ import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -103,8 +105,7 @@ public class BottomCommentsDialog extends DialogFragment {
         }
         return view;
     }
-
-
+    
     @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
@@ -240,6 +241,23 @@ public class BottomCommentsDialog extends DialogFragment {
                                 CommitteeFragment.changed=1;
                                 currentItem.setCmtNo(finalcmntno);
                             }
+                            else {
+                                docRef.get().addOnCompleteListener(task1 -> {
+                                    finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task1.getResult()).get("cmtNo")).toString());
+                                    if(from.matches("ActivityProfileUser")){
+                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        ActivityProfileUser.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    }
+                                    else if(from.matches("CommitteeFragment")){
+                                        CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        CommitteeFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    }
+                                    else if(from.matches("FeedsFragment")){
+                                        FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    }
+                                });
+                            }
                         }
                         else {
                             commentModel.setTs(0L); ///Pending state
@@ -371,6 +389,35 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                             }
                                             CommitteeFragment.changed=1;
+                                        }
+                                        else {
+                                            docRef.get().addOnCompleteListener(task2 -> {
+                                                finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task2.getResult()).get("cmtNo")).toString());
+                                                if(finalcmntno <= 0) {
+                                                    if(from.matches("ActivityProfileUser")){
+                                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                    }
+                                                    else if(from.matches("CommitteeFragment")){
+                                                        CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                    }
+                                                    else if(from.matches("FeedsFragment")){
+                                                        FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.GONE);
+                                                    }
+                                                } else {
+                                                    if(from.matches("ActivityProfileUser")){
+                                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        ActivityProfileUser.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                    }
+                                                    else if(from.matches("CommitteeFragment")){
+                                                        CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        CommitteeFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                    }
+                                                    else if(from.matches("FeedsFragment")){
+                                                        FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                    }
+                                                }
+                                            });
                                         }
                                         if(commentAdapter.getItemCount() == 0){
                                             no_comment.setVisibility(View.VISIBLE);
