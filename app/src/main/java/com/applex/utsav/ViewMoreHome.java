@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.utility.BasicUtility;
@@ -120,6 +121,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
     private int commentCount = 0;
     String bool;
+    private LottieAnimationView dhak_anim;
 
     public static final HomePostModel[] homePostModel = {new HomePostModel()};
 
@@ -156,6 +158,7 @@ public class ViewMoreHome extends AppCompatActivity {
         commentimage = findViewById(R.id.comment_image);
         like_layout = findViewById(R.id.like_layout);
         comment_layout = findViewById(R.id.comment_layout);
+        dhak_anim = findViewById(R.id.dhak_anim);
 
         UID = FirebaseAuth.getInstance().getUid();
         PROFILEPIC = introPref.getUserdp();
@@ -915,6 +918,8 @@ public class ViewMoreHome extends AppCompatActivity {
 
                         } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             BasicUtility.vibrate(getApplicationContext());
+                            dhak_anim.setVisibility(View.VISIBLE);
+                            dhak_anim.playAnimation();
                             try {
                                 AssetFileDescriptor afd = ViewMoreHome.this.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
@@ -923,6 +928,14 @@ public class ViewMoreHome extends AppCompatActivity {
                                 AudioManager audioManager = (AudioManager) ViewMoreHome.this.getSystemService(Context.AUDIO_SERVICE);
                                 if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                     player.start();
+                                if(!player.isPlaying()) {
+                                    dhak_anim.cancelAnimation();
+                                    dhak_anim.setVisibility(View.GONE);
+                                }
+                                player.setOnCompletionListener(mediaPlayer -> {
+                                    dhak_anim.cancelAnimation();
+                                    dhak_anim.setVisibility(View.GONE);
+                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

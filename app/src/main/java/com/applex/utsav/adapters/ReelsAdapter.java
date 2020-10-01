@@ -1,5 +1,6 @@
 package com.applex.utsav.adapters;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -267,6 +268,33 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     }
                     else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                         BasicUtility.vibrate(context);
+                        holder.dhak_anim.setVisibility(View.VISIBLE);
+                        holder.dhak_anim.playAnimation();
+
+                        holder.dhak_anim.addAnimatorListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animator) {
+//                                holder.dhak_anim.setVisibility(View.VISIBLE);
+//                                holder.dhak_anim.playAnimation();
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animator) {
+                                holder.dhak_anim.cancelAnimation();
+                                holder.dhak_anim.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animator) {
+                                holder.dhak_anim.cancelAnimation();
+                                holder.dhak_anim.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animator) {
+
+                            }
+                        });
 
                         WindowManager manager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
                         Display display8 = manager.getDefaultDisplay();
@@ -394,6 +422,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         LottieAnimationView video_playing;
         LinearLayout like_layout;
+        private LottieAnimationView dhak_anim;
         public static LinearLayout comment_layout;
         public static ImageView commentimg;
         public static TextView commentCount;
@@ -421,6 +450,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             video_playing = itemView.findViewById(R.id.progressAnim);
             like_layout = itemView.findViewById(R.id.like_layout);
             comment_layout = itemView.findViewById(R.id.comment_layout);
+            dhak_anim = itemView.findViewById(R.id.dhak_anim);
         }
     }
 

@@ -37,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
@@ -461,6 +462,7 @@ public class FeedsFragment extends Fragment {
                 }
 
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                    feedViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     feedViewHolder.sliderView.setVisibility(View.VISIBLE);
                     feedViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     feedViewHolder.sliderView.setIndicatorRadius(5);
@@ -498,6 +500,7 @@ public class FeedsFragment extends Fragment {
                     });
                 }
                 else {
+                    feedViewHolder.rlLayout.setVisibility(View.GONE);
                     feedViewHolder.sliderView.setVisibility(View.GONE);
                     feedViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreText.class);
@@ -592,6 +595,8 @@ public class FeedsFragment extends Fragment {
                             }
                             else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                 BasicUtility.vibrate(requireActivity());
+                                feedViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                                feedViewHolder.dhak_anim.playAnimation();
                                 try {
                                     AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                     MediaPlayer player = new MediaPlayer();
@@ -600,6 +605,14 @@ public class FeedsFragment extends Fragment {
                                     AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
                                     if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                         player.start();
+                                    if(!player.isPlaying()) {
+                                        feedViewHolder.dhak_anim.cancelAnimation();
+                                        feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        feedViewHolder.dhak_anim.cancelAnimation();
+                                        feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    });
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -963,12 +976,13 @@ public class FeedsFragment extends Fragment {
         SliderView sliderView;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, new_post_layout, newPostIconsLL;
-        RelativeLayout first_post;
+        RelativeLayout first_post,rlLayout;
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
 
         LinearLayout postHolder, like_layout, commentLayout1, commentLayout2;
         LinearLayout committeeHolder;
+        LottieAnimationView dhak_anim;
 
 
         public FeedViewHolder(@NonNull View itemView) {
@@ -1022,6 +1036,8 @@ public class FeedsFragment extends Fragment {
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
 
             pujoTagHolder = itemView.findViewById(R.id.tag_pujo);
+            dhak_anim = itemView.findViewById(R.id.dhak_anim);
+            rlLayout = itemView.findViewById(R.id.rlLayout);
 
         }
     }

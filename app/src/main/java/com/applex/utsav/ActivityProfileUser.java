@@ -46,9 +46,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -547,6 +549,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                        else
 //                            programmingViewHolder.postimage.setVisibility(View.GONE);
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                    programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setIndicatorRadius(8);
@@ -585,6 +588,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 }
                 else
                 {
+                    programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderView.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(ActivityProfileUser.this, ViewMoreText.class);
@@ -687,6 +691,8 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 }
                                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                     BasicUtility.vibrate(getApplicationContext());
+                                    programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                                    programmingViewHolder.dhak_anim.playAnimation();
                                     try {
                                         AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
                                         MediaPlayer player = new MediaPlayer();
@@ -695,6 +701,14 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                                         if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                             player.start();
+                                        if(!player.isPlaying()) {
+                                            programmingViewHolder.dhak_anim.cancelAnimation();
+                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }
+                                        player.setOnCompletionListener(mediaPlayer -> {
+                                            programmingViewHolder.dhak_anim.cancelAnimation();
+                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        });
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -1078,6 +1092,9 @@ public class ActivityProfileUser extends AppCompatActivity {
 
         private View view1, view2;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
+        LottieAnimationView dhak_anim;
+        RelativeLayout rlLayout;
+
 
         public ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1102,6 +1119,8 @@ public class ActivityProfileUser extends AppCompatActivity {
 //            view2 = itemView.findViewById(R.id.view2);
             postHolder = itemView.findViewById(R.id.post);
             profile_header = itemView.findViewById(R.id.profile_header);
+            dhak_anim = itemView.findViewById(R.id.dhak_anim);
+            rlLayout = itemView.findViewById(R.id.rlLayout);
 
             likesCount = itemView.findViewById(R.id.no_of_likes);
             commentCount = itemView.findViewById(R.id.no_of_comments);

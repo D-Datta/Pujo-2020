@@ -149,6 +149,10 @@
                 <!--                    android:layout_width="match_parent"-->
                 <!--                    android:layout_height="wrap_content">-->
 
+                <RelativeLayout
+                    android:id="@+id/rlLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp">
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/post_image"
                     android:layout_width="match_parent"
@@ -169,6 +173,18 @@
                     app:sliderScrollTimeInSec="1"
                     android:visibility="gone"
                     app:sliderStartAutoCycle="true" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/dhak_anim"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="false"
+                        android:padding="80dp"
+                        android:background="@color/dark_black_transparent2"
+                        app:lottie_fileName="dhakbajano.json"
+                        app:lottie_loop="true" />
+                </RelativeLayout>
 
 
                 <!--                </HorizontalScrollView>-->
