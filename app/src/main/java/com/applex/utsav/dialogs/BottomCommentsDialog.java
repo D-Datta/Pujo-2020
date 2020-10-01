@@ -79,6 +79,7 @@ public class BottomCommentsDialog extends DialogFragment {
     private String uid;
     private String type;
     private long cmntno, finalcmntno;
+    private int getBool;
 
     public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno) {
         this.root = root;
@@ -94,8 +95,15 @@ public class BottomCommentsDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.bottomsheetcomments, container, false);
+        View view = inflater.inflate(R.layout.bottomsheetcomments, container, false);
+        EditText newComment = view.findViewById(R.id.new_comment);
+        if(bool == 1) {
+            newComment.requestFocus();
+            Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+        return view;
     }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -109,9 +117,9 @@ public class BottomCommentsDialog extends DialogFragment {
 
         no_comment = v.findViewById(R.id.emptyLayout);
         commentimg = v.findViewById(R.id.user_image_comment);
-        newComment = v.findViewById(R.id.new_comment);
         send = v.findViewById(R.id.send_comment);
         progressComment = v.findViewById(R.id.commentProgress);
+        newComment = v.findViewById(R.id.new_comment);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -123,6 +131,12 @@ public class BottomCommentsDialog extends DialogFragment {
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
         finalcmntno = cmntno;
+
+        if(root.matches("Feeds")) {
+            getBool = 1;
+        } else if(root.matches("Reels")) {
+            getBool = 2;
+        }
 
         nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
             if(vv.getChildAt(vv.getChildCount() - 1) != null) {
@@ -137,11 +151,6 @@ public class BottomCommentsDialog extends DialogFragment {
                 }
             }
         });
-
-        if(bool == 1) {
-            newComment.requestFocus();
-            Objects.requireNonNull(requireActivity().getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        }
 
         Picasso.get().load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
@@ -163,7 +172,7 @@ public class BottomCommentsDialog extends DialogFragment {
         });
 
         models = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getActivity(), models, 2, type);
+        commentAdapter = new CommentAdapter(getActivity(), models, getBool, type);
         send.setOnClickListener(v2 -> {
             if(InternetConnection.checkConnection(requireActivity())) {
                 if(newComment.getText().toString().isEmpty()) {
@@ -254,7 +263,7 @@ public class BottomCommentsDialog extends DialogFragment {
         buildRecyclerView_comments();
 
         dismiss.setOnClickListener(v1 -> {
-            BasicUtility.hideKeyboard(requireActivity());
+            BasicUtility.hideKeyboard(requireActivity(), newComment);
             BottomCommentsDialog.super.onDestroyView();
         });
     }
@@ -284,7 +293,7 @@ public class BottomCommentsDialog extends DialogFragment {
                     models.add(commentModel);
                 }
                 if (models.size() > 0) {
-                    commentAdapter = new CommentAdapter(getActivity(), models, 2, type);
+                    commentAdapter = new CommentAdapter(getActivity(), models, getBool, type);
                     commentAdapter.onClickListener(position -> {
                         if( models.get(position).getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                 || uid.matches(FirebaseAuth.getInstance().getUid())) {
@@ -353,7 +362,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                             ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ReelsAdapter")){
-                                            finalcmntno=currentItem.getCmtNo()+1;
+                                            finalcmntno=currentItem.getCmtNo()-total;
                                             currentItem.setCmtNo(finalcmntno);
                                             if(finalcmntno <= 0) {
                                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.GONE);

@@ -155,7 +155,6 @@
             android:background="@drawable/background_rectangle"
             android:gravity="center_vertical"
             android:hint="@string/write_a_comment"
-            android:imeOptions="flagNoExtractUi"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLines="6"
             android:paddingHorizontal="10dp"
