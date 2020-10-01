@@ -24,7 +24,6 @@
                 android:paddingVertical="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/pujo_committees"
-
                 android:textColor="@color/purple"
                 android:textSize="18sp" />
 

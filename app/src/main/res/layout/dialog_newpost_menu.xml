@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
     android:gravity="start|center_vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="55dp"
