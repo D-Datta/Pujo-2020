@@ -412,6 +412,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
+                                                                        introPref.setFullName(baseUserModel.getName());
                                                                         progressDialog.dismiss();
                                                                         BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                                         Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);

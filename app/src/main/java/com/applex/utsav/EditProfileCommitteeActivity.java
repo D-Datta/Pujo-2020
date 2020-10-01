@@ -272,6 +272,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             progressDialog.dismiss();
+                                            introPref.setFullName(baseUserModel.getName());
                                             BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                             Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
                                             intent.putExtra("uid", fireuser.getUid());
