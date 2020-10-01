@@ -1434,13 +1434,13 @@ public class ActivityProfileUser extends AppCompatActivity {
                     storageReference = storage.getReference();
 
                     if(imageCoverOrDp == 1){
-                        reference = storageReference.child("Profile/")
-                                .child(FirebaseAuth.getInstance().getUid()+"/")
-                                .child( FirebaseAuth.getInstance().getUid()+"_cover");
+                        reference = storageReference.child("Users/")
+                                .child("Coverpic/")
+                                .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
                     }
                     else {
-                        reference = storageReference.child("Profile/")
-                                .child(FirebaseAuth.getInstance().getUid()+"/")
+                        reference = storageReference.child("Users/")
+                                .child("DP/")
                                 .child( FirebaseAuth.getInstance().getUid()+"_dp");
                     }
 
