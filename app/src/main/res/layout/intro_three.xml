@@ -14,4 +14,17 @@
         android:scaleType="centerCrop"
         android:layout_gravity="center"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="84dp"
+        android:background="@color/white_transparent"
+        android:fontFamily="@font/oxygen_bold"
+        android:gravity="center"
+        android:text="@string/intro_three"
+        android:textColor="@color/red"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
