@@ -1411,7 +1411,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 pic = baos.toByteArray();
                 compressedBitmap.recycle();
 
-                BasicUtility.showToast(ActivityProfileUser.this, pic.length/1024+"");
+//                BasicUtility.showToast(ActivityProfileUser.this, pic.length/1024+"");
 
                 if(pic!= null) {
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 ,pic.length);

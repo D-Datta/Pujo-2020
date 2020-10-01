@@ -1130,7 +1130,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         compressedBitmap.recycle();
                         imagelist.add(pic);
 
-                        BasicUtility.showToast(NewPostHome.this, pic.length/1024+"");
+//                        BasicUtility.showToast(NewPostHome.this, pic.length/1024+"");
 
                         if(imagelist != null && imagelist.size()>0){
 
@@ -1183,7 +1183,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     compressedBitmap.recycle();
                     imagelist.add(byteArray);
 
-                    BasicUtility.showToast(NewPostHome.this, byteArray.length/1024+"");
+//                    BasicUtility.showToast(NewPostHome.this, byteArray.length/1024+"");
 
 
                     if(imagelist != null && imagelist.size()>0){
