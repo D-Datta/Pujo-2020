@@ -1051,7 +1051,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 Bitmap bitmap = retriever.getFrameAtTime(2000);
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 80, out);
                 frame = out.toByteArray();
 
                 final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};
