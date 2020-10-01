@@ -101,7 +101,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
 
     private Button locate;
-    private Button follow, edit_profile_com;
+    private Button upvote, edit_profile_com;
 
     private LinearLayout selfProfile, elseProfile;
 
@@ -160,7 +160,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         selfProfile = findViewById(R.id.selfProfile);
         elseProfile = findViewById(R.id.elseProfile);
 
-        follow = findViewById(R.id.follow);
+        upvote = findViewById(R.id.follow);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -246,7 +246,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .document(uid)
                     .update("pujoVisits", FieldValue.increment(1));
 
-            follow.setOnClickListener(new View.OnClickListener() {
+            upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(isLoadingFinished){
@@ -266,9 +266,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                                         batch.commit().addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
-                                                follow.setText("Upvote");
-                                                follow.setBackgroundResource(R.drawable.custom_button);
-                                                follow.setTextColor(getResources().getColor(R.color.white));
+                                                upvote.setText("Upvote");
+                                                upvote.setBackgroundResource(R.drawable.custom_button);
+                                                upvote.setTextColor(getResources().getColor(R.color.white));
 
                                                 if(baseUserModel.getUpvoteL() != null){
                                                     if(baseUserModel.getUpvoteL().size()-1 == 0){
@@ -344,6 +344,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+
+
                             DocumentReference docRef = FirebaseFirestore.getInstance()
                                     .collection("Users")
                                     .document(uid);
@@ -356,9 +358,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                             batch.commit().addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
-                                    follow.setText("Upvoted");
-                                    follow.setBackgroundResource(R.drawable.custom_button_outline);
-                                    follow.setTextColor(getResources().getColor(R.color.purple));
+                                    upvote.setText("Upvoted");
+                                    upvote.setBackgroundResource(R.drawable.custom_button_outline);
+                                    upvote.setTextColor(getResources().getColor(R.color.purple));
 
                                     if(baseUserModel.getUpvoteL() != null){
                                         if(baseUserModel.getUpvoteL().size()+1 == 0){
@@ -555,15 +557,15 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 }
 
                                 if(isUpvoted){
-                                    follow.setText("Upvoted");
-                                    follow.setBackgroundResource(R.drawable.custom_button_outline);
-                                    follow.setTextColor(getResources().getColor(R.color.purple));
+                                    upvote.setText("Upvoted");
+                                    upvote.setBackgroundResource(R.drawable.custom_button_outline);
+                                    upvote.setTextColor(getResources().getColor(R.color.purple));
 
                                 }
                                 else {
-                                    follow.setText("Upvote");
-                                    follow.setBackgroundResource(R.drawable.custom_button);
-                                    follow.setTextColor(getResources().getColor(R.color.white));
+                                    upvote.setText("Upvote");
+                                    upvote.setBackgroundResource(R.drawable.custom_button);
+                                    upvote.setTextColor(getResources().getColor(R.color.white));
 
                                 }
 
