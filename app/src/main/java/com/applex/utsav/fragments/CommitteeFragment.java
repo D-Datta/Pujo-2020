@@ -97,7 +97,6 @@ public class CommitteeFragment extends Fragment {
     private IntroPref introPref;
     private Query reels_query;
     private ArrayList<Integer> positions;
-    private int query_position;
 
     private DocumentSnapshot lastReelDocument;
 
@@ -264,7 +263,7 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
                     if(programmingViewHolder.getItemViewType() != 1) {
-                        query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
+//                        int query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
 //                        Query query1 = FirebaseFirestore.getInstance()
 //                                .collection("Reels")
 //                                .orderBy("ts", Query.Direction.DESCENDING);
@@ -287,7 +286,6 @@ public class CommitteeFragment extends Fragment {
 //                        });
                     }
                     else {
-                        query_position = 0;
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING);
@@ -618,50 +616,54 @@ public class CommitteeFragment extends Fragment {
                     startActivity(Intent.createChooser(i, "Share with"));
                 });
 
-                //
                 if (currentItem.getCmtNo() > 0) {
-                    programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
-                    programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
-                    Picasso.get().load(currentItem.getCom1_dp())
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(programmingViewHolder.dp_cmnt1);
+                    if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+                        programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                        programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
+                        Picasso.get().load(currentItem.getCom1_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(programmingViewHolder.dp_cmnt1);
 
-                    programmingViewHolder.cmnt1.setText(currentItem.getCom1());
-                    if (programmingViewHolder.cmnt1.getUrls().length > 0) {
-                        URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
-                        String url = urlSnapItem.getURL();
-                        if (url.contains("http")) {
-                            programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                            programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                @Override
-                                public void onSuccess(boolean status) { }
+                        programmingViewHolder.cmnt1.setText(currentItem.getCom1());
+                        if (programmingViewHolder.cmnt1.getUrls().length > 0) {
+                            URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) { }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        //do stuff like remove view etc
-                                        programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                    });
-                                }
-                            });
-                        }
-                    } else {
-                        programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                    }
-
-                    programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
-                    if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
-                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
-                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
+                            }
                         } else {
-                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
+                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
                         }
                     }
+                    else {
+                        programmingViewHolder.commentLayout1.setVisibility(View.GONE);
+                    }
 
-                    if(currentItem.getCmtNo() == 2) {
+                    if(currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
                         programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
                         programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
                         Picasso.get().load(currentItem.getCom2_dp())
@@ -703,7 +705,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    programmingViewHolder.comment_layout.setOnClickListener(v -> {
+                    ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"CommitteeFragment", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
@@ -719,7 +721,7 @@ public class CommitteeFragment extends Fragment {
                     });
                 }
                 else {
-                    programmingViewHolder.comment_layout.setVisibility(View.GONE);
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
@@ -944,7 +946,9 @@ public class CommitteeFragment extends Fragment {
 
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
+        @SuppressLint("StaticFieldLeak")
         public static TextView commentCount;
+        @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
         SliderView sliderView;
         TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
@@ -1313,7 +1317,6 @@ public class CommitteeFragment extends Fragment {
                 }
             });
         }
-
         else {
             BasicUtility.showToast(getActivity(), "Something went wrong...");
         }
@@ -1418,6 +1421,4 @@ public class CommitteeFragment extends Fragment {
             }
         }
     }
-
-
 }

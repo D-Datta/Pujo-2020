@@ -668,48 +668,53 @@ public class FeedsFragment extends Fragment {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    feedViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    feedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    FeedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
-                    feedViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
-                    Picasso.get().load(currentItem.getCom1_dp())
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(feedViewHolder.dp_cmnt1);
+                    if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+                        feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                        feedViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
+                        Picasso.get().load(currentItem.getCom1_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(feedViewHolder.dp_cmnt1);
 
-                    feedViewHolder.cmnt1.setText(currentItem.getCom1());
-                    if (feedViewHolder.cmnt1.getUrls().length > 0) {
-                        URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
-                        String url = urlSnapItem.getURL();
-                        if (url.contains("http")) {
-                            feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                            feedViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                @Override
-                                public void onSuccess(boolean status) { }
+                        feedViewHolder.cmnt1.setText(currentItem.getCom1());
+                        if (feedViewHolder.cmnt1.getUrls().length > 0) {
+                            URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                feedViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) {
+                                    }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        //do stuff like remove view etc
-                                        feedViewHolder.link_preview1.setVisibility(View.GONE);
-                                    });
-                                }
-                            });
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
+                            }
+                        } else {
+                            feedViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
+                                feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
                         }
                     } else {
-                        feedViewHolder.link_preview1.setVisibility(View.GONE);
+                        feedViewHolder.commentLayout1.setVisibility(View.GONE);
                     }
 
-                    feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
-                    if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
-                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
-                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                        } else {
-                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                        }
-                    }
-
-                    if(currentItem.getCmtNo() == 2) {
+                    if(currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
                         feedViewHolder.commentLayout2.setVisibility(View.VISIBLE);
                         feedViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
                         Picasso.get().load(currentItem.getCom2_dp())
@@ -751,7 +756,7 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    feedViewHolder.comment_layout.setOnClickListener(v -> {
+                    FeedViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
@@ -767,7 +772,7 @@ public class FeedsFragment extends Fragment {
                     });
                 }
                 else {
-                    feedViewHolder.comment_layout.setVisibility(View.GONE);
+                    FeedViewHolder.comment_layout.setVisibility(View.GONE);
                     feedViewHolder.commentLayout1.setVisibility(View.GONE);
                     feedViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
