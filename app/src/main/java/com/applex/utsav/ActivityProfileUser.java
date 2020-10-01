@@ -1406,7 +1406,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
                 pic = baos.toByteArray();
                 compressedBitmap.recycle();

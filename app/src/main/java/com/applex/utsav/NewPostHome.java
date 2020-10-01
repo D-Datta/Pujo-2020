@@ -1140,7 +1140,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                             recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setItemViewCacheSize(20);
+                            recyclerView.setItemViewCacheSize(10);
                             recyclerView.setNestedScrollingEnabled(true);
 
                             MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
