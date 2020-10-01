@@ -273,27 +273,18 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
                         holder.dhak_anim.addAnimatorListener(new Animator.AnimatorListener() {
                             @Override
-                            public void onAnimationStart(Animator animator) {
-//                                holder.dhak_anim.setVisibility(View.VISIBLE);
-//                                holder.dhak_anim.playAnimation();
-                            }
+                            public void onAnimationStart(Animator animator) { }
 
                             @Override
                             public void onAnimationEnd(Animator animator) {
-                                holder.dhak_anim.cancelAnimation();
                                 holder.dhak_anim.setVisibility(View.GONE);
                             }
 
                             @Override
-                            public void onAnimationCancel(Animator animator) {
-                                holder.dhak_anim.cancelAnimation();
-                                holder.dhak_anim.setVisibility(View.GONE);
-                            }
+                            public void onAnimationCancel(Animator animator) { }
 
                             @Override
-                            public void onAnimationRepeat(Animator animator) {
-
-                            }
+                            public void onAnimationRepeat(Animator animator) { }
                         });
 
                         WindowManager manager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
