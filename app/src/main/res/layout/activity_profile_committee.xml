@@ -425,4 +425,14 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/upvote_anim"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="false"
+        android:background="@color/dark_black_transparent2"
+        app:lottie_fileName="upvote.json"
+        app:lottie_loop="false" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

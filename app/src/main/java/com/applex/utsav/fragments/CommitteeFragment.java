@@ -36,6 +36,8 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -544,6 +546,8 @@ public class CommitteeFragment extends Fragment {
                         }
                         else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             BasicUtility.vibrate(requireActivity());
+                            programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                            programmingViewHolder.dhak_anim.playAnimation();
                             try {
                                 AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
@@ -552,6 +556,10 @@ public class CommitteeFragment extends Fragment {
                                 AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
                                 if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
                                     player.start();
+                                player.setOnCompletionListener(mediaPlayer -> {
+                                    programmingViewHolder.dhak_anim.cancelAnimation();
+                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -959,6 +967,7 @@ public class CommitteeFragment extends Fragment {
         RecyclerView reelsList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         SliderView sliderViewpost;
+        LottieAnimationView dhak_anim;
 
         RelativeLayout normal_item;
         LinearLayout slider_item;
@@ -1014,6 +1023,7 @@ public class CommitteeFragment extends Fragment {
             reels_item = itemView.findViewById(R.id.reels_item);
             normal_item = itemView.findViewById(R.id.normal_item);
             head_content = itemView.findViewById(R.id.head_content);
+            dhak_anim = itemView.findViewById(R.id.dhak_anim);
         }
     }
 

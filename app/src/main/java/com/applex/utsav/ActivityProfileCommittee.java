@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -35,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.models.SeenModel;
 import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
@@ -111,6 +113,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     byte[] pic;
 
     private IntroPref introPref;
+    private LottieAnimationView upvote_anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +138,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-
+        upvote_anim = findViewById(R.id.upvote_anim);
         PDp = findViewById(R.id.Pdp);
         PName = findViewById(R.id.Profilename);
         PUsername =findViewById(R.id.Pusername);
@@ -298,6 +301,25 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             seenModel.setUserdp(introPref.getUserdp());
                             seenModel.setUsername(introPref.getFullName());
                             seenModel.setType(introPref.getType());
+
+                            upvote_anim.setVisibility(View.VISIBLE);
+                            upvote_anim.playAnimation();
+
+                            upvote_anim.addAnimatorListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animator) { }
+
+                                @Override
+                                public void onAnimationEnd(Animator animator) {
+                                    upvote_anim.setVisibility(View.GONE);
+                                }
+
+                                @Override
+                                public void onAnimationCancel(Animator animator) { }
+
+                                @Override
+                                public void onAnimationRepeat(Animator animator) { }
+                            });
 
                             DocumentReference docRef = FirebaseFirestore.getInstance()
                                     .collection("Users")

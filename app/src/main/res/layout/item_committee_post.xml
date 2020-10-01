@@ -384,27 +384,42 @@
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="wrap_content">-->
 
-                <com.smarteist.autoimageslider.SliderView
-                    android:id="@+id/post_image"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    app:sliderAnimationDuration="500"
-                    app:sliderAutoCycleDirection="back_and_forth"
-                    app:sliderAutoCycleEnabled="true"
-                    android:layout_marginTop="5dp"
-                    app:sliderCircularHandlerEnabled="true"
-                    app:sliderIndicatorAnimationDuration="600"
-                    app:sliderIndicatorGravity="center_horizontal|bottom"
-                    app:sliderIndicatorMargin="15dp"
-                    app:sliderIndicatorOrientation="horizontal"
-                    app:sliderIndicatorPadding="3dp"
-                    app:sliderIndicatorRadius="2dp"
-                    app:sliderIndicatorSelectedColor="#5A5A5A"
-                    app:sliderIndicatorUnselectedColor="#FFF"
-                    app:sliderScrollTimeInSec="1"
-                    android:visibility="gone"
-                    app:sliderStartAutoCycle="true" />
+                    android:layout_height="250dp">
 
+                    <com.smarteist.autoimageslider.SliderView
+                        android:id="@+id/post_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:sliderAnimationDuration="500"
+                        app:sliderAutoCycleDirection="back_and_forth"
+                        app:sliderAutoCycleEnabled="true"
+                        android:layout_marginTop="5dp"
+                        app:sliderCircularHandlerEnabled="true"
+                        app:sliderIndicatorAnimationDuration="600"
+                        app:sliderIndicatorGravity="center_horizontal|bottom"
+                        app:sliderIndicatorMargin="15dp"
+                        app:sliderIndicatorOrientation="horizontal"
+                        app:sliderIndicatorPadding="3dp"
+                        app:sliderIndicatorRadius="2dp"
+                        app:sliderIndicatorSelectedColor="#5A5A5A"
+                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderScrollTimeInSec="1"
+                        android:visibility="gone"
+                        app:sliderStartAutoCycle="true" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/dhak_anim"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        app:lottie_autoPlay="false"
+                        android:padding="80dp"
+                        android:background="@color/dark_black_transparent2"
+                        app:lottie_fileName="dhakbajano.json"
+                        app:lottie_loop="true" />
+                </RelativeLayout>
                 <!--                </HorizontalScrollView>-->
 
                 <RelativeLayout
