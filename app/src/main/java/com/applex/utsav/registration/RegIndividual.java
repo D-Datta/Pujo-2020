@@ -832,7 +832,7 @@ public class RegIndividual extends AppCompatActivity
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
 
                 if(pictype==0){
@@ -859,12 +859,5 @@ public class RegIndividual extends AppCompatActivity
             ////////////////////////CROP//////////////////////
         }
     }
-
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called IN REG FORM 2");
-        super.finalize();
-    }
-
 
 }

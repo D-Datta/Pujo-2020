@@ -724,10 +724,5 @@ public class RegPujoCommittee extends AppCompatActivity {
         }
 
     }
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called IN REG FORM 2!!!!!!!!!!!!!");
-        super.finalize();
-    }
 
 }
