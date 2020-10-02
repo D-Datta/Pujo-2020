@@ -351,10 +351,10 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="15dp"
                     android:text="@string/head_content"
-                    android:textColor="@color/black"
-                    android:maxLines="1"
+                    android:textColor="@color/purple"
+                    android:maxLines="3"
                     android:ellipsize="end"
-                    android:textColorLink="@color/link"
+                    android:textColorLink="@color/colorPrimary"
                     android:textSize="17dp" />
 
                 <TextView
@@ -387,16 +387,16 @@
                 <RelativeLayout
                     android:id="@+id/rlLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="350dp"
+                    android:layout_marginTop="5dp">
 
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/post_image"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="350dp"
                         app:sliderAnimationDuration="500"
                         app:sliderAutoCycleDirection="back_and_forth"
                         app:sliderAutoCycleEnabled="true"
-                        android:layout_marginTop="5dp"
                         app:sliderCircularHandlerEnabled="true"
                         app:sliderIndicatorAnimationDuration="600"
                         app:sliderIndicatorGravity="center_horizontal|bottom"
@@ -414,7 +414,7 @@
                         android:id="@+id/dhak_anim"
                         android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="match_parent"
                         app:lottie_autoPlay="false"
                         android:padding="80dp"
                         android:background="@color/dark_black_transparent2"

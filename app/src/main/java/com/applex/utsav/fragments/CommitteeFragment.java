@@ -168,7 +168,7 @@ public class CommitteeFragment extends Fragment {
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .setPrefetchDistance(4)
-                .setEnablePlaceholders(true)
+                .setEnablePlaceholders(false)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
