@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.models.HomePostModel;
+import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.StoreTemp;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Callback;
@@ -97,6 +98,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                     Bundle args = new Bundle();
                     args.putSerializable("ARRAYLIST", (Serializable)model.getImg());
                     intent.putExtra("BUNDLE", args);
+                    intent.putExtra("posImage", Integer.toString(position));
                 }
                 intent.putExtra("postText", model.getTxt());
                 intent.putExtra("bool", "3");
