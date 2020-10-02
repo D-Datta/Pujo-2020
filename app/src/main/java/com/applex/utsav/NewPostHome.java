@@ -558,7 +558,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             for (int j = 0; j < imagelist.size(); j++) {
                                 Long tsLong = System.currentTimeMillis();
                                 ts = tsLong.toString();
-                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
+                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid()+"/").child(ts+j + "post_img");
 
                                 int finalJ = j;
                                 reference.putBytes(imagelist.get(finalJ))
@@ -691,8 +691,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                             Long tsLong = System.currentTimeMillis();
                             ts = tsLong.toString();
-                            StorageReference referenceVideo = storageReferenece.child("Reels/").child("Videos").child(fireuser.getUid() + "_" + ts + "post_vid");
-                            StorageReference referenceImage = storageReferenece.child("Reels/").child("Images").child(fireuser.getUid() + "_" + ts + "post_img");
+                            StorageReference referenceVideo = storageReferenece.child("Reels/").child("Videos").child(fireuser.getUid()).child(ts + "_post_vid");
+                            StorageReference referenceImage = storageReferenece.child("Reels/").child("Images").child(fireuser.getUid()).child(ts + "_post_img");
 
                             referenceImage.putBytes(frame)
                                     .addOnCompleteListener(task -> {
@@ -770,7 +770,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                 for (int j = 0; j < imagelist.size(); j++) {
                                     Long tsLong = System.currentTimeMillis();
                                     ts = tsLong.toString();
-                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts+j + "post_img");
+                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid()+"/").child(ts+j + "post_img");
 
                                     int finalJ = j;
                                     reference.putBytes(imagelist.get(finalJ))
