@@ -675,10 +675,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             reelsPostModel.setDocID(String.valueOf(timestampLong));
 
                             reelsPostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            if(duration < 10) {
-                                reelsPostModel.setDuration("0:0" + duration);
+
+//                            reelsPostModel.setDuration(String.valueOf(duration/60) + ":");
+                            if(duration % 60 < 10) {
+                                reelsPostModel.setDuration(String.valueOf(duration/60) + ":0" + String.valueOf(duration % 60));
                             } else {
-                                reelsPostModel.setDuration("0:" + duration);
+                                reelsPostModel.setDuration(String.valueOf(duration/60) + ":" + String.valueOf(duration % 60));
                             }
 
                             if (!text_content.isEmpty()) {
