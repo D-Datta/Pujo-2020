@@ -489,6 +489,8 @@ public class FeedsFragment extends Fragment {
                             Bundle args = new Bundle();
                             args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
+                            intent.putExtra("posImage", feedViewHolder.sliderView.getCurrentPagePosition()+"");
+
                         }
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("bool", "3");
@@ -516,6 +518,7 @@ public class FeedsFragment extends Fragment {
                             Bundle args = new Bundle();
                             args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
+                            intent.putExtra("posImage", feedViewHolder.sliderView.getCurrentPagePosition()+"");
                         }
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("bool", "3");

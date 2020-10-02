@@ -168,7 +168,7 @@ public class CommitteeFragment extends Fragment {
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .setPrefetchDistance(4)
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
@@ -453,6 +453,7 @@ public class CommitteeFragment extends Fragment {
                             Bundle args = new Bundle();
                             args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
+                            intent.putExtra("posImage", Integer.toString(programmingViewHolder.sliderView.getCurrentPagePosition()));
                         }
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("bool", "3");
@@ -480,6 +481,7 @@ public class CommitteeFragment extends Fragment {
                             Bundle args = new Bundle();
                             args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
+                            intent.putExtra("posImage", Integer.toString(programmingViewHolder.sliderView.getCurrentPagePosition()));
                         }
                         intent.putExtra("postText", currentItem.getTxt());
                         intent.putExtra("bool", "3");

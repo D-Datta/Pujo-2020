@@ -341,26 +341,6 @@ public class ViewMoreHome extends AppCompatActivity {
             /////////////////TAGS/////////////////
 
 
-            ////////////COMMUNITY//////////
-//            if(getIntent().getStringExtra("comName")!=null && getIntent().getStringExtra("comID") !=null){
-//                comName.setVisibility(View.VISIBLE);
-//                homePostModel[0].setComID(getIntent().getStringExtra("comID"));
-//                homePostModel[0].setComName(getIntent().getStringExtra("comName"));
-//
-//                comName.setText(getIntent().getStringExtra("comName"));
-//                comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-//                comName.setTextColor(getResources().getColor(android.R.color.white));
-//                comName.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Intent intent= new Intent(ViewMoreHome.this, CommunityActivity.class);
-////                        intent.putExtra("comID", homePostModel[0].getComID());
-////                        startActivity(intent);
-//                    }
-//                });
-//            }
-            ////////////COMMUNITY//////////
-
 
             ///////////////LIKE SETUP//////////////
             if (i.getSerializableExtra("likeL") != null) {
@@ -457,6 +437,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
 
                     if (images != null && images.size() > 0) {
+
                         sliderView.setVisibility(View.VISIBLE);
 
                         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -470,7 +451,17 @@ public class ViewMoreHome extends AppCompatActivity {
                         ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
 
                         sliderView.setSliderAdapter(viewmoreSliderAdapter);
-                    } else {
+
+                        if(getIntent().getStringExtra("posImage") != null){
+                            int pos = Integer.parseInt(getIntent().getStringExtra("posImage"));
+                            sliderView.setCurrentPagePosition(pos);
+                            BasicUtility.showToast(ViewMoreHome.this,"found");
+                        }
+                        else {
+                            BasicUtility.showToast(ViewMoreHome.this,"not found");
+                        }
+                    }
+                    else {
                         sliderView.setVisibility(View.GONE);
                     }
 
@@ -543,7 +534,9 @@ public class ViewMoreHome extends AppCompatActivity {
             }
 
 
-        } else {// from fcm notification or notiff tab or external link
+        }
+
+        else {// from fcm notification or notiff tab or external link
             docref3 = FirebaseFirestore.getInstance()
                     .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
                     .document("notifCount");
