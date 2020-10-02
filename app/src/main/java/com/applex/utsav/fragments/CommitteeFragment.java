@@ -453,6 +453,7 @@ public class CommitteeFragment extends Fragment {
                             Bundle args = new Bundle();
                             args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
+                            BasicUtility.showToast(getActivity(), Integer.toString(programmingViewHolder.sliderView.getCurrentPagePosition()));
                             intent.putExtra("posImage", Integer.toString(programmingViewHolder.sliderView.getCurrentPagePosition()));
                         }
                         intent.putExtra("postText", currentItem.getTxt());
