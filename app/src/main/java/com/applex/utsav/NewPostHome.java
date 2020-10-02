@@ -770,7 +770,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                 for (int j = 0; j < imagelist.size(); j++) {
                                     Long tsLong = System.currentTimeMillis();
                                     ts = tsLong.toString();
-                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
+                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts+j + "post_img");
 
                                     int finalJ = j;
                                     reference.putBytes(imagelist.get(finalJ))

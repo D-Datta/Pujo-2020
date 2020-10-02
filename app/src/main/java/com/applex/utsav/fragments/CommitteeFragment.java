@@ -194,13 +194,14 @@ public class CommitteeFragment extends Fragment {
 
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
 
-                    programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                    programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setIndicatorRadius(5);
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                     programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
+                    programmingViewHolder.sliderView.setSliderAnimationDuration(5000);
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
-                    programmingViewHolder.sliderView.setAutoCycle(false);
+                    programmingViewHolder.sliderView.setAutoCycle(true);
 
                     ArrayList<SliderModel> itemGroups = new ArrayList<>();
 
