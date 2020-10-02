@@ -455,10 +455,6 @@ public class ViewMoreHome extends AppCompatActivity {
                         if(getIntent().getStringExtra("posImage") != null){
                             int pos = Integer.parseInt(getIntent().getStringExtra("posImage"));
                             sliderView.setCurrentPagePosition(pos);
-                            BasicUtility.showToast(ViewMoreHome.this,"found");
-                        }
-                        else {
-                            BasicUtility.showToast(ViewMoreHome.this,"not found");
                         }
                     }
                     else {
