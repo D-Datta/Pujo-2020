@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingVertical="15dp"
-    android:background="@color/colorPrimaryLight"
+    android:background="@drawable/custom_ripple_white_rectangle"
     android:paddingHorizontal="8dp"
     android:gravity="center_vertical">
 

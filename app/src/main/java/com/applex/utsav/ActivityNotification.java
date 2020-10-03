@@ -159,7 +159,7 @@ public class ActivityNotification extends AppCompatActivity {
                     holder.comment.setVisibility(View.VISIBLE);
                     holder.comment.setText("\""+currentItem.getComTxt()+"\"");
                 }
-                if(currentItem.getTitle().contains("liked"))
+                if((currentItem.getTitle().contains("liked")|| currentItem.getTitle().contains("flamed")))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
                     holder.comment.setVisibility(View.GONE);
@@ -169,15 +169,15 @@ public class ActivityNotification extends AppCompatActivity {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
                     holder.comment.setVisibility(View.GONE);
                 }
-                if(currentItem.getTitle().contains("liked") && currentItem.getTitle().contains("comment"))
+                if((currentItem.getTitle().contains("liked")|| currentItem.getTitle().contains("flamed")) && currentItem.getTitle().contains("comment"))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
                     holder.comment.setVisibility(View.VISIBLE);
                     holder.comment.setText("\""+currentItem.getComTxt()+"\"");
                 }
 
-                if(currentItem.isSeen()){
-                    holder.notifCard.setBackgroundColor(ActivityNotification.this.getResources().getColor(R.color.white));
+                if(!currentItem.isSeen()){
+                    holder.notifCard.setBackgroundColor(ActivityNotification.this.getResources().getColor(R.color.colorPrimaryLight));
                 }
 
                 holder.notifCard.setOnClickListener(v -> {
@@ -233,6 +233,8 @@ public class ActivityNotification extends AppCompatActivity {
                         Intent i= new Intent(ActivityNotification.this, ReelsActivity.class);
                         i.putExtra("docID", postID);
                         i.putExtra("bool", "1");
+                        i.putExtra("type", currentItem.getType());
+
                         startActivity(i);
                         notifyItemChanged(position);
                     }
