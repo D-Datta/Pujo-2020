@@ -57,7 +57,6 @@ public class ActivityNotification extends AppCompatActivity {
     private RecyclerView notifRecycler;
     private ProgressBar progressMore;
 
-    private ArrayList<NotifModel> notifModels;
     private ImageView noNotif;
 
     public static int removeNotif = -1;
@@ -90,7 +89,6 @@ public class ActivityNotification extends AppCompatActivity {
         progressMore.setVisibility(View.GONE);
         noNotif = findViewById(R.id.no_recent_notiff);
         notifRecycler = findViewById(R.id.recyclerNotif);
-        notifModels = new ArrayList<>();
 
         notifRecycler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityNotification.this);
@@ -111,7 +109,6 @@ public class ActivityNotification extends AppCompatActivity {
     }
 
     public void buildRecyclerView() {
-        notifModels.clear();
         Query query = FirebaseFirestore.getInstance()
                 .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/Notifs/")
                 .orderBy("ts", Query.Direction.DESCENDING);
@@ -142,7 +139,7 @@ public class ActivityNotification extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull NotifModel model) {
 
-                NotifModel currentItem  = notifModels.get(position);
+                NotifModel currentItem  = model;
 
                 String userimage_url = currentItem.getDp();
                 if(userimage_url!=null){

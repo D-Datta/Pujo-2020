@@ -299,11 +299,14 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     .show();
                         }
                         else {
+                            long tsLong = System.currentTimeMillis();
+
                             SeenModel seenModel = new SeenModel();
                             seenModel.setUid(fireuser.getUid());
                             seenModel.setUserdp(introPref.getUserdp());
                             seenModel.setUsername(introPref.getFullName());
                             seenModel.setType(introPref.getType());
+                            seenModel.setTs(tsLong);
 
                             upvote_anim.setVisibility(View.VISIBLE);
                             upvote_anim.playAnimation();

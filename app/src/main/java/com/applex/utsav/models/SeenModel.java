@@ -11,7 +11,7 @@ public class SeenModel {
     private String userdp, uid;
     private String username;
     private String type;
-    @ServerTimestamp private Timestamp ts;
+    private long ts;
 
     @Exclude
     private String docID;
@@ -58,11 +58,11 @@ public class SeenModel {
         this.docID = docID;
     }
 
-    public Timestamp getTs() {
+    public long getTs() {
         return ts;
     }
 
-    public void setTs(Timestamp ts) {
+    public void setTs(long ts) {
         this.ts = ts;
     }
 
