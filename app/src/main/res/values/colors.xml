@@ -5,7 +5,7 @@
     <color name="colorAccent">#FA382B</color>
 
     <color name="colorPrimaryLight">#FBEB93</color>
-
+    <color name="metrics_bg">#EACF4A</color>
 
     <color name="background">#fff</color>
     <color name="statusBarColor">#f5f5f5</color>
