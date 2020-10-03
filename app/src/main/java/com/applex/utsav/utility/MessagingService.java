@@ -235,7 +235,6 @@ public class MessagingService extends FirebaseMessagingService {
 
     }
 
-
     private Bitmap getCircleBitmap(Bitmap bitmap) {
 
         if (bitmap != null && !bitmap.isRecycled()) {

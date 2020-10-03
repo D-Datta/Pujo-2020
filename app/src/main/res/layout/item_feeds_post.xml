@@ -58,6 +58,7 @@
                 android:layout_height="155dp"
                 android:clipToPadding="false"
                 android:paddingEnd="12dp"
+                android:visibility="gone"
                 android:paddingBottom="10dp"/>
 
         </LinearLayout>
@@ -484,7 +485,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginHorizontal="8dp"
-                                    android:fontFamily="@font/oxygen_ex_bold"
                                     android:text="@string/_2_4k"
                                     android:textColor="@color/black_transparent"
                                     android:textSize="15dp" />
@@ -512,7 +512,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="6dp"
                                     android:layout_gravity="center_vertical"
-                                    android:fontFamily="@font/oxygen_ex_bold"
                                     android:text="@string/_154"
                                     android:textColor="@color/black_transparent"
                                     android:textSize="15dp"
