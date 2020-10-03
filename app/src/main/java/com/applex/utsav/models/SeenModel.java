@@ -2,13 +2,16 @@ package com.applex.utsav.models;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
 
+@IgnoreExtraProperties
 public class SeenModel {
 
     private String userdp, uid;
     private String username;
     private String type;
-    private Timestamp ts;
+    @ServerTimestamp private Timestamp ts;
 
     @Exclude
     private String docID;
