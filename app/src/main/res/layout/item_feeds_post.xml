@@ -361,7 +361,7 @@
                         android:textColor="@color/black"
                         android:maxLines="10"
                         android:ellipsize="end"
-                        android:textColorLink="@color/link"
+                        android:textColorLink="@color/colorPrimary"
                         android:textSize="15sp" />
 
                     <com.applex.utsav.LinkPreview.ApplexLinkPreview
