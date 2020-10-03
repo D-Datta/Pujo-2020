@@ -938,7 +938,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                         tagAdapter2.notifyDataSetChanged();
                         tags_selectedRecycler.setVisibility(View.VISIBLE);
-                        Toast.makeText(NewPostHome.this,"New Tag Added", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();

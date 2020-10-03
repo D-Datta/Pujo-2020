@@ -191,7 +191,6 @@ public class CommitteeFragment extends Fragment {
                 if (programmingViewHolder.getItemViewType() == 0) {
 
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
-
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
 
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -199,7 +198,8 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                     programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
-                    programmingViewHolder.sliderView.setSliderAnimationDuration(5000);
+                    programmingViewHolder.sliderView.setSliderAnimationDuration(500);
+                    programmingViewHolder.sliderView.setScrollTimeInSec(7);
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(true);
 
