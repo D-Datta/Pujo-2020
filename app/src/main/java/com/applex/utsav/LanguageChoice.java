@@ -49,6 +49,7 @@ public class LanguageChoice extends AppCompatActivity {
                 introPref.setLanguage("en");
                 Intent intent = new Intent(LanguageChoice.this, WalkthroughActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -58,6 +59,7 @@ public class LanguageChoice extends AppCompatActivity {
                 introPref.setLanguage("bn");
                 Intent intent = new Intent(LanguageChoice.this, WalkthroughActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
