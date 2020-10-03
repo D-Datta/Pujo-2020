@@ -71,7 +71,7 @@ public class Fragment_Posts extends Fragment {
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
-        recyclerview.setItemViewCacheSize(10);
+        recyclerview.setItemViewCacheSize(20);
 
         buildRecyclerView();
 

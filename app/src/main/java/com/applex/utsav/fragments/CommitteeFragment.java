@@ -135,7 +135,7 @@ public class CommitteeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setItemViewCacheSize(10);
+        mRecyclerView.setItemViewCacheSize(20);
         mRecyclerView.setDrawingCacheEnabled(true);
         /////////////SETUP//////////////
 

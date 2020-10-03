@@ -154,7 +154,7 @@ public class FeedsFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setItemViewCacheSize(10);
+        mRecyclerView.setItemViewCacheSize(20);
         //////////////RECYCLER VIEW////////////////////
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
