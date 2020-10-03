@@ -23,7 +23,7 @@
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 app:sliderAnimationDuration="500"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"
@@ -428,8 +428,7 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="17dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginTop="5dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -439,15 +438,15 @@
 
                         <ImageView
                             android:id="@+id/like"
-                            android:layout_width="40dp"
+                            android:layout_width="34dp"
                             android:layout_height="40dp"
                             android:layout_marginStart="15dp"
                             android:src="@drawable/ic_btmnav_notifications" />
 
                         <ImageView
                             android:id="@+id/comment"
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
                             android:layout_marginHorizontal="10dp"
                             android:background="@drawable/custom_ripple_white"
                             android:padding="5dp"
@@ -455,8 +454,8 @@
 
                         <ImageView
                             android:id="@+id/share"
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/custom_ripple_white"
                             android:padding="5dp"
                             android:src="@drawable/ic_blossom" />
@@ -479,9 +478,9 @@
 
                             <ImageView
                                 android:id="@+id/like_image"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:padding="7dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:padding="5dp"
                                 android:src="@drawable/ic_baseline_favorite_24"
                                 app:tint="@color/black_transparent" />
 
@@ -490,10 +489,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginHorizontal="8dp"
+                                android:layout_marginHorizontal="5dp"
                                 android:text="@string/_2_4k"
                                 android:textColor="@color/black_transparent"
-                                android:textSize="15dp" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -506,21 +505,21 @@
 
                             <ImageView
                                 android:id="@+id/comment_image"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="end|center_vertical"
-                                android:padding="8dp"
+                                android:padding="6dp"
                                 android:src="@drawable/ic_comment" />
 
                             <TextView
                                 android:id="@+id/no_of_comments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="6dp"
+                                android:layout_marginHorizontal="5dp"
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/_154"
                                 android:textColor="@color/black_transparent"
-                                android:textSize="15dp" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -534,7 +533,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/light_background"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginHorizontal="8dp"/>
 
             <LinearLayout

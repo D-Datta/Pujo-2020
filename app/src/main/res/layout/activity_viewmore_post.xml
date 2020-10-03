@@ -88,6 +88,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="7dp"
             android:orientation="vertical">
 
             <TextView
@@ -150,7 +151,7 @@
             android:textColorLink="@color/link"
             android:text="@string/lorem_ipsum"
             android:scrollbars="vertical"
-            android:textSize="15dp"
+            android:textSize="14dp"
             app:trimExpandedText="@string/read_less"
             app:trimCollapsedText="@string/read_more"
             app:trimMode="trimModeLength"
@@ -164,7 +165,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="17dp"
-            android:layout_marginVertical="15dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -174,23 +176,23 @@
 
                 <ImageView
                     android:id="@+id/flame44"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="32dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="26dp"
                     android:src="@drawable/ic_normal_flame"/>
 
                 <ImageView
                     android:id="@+id/comment44"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginHorizontal="10dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_conch_shell"/>
 
                 <ImageView
                     android:id="@+id/share44"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_blossom" />
 
@@ -211,9 +213,9 @@
 
             <ImageView
                     android:id="@+id/like_image"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:padding="7dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:padding="5dp"
                     app:tint="@color/white_transparent"
                     android:src="@drawable/ic_baseline_favorite_24"/>
 
@@ -222,10 +224,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginHorizontal="5dp"
                     android:text="@string/_2_4k"
                     android:textColor="@color/white_transparent"
-                    android:textSize="15dp" />
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -237,10 +239,10 @@
 
                 <ImageView
                     android:id="@+id/comment_image"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="end|center_vertical"
-                    android:padding="8dp"
+                    android:padding="6dp"
                     app:tint="@color/white_transparent"
                     android:src="@drawable/ic_comment_viewmore"/>
 
@@ -248,11 +250,11 @@
                     android:id="@+id/no_of_comments44"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="6dp"
+                    android:layout_marginHorizontal="5dp"
                     android:layout_gravity="center_vertical"
                     android:text="@string/_154"
                     android:textColor="@color/white_transparent"
-                    android:textSize="15dp" />
+                    android:textSize="12dp" />
             </LinearLayout>
 
             </LinearLayout>

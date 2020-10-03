@@ -1123,8 +1123,7 @@ public class CommitteeFragment extends Fragment {
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(holder.pujo_com_dp, new Callback() {
                                 @Override
-                                public void onSuccess() {
-                                }
+                                public void onSuccess() { }
 
                                 @Override
                                 public void onError(Exception e) {
