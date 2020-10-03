@@ -164,6 +164,11 @@ public class ActivityNotification extends AppCompatActivity {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
                     holder.comment.setVisibility(View.GONE);
                 }
+                if(currentItem.getTitle().contains("upvoted"))
+                {
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
+                    holder.comment.setVisibility(View.GONE);
+                }
                 if(currentItem.getTitle().contains("liked") && currentItem.getTitle().contains("comment"))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
@@ -178,49 +183,69 @@ public class ActivityNotification extends AppCompatActivity {
                 holder.notifCard.setOnClickListener(v -> {
                     String postID= currentItem.getPostID();
 
-                    if(currentItem.getTitle().contains("event")){
+                    if(currentItem.getBool() == 1 && currentItem.getTitle().contains("post")){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+Long.toString(currentItem.getTs())+"/")
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
                                 .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getTs());
-                            }
-                        });
-                        Intent i= new Intent(ActivityNotification.this, ReelsActivity.class);
-                        i.putExtra("postID", postID);
-                        i.putExtra("position", Integer.toString(position));
-                        startActivity(i);
-                        notifyItemChanged(position);
-                    }
-                    else if(currentItem.getTitle().contains("post")){
-                        currentItem.setSeen(true);
-                        FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getTs()+"/")
-                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getTs());
+                                    Log.d("Notif update", "updated"+currentItem.getDocID());
                             }
                         });
                         Intent i= new Intent(ActivityNotification.this, ViewMoreHome.class);
                         i.putExtra("postID", postID);
-                        i.putExtra("position", Integer.toString(position));
+                        i.putExtra("type", currentItem.getType());
                         startActivity(i);
                         notifyItemChanged(position);
                     }
-                    else if(currentItem.getTitle().contains("upvoted")){
+
+                    else if(currentItem.getBool() == 2 && currentItem.getTitle().contains("post")){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getTs()+"/")
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
                                 .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getTs());
+                                    Log.d("Notif update", "updated"+currentItem.getDocID());
+                            }
+                        });
+                        Intent i= new Intent(ActivityNotification.this, ViewMoreText.class);
+                        i.putExtra("postID", postID);
+                        i.putExtra("type", currentItem.getType());
+                        startActivity(i);
+                        notifyItemChanged(position);
+                    }
+
+                    else if(currentItem.getBool() == 3 && currentItem.getTitle().contains("video")){
+                        currentItem.setSeen(true);
+                        FirebaseFirestore.getInstance()
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
+                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(!task.isSuccessful())
+                                    Log.d("Notif update", "updated"+currentItem.getDocID());
+                            }
+                        });
+                        Intent i= new Intent(ActivityNotification.this, ReelsActivity.class);
+                        i.putExtra("docID", postID);
+                        i.putExtra("bool", "1");
+                        startActivity(i);
+                        notifyItemChanged(position);
+                    }
+
+                    else if(currentItem.getTitle().contains("upvoted")){
+                        currentItem.setSeen(true);
+                        FirebaseFirestore.getInstance()
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
+                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(!task.isSuccessful())
+                                    Log.d("Notif update", "updated"+currentItem.getDocID());
                             }
                         });
                         Intent i= new Intent(ActivityNotification.this, ActivityProfileCommittee.class);
