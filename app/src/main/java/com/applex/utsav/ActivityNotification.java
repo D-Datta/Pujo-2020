@@ -161,17 +161,17 @@ public class ActivityNotification extends AppCompatActivity {
                 }
                 if((currentItem.getTitle().contains("liked")|| currentItem.getTitle().contains("flamed")))
                 {
-                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
                     holder.comment.setVisibility(View.GONE);
                 }
                 if(currentItem.getTitle().contains("upvoted"))
                 {
-                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_baseline_stars_24);
                     holder.comment.setVisibility(View.GONE);
                 }
                 if((currentItem.getTitle().contains("liked")|| currentItem.getTitle().contains("flamed")) && currentItem.getTitle().contains("comment"))
                 {
-                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_btmnav_notifications);
+                    holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
                     holder.comment.setVisibility(View.VISIBLE);
                     holder.comment.setText("\""+currentItem.getComTxt()+"\"");
                 }

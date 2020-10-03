@@ -294,6 +294,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginVertical="5dp"
+                        android:drawableStart="@drawable/ic_baseline_stars_24"
                         android:paddingEnd="15dp"
                         android:text="@string/loading"
                         android:textAllCaps="false"
