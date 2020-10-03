@@ -178,7 +178,7 @@ public class ActivityNotification extends AppCompatActivity {
                 holder.notifCard.setOnClickListener(v -> {
                     String postID= currentItem.getPostID();
 
-                    if(currentItem.getBool() == 2 || currentItem.getTitle().contains("event")){
+                    if(currentItem.getTitle().contains("event")){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
                                 .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+Long.toString(currentItem.getTs())+"/")
@@ -195,7 +195,7 @@ public class ActivityNotification extends AppCompatActivity {
                         startActivity(i);
                         notifyItemChanged(position);
                     }
-                    else if(currentItem.getBool() == 1 || currentItem.getTitle().contains("post")){
+                    else if(currentItem.getTitle().contains("post")){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
                                 .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getTs()+"/")
@@ -212,7 +212,7 @@ public class ActivityNotification extends AppCompatActivity {
                         startActivity(i);
                         notifyItemChanged(position);
                     }
-                    else if(currentItem.getBool() == 3){
+                    else if(currentItem.getTitle().contains("upvoted")){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
                                 .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getTs()+"/")
@@ -223,11 +223,9 @@ public class ActivityNotification extends AppCompatActivity {
                                     Log.d("Notif update", "updated"+currentItem.getTs());
                             }
                         });
-//                        Intent i= new Intent(ActivityNotification.this, ViewMoreSlider.class);
-//                        i.putExtra("postID", postID);
-//                        i.putExtra("position", Integer.toString(position));
-
-//                        startActivity(i);
+                        Intent i= new Intent(ActivityNotification.this, ActivityProfileCommittee.class);
+                        i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                        startActivity(i);
                         notifyItemChanged(position);
                     }
 
