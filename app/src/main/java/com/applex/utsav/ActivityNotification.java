@@ -197,7 +197,7 @@ public class ActivityNotification extends AppCompatActivity {
                         Intent i= new Intent(ActivityNotification.this, ViewMoreHome.class);
                         i.putExtra("postID", postID);
                         i.putExtra("type", currentItem.getType());
-                        i.putExtra("campus", "Text");
+                        i.putExtra("campus", "Image");
 
                         startActivity(i);
                         notifyItemChanged(position);
@@ -217,6 +217,8 @@ public class ActivityNotification extends AppCompatActivity {
                         Intent i= new Intent(ActivityNotification.this, ViewMoreText.class);
                         i.putExtra("postID", postID);
                         i.putExtra("type", currentItem.getType());
+                        i.putExtra("campus", "Text");
+
                         startActivity(i);
                         notifyItemChanged(position);
                     }
