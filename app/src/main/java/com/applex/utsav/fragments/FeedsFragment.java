@@ -430,7 +430,8 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.text_content.setVisibility(View.GONE);
                     feedViewHolder.LinkPreview.setVisibility(View.GONE);
                     feedViewHolder.text_content.setText(null);
-                } else {
+                }
+                else {
                     feedViewHolder.text_content.setVisibility(View.VISIBLE);
                     feedViewHolder.text_content.setText(currentItem.getTxt());
                     if (feedViewHolder.text_content.getUrls().length > 0) {
@@ -1056,7 +1057,7 @@ public class FeedsFragment extends Fragment {
                 .collection("Users")
                 .whereEqualTo("type", "com")
                 .orderBy("pujoVisits", Query.Direction.DESCENDING)
-                .limit(10);
+                .limit(15);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
