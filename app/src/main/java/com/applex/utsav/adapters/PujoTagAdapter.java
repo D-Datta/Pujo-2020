@@ -31,8 +31,6 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
         mListener = listener;
     }
 
-
-
     public PujoTagAdapter() {
     }
 
@@ -45,7 +43,7 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
     @Override
     public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_tag,viewGroup, false);
+                .inflate(R.layout.item_tag_pujo,viewGroup, false);
         return new ProgrammingViewHolder(v , mListener);
     }
 
@@ -80,8 +78,6 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
                     }
                 }
             });
-
-
 
         }
     }
