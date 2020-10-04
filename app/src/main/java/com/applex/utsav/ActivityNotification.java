@@ -312,7 +312,7 @@ public class ActivityNotification extends AppCompatActivity {
             title= itemView.findViewById(R.id.notif_title);
             minsago= itemView.findViewById(R.id.timestamp);
             comment= itemView.findViewById(R.id.notif_comment);
-            dots = itemView.findViewById(R.id.notif_delete);
+//            dots = itemView.findViewById(R.id.notif_delete);
         }
     }
 

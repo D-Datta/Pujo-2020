@@ -20,6 +20,8 @@ import android.os.Looper;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,6 +33,8 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -59,6 +63,7 @@ import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
+import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.models.SliderModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -1534,4 +1539,5 @@ public class CommitteeFragment extends Fragment {
             }
         }
     }
+
 }

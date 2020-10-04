@@ -68,18 +68,6 @@
                 android:textColor="@color/purple"
                 android:textSize="15sp" />
 
-            <ImageView
-                android:id="@+id/notif_delete"
-                android:layout_width="40dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_more_vert_black_24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:paddingHorizontal="4dp"
-                android:paddingTop="4dp"
-                android:visibility="visible"/>
         </RelativeLayout>
 
         <TextView

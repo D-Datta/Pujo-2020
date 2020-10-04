@@ -416,7 +416,6 @@
                     android:paddingBottom="15dp"
                     android:text="@string/head_content"
                     android:textColor="@color/purple"
-                    android:maxLines="3"
                     android:ellipsize="end"
                     android:textColorLink="@color/colorPrimary"
                     android:textSize="17dp" />
