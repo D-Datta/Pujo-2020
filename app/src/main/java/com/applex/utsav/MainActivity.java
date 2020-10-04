@@ -117,13 +117,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mGooglesigninclient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         ///////////////NOTIFICATIONS///////////////////
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager=getSystemService(NotificationManager.class);
-            Objects.requireNonNull(manager).createNotificationChannel(channel);
+            manager.createNotificationChannel(channel);
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(task -> { });
+        FirebaseMessaging.getInstance().subscribeToTopic("users")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "msg sent successfully";
+                        if (!task.isSuccessful()) {
+                            msg = "msg failed";
+                        }
+                    }
+                });
+
         ///////////////NOTIFICATIONS///////////////////
 
         //////////////LATEST VERSION CHECK////////////////////

@@ -134,7 +134,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -259,4 +259,5 @@ public class MessagingService extends FirebaseMessagingService {
 
         return null;
     }
+
 }
