@@ -2,8 +2,8 @@
 <resources>
     <string name="app_name">উৎসব</string>
 
-    <string name="login">প্রবেশ করুন</string>
-    <string name="sign_up">নিবন্ধন করুন</string>
+    <string name="login">লগ ইন</string>
+    <string name="sign_up">সাইন আপ</string>
     <string name="don_t_have_an_account_yet">এখনও অ্যাকাউন্ট নেই?</string>
     <string name="skip_for_now">এড়িয়ে যান</string>
     <string name="enter_email">ইমেইল লিখুন</string>
