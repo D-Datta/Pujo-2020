@@ -179,7 +179,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <View
             android:id="@+id/view_type_smth"
@@ -239,6 +239,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
+        android:visibility="visible"
         android:id="@+id/committee_item">
 
         <View

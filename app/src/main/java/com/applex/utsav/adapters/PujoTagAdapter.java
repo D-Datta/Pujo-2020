@@ -29,9 +29,7 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
 
     private OnClickListener mListener;
 
-    public interface OnClickListener {
-        void onClickListener(int position, String pujo, String uid, String dp);
-    }
+    public interface OnClickListener { void onClickListener(int position, String pujo, String uid, String dp);}
 
     public void onClickListener(OnClickListener listener) {
         mListener = listener;
@@ -108,12 +106,6 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
                     }
                 }
             });
-
         }
     }
-
-
-
 }
-
-
