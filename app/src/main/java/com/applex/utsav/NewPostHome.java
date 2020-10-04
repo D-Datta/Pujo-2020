@@ -525,6 +525,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 else if(introPref.getType().matches("com") && (headline.trim().isEmpty()) && (imagelist.size()>0 || videoUri != null)) {
                     BasicUtility.showToast(getApplicationContext(),"Post has got no headline...");
                 }
+                else if(introPref.getType().matches("com") && (!headline.trim().isEmpty()) && (imagelist.size()==0 && videoUri == null)) {
+                    BasicUtility.showToast(getApplicationContext(),"Post has got no no picture or video...");
+                }
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
                     BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
