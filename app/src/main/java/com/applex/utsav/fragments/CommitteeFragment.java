@@ -270,7 +270,8 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
-                else if(programmingViewHolder.getItemViewType() == 5 || programmingViewHolder.getItemViewType() == 10) {
+
+                else if(programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -1431,9 +1432,9 @@ public class CommitteeFragment extends Fragment {
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
         cRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
+//        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.HORIZONTAL, false);
-        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
         cRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
