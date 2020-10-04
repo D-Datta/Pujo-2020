@@ -283,7 +283,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="145dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -292,7 +292,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/communityRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="145dp"
+                android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingEnd="12dp" />
 

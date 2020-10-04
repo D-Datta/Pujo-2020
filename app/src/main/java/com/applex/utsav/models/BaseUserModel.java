@@ -29,6 +29,8 @@ public class BaseUserModel {
     private Timestamp lastVisitTs;
     private ArrayList<String> upvoteL;
 
+    private Timestamp lastVisitTime;
+
     public BaseUserModel() {
         upvoteL = new ArrayList<>();
     }

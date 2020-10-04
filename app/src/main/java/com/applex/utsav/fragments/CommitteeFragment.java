@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -1431,8 +1432,9 @@ public class CommitteeFragment extends Fragment {
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
         cRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.HORIZONTAL, false);
         layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
-        cRecyclerView.setLayoutManager(layoutManagerCom);
+        cRecyclerView.setLayoutManager(gridLayoutManager);
         cRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         ArrayList<BaseUserModel> committees = new ArrayList<>();
@@ -1442,7 +1444,7 @@ public class CommitteeFragment extends Fragment {
             query =  FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
-                    .orderBy("lastVisitTs", Query.Direction.DESCENDING)
+                    .orderBy("lastVisitTime", Query.Direction.DESCENDING)
                     .limit(15);
         } else {
             query =  FirebaseFirestore.getInstance()
