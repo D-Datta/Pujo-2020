@@ -66,10 +66,11 @@ public class ActivityTagPujo extends AppCompatActivity {
 
                         adapter.onClickListener(new PujoTagAdapter.OnClickListener() {
                             @Override
-                            public void onClickListener(int position, String pujo, String uid) {
+                            public void onClickListener(int position, String pujo, String uid, String dp) {
                                 Intent returnIntent = new Intent();
                                 returnIntent.putExtra("name", pujo);
                                 returnIntent.putExtra("uid", uid);
+                                returnIntent.putExtra("dp", dp);
                                 setResult(Activity.RESULT_OK, returnIntent);
                                 finish();
                             }
