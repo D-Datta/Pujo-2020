@@ -267,7 +267,8 @@ public class CommitteeFragment extends Fragment {
                     } else {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
-                } else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
+                }
+                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -283,7 +284,8 @@ public class CommitteeFragment extends Fragment {
                     }
 
                     buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
-                } else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
+                }
+                else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
@@ -324,7 +326,8 @@ public class CommitteeFragment extends Fragment {
                             requireActivity().startActivity(intent);
                         });
                     }
-                } else {
+                }
+                else {
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
@@ -424,7 +427,7 @@ public class CommitteeFragment extends Fragment {
                 } else {
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
-                    if (programmingViewHolder.text_content.getUrls().length > 0) {
+                    if (programmingViewHolder.text_content.getUrls().length > 0 ) {
                         URLSpan urlSnapItem = programmingViewHolder.text_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
                         if (url.contains("http")) {
@@ -443,7 +446,28 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
-                    } else {
+                    }
+                    else if (programmingViewHolder.head_content.getUrls().length > 0 ) {
+                        URLSpan urlSnapItem = programmingViewHolder.head_content.getUrls()[0];
+                        String url = urlSnapItem.getURL();
+                        if (url.contains("http")) {
+                            programmingViewHolder.LinkPreview.setVisibility(View.VISIBLE);
+                            programmingViewHolder.LinkPreview.setLink(url, new ViewListener() {
+                                @Override
+                                public void onSuccess(boolean status) {
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        //do stuff like remove view etc
+                                        programmingViewHolder.LinkPreview.setVisibility(View.GONE);
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    else {
                         programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                     }
                 }
@@ -485,7 +509,8 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("type", currentItem.getType());
                         startActivity(intent);
                     });
-                } else {
+                }
+                else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -514,7 +539,7 @@ public class CommitteeFragment extends Fragment {
                 }
 
                 programmingViewHolder.head_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreText.class);
+                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                     intent.putExtra("username", currentItem.getUsN());
                     intent.putExtra("userdp", currentItem.getDp());
                     intent.putExtra("docID", currentItem.getDocID());
