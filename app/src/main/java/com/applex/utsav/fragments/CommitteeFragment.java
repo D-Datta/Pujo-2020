@@ -509,12 +509,9 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("type", currentItem.getType());
                         startActivity(intent);
                     });
-                }
-                else {
-                    programmingViewHolder.rlLayout.setVisibility(View.GONE);
-                    programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
-                    programmingViewHolder.text_content.setOnClickListener(v -> {
-                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
+
+                    programmingViewHolder.head_content.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
                         intent.putExtra("docID", currentItem.getDocID());
@@ -537,30 +534,34 @@ public class CommitteeFragment extends Fragment {
                         startActivity(intent);
                     });
                 }
+                else {
+                    programmingViewHolder.rlLayout.setVisibility(View.GONE);
+                    programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
+//                    programmingViewHolder.text_content.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
+//                        intent.putExtra("username", currentItem.getUsN());
+//                        intent.putExtra("userdp", currentItem.getDp());
+//                        intent.putExtra("docID", currentItem.getDocID());
+//                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+//                        intent.putExtra("comName", currentItem.getComName());
+//                        intent.putExtra("comID", currentItem.getComID());
+//                        intent.putExtra("likeL", currentItem.getLikeL());
+//                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
+//                            Bundle args = new Bundle();
+//                            args.putSerializable("ARRAYLIST", currentItem.getImg());
+//                            intent.putExtra("BUNDLE", args);
+//                        }
+//                        intent.putExtra("postText", currentItem.getTxt());
+//                        intent.putExtra("bool", "3");
+//                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+//                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+//                        intent.putExtra("type", currentItem.getType());
+//                        startActivity(intent);
+//                    });
+                }
 
-                programmingViewHolder.head_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
-                        Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLIST", currentItem.getImg());
-                        intent.putExtra("BUNDLE", args);
-                    }
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("bool", "3");
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("type", currentItem.getType());
-                    startActivity(intent);
-                });
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 programmingViewHolder.like_layout.setOnClickListener(v -> {

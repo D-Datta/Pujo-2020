@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void run() {
                     drawer.closeDrawers();
                     Dialog dialog = new Dialog(MainActivity.this);
-                    dialog.setContentView(R.layout.select_language_dialog);
+                    dialog.setContentView(R.layout.dialog_select_language);
                     dialog.setCanceledOnTouchOutside(true);
 
                     RadioButton bangla = dialog.findViewById(R.id.bangla);
