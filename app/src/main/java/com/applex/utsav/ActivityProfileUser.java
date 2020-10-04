@@ -136,7 +136,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     ///////////////POSTS////////////////
 
     //////////////NO POSTS///////////////
-    private TextView PName,PUsername, aboutheading;
+    private TextView PName,Pcity, aboutheading;
     private ImageView PDp, nopost1,PCoverpic, edit_dp, edit_cover;
     private com.borjabravo.readmoretextview.ReadMoreTextView Pabout;
 
@@ -173,8 +173,6 @@ public class ActivityProfileUser extends AppCompatActivity {
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-
 
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
@@ -224,7 +222,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
         PDp = findViewById(R.id.Pdp);
         PName = findViewById(R.id.Profilename);
-        PUsername = findViewById(R.id.Pusername);
+        Pcity = findViewById(R.id.Pcity);
         PCoverpic = findViewById(R.id.coverpic);
         Pabout = findViewById(R.id.detaildesc);
         aboutheading = findViewById(R.id.about);
@@ -1209,7 +1207,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 });
 
                                 UserName = userModel.getName();
-                                PUsername.setText('@'+UserName);
+                                if(userModel.getCity()!=null && userModel.getState()!=null ){
+                                    Pcity.setText(userModel.getCity()+", "+userModel.getState());
+                                }
+                                else
+                                    Pcity.setVisibility(View.GONE);
+
 
                                 if(userModel.getDp()!=null){
                                     PROFILEPIC = userModel.getDp();

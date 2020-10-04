@@ -108,7 +108,6 @@ public class RegIndividual extends AppCompatActivity
         edit_dp_ind = findViewById(R.id.reg_edit_dp_ind);
         fname_ind = findViewById(R.id.first_name_ind);
         lname_ind = findViewById(R.id.last_name_ind);
-        username_ind = findViewById(R.id.user_name_ind);
         bio_ind = findViewById(R.id.bio_line_ind);
         city_ind = findViewById(R.id.city_ind);
         state_ind = findViewById(R.id.state_ind);
@@ -205,7 +204,7 @@ public class RegIndividual extends AppCompatActivity
 
                 FNAME = fname_ind.getText().toString().trim();
                 LNAME = lname_ind.getText().toString().trim();
-                USERNAME = username_ind.getText().toString().trim();
+                USERNAME = FNAME+ " " +LNAME;
                 EMAIL = email_ind.getText().toString().trim();
                 BIO = bio_ind.getText().toString().trim();
                 CITY = city_ind.getText().toString().trim();
@@ -213,7 +212,7 @@ public class RegIndividual extends AppCompatActivity
                 GENDER = gender_ind.getSelectedItem().toString().trim();
 
 
-                if (FNAME.isEmpty() || LNAME.isEmpty() || USERNAME.isEmpty() || GENDER.isEmpty()) {
+                if (FNAME.isEmpty() || LNAME.isEmpty() || GENDER.isEmpty()) {
 
                     if (FNAME.isEmpty()) {
                         fname_ind.setError("First Name Missing");
@@ -223,10 +222,7 @@ public class RegIndividual extends AppCompatActivity
                         lname_ind.setError("Last Name Missing");
                         lname_ind.requestFocus();
                     }
-                    if(USERNAME.isEmpty()){
-                        username_ind.setError("Username Missing");
-                        username_ind.requestFocus();
-                    }
+
                     if (GENDER.isEmpty()) {
                         BasicUtility.showToast(RegIndividual.this,"Gender Miising");
                     }

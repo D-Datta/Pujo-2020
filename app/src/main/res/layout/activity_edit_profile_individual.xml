@@ -15,7 +15,8 @@
             android:id="@+id/toolbar_edit_indi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
+            android:background="@color/grey"
+            android:elevation="2dp"
             app:title="Edit Profile"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -208,122 +209,55 @@
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:text="@string/username"
-                        android:layout_marginStart="0dp"
-                        android:paddingTop="10dp"
-                        android:paddingHorizontal="15dp"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/oxygen_regular"
-                        android:textStyle="bold"
-                        android:textColor="@color/black" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginEnd="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/attherate"
-                            android:padding="12dp"
-                            android:textSize="18sp"/>
-
-                        <EditText
-                            android:id="@+id/user_name_ind"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="2dp"
-                            android:background="@drawable/background_rectangle"
-                            android:textSize="18sp"
-                            android:hint="@string/username"
-                            android:inputType="text"
-                            android:gravity="center_vertical"
-                            android:paddingStart="20dp"
-                            android:textStyle="bold"
-                            android:paddingEnd="20dp"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textAlignment="textStart"-->
-<!--                    android:text="@string/email"-->
-<!--                    android:layout_marginStart="0dp"-->
-<!--                    android:paddingTop="10dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:paddingHorizontal="15dp"-->
-<!--                    android:textSize="15sp"-->
-<!--                    android:fontFamily="@font/oxygen_regular"-->
-<!--                    android:textColor="#212121"-->
-<!--                    />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/email_ind"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_marginStart="5dp"-->
-<!--                    android:layout_marginTop="5dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    android:layout_marginBottom="8dp"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textColor="@color/cardview_dark_background"-->
-<!--                    android:background="@drawable/background_rectangle"-->
-<!--                    android:hint="@string/email"-->
-<!--                    android:inputType="text"-->
-<!--                    android:gravity="center_vertical"-->
-<!--                    android:paddingStart="20dp"-->
-<!--                    android:paddingEnd="20dp" />-->
-
 <!--                <LinearLayout-->
 <!--                    android:layout_width="match_parent"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:layout_marginStart="0dp"-->
-<!--                    android:layout_marginTop="5dp"-->
-<!--                    android:layout_marginBottom="10dp"-->
-<!--                    android:layout_marginEnd="5dp"-->
-<!--                    >-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:paddingTop="10dp">-->
+
 <!--                    <TextView-->
 <!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_height="wrap_content"-->
 <!--                        android:textAlignment="textStart"-->
-<!--                        android:text="@string/choose_gender"-->
+<!--                        android:text="@string/username"-->
 <!--                        android:layout_marginStart="0dp"-->
 <!--                        android:paddingTop="10dp"-->
-<!--                        android:textStyle="bold"-->
 <!--                        android:paddingHorizontal="15dp"-->
 <!--                        android:textSize="15sp"-->
 <!--                        android:fontFamily="@font/oxygen_regular"-->
-<!--                        android:textColor="#212121"-->
-<!--                        />-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textColor="@color/black" />-->
 
-<!--                    <Spinner-->
-<!--                        android:id="@+id/gender_ind"-->
+<!--                    <LinearLayout-->
 <!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:layout_marginStart="2dp"-->
-<!--                        android:textSize="18sp"-->
-<!--                        android:entries="@array/Gender"-->
-<!--                        android:gravity="center_vertical"-->
-<!--                        android:paddingStart="20dp"-->
-<!--                        android:paddingEnd="20dp"/>-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:layout_marginStart="0dp"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:layout_marginBottom="10dp"-->
+<!--                        android:layout_marginEnd="5dp">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/attherate"-->
+<!--                            android:padding="12dp"-->
+<!--                            android:textSize="18sp"/>-->
+
+<!--                        <EditText-->
+<!--                            android:id="@+id/user_name_ind"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="50dp"-->
+<!--                            android:layout_marginStart="2dp"-->
+<!--                            android:background="@drawable/background_rectangle"-->
+<!--                            android:textSize="18sp"-->
+<!--                            android:hint="@string/username"-->
+<!--                            android:inputType="text"-->
+<!--                            android:gravity="center_vertical"-->
+<!--                            android:paddingStart="20dp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:paddingEnd="20dp"/>-->
+<!--                    </LinearLayout>-->
 <!--                </LinearLayout>-->
 
 
