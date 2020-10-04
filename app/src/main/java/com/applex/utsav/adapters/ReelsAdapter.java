@@ -56,17 +56,18 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private IntroPref introPref;
     private String bool;
     private String uid,link;
-    private String type;
+    private String type, ts;
     public static ReelsPostModel currentItem;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
-                        ViewPager2 reelsList, String bool, String uid, String type) {
+                        ViewPager2 reelsList, String bool, String uid, String type, String ts) {
         this.models = models;
         this.context = context;
         this.reelsList = reelsList;
         this.bool = bool;
         this.uid = uid;
         this.type = type;
+        this.ts = ts;
         introPref = new IntroPref(context);
     }
 
@@ -102,19 +103,19 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
             }
             else if (type.matches("comment")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo());
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), ts);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
             else if(type.matches("comment_flame")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo());
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
             else if(type.matches("comment_reply")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo());
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
             else if(type.matches("comment_reply_flame")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo());
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
         }
@@ -335,11 +336,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
             holder.commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo());
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
             holder.commentCount.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo());
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
         }
@@ -349,7 +350,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         /////COMMENT/////
 
         holder.comment.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter", null,currentItem.getCmtNo());
+            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter", null,currentItem.getCmtNo(), null);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
         holder.share.setOnClickListener(view -> {

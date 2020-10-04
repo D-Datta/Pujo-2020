@@ -664,12 +664,12 @@ public class FeedsFragment extends Fragment {
                         });
 
                 feedViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo(), null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 feedViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo(), null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -778,17 +778,17 @@ public class FeedsFragment extends Fragment {
                     }
 
                     FeedViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo(), null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     feedViewHolder.commentLayout1.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo(), null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     feedViewHolder.commentLayout2.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo(), null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
