@@ -21,13 +21,12 @@ import com.applex.utsav.utility.StoreTemp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.sql.Timestamp;
 import java.util.Locale;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
@@ -39,7 +38,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
-    private long lastVisitTs;
+    private Timestamp lastVisitTs;
 
     private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid;
     private String tokenStr;

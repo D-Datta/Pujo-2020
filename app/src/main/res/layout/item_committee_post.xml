@@ -185,7 +185,7 @@
             android:id="@+id/view_type_smth"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="#E2E2E2"/>
+            android:background="@color/light_background"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -238,7 +238,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/white"
         android:id="@+id/committee_item">
+
+        <View
+            android:id="@+id/view_pujo"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/light_background"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -276,17 +283,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="145dp"
-            android:background="#fff"
+            android:background="@color/white"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/communityRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="145dp"
                 android:clipToPadding="false"
-                android:paddingEnd="12dp"
-                android:paddingBottom="10dp"/>
+                android:paddingEnd="12dp" />
 
         </LinearLayout>
 
@@ -345,9 +352,8 @@
                                 android:scaleType="centerCrop" />
 
                         </androidx.cardview.widget.CardView>
+
                     </RelativeLayout>
-
-
 
                     <LinearLayout
                         android:layout_width="0dp"

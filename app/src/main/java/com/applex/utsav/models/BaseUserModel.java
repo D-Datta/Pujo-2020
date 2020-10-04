@@ -1,8 +1,7 @@
 package com.applex.utsav.models;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.IgnoreExtraProperties;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @IgnoreExtraProperties
@@ -27,7 +26,7 @@ public class BaseUserModel {
     private long commentcount;
     private long pujoVisits;
     private long upvotes;
-    private long lastVisitTs;
+    private Timestamp lastVisitTs;
     private ArrayList<String> upvoteL;
 
     public BaseUserModel() {
@@ -133,11 +132,11 @@ public class BaseUserModel {
         this.pujoVisits = pujoVisits;
     }
 
-    public long getLastVisitTs() {
+    public Timestamp getLastVisitTs() {
         return lastVisitTs;
     }
 
-    public void setLastVisitTs(long lastVisitTs) {
+    public void setLastVisitTs(Timestamp lastVisitTs) {
         this.lastVisitTs = lastVisitTs;
     }
 

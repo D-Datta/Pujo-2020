@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -48,7 +49,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Locale;
 
 import static java.lang.Boolean.FALSE;
@@ -63,7 +63,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
-    private long lastVisitTs;
+    private Timestamp lastVisitTs;
 //    private TextView email_ind;
 //    private Spinner gender_ind;
     private Button submit_ind;
