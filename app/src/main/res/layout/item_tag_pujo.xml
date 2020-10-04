@@ -21,7 +21,9 @@
                 android:id="@+id/dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/durga_ma"/>
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_account_circle_black_24dp"/>
 
         </androidx.cardview.widget.CardView>
 

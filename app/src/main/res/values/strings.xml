@@ -109,6 +109,8 @@
     <string name="noreels">No reels to display. \nCreate a reel now!!</string>
     <string name="first_comments">Be the first one to comment</string>
 
+    <string name="walkthrough">অঞ্জলিতে শাড়ি, বা কুর্তি \n নবমী তে পার্টির সিন।\n ঘরে বসেই হবে এবার \nUtsav- এ কাটবে দিন </string>
+
     <string name="comments">Comments</string>
     <string name="type_something_n">Type something..\n</string>
     <string name="bio">Bio</string>
@@ -167,6 +169,9 @@
     <string name="continue_with_phone_no">Continue with Phone No.</string>
     <string name="enter_mobile_number">Enter Mobile Number</string>
 
+    <string name="description">Post on behalf of a Pujo Committee or Bonedi Bari</string>
+    <string name="descriptionIndividual">Post, view and tag other pujos and share your own pujo experiences</string>
+
     <string name="aboutUtsav">Due to this current pandemic, it\'s evident that Durga Pujo 2020 is not going to be the same as every year.\n\nHowever, in an effort to not let the spirit of Durga Puja fade away totally, we , a group of students from Kolkata have taken the initiative to create an android app ,<b>"Utsav"</b> through which the people of Bengal will be able to participate in the festivities, right from the safety of their homes. \n\n A viewer’s choice award will be given to the best Pujo of 2020 based on public interaction.</string>
 
     <!--    <string name="utsavFeature">Photos \n \nVideos \nLocate various pujo \nParticipation in Live Contests \nPre-Pujo updates</string>-->
@@ -198,6 +203,6 @@
     <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">Experience Pujo of different Bonedi Baris, their heritage, some of the greatest Pujo by Committees, minorities as well as Pujo held in different places like Columbia, Chattisgarh, Agartala etc.</string>
     <string name="edit_comment">Edit Comment</string>
     <string name="intro_three">Photos \n 360 degree shots \n Videos \nLocate various pujo \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Pujo updates</string>
-
-
+    <string name="upvoted_pujos">Upvoted Pujos</string>
+    <string name="recently_visited_pujos">Recenlty Visited Pujos</string>
 </resources>

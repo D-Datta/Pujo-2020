@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +43,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
+import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.NewPostHome;
@@ -46,11 +51,13 @@ import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
+import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
+import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.ReelsPostModel;
@@ -69,6 +76,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -95,7 +103,7 @@ public class CommitteeFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME, link;
-    private FirestorePagingAdapter adapter;
+    private FirestorePagingAdapter adapter, reelsAdapter;
     private IntroPref introPref;
     private Query reels_query;
     private ArrayList<Integer> positions;
@@ -192,6 +200,7 @@ public class CommitteeFragment extends Fragment {
 
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
+                    programmingViewHolder.committee_item.setVisibility(View.GONE);
 
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setIndicatorRadius(5);
@@ -260,10 +269,28 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
+                else if(programmingViewHolder.getItemViewType() == 5 || programmingViewHolder.getItemViewType() == 10) {
+                    programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
+                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+
+                    programmingViewHolder.view_all.setOnClickListener(v ->
+                            startActivity(new Intent(getActivity(), CommitteeViewAll.class))
+                    );
+
+                    if(programmingViewHolder.getItemViewType() == 5) {
+                        programmingViewHolder.comm_heading.setText(getResources().getText(R.string.recently_visited_pujos));
+                    } else {
+                        programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
+                    }
+
+                    buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
+                }
 
                 else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
+                    programmingViewHolder.committee_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
                     if(programmingViewHolder.getItemViewType() != 1) {
@@ -306,6 +333,7 @@ public class CommitteeFragment extends Fragment {
                 else {
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
+                    programmingViewHolder.committee_item.setVisibility(View.GONE);
                 }
 
                 DocumentReference likeStore;
@@ -491,6 +519,30 @@ public class CommitteeFragment extends Fragment {
                         startActivity(intent);
                     });
                 }
+
+                programmingViewHolder.head_content.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), ViewMoreText.class);
+                    intent.putExtra("username", currentItem.getUsN());
+                    intent.putExtra("userdp", currentItem.getDp());
+                    intent.putExtra("docID", currentItem.getDocID());
+                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                    intent.putExtra("comName", currentItem.getComName());
+                    intent.putExtra("comID", currentItem.getComID());
+                    intent.putExtra("likeL", currentItem.getLikeL());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", currentItem.getImg());
+                        intent.putExtra("BUNDLE", args);
+                    }
+                    intent.putExtra("postText", currentItem.getTxt());
+                    intent.putExtra("bool", "3");
+                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                    intent.putExtra("uid", currentItem.getUid());
+                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                    intent.putExtra("type", currentItem.getType());
+                    startActivity(intent);
+                });
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 programmingViewHolder.like_layout.setOnClickListener(v -> {
@@ -557,16 +609,22 @@ public class CommitteeFragment extends Fragment {
                                 player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                 player.prepare();
                                 AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
-                                if(!player.isPlaying()) {
-                                    programmingViewHolder.dhak_anim.cancelAnimation();
-                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    if(!player.isPlaying()) {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    });
+                                } else {
+                                    new Handler().postDelayed(() -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }, 2000);
                                 }
-                                player.setOnCompletionListener(mediaPlayer -> {
-                                    programmingViewHolder.dhak_anim.cancelAnimation();
-                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -967,7 +1025,7 @@ public class CommitteeFragment extends Fragment {
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
         SliderView sliderView;
-        TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something;
+        TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something, comm_heading;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL, reels_item;
@@ -978,7 +1036,9 @@ public class CommitteeFragment extends Fragment {
         LottieAnimationView dhak_anim;
 
         RelativeLayout normal_item, rlLayout;
-        LinearLayout slider_item;
+        LinearLayout slider_item, committee_item;
+        TextView view_all;
+        RecyclerView cRecyclerView;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1033,6 +1093,11 @@ public class CommitteeFragment extends Fragment {
             head_content = itemView.findViewById(R.id.head_content);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
             rlLayout = itemView.findViewById(R.id.rlLayout);
+
+            committee_item = itemView.findViewById(R.id.committee_item);
+            view_all = itemView.findViewById(R.id.community_view_all);
+            cRecyclerView = itemView.findViewById(R.id.communityRecycler);
+            comm_heading = itemView.findViewById(R.id.com_heading);
         }
     }
 
@@ -1074,7 +1139,7 @@ public class CommitteeFragment extends Fragment {
                     })
                     .build();
 
-            FirestorePagingAdapter reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
+            reelsAdapter = new FirestorePagingAdapter<ReelsPostModel, ReelsItemViewHolder>(options) {
                 @SuppressLint("SetTextI18n")
                 @Override
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
@@ -1270,10 +1335,12 @@ public class CommitteeFragment extends Fragment {
 //                            BasicUtility.showToast(getActivity(), "top10 "+ position);
                             break;
                         case FINISHED:
-                            if(adapter.getItemCount() == 0) {
+                            if(reelsAdapter.getItemCount() == 0) {
                                 pvh.reels_item.setVisibility(View.GONE);
+                                Log.i("BAM", "1");
                             } else {
                                 pvh.reels_item.setVisibility(View.VISIBLE);
+                                Log.i("BAM", "2");
                             }
                             break;
                     }
@@ -1360,6 +1427,45 @@ public class CommitteeFragment extends Fragment {
             item_reels_image = itemView.findViewById(R.id.item_reels_image);
         }
     }
+
+    private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
+        cRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
+        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
+        cRecyclerView.setLayoutManager(layoutManagerCom);
+        cRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        ArrayList<BaseUserModel> committees = new ArrayList<>();
+        Query query;
+
+        if(position == 5) {
+            query =  FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .whereEqualTo("type", "com")
+                    .orderBy("lastVisitTs", Query.Direction.DESCENDING)
+                    .limit(15);
+        } else {
+            query =  FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .whereEqualTo("type", "com")
+                    .orderBy("upvotes", Query.Direction.DESCENDING)
+                    .limit(15);
+        }
+
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
+                if(document.exists()) {
+                    BaseUserModel communityModel1 = document.toObject(BaseUserModel.class);
+                    committees.add(communityModel1);
+                }
+            }
+            if(committees.size()>0) {
+                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), position);
+                cRecyclerView.setAdapter(communityAdapter);
+            }
+        }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
+    }
+
 
     @Override
     public void onResume() {

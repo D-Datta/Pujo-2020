@@ -169,7 +169,6 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </LinearLayout>
@@ -180,13 +179,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <View
             android:id="@+id/view_type_smth"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="#E2E2E2"/>
+            android:background="@color/light_background"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -232,6 +231,72 @@
             android:text="@string/see_all"
             android:paddingBottom="5dp"
             android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:visibility="visible"
+        android:id="@+id/committee_item">
+
+        <View
+            android:id="@+id/view_pujo"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/light_background"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/com_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:layout_centerVertical="true"
+                android:text="@string/upvoted_pujos"
+                android:textColor="@color/purple"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/community_view_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:layout_marginVertical="5dp"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/view_all"
+                android:background="@drawable/custom_ripple_white"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/purple"
+                android:textSize="12dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/communityRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="145dp"
+                android:clipToPadding="false"
+                android:paddingEnd="12dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -288,9 +353,8 @@
                                 android:scaleType="centerCrop" />
 
                         </androidx.cardview.widget.CardView>
+
                     </RelativeLayout>
-
-
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -416,7 +480,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:lottie_autoPlay="false"
-                        android:padding="80dp"
+                        android:padding="90dp"
                         android:background="@color/dark_black_transparent2"
                         app:lottie_fileName="dhakbajano.json"
                         app:lottie_loop="true" />

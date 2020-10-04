@@ -4,6 +4,15 @@ public class PujoTagModel {
 
     private String pujoName;
     private String pujoUid;
+    private String dp;
+
+    public String getDp() {
+        return dp;
+    }
+
+    public void setDp(String dp) {
+        this.dp = dp;
+    }
 
     public String getPujoName() {
         return pujoName;

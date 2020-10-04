@@ -1,8 +1,7 @@
 package com.applex.utsav.models;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.IgnoreExtraProperties;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @IgnoreExtraProperties

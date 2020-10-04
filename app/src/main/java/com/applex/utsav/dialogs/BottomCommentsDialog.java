@@ -108,6 +108,7 @@ public class BottomCommentsDialog extends DialogFragment {
     
     @SuppressLint("SetTextI18n")
     @Override
+
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
         commentRecycler =v.findViewById(R.id.flamed_recycler);
@@ -153,7 +154,8 @@ public class BottomCommentsDialog extends DialogFragment {
             }
         });
 
-        Picasso.get().load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
+        Picasso.get()
+                .load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
                 .placeholder(R.drawable.ic_account_circle_black_24dp)
                 .into(commentimg, new Callback() {
                     @Override
@@ -174,6 +176,7 @@ public class BottomCommentsDialog extends DialogFragment {
 
         models = new ArrayList<>();
         commentAdapter = new CommentAdapter(getActivity(), models, getBool, type);
+
         send.setOnClickListener(v2 -> {
             if(InternetConnection.checkConnection(requireActivity())) {
                 if(newComment.getText().toString().isEmpty()) {

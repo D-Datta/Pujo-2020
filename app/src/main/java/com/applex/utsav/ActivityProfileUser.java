@@ -699,16 +699,22 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                         player.prepare();
                                         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                             player.start();
-                                        if(!player.isPlaying()) {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            if(!player.isPlaying()) {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            }
+                                            player.setOnCompletionListener(mediaPlayer -> {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            });
+                                        } else {
+                                            new Handler().postDelayed(() -> {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            }, 2000);
                                         }
-                                        player.setOnCompletionListener(mediaPlayer -> {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        });
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }

@@ -1333,6 +1333,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 PujoTagModel pujoTag = new PujoTagModel();
                 pujoTag.setPujoName(data.getStringExtra("name"));
                 pujoTag.setPujoUid(data.getStringExtra("uid"));
+                pujoTag.setDp(data.getStringExtra("dp"));
 
                 homePostModel.setPujoTag(pujoTag);
                 editPostModel.setPujoTag(pujoTag);
