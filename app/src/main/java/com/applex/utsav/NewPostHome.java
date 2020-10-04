@@ -519,14 +519,24 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 String text_content = postcontent.getText().toString();
                 String headline = head_content.getText().toString();
 
-                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null) && (headline.trim().isEmpty())) {
-                    BasicUtility.showToast(getApplicationContext(),"Post has got no picture or video...");
+                if(introPref.getType().matches("com") && (imagelist.size() == 0 && videoUri == null)
+                        && (text_content.trim().isEmpty()) && (headline.trim().isEmpty())) {
+                    BasicUtility.showToast(getApplicationContext(),"Post has got no picture or video or text...");
                 }
-                else if(introPref.getType().matches("com") && (headline.trim().isEmpty()) && (imagelist.size()>0 || videoUri != null)) {
-                    BasicUtility.showToast(getApplicationContext(),"Post has got no headline...");
+                else if(introPref.getType().matches("com") && (videoUri != null) && (headline.trim().isEmpty())) {
+                    BasicUtility.showToast(getApplicationContext(),"Please give a headline while posting a video...");
                 }
-                else if(introPref.getType().matches("com") && (!headline.trim().isEmpty()) && (imagelist.size()==0 && videoUri == null)) {
-                    BasicUtility.showToast(getApplicationContext(),"Post has got no no picture or video...");
+                else if(introPref.getType().matches("com") && (!headline.trim().isEmpty())
+                        && (imagelist.size()==0 && videoUri == null && text_content.trim().isEmpty())) {
+                    BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video along with headline...");
+                }
+                else if(introPref.getType().matches("com") && (!headline.trim().isEmpty())
+                        && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty())) {
+                    BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video...");
+                }
+                else if(introPref.getType().matches("com") && (headline.trim().isEmpty())
+                        && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty())) {
+                    BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video...");
                 }
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
                     BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
