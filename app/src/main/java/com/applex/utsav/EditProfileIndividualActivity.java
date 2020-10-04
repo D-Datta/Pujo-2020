@@ -58,7 +58,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
     private ImageView reg_dhak;
 //    private ImageView cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
-    private EditText fname_ind,lname_ind,username_ind,bio_ind;
+    private EditText fname_ind,lname_ind,bio_ind;
     public static EditText city_ind,state_ind;
     private long likeCount;
     private long commentcount;
@@ -115,7 +115,6 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //        edit_dp_ind = findViewById(R.id.reg_edit_dp_ind);
         fname_ind = findViewById(R.id.first_name_ind);
         lname_ind = findViewById(R.id.last_name_ind);
-        username_ind = findViewById(R.id.user_name_ind);
         bio_ind = findViewById(R.id.bio_line_ind);
         city_ind = findViewById(R.id.city_ind);
         state_ind = findViewById(R.id.state_ind);
@@ -171,10 +170,10 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //                                    Picasso.get().load(baseUserModel.getDp()).into(dp_ind);
 //                                }
 //                            }
-                            if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
-                            {
-                                username_ind.setText(baseUserModel.getName());
-                            }
+//                            if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
+//                            {
+//                                username_ind.setText(baseUserModel.getName());
+//                            }
                             if(baseUserModel.getState()!=null && !baseUserModel.getState().isEmpty())
                             {
                                 state_ind.setText(baseUserModel.getState());
@@ -252,7 +251,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
                 FNAME = fname_ind.getText().toString().trim();
                 LNAME = lname_ind.getText().toString().trim();
-                USERNAME = username_ind.getText().toString().trim();
+                USERNAME = FNAME +" "+ LNAME;
 //                EMAIL = email_ind.getText().toString().trim();
                 BIO = bio_ind.getText().toString().trim();
                 CITY = city_ind.getText().toString().trim();
@@ -260,7 +259,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //                GENDER = gender_ind.getSelectedItem().toString().trim();
 
 
-                if (FNAME.isEmpty() || LNAME.isEmpty() || USERNAME.isEmpty()) {
+                if (FNAME.isEmpty() || LNAME.isEmpty()) {
 
                     if (FNAME.isEmpty()) {
                         fname_ind.setError("First Name Missing");
@@ -270,13 +269,6 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                         lname_ind.setError("Last Name Missing");
                         lname_ind.requestFocus();
                     }
-                    if(USERNAME.isEmpty()){
-                        username_ind.setError("Username Missing");
-                        username_ind.requestFocus();
-                    }
-//                    if (GENDER.isEmpty()) {
-//                        BasicUtility.showToast(RegIndividual.this,"Gender Miising");
-//                    }
 
                 }
                 else {
@@ -289,13 +281,6 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
                     docref = FirebaseFirestore.getInstance().collection("Users")
                             .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-//                    docref2= FirebaseFirestore.getInstance()
-//                            .collection("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/AccessToken/")
-//                            .document("Token");
-//                    docref3= FirebaseFirestore.getInstance()
-//                            .collection("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/notifCount/")
-//                            .document("notifCount");
 
                     docref4 = FirebaseFirestore.getInstance().collection("Users")
                             .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("indi")

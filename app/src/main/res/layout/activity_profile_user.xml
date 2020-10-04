@@ -140,7 +140,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/Pusername"
+                            android:id="@+id/Pcity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
@@ -149,9 +149,9 @@
                             android:paddingHorizontal="10dp"
                             android:paddingTop="5dp"
                             android:paddingEnd="5dp"
-                            android:text="Username"
+                            android:text="City, State"
                             android:textColor="#212121"
-                            android:textSize="18dp" />
+                            android:textSize="15dp" />
 
                     </LinearLayout>
 
