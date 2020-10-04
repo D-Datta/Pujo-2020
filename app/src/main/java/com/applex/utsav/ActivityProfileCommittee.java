@@ -248,10 +248,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .update("pujoVisits", FieldValue.increment(1));
 
             //set the last time profile was visited
-            FirebaseFirestore.getInstance()
-                    .collection("Users")
-                    .document(uid)
-                    .update("lastVisitTs", Timestamp.now());
+//            FirebaseFirestore.getInstance()
+//                    .collection("Users")
+//                    .document(uid)
+//                    .update("lastVisitTs", Timestamp.now());
 
             upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
