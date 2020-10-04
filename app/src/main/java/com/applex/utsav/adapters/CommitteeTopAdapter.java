@@ -26,12 +26,12 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
     private ArrayList<BaseUserModel> mList;
     private Context mContext;
-    private int position;
+    private int positionItem;
 
     public CommitteeTopAdapter(ArrayList<BaseUserModel> list, Context context, int position) {
         this.mList = list;
         this.mContext =context;
-        this.position = position;
+        this.positionItem = position;
     }
 
     @NonNull
@@ -48,7 +48,7 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         holder.committeeName.setText(currentitem.getName());
 
-        if(position == 10) {
+        if(positionItem == 10) {
             if(currentitem.getUpvotes() > 1) {
                 if(currentitem.getUpvotes() > 1000) {
                     holder.com_views.setText(currentitem.getUpvotes()/1000 + "." + (currentitem.getUpvotes() % 1000)/100 + "K Upvotes");
