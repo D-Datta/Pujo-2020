@@ -76,6 +76,10 @@ public class Webview extends AppCompatActivity {
             wv.loadUrl(text);
             tb.setTitle("applex.in");
         }
+        else if(getIntent().getStringExtra("bool")!=null && Objects.requireNonNull(getIntent().getStringExtra("bool")).matches("2")) {
+            wv.loadUrl(text);
+            tb.setTitle("applex.in");
+        }
 //        else if(getIntent().getStringExtra("bool")!=null && Objects.requireNonNull(getIntent().getStringExtra("bool")).matches("3")){
 //            tb.setTitle("Translate");
 //            wv.loadUrl("https://translate.google.com/#auto/hi/" + text);
