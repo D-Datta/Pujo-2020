@@ -509,6 +509,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             },200);
         }
+        else if(id == R.id.nav_privacy){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, Webview.class);
+                    intent.putExtra("text","https://applex.in/utsav-app-privacy-policy/");
+                    intent.putExtra("bool","2");
+                    startActivity(intent);
+                }
+            },200);
+        }
+
         else if(id == R.id.nav_about){
             new Handler().postDelayed(new Runnable() {
                 @Override
