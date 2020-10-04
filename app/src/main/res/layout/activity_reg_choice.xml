@@ -65,33 +65,49 @@
         app:layout_constraintVertical_bias="0.973"
         app:layout_constraintTop_toBottomOf="@+id/ma_durga">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:padding="5dp">
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@drawable/bg_round"
-                android:padding="8dp"
-                android:src="@drawable/ic_baseline_group_24"
-                app:tint="@color/colorPrimary" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_round"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_baseline_group_24"
+                    app:tint="@color/colorPrimary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/oxygen_ex_bold"
+                    android:text="@string/pujo"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp" />
+                </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginVertical="10dp"
-                android:fontFamily="@font/oxygen_ex_bold"
-                android:text="@string/pujo"
+                android:fontFamily="@font/oxygen_regular"
+                android:text="@string/description"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
-
-        </LinearLayout>
+                android:textSize="15dp" />
+            </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -110,6 +126,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ma_durga">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_margin="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,8 +142,6 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
                 android:background="@drawable/bg_round"
                 android:padding="8dp"
                 android:src="@drawable/ic_baseline_person_24"
@@ -131,11 +151,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="10dp"
+                android:paddingHorizontal="10dp"
                 android:fontFamily="@font/oxygen_ex_bold"
                 android:text="@string/individual"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
+        </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/oxygen_regular"
+                android:text="@string/descriptionIndividual"
+                android:textColor="@color/black"
+                android:textSize="15dp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

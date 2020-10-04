@@ -15,38 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "214758153995-a17kvdmp4v08bkgo394h1r98hmb2rpa6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.applex.utsav",
-            "certificate_hash": "a35c1cf9d43ceb4b76b7c4f802dbaa570de7521a"
-          }
-        },
-        {
-          "client_id": "214758153995-iifhu64bnko12jsvjhlduf9v6aoo1s3o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.applex.utsav",
-            "certificate_hash": "324afa0d229c0453ac8ac1c2af04a7d300d79684"
-          }
-        },
-        {
-          "client_id": "214758153995-n9ot07hib5ruc15va8rfcaeutgtrbn8h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.applex.utsav",
-            "certificate_hash": "e7aba690524ffbc55b65ec61022287ffea5c1a86"
-          }
-        },
-        {
-          "client_id": "214758153995-itdf98ulkhnnqqbkmgvtdr7s2lgjc90p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.applex.utsav",
-            "certificate_hash": "7c5532341b72e56a5fed55d4e9d0e34e88e24087"
-          }
-        },
-        {
           "client_id": "214758153995-p3ganl3skpcb8f1r07eaic7aei2l8rqm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
