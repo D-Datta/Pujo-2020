@@ -344,7 +344,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
-                        android:visibility="gone"
                         android:paddingHorizontal="8dp"
                         android:paddingTop="5dp" />
 
@@ -405,7 +404,7 @@
                             android:id="@+id/dhak_anim"
                             android:visibility="gone"
                             android:layout_width="match_parent"
-                            android:layout_height="250dp"
+                            android:layout_height="match_parent"
                             app:lottie_autoPlay="false"
                             android:padding="80dp"
                             android:background="@color/dark_black_transparent2"

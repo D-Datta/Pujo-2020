@@ -153,6 +153,7 @@
                     android:id="@+id/rlLayout"
                     android:layout_width="match_parent"
                     android:layout_height="250dp">
+
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/post_image"
                     android:layout_width="match_parent"

@@ -1,60 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
-    android:background="#E2E2E2"
+    android:layout_height="wrap_content"
+    android:background="@color/light_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_height="18dp"
-        android:layout_alignParentTop="true"
-        android:background="#E2E2E2"/>
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="22dp"
-        android:layout_below="@+id/tag_card"
-        android:layout_marginTop="-22dp"
-        android:background="#E2E2E2"/>
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/tag_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:background="@drawable/post_bg"
-        android:paddingVertical="5dp"
+        app:cardCornerRadius="8dp"
+        android:background="@drawable/custom_ripple_white"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="5dp"
         android:elevation="2dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cardCornerRadius="25dp">
-
-            <ImageView
-                android:id="@+id/dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_account_circle_black_24dp"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tag"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/purple"
-            android:text="Jagat Mukherjee Park" />
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp">
+
+                <ImageView
+                    android:id="@+id/dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_account_circle_black_24dp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:textSize="18dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/purple"
+                android:text="Jagat Mukherjee Park" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 <!--    <View-->
 <!--        android:layout_width="match_parent"-->

@@ -184,5 +184,6 @@
     <string name="intro_three">ফটো \n 360 ডিগ্রী শট \n ভিডিও \nিভিন্ন পুজো সন্ধান করুন \nসরাসরি প্রতিযোগিতায় অংশ নেওয়া \nরেজিস্ট্রেশন সম্পূর্ণ বিনামূল্যে \nপ্রাক পুজো আপডেট</string>
     <string name="upvoted_pujos">Upvoted Pujos</string>
     <string name="recently_visited_pujos">Recenlty Visited Pujos</string>
-
+    <string name="description">Post on behalf of a Pujo Committee, Bonedi Bari or any Pujo Organizer</string>
+    <string name="descriptionIndividual">Post, view and tag other pujos and share your own pujo experiences</string>
 </resources>
