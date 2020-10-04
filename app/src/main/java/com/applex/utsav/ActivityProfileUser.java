@@ -46,9 +46,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -311,6 +313,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                     return new ProgrammingViewHolder(v);
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull HomePostModel currentItem) {
 
@@ -546,6 +549,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 //                        else
 //                            programmingViewHolder.postimage.setVisibility(View.GONE);
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                    programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setIndicatorRadius(8);
@@ -584,6 +588,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                 }
                 else
                 {
+                    programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderView.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(ActivityProfileUser.this, ViewMoreText.class);
@@ -686,14 +691,30 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 }
                                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                     BasicUtility.vibrate(getApplicationContext());
+                                    programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                                    programmingViewHolder.dhak_anim.playAnimation();
                                     try {
                                         AssetFileDescriptor afd = getAssets().openFd("dhak.mp3");
                                         MediaPlayer player = new MediaPlayer();
                                         player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                         player.prepare();
                                         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                             player.start();
+                                            if(!player.isPlaying()) {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            }
+                                            player.setOnCompletionListener(mediaPlayer -> {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            });
+                                        } else {
+                                            new Handler().postDelayed(() -> {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            }, 2000);
+                                        }
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -766,153 +787,95 @@ public class ActivityProfileUser extends AppCompatActivity {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    if(currentItem.getCmtNo() == 1) {
-                        programmingViewHolder.commentLayout2.setVisibility(View.GONE);
-                        FirebaseFirestore.getInstance().collection("Feeds/" + currentItem.getDocID() + "/commentL")
-                                .get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                QuerySnapshot querySnapshot = task.getResult();
-                                if (querySnapshot != null) {
-                                    CommentModel commentModel = querySnapshot.getDocuments().get(0).toObject(CommentModel.class);
-                                    Picasso.get().load(Objects.requireNonNull(commentModel).getUserdp())
-                                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                            .into(programmingViewHolder.dp_cmnt1);
-                                    programmingViewHolder.name_cmnt1.setText(commentModel.getUsername());
+                    if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+                        programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                        programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
+                        Picasso.get().load(currentItem.getCom1_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(programmingViewHolder.dp_cmnt1);
 
-                                    programmingViewHolder.cmnt1.setText(commentModel.getComment());
-                                    if (programmingViewHolder.cmnt1.getUrls().length > 0) {
-                                        URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
-                                        String url = urlSnapItem.getURL();
-                                        if (url.contains("http")) {
-                                            programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                                            programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                                @Override
-                                                public void onSuccess(boolean status) { }
-
-                                                @Override
-                                                public void onError(Exception e) {
-                                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                                        //do stuff like remove view etc
-                                                        programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    } else {
-                                        programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                        programmingViewHolder.cmnt1.setText(currentItem.getCom1());
+                        if (programmingViewHolder.cmnt1.getUrls().length > 0) {
+                            URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) {
                                     }
 
-                                    programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel.getTs()));
-                                    if (BasicUtility.getTimeAgo(commentModel.getTs()) != null) {
-                                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel.getTs())).matches("just now")) {
-                                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                                        } else {
-                                            programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                        }
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
                                     }
-                                }
+                                });
                             }
-                        });
+                        } else {
+                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
+                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
+                        }
+                    } else {
+                        programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     }
-                    else {
+
+                    if(currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
                         programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
-                        FirebaseFirestore.getInstance()
-                                .collection("Feeds/" + currentItem.getDocID() + "/commentL")
-                                .get().addOnCompleteListener(task -> {
-                            if(task.isSuccessful()) {
-                                QuerySnapshot querySnapshot = task.getResult();
-                                if (querySnapshot != null) {
-                                    querySnapshot.getQuery().orderBy("ts", Query.Direction.DESCENDING)
-                                            .get().addOnCompleteListener(task1 -> {
-                                        QuerySnapshot querySnapshot1 = task1.getResult();
-                                        if (querySnapshot1 != null) {
-                                            CommentModel commentModel1 = querySnapshot1.getDocuments().get(0).toObject(CommentModel.class);
-                                            Picasso.get().load(Objects.requireNonNull(commentModel1).getUserdp())
-                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                                    .into(programmingViewHolder.dp_cmnt1);
-                                            programmingViewHolder.name_cmnt1.setText(commentModel1.getUsername());
+                        programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
+                        Picasso.get().load(currentItem.getCom2_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(programmingViewHolder.dp_cmnt2);
 
-                                            programmingViewHolder.cmnt1.setText(commentModel1.getComment());
-                                            if (programmingViewHolder.cmnt1.getUrls().length > 0) {
-                                                URLSpan urlSnapItem = programmingViewHolder.cmnt1.getUrls()[0];
-                                                String url = urlSnapItem.getURL();
-                                                if (url.contains("http")) {
-                                                    programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                                                    programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                                        @Override
-                                                        public void onSuccess(boolean status) { }
+                        programmingViewHolder.cmnt2.setText(currentItem.getCom2());
+                        if (programmingViewHolder.cmnt2.getUrls().length > 0) {
+                            URLSpan urlSnapItem = programmingViewHolder.cmnt2.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) { }
 
-                                                        @Override
-                                                        public void onError(Exception e) {
-                                                            new Handler(Looper.getMainLooper()).post(() -> {
-                                                                //do stuff like remove view etc
-                                                                programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                programmingViewHolder.link_preview1.setVisibility(View.GONE);
-                                            }
-
-                                            programmingViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(commentModel1.getTs()));
-                                            if (BasicUtility.getTimeAgo(commentModel1.getTs()) != null) {
-                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel1.getTs())).matches("just now")) {
-                                                    programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                                                } else {
-                                                    programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                                }
-                                            }
-
-                                            CommentModel commentModel2 = querySnapshot1.getDocuments().get(1).toObject(CommentModel.class);
-                                            Picasso.get().load(Objects.requireNonNull(commentModel2).getUserdp())
-                                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                                    .into(programmingViewHolder.dp_cmnt2);
-                                            programmingViewHolder.name_cmnt2.setText(commentModel2.getUsername());
-
-                                            programmingViewHolder.cmnt2.setText(commentModel2.getComment());
-                                            if (programmingViewHolder.cmnt2.getUrls().length > 0) {
-                                                URLSpan urlSnapItem = programmingViewHolder.cmnt2.getUrls()[0];
-                                                String url = urlSnapItem.getURL();
-                                                if (url.contains("http")) {
-                                                    programmingViewHolder.link_preview2.setVisibility(View.VISIBLE);
-                                                    programmingViewHolder.link_preview2.setLink(url, new ViewListener() {
-                                                        @Override
-                                                        public void onSuccess(boolean status) { }
-
-                                                        @Override
-                                                        public void onError(Exception e) {
-                                                            new Handler(Looper.getMainLooper()).post(() -> {
-                                                                //do stuff like remove view etc
-                                                                programmingViewHolder.link_preview2.setVisibility(View.GONE);
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                programmingViewHolder.link_preview2.setVisibility(View.GONE);
-                                            }
-
-                                            programmingViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(commentModel2.getTs()));
-                                            if (BasicUtility.getTimeAgo(commentModel2.getTs()) != null) {
-                                                if (Objects.requireNonNull(BasicUtility.getTimeAgo(commentModel2.getTs())).matches("just now")) {
-                                                    programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
-                                                } else {
-                                                    programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
-                                                }
-                                            }
-                                        }
-                                    });
-                                }
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
                             }
-                        });
+                        } else {
+                            programmingViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        programmingViewHolder.cmnt2_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom2_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom2_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
+                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
+                        }
+                    } else {
+                        programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    programmingViewHolder.comment_layout.setOnClickListener(v -> {
+                    ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
@@ -928,11 +891,10 @@ public class ActivityProfileUser extends AppCompatActivity {
                     });
                 }
                 else {
-                    programmingViewHolder.comment_layout.setVisibility(View.GONE);
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
-
 
                 ////////POST MENU///////
                 programmingViewHolder.menuPost.setOnClickListener(new View.OnClickListener() {
@@ -1120,19 +1082,25 @@ public class ActivityProfileUser extends AppCompatActivity {
     }
 
 
-    private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
+    public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView  username,commentCount, likesCount, text_content, minsago, writecomment;
+        public static TextView commentCount;
+        public static LinearLayout comment_layout;
+
+        private TextView  username, likesCount, text_content, minsago, writecomment;
         private ImageView  userimage, like, commentimg,profileimage, menuPost, share;
         private ApplexLinkPreview LinkPreview;
         private RecyclerView tagList;
-        private LinearLayout itemHome, like_layout, comment_layout, commentLayout1, commentLayout2, postHolder, profile_header;
+        private LinearLayout itemHome, like_layout, commentLayout1, commentLayout2, postHolder, profile_header;
         private SliderView sliderView;
         private ImageView dp_cmnt1, dp_cmnt2;
         private TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2;
 
         private View view1, view2;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
+        LottieAnimationView dhak_anim;
+        RelativeLayout rlLayout;
+
 
         public ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1157,6 +1125,8 @@ public class ActivityProfileUser extends AppCompatActivity {
 //            view2 = itemView.findViewById(R.id.view2);
             postHolder = itemView.findViewById(R.id.post);
             profile_header = itemView.findViewById(R.id.profile_header);
+            dhak_anim = itemView.findViewById(R.id.dhak_anim);
+            rlLayout = itemView.findViewById(R.id.rlLayout);
 
             likesCount = itemView.findViewById(R.id.no_of_likes);
             commentCount = itemView.findViewById(R.id.no_of_comments);
@@ -1442,10 +1412,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
                 pic = baos.toByteArray();
                 compressedBitmap.recycle();
+
+//                BasicUtility.showToast(ActivityProfileUser.this, pic.length/1024+"");
 
                 if(pic!= null) {
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 ,pic.length);
@@ -1468,13 +1440,13 @@ public class ActivityProfileUser extends AppCompatActivity {
                     storageReference = storage.getReference();
 
                     if(imageCoverOrDp == 1){
-                        reference = storageReference.child("Profile/")
-                                .child(FirebaseAuth.getInstance().getUid()+"/")
-                                .child( FirebaseAuth.getInstance().getUid()+"_cover");
+                        reference = storageReference.child("Users/")
+                                .child("Coverpic/")
+                                .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
                     }
                     else {
-                        reference = storageReference.child("Profile/")
-                                .child(FirebaseAuth.getInstance().getUid()+"/")
+                        reference = storageReference.child("Users/")
+                                .child("DP/")
                                 .child( FirebaseAuth.getInstance().getUid()+"_dp");
                     }
 

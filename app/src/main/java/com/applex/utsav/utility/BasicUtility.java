@@ -161,7 +161,7 @@ public class BasicUtility {
     //612, 816
     public static Bitmap decodeSampledBitmapFromFile(Bitmap bitmap, int reqWidth, int reqHeight) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+        Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 60, out);
         byte[] bytes = out.toByteArray();
 
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -200,12 +200,8 @@ public class BasicUtility {
         return inSampleSize;
     }
 
-    public static void hideKeyboard(Activity activity) {
+    public static void hideKeyboard(Activity activity, View view) {
         InputMethodManager imm = (InputMethodManager)activity.getSystemService(INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-        if(view == null) {
-            view = new View(activity);
-        }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 

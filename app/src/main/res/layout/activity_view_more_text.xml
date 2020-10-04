@@ -22,12 +22,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:paddingVertical="15dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="5dp">
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10dp"
             app:tint="@color/white"
             android:layout_gravity="center"
             android:src="@drawable/ic_arrow_back_black_24dp"
@@ -38,8 +41,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:cardCornerRadius="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="15dp">
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp">
 
             <ImageView
                 android:id="@+id/user_image44"
@@ -52,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="7dp"
             android:orientation="vertical">
 
             <TextView
@@ -76,8 +80,9 @@
 
         <ImageView
             android:id="@+id/delete_post"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10dp"
             app:tint="@color/white"
             android:layout_gravity="center|end"
             android:src="@drawable/ic_more_horiz_black_24dp"
@@ -108,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
                 android:layout_marginEnd="17dp"
+                android:layout_gravity="center_horizontal"
                 android:clipToPadding="false"
                 android:paddingTop="5dp" />
 
@@ -115,27 +121,27 @@
                 android:id="@+id/text_content44"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingTop="8dp"
-                android:paddingHorizontal="20dp"
-                android:autoLink="all"
-                android:textColorLink="@color/link"
-                android:text="@string/lorem_ipsum"
-                android:scrollbars="vertical"
-                android:textSize="25dp"
-                app:trimExpandedText="@string/read_less"
-                app:trimCollapsedText="@string/read_more"
-                app:trimMode="trimModeLength"
-                app:trimLength="220"
-                android:fontFamily="@font/oxygen_bold"
-                app:colorClickableText="@color/white_transparent"
-                android:visibility="visible"
-                android:textColor="@color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="50dp"
-                android:layout_marginTop="10dp"
                 android:layout_centerInParent="true"
-                android:gravity="center" />
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:autoLink="all"
+                android:fontFamily="@font/oxygen_bold"
+                android:gravity="center"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="5dp"
+                android:scrollbars="vertical"
+                android:text="@string/lorem_ipsum"
+                android:textColor="@color/white"
+                android:textColorLink="@color/link"
+                android:textSize="25dp"
+                android:visibility="visible"
+                app:colorClickableText="@color/white_transparent"
+                app:trimCollapsedText="@string/read_more"
+                app:trimExpandedText="@string/read_less"
+                app:trimLength="220"
+                app:trimMode="trimModeLength" />
 
         </LinearLayout>
 
@@ -144,7 +150,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginVertical="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginEnd="17dp"
             android:layout_alignParentBottom="true">
 
@@ -157,23 +164,23 @@
 
                 <ImageView
                     android:id="@+id/flame44"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="32dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="26dp"
                     android:src="@drawable/ic_normal_flame"/>
 
                 <ImageView
                     android:id="@+id/comment44"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginHorizontal="10dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_conch_shell"/>
 
                 <ImageView
                     android:id="@+id/share44"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_blossom"/>
             </LinearLayout>
@@ -194,9 +201,9 @@
 
                     <ImageView
                         android:id="@+id/like_image"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:padding="7dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:padding="5dp"
                         app:tint="@color/white_transparent"
                         android:src="@drawable/ic_baseline_favorite_24"/>
 
@@ -205,10 +212,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginHorizontal="5dp"
                         android:text="@string/_2_4k"
                         android:textColor="@color/white_transparent"
-                        android:textSize="15dp" />
+                        android:textSize="12dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -220,10 +227,10 @@
 
                     <ImageView
                         android:id="@+id/comment_image"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="end|center_vertical"
-                        android:padding="8dp"
+                        android:padding="6dp"
                         app:tint="@color/white_transparent"
                         android:src="@drawable/ic_comment_viewmore"/>
 
@@ -231,7 +238,7 @@
                         android:id="@+id/no_of_comments44"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginHorizontal="5dp"
                         android:layout_gravity="center_vertical"
                         android:text="@string/_154"
                         android:textColor="@color/white_transparent"

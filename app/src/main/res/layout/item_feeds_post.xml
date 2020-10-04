@@ -24,7 +24,6 @@
                 android:paddingVertical="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/pujo_committees"
-
                 android:textColor="@color/purple"
                 android:textSize="18sp" />
 
@@ -48,7 +47,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="145dp"
             android:background="#fff"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -56,7 +55,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/communityRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="135dp"
+                android:layout_height="145dp"
                 android:clipToPadding="false"
                 android:paddingEnd="12dp"
                 android:paddingBottom="10dp"/>
@@ -171,7 +170,8 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:paddingHorizontal="5dp"
+                    android:paddingStart="5dp"
+                    android:layout_marginStart="-8dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <ImageView
@@ -196,7 +196,6 @@
 
 
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/post"
@@ -345,6 +344,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
+                        android:visibility="gone"
                         android:paddingHorizontal="8dp"
                         android:paddingTop="5dp" />
 
@@ -361,7 +361,7 @@
                         android:textColor="@color/black"
                         android:maxLines="10"
                         android:ellipsize="end"
-                        android:textColorLink="@color/link"
+                        android:textColorLink="@color/colorPrimary"
                         android:textSize="15sp" />
 
                     <com.applex.utsav.LinkPreview.ApplexLinkPreview
@@ -375,26 +375,44 @@
                     <!--                    android:layout_width="match_parent"-->
                     <!--                    android:layout_height="wrap_content">-->
 
-                    <com.smarteist.autoimageslider.SliderView
-                        android:id="@+id/post_image"
+                    <RelativeLayout
+                        android:id="@+id/rlLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        app:sliderAnimationDuration="500"
-                        app:sliderAutoCycleDirection="back_and_forth"
-                        app:sliderAutoCycleEnabled="true"
                         android:layout_marginTop="5dp"
-                        app:sliderCircularHandlerEnabled="true"
-                        app:sliderIndicatorAnimationDuration="600"
-                        app:sliderIndicatorGravity="center_horizontal|bottom"
-                        app:sliderIndicatorMargin="15dp"
-                        app:sliderIndicatorOrientation="horizontal"
-                        app:sliderIndicatorPadding="3dp"
-                        app:sliderIndicatorRadius="2dp"
-                        app:sliderIndicatorSelectedColor="#5A5A5A"
-                        app:sliderIndicatorUnselectedColor="#FFF"
-                        app:sliderScrollTimeInSec="1"
-                        android:visibility="gone"
-                        app:sliderStartAutoCycle="true" />
+                        android:layout_height="300dp">
+
+                        <com.smarteist.autoimageslider.SliderView
+                            android:id="@+id/post_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            app:sliderAnimationDuration="500"
+                            app:sliderAutoCycleDirection="back_and_forth"
+                            app:sliderAutoCycleEnabled="true"
+                            app:sliderCircularHandlerEnabled="true"
+                            app:sliderIndicatorAnimationDuration="600"
+                            app:sliderIndicatorGravity="center_horizontal|bottom"
+                            app:sliderIndicatorMargin="15dp"
+                            app:sliderIndicatorOrientation="horizontal"
+                            app:sliderIndicatorPadding="3dp"
+                            app:sliderIndicatorRadius="2dp"
+                            app:sliderIndicatorSelectedColor="#5A5A5A"
+                            app:sliderIndicatorUnselectedColor="#FFF"
+                            app:sliderScrollTimeInSec="1"
+                            android:visibility="gone"
+                            app:sliderStartAutoCycle="true" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:id="@+id/dhak_anim"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            app:lottie_autoPlay="false"
+                            android:padding="80dp"
+                            android:background="@color/dark_black_transparent2"
+                            app:lottie_fileName="dhakbajano.json"
+                            app:lottie_loop="true" />
+
+                    </RelativeLayout>
 
 
                     <!--                </HorizontalScrollView>-->
@@ -404,8 +422,7 @@
                         android:layout_height="wrap_content"
                         android:paddingEnd="17dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="2dp">
+                        android:layout_marginTop="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -415,15 +432,15 @@
 
                             <ImageView
                                 android:id="@+id/like"
-                                android:layout_width="40dp"
+                                android:layout_width="34dp"
                                 android:layout_height="40dp"
                                 android:layout_marginStart="15dp"
                                 android:src="@drawable/ic_btmnav_notifications" />
 
                             <ImageView
                                 android:id="@+id/comment"
-                                android:layout_width="38dp"
-                                android:layout_height="38dp"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
                                 android:layout_marginHorizontal="10dp"
                                 android:background="@drawable/custom_ripple_white"
                                 android:padding="5dp"
@@ -431,8 +448,8 @@
 
                             <ImageView
                                 android:id="@+id/share"
-                                android:layout_width="38dp"
-                                android:layout_height="38dp"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
                                 android:background="@drawable/custom_ripple_white"
                                 android:padding="5dp"
                                 android:src="@drawable/ic_blossom" />
@@ -455,9 +472,9 @@
 
                                 <ImageView
                                     android:id="@+id/like_image"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
-                                    android:padding="7dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:padding="5dp"
                                     android:src="@drawable/ic_baseline_favorite_24"
                                     app:tint="@color/black_transparent" />
 
@@ -466,11 +483,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginHorizontal="8dp"
-                                    android:fontFamily="@font/oxygen_ex_bold"
+                                    android:layout_marginHorizontal="5dp"
                                     android:text="@string/_2_4k"
                                     android:textColor="@color/black_transparent"
-                                    android:textSize="15dp" />
+                                    android:textSize="12dp" />
 
                             </LinearLayout>
 
@@ -483,23 +499,21 @@
 
                                 <ImageView
                                     android:id="@+id/comment_image"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="end|center_vertical"
-                                    android:padding="8dp"
+                                    android:padding="6dp"
                                     android:src="@drawable/ic_comment" />
 
                                 <TextView
                                     android:id="@+id/no_of_comments"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginHorizontal="6dp"
+                                    android:layout_marginHorizontal="5dp"
                                     android:layout_gravity="center_vertical"
-                                    android:fontFamily="@font/oxygen_ex_bold"
                                     android:text="@string/_154"
                                     android:textColor="@color/black_transparent"
-                                    android:textSize="15dp"
-                                    android:textStyle="bold" />
+                                    android:textSize="12dp" />
 
                             </LinearLayout>
 
@@ -513,7 +527,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/light_background"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="2dp"
                     android:layout_marginHorizontal="8dp"/>
 
                 <LinearLayout

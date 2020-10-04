@@ -499,7 +499,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
 //                Bitmap bitmap = null;
 //                try {
@@ -723,11 +723,6 @@ public class RegPujoCommittee extends AppCompatActivity {
             return inSampleSize;
         }
 
-    }
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called IN REG FORM 2!!!!!!!!!!!!!");
-        super.finalize();
     }
 
 }

@@ -9,22 +9,27 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.Display;
 import android.view.MenuItem;
@@ -35,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.models.SeenModel;
 import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
@@ -48,6 +54,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -96,7 +103,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
 
     private Button locate;
-    private Button follow, edit_profile_com;
+    private Button upvote, edit_profile_com;
 
     private LinearLayout selfProfile, elseProfile;
 
@@ -111,6 +118,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     byte[] pic;
 
     private IntroPref introPref;
+    private LottieAnimationView upvote_anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +143,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-
+        upvote_anim = findViewById(R.id.upvote_anim);
         PDp = findViewById(R.id.Pdp);
         PName = findViewById(R.id.Profilename);
         PUsername =findViewById(R.id.Pusername);
@@ -154,7 +162,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         selfProfile = findViewById(R.id.selfProfile);
         elseProfile = findViewById(R.id.elseProfile);
 
-        follow = findViewById(R.id.follow);
+        upvote = findViewById(R.id.follow);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -240,7 +248,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .document(uid)
                     .update("pujoVisits", FieldValue.increment(1));
 
-            follow.setOnClickListener(new View.OnClickListener() {
+            //set the last time profile was visited
+//            FirebaseFirestore.getInstance()
+//                    .collection("Users")
+//                    .document(uid)
+//                    .update("lastVisitTs", Timestamp.now());
+
+            upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(isLoadingFinished){
@@ -260,19 +274,24 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                                         batch.commit().addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
-                                                follow.setText("Upvote");
-                                                follow.setBackgroundResource(R.drawable.custom_button);
-                                                follow.setTextColor(getResources().getColor(R.color.white));
+                                                FirebaseFirestore.getInstance()
+                                                        .collection("Users")
+                                                        .document(uid)
+                                                        .update("upvotes", FieldValue.increment(-1));
+
+                                                upvote.setText("Upvote");
+                                                upvote.setBackgroundResource(R.drawable.custom_button);
+                                                upvote.setTextColor(getResources().getColor(R.color.white));
 
                                                 if(baseUserModel.getUpvoteL() != null){
                                                     if(baseUserModel.getUpvoteL().size()-1 == 0){
                                                         upvoters.setText("0");
                                                     }
                                                     else if(baseUserModel.getUpvoteL().size()-1 == 1){
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1));
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1)+"");
                                                     }
                                                     else {
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1));
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1)+"");
                                                     }
                                                 }
                                                 else {
@@ -293,11 +312,43 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     .show();
                         }
                         else {
+                            long tsLong = System.currentTimeMillis();
+
                             SeenModel seenModel = new SeenModel();
                             seenModel.setUid(fireuser.getUid());
                             seenModel.setUserdp(introPref.getUserdp());
                             seenModel.setUsername(introPref.getFullName());
                             seenModel.setType(introPref.getType());
+                            seenModel.setTs(tsLong);
+
+                            upvote_anim.setVisibility(View.VISIBLE);
+                            upvote_anim.playAnimation();
+
+                            try {
+                                AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("dhak.mp3");
+                                MediaPlayer player = new MediaPlayer();
+                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                player.prepare();
+                                AudioManager audioManager = (AudioManager) ActivityProfileCommittee.this.getSystemService(Context.AUDIO_SERVICE);
+                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                    player.start();
+                                    if(!player.isPlaying()) {
+                                        upvote_anim.cancelAnimation();
+                                        upvote_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        upvote_anim.cancelAnimation();
+                                        upvote_anim.setVisibility(View.GONE);
+                                    });
+                                } else {
+                                    new Handler().postDelayed(() -> {
+                                        upvote_anim.cancelAnimation();
+                                        upvote_anim.setVisibility(View.GONE);
+                                    }, 2000);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
 
                             DocumentReference docRef = FirebaseFirestore.getInstance()
                                     .collection("Users")
@@ -310,13 +361,18 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             batch.set(followerRef, seenModel);
 
                             batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
-                                    follow.setText("Upvoted");
-                                    follow.setBackgroundResource(R.drawable.custom_button_outline);
-                                    follow.setTextColor(getResources().getColor(R.color.purple));
+                                if(task.isSuccessful()) {
+                                    FirebaseFirestore.getInstance()
+                                            .collection("Users")
+                                            .document(uid)
+                                            .update("upvotes", FieldValue.increment(1));
+
+                                    upvote.setText("Upvoted");
+                                    upvote.setBackgroundResource(R.drawable.custom_button_outline);
+                                    upvote.setTextColor(getResources().getColor(R.color.purple));
 
                                     if(baseUserModel.getUpvoteL() != null){
-                                        if(baseUserModel.getUpvoteL().size()-1 == 0){
+                                        if(baseUserModel.getUpvoteL().size()+1 == 0){
                                             upvoters.setText("0");
                                         }
                                         else if(baseUserModel.getUpvoteL().size()+1 == 1){
@@ -510,15 +566,15 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 }
 
                                 if(isUpvoted){
-                                    follow.setText("Upvoted");
-                                    follow.setBackgroundResource(R.drawable.custom_button_outline);
-                                    follow.setTextColor(getResources().getColor(R.color.purple));
+                                    upvote.setText("Upvoted");
+                                    upvote.setBackgroundResource(R.drawable.custom_button_outline);
+                                    upvote.setTextColor(getResources().getColor(R.color.purple));
 
                                 }
                                 else {
-                                    follow.setText("Upvote");
-                                    follow.setBackgroundResource(R.drawable.custom_button);
-                                    follow.setTextColor(getResources().getColor(R.color.white));
+                                    upvote.setText("Upvote");
+                                    upvote.setBackgroundResource(R.drawable.custom_button);
+                                    upvote.setTextColor(getResources().getColor(R.color.white));
 
                                 }
 
@@ -807,13 +863,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 storageReference = storage.getReference();
 
                 if(imageCoverOrDp == 1){
-                    reference = storageReference.child("Profile/")
-                            .child(FirebaseAuth.getInstance().getUid()+"/")
-                            .child( FirebaseAuth.getInstance().getUid()+"_cover");
+                    reference = storageReference.child("Users/")
+                            .child("Coverpic/")
+                            .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
                 }
                 else {
-                    reference = storageReference.child("Profile/")
-                            .child(FirebaseAuth.getInstance().getUid()+"/")
+                    reference = storageReference.child("Users/")
+                            .child("DP/")
                             .child( FirebaseAuth.getInstance().getUid()+"_dp");
                 }
 

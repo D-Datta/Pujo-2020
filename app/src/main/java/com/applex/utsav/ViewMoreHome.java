@@ -14,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.utility.BasicUtility;
@@ -120,6 +122,7 @@ public class ViewMoreHome extends AppCompatActivity {
 
     private int commentCount = 0;
     String bool;
+    private LottieAnimationView dhak_anim;
 
     public static final HomePostModel[] homePostModel = {new HomePostModel()};
 
@@ -156,6 +159,7 @@ public class ViewMoreHome extends AppCompatActivity {
         commentimage = findViewById(R.id.comment_image);
         like_layout = findViewById(R.id.like_layout);
         comment_layout = findViewById(R.id.comment_layout);
+        dhak_anim = findViewById(R.id.dhak_anim);
 
         UID = FirebaseAuth.getInstance().getUid();
         PROFILEPIC = introPref.getUserdp();
@@ -338,26 +342,6 @@ public class ViewMoreHome extends AppCompatActivity {
             /////////////////TAGS/////////////////
 
 
-            ////////////COMMUNITY//////////
-//            if(getIntent().getStringExtra("comName")!=null && getIntent().getStringExtra("comID") !=null){
-//                comName.setVisibility(View.VISIBLE);
-//                homePostModel[0].setComID(getIntent().getStringExtra("comID"));
-//                homePostModel[0].setComName(getIntent().getStringExtra("comName"));
-//
-//                comName.setText(getIntent().getStringExtra("comName"));
-//                comName.setBackground(getResources().getDrawable(R.drawable.custom_com_backgnd));
-//                comName.setTextColor(getResources().getColor(android.R.color.white));
-//                comName.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Intent intent= new Intent(ViewMoreHome.this, CommunityActivity.class);
-////                        intent.putExtra("comID", homePostModel[0].getComID());
-////                        startActivity(intent);
-//                    }
-//                });
-//            }
-            ////////////COMMUNITY//////////
-
 
             ///////////////LIKE SETUP//////////////
             if (i.getSerializableExtra("likeL") != null) {
@@ -454,6 +438,7 @@ public class ViewMoreHome extends AppCompatActivity {
                     images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
 
                     if (images != null && images.size() > 0) {
+
                         sliderView.setVisibility(View.VISIBLE);
 
                         sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -467,7 +452,13 @@ public class ViewMoreHome extends AppCompatActivity {
                         ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreHome.this, images);
 
                         sliderView.setSliderAdapter(viewmoreSliderAdapter);
-                    } else {
+
+                        if(getIntent().getStringExtra("posImage") != null){
+                            int pos = Integer.parseInt(getIntent().getStringExtra("posImage"));
+                            sliderView.setCurrentPagePosition(pos);
+                        }
+                    }
+                    else {
                         sliderView.setVisibility(View.GONE);
                     }
 
@@ -540,7 +531,9 @@ public class ViewMoreHome extends AppCompatActivity {
             }
 
 
-        } else {// from fcm notification or notiff tab or external link
+        }
+
+        else {// from fcm notification or notiff tab or external link
             docref3 = FirebaseFirestore.getInstance()
                     .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/notifCount/")
                     .document("notifCount");
@@ -915,14 +908,30 @@ public class ViewMoreHome extends AppCompatActivity {
 
                         } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                             BasicUtility.vibrate(getApplicationContext());
+                            dhak_anim.setVisibility(View.VISIBLE);
+                            dhak_anim.playAnimation();
                             try {
                                 AssetFileDescriptor afd = ViewMoreHome.this.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
                                 player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                 player.prepare();
                                 AudioManager audioManager = (AudioManager) ViewMoreHome.this.getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
+                                    if(!player.isPlaying()) {
+                                        dhak_anim.cancelAnimation();
+                                        dhak_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        dhak_anim.cancelAnimation();
+                                        dhak_anim.setVisibility(View.GONE);
+                                    });
+                                } else {
+                                    new Handler().postDelayed(() -> {
+                                        dhak_anim.cancelAnimation();
+                                        dhak_anim.setVisibility(View.GONE);
+                                    }, 2000);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

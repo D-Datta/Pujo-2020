@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:background="@drawable/shape"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
     android:gravity="start|center_vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="55dp"
@@ -135,7 +134,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Photos"
+            android:text="@string/photos"
             android:textColor="@color/black"
             android:fontFamily="@font/oxygen_bold"
             android:paddingStart="10dp"

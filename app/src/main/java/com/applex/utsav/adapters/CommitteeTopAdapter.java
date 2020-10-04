@@ -25,30 +25,19 @@ import java.util.ArrayList;
 public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapter.ProgrammingViewHolder> {
 
     private ArrayList<BaseUserModel> mList;
-    Context mContext;
-    int bool;
-    public CommitteeTopAdapter() {
-    }
+    private Context mContext;
+    private int position;
 
-    public CommitteeTopAdapter(ArrayList<BaseUserModel> list, Context context, int bool) {
+    public CommitteeTopAdapter(ArrayList<BaseUserModel> list, Context context, int position) {
         this.mList = list;
         this.mContext =context;
-        this.bool = bool;
+        this.position = position;
     }
 
     @NonNull
     @Override
     public CommitteeTopAdapter.ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        if(bool == 10){
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_committee_top_card,parent, false);
-        }
-        else{
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_committee_top_card, parent, false);
-        }
-
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_committee_top_card,parent, false);
         return new CommitteeTopAdapter.ProgrammingViewHolder(v);
     }
 
@@ -59,18 +48,30 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         holder.committeeName.setText(currentitem.getName());
 
-        if(currentitem.getPujoVisits() > 1) {
-            if(currentitem.getPujoVisits() > 1000) {
-                holder.com_views.setText(currentitem.getPujoVisits()/1000 + "." + (currentitem.getPujoVisits() % 1000)/100 + "K Visits");
+        if(position == 10) {
+            if(currentitem.getUpvotes() > 1) {
+                if(currentitem.getUpvotes() > 1000) {
+                    holder.com_views.setText(currentitem.getUpvotes()/1000 + "." + (currentitem.getUpvotes() % 1000)/100 + "K Upvotes");
+                } else {
+                    holder.com_views.setText(currentitem.getUpvotes() + " Upvotes");
+                }
             } else {
-                holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
+                holder.com_views.setText(currentitem.getUpvotes() + " Upvotes");
             }
         } else {
-            holder.com_views.setText(currentitem.getPujoVisits() + " Visit");
+            if(currentitem.getPujoVisits() > 1) {
+                if(currentitem.getPujoVisits() > 1000) {
+                    holder.com_views.setText(currentitem.getPujoVisits()/1000 + "." + (currentitem.getPujoVisits() % 1000)/100 + "K Visits");
+                } else {
+                    holder.com_views.setText(currentitem.getPujoVisits() + " Visits");
+                }
+            } else {
+                holder.com_views.setText(currentitem.getPujoVisits() + " Visit");
+            }
         }
 
-        if(currentitem.getCoverpic() != null){
-            Picasso.get().load(currentitem.getCoverpic()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.committeeCover, new Callback() {
+        if(currentitem.getDp() != null){
+            Picasso.get().load(currentitem.getDp()).networkPolicy(NetworkPolicy.OFFLINE).into(holder.committeeCover, new Callback() {
                 @Override
                 public void onSuccess() {
 
@@ -86,60 +87,17 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
             holder.committeeCover.setImageResource(R.drawable.durga_ma);
         }
 
-//        if(currentitem.getDp() != null){
-//            Picasso.get().load(currentitem.getCoverpic())
-//                    .error(R.drawable.image_background_grey)
-//                    .placeholder(R.drawable.image_background_grey)
-//                    .networkPolicy(NetworkPolicy.OFFLINE)
-//                    .into(holder.committeeCover, new Callback() {
-//                @Override
-//                public void onSuccess() {
-//
-//                }
-//                @Override
-//                public void onError(Exception e) {
-//                    Picasso.get().load(currentitem.getDp()).into(holder.committeeCover);
-//                }
-//            });
-//
-//        }
-//        else{
-//            holder.committeeDp.setImageResource(R.drawable.community_default);
-//        }
-
         PushDownAnim.setPushDownAnimTo(holder.itemView)
                 .setScale(PushDownAnim.MODE_STATIC_DP, 3)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //to be changed
-                        Intent i= new Intent(mContext, ActivityProfileCommittee.class);
-                        i.putExtra("name", currentitem.getName());
-                        i.putExtra("uid", currentitem.getUid());
-                        i.putExtra("coverpic",currentitem.getCoverpic());
-                        i.putExtra("dp",currentitem.getDp());
-                        mContext.startActivity(i);
-
-                    }
+                .setOnClickListener(v -> {
+                    //to be changed
+                    Intent i= new Intent(mContext, ActivityProfileCommittee.class);
+                    i.putExtra("name", currentitem.getName());
+                    i.putExtra("uid", currentitem.getUid());
+                    i.putExtra("coverpic",currentitem.getCoverpic());
+                    i.putExtra("dp",currentitem.getDp());
+                    mContext.startActivity(i);
                 });
-
-
-//        if(bool == 10 ){
-//            if(position == mList.size()-1){
-//                holder.more.setVisibility(View.VISIBLE);
-//                holder.more.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        mContext.startActivity(new Intent(mContext, CommitteeViewAll.class));
-//                    }
-//                });
-//            }
-//            else {
-//                holder.more.setVisibility(View.GONE);
-//            }
-//
-//        }
-
     }
 
     @Override
@@ -162,24 +120,4 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         }
     }
-//    public class ProgrammingViewHolder extends RecyclerView.ViewHolder{
-//        TextView committ, com_members;
-//        ImageView com_image, more;
-//        CardView com_card;
-//        LinearLayout xxx;
-//
-//        ProgrammingViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            com_name= itemView.findViewById(R.id.community_name);
-//            com_image= itemView.findViewById(R.id.community_image);
-//            if(bool == 10)
-//                more = itemView.findViewById(R.id.more);
-//
-//            com_members= itemView.findViewById(R.id.members);
-//            com_card = itemView.findViewById(R.id.com_card);
-//            xxx = itemView.findViewById(R.id.xxx);
-//
-//
-//        }
-//    }
 }

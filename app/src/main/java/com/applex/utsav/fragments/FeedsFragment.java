@@ -37,6 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
@@ -153,7 +154,7 @@ public class FeedsFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setItemViewCacheSize(10);
+        mRecyclerView.setItemViewCacheSize(20);
         //////////////RECYCLER VIEW////////////////////
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
@@ -234,6 +235,7 @@ public class FeedsFragment extends Fragment {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
+                .setPrefetchDistance(4)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
@@ -428,7 +430,8 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.text_content.setVisibility(View.GONE);
                     feedViewHolder.LinkPreview.setVisibility(View.GONE);
                     feedViewHolder.text_content.setText(null);
-                } else {
+                }
+                else {
                     feedViewHolder.text_content.setVisibility(View.VISIBLE);
                     feedViewHolder.text_content.setText(currentItem.getTxt());
                     if (feedViewHolder.text_content.getUrls().length > 0) {
@@ -461,6 +464,7 @@ public class FeedsFragment extends Fragment {
                 }
 
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                    feedViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     feedViewHolder.sliderView.setVisibility(View.VISIBLE);
                     feedViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     feedViewHolder.sliderView.setIndicatorRadius(5);
@@ -498,6 +502,7 @@ public class FeedsFragment extends Fragment {
                     });
                 }
                 else {
+                    feedViewHolder.rlLayout.setVisibility(View.GONE);
                     feedViewHolder.sliderView.setVisibility(View.GONE);
                     feedViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreText.class);
@@ -592,14 +597,30 @@ public class FeedsFragment extends Fragment {
                             }
                             else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                                 BasicUtility.vibrate(requireActivity());
+                                feedViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                                feedViewHolder.dhak_anim.playAnimation();
                                 try {
                                     AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
                                     MediaPlayer player = new MediaPlayer();
                                     player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                     player.prepare();
                                     AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                    if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                    if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                         player.start();
+                                        if(!player.isPlaying()) {
+                                            feedViewHolder.dhak_anim.cancelAnimation();
+                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }
+                                        player.setOnCompletionListener(mediaPlayer -> {
+                                            feedViewHolder.dhak_anim.cancelAnimation();
+                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        });
+                                    } else {
+                                        new Handler().postDelayed(() -> {
+                                            feedViewHolder.dhak_anim.cancelAnimation();
+                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }, 2000);
+                                    }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -668,48 +689,53 @@ public class FeedsFragment extends Fragment {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    feedViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    feedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    FeedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
-                    feedViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
-                    Picasso.get().load(currentItem.getCom1_dp())
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(feedViewHolder.dp_cmnt1);
+                    if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+                        feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+                        feedViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
+                        Picasso.get().load(currentItem.getCom1_dp())
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(feedViewHolder.dp_cmnt1);
 
-                    feedViewHolder.cmnt1.setText(currentItem.getCom1());
-                    if (feedViewHolder.cmnt1.getUrls().length > 0) {
-                        URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
-                        String url = urlSnapItem.getURL();
-                        if (url.contains("http")) {
-                            feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
-                            feedViewHolder.link_preview1.setLink(url, new ViewListener() {
-                                @Override
-                                public void onSuccess(boolean status) { }
+                        feedViewHolder.cmnt1.setText(currentItem.getCom1());
+                        if (feedViewHolder.cmnt1.getUrls().length > 0) {
+                            URLSpan urlSnapItem = feedViewHolder.cmnt1.getUrls()[0];
+                            String url = urlSnapItem.getURL();
+                            if (url.contains("http")) {
+                                feedViewHolder.link_preview1.setVisibility(View.VISIBLE);
+                                feedViewHolder.link_preview1.setLink(url, new ViewListener() {
+                                    @Override
+                                    public void onSuccess(boolean status) {
+                                    }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    new Handler(Looper.getMainLooper()).post(() -> {
-                                        //do stuff like remove view etc
-                                        feedViewHolder.link_preview1.setVisibility(View.GONE);
-                                    });
-                                }
-                            });
+                                    @Override
+                                    public void onError(Exception e) {
+                                        new Handler(Looper.getMainLooper()).post(() -> {
+                                            //do stuff like remove view etc
+                                            feedViewHolder.link_preview1.setVisibility(View.GONE);
+                                        });
+                                    }
+                                });
+                            }
+                        } else {
+                            feedViewHolder.link_preview1.setVisibility(View.GONE);
+                        }
+
+                        feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
+                        if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
+                            if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
+                                feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
+                            } else {
+                                feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                            }
                         }
                     } else {
-                        feedViewHolder.link_preview1.setVisibility(View.GONE);
+                        feedViewHolder.commentLayout1.setVisibility(View.GONE);
                     }
 
-                    feedViewHolder.cmnt1_minsago.setText(BasicUtility.getTimeAgo(currentItem.getCom1_ts()));
-                    if (BasicUtility.getTimeAgo(currentItem.getCom1_ts()) != null) {
-                        if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
-                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
-                        } else {
-                            feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
-                        }
-                    }
-
-                    if(currentItem.getCmtNo() == 2) {
+                    if(currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
                         feedViewHolder.commentLayout2.setVisibility(View.VISIBLE);
                         feedViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
                         Picasso.get().load(currentItem.getCom2_dp())
@@ -751,7 +777,7 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    feedViewHolder.comment_layout.setOnClickListener(v -> {
+                    FeedViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
@@ -767,7 +793,7 @@ public class FeedsFragment extends Fragment {
                     });
                 }
                 else {
-                    feedViewHolder.comment_layout.setVisibility(View.GONE);
+                    FeedViewHolder.comment_layout.setVisibility(View.GONE);
                     feedViewHolder.commentLayout1.setVisibility(View.GONE);
                     feedViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
@@ -939,7 +965,7 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
     }
 
-    private static class FeedViewHolder extends RecyclerView.ViewHolder{
+    public static class FeedViewHolder extends RecyclerView.ViewHolder{
 
         TextView view_all;
         ImageView noPost;
@@ -947,19 +973,24 @@ public class FeedsFragment extends Fragment {
 
         TextView pujoTagHolder;
 
-        TextView username,commentCount, likesCount, text_content, minsago, writecomment;
+        @SuppressLint("StaticFieldLeak")
+        public static TextView commentCount;
+        public static LinearLayout comment_layout;
+
+        TextView username, likesCount, text_content, minsago, writecomment;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
         ImageView dp_cmnt1, dp_cmnt2, type_dp;
         TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
         SliderView sliderView;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, new_post_layout, newPostIconsLL;
-        RelativeLayout first_post;
+        RelativeLayout first_post,rlLayout;
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
 
-        LinearLayout postHolder, like_layout, comment_layout, commentLayout1, commentLayout2;
+        LinearLayout postHolder, like_layout, commentLayout1, commentLayout2;
         LinearLayout committeeHolder;
+        LottieAnimationView dhak_anim;
 
 
         public FeedViewHolder(@NonNull View itemView) {
@@ -1013,6 +1044,8 @@ public class FeedsFragment extends Fragment {
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
 
             pujoTagHolder = itemView.findViewById(R.id.tag_pujo);
+            dhak_anim = itemView.findViewById(R.id.dhak_anim);
+            rlLayout = itemView.findViewById(R.id.rlLayout);
 
         }
     }
@@ -1030,7 +1063,7 @@ public class FeedsFragment extends Fragment {
                 .collection("Users")
                 .whereEqualTo("type", "com")
                 .orderBy("pujoVisits", Query.Direction.DESCENDING)
-                .limit(10);
+                .limit(15);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(QueryDocumentSnapshot document: queryDocumentSnapshots) {

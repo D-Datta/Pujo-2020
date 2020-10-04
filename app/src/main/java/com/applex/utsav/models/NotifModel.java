@@ -16,6 +16,8 @@ public class NotifModel {
     private long ts;
     private String postID;
 
+    private String type;
+
     public NotifModel(){}
 
     public String getPostID() { return postID; }
@@ -90,4 +92,11 @@ public class NotifModel {
 
     public void setBool(int bool) { this.bool = bool; }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
