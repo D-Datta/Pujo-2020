@@ -48,6 +48,7 @@ public class MessagingService extends FirebaseMessagingService {
             String type = remoteMessage.getData().get("type");
             String postID = remoteMessage.getData().get("postID");
             String dp = remoteMessage.getData().get("dp");
+            String ts = remoteMessage.getData().get("ts");
             nCount = remoteMessage.getData().get("notifCount");
 
             if(ActivityNotification.active) {
@@ -63,9 +64,9 @@ public class MessagingService extends FirebaseMessagingService {
                     } catch(IOException e) {
                         e.printStackTrace();
                     }
-                    sendNotification1(this, message, title, Objects.requireNonNull(action), type, postID, getCircleBitmap(image));
+                    sendNotification1(this, message, title, Objects.requireNonNull(action), type, postID, ts, getCircleBitmap(image));
                 } else {
-                    sendNotification2(this, message, title, Objects.requireNonNull(action), type, postID);
+                    sendNotification2(this, message, title, Objects.requireNonNull(action), type, ts , postID);
                 }
             }
         }
@@ -74,7 +75,7 @@ public class MessagingService extends FirebaseMessagingService {
         }
     }
 
-    public static void sendNotification1(Context context, String message, String title, String action, String type, String postID, Bitmap dp) {
+    public static void sendNotification1(Context context, String message, String title, String action, String type, String postID, String ts, Bitmap dp) {
 
         Intent intent;
 
@@ -82,6 +83,7 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -104,6 +106,7 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreText.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -126,8 +129,8 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ReelsActivity.class);
             intent.putExtra("type", type);
             intent.putExtra("docID", postID);
+            intent.putExtra("ts", ts);
             intent.putExtra("bool", "1");
-
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -148,7 +151,7 @@ public class MessagingService extends FirebaseMessagingService {
         }
     }
 
-    public static void sendNotification2(Context context, String message, String title, String action, String type, String postID) {
+    public static void sendNotification2(Context context, String message, String title, String action, String type, String postID, String ts) {
 
         Intent intent;
 
@@ -156,6 +159,7 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -177,6 +181,7 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreText.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -198,6 +203,7 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ReelsActivity.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

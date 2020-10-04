@@ -80,10 +80,11 @@ public class BottomCommentsDialog extends DialogFragment {
     private ProgressDialog progressDialog;
     private String uid;
     private String type;
+    private String ts;
     private long cmntno, finalcmntno;
     private int getBool;
 
-    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno) {
+    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts) {
         this.root = root;
         this.docID = docID;
         this.uid = uid;
@@ -91,6 +92,7 @@ public class BottomCommentsDialog extends DialogFragment {
         this.from = from;
         this.type = type;
         this.cmntno = cmntno;
+        this.ts = ts;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -175,7 +177,7 @@ public class BottomCommentsDialog extends DialogFragment {
         });
 
         models = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getActivity(), models, getBool, type);
+        commentAdapter = new CommentAdapter(getActivity(), models, getBool, type, ts);
 
         send.setOnClickListener(v2 -> {
             if(InternetConnection.checkConnection(requireActivity())) {
@@ -314,7 +316,7 @@ public class BottomCommentsDialog extends DialogFragment {
                     models.add(commentModel);
                 }
                 if (models.size() > 0) {
-                    commentAdapter = new CommentAdapter(getActivity(), models, getBool, type);
+                    commentAdapter = new CommentAdapter(getActivity(), models, getBool, type, ts);
                     commentAdapter.onClickListener(position -> {
                         if( models.get(position).getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                 || uid.matches(FirebaseAuth.getInstance().getUid())) {

@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,6 @@ import com.applex.utsav.CommentReplyActivity;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.R;
-import com.applex.utsav.dialogs.BottomCommentsDialog;
-import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -55,6 +54,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
     private OnClickListener mListener;
     private IntroPref introPref;
     private String type;
+    private String ts;
 
     public interface OnClickListener {
         void onClickListener(int position);
@@ -64,11 +64,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         mListener= listener;
     }
 
-    public CommentAdapter(Context context, List<CommentModel> itemDatalist, int bool, String type) {
+    public CommentAdapter(Context context, List<CommentModel> itemDatalist, int bool, String type, String ts) {
         this.mContext = context;
         this.itemDatalist = itemDatalist;
         this.bool = bool;//1 = ViewMoreHome 2 = ReelsActivity
         this.type = type;
+        this.ts = ts;
 
         introPref = new IntroPref(mContext);
         PROFILEPIC = introPref.getUserdp();
@@ -90,52 +91,53 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         DocumentReference likeStore = null;
         CollectionReference flamedCol = null;
 
-//        if(type != null) {
-//            if(type.matches("comment_flame")) {
-//                BottomFlamedByDialog2 bottomSheetDialog = null;
-//                if (bool == 1) {
-//                    bottomSheetDialog = new BottomFlamedByDialog2("Home", currentItem.getPostID(), currentItem.getDocID());
-//                } else if (bool == 2) {
-//                    bottomSheetDialog = new BottomFlamedByDialog2("Reels", currentItem.getPostID(), currentItem.getDocID());
-//                }
-//                Objects.requireNonNull(bottomSheetDialog).show(((FragmentActivity) mContext).getSupportFragmentManager(), "FlamedBySheet");
-//            }
-//            else if(type.matches("comment_reply")) {
-//                Intent intent = new Intent(mContext, CommentReplyActivity.class);
-//                intent.putExtra("username", currentItem.getUsername());
-//                intent.putExtra("userdp", currentItem.getUserdp());
-//                intent.putExtra("docID", currentItem.getDocID());
-//                intent.putExtra("postID", currentItem.getPostID());
-//                intent.putExtra("postUid", currentItem.getPostUid());
-//                intent.putExtra("likeL", currentItem.getLikeL());
-//                intent.putExtra("comment", currentItem.getComment());
-//                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
-//                intent.putExtra("uid", currentItem.getUid());
-//                intent.putExtra("bool", Integer.toString(bool));
-//                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                intent.putExtra("pComUid", currentItem.getUid());
-//                intent.putExtra("type", currentItem.getType());
-//                mContext.startActivity(intent);
-//            }
-//            else if(type.matches("comment_reply_flame")) {
-//                Intent intent = new Intent(mContext, CommentReplyActivity.class);
-//                intent.putExtra("username", currentItem.getUsername());
-//                intent.putExtra("userdp", currentItem.getUserdp());
-//                intent.putExtra("docID", currentItem.getDocID());
-//                intent.putExtra("postID", currentItem.getPostID());
-//                intent.putExtra("postUid", currentItem.getPostUid());
-//                intent.putExtra("likeL", currentItem.getLikeL());
-//                intent.putExtra("comment", currentItem.getComment());
-//                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
-//                intent.putExtra("uid", currentItem.getUid());
-//                intent.putExtra("bool", Integer.toString(bool));
-//                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                intent.putExtra("pComUid", currentItem.getUid());
-//                intent.putExtra("type", currentItem.getType());
-//                intent.putExtra("notiType", type);
-//                mContext.startActivity(intent);
-//            }
-//        }
+        Log.i("BAM", ts + " " + Long.toString(currentItem.getTs()));
+        if(type != null && ts != null && Long.parseLong(ts) == currentItem.getTs()) {
+            if(type.matches("comment_flame")) {
+                BottomFlamedByDialog2 bottomSheetDialog = null;
+                if (bool == 1) {
+                    bottomSheetDialog = new BottomFlamedByDialog2("Feeds", currentItem.getPostID(), currentItem.getDocID());
+                } else if (bool == 2) {
+                    bottomSheetDialog = new BottomFlamedByDialog2("Reels", currentItem.getPostID(), currentItem.getDocID());
+                }
+                Objects.requireNonNull(bottomSheetDialog).show(((FragmentActivity) mContext).getSupportFragmentManager(), "FlamedBySheet");
+            }
+            else if(type.matches("comment_reply")) {
+                Intent intent = new Intent(mContext, CommentReplyActivity.class);
+                intent.putExtra("username", currentItem.getUsername());
+                intent.putExtra("userdp", currentItem.getUserdp());
+                intent.putExtra("docID", currentItem.getDocID());
+                intent.putExtra("postID", currentItem.getPostID());
+                intent.putExtra("postUid", currentItem.getPostUid());
+                intent.putExtra("likeL", currentItem.getLikeL());
+                intent.putExtra("comment", currentItem.getComment());
+                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
+                intent.putExtra("uid", currentItem.getUid());
+                intent.putExtra("bool", Integer.toString(bool));
+                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                intent.putExtra("pComUid", currentItem.getUid());
+                intent.putExtra("type", currentItem.getType());
+                mContext.startActivity(intent);
+            }
+            else if(type.matches("comment_reply_flame")) {
+                Intent intent = new Intent(mContext, CommentReplyActivity.class);
+                intent.putExtra("username", currentItem.getUsername());
+                intent.putExtra("userdp", currentItem.getUserdp());
+                intent.putExtra("docID", currentItem.getDocID());
+                intent.putExtra("postID", currentItem.getPostID());
+                intent.putExtra("postUid", currentItem.getPostUid());
+                intent.putExtra("likeL", currentItem.getLikeL());
+                intent.putExtra("comment", currentItem.getComment());
+                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
+                intent.putExtra("uid", currentItem.getUid());
+                intent.putExtra("bool", Integer.toString(bool));
+                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                intent.putExtra("pComUid", currentItem.getUid());
+                intent.putExtra("type", currentItem.getType());
+                intent.putExtra("notiType", type);
+                mContext.startActivity(intent);
+            }
+        }
 
         if(currentItem.getTs() == -1L) {
             programmingViewHolder.minsago.setText("Failed!");
