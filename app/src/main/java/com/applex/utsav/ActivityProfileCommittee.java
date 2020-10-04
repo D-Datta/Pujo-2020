@@ -883,6 +883,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     if(imageCoverOrDp == 0){
                                         docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
+                                                baseUserModel.setDp(generatedFilePath);
                                                 introPref.setUserdp(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
@@ -893,6 +894,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     else {
                                         docref.update("coverpic", generatedFilePath).addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
+                                                baseUserModel.setCoverpic(generatedFilePath);
                                                 progressDialog.dismiss();
                                             }else{
                                                 BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
