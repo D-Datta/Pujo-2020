@@ -58,8 +58,7 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
         programmingViewHolder.tag.setText(currentItem.getPujoName());
 
         if(currentItem.getDp()!=null){
-//
-            Picasso.get().load(currentItem.getDp()).placeholder(R.drawable.image_background_grey).into(programmingViewHolder.dp);
+            Picasso.get().load(currentItem.getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(programmingViewHolder.dp);
         }
         else{
             WindowManager manager = (WindowManager)mcontext.getSystemService(Context.WINDOW_SERVICE);
