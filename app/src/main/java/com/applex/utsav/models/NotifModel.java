@@ -14,6 +14,7 @@ public class NotifModel {
     private String usN;
 
     private long ts;
+    private long com_ts;
     private String postID;
 
     private String type;
@@ -98,5 +99,13 @@ public class NotifModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public long getCom_ts() {
+        return com_ts;
+    }
+
+    public void setCom_ts(long com_ts) {
+        this.com_ts = com_ts;
     }
 }

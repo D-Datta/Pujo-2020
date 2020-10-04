@@ -174,8 +174,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("postID", postID);
                         i.putExtra("type", model.getType());
                         i.putExtra("campus", "Image");
-                        i.putExtra("ts", Long.toString(model.getTs()));
-                        Log.i("BAM", Long.toString(model.getTs()));
+                        i.putExtra("ts", Long.toString(model.getCom_ts()));
                         startActivity(i);
                         notifyItemChanged(position);
                     }
@@ -191,7 +190,7 @@ public class ActivityNotification extends AppCompatActivity {
                         Intent i= new Intent(ActivityNotification.this, ViewMoreText.class);
                         i.putExtra("postID", postID);
                         i.putExtra("type", model.getType());
-                        i.putExtra("ts", Long.toString(model.getTs()));
+                        i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("campus", "Text");
 
                         startActivity(i);
@@ -209,7 +208,7 @@ public class ActivityNotification extends AppCompatActivity {
                         Intent i= new Intent(ActivityNotification.this, ReelsActivity.class);
                         i.putExtra("docID", postID);
                         i.putExtra("bool", "1");
-                        i.putExtra("ts", Long.toString(model.getTs()));
+                        i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("type", model.getType());
 
                         startActivity(i);
@@ -229,9 +228,7 @@ public class ActivityNotification extends AppCompatActivity {
                         startActivity(i);
                         notifyItemChanged(position);
                     }
-
                 });
-
             }
 
             @Override
