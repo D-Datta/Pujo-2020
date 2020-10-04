@@ -271,7 +271,7 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
 
-                else if(programmingViewHolder.getItemViewType() == 5 || programmingViewHolder.getItemViewType() == 10) {
+                else if(programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
