@@ -27,7 +27,7 @@ public class BaseUserModel {
     private long commentcount;
     private long pujoVisits;
     private long upvotes;
-    private Timestamp lastVisitTs;
+    private long lastVisitTs;
     private ArrayList<String> upvoteL;
 
     public BaseUserModel() {
@@ -133,11 +133,11 @@ public class BaseUserModel {
         this.pujoVisits = pujoVisits;
     }
 
-    public Timestamp getLastVisitTs() {
+    public long getLastVisitTs() {
         return lastVisitTs;
     }
 
-    public void setLastVisitTs(Timestamp lastVisitTs) {
+    public void setLastVisitTs(long lastVisitTs) {
         this.lastVisitTs = lastVisitTs;
     }
 

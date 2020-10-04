@@ -246,6 +246,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .document(uid)
                     .update("pujoVisits", FieldValue.increment(1));
 
+            //set the last time profile was visited
+            FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .document(uid)
+                    .update("lastVisitTs", System.currentTimeMillis());
+
             upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -266,6 +272,11 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                                         batch.commit().addOnCompleteListener(task -> {
                                             if(task.isSuccessful()){
+                                                FirebaseFirestore.getInstance()
+                                                        .collection("Users")
+                                                        .document(uid)
+                                                        .update("upvotes", FieldValue.increment(-1));
+
                                                 upvote.setText("Upvote");
                                                 upvote.setBackgroundResource(R.drawable.custom_button);
                                                 upvote.setTextColor(getResources().getColor(R.color.white));
@@ -360,7 +371,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             batch.set(followerRef, seenModel);
 
                             batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()){
+                                if(task.isSuccessful()) {
+                                    FirebaseFirestore.getInstance()
+                                            .collection("Users")
+                                            .document(uid)
+                                            .update("upvotes", FieldValue.increment(1));
+
                                     upvote.setText("Upvoted");
                                     upvote.setBackgroundResource(R.drawable.custom_button_outline);
                                     upvote.setTextColor(getResources().getColor(R.color.purple));

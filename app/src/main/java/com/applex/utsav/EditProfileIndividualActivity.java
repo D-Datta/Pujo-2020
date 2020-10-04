@@ -63,7 +63,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
-    private Timestamp lastVisitTs;
+    private long lastVisitTs;
 //    private TextView email_ind;
 //    private Spinner gender_ind;
     private Button submit_ind;

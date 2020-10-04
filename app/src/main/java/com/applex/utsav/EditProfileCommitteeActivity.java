@@ -39,7 +39,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private long likeCount;
     private long commentcount;
     private long pujoVisits;
-    private Timestamp lastVisitTs;
+    private long lastVisitTs;
 
     private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid;
     private String tokenStr;
