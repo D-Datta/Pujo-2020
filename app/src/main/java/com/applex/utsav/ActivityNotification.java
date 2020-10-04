@@ -183,7 +183,7 @@ public class ActivityNotification extends AppCompatActivity {
                 holder.notifCard.setOnClickListener(v -> {
                     String postID= currentItem.getPostID();
 
-                    if(currentItem.getBool() == 1 && currentItem.getTitle().contains("post")){
+                    if(currentItem.getBool() == 1){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
                                 .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
@@ -203,7 +203,7 @@ public class ActivityNotification extends AppCompatActivity {
                         notifyItemChanged(position);
                     }
 
-                    else if(currentItem.getBool() == 2 && currentItem.getTitle().contains("post")){
+                    else if(currentItem.getBool() == 2){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
                                 .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
@@ -223,7 +223,7 @@ public class ActivityNotification extends AppCompatActivity {
                         notifyItemChanged(position);
                     }
 
-                    else if(currentItem.getBool() == 3 && currentItem.getTitle().contains("video")){
+                    else if(currentItem.getBool() == 3){
                         currentItem.setSeen(true);
                         FirebaseFirestore.getInstance()
                                 .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
