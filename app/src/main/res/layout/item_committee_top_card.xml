@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="12dp"
     android:gravity="center_vertical">
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="12dp">
+        android:layout_marginTop="2dp">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/com_card"
-            android:layout_width="135dp"
-            android:layout_height="80dp"
-            app:cardCornerRadius="10dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dp_outline"
+            android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/committee_cover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_add_white_24dp" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/com_card"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="40dp">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/committee_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_add_white_24dp" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+
 
         <LinearLayout
             android:id="@+id/xxx"
@@ -42,7 +52,7 @@
                 android:textSize="15dp"
                 android:paddingTop="7dp"
                 android:gravity="center"
-                android:paddingHorizontal="5dp"
+                android:paddingHorizontal="2dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:maxLines="1"
@@ -56,7 +66,7 @@
                 android:hint=""
                 android:textSize="12dp"
                 android:gravity="center"
-                android:paddingHorizontal="5dp"
+                android:paddingHorizontal="2dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"/>
 
@@ -74,4 +84,4 @@
         android:visibility="gone"
         android:padding="5dp"/>
 
-</LinearLayout>
+</RelativeLayout>

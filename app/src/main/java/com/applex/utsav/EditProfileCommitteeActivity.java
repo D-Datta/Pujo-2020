@@ -21,13 +21,12 @@ import com.applex.utsav.utility.StoreTemp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.sql.Timestamp;
 import java.util.Locale;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
@@ -272,6 +271,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()){
                                             progressDialog.dismiss();
+                                            introPref.setFullName(baseUserModel.getName());
                                             BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                             Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
                                             intent.putExtra("uid", fireuser.getUid());

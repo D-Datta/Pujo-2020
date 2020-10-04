@@ -43,12 +43,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="5dp">
 
         <ImageView
             android:id="@+id/back_reel"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="10dp"
             app:tint="@color/white"
             android:layout_alignParentStart="true"
             android:src="@drawable/ic_arrow_back_black_24dp"
@@ -56,10 +58,10 @@
 
         <ImageView
             android:id="@+id/save_reel"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignParentEnd="true"
-            android:padding="2dp"
+            android:padding="10dp"
             app:tint="@color/white"
             android:src="@drawable/ic_cloud_download_black_24dp"/>
 

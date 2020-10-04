@@ -84,6 +84,7 @@ public class RegChoice extends AppCompatActivity {
                 introPref.setType("com");
                 intent.putExtra("email",email);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -96,6 +97,7 @@ public class RegChoice extends AppCompatActivity {
                 introPref.setType("indi");
                 intent.putExtra("email",email);
                 startActivity(intent);
+                finish();
             }
         });
 

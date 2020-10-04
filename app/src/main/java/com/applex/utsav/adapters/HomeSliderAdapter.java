@@ -28,7 +28,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
     }
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_slider_layout, null);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_slider_layout, null);
         return new SliderAdapterVH(inflate);
     }
     @Override
@@ -98,7 +98,6 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 
         View itemView;
         ImageView imageViewBackground;
-        // TextView textViewDescription;
 
         SliderAdapterVH(View itemView) {
             super(itemView);

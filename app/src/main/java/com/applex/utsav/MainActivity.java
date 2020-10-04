@@ -30,8 +30,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -39,6 +39,7 @@ import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
@@ -48,6 +49,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -83,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ///NAV DRAWER VARIABLES/////
     ImageView displaypic;
     TextView username;
-    TextView name;
+    TextView name, visits, upvoters;
+    LinearLayout com_data;
     ///NAV DRAWER VARIABLES/////
 
     GoogleSignInClient mGooglesigninclient;
@@ -147,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple)));
         name = hView.findViewById(R.id.nav_Name);
         displaypic = hView.findViewById(R.id.displaypic);
+        com_data = hView.findViewById(R.id.com_data);
+        visits = hView.findViewById(R.id.visits);
+        upvoters = hView.findViewById(R.id.followers);
 
         hView.setOnClickListener(v -> {
             drawer.closeDrawers();
@@ -273,6 +279,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         name.setText(USERNAME);
 
+
+
         if(PROFILEPIC!=null){
 
                 Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
@@ -309,6 +317,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
             }
+
+        if(TYPE.matches("indi")){
+            com_data.setVisibility(View.GONE);
+        }
+        else if(TYPE.matches("com")){
+            com_data.setVisibility(View.VISIBLE);
+            FirebaseFirestore.getInstance().collection("Users")
+                    .document(FirebaseAuth.getInstance().getUid()).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                                if(baseUserModel.getPujoVisits() > 1) {
+                                    if(baseUserModel.getPujoVisits() > 1000) {
+                                        visits.setText(baseUserModel.getPujoVisits()/1000 + "." + (baseUserModel.getPujoVisits() % 1000)/100 + "K");
+                                    } else {
+                                        visits.setText(baseUserModel.getPujoVisits() + "");
+                                    }
+                                } else {
+                                    visits.setText(baseUserModel.getPujoVisits() + "");
+                                }
+                                if(baseUserModel.getUpvoteL() != null){
+                                    if(baseUserModel.getUpvoteL().size() == 0){
+                                        upvoters.setText("0");
+                                    }
+//                                    else if(baseUserModel.getUpvoteL().size() == 1){
+//                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
+//                                    }
+                                    else {
+                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
+                                    }
+                                }
+                                else {
+                                    upvoters.setText("0");
+                                }
+                            }
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
 
     }
 

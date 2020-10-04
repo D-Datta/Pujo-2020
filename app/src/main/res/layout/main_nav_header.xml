@@ -12,15 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:paddingStart="10dp">
+        android:layout_centerVertical="true">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
             app:cardCornerRadius="42.5dp"
             android:layout_marginTop="26dp"
             app:cardElevation="7dp"
-            android:layout_marginHorizontal="5dp"
+            android:layout_marginHorizontal="15dp"
             android:layout_width="85dp"
             android:layout_height="85dp">
 
@@ -43,7 +42,7 @@
                 android:id="@+id/nav_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="5dp"
+                android:paddingHorizontal="15dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginVertical="20dp"
                 android:text="Name"
@@ -51,6 +50,76 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/com_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingVertical="5dp"
+                android:background="@color/colorPrimary"
+                android:layout_below="@+id/nav_Name"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingVertical="5dp">
+
+                <TextView
+                    android:id="@+id/visits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visitors"
+                    android:textColor="#212121"
+                    android:paddingHorizontal="10dp"
+                    android:fontFamily="@font/oxygen_bold"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingVertical="5dp">
+
+                <TextView
+                    android:id="@+id/followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@color/black"
+                    android:paddingHorizontal="10dp"
+                    android:textStyle="bold"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upvotes"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/oxygen_bold"
+                    android:textSize="13sp" />
+            </LinearLayout>
+            </LinearLayout>
+
 
         </RelativeLayout>
     </LinearLayout>

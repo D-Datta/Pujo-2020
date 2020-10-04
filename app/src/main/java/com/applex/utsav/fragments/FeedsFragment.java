@@ -154,7 +154,7 @@ public class FeedsFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setItemViewCacheSize(10);
+        mRecyclerView.setItemViewCacheSize(20);
         //////////////RECYCLER VIEW////////////////////
 
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
@@ -235,6 +235,7 @@ public class FeedsFragment extends Fragment {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
+                .setPrefetchDistance(4)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
@@ -429,7 +430,8 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.text_content.setVisibility(View.GONE);
                     feedViewHolder.LinkPreview.setVisibility(View.GONE);
                     feedViewHolder.text_content.setText(null);
-                } else {
+                }
+                else {
                     feedViewHolder.text_content.setVisibility(View.VISIBLE);
                     feedViewHolder.text_content.setText(currentItem.getTxt());
                     if (feedViewHolder.text_content.getUrls().length > 0) {
@@ -603,16 +605,22 @@ public class FeedsFragment extends Fragment {
                                     player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                     player.prepare();
                                     AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                    if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                    if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                         player.start();
-                                    if(!player.isPlaying()) {
-                                        feedViewHolder.dhak_anim.cancelAnimation();
-                                        feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        if(!player.isPlaying()) {
+                                            feedViewHolder.dhak_anim.cancelAnimation();
+                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }
+                                        player.setOnCompletionListener(mediaPlayer -> {
+                                            feedViewHolder.dhak_anim.cancelAnimation();
+                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        });
+                                    } else {
+                                        new Handler().postDelayed(() -> {
+                                            feedViewHolder.dhak_anim.cancelAnimation();
+                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }, 2000);
                                     }
-                                    player.setOnCompletionListener(mediaPlayer -> {
-                                        feedViewHolder.dhak_anim.cancelAnimation();
-                                        feedViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    });
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -1055,7 +1063,7 @@ public class FeedsFragment extends Fragment {
                 .collection("Users")
                 .whereEqualTo("type", "com")
                 .orderBy("pujoVisits", Query.Direction.DESCENDING)
-                .limit(10);
+                .limit(15);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(QueryDocumentSnapshot document: queryDocumentSnapshots) {

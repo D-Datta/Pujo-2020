@@ -125,7 +125,9 @@ public class MessagingService extends FirebaseMessagingService {
         else if(action.matches("Reels")) {
             intent = new Intent(context, ReelsActivity.class);
             intent.putExtra("type", type);
-            intent.putExtra("postID", postID);
+            intent.putExtra("docID", postID);
+            intent.putExtra("bool", "1");
+
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -232,7 +234,6 @@ public class MessagingService extends FirebaseMessagingService {
         manager.notify((int)System.currentTimeMillis(), builder.build());
 
     }
-
 
     private Bitmap getCircleBitmap(Bitmap bitmap) {
 

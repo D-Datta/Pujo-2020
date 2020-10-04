@@ -558,7 +558,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             for (int j = 0; j < imagelist.size(); j++) {
                                 Long tsLong = System.currentTimeMillis();
                                 ts = tsLong.toString();
-                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
+                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid()+"/").child(ts+j + "post_img");
 
                                 int finalJ = j;
                                 reference.putBytes(imagelist.get(finalJ))
@@ -675,10 +675,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             reelsPostModel.setDocID(String.valueOf(timestampLong));
 
                             reelsPostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                            if(duration < 10) {
-                                reelsPostModel.setDuration("0:0" + duration);
+
+//                            reelsPostModel.setDuration(String.valueOf(duration/60) + ":");
+                            if(duration % 60 < 10) {
+                                reelsPostModel.setDuration(String.valueOf(duration/60) + ":0" + String.valueOf(duration % 60));
                             } else {
-                                reelsPostModel.setDuration("0:" + duration);
+                                reelsPostModel.setDuration(String.valueOf(duration/60) + ":" + String.valueOf(duration % 60));
                             }
 
                             if (!text_content.isEmpty()) {
@@ -691,8 +693,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                             Long tsLong = System.currentTimeMillis();
                             ts = tsLong.toString();
-                            StorageReference referenceVideo = storageReferenece.child("Reels/").child("Videos").child(fireuser.getUid() + "_" + ts + "post_vid");
-                            StorageReference referenceImage = storageReferenece.child("Reels/").child("Images").child(fireuser.getUid() + "_" + ts + "post_img");
+                            StorageReference referenceVideo = storageReferenece.child("Reels/").child("Videos").child(fireuser.getUid()).child(ts + "_post_vid");
+                            StorageReference referenceImage = storageReferenece.child("Reels/").child("Images").child(fireuser.getUid()).child(ts + "_post_img");
 
                             referenceImage.putBytes(frame)
                                     .addOnCompleteListener(task -> {
@@ -770,7 +772,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                 for (int j = 0; j < imagelist.size(); j++) {
                                     Long tsLong = System.currentTimeMillis();
                                     ts = tsLong.toString();
-                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid() +"_"+ ts + "post_img");
+                                    StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid()+"/").child(ts+j + "post_img");
 
                                     int finalJ = j;
                                     reference.putBytes(imagelist.get(finalJ))
@@ -936,7 +938,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                         tagAdapter2.notifyDataSetChanged();
                         tags_selectedRecycler.setVisibility(View.VISIBLE);
-                        Toast.makeText(NewPostHome.this,"New Tag Added", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
@@ -1051,7 +1052,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 Bitmap bitmap = retriever.getFrameAtTime(2000);
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 80, out);
                 frame = out.toByteArray();
 
                 final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};
@@ -1125,10 +1126,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         }
 
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                         byte[] pic = stream.toByteArray();
                         compressedBitmap.recycle();
                         imagelist.add(pic);
+
+//                        BasicUtility.showToast(NewPostHome.this, pic.length/1024+"");
 
                         if(imagelist != null && imagelist.size()>0){
 
@@ -1138,7 +1141,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                             recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setItemViewCacheSize(20);
+                            recyclerView.setItemViewCacheSize(10);
                             recyclerView.setNestedScrollingEnabled(true);
 
                             MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
@@ -1176,10 +1179,14 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     }
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                     byte[] byteArray = stream.toByteArray();
                     compressedBitmap.recycle();
                     imagelist.add(byteArray);
+
+//                    BasicUtility.showToast(NewPostHome.this, byteArray.length/1024+"");
+
+
                     if(imagelist != null && imagelist.size()>0){
 
                         container_image.setVisibility(View.VISIBLE);
@@ -1188,7 +1195,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                         recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemViewCacheSize(20);
+                        recyclerView.setItemViewCacheSize(10);
                         recyclerView.setNestedScrollingEnabled(true);
 
                         MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
@@ -1224,7 +1231,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 }
 
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
                 byte[] byteArray = stream.toByteArray();
                 compressedBitmap.recycle();
 
@@ -1237,7 +1244,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setItemViewCacheSize(20);
+                    recyclerView.setItemViewCacheSize(10);
                     recyclerView.setNestedScrollingEnabled(true);
 
                     MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
@@ -1273,7 +1280,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 Bitmap bitmap = retriever.getFrameAtTime(2000);
 
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 100, out);
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 80, out);
                 frame = out.toByteArray();
 
                 final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};
@@ -1326,6 +1333,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 PujoTagModel pujoTag = new PujoTagModel();
                 pujoTag.setPujoName(data.getStringExtra("name"));
                 pujoTag.setPujoUid(data.getStringExtra("uid"));
+                pujoTag.setDp(data.getStringExtra("dp"));
 
                 homePostModel.setPujoTag(pujoTag);
                 editPostModel.setPujoTag(pujoTag);

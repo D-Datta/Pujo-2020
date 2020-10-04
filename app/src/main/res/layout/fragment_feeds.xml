@@ -81,7 +81,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/communityRecyclerNoPost"
                         android:layout_width="match_parent"
-                        android:layout_height="128dp"
+                        android:layout_height="155dp"
                         android:clipToPadding="false"
                         android:paddingBottom="10dp"/>
 

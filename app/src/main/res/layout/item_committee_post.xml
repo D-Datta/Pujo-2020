@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="170dp"
                 app:sliderAnimationDuration="500"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"
@@ -41,17 +41,17 @@
 
         </androidx.cardview.widget.CardView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@color/light_background"/>
-
         <LinearLayout
             android:id="@+id/type_something"
             android:layout_width="match_parent"
             android:background="@color/white"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/light_background"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,7 +169,6 @@
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </LinearLayout>
@@ -180,13 +179,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <View
             android:id="@+id/view_type_smth"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="#E2E2E2"/>
+            android:background="@color/light_background"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -232,6 +231,72 @@
             android:text="@string/see_all"
             android:paddingBottom="5dp"
             android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:visibility="visible"
+        android:id="@+id/committee_item">
+
+        <View
+            android:id="@+id/view_pujo"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/light_background"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/com_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="5dp"
+                android:layout_centerVertical="true"
+                android:text="@string/upvoted_pujos"
+                android:textColor="@color/purple"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/community_view_all"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:layout_marginVertical="5dp"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="5dp"
+                android:text="@string/view_all"
+                android:background="@drawable/custom_ripple_white"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/purple"
+                android:textSize="12dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="145dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/communityRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="145dp"
+                android:clipToPadding="false"
+                android:paddingEnd="12dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -288,9 +353,8 @@
                                 android:scaleType="centerCrop" />
 
                         </androidx.cardview.widget.CardView>
+
                     </RelativeLayout>
-
-
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -351,10 +415,10 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="15dp"
                     android:text="@string/head_content"
-                    android:textColor="@color/black"
-                    android:maxLines="1"
+                    android:textColor="@color/purple"
+                    android:maxLines="3"
                     android:ellipsize="end"
-                    android:textColorLink="@color/link"
+                    android:textColorLink="@color/colorPrimary"
                     android:textSize="17dp" />
 
                 <TextView
@@ -387,16 +451,16 @@
                 <RelativeLayout
                     android:id="@+id/rlLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="300dp"
+                    android:layout_marginTop="5dp">
 
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/post_image"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="350dp"
                         app:sliderAnimationDuration="500"
                         app:sliderAutoCycleDirection="back_and_forth"
                         app:sliderAutoCycleEnabled="true"
-                        android:layout_marginTop="5dp"
                         app:sliderCircularHandlerEnabled="true"
                         app:sliderIndicatorAnimationDuration="600"
                         app:sliderIndicatorGravity="center_horizontal|bottom"
@@ -414,9 +478,9 @@
                         android:id="@+id/dhak_anim"
                         android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="match_parent"
                         app:lottie_autoPlay="false"
-                        android:padding="80dp"
+                        android:padding="90dp"
                         android:background="@color/dark_black_transparent2"
                         app:lottie_fileName="dhakbajano.json"
                         app:lottie_loop="true" />
@@ -428,8 +492,7 @@
                     android:layout_height="wrap_content"
                     android:paddingEnd="17dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginTop="5dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -439,15 +502,15 @@
 
                         <ImageView
                             android:id="@+id/like"
-                            android:layout_width="40dp"
+                            android:layout_width="34dp"
                             android:layout_height="40dp"
                             android:layout_marginStart="15dp"
                             android:src="@drawable/ic_btmnav_notifications" />
 
                         <ImageView
                             android:id="@+id/comment"
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
                             android:layout_marginHorizontal="10dp"
                             android:background="@drawable/custom_ripple_white"
                             android:padding="5dp"
@@ -455,8 +518,8 @@
 
                         <ImageView
                             android:id="@+id/share"
-                            android:layout_width="38dp"
-                            android:layout_height="38dp"
+                            android:layout_width="34dp"
+                            android:layout_height="34dp"
                             android:background="@drawable/custom_ripple_white"
                             android:padding="5dp"
                             android:src="@drawable/ic_blossom" />
@@ -479,9 +542,9 @@
 
                             <ImageView
                                 android:id="@+id/like_image"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:padding="7dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:padding="5dp"
                                 android:src="@drawable/ic_baseline_favorite_24"
                                 app:tint="@color/black_transparent" />
 
@@ -490,11 +553,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginHorizontal="8dp"
-                                android:fontFamily="@font/oxygen_ex_bold"
+                                android:layout_marginHorizontal="5dp"
                                 android:text="@string/_2_4k"
                                 android:textColor="@color/black_transparent"
-                                android:textSize="15dp" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -507,23 +569,21 @@
 
                             <ImageView
                                 android:id="@+id/comment_image"
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="end|center_vertical"
-                                android:padding="8dp"
+                                android:padding="6dp"
                                 android:src="@drawable/ic_comment" />
 
                             <TextView
                                 android:id="@+id/no_of_comments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="6dp"
+                                android:layout_marginHorizontal="5dp"
                                 android:layout_gravity="center_vertical"
-                                android:fontFamily="@font/oxygen_ex_bold"
                                 android:text="@string/_154"
                                 android:textColor="@color/black_transparent"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
+                                android:textSize="12dp" />
 
                         </LinearLayout>
 
@@ -537,7 +597,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/light_background"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginHorizontal="8dp"/>
 
             <LinearLayout

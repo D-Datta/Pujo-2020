@@ -1,8 +1,10 @@
 package com.applex.utsav.models;
 
-import java.sql.Timestamp;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 import java.util.ArrayList;
 
+@IgnoreExtraProperties
 public class BaseUserModel {
 
     private String name;

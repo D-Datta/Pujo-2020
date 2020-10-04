@@ -699,16 +699,22 @@ public class ActivityProfileUser extends AppCompatActivity {
                                         player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                         player.prepare();
                                         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                             player.start();
-                                        if(!player.isPlaying()) {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            if(!player.isPlaying()) {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            }
+                                            player.setOnCompletionListener(mediaPlayer -> {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            });
+                                        } else {
+                                            new Handler().postDelayed(() -> {
+                                                programmingViewHolder.dhak_anim.cancelAnimation();
+                                                programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                            }, 2000);
                                         }
-                                        player.setOnCompletionListener(mediaPlayer -> {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        });
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -1406,10 +1412,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
                 pic = baos.toByteArray();
                 compressedBitmap.recycle();
+
+//                BasicUtility.showToast(ActivityProfileUser.this, pic.length/1024+"");
 
                 if(pic!= null) {
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 ,pic.length);
@@ -1432,13 +1440,13 @@ public class ActivityProfileUser extends AppCompatActivity {
                     storageReference = storage.getReference();
 
                     if(imageCoverOrDp == 1){
-                        reference = storageReference.child("Profile/")
-                                .child(FirebaseAuth.getInstance().getUid()+"/")
-                                .child( FirebaseAuth.getInstance().getUid()+"_cover");
+                        reference = storageReference.child("Users/")
+                                .child("Coverpic/")
+                                .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
                     }
                     else {
-                        reference = storageReference.child("Profile/")
-                                .child(FirebaseAuth.getInstance().getUid()+"/")
+                        reference = storageReference.child("Users/")
+                                .child("DP/")
                                 .child( FirebaseAuth.getInstance().getUid()+"_dp");
                     }
 

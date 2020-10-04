@@ -125,7 +125,7 @@
     <string name="log_out">লগ আউট</string>
     <string name="live">লাইভ</string>
     <string name="update">আপডেট</string>
-    <string name="Edit_comment">মন্তব্য বদল করুন</string>
+    <string name="Edit_comment"> মন্তব্য বদল করুন</string>
     <string name="Search">সন্ধান</string>
     <string name="Edit_Profile">প্রোফাইলে কিছু বদল করুন</string>
     <string name="submit">জমা দিন</string>
@@ -182,5 +182,7 @@
     <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">বিভিন্ন বোনেদী বারিসের পুজো, তাদের heritageতিহ্য, কমিটি, সংখ্যালঘুদের পাশাপাশি কয়েকটি জায়গায় পুজোর অভিজ্ঞতা যেমন কলম্বিয়া, চাটিসগড়, আগরতলা ইত্যাদি বিভিন্ন জায়গায় অনুষ্ঠিত হয়</string>
     <string name="edit_comment">Edit Comment</string>
     <string name="intro_three">ফটো \n 360 ডিগ্রী শট \n ভিডিও \nিভিন্ন পুজো সন্ধান করুন \nসরাসরি প্রতিযোগিতায় অংশ নেওয়া \nরেজিস্ট্রেশন সম্পূর্ণ বিনামূল্যে \nপ্রাক পুজো আপডেট</string>
+    <string name="upvoted_pujos">Upvoted Pujos</string>
+    <string name="recently_visited_pujos">Recenlty Visited Pujos</string>
 
 </resources>
