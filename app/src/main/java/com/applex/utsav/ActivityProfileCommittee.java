@@ -29,6 +29,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.Display;
 import android.view.MenuItem;
@@ -323,43 +324,31 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             upvote_anim.setVisibility(View.VISIBLE);
                             upvote_anim.playAnimation();
 
-                            upvote_anim.addAnimatorListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animator) { }
-
-                                @Override
-                                public void onAnimationEnd(Animator animator) {
-                                    upvote_anim.setVisibility(View.GONE);
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animator) { }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animator) { }
-                            });
-
                             try {
                                 AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
                                 player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                 player.prepare();
                                 AudioManager audioManager = (AudioManager) ActivityProfileCommittee.this.getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
-//                                if(!player.isPlaying()) {
-//                                    programmingViewHolder.dhak_anim.cancelAnimation();
-//                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-//                                }
-//                                player.setOnCompletionListener(mediaPlayer -> {
-//                                    programmingViewHolder.dhak_anim.cancelAnimation();
-//                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-//                                });
+                                    if(!player.isPlaying()) {
+                                        upvote_anim.cancelAnimation();
+                                        upvote_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        upvote_anim.cancelAnimation();
+                                        upvote_anim.setVisibility(View.GONE);
+                                    });
+                                } else {
+                                    new Handler().postDelayed(() -> {
+                                        upvote_anim.cancelAnimation();
+                                        upvote_anim.setVisibility(View.GONE);
+                                    }, 2000);
+                                }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-
 
                             DocumentReference docRef = FirebaseFirestore.getInstance()
                                     .collection("Users")

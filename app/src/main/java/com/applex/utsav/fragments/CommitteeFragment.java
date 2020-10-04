@@ -519,6 +519,30 @@ public class CommitteeFragment extends Fragment {
                         startActivity(intent);
                     });
                 }
+
+                programmingViewHolder.head_content.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), ViewMoreText.class);
+                    intent.putExtra("username", currentItem.getUsN());
+                    intent.putExtra("userdp", currentItem.getDp());
+                    intent.putExtra("docID", currentItem.getDocID());
+                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                    intent.putExtra("comName", currentItem.getComName());
+                    intent.putExtra("comID", currentItem.getComID());
+                    intent.putExtra("likeL", currentItem.getLikeL());
+                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("ARRAYLIST", currentItem.getImg());
+                        intent.putExtra("BUNDLE", args);
+                    }
+                    intent.putExtra("postText", currentItem.getTxt());
+                    intent.putExtra("bool", "3");
+                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                    intent.putExtra("uid", currentItem.getUid());
+                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                    intent.putExtra("type", currentItem.getType());
+                    startActivity(intent);
+                });
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 programmingViewHolder.like_layout.setOnClickListener(v -> {
@@ -585,16 +609,22 @@ public class CommitteeFragment extends Fragment {
                                 player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                 player.prepare();
                                 AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
-                                if(!player.isPlaying()) {
-                                    programmingViewHolder.dhak_anim.cancelAnimation();
-                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    if(!player.isPlaying()) {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    });
+                                } else {
+                                    new Handler().postDelayed(() -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }, 2000);
                                 }
-                                player.setOnCompletionListener(mediaPlayer -> {
-                                    programmingViewHolder.dhak_anim.cancelAnimation();
-                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                });
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
