@@ -128,7 +128,9 @@ public class ActivityTagPujo extends AppCompatActivity {
                         tagList.add(user);
                     }
                 }
-                buildRecylerView();
+                adapter = new PujoTagAdapter(tagList, ActivityTagPujo.this);
+                tagsRecycler.setAdapter(adapter);
+
                 return true;
             }
         });

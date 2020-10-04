@@ -1076,7 +1076,7 @@ public class FeedsFragment extends Fragment {
                 }
             }
             if(committees.size()>0) {
-                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), 10);
+                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), 0);
                 cRecyclerView.setAdapter(communityAdapter);
             }
 

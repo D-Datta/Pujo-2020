@@ -267,7 +267,7 @@ public class CommitteeFragment extends Fragment {
                     } else {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
-                } else if (programmingViewHolder.getItemViewType() == 5 || programmingViewHolder.getItemViewType() == 10) {
+                } else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -276,7 +276,7 @@ public class CommitteeFragment extends Fragment {
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
 
-                    if (programmingViewHolder.getItemViewType() == 5) {
+                    if (programmingViewHolder.getItemViewType() == 4) {
                         programmingViewHolder.comm_heading.setText(getResources().getText(R.string.recently_visited_pujos));
                     } else {
                         programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
@@ -1433,7 +1433,7 @@ public class CommitteeFragment extends Fragment {
         ArrayList<BaseUserModel> committees = new ArrayList<>();
         Query query;
 
-        if(position == 5) {
+        if(position == 4) {
             query =  FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
