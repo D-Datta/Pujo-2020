@@ -90,52 +90,52 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         DocumentReference likeStore = null;
         CollectionReference flamedCol = null;
 
-        if(type != null) {
-            if(type.matches("comment_flame")) {
-                BottomFlamedByDialog2 bottomSheetDialog = null;
-                if (bool == 1) {
-                    bottomSheetDialog = new BottomFlamedByDialog2("Home", currentItem.getPostID(), currentItem.getDocID());
-                } else if (bool == 2) {
-                    bottomSheetDialog = new BottomFlamedByDialog2("Reels", currentItem.getPostID(), currentItem.getDocID());
-                }
-                Objects.requireNonNull(bottomSheetDialog).show(((FragmentActivity) mContext).getSupportFragmentManager(), "FlamedBySheet");
-            }
-            else if(type.matches("comment_reply")) {
-                Intent intent = new Intent(mContext, CommentReplyActivity.class);
-                intent.putExtra("username", currentItem.getUsername());
-                intent.putExtra("userdp", currentItem.getUserdp());
-                intent.putExtra("docID", currentItem.getDocID());
-                intent.putExtra("postID", currentItem.getPostID());
-                intent.putExtra("postUid", currentItem.getPostUid());
-                intent.putExtra("likeL", currentItem.getLikeL());
-                intent.putExtra("comment", currentItem.getComment());
-                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
-                intent.putExtra("uid", currentItem.getUid());
-                intent.putExtra("bool", Integer.toString(bool));
-                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                intent.putExtra("pComUid", currentItem.getUid());
-                intent.putExtra("type", currentItem.getType());
-                mContext.startActivity(intent);
-            }
-            else if(type.matches("comment_reply_flame")) {
-                Intent intent = new Intent(mContext, CommentReplyActivity.class);
-                intent.putExtra("username", currentItem.getUsername());
-                intent.putExtra("userdp", currentItem.getUserdp());
-                intent.putExtra("docID", currentItem.getDocID());
-                intent.putExtra("postID", currentItem.getPostID());
-                intent.putExtra("postUid", currentItem.getPostUid());
-                intent.putExtra("likeL", currentItem.getLikeL());
-                intent.putExtra("comment", currentItem.getComment());
-                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
-                intent.putExtra("uid", currentItem.getUid());
-                intent.putExtra("bool", Integer.toString(bool));
-                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                intent.putExtra("pComUid", currentItem.getUid());
-                intent.putExtra("type", currentItem.getType());
-                intent.putExtra("notiType", type);
-                mContext.startActivity(intent);
-            }
-        }
+//        if(type != null) {
+//            if(type.matches("comment_flame")) {
+//                BottomFlamedByDialog2 bottomSheetDialog = null;
+//                if (bool == 1) {
+//                    bottomSheetDialog = new BottomFlamedByDialog2("Home", currentItem.getPostID(), currentItem.getDocID());
+//                } else if (bool == 2) {
+//                    bottomSheetDialog = new BottomFlamedByDialog2("Reels", currentItem.getPostID(), currentItem.getDocID());
+//                }
+//                Objects.requireNonNull(bottomSheetDialog).show(((FragmentActivity) mContext).getSupportFragmentManager(), "FlamedBySheet");
+//            }
+//            else if(type.matches("comment_reply")) {
+//                Intent intent = new Intent(mContext, CommentReplyActivity.class);
+//                intent.putExtra("username", currentItem.getUsername());
+//                intent.putExtra("userdp", currentItem.getUserdp());
+//                intent.putExtra("docID", currentItem.getDocID());
+//                intent.putExtra("postID", currentItem.getPostID());
+//                intent.putExtra("postUid", currentItem.getPostUid());
+//                intent.putExtra("likeL", currentItem.getLikeL());
+//                intent.putExtra("comment", currentItem.getComment());
+//                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
+//                intent.putExtra("uid", currentItem.getUid());
+//                intent.putExtra("bool", Integer.toString(bool));
+//                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+//                intent.putExtra("pComUid", currentItem.getUid());
+//                intent.putExtra("type", currentItem.getType());
+//                mContext.startActivity(intent);
+//            }
+//            else if(type.matches("comment_reply_flame")) {
+//                Intent intent = new Intent(mContext, CommentReplyActivity.class);
+//                intent.putExtra("username", currentItem.getUsername());
+//                intent.putExtra("userdp", currentItem.getUserdp());
+//                intent.putExtra("docID", currentItem.getDocID());
+//                intent.putExtra("postID", currentItem.getPostID());
+//                intent.putExtra("postUid", currentItem.getPostUid());
+//                intent.putExtra("likeL", currentItem.getLikeL());
+//                intent.putExtra("comment", currentItem.getComment());
+//                intent.putExtra("ReplyCommentNo", Integer.toString(currentItem.getrCmtNo()));
+//                intent.putExtra("uid", currentItem.getUid());
+//                intent.putExtra("bool", Integer.toString(bool));
+//                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+//                intent.putExtra("pComUid", currentItem.getUid());
+//                intent.putExtra("type", currentItem.getType());
+//                intent.putExtra("notiType", type);
+//                mContext.startActivity(intent);
+//            }
+//        }
 
         if(currentItem.getTs() == -1L) {
             programmingViewHolder.minsago.setText("Failed!");
