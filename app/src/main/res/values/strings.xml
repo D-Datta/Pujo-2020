@@ -153,7 +153,7 @@
     <string name="an_initiative_of">an initiative of</string>
     <string name="utsav_clips">Utsav Clips</string>
     <string name="your_posts">Your Posts</string>
-    <string name="pujo">Pujo</string>
+
     <string name="videos">Videos</string>
     <string name="camera">Camera</string>
     <string name="photos">Photos</string>
@@ -173,8 +173,6 @@
     <string name="descriptionIndividual">If you are a general visitor and want to share your pujo stories</string>
 
     <string name="aboutUtsav">Due to this current pandemic, it\'s evident that Durga Pujo 2020 is not going to be the same as every year.\n\nHowever, in an effort to not let the spirit of Durga Puja fade away totally, we , a group of students from Kolkata have taken the initiative to create an android app ,<b>"Utsav"</b> through which the people of Bengal will be able to participate in the festivities, right from the safety of their homes. \n\n A viewer’s choice award will be given to the best Pujo of 2020 based on public interaction.</string>
-
-    <!--    <string name="utsavFeature">Photos \n \nVideos \nLocate various pujo \nParticipation in Live Contests \nPre-Pujo updates</string>-->
 
     <string name="utsavFeature1">Photos</string>
     <string name="utsavFeature2">360 degree shots</string>
@@ -205,4 +203,8 @@
     <string name="intro_three">Photos \n 360 degree shots \n Videos \nLocate various pujo \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Pujo updates</string>
     <string name="upvoted_pujos">Top 15 Pujos</string>
     <string name="recently_visited_pujos">Recenlty Visited Pujos</string>
+
+    <string name="pujo">Pujo</string>
+    <string name="people">People</string>
+
 </resources>

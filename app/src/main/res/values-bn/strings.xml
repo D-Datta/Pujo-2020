@@ -166,7 +166,6 @@
     <string name="an_initiative_of">একটি উদ্যোগ</string>
     <string name="utsav_clips">উৎসব ক্লিপস</string>
     <string name="your_posts">আপনার পোস্ট</string>
-    <string name="pujo">পুজো</string>
     <string name="videos">ভিডিও</string>
     <string name="camera">ক্যামেরা</string>
     <string name="photos">ফটো</string>
@@ -189,5 +188,8 @@
     <string name="recently_visited_pujos">সম্প্রতি দেখা পুজো</string>
     <string name="description">আপনি যদি পুজো অর্গানাইজার হন</string>
     <string name="descriptionIndividual">আপনি যদি সাধারণ দর্শক হন এবং আপনার পুজোর গল্পগুলি শেয়ার করতে চান</string>
+
+    <string name="pujo">পুজো</string>
+    <string name="people">জনগন</string>
 
 </resources>

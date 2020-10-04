@@ -218,8 +218,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupViewPager(ViewPager viewPager) {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
-        tabAdapter.addFragment(new CommitteeFragment(), "Pujo");
-        tabAdapter.addFragment(new FeedsFragment(),"People");
+        tabAdapter.addFragment(new CommitteeFragment(), getResources().getText(R.string.pujo).toString());
+        tabAdapter.addFragment(new FeedsFragment(),getResources().getText(R.string.people).toString());
         viewPager.setAdapter(tabAdapter);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
