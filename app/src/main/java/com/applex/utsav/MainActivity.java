@@ -34,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView notif;
     TextView notifDot;
     DocumentReference docref3;
+
+    private Boolean doubleBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -638,5 +642,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause() {
         super.onPause();
         unregisterReceiver(myReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START))
+        {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            if(doubleBackPressed)
+            {
+                super.onBackPressed();
+                return;
+            }
+            doubleBackPressed = true;
+            Toast.makeText(this, "Press BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackPressed = false;
+                }
+            }, 3000);
+        }
     }
 }
