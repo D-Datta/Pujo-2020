@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -44,6 +45,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -87,6 +89,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
 import static com.applex.utsav.utility.BasicUtility.tsLong;
@@ -1121,22 +1124,68 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     int count = data.getClipData().getItemCount();
                     for (int i =0; i < count; i++) {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        ExifInterface ei = null;
                         Bitmap bitmap = null;
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                            ei = new ExifInterface(Objects.requireNonNull(getContentResolver().openInputStream(imageUri)));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        new ImageCompressor(bitmap).execute();
+                        int orientation = Objects.requireNonNull(ei).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+                        Bitmap rotatedBitmap;
+                        switch(orientation) {
+
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                rotatedBitmap = rotateImage(bitmap, 90);
+                                break;
+
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                rotatedBitmap = rotateImage(bitmap, 180);
+                                break;
+
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                rotatedBitmap = rotateImage(bitmap, 270);
+                                break;
+
+                            case ExifInterface.ORIENTATION_NORMAL:
+                            default:
+                                rotatedBitmap = bitmap;
+                        }
+                        new ImageCompressor(rotatedBitmap).execute();
                     }
                 } else if (data.getData() != null) {
                     Bitmap bitmap = null;
+                    ExifInterface ei = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        ei = new ExifInterface(Objects.requireNonNull(getContentResolver().openInputStream(data.getData())));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    new ImageCompressor(bitmap).execute();
+                    int orientation = Objects.requireNonNull(ei).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+                    Bitmap rotatedBitmap;
+                    switch(orientation) {
+
+                        case ExifInterface.ORIENTATION_ROTATE_90:
+                            rotatedBitmap = rotateImage(bitmap, 90);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_180:
+                            rotatedBitmap = rotateImage(bitmap, 180);
+                            break;
+
+                        case ExifInterface.ORIENTATION_ROTATE_270:
+                            rotatedBitmap = rotateImage(bitmap, 270);
+                            break;
+
+                        case ExifInterface.ORIENTATION_NORMAL:
+                        default:
+                            rotatedBitmap = bitmap;
+                    }
+                    new ImageCompressor(rotatedBitmap).execute();
                 }
             }
             else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
@@ -1300,6 +1349,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     //////////////////////PREMISSIONS//////////////////////////
 
+    @SuppressLint("StaticFieldLeak")
     class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
 
         private Bitmap bitmap, compressedBitmap;
@@ -1399,5 +1449,4 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             imageCompressor.cancel(true);
         }
     }
-
 }
