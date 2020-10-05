@@ -53,6 +53,7 @@ import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.MultipleImageAdapter;
 import com.applex.utsav.adapters.TagAdapter;
+import com.applex.utsav.adapters.TagAdapter2;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.HomePostModel;
@@ -108,9 +109,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private IntroPref introPref;
     private RecyclerView recyclerView;
 
-    private String textdata = "", colorValue;
+    private String textdata = "";
     private RecyclerView tags_selectedRecycler;
-    private TagAdapter tagAdapter2;
+    private TagAdapter2 tagAdapter2;
     private ImageCompressor imageCompressor;
 
     private Uri filePath, finalUri, videoUri;
@@ -765,6 +766,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             homePostModel.setNewTs(timestampLong);
                             homePostModel.setType(introPref.getType());
                             homePostModel.setGender(GENDER);
+                            homePostModel.setTagList(tagList);
 
                             homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -926,25 +928,25 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     else {
                         edtagtxt.setText("");
 
-                        ArrayList<String> TagColorArray = new ArrayList<>();
-                        TagColorArray.add("#f4b4ff");
-                        TagColorArray.add("#aaf1ff");
-                        TagColorArray.add("#ffdfad");
-                        TagColorArray.add("#bcffa2");
-                        TagColorArray.add("#cecbff");
-                        TagColorArray.add("#cfffef");
-                        TagColorArray.add("#ffc0bd");
-                        TagColorArray.add("#faff9c");
-                        TagColorArray.add("#7efdff");
-                        TagColorArray.add("#ffe87b");
-
-                        int pos= (int) (Math.random()* 10);
-                        colorValue= TagColorArray.get(pos);
-
-                        TagModel mytag = new TagModel();
-                        mytag.setName_tag(textdata);
-                        mytag.setColor_hex(colorValue);
-                        selected_tags.add(mytag);
+//                        ArrayList<String> TagColorArray = new ArrayList<>();
+//                        TagColorArray.add("#f4b4ff");
+//                        TagColorArray.add("#aaf1ff");
+//                        TagColorArray.add("#ffdfad");
+//                        TagColorArray.add("#bcffa2");
+//                        TagColorArray.add("#cecbff");
+//                        TagColorArray.add("#cfffef");
+//                        TagColorArray.add("#ffc0bd");
+//                        TagColorArray.add("#faff9c");
+//                        TagColorArray.add("#7efdff");
+//                        TagColorArray.add("#ffe87b");
+//
+//                        int pos= (int) (Math.random()* 10);
+//                        colorValue= TagColorArray.get(pos);
+//
+//                        TagModel mytag = new TagModel();
+//                        mytag.setName_tag(textdata);
+//                        mytag.setColor_hex(colorValue);
+//                        selected_tags.add(mytag);
 
                         tagList.add(textdata);
 
@@ -965,39 +967,26 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
       //  selected_tags = new ArrayList<>();
 
-        tagAdapter2 = new TagAdapter(selected_tags, getApplicationContext());
+        tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
         tags_selectedRecycler.setAdapter(tagAdapter2);
 
-        tagAdapter2.onClickListener((position, tag, color) -> {
+        tagAdapter2.onClickListener((position, tag) -> {
             Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
         });
-        tagAdapter2.onLongClickListener((position, tag_name, tag_color) ->{
-            TagModel tagModel = new TagModel();
-            tagModel.setName_tag(tag_name);
-            tagModel.setColor_hex(tag_color);
 
-            selected_tags.remove(position);
+        tagAdapter2.onLongClickListener((position, tag_name) ->{
+//            TagModel tagModel = new TagModel();
+//            tagModel.setName_tag(tag_name);
+
+            tagList.remove(position);
             tagAdapter2.notifyItemRemoved(position);
 
-            if(selected_tags.size()==0)
+            if(tagList.size()==0)
                 tags_selectedRecycler.setVisibility(View.GONE);
 
             //   tagAdapter.notifyDataSetChanged();
         });
 
-//        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                selected_tags.remove(viewHolder.getAdapterPosition());
-//                tagAdapter2.notifyItemRemoved(viewHolder.getAdapterPosition());
-//            }
-//        });
-//        helper.attachToRecyclerView(tags_selectedRecycler);
 
     }
 

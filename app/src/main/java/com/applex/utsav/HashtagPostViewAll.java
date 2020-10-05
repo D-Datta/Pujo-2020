@@ -105,7 +105,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getIntent().getStringExtra("hashtag"));
+        toolbar.setTitle("#"+ getIntent().getStringExtra("hashtag"));
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -136,11 +136,11 @@ public class HashtagPostViewAll extends AppCompatActivity {
     }
 
     private void buildRecyclerView() {
-        String tag=getIntent().getStringExtra("hashtag").trim();
+        String tag = getIntent().getStringExtra("hashtag");
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds")
-                .orderBy("ts", Query.Direction.DESCENDING).whereArrayContains("tagL", new String[]{"#ffe87b", "Hello"});
+               .whereArrayContains("tagList", tag);
 
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -902,7 +902,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: BasicUtility.showToast(getApplicationContext(), "Something went wrong..."); break;
+                    case ERROR: BasicUtility.showToast(getApplicationContext(),"Something went wrong..."); break;
                     case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE); break;
                     case LOADED: progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {

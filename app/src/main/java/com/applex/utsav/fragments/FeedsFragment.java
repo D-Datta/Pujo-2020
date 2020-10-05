@@ -46,6 +46,7 @@ import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.TagAdapter;
+import com.applex.utsav.adapters.TagAdapter2;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.BaseUserModel;
@@ -369,14 +370,14 @@ public class FeedsFragment extends Fragment {
                 feedViewHolder.tagList.setNestedScrollingEnabled(true);
                 feedViewHolder.tagList.setLayoutManager(linearLayoutManager);
                 ///////////TAG RECYCLER SETUP////////////////
-                TagAdapter tagAdapter;
+                TagAdapter2 tagAdapter;
 
-                if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
+                if (currentItem.getTagList() != null && currentItem.getTagList().size() > 0) {
                     feedViewHolder.tagList.setVisibility(View.VISIBLE);
-                    tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
+                    tagAdapter = new TagAdapter2(currentItem.getTagList(), getActivity());
                     feedViewHolder.tagList.setAdapter(tagAdapter);
 
-                    tagAdapter.onClickListener((position1, tag, color) -> {
+                    tagAdapter.onClickListener((position1, tag) -> {
                        Intent i = new Intent(getContext(), HashtagPostViewAll.class);
                        i.putExtra("hashtag", tag);
 //                       i.putExtra("color", color);
