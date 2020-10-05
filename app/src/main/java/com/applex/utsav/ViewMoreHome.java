@@ -901,8 +901,8 @@ public class ViewMoreHome extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
-                                    CommitteeFragment.changed=1;
-                                    FeedsFragment.changed=1;
+//                                    CommitteeFragment.changed=1;
+//                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
@@ -984,8 +984,8 @@ public class ViewMoreHome extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
-                                    CommitteeFragment.changed=1;
-                                    FeedsFragment.changed=1;
+//                                    CommitteeFragment.changed=1;
+//                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
