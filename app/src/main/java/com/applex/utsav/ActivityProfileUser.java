@@ -460,7 +460,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                     programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                    programmingViewHolder.sliderView.setIndicatorRadius(8);
+                    programmingViewHolder.sliderView.setIndicatorRadius(5);
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                     programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
