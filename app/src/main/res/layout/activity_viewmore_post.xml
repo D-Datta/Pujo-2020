@@ -34,6 +34,7 @@
         app:sliderIndicatorOrientation="horizontal"
         app:sliderIndicatorPadding="3dp"
         app:sliderIndicatorRadius="1dp"
+        android:transitionName="transition"
         app:sliderIndicatorSelectedColor="@color/colorPrimary"
         app:sliderIndicatorUnselectedColor="#FFF"
         app:sliderScrollTimeInSec="1"

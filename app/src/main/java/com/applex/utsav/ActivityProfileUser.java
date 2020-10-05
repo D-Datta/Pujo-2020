@@ -147,7 +147,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     private IntroPref introPref;
 
     ///Current user details from intropref
-    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT;
+    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT, Userprofilepic;
 
 
     @Override
@@ -213,7 +213,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         buildRecycler();
 
         /////////////SETUP//////////////
-        PROFILEPIC =  introPref.getUserdp();
+        Userprofilepic =  introPref.getUserdp();
         USERNAME = introPref.getFullName();
         ///////////////RECYCLER VIEW////////////////////
 
@@ -337,8 +337,8 @@ public class ActivityProfileUser extends AppCompatActivity {
 
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-                if (PROFILEPIC != null) {
-                    Picasso.get().load(PROFILEPIC).fit().centerCrop()
+                if (Userprofilepic != null) {
+                    Picasso.get().load(Userprofilepic).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.profileimage);
                 } else {
@@ -557,7 +557,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem);
+                    SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem, programmingViewHolder.sliderView);
                     programmingViewHolder.sliderView.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -584,8 +584,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                         startActivity(intent);
                     });
                 }
-                else
-                {
+                else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderView.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -740,7 +739,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     flamedModel.setTs(tsLong);
                                     flamedModel.setType(introPref.getType());
                                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(PROFILEPIC);
+                                    flamedModel.setUserdp(Userprofilepic);
                                     flamedModel.setUsername(USERNAME);
                                     flamedModel.setPostUid(currentItem.getUid());
 
@@ -1206,12 +1205,31 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 });
 
                                 UserName = userModel.getName();
-                                if(userModel.getCity()!=null && userModel.getState()!=null ){
-                                    Pcity.setText(userModel.getCity()+", "+userModel.getState());
+                                if(userModel.getCity()!=null || userModel.getState()!=null){
+                                    if((userModel.getCity()!=null && !userModel.getCity().isEmpty())
+                                            && userModel.getState()==null){
+                                        Pcity.setText(userModel.getCity());
+                                    }
+                                    else if(userModel.getCity()==null
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getState());
+                                    }
+                                    else if((userModel.getCity()!=null && userModel.getCity().isEmpty())
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getState());
+                                    }
+                                    else if((userModel.getState()!=null && userModel.getState().isEmpty())
+                                            && (userModel.getCity()!=null && !userModel.getCity().isEmpty())){
+                                        Pcity.setText(userModel.getCity());
+                                    }
+                                    else if((userModel.getCity()!=null && !userModel.getCity().isEmpty())
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getCity()+", "+userModel.getState());
+                                    }
                                 }
-                                else
+                                else if(userModel.getCity()==null && userModel.getState()==null){
                                     Pcity.setVisibility(View.GONE);
-
+                                }
 
                                 if(userModel.getDp()!=null){
                                     PROFILEPIC = userModel.getDp();

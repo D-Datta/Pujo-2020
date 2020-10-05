@@ -31,6 +31,8 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -477,7 +479,7 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderViewpost.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderViewpost.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(), currentItem);
+                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(), currentItem, programmingViewHolder.sliderViewpost);
                     programmingViewHolder.sliderViewpost.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -501,7 +503,9 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
+                                programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
+                        startActivity(intent, optionsCompat.toBundle());
                     });
 
                     programmingViewHolder.head_content.setOnClickListener(v -> {
@@ -525,7 +529,9 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
+                                programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
+                        startActivity(intent, optionsCompat.toBundle());
                     });
                 }
                 else {

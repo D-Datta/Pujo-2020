@@ -1,6 +1,7 @@
 package com.applex.utsav.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.StoreTemp;
+import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -24,6 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
 
@@ -31,11 +37,13 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     private ArrayList<String> itemDatalist;
     private int bool;
     private HomePostModel model;
+    private SliderView sliderView;
 
-    public SliderAdapter(Context context, ArrayList<String> itemDatalist, HomePostModel model) {
+    public SliderAdapter(Context context, ArrayList<String> itemDatalist, HomePostModel model, SliderView sliderView) {
         this.mContext = context;
         this.itemDatalist = itemDatalist;
         this.model = model;
+        this.sliderView = sliderView;
         this.bool = bool;// 2 = global ; 3 = campus
     }
     @Override
@@ -107,7 +115,9 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 intent.putExtra("uid", model.getUid());
                 intent.putExtra("timestamp", Long.toString(model.getTs()));
                 intent.putExtra("type", model.getType());
-                mContext.startActivity(intent);
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext,
+                        sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(sliderView)));
+                mContext.startActivity(intent, optionsCompat.toBundle());
             }
         });
 
