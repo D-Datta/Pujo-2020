@@ -15,6 +15,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -42,7 +44,7 @@ public class MessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        if(remoteMessage.getData().get("click_action") != null) {
+        if(remoteMessage.getData().get("clickAction") != null) {
             String message = remoteMessage.getData().get("body");
             String title = remoteMessage.getData().get("title");
             String action = remoteMessage.getData().get("clickAction");
@@ -82,6 +84,7 @@ public class MessagingService extends FirebaseMessagingService {
         Intent intent;
 
         if (action.matches("Feeds")) {
+            Log.i("BAM", "1");
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
