@@ -307,6 +307,9 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                     individualModel.setLastname(LNAME);
                     individualModel.setBio(BIO);
 
+                    introPref.setFullName(USERNAME);
+                    introPref.setGender(GENDER);
+
                     if (pic != null || coverpicbyte != null) {
 
 //                        NotifCount notifCount= new NotifCount();
@@ -397,7 +400,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
-                                                                        introPref.setFullName(baseUserModel.getName());
+//                                                                        introPref.setFullName(baseUserModel.getName());
                                                                         progressDialog.dismiss();
                                                                         BasicUtility.showToast(getApplicationContext(), "Profile Edited");
                                                                         Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
