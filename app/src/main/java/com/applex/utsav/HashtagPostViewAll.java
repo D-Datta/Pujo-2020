@@ -153,7 +153,6 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 .setQuery(query, config, snapshot -> {
                     HomePostModel homePostModel = snapshot.toObject(HomePostModel.class);
                     Objects.requireNonNull(homePostModel).setDocID(snapshot.getId());
-                    Toast.makeText(getApplicationContext(),"2", Toast.LENGTH_SHORT).show();
                     return homePostModel;
                 })
                 .build();
