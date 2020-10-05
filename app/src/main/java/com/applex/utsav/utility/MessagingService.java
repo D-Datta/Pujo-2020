@@ -96,7 +96,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -120,7 +120,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -165,7 +165,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -195,7 +195,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -218,7 +218,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -241,7 +241,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -260,7 +260,7 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -280,7 +280,7 @@ public class MessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "MyNotifications")
                 .setContentTitle(title)
                 .setContentText(message)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
@@ -311,7 +311,6 @@ public class MessagingService extends FirebaseMessagingService {
             bitmap.recycle();
             return output;
         }
-
         return null;
     }
 
