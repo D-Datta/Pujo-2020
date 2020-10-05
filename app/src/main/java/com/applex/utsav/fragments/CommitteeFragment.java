@@ -227,42 +227,73 @@ public class CommitteeFragment extends Fragment {
                             })
                             .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
 
-                    if (introPref.getType().matches("com")) {
-                        programmingViewHolder.new_post_layout.setVisibility(View.VISIBLE);
-
-                        programmingViewHolder.type_dp.setOnClickListener(view -> {
-                            Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
-                            intent.putExtra("uid", Objects.requireNonNull(FirebaseAuth.getInstance()).getUid());
-                            startActivity(intent);
-                        });
-
-                        programmingViewHolder.type_something.setOnClickListener(view -> {
-                            if (InternetConnection.checkConnection(requireActivity())) {
-                                Intent i = new Intent(getContext(), NewPostHome.class);
+                    programmingViewHolder.type_something.setVisibility(View.VISIBLE);
+                    programmingViewHolder.type_something.setOnClickListener(view -> {
+                        if (InternetConnection.checkConnection(requireActivity())) {
+                            Intent i = new Intent(getContext(), NewPostHome.class);
+                            if(introPref.getType().matches("com")){
                                 i.putExtra("target", "1");
-                                startActivity(i);
-                            } else
-                                BasicUtility.showToast(getContext(), "Network Unavailable...");
-                        });
-                        programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-                            if (InternetConnection.checkConnection(requireActivity())) {
-                                Intent i = new Intent(getContext(), NewPostHome.class);
-                                i.putExtra("target", "1");
-                                startActivity(i);
-                            } else
-                                BasicUtility.showToast(getContext(), "Network Unavailable...");
-                        });
+                            }
+                            else
+                                i.putExtra("target", "2");
 
-                        if (COMMITEE_LOGO != null) {
-                            Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
-                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                    .into(programmingViewHolder.type_dp);
-                        } else {
-                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                        }
+                            startActivity(i);
+                        } else
+                            BasicUtility.showToast(getContext(), "Network Unavailable...");
+                    });
+
+
+                    programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
+                        if (InternetConnection.checkConnection(requireActivity())) {
+                            Intent i = new Intent(getContext(), NewPostHome.class);
+
+                            if(introPref.getType().matches("com")){
+                                i.putExtra("target", "1");
+                            }
+                            else
+                                i.putExtra("target", "2");
+
+                            startActivity(i);
+                        } else
+                            BasicUtility.showToast(getContext(), "Network Unavailable...");
+                    });
+
+                    if (COMMITEE_LOGO != null) {
+                        Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+                                .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                .into(programmingViewHolder.type_dp);
                     } else {
-                        programmingViewHolder.new_post_layout.setVisibility(View.GONE);
+                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
+
+//                    if (introPref.getType().matches("com")) {
+//
+//                        programmingViewHolder.type_dp.setOnClickListener(view -> {
+//                            Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+//                            intent.putExtra("uid", Objects.requireNonNull(FirebaseAuth.getInstance()).getUid());
+//                            startActivity(intent);
+//                        });
+//                        programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
+//                            if (InternetConnection.checkConnection(requireActivity())) {
+//                                Intent i = new Intent(getContext(), NewPostHome.class);
+//                                i.putExtra("target", "1");
+//                                startActivity(i);
+//                            } else
+//                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+//                        });
+//
+//                        if (COMMITEE_LOGO != null) {
+//                            Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+//                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+//                                    .into(programmingViewHolder.type_dp);
+//                        } else {
+//                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                        }
+//                    }
+
+//                    else {
+//                        programmingViewHolder.new_post_layout.setVisibility(View.GONE);
+//                    }
                 }
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);

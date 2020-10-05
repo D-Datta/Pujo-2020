@@ -134,13 +134,13 @@ public class FeedsFragment extends Fragment {
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
 //        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
-        create_post = view.findViewById(R.id.create_post_ind);
+//        create_post = view.findViewById(R.id.create_post_ind);
 //        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
-
-        if(introPref.getType().matches("com")) {
-            create_post.setVisibility(View.GONE);
-        }
-        create_post.setVisibility(View.GONE);
+//
+//        if(introPref.getType().matches("com")) {
+//            create_post.setVisibility(View.GONE);
+//        }
+//        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
