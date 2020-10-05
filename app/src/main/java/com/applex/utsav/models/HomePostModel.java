@@ -24,6 +24,7 @@ public class HomePostModel {
     private ArrayList<TagModel> tagL;
     private long cmtNo;
     private ArrayList<String> likeL;
+    private ArrayList<String> tagList;
 
     @Exclude
     private int likeCheck;
@@ -38,6 +39,14 @@ public class HomePostModel {
     ////////////DEFAULT CONSTRUCTOR///////////
     public HomePostModel(){
         likeCheck = -1;
+    }
+
+    public ArrayList<String> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(ArrayList<String> tagList) {
+        this.tagList = tagList;
     }
 
     public String getComName() {

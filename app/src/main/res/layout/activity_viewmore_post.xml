@@ -21,10 +21,12 @@
         android:id="@+id/post_image44"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="5dp"
+        android:visibility="visible"
         app:sliderAnimationDuration="500"
         app:sliderAutoCycleDirection="back_and_forth"
         app:sliderAutoCycleEnabled="true"
-        android:layout_marginTop="5dp"
         app:sliderCircularHandlerEnabled="true"
         app:sliderIndicatorAnimationDuration="600"
         app:sliderIndicatorGravity="center_horizontal|top"
@@ -35,9 +37,7 @@
         app:sliderIndicatorSelectedColor="@color/colorPrimary"
         app:sliderIndicatorUnselectedColor="#FFF"
         app:sliderScrollTimeInSec="1"
-        android:visibility="visible"
-        app:sliderStartAutoCycle="true"
-        android:layout_centerInParent="true"/>
+        app:sliderStartAutoCycle="true" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/dhak_anim"

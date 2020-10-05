@@ -153,6 +153,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
 
+    private ArrayList<String> tagList;
+
     Context context;
     Resources resources;
 
@@ -209,11 +211,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //        resources = context.getResources();
 //        newPostToolb.setText(resources.getText(R.string.new_post));
 
-
-
+        tagList = new ArrayList<>();
 
         buildRecyclerView_selectedtags();
-
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
@@ -294,11 +294,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         GENDER = introPref.getGender();
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
-
         editPostModel= new HomePostModel();
         reelsPostModel = new ReelsPostModel();
         homePostModel = new HomePostModel();
-
 
         ///////////////SHARED CONTENT///////////////
         Intent intent = getIntent();
@@ -471,7 +469,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         }
         //////////////////SHARED CONTENT///////////////////
-
 
         ///////////////////////IMAGE HANDLING////////////////////////
         gallery.setOnClickListener(v -> {
@@ -948,6 +945,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         mytag.setName_tag(textdata);
                         mytag.setColor_hex(colorValue);
                         selected_tags.add(mytag);
+
+                        tagList.add(textdata);
 
                         tagAdapter2.notifyDataSetChanged();
                         tags_selectedRecycler.setVisibility(View.VISIBLE);
