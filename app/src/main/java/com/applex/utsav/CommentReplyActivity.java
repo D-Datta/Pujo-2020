@@ -82,7 +82,7 @@ public class CommentReplyActivity extends AppCompatActivity {
 
     private IntroPref introPref;
     private String PROFILEPIC, user_image;
-    private String USERNAME, UID;
+    private String USERNAME, UID, notifType, pCom_ts;
 
     private ArrayList<String> likeList;
 
@@ -116,7 +116,6 @@ public class CommentReplyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
-
 
         mRecyclerView = findViewById(R.id.reply_comments_recycler);
         send = findViewById(R.id.send_comment);
@@ -162,6 +161,8 @@ public class CommentReplyActivity extends AppCompatActivity {
 
         Intent i= getIntent();
         bool = i.getStringExtra("bool");
+        notifType = i.getStringExtra("notiType");
+        pCom_ts = i.getStringExtra("pCom_ts");
 
         final CommentModel[] commentModel = {new CommentModel()};
 
@@ -353,17 +354,6 @@ public class CommentReplyActivity extends AppCompatActivity {
                 });
         //////////////////FLAME SETUP////////////////////////
 
-        if(getIntent().getStringExtra("notiType") != null &&
-                Objects.requireNonNull(getIntent().getStringExtra("notiType")).matches("comment_reply_flame")) {
-            BottomFlamedByDialog2 bottomSheetDialog = null;
-            if(bool.matches("1")) {
-                bottomSheetDialog = new BottomFlamedByDialog2("Feeds", postID, docID);
-            } else if(bool.matches("2")) {
-                bottomSheetDialog = new BottomFlamedByDialog2("Reels", postID, docID);
-            }
-            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-        }
-
         flamedByComment.setOnClickListener(v -> {
             if(likeList !=null && likeList.size() > 0) {
                 BottomFlamedByDialog2 bottomSheetDialog = null;
@@ -500,7 +490,7 @@ public class CommentReplyActivity extends AppCompatActivity {
         }
 
         CommentList = new ArrayList<>();
-        adapter = new CommentReplyAdapter(CommentReplyActivity.this, CommentList, Integer.parseInt(bool));
+        adapter = new CommentReplyAdapter(CommentReplyActivity.this, CommentList, Integer.parseInt(bool), notifType, pCom_ts);
         adapter.onClickListener(new CommentReplyAdapter.OnClickListener() {
             @Override
             public void onClickListener(int position) {

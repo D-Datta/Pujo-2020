@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="wrap_content"
+    android:background="@color/light_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tag_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingHorizontal="15dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp">
+        app:cardCornerRadius="8dp"
+        android:background="@drawable/custom_ripple_white"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="6dp"
+        android:elevation="2dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:cardCornerRadius="25dp">
-
-            <ImageView
-                android:id="@+id/dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_account_circle_black_24dp"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/tag"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/purple"
-            android:text="Jagat Mukherjee Park" />
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:cardCornerRadius="25dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5"
-        android:layout_marginStart="72dp"
-        android:layout_alignParentBottom="true"/>
+                <ImageView
+                    android:id="@+id/dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_account_circle_black_24dp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:textSize="18dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/purple"
+                android:text="Jagat Mukherjee Park" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="#e5e5e5"-->
+<!--        android:layout_marginStart="72dp"-->
+<!--        android:layout_alignParentBottom="true"/>-->
 
 </RelativeLayout>

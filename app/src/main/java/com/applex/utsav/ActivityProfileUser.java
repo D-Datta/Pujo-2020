@@ -136,7 +136,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     ///////////////POSTS////////////////
 
     //////////////NO POSTS///////////////
-    private TextView PName,PUsername, aboutheading;
+    private TextView PName,Pcity, aboutheading;
     private ImageView PDp, nopost1,PCoverpic, edit_dp, edit_cover;
     private com.borjabravo.readmoretextview.ReadMoreTextView Pabout;
 
@@ -147,7 +147,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     private IntroPref introPref;
 
     ///Current user details from intropref
-    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT;
+    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT, Userprofilepic;
 
 
     @Override
@@ -173,8 +173,6 @@ public class ActivityProfileUser extends AppCompatActivity {
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-
 
         contentProgress = findViewById(R.id.content_progress);
         progressMore = findViewById(R.id.progress_more);
@@ -215,7 +213,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         buildRecycler();
 
         /////////////SETUP//////////////
-        PROFILEPIC =  introPref.getUserdp();
+        Userprofilepic =  introPref.getUserdp();
         USERNAME = introPref.getFullName();
         ///////////////RECYCLER VIEW////////////////////
 
@@ -224,7 +222,7 @@ public class ActivityProfileUser extends AppCompatActivity {
 
         PDp = findViewById(R.id.Pdp);
         PName = findViewById(R.id.Profilename);
-        PUsername = findViewById(R.id.Pusername);
+        Pcity = findViewById(R.id.Pcity);
         PCoverpic = findViewById(R.id.coverpic);
         Pabout = findViewById(R.id.detaildesc);
         aboutheading = findViewById(R.id.about);
@@ -339,8 +337,8 @@ public class ActivityProfileUser extends AppCompatActivity {
 
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-                if (PROFILEPIC != null) {
-                    Picasso.get().load(PROFILEPIC).fit().centerCrop()
+                if (Userprofilepic != null) {
+                    Picasso.get().load(Userprofilepic).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.profileimage);
                 } else {
@@ -742,7 +740,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     flamedModel.setTs(tsLong);
                                     flamedModel.setType(introPref.getType());
                                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(PROFILEPIC);
+                                    flamedModel.setUserdp(Userprofilepic);
                                     flamedModel.setUsername(USERNAME);
                                     flamedModel.setPostUid(currentItem.getUid());
 
@@ -762,12 +760,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -876,17 +874,17 @@ public class ActivityProfileUser extends AppCompatActivity {
                     }
 
                     ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
@@ -1081,7 +1079,6 @@ public class ActivityProfileUser extends AppCompatActivity {
 
     }
 
-
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         public static TextView commentCount;
@@ -1209,12 +1206,36 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 });
 
                                 UserName = userModel.getName();
-                                PUsername.setText('@'+UserName);
+                                if(userModel.getCity()!=null || userModel.getState()!=null){
+                                    if((userModel.getCity()!=null && !userModel.getCity().isEmpty())
+                                            && userModel.getState()==null){
+                                        Pcity.setText(userModel.getCity());
+                                    }
+                                    else if(userModel.getCity()==null
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getState());
+                                    }
+                                    else if((userModel.getCity()!=null && userModel.getCity().isEmpty())
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getState());
+                                    }
+                                    else if((userModel.getState()!=null && userModel.getState().isEmpty())
+                                            && (userModel.getCity()!=null && !userModel.getCity().isEmpty())){
+                                        Pcity.setText(userModel.getCity());
+                                    }
+                                    else if((userModel.getCity()!=null && !userModel.getCity().isEmpty())
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getCity()+", "+userModel.getState());
+                                    }
+                                }
+                                else if(userModel.getCity()==null && userModel.getState()==null){
+                                    Pcity.setVisibility(View.GONE);
+                                }
 
                                 if(userModel.getDp()!=null){
                                     PROFILEPIC = userModel.getDp();
                                     if(PROFILEPIC!=null){
-                                        Picasso.get().load(PROFILEPIC).placeholder(R.drawable.image_background_grey).into(PDp);
+                                        Picasso.get().load(PROFILEPIC).placeholder(R.drawable.ic_account_circle_black_24dp).into(PDp);
                                     }
                                 }
                                 else{
@@ -1222,14 +1243,14 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     int displayWidth = display.getWidth();
                                     BitmapFactory.Options options = new BitmapFactory.Options();
                                     options.inJustDecodeBounds = true;
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle_black_24dp, options);
                                     int width = options.outWidth;
                                     if (width > displayWidth) {
                                         int widthRatio = Math.round((float) width / (float) displayWidth);
                                         options.inSampleSize = widthRatio;
                                     }
                                     options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle_black_24dp, options);
                                     PDp.setImageBitmap(scaledBitmap);
                                 }
 
@@ -1242,14 +1263,14 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     int displayWidth = display.getWidth();
                                     BitmapFactory.Options options = new BitmapFactory.Options();
                                     options.inJustDecodeBounds = true;
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    BitmapFactory.decodeResource(getResources(), R.drawable.image_background_grey, options);
                                     int width = options.outWidth;
                                     if (width > displayWidth) {
                                         int widthRatio = Math.round((float) width / (float) displayWidth);
                                         options.inSampleSize = widthRatio;
                                     }
                                     options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.image_background_grey, options);
                                     PCoverpic.setImageBitmap(scaledBitmap);
                                 }
 

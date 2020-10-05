@@ -31,16 +31,15 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.CommitteeViewAll;
@@ -50,7 +49,6 @@ import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
-import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
@@ -100,14 +98,12 @@ public class CommitteeFragment extends Fragment {
     private ProgressBar progressMore, contentProgress;
     private ProgressDialog progressDialog;
     private Dialog  postMenuDialog;
-
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME, link;
-    private FirestorePagingAdapter adapter, reelsAdapter;
+    private FirestorePagingAdapter reelsAdapter;
     private IntroPref introPref;
     private Query reels_query;
     private ArrayList<Integer> positions;
-
     private DocumentSnapshot lastReelDocument;
 
     public CommitteeFragment() {
@@ -191,7 +187,7 @@ public class CommitteeFragment extends Fragment {
                 })
                 .build();
 
-        adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
+        FirestorePagingAdapter adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
@@ -215,21 +211,21 @@ public class CommitteeFragment extends Fragment {
                     ArrayList<SliderModel> itemGroups = new ArrayList<>();
 
                     FirebaseFirestore.getInstance().collection("Sliders")
-                        .get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                if (document.exists()) {
-                                    SliderModel itemGroup = document.toObject(SliderModel.class);
-                                    Objects.requireNonNull(itemGroup).setDocID(document.getId());
-                                    itemGroups.add(itemGroup);
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                    if (document.exists()) {
+                                        SliderModel itemGroup = document.toObject(SliderModel.class);
+                                        Objects.requireNonNull(itemGroup).setDocID(document.getId());
+                                        itemGroups.add(itemGroup);
+                                    }
                                 }
-                            }
-                            HomeSliderAdapter adapter1 = new HomeSliderAdapter(getContext(), itemGroups, 2);
-                            programmingViewHolder.sliderView.setSliderAdapter(adapter1);
-                        })
-                        .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
+                                HomeSliderAdapter adapter1 = new HomeSliderAdapter(getContext(), itemGroups, 2);
+                                programmingViewHolder.sliderView.setSliderAdapter(adapter1);
+                            })
+                            .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
 
-                    if(introPref.getType().matches("com")){
+                    if (introPref.getType().matches("com")) {
                         programmingViewHolder.new_post_layout.setVisibility(View.VISIBLE);
 
                         programmingViewHolder.type_dp.setOnClickListener(view -> {
@@ -239,21 +235,19 @@ public class CommitteeFragment extends Fragment {
                         });
 
                         programmingViewHolder.type_something.setOnClickListener(view -> {
-                            if(InternetConnection.checkConnection(requireActivity())) {
-                                Intent i= new Intent(getContext(), NewPostHome.class);
+                            if (InternetConnection.checkConnection(requireActivity())) {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
                                 i.putExtra("target", "1");
                                 startActivity(i);
-                            }
-                            else
+                            } else
                                 BasicUtility.showToast(getContext(), "Network Unavailable...");
                         });
                         programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-                            if(InternetConnection.checkConnection(requireActivity())) {
-                                Intent i= new Intent(getContext(), NewPostHome.class);
+                            if (InternetConnection.checkConnection(requireActivity())) {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
                                 i.putExtra("target", "1");
                                 startActivity(i);
-                            }
-                            else
+                            } else
                                 BasicUtility.showToast(getContext(), "Network Unavailable...");
                         });
 
@@ -264,12 +258,11 @@ public class CommitteeFragment extends Fragment {
                         } else {
                             programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
-                    }
-                    else {
+                    } else {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
-                else if(programmingViewHolder.getItemViewType() == 5 || programmingViewHolder.getItemViewType() == 10) {
+                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -278,7 +271,7 @@ public class CommitteeFragment extends Fragment {
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
 
-                    if(programmingViewHolder.getItemViewType() == 5) {
+                    if (programmingViewHolder.getItemViewType() == 4) {
                         programmingViewHolder.comm_heading.setText(getResources().getText(R.string.recently_visited_pujos));
                     } else {
                         programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
@@ -286,14 +279,13 @@ public class CommitteeFragment extends Fragment {
 
                     buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
                 }
-
-                else if((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
+                else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
-                    if(programmingViewHolder.getItemViewType() != 1) {
+                    if (programmingViewHolder.getItemViewType() != 1) {
 //                        int query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
 //                        Query query1 = FirebaseFirestore.getInstance()
 //                                .collection("Reels")
@@ -301,22 +293,21 @@ public class CommitteeFragment extends Fragment {
 //
 //                        query1.get().addOnCompleteListener(task -> {
 
-                            reels_query = FirebaseFirestore.getInstance()
-                                    .collection("Reels")
-                                    .orderBy("ts", Query.Direction.DESCENDING)
-                                    .startAfter(lastReelDocument);
+                        reels_query = FirebaseFirestore.getInstance()
+                                .collection("Reels")
+                                .orderBy("ts", Query.Direction.DESCENDING)
+                                .startAfter(lastReelDocument);
 //                                    .startAfter(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
 
-                            buildReelsRecyclerView(position, programmingViewHolder);
+                        buildReelsRecyclerView(position, programmingViewHolder);
 
-                            programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                                Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                                intent.putExtra("bool", "1");
-                                requireActivity().startActivity(intent);
-                            });
+                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                            intent.putExtra("bool", "1");
+                            requireActivity().startActivity(intent);
+                        });
 //                        });
-                    }
-                    else {
+                    } else {
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .orderBy("ts", Query.Direction.DESCENDING);
@@ -396,16 +387,17 @@ public class CommitteeFragment extends Fragment {
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
                     Picasso.get().load(currentItem.getDp()).fit().centerCrop()
-                        .placeholder(R.drawable.ic_account_circle_black_24dp)
-                        .into(programmingViewHolder.userimage, new Callback() {
-                            @Override
-                            public void onSuccess() { }
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(programmingViewHolder.userimage, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                }
 
-                            @Override
-                            public void onError(Exception e) {
-                                programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                            }
-                        });
+                                @Override
+                                public void onError(Exception e) {
+                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            });
                 } else {
                     programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
@@ -414,11 +406,10 @@ public class CommitteeFragment extends Fragment {
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
-                if(currentItem.getHeadline() == null || currentItem.getHeadline().isEmpty()) {
+                if (currentItem.getHeadline() == null || currentItem.getHeadline().isEmpty()) {
                     programmingViewHolder.head_content.setVisibility(View.GONE);
                     programmingViewHolder.head_content.setText(null);
-                }
-                else {
+                } else {
                     programmingViewHolder.head_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.head_content.setText(currentItem.getHeadline());
                 }
@@ -427,18 +418,18 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.text_content.setVisibility(View.GONE);
                     programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setText(null);
-                }
-                else {
+                } else {
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
-                    if (programmingViewHolder.text_content.getUrls().length > 0) {
+                    if (programmingViewHolder.text_content.getUrls().length > 0 ) {
                         URLSpan urlSnapItem = programmingViewHolder.text_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
                         if (url.contains("http")) {
                             programmingViewHolder.LinkPreview.setVisibility(View.VISIBLE);
                             programmingViewHolder.LinkPreview.setLink(url, new ViewListener() {
                                 @Override
-                                public void onSuccess(boolean status) { }
+                                public void onSuccess(boolean status) {
+                                }
 
                                 @Override
                                 public void onError(Exception e) {
@@ -449,12 +440,33 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
-                    } else {
+                    }
+                    else if (programmingViewHolder.head_content.getUrls().length > 0 ) {
+                        URLSpan urlSnapItem = programmingViewHolder.head_content.getUrls()[0];
+                        String url = urlSnapItem.getURL();
+                        if (url.contains("http")) {
+                            programmingViewHolder.LinkPreview.setVisibility(View.VISIBLE);
+                            programmingViewHolder.LinkPreview.setLink(url, new ViewListener() {
+                                @Override
+                                public void onSuccess(boolean status) {
+                                }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    new Handler(Looper.getMainLooper()).post(() -> {
+                                        //do stuff like remove view etc
+                                        programmingViewHolder.LinkPreview.setVisibility(View.GONE);
+                                    });
+                                }
+                            });
+                        }
+                    }
+                    else {
                         programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                     }
                 }
 
-                if(currentItem.getImg() != null && currentItem.getImg().size()>0){
+                if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
                     programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderViewpost.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -477,7 +489,31 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("comName", currentItem.getComName());
                         intent.putExtra("comID", currentItem.getComID());
                         intent.putExtra("likeL", currentItem.getLikeL());
-                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        startActivity(intent);
+                    });
+
+                    programmingViewHolder.head_content.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
                             Bundle args = new Bundle();
                             args.putSerializable("ARRAYLIST", currentItem.getImg());
                             intent.putExtra("BUNDLE", args);
@@ -495,54 +531,31 @@ public class CommitteeFragment extends Fragment {
                 else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
-                    programmingViewHolder.text_content.setOnClickListener(v -> {
-                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
-                        intent.putExtra("username", currentItem.getUsN());
-                        intent.putExtra("userdp", currentItem.getDp());
-                        intent.putExtra("docID", currentItem.getDocID());
-                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                        intent.putExtra("comName", currentItem.getComName());
-                        intent.putExtra("comID", currentItem.getComID());
-                        intent.putExtra("likeL", currentItem.getLikeL());
-                        if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                            Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", currentItem.getImg());
-                            intent.putExtra("BUNDLE", args);
-                        }
-                        intent.putExtra("postText", currentItem.getTxt());
-                        intent.putExtra("bool", "3");
-                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                        intent.putExtra("uid", currentItem.getUid());
-                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                        intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
-                    });
+//                    programmingViewHolder.text_content.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
+//                        intent.putExtra("username", currentItem.getUsN());
+//                        intent.putExtra("userdp", currentItem.getDp());
+//                        intent.putExtra("docID", currentItem.getDocID());
+//                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+//                        intent.putExtra("comName", currentItem.getComName());
+//                        intent.putExtra("comID", currentItem.getComID());
+//                        intent.putExtra("likeL", currentItem.getLikeL());
+//                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
+//                            Bundle args = new Bundle();
+//                            args.putSerializable("ARRAYLIST", currentItem.getImg());
+//                            intent.putExtra("BUNDLE", args);
+//                        }
+//                        intent.putExtra("postText", currentItem.getTxt());
+//                        intent.putExtra("bool", "3");
+//                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+//                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+//                        intent.putExtra("type", currentItem.getType());
+//                        startActivity(intent);
+//                    });
                 }
 
-                programmingViewHolder.head_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ViewMoreText.class);
-                    intent.putExtra("username", currentItem.getUsN());
-                    intent.putExtra("userdp", currentItem.getDp());
-                    intent.putExtra("docID", currentItem.getDocID());
-                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-                    intent.putExtra("comName", currentItem.getComName());
-                    intent.putExtra("comID", currentItem.getComID());
-                    intent.putExtra("likeL", currentItem.getLikeL());
-                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                        Bundle args = new Bundle();
-                        args.putSerializable("ARRAYLIST", currentItem.getImg());
-                        intent.putExtra("BUNDLE", args);
-                    }
-                    intent.putExtra("postText", currentItem.getTxt());
-                    intent.putExtra("bool", "3");
-                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-                    intent.putExtra("uid", currentItem.getUid());
-                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-                    intent.putExtra("type", currentItem.getType());
-                    startActivity(intent);
-                });
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
 
                 programmingViewHolder.like_layout.setOnClickListener(v -> {
@@ -556,8 +569,7 @@ public class CommitteeFragment extends Fragment {
                 if (currentItem.getLikeL() != null) {
                     if (currentItem.getLikeL().size() == 0) {
                         programmingViewHolder.like_layout.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
                         programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
@@ -574,112 +586,112 @@ public class CommitteeFragment extends Fragment {
                 //INITIAL SETUP//
 
                 PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
-                    .setScale(PushDownAnim.MODE_STATIC_DP, 6)
-                    .setOnClickListener(v -> {
-                        if (currentItem.getLikeCheck() >= 0) {
-                            programmingViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
-                            if (currentItem.getLikeL().size() - 1 == 0) {
-                                programmingViewHolder.like_layout.setVisibility(View.GONE);
-                            } else{
-                                programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
-                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
-                            }
-                            ///////////REMOVE CURRENT USER LIKE/////////////
-                            currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
-                            currentItem.setLikeCheck(-1);
-
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-
-                            DocumentReference flamedDoc = likeStore.collection("flameL")
-                                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                            batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-                            batch.delete(flamedDoc);
-
-                            batch.commit().addOnSuccessListener(task -> { });
-                            ///////////////////BATCH WRITE///////////////////
-                        }
-                        else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                            BasicUtility.vibrate(requireActivity());
-                            programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
-                            programmingViewHolder.dhak_anim.playAnimation();
-                            try {
-                                AssetFileDescriptor afd =requireActivity().getAssets().openFd("dhak.mp3");
-                                MediaPlayer player = new MediaPlayer();
-                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                                player.prepare();
-                                AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                                    player.start();
-                                    if(!player.isPlaying()) {
-                                        programmingViewHolder.dhak_anim.cancelAnimation();
-                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    }
-                                    player.setOnCompletionListener(mediaPlayer -> {
-                                        programmingViewHolder.dhak_anim.cancelAnimation();
-                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    });
+                        .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+                        .setOnClickListener(v -> {
+                            if (currentItem.getLikeCheck() >= 0) {
+                                programmingViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
+                                if (currentItem.getLikeL().size() - 1 == 0) {
+                                    programmingViewHolder.like_layout.setVisibility(View.GONE);
                                 } else {
-                                    new Handler().postDelayed(() -> {
-                                        programmingViewHolder.dhak_anim.cancelAnimation();
-                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    }, 2000);
+                                    programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
+                                    programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
                                 }
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                                ///////////REMOVE CURRENT USER LIKE/////////////
+                                currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(-1);
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL")
+                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                                batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                batch.delete(flamedDoc);
+
+                                batch.commit().addOnSuccessListener(task -> {
+                                });
+                                ///////////////////BATCH WRITE///////////////////
+                            } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                                BasicUtility.vibrate(requireActivity());
+                                programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                                programmingViewHolder.dhak_anim.playAnimation();
+                                try {
+                                    AssetFileDescriptor afd = requireActivity().getAssets().openFd("dhak.mp3");
+                                    MediaPlayer player = new MediaPlayer();
+                                    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                                    player.prepare();
+                                    AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                                    if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                        player.start();
+                                        if (!player.isPlaying()) {
+                                            programmingViewHolder.dhak_anim.cancelAnimation();
+                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }
+                                        player.setOnCompletionListener(mediaPlayer -> {
+                                            programmingViewHolder.dhak_anim.cancelAnimation();
+                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        });
+                                    } else {
+                                        new Handler().postDelayed(() -> {
+                                            programmingViewHolder.dhak_anim.cancelAnimation();
+                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                        }, 2000);
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
+                                programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
+                                if (currentItem.getLikeL() != null) {
+                                    programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
+                                } else {
+                                    programmingViewHolder.likesCount.setText("1");
+                                }
+
+                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                                //For local changes current item like added to remote list end
+
+                                ///////////////////BATCH WRITE///////////////////
+                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                FlamedModel flamedModel = new FlamedModel();
+                                long tsLong = System.currentTimeMillis();
+
+                                flamedModel.setPostID(currentItem.getDocID());
+                                flamedModel.setTs(tsLong);
+                                flamedModel.setType(introPref.getType());
+                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                                flamedModel.setUserdp(COMMITEE_LOGO);
+                                flamedModel.setUsername(COMMITTEE_NAME);
+                                flamedModel.setPostUid(currentItem.getUid());
+
+                                DocumentReference flamedDoc = likeStore.collection("flameL")
+                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                                batch.set(flamedDoc, flamedModel);
+                                if (currentItem.getLikeL().size() % 5 == 0) {
+                                    batch.update(likeStore, "newTs", tsLong);
+                                }
+                                batch.commit().addOnSuccessListener(task -> {
+                                });
+                                ///////////////////BATCH WRITE///////////////////
                             }
-
-                            programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
-                            programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
-                            if (currentItem.getLikeL() != null){
-                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
-                            }
-                            else{
-                                programmingViewHolder.likesCount.setText("1");
-                            }
-
-                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                            currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
-                            //For local changes current item like added to remote list end
-
-                            ///////////////////BATCH WRITE///////////////////
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            FlamedModel flamedModel = new FlamedModel();
-                            long tsLong = System.currentTimeMillis();
-
-                            flamedModel.setPostID(currentItem.getDocID());
-                            flamedModel.setTs(tsLong);
-                            flamedModel.setType(introPref.getType());
-                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                            flamedModel.setUserdp(COMMITEE_LOGO);
-                            flamedModel.setUsername(COMMITTEE_NAME);
-                            flamedModel.setPostUid(currentItem.getUid());
-
-                            DocumentReference flamedDoc = likeStore.collection("flameL")
-                                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                            batch.set(flamedDoc, flamedModel);
-                            if (currentItem.getLikeL().size() % 5 == 0) {
-                                batch.update(likeStore, "newTs", tsLong);
-                            }
-                            batch.commit().addOnSuccessListener(task -> { });
-                            ///////////////////BATCH WRITE///////////////////
-                        }
-                    });
+                        });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"CommitteeFragment", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"CommitteeFragment", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.share.setOnClickListener(view -> {
-                    if(currentItem.getImg() != null && currentItem.getImg().size()>0)
+                    if (currentItem.getImg() != null && currentItem.getImg().size() > 0)
                         link = "https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
                     else
                         link = "https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
@@ -694,7 +706,7 @@ public class CommitteeFragment extends Fragment {
                     ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                     ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-                    if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+                    if (currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
                         programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
                         programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
                         Picasso.get().load(currentItem.getCom1_dp())
@@ -709,7 +721,8 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
                                 programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
                                     @Override
-                                    public void onSuccess(boolean status) { }
+                                    public void onSuccess(boolean status) {
+                                    }
 
                                     @Override
                                     public void onError(Exception e) {
@@ -732,12 +745,11 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
                             }
                         }
-                    }
-                    else {
+                    } else {
                         programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     }
 
-                    if(currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
+                    if (currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
                         programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
                         programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
                         Picasso.get().load(currentItem.getCom2_dp())
@@ -752,7 +764,8 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
                                 programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
                                     @Override
-                                    public void onSuccess(boolean status) { }
+                                    public void onSuccess(boolean status) {
+                                    }
 
                                     @Override
                                     public void onError(Exception e) {
@@ -780,21 +793,20 @@ public class CommitteeFragment extends Fragment {
                     }
 
                     ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"CommitteeFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
-                    programmingViewHolder.commentLayout1.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"CommitteeFragment", null,currentItem.getCmtNo());
+                    programmingViewHolder.commentLayout1.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
-                    programmingViewHolder.commentLayout2.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"CommitteeFragment", null,currentItem.getCmtNo());
+                    programmingViewHolder.commentLayout2.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
-                }
-                else {
+                } else {
                     ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
@@ -842,27 +854,27 @@ public class CommitteeFragment extends Fragment {
                         postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             builder.setTitle("Are you sure?")
-                                .setMessage("Post will be deleted permanently")
-                                .setPositiveButton("Delete", (dialog, which) -> {
-                                    progressDialog = new ProgressDialog(getActivity());
-                                    progressDialog.setTitle("Deleting Post");
-                                    progressDialog.setMessage("Please wait...");
-                                    progressDialog.setCancelable(false);
-                                    progressDialog.show();
-                                    FirebaseFirestore.getInstance()
-                                        .collection("Feeds").document(currentItem
-                                        .getDocID()).delete()
-                                        .addOnSuccessListener(aVoid -> {
-                                            ActivityProfileCommittee.delete = 1;
-                                            programmingViewHolder.itemHome.setVisibility(View.GONE);
-                                            notifyDataSetChanged();
-                                            progressDialog.dismiss();
-                                        });
-                                    postMenuDialog.dismiss();
-                                })
-                                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                                .setCancelable(true)
-                                .show();
+                                    .setMessage("Post will be deleted permanently")
+                                    .setPositiveButton("Delete", (dialog, which) -> {
+                                        progressDialog = new ProgressDialog(getActivity());
+                                        progressDialog.setTitle("Deleting Post");
+                                        progressDialog.setMessage("Please wait...");
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
+                                        FirebaseFirestore.getInstance()
+                                                .collection("Feeds").document(currentItem
+                                                .getDocID()).delete()
+                                                .addOnSuccessListener(aVoid -> {
+                                                    ActivityProfileCommittee.delete = 1;
+                                                    programmingViewHolder.itemHome.setVisibility(View.GONE);
+                                                    notifyDataSetChanged();
+                                                    progressDialog.dismiss();
+                                                });
+                                        postMenuDialog.dismiss();
+                                    })
+                                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                    .setCancelable(true)
+                                    .show();
                         });
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
@@ -875,8 +887,7 @@ public class CommitteeFragment extends Fragment {
 
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         postMenuDialog.show();
-                    }
-                    else {
+                    } else {
                         postMenuDialog = new BottomSheetDialog(requireActivity());
                         postMenuDialog.setContentView(R.layout.dialog_post_menu);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
@@ -885,9 +896,9 @@ public class CommitteeFragment extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                             FirebaseFirestore.getInstance()
-                                .collection("Feeds").document(currentItem.getDocID())
-                                .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
+                                    .collection("Feeds").document(currentItem.getDocID())
+                                    .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -906,10 +917,14 @@ public class CommitteeFragment extends Fragment {
             }
 
             @Override
-            public int getItemViewType(int position) { return position; }
+            public int getItemViewType(int position) {
+                return position;
+            }
 
             @Override
-            public int getItemCount() { return super.getItemCount(); }
+            public int getItemCount() {
+                return super.getItemCount();
+            }
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
@@ -930,7 +945,6 @@ public class CommitteeFragment extends Fragment {
                     case FINISHED:
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
-                        if(adapter.getItemCount() == 0) { }
                         break;
                 }
             }
@@ -1430,19 +1444,20 @@ public class CommitteeFragment extends Fragment {
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
         cRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
-        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
-        cRecyclerView.setLayoutManager(layoutManagerCom);
+//        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.HORIZONTAL, false);
+//        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
+        cRecyclerView.setLayoutManager(gridLayoutManager);
         cRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         ArrayList<BaseUserModel> committees = new ArrayList<>();
         Query query;
 
-        if(position == 5) {
+        if(position == 4) {
             query =  FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
-                    .orderBy("lastVisitTs", Query.Direction.DESCENDING)
+                    .orderBy("lastVisitTime", Query.Direction.DESCENDING)
                     .limit(15);
         } else {
             query =  FirebaseFirestore.getInstance()
@@ -1465,7 +1480,6 @@ public class CommitteeFragment extends Fragment {
             }
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
     }
-
 
     @Override
     public void onResume() {
@@ -1545,4 +1559,5 @@ public class CommitteeFragment extends Fragment {
             }
         }
     }
+
 }

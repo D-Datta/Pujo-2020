@@ -15,11 +15,14 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import com.applex.utsav.ActivityNotification;
+import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -41,13 +44,15 @@ public class MessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        if(remoteMessage.getData().get("click_action") != null) {
+        if(remoteMessage.getData().get("clickAction") != null) {
             String message = remoteMessage.getData().get("body");
             String title = remoteMessage.getData().get("title");
             String action = remoteMessage.getData().get("clickAction");
             String type = remoteMessage.getData().get("type");
             String postID = remoteMessage.getData().get("postID");
             String dp = remoteMessage.getData().get("dp");
+            String ts = remoteMessage.getData().get("ts");
+            String pCom_ts = remoteMessage.getData().get("pCom_ts");
             nCount = remoteMessage.getData().get("notifCount");
 
             if(ActivityNotification.active) {
@@ -63,9 +68,9 @@ public class MessagingService extends FirebaseMessagingService {
                     } catch(IOException e) {
                         e.printStackTrace();
                     }
-                    sendNotification1(this, message, title, Objects.requireNonNull(action), type, postID, getCircleBitmap(image));
+                    sendNotification1(this, message, title, Objects.requireNonNull(action), type, postID, ts, pCom_ts, getCircleBitmap(image));
                 } else {
-                    sendNotification2(this, message, title, Objects.requireNonNull(action), type, postID);
+                    sendNotification2(this, message, title, Objects.requireNonNull(action), type, ts, pCom_ts, postID);
                 }
             }
         }
@@ -74,21 +79,24 @@ public class MessagingService extends FirebaseMessagingService {
         }
     }
 
-    public static void sendNotification1(Context context, String message, String title, String action, String type, String postID, Bitmap dp) {
+    public static void sendNotification1(Context context, String message, String title, String action, String type, String postID, String ts, String pCom_ts, Bitmap dp) {
 
         Intent intent;
 
         if (action.matches("Feeds")) {
+            Log.i("BAM", "1");
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
+            intent.putExtra("pCom_ts", pCom_ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -104,13 +112,15 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreText.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
+            intent.putExtra("pCom_ts", pCom_ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -126,15 +136,36 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ReelsActivity.class);
             intent.putExtra("type", type);
             intent.putExtra("docID", postID);
+            intent.putExtra("ts", ts);
             intent.putExtra("bool", "1");
-
+            intent.putExtra("pCom_ts", pCom_ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                    .setLargeIcon(dp)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000});
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
+        }
+        else if(action.matches("Profile")) {
+            intent = new Intent(context, ActivityProfileCommittee.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -148,7 +179,7 @@ public class MessagingService extends FirebaseMessagingService {
         }
     }
 
-    public static void sendNotification2(Context context, String message, String title, String action, String type, String postID) {
+    public static void sendNotification2(Context context, String message, String title, String action, String type, String postID, String ts, String pCom_ts) {
 
         Intent intent;
 
@@ -156,13 +187,15 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
+            intent.putExtra("pCom_ts", pCom_ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -177,13 +210,15 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ViewMoreText.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
+            intent.putExtra("pCom_ts", pCom_ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -198,13 +233,34 @@ public class MessagingService extends FirebaseMessagingService {
             intent = new Intent(context, ReelsActivity.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
+            intent.putExtra("ts", ts);
+            intent.putExtra("pCom_ts", pCom_ts);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000});
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
+        }
+        else if(action.matches("Profile")) {
+            intent = new Intent(context, ActivityProfileCommittee.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -224,7 +280,7 @@ public class MessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "MyNotifications")
                 .setContentTitle(title)
                 .setContentText(message)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
@@ -232,7 +288,6 @@ public class MessagingService extends FirebaseMessagingService {
                 .setContentText(message);
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
         manager.notify((int)System.currentTimeMillis(), builder.build());
-
     }
 
     private Bitmap getCircleBitmap(Bitmap bitmap) {
@@ -256,7 +311,7 @@ public class MessagingService extends FirebaseMessagingService {
             bitmap.recycle();
             return output;
         }
-
         return null;
     }
+
 }

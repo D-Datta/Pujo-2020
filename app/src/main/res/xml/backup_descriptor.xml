@@ -4,5 +4,5 @@
     <!-- Exclude the shared preferences file that contains the GCM registrationId -->
     <exclude
         domain="sharedpref"
-        path="com.applex.campus24.users.xml" />
+        path="com.applex.utsav.users.xml" />
 </full-backup-content>

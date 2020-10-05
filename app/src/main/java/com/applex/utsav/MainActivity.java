@@ -117,13 +117,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mGooglesigninclient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         ///////////////NOTIFICATIONS///////////////////
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager=getSystemService(NotificationManager.class);
-            Objects.requireNonNull(manager).createNotificationChannel(channel);
+            manager.createNotificationChannel(channel);
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(task -> { });
+        FirebaseMessaging.getInstance().subscribeToTopic("users")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "msg sent successfully";
+                        if (!task.isSuccessful()) {
+                            msg = "msg failed";
+                        }
+                    }
+                });
+
         ///////////////NOTIFICATIONS///////////////////
 
         //////////////LATEST VERSION CHECK////////////////////
@@ -218,8 +227,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupViewPager(ViewPager viewPager) {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
-        tabAdapter.addFragment(new CommitteeFragment(), "Pujo");
-        tabAdapter.addFragment(new FeedsFragment(),"People");
+        tabAdapter.addFragment(new CommitteeFragment(), getResources().getText(R.string.pujo).toString());
+        tabAdapter.addFragment(new FeedsFragment(),getResources().getText(R.string.people).toString());
         viewPager.setAdapter(tabAdapter);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -432,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void run() {
                     drawer.closeDrawers();
                     Dialog dialog = new Dialog(MainActivity.this);
-                    dialog.setContentView(R.layout.select_language_dialog);
+                    dialog.setContentView(R.layout.dialog_select_language);
                     dialog.setCanceledOnTouchOutside(true);
 
                     RadioButton bangla = dialog.findViewById(R.id.bangla);
@@ -509,6 +518,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             },200);
         }
+        else if(id == R.id.nav_privacy){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(MainActivity.this, Webview.class);
+                    intent.putExtra("text","https://applex.in/utsav-app-privacy-policy/");
+                    intent.putExtra("bool","2");
+                    startActivity(intent);
+                }
+            },200);
+        }
+
         else if(id == R.id.nav_about){
             new Handler().postDelayed(new Runnable() {
                 @Override

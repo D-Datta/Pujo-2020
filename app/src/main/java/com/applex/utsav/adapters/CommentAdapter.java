@@ -25,8 +25,6 @@ import com.applex.utsav.CommentReplyActivity;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.R;
-import com.applex.utsav.dialogs.BottomCommentsDialog;
-import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -55,6 +53,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
     private OnClickListener mListener;
     private IntroPref introPref;
     private String type;
+    private String ts;
+    private String pCom_ts;
 
     public interface OnClickListener {
         void onClickListener(int position);
@@ -64,11 +64,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         mListener= listener;
     }
 
-    public CommentAdapter(Context context, List<CommentModel> itemDatalist, int bool, String type) {
+    public CommentAdapter(Context context, List<CommentModel> itemDatalist, int bool, String type, String ts, String pCom_ts) {
         this.mContext = context;
         this.itemDatalist = itemDatalist;
         this.bool = bool;//1 = ViewMoreHome 2 = ReelsActivity
         this.type = type;
+        this.ts = ts;
+        this.pCom_ts = pCom_ts;
 
         introPref = new IntroPref(mContext);
         PROFILEPIC = introPref.getUserdp();
@@ -90,11 +92,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
         DocumentReference likeStore = null;
         CollectionReference flamedCol = null;
 
-        if(type != null) {
+        if(type != null && ts != null && Long.parseLong(ts) == currentItem.getTs()) {
             if(type.matches("comment_flame")) {
                 BottomFlamedByDialog2 bottomSheetDialog = null;
                 if (bool == 1) {
-                    bottomSheetDialog = new BottomFlamedByDialog2("Home", currentItem.getPostID(), currentItem.getDocID());
+                    bottomSheetDialog = new BottomFlamedByDialog2("Feeds", currentItem.getPostID(), currentItem.getDocID());
                 } else if (bool == 2) {
                     bottomSheetDialog = new BottomFlamedByDialog2("Reels", currentItem.getPostID(), currentItem.getDocID());
                 }
@@ -132,6 +134,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                 intent.putExtra("pComUid", currentItem.getUid());
                 intent.putExtra("type", currentItem.getType());
+                intent.putExtra("pCom_ts", pCom_ts);
                 intent.putExtra("notiType", type);
                 mContext.startActivity(intent);
             }

@@ -2,18 +2,15 @@ package com.applex.utsav.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,7 +19,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
@@ -36,11 +32,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
+import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.NewPostHome;
@@ -53,14 +49,12 @@ import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.BaseUserModel;
-import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
 import com.applex.utsav.utility.BasicUtility;
-
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -82,12 +76,10 @@ import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import static java.lang.Boolean.TRUE;
 
 public class FeedsFragment extends Fragment {
@@ -261,7 +253,6 @@ public class FeedsFragment extends Fragment {
 
                 if(position == 0){
                     feedViewHolder.committeeHolder.setVisibility(View.VISIBLE);
-
                     feedViewHolder.view_all.setOnClickListener(v ->
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
@@ -378,16 +369,29 @@ public class FeedsFragment extends Fragment {
                 feedViewHolder.tagList.setNestedScrollingEnabled(true);
                 feedViewHolder.tagList.setLayoutManager(linearLayoutManager);
                 ///////////TAG RECYCLER SETUP////////////////
+                TagAdapter tagAdapter;
 
                 if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
                     feedViewHolder.tagList.setVisibility(View.VISIBLE);
-                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
+                    tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
                     feedViewHolder.tagList.setAdapter(tagAdapter);
-                } else {
+
+                    tagAdapter.onClickListener((position1, tag, color) -> {
+                       Intent i = new Intent(getContext(), HashtagPostViewAll.class);
+                       i.putExtra("hashtag", tag);
+//                       i.putExtra("color", color);
+                       startActivity(i);
+                    });
+
+                }
+                else {
                     feedViewHolder.tagList.setAdapter(null);
                     feedViewHolder.tagList.setVisibility(View.GONE);
                 }
+
                 /////////TAGLIST///////////////
+
+
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 feedViewHolder.userimage.setOnClickListener(v -> {
@@ -441,8 +445,7 @@ public class FeedsFragment extends Fragment {
                             feedViewHolder.LinkPreview.setVisibility(View.VISIBLE);
                             feedViewHolder.LinkPreview.setLink(url, new ViewListener() {
                                 @Override
-                                public void onSuccess(boolean status) {
-                                }
+                                public void onSuccess(boolean status) { }
 
                                 @Override
                                 public void onError(Exception e) {
@@ -664,12 +667,12 @@ public class FeedsFragment extends Fragment {
                         });
 
                 feedViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 feedViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo());
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -778,17 +781,17 @@ public class FeedsFragment extends Fragment {
                     }
 
                     FeedViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     feedViewHolder.commentLayout1.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     feedViewHolder.commentLayout2.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo());
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"FeedsFragment", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
@@ -906,7 +909,6 @@ public class FeedsFragment extends Fragment {
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         postMenuDialog.show();
-
                     }
                 });
                 ////////POST MENU//////
@@ -1076,7 +1078,7 @@ public class FeedsFragment extends Fragment {
                 }
             }
             if(committees.size()>0) {
-                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), 10);
+                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), 0);
                 cRecyclerView.setAdapter(communityAdapter);
             }
 
@@ -1094,9 +1096,7 @@ public class FeedsFragment extends Fragment {
         );
 
         buildCommunityRecyclerView(comRecyclerView);
-
     }
-
 
     @Override
     public void onResume() {
@@ -1111,6 +1111,7 @@ public class FeedsFragment extends Fragment {
         }
         super.onResume();
     }
+
     @Override
     protected void finalize() throws Throwable {
         Log.d("FINALIZE","called IN FRG CMPUS!!!!!!!!!!!!!");

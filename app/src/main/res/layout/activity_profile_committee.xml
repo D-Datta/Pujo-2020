@@ -338,7 +338,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="@color/black"
                     android:background="#fff"
-                    android:text="@string/lorem_ipsum"
+                    android:text=""
                     android:scrollbars="vertical"
                     android:textSize="15sp"
                     app:colorClickableText="@color/purple"

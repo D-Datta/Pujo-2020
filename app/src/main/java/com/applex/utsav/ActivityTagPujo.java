@@ -2,7 +2,9 @@ package com.applex.utsav;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.applex.utsav.adapters.PujoTagAdapter;
@@ -32,6 +35,8 @@ public class ActivityTagPujo extends AppCompatActivity {
     private IntroPref introPref;
 
     private PujoTagAdapter adapter;
+
+    PujoTagsArrayModel pujoTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class ActivityTagPujo extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                        PujoTagsArrayModel pujoTags = task.getResult().toObject(PujoTagsArrayModel.class);
+                        pujoTags = task.getResult().toObject(PujoTagsArrayModel.class);
 
                         adapter = new PujoTagAdapter(pujoTags.getTags(), ActivityTagPujo.this);
 
@@ -97,4 +102,41 @@ public class ActivityTagPujo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.tag_search_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<PujoTagModel> tagList = new ArrayList<>();
+
+                for(PujoTagModel user : pujoTags.getTags())
+                {
+                    if (user.getPujoName().toLowerCase().contains(s.toLowerCase())){
+                        tagList.add(user);
+                    }
+                }
+                adapter = new PujoTagAdapter(tagList, ActivityTagPujo.this);
+                tagsRecycler.setAdapter(adapter);
+
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+
+    }
+
 }

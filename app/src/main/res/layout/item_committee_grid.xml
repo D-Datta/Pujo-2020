@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_marginTop="10dp"
@@ -11,21 +12,35 @@
     <ImageView
         android:id="@+id/committee_cover"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:foreground="@color/black_transparent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/committee_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/dp_outline"
-            android:layout_margin="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentBottom="true"
             android:padding="4dp">
 
             <androidx.cardview.widget.CardView
@@ -43,17 +58,6 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/committee_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="5"
-            android:singleLine="true"
-            android:layout_marginEnd="10dp"
-            android:textSize="15sp"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

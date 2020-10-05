@@ -21,7 +21,7 @@ public class ReelsActivity extends AppCompatActivity {
     private Query query;
     private ReelsAdapter adapter;
     private ArrayList<ReelsPostModel> models;
-    private String type;
+    private String type, ts, pCom_ts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,14 @@ public class ReelsActivity extends AppCompatActivity {
 
         if(Objects.requireNonNull(getIntent().getExtras()).getString("type") != null) {
             type = getIntent().getExtras().getString("type");
+        }
+
+        if(Objects.requireNonNull(getIntent().getExtras()).getString("ts") != null) {
+            ts = getIntent().getExtras().getString("ts");
+        }
+
+        if(Objects.requireNonNull(getIntent().getExtras()).getString("pCom_ts") != null) {
+            pCom_ts = getIntent().getExtras().getString("pCom_ts");
         }
 
         if(getIntent().getStringExtra("uid") != null) {
@@ -96,7 +104,7 @@ public class ReelsActivity extends AppCompatActivity {
                     }
                 });
 
-                adapter = new ReelsAdapter(ReelsActivity.this, models, reelsList, bool, uid, type);
+                adapter = new ReelsAdapter(ReelsActivity.this, models, bool, uid, type, ts, pCom_ts);
                 reelsList.setAdapter(adapter);
             }
         });

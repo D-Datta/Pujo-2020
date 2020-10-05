@@ -23,40 +23,55 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-
-        <activity android:name=".LanguageChoice"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityTagPujo"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityNotification"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Webview"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".drawerActivities.AboutUs"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".EditProfileIndividualActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".EditProfileCommitteeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityProfileCommittee"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityProfileUser"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SearchCityState"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".registration.RegIndividual"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".registration.RegPujoCommittee"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".registration.RegChoice"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WalkthroughActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".registration.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".registration.LoginActivityPhone"
-            android:screenOrientation="portrait"/>
-
+        <activity android:name=".HashtagPostViewAll"></activity>
+        <activity
+            android:name=".LanguageChoice"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityTagPujo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityNotification"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Webview"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".drawerActivities.AboutUs"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfileIndividualActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfileCommitteeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityProfileCommittee"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityProfileUser"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchCityState"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.RegIndividual"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.RegPujoCommittee"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.RegChoice"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WalkthroughActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".registration.LoginActivityPhone"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Splash"
             android:screenOrientation="portrait"
@@ -120,6 +135,7 @@
             <!-- <data android:mimeType="text/plain" /> -->
             <!-- </intent-filter> -->
         </activity>
+
         <activity
             android:name=".ViewMoreHome"
             android:screenOrientation="portrait">
@@ -140,18 +156,20 @@
         </activity>
         <activity
             android:name=".ReelsActivity"
-            android:theme="@style/EventTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/EventTheme">
             <intent-filter>
                 <action android:name="Reels" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
@@ -184,11 +202,14 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_stat_onesignal_default" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimaryDark" />
+            android:resource="@color/colorPrimary" />
+
     </application>
 
 </manifest>

@@ -48,9 +48,9 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/harabara"
                     android:paddingHorizontal="8dp"
                     android:text="Name"
+                    android:textStyle="bold"
                     android:paddingVertical="2dp"
                     android:textColor="#212121" />
 
@@ -75,9 +75,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
-                android:fontFamily="@font/oxygen_regular"
+                android:fontFamily="@font/oxygen_bold"
                 android:autoLink="all"
-                android:textColorLink="@color/toolbarStart"
+                android:textColorLink="@color/colorPrimary"
                 android:text=""
                 android:textColor="@color/black"
                 android:paddingHorizontal="8dp"/>
@@ -120,7 +120,6 @@
                 android:text="100"
                 android:textSize="10dp"
                 android:layout_marginStart="4dp"
-                android:fontFamily="@font/oxygen_regular"
                 android:gravity="center_vertical" />
 
             <ImageView
@@ -135,10 +134,9 @@
                 android:id="@+id/replied_by"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center_vertical"
                 android:text="100"
-                android:textSize="10dp"
-                android:fontFamily="@font/oxygen_regular"
-                android:gravity="center_vertical" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/view_replies"
@@ -147,7 +145,6 @@
                 android:textSize="12dp"
                 android:text="@string/reply"
                 android:paddingHorizontal="12dp"
-                android:fontFamily="@font/oxygen_regular"
                 android:gravity="center_vertical|end" />
 
         </LinearLayout>

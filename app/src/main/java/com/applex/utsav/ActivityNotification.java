@@ -3,14 +3,12 @@ package com.applex.utsav;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.widget.NestedScrollView;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.Dialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,10 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.applex.utsav.fragments.Fragment_Posts;
-import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.NotifModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
@@ -34,41 +28,27 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
-
-import static java.lang.Boolean.TRUE;
 
 public class ActivityNotification extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView notifRecycler;
     private ProgressBar progressMore;
-
     private ImageView noNotif;
-
-    public static int removeNotif = -1;
     public static boolean active = false;
-    IntroPref introPref;
-
     private FirestorePagingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        introPref = new IntroPref(ActivityNotification.this);
+        IntroPref introPref = new IntroPref(ActivityNotification.this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
         Locale.setDefault(locale);
@@ -80,7 +60,7 @@ public class ActivityNotification extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
 
@@ -110,7 +90,7 @@ public class ActivityNotification extends AppCompatActivity {
 
     public void buildRecyclerView() {
         Query query = FirebaseFirestore.getInstance()
-                .collection("Users/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/Notifs/")
+                .collection("Users/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid() + "/Notifs/")
                 .orderBy("ts", Query.Direction.DESCENDING);
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -136,12 +116,11 @@ public class ActivityNotification extends AppCompatActivity {
                 return new ProgrammingViewHolder(v);
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull NotifModel model) {
 
-                NotifModel currentItem  = model;
-
-                String userimage_url = currentItem.getDp();
+                String userimage_url = model.getDp();
                 if(userimage_url!=null){
                     Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.dp);
                 }
@@ -149,119 +128,110 @@ public class ActivityNotification extends AppCompatActivity {
                     holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
-                holder.title.setText(currentItem.getUsN()+" "+currentItem.getTitle());
+                holder.title.setText(model.getUsN()+" "+ model.getTitle());
 
-                holder.minsago.setText(BasicUtility.getTimeAgo(currentItem.getTs()));
+                holder.minsago.setText(BasicUtility.getTimeAgo(model.getTs()));
 
-                if(currentItem.getTitle().contains("commented") || currentItem.getTitle().contains("replied"))
+                if(model.getTitle().contains("commented") || model.getTitle().contains("replied"))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_conch_shell);
                     holder.comment.setVisibility(View.VISIBLE);
-                    holder.comment.setText("\""+currentItem.getComTxt()+"\"");
+                    holder.comment.setText("\""+ model.getComTxt()+"\"");
                 }
-                if((currentItem.getTitle().contains("liked")|| currentItem.getTitle().contains("flamed")))
+                if((model.getTitle().contains("liked")|| model.getTitle().contains("flamed")))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
                     holder.comment.setVisibility(View.GONE);
                 }
-                if(currentItem.getTitle().contains("upvoted"))
+                if(model.getTitle().contains("upvoted"))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_baseline_stars_24);
                     holder.comment.setVisibility(View.GONE);
                 }
-                if((currentItem.getTitle().contains("liked")|| currentItem.getTitle().contains("flamed")) && currentItem.getTitle().contains("comment"))
+                if((model.getTitle().contains("liked")|| model.getTitle().contains("flamed")) && model.getTitle().contains("comment"))
                 {
                     holder.bottomOfDp.setBackgroundResource(R.drawable.ic_drum);
                     holder.comment.setVisibility(View.VISIBLE);
-                    holder.comment.setText("\""+currentItem.getComTxt()+"\"");
+                    holder.comment.setText("\""+ model.getComTxt()+"\"");
                 }
 
-                if(!currentItem.isSeen()){
+                if(!model.isSeen()){
                     holder.notifCard.setBackgroundColor(ActivityNotification.this.getResources().getColor(R.color.colorPrimaryLight));
                 }
 
                 holder.notifCard.setOnClickListener(v -> {
-                    String postID= currentItem.getPostID();
+                    String postID= model.getPostID();
 
-                    if(currentItem.getBool() == 1 && currentItem.getTitle().contains("post")){
-                        currentItem.setSeen(true);
+                    if(model.getBool() == 1){
+                        model.setSeen(true);
                         FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
-                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getDocID());
-                            }
-                        });
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+ model.getDocID()+"/")
+                                .update("seen", true).addOnCompleteListener(task -> {
+                                    if(!task.isSuccessful())
+                                        Log.d("Notif update", "updated"+ model.getDocID());
+                                });
                         Intent i= new Intent(ActivityNotification.this, ViewMoreHome.class);
                         i.putExtra("postID", postID);
-                        i.putExtra("type", currentItem.getType());
+                        i.putExtra("type", model.getType());
                         i.putExtra("campus", "Image");
-
+                        i.putExtra("ts", Long.toString(model.getCom_ts()));
+                        i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
                         startActivity(i);
                         notifyItemChanged(position);
                     }
 
-                    else if(currentItem.getBool() == 2 && currentItem.getTitle().contains("post")){
-                        currentItem.setSeen(true);
+                    else if(model.getBool() == 2){
+                        model.setSeen(true);
                         FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
-                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getDocID());
-                            }
-                        });
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+ model.getDocID()+"/")
+                                .update("seen", true).addOnCompleteListener(task -> {
+                                    if(!task.isSuccessful())
+                                        Log.d("Notif update", "updated"+ model.getDocID());
+                                });
                         Intent i= new Intent(ActivityNotification.this, ViewMoreText.class);
                         i.putExtra("postID", postID);
-                        i.putExtra("type", currentItem.getType());
+                        i.putExtra("type", model.getType());
+                        i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("campus", "Text");
+                        i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
 
                         startActivity(i);
                         notifyItemChanged(position);
                     }
 
-                    else if(currentItem.getBool() == 3 && currentItem.getTitle().contains("video")){
-                        currentItem.setSeen(true);
+                    else if(model.getBool() == 3){
+                        model.setSeen(true);
                         FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
-                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getDocID());
-                            }
-                        });
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+ model.getDocID()+"/")
+                                .update("seen", true).addOnCompleteListener(task -> {
+                                    if(!task.isSuccessful())
+                                        Log.d("Notif update", "updated"+ model.getDocID());
+                                });
                         Intent i= new Intent(ActivityNotification.this, ReelsActivity.class);
                         i.putExtra("docID", postID);
                         i.putExtra("bool", "1");
-                        i.putExtra("type", currentItem.getType());
+                        i.putExtra("ts", Long.toString(model.getCom_ts()));
+                        i.putExtra("type", model.getType());
+                        i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
 
                         startActivity(i);
                         notifyItemChanged(position);
                     }
 
-                    else if(currentItem.getTitle().contains("upvoted")){
-                        currentItem.setSeen(true);
+                    else if(model.getTitle().contains("upvoted")){
+                        model.setSeen(true);
                         FirebaseFirestore.getInstance()
-                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+currentItem.getDocID()+"/")
-                                .update("seen", true).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(!task.isSuccessful())
-                                    Log.d("Notif update", "updated"+currentItem.getDocID());
-                            }
-                        });
+                                .document("Users/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"/Notifs/"+ model.getDocID()+"/")
+                                .update("seen", true).addOnCompleteListener(task -> {
+                                    if(!task.isSuccessful())
+                                        Log.d("Notif update", "updated"+ model.getDocID());
+                                });
                         Intent i= new Intent(ActivityNotification.this, ActivityProfileCommittee.class);
                         i.putExtra("uid", FirebaseAuth.getInstance().getUid());
                         startActivity(i);
                         notifyItemChanged(position);
                     }
-
                 });
-
             }
 
             @Override
@@ -312,7 +282,7 @@ public class ActivityNotification extends AppCompatActivity {
             title= itemView.findViewById(R.id.notif_title);
             minsago= itemView.findViewById(R.id.timestamp);
             comment= itemView.findViewById(R.id.notif_comment);
-            dots = itemView.findViewById(R.id.notif_delete);
+//            dots = itemView.findViewById(R.id.notif_delete);
         }
     }
 

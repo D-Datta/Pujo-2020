@@ -26,6 +26,7 @@ import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.R;
+import com.applex.utsav.dialogs.BottomFlamedByDialog2;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReplyCommentModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -52,6 +53,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     private String PROFILEPIC;
     private String USERNAME;
     private int bool;
+    private String notifType, pCom_ts;
 
     private IntroPref introPref;
     private OnClickListener mListener;
@@ -65,10 +67,12 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     }
 
 
-    public CommentReplyAdapter(Context context, List<ReplyCommentModel> itemDatalist, int bool) {
+    public CommentReplyAdapter(Context context, List<ReplyCommentModel> itemDatalist, int bool, String notifType, String pCom_ts) {
         this.mContext = context;
         this.itemDatalist = itemDatalist;
         this.bool = bool;//1 = ViewMoreHome 2 = ViewMoreEvent 3 = ViewMoreSlider 4 = ViewMoreNote
+        this.notifType = notifType;
+        this.pCom_ts = pCom_ts;
 
         introPref= new IntroPref(mContext);
         PROFILEPIC = introPref.getUserdp();
@@ -88,6 +92,18 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         ReplyCommentModel currentItem = itemDatalist.get(i);
         DocumentReference likeStore = null;
         CollectionReference flamedCol = null;
+
+        if(notifType != null && pCom_ts != null && Long.parseLong(pCom_ts) == currentItem.getTs()) {
+            if (notifType.matches("comment_reply_flame")) {
+                BottomFlamedByDialog3 bottomSheetDialog = null;
+                if (bool == 1) {
+                    bottomSheetDialog = new BottomFlamedByDialog3("Feeds", currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
+                } else if (bool == 2) {
+                    bottomSheetDialog = new BottomFlamedByDialog3("Reels", currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
+                }
+                Objects.requireNonNull(bottomSheetDialog).show(((FragmentActivity) mContext).getSupportFragmentManager(), "FlamedBySheet");
+            }
+        }
 
         if(currentItem.getTs() == -1L){
             programmingViewHolder.minsago.setText("Failed!");
@@ -284,24 +300,18 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                 });
 
         programmingViewHolder.cFlamedBy.setOnClickListener(v -> {
-            if(currentItem != null && currentItem.getLikeL() !=null && currentItem.getLikeL().size() > 0){
-                BottomFlamedByDialog3 bottomSheetDialog;
-//                if(bool == 1) {
-                    bottomSheetDialog = new BottomFlamedByDialog3("Home", currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
-//                } else if(bool == 2) {
-//                    bottomSheetDialog = new BottomFlamedByDialog3("Events", currentItem.getCampus(), currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
-//                } else if(bool == 3){
-//                    bottomSheetDialog = new BottomFlamedByDialog3("Sliders", currentItem.getCampus(), currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
-//                } else {
-//                    bottomSheetDialog = new BottomFlamedByDialog3("Notes", currentItem.getCampus(), currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
-//                }
-                bottomSheetDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(), "FlamedBySheet"); }
+            if(currentItem.getLikeL() != null && currentItem.getLikeL().size() > 0){
+                BottomFlamedByDialog3 bottomSheetDialog = null;
+                if (bool == 1) {
+                    bottomSheetDialog = new BottomFlamedByDialog3("Feeds", currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
+                } else if (bool == 2) {
+                    bottomSheetDialog = new BottomFlamedByDialog3("Reels", currentItem.getPostID(), currentItem.getpComID(), currentItem.getDocID());
+                }
+                Objects.requireNonNull(bottomSheetDialog).show(((FragmentActivity)mContext).getSupportFragmentManager(), "FlamedBySheet"); }
             else
                 Toast.makeText(mContext, "No flames", Toast.LENGTH_SHORT).show();
         });
         ///////////////////FLAMES///////////////////////
-
-
     }
 
     @Override

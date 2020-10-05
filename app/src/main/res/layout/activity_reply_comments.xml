@@ -149,7 +149,6 @@
                             android:text="100"
                             android:textSize="10dp"
                             android:layout_marginStart="4dp"
-                            android:fontFamily="@font/oxygen_regular"
                             android:gravity="center_vertical" />
 
                         <ImageView
@@ -166,7 +165,6 @@
                             android:layout_height="match_parent"
                             android:text="100"
                             android:textSize="10dp"
-                            android:fontFamily="@font/oxygen_regular"
                             android:gravity="center_vertical" />
 
                     </LinearLayout>
