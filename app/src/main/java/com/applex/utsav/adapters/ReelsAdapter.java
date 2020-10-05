@@ -1,6 +1,5 @@
 package com.applex.utsav.adapters;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -24,7 +23,6 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
@@ -52,22 +50,21 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
     private ArrayList<ReelsPostModel> models;
     private Context context;
-    private ViewPager2 reelsList;
     private IntroPref introPref;
     private String bool;
     private String uid,link;
-    private String type, ts;
+    private String type, ts, pCom_ts;
     public static ReelsPostModel currentItem;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
-                        ViewPager2 reelsList, String bool, String uid, String type, String ts) {
+                        String bool, String uid, String type, String ts, String pCom_ts) {
         this.models = models;
         this.context = context;
-        this.reelsList = reelsList;
         this.bool = bool;
         this.uid = uid;
         this.type = type;
         this.ts = ts;
+        this.pCom_ts = pCom_ts;
         introPref = new IntroPref(context);
     }
 
@@ -103,19 +100,19 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
             }
             else if (type.matches("comment")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), ts);
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
             else if(type.matches("comment_flame")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts);
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts, null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
             else if(type.matches("comment_reply")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts);
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts, null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
             else if(type.matches("comment_reply_flame")) {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts);
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts, pCom_ts);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             }
         }
@@ -332,25 +329,25 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
         /////COMMENT/////
         if (currentItem.getCmtNo() > 0) {
-            holder.comment_layout.setVisibility(View.VISIBLE);
-            holder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+            ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
+            ReelsItemViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-            holder.commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null);
+            ReelsItemViewHolder.commentimg.setOnClickListener(v -> {
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
-            holder.commentCount.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null);
+            ReelsItemViewHolder.commentCount.setOnClickListener(v -> {
+                BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
                 bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
         }
         else {
-            holder.comment_layout.setVisibility(View.GONE);
+            ReelsItemViewHolder.comment_layout.setVisibility(View.GONE);
         }
         /////COMMENT/////
 
         holder.comment.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter", null,currentItem.getCmtNo(), null);
+            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
             bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
         holder.share.setOnClickListener(view -> {
@@ -404,8 +401,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         LottieAnimationView video_playing;
         LinearLayout like_layout;
         private LottieAnimationView dhak_anim;
+        @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
+        @SuppressLint("StaticFieldLeak")
         public static ImageView commentimg;
+        @SuppressLint("StaticFieldLeak")
         public static TextView commentCount;
 
         ReelsItemViewHolder(View itemView) {

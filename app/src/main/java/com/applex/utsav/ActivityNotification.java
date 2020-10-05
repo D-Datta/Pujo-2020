@@ -175,6 +175,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("type", model.getType());
                         i.putExtra("campus", "Image");
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
+                        i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
                         startActivity(i);
                         notifyItemChanged(position);
                     }
@@ -192,6 +193,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("type", model.getType());
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("campus", "Text");
+                        i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
 
                         startActivity(i);
                         notifyItemChanged(position);
@@ -210,6 +212,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("bool", "1");
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("type", model.getType());
+                        i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
 
                         startActivity(i);
                         notifyItemChanged(position);

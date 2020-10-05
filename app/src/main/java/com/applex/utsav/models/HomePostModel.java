@@ -17,14 +17,12 @@ public class HomePostModel {
     private long newTs;
     private String headline;
 
-    private String com1_usn, com1_dp, com1;
-    private String com2_usn, com2_dp, com2;
+    private String com1_usn, com1_dp, com1, com1_uid;
+    private String com2_usn, com2_dp, com2, com2_uid;
     private long com1_ts, com2_ts;
 
     private ArrayList<TagModel> tagL;
-
     private long cmtNo;
-
     private ArrayList<String> likeL;
 
     @Exclude
@@ -34,10 +32,7 @@ public class HomePostModel {
     private String docID;
 
     private ArrayList<String> reportL;
-
     private String challengeID;
-
-
     private PujoTagModel pujoTag;
 
     ////////////DEFAULT CONSTRUCTOR///////////
@@ -88,6 +83,7 @@ public class HomePostModel {
     public String getUsN() {
         return usN;
     }
+
     public void setUsN(String usN) {
         this.usN = usN;
     }
@@ -95,6 +91,7 @@ public class HomePostModel {
     public String getDp() {
         return dp;
     }
+
     public void setDp(String dp) {
         this.dp = dp;
     }
@@ -102,6 +99,7 @@ public class HomePostModel {
     public String getTxt() {
         return txt;
     }
+
     public void setTxt(String txt) {
         this.txt = txt;
     }
@@ -109,6 +107,7 @@ public class HomePostModel {
     public String getUid() {
         return uid;
     }
+
     public void setUid(String uid) {
         this.uid = uid;
     }
@@ -124,6 +123,7 @@ public class HomePostModel {
     public long getCmtNo() {
         return cmtNo;
     }
+
     public void setCmtNo(long cmtNo) {
         this.cmtNo = cmtNo;
     }
@@ -139,6 +139,7 @@ public class HomePostModel {
     public ArrayList<TagModel> getTagL() {
         return tagL;
     }
+
     public void setTagL(ArrayList<TagModel> tagL) {
         this.tagL = tagL;
     }
@@ -170,7 +171,6 @@ public class HomePostModel {
         this.likeL.remove(Uid);
     }
 
-
     public ArrayList<String> getReportL() {
         return reportL;
     }
@@ -178,7 +178,6 @@ public class HomePostModel {
     public void setReportL(ArrayList<String> reportL) {
         this.reportL = reportL;
     }
-
 
     public String getChallengeID() {
         return challengeID;
@@ -195,6 +194,7 @@ public class HomePostModel {
     public void setPujoTag(PujoTagModel pujoTag) {
         this.pujoTag = pujoTag;
     }
+
     public void setHeadline(String headline) {
         this.headline = headline;
     }
@@ -266,11 +266,28 @@ public class HomePostModel {
     public void setCom2_ts(long com2_ts) {
         this.com2_ts = com2_ts;
     }
+
     public String getGender() {
         return gender;
     }
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getCom1_uid() {
+        return com1_uid;
+    }
+
+    public void setCom1_uid(String com1_uid) {
+        this.com1_uid = com1_uid;
+    }
+
+    public String getCom2_uid() {
+        return com2_uid;
+    }
+
+    public void setCom2_uid(String com2_uid) {
+        this.com2_uid = com2_uid;
     }
 }

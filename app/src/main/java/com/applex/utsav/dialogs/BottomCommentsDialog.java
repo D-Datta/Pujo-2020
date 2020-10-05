@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommentEdit;
 import com.applex.utsav.R;
@@ -37,13 +35,9 @@ import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.CommentModel;
-import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
-import com.applex.utsav.utility.StoreTemp;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -57,7 +51,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
-
 import static com.applex.utsav.ViewMoreHome.homePostModel;
 import static com.applex.utsav.adapters.ReelsAdapter.currentItem;
 import static java.lang.Boolean.TRUE;
@@ -81,10 +74,11 @@ public class BottomCommentsDialog extends DialogFragment {
     private String uid;
     private String type;
     private String ts;
+    private String pCom_ts;
     private long cmntno, finalcmntno;
     private int getBool;
 
-    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts) {
+    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts, String pCom_ts) {
         this.root = root;
         this.docID = docID;
         this.uid = uid;
@@ -93,6 +87,7 @@ public class BottomCommentsDialog extends DialogFragment {
         this.type = type;
         this.cmntno = cmntno;
         this.ts = ts;
+        this.pCom_ts = pCom_ts;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -177,7 +172,7 @@ public class BottomCommentsDialog extends DialogFragment {
         });
 
         models = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getActivity(), models, getBool, type, ts);
+        commentAdapter = new CommentAdapter(getActivity(), models, getBool, type, ts, pCom_ts);
 
         send.setOnClickListener(v2 -> {
             if(InternetConnection.checkConnection(requireActivity())) {
@@ -316,7 +311,7 @@ public class BottomCommentsDialog extends DialogFragment {
                     models.add(commentModel);
                 }
                 if (models.size() > 0) {
-                    commentAdapter = new CommentAdapter(getActivity(), models, getBool, type, ts);
+                    commentAdapter = new CommentAdapter(getActivity(), models, getBool, type, ts, pCom_ts);
                     commentAdapter.onClickListener(position -> {
                         if( models.get(position).getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))
                                 || uid.matches(FirebaseAuth.getInstance().getUid())) {
