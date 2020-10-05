@@ -117,6 +117,7 @@ public class ViewMoreText extends AppCompatActivity {
 
     private int commentCount = 0;
     String bool;
+    public static final HomePostModel[] homeTextModel = {new HomePostModel()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,63 +248,57 @@ public class ViewMoreText extends AppCompatActivity {
 //
 //        Bitmap scaledBitmap5 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options3);
 //        share.setImageBitmap(scaledBitmap5);
-//
-//
-
-
 
         Intent i = getIntent();
 
-        final HomePostModel[] homePostModel = {new HomePostModel()};
-
-        if (getIntent().getExtras().getString("campus") == null) {
-            homePostModel[0].setUid(i.getStringExtra("uid"));
-            homePostModel[0].setTs(Long.parseLong(i.getStringExtra("timestamp")));
+        if (getIntent().getExtras().getString("from") == null) {
+            homeTextModel[0].setUid(i.getStringExtra("uid"));
+            homeTextModel[0].setTs(Long.parseLong(i.getStringExtra("timestamp")));
             //  homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
             if (i.getStringExtra("newTs") != null) {
-                homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
+                homeTextModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
             }
 
-            minsago.setText(BasicUtility.getTimeAgo(homePostModel[0].getTs()));
-            homePostModel[0].setDocID(i.getStringExtra("docID"));
+            minsago.setText(BasicUtility.getTimeAgo(homeTextModel[0].getTs()));
+            homeTextModel[0].setDocID(i.getStringExtra("docID"));
 
-            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homePostModel[0].getDocID() + "/");
-            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL/");
+            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homeTextModel[0].getDocID() + "/");
+            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homeTextModel[0].getDocID() + "/flameL/");
 
             /////////////USERNAME & USER IMAGE FOR POST//////////////
-            homePostModel[0].setUsN(i.getStringExtra("username"));
-            username.setText(homePostModel[0].getUsN());
+            homeTextModel[0].setUsN(i.getStringExtra("username"));
+            username.setText(homeTextModel[0].getUsN());
 
-            homePostModel[0].setDp(i.getStringExtra("userdp"));
-            if (homePostModel[0].getDp() != null && !homePostModel[0].getDp().isEmpty()) {
-                Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
+            homeTextModel[0].setDp(i.getStringExtra("userdp"));
+            if (homeTextModel[0].getDp() != null && !homeTextModel[0].getDp().isEmpty()) {
+                Picasso.get().load(homeTextModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
             } else {
                 userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
             }
 
-            homePostModel[0].setType(i.getStringExtra("type"));
-            if (homePostModel[0].getType().matches("com")) {
+            homeTextModel[0].setType(i.getStringExtra("type"));
+            if (homeTextModel[0].getType().matches("com")) {
                 username.setOnClickListener(v -> {
                     Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                    i12.putExtra("uid", homePostModel[0].getUid());
+                    i12.putExtra("uid", homeTextModel[0].getUid());
                     startActivity(i12);
                 });
 
                 userimage.setOnClickListener(v -> {
                     Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                    i1.putExtra("uid", homePostModel[0].getUid());
+                    i1.putExtra("uid", homeTextModel[0].getUid());
                     startActivity(i1);
                 });
-            } else if (homePostModel[0].getType().matches("indi")) {
+            } else if (homeTextModel[0].getType().matches("indi")) {
                 username.setOnClickListener(v -> {
                     Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                    i12.putExtra("uid", homePostModel[0].getUid());
+                    i12.putExtra("uid", homeTextModel[0].getUid());
                     startActivity(i12);
                 });
 
                 userimage.setOnClickListener(v -> {
                     Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                    i1.putExtra("uid", homePostModel[0].getUid());
+                    i1.putExtra("uid", homeTextModel[0].getUid());
                     startActivity(i1);
                 });
             }
@@ -314,13 +309,13 @@ public class ViewMoreText extends AppCompatActivity {
 
             /////////////////TAGS/////////////////
             if (StoreTemp.getInstance().getTagTemp() != null) {
-                homePostModel[0].setTagL(StoreTemp.getInstance().getTagTemp());
-                if (homePostModel[0].getTagL().size() > 0) {
+                homeTextModel[0].setTagL(StoreTemp.getInstance().getTagTemp());
+                if (homeTextModel[0].getTagL().size() > 0) {
                     tagRecycler.setHasFixedSize(true);
                     final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                     linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     tagRecycler.setLayoutManager(linearLayoutManager);
-                    TagAdapter tagAdapter = new TagAdapter(homePostModel[0].getTagL(), getApplicationContext());
+                    TagAdapter tagAdapter = new TagAdapter(homeTextModel[0].getTagL(), getApplicationContext());
                     tagRecycler.setAdapter(tagAdapter);
                 } else {
                     tagRecycler.setVisibility(View.GONE);
@@ -363,7 +358,7 @@ public class ViewMoreText extends AppCompatActivity {
                     flamedBy.setText(Integer.toString(likeList.size()));
 
                     like_layout.setOnClickListener(v -> {
-                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
                         bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                     });
 
@@ -418,7 +413,7 @@ public class ViewMoreText extends AppCompatActivity {
             ///////////When viewing likelist from fragment global/campus////////////////
             if (i.getStringExtra("likeLOpen") != null && i.getStringExtra("likeLOpen").matches("likeLOpen")) {
                 if (likeList != null && likeList.size() > 0) {
-                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
                     bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                 } else
                     Toast.makeText(ViewMoreText.this, "No flames", Toast.LENGTH_SHORT).show();
@@ -429,7 +424,7 @@ public class ViewMoreText extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (likeList != null && likeList.size() > 0) {
-                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
                         bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                     } else
                         Toast.makeText(ViewMoreText.this, "No flames", Toast.LENGTH_SHORT).show();
@@ -470,9 +465,9 @@ public class ViewMoreText extends AppCompatActivity {
 
             ////////////////POST TEXT///////////////
             if (i.getStringExtra("postText") != null && !i.getStringExtra("postText").isEmpty()) {
-                homePostModel[0].setTxt(i.getStringExtra("postText"));
+                homeTextModel[0].setTxt(i.getStringExtra("postText"));
                 textContent.setVisibility(View.VISIBLE);
-                textContent.setText(homePostModel[0].getTxt());
+                textContent.setText(homeTextModel[0].getTxt());
 
 //                if(textContent.getUrls().length>0){
 //                    URLSpan urlSnapItem = textContent.getUrls()[0];
@@ -508,13 +503,13 @@ public class ViewMoreText extends AppCompatActivity {
             //////////////COMMENT SETUP from cmtNo////////////
 
             if (i.getStringExtra("commentNo") != null) {
-                homePostModel[0].setCmtNo(Long.parseLong(i.getStringExtra("commentNo")));
-                if (homePostModel[0].getCmtNo() > 0) {
+                homeTextModel[0].setCmtNo(Long.parseLong(i.getStringExtra("commentNo")));
+                if (homeTextModel[0].getCmtNo() > 0) {
                     comment_layout.setVisibility(View.VISIBLE);
-                    noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
+                    noofcmnts.setText(Long.toString(homeTextModel[0].getCmtNo()));
 
                     comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreText", null,homePostModel[0].getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2,"ViewMoreText", null,homeTextModel[0].getCmtNo(), null, null);
                         bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
 
@@ -556,8 +551,8 @@ public class ViewMoreText extends AppCompatActivity {
             String pCom_ts;
 
 //            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
-            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homePostModel[0].getDocID() + "/");
-            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL");
+            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homeTextModel[0].getDocID() + "/");
+            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homeTextModel[0].getDocID() + "/flameL");
             postID = getIntent().getExtras().getString("postID");
             type = getIntent().getExtras().getString("type");
             ts = getIntent().getExtras().getString("ts");
@@ -565,23 +560,23 @@ public class ViewMoreText extends AppCompatActivity {
 
             if(type != null) {
                 if(type.matches("flame")) {
-                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
                     bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                 }
                 else if (type.matches("comment")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", null,homePostModel[0].getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", null, homeTextModel[0].getCmtNo(), null, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
                 else if(type.matches("comment_flame")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type,homePostModel[0].getCmtNo(), ts, null);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
                 else if(type.matches("comment_reply")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type,homePostModel[0].getCmtNo(), ts, null);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
                 else if(type.matches("comment_reply_flame")) {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2, "ViewMoreHome", type,homePostModel[0].getCmtNo(), ts, pCom_ts);
+                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, pCom_ts);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 }
             }
@@ -591,50 +586,50 @@ public class ViewMoreText extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.getResult().exists()) {
-                                homePostModel[0] = task.getResult().toObject(HomePostModel.class);
-                                homePostModel[0].setDocID(task.getResult().getId());
+                                homeTextModel[0] = task.getResult().toObject(HomePostModel.class);
+                                homeTextModel[0].setDocID(task.getResult().getId());
 
                                 //SETTING DATABASE REF WRT BOOL VALUE//
-                                docRef = FirebaseFirestore.getInstance().document("Feeds/" + homePostModel[0].getDocID() + "/");
-                                flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homePostModel[0].getDocID() + "/flameL");
+                                docRef = FirebaseFirestore.getInstance().document("Feeds/" + homeTextModel[0].getDocID() + "/");
+                                flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homeTextModel[0].getDocID() + "/flameL");
                                 //SETTING DATABASE REF WRT BOOL VALUE//
 
-                                minsago.setText(BasicUtility.getTimeAgo(homePostModel[0].getTs()));
+                                minsago.setText(BasicUtility.getTimeAgo(homeTextModel[0].getTs()));
 
 
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
-                                username.setText(homePostModel[0].getUsN());
+                                username.setText(homeTextModel[0].getUsN());
 
-                                if (homePostModel[0].getDp() != null && !homePostModel[0].getDp().isEmpty()) {
+                                if (homeTextModel[0].getDp() != null && !homeTextModel[0].getDp().isEmpty()) {
 
-                                    Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
+                                    Picasso.get().load(homeTextModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
 
                                 } else {
                                     userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
 
-                                if (homePostModel[0].getType().matches("com")) {
+                                if (homeTextModel[0].getType().matches("com")) {
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                                        i12.putExtra("uid", homePostModel[0].getUid());
+                                        i12.putExtra("uid", homeTextModel[0].getUid());
                                         startActivity(i12);
                                     });
 
                                     userimage.setOnClickListener(v -> {
                                         Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                                        i1.putExtra("uid", homePostModel[0].getUid());
+                                        i1.putExtra("uid", homeTextModel[0].getUid());
                                         startActivity(i1);
                                     });
-                                } else if (homePostModel[0].getType().matches("indi")) {
+                                } else if (homeTextModel[0].getType().matches("indi")) {
                                     username.setOnClickListener(v -> {
                                         Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                                        i12.putExtra("uid", homePostModel[0].getUid());
+                                        i12.putExtra("uid", homeTextModel[0].getUid());
                                         startActivity(i12);
                                     });
 
                                     userimage.setOnClickListener(v -> {
                                         Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                                        i1.putExtra("uid", homePostModel[0].getUid());
+                                        i1.putExtra("uid", homeTextModel[0].getUid());
                                         startActivity(i1);
                                     });
                                 }
@@ -642,13 +637,13 @@ public class ViewMoreText extends AppCompatActivity {
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
 
                                 /////////////////TAGS/////////////////
-                                if (homePostModel[0].getTagL() != null) {
-                                    if (homePostModel[0].getTagL().size() > 0) {
+                                if (homeTextModel[0].getTagL() != null) {
+                                    if (homeTextModel[0].getTagL().size() > 0) {
                                         tagRecycler.setHasFixedSize(true);
                                         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                                         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                                         tagRecycler.setLayoutManager(linearLayoutManager);
-                                        TagAdapter tagAdapter = new TagAdapter(homePostModel[0].getTagL(), getApplicationContext());
+                                        TagAdapter tagAdapter = new TagAdapter(homeTextModel[0].getTagL(), getApplicationContext());
                                         tagRecycler.setAdapter(tagAdapter);
                                     } else {
                                         tagRecycler.setVisibility(View.GONE);
@@ -660,8 +655,8 @@ public class ViewMoreText extends AppCompatActivity {
 
 
                                 ///////////////LIKE SETUP//////////////
-                                if (homePostModel[0].getLikeL() != null) {
-                                    likeList = homePostModel[0].getLikeL();
+                                if (homeTextModel[0].getLikeL() != null) {
+                                    likeList = homeTextModel[0].getLikeL();
                                     /////////////////UPDATNG FLAMED BY NO.//////////////////////
                                     if (likeList.size() == 0) {
                                         like_layout.setVisibility(View.GONE);
@@ -670,7 +665,7 @@ public class ViewMoreText extends AppCompatActivity {
                                         flamedBy.setText(Integer.toString(likeList.size()));
 
                                         like_layout.setOnClickListener(v -> {
-                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                                         });
 
@@ -743,7 +738,7 @@ public class ViewMoreText extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         if (likeList != null && likeList.size() > 0) {
-                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
+                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
                                             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                                         } else
                                             Toast.makeText(ViewMoreText.this, "No flames", Toast.LENGTH_SHORT).show();
@@ -776,9 +771,9 @@ public class ViewMoreText extends AppCompatActivity {
 
 
                                 ////////////////POST TEXT///////////////
-                                if (homePostModel[0].getTxt() != null && !homePostModel[0].getTxt().isEmpty()) {
+                                if (homeTextModel[0].getTxt() != null && !homeTextModel[0].getTxt().isEmpty()) {
                                     textContent.setVisibility(View.VISIBLE);
-                                    textContent.setText(homePostModel[0].getTxt());
+                                    textContent.setText(homeTextModel[0].getTxt());
 //                                    if(textContent.getUrls().length>0){
 //                                        URLSpan urlSnapItem = textContent.getUrls()[0];
 //                                        String url = urlSnapItem.getURL();
@@ -810,14 +805,14 @@ public class ViewMoreText extends AppCompatActivity {
                                 ////////////////POST TEXT///////////////
 
                                 //////////////COMMENT SETUP from cmtNo////////////
-                                if (homePostModel[0].getCmtNo() > -1) {
+                                if (homeTextModel[0].getCmtNo() > -1) {
 
-                                    if (homePostModel[0].getCmtNo() > 0) {
+                                    if (homeTextModel[0].getCmtNo() > 0) {
                                         comment_layout.setVisibility(View.VISIBLE);
-                                        noofcmnts.setText(Long.toString(homePostModel[0].getCmtNo()));
+                                        noofcmnts.setText(Long.toString(homeTextModel[0].getCmtNo()));
 
                                         comment_layout.setOnClickListener(v -> {
-                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 2,"ViewMoreText", null,homePostModel[0].getCmtNo(), null, null);
+                                            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2,"ViewMoreText", null,homeTextModel[0].getCmtNo(), null, null);
                                             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                                         });
 
@@ -825,7 +820,7 @@ public class ViewMoreText extends AppCompatActivity {
                                         comment_layout.setVisibility(View.GONE);
                                         checkGetMore = -1;
                                     }
-                                    commentCount = (int) homePostModel[0].getCmtNo();
+                                    commentCount = (int) homeTextModel[0].getCmtNo();
                                 } else {
 //                                        mRecyclerView.setVisibility(View.GONE);
                                     ////                no_comment.setVisibility(View.VISIBLE);
@@ -943,13 +938,13 @@ public class ViewMoreText extends AppCompatActivity {
                             FlamedModel flamedModel = new FlamedModel();
                             long tsLong = System.currentTimeMillis();
 
-                            flamedModel.setPostID(homePostModel[0].getDocID());
+                            flamedModel.setPostID(homeTextModel[0].getDocID());
                             flamedModel.setTs(tsLong);
                             flamedModel.setUid(UID);
                             flamedModel.setType(introPref.getType());
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);
-                            flamedModel.setPostUid(homePostModel[0].getUid());
+                            flamedModel.setPostUid(homeTextModel[0].getUid());
 
                             DocumentReference flamedDoc = flamedRef.document(FirebaseAuth.getInstance().getUid());
                             batch.update(docRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
@@ -971,7 +966,7 @@ public class ViewMoreText extends AppCompatActivity {
                     }
                 });
         commentimg.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1,"ViewMoreText", null,homePostModel[0].getCmtNo(), null, null);
+            BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 1,"ViewMoreText", null,homeTextModel[0].getCmtNo(), null, null);
             bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
         });
 
@@ -979,7 +974,7 @@ public class ViewMoreText extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (homePostModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())) {
+                if (homeTextModel[0].getUid().matches(FirebaseAuth.getInstance().getUid())) {
                     postMenuDialog = new BottomSheetDialog(ViewMoreText.this);
                     postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                     postMenuDialog.setCanceledOnTouchOutside(TRUE);
@@ -1126,7 +1121,7 @@ public class ViewMoreText extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                String id = postCampus.replaceAll(" ","_");
-                String link = "https://www.utsavapp.in/android/feeds/" + homePostModel[0].getDocID();
+                String link = "https://www.utsavapp.in/android/feeds/" + homeTextModel[0].getDocID();
                 Intent i = new Intent();
                 i.setAction(Intent.ACTION_SEND);
                 i.putExtra(Intent.EXTRA_TEXT, link);
