@@ -1206,12 +1206,31 @@ public class ActivityProfileUser extends AppCompatActivity {
                                 });
 
                                 UserName = userModel.getName();
-                                if(userModel.getCity()!=null && userModel.getState()!=null ){
-                                    Pcity.setText(userModel.getCity()+", "+userModel.getState());
+                                if(userModel.getCity()!=null || userModel.getState()!=null){
+                                    if((userModel.getCity()!=null && !userModel.getCity().isEmpty())
+                                            && userModel.getState()==null){
+                                        Pcity.setText(userModel.getCity());
+                                    }
+                                    else if(userModel.getCity()==null
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getState());
+                                    }
+                                    else if((userModel.getCity()!=null && userModel.getCity().isEmpty())
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getState());
+                                    }
+                                    else if((userModel.getState()!=null && userModel.getState().isEmpty())
+                                            && (userModel.getCity()!=null && !userModel.getCity().isEmpty())){
+                                        Pcity.setText(userModel.getCity());
+                                    }
+                                    else if((userModel.getCity()!=null && !userModel.getCity().isEmpty())
+                                            && (userModel.getState()!=null && !userModel.getState().isEmpty())){
+                                        Pcity.setText(userModel.getCity()+", "+userModel.getState());
+                                    }
                                 }
-                                else
+                                else if(userModel.getCity()==null && userModel.getState()==null){
                                     Pcity.setVisibility(View.GONE);
-
+                                }
 
                                 if(userModel.getDp()!=null){
                                     PROFILEPIC = userModel.getDp();
