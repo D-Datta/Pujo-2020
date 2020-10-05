@@ -893,7 +893,7 @@ public class ViewMoreText extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
-                                    FeedsFragment.changed=1;
+//                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreText.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
@@ -960,7 +960,7 @@ public class ViewMoreText extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
-                                    FeedsFragment.changed=1;
+//                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreText.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }

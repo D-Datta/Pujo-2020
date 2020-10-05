@@ -221,24 +221,24 @@ public class BottomCommentsDialog extends DialogFragment {
                                 finalcmntno=homePostModel[0].getCmtNo()+1;
                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
-                                CommitteeFragment.changed=1;
-                                FeedsFragment.changed=1;
-                                ActivityProfileUser.change=1;
+//                                CommitteeFragment.changed=1;
+//                                FeedsFragment.changed=1;
+//                                ActivityProfileUser.change=1;
                                 homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ViewMoreText")){
                                 finalcmntno=homePostModel[0].getCmtNo()+1;
                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
-                                FeedsFragment.changed=1;
-                                ActivityProfileUser.change=1;
+//                                FeedsFragment.changed=1;
+//                                ActivityProfileUser.change=1;
                                 homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ReelsAdapter")){
                                 finalcmntno=currentItem.getCmtNo()+1;
                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
-                                CommitteeFragment.changed=1;
+//                                CommitteeFragment.changed=1;
                                 currentItem.setCmtNo(finalcmntno);
                             }
                             else {
@@ -363,9 +363,9 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
                                             }
-                                            CommitteeFragment.changed=1;
-                                            FeedsFragment.changed=1;
-                                            ActivityProfileUser.change=1;
+//                                            CommitteeFragment.changed=1;
+//                                            FeedsFragment.changed=1;
+//                                            ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ViewMoreText")){
                                             finalcmntno = homePostModel[0].getCmtNo()-total;
@@ -376,8 +376,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
                                             }
-                                            FeedsFragment.changed=1;
-                                            ActivityProfileUser.change=1;
+//                                            FeedsFragment.changed=1;
+//                                            ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ReelsAdapter")){
                                             finalcmntno=currentItem.getCmtNo()-total;
@@ -388,7 +388,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                             }
-                                            CommitteeFragment.changed=1;
+//                                            CommitteeFragment.changed=1;
                                         }
                                         else {
                                             docRef.get().addOnCompleteListener(task2 -> {
