@@ -153,6 +153,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private LinearLayout llBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
 
+    private ArrayList<String> tagList;
+
     Context context;
     Resources resources;
 
@@ -209,11 +211,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //        resources = context.getResources();
 //        newPostToolb.setText(resources.getText(R.string.new_post));
 
-
-
+        tagList = new ArrayList<>();
 
         buildRecyclerView_selectedtags();
-
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
@@ -294,11 +294,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         GENDER = introPref.getGender();
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
-
         editPostModel= new HomePostModel();
         reelsPostModel = new ReelsPostModel();
         homePostModel = new HomePostModel();
-
 
         ///////////////SHARED CONTENT///////////////
         Intent intent = getIntent();
@@ -471,7 +469,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         }
         //////////////////SHARED CONTENT///////////////////
-
 
         ///////////////////////IMAGE HANDLING////////////////////////
         gallery.setOnClickListener(v -> {
@@ -949,6 +946,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         mytag.setColor_hex(colorValue);
                         selected_tags.add(mytag);
 
+                        tagList.add(textdata);
+
                         tagAdapter2.notifyDataSetChanged();
                         tags_selectedRecycler.setVisibility(View.VISIBLE);
                     }
@@ -1076,7 +1075,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         public void onStart() {
                             //Start Compress
                             progressDialog[0] = new ProgressDialog(NewPostHome.this);
-                            progressDialog[0].setTitle("Uploading your video");
+                            progressDialog[0].setTitle("Preparing your video");
                             progressDialog[0].setMessage("Please wait...");
                             progressDialog[0].setCancelable(false);
                             progressDialog[0].show();
@@ -1116,167 +1115,36 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
-
             else if(requestCode == IMAGE_PICK_GALLERY_CODE) {
-                if(data.getClipData()!= null)
-                {   bottomSheetBehavior.setState(STATE_COLLAPSED);
+                if(data.getClipData()!= null) {
+                    bottomSheetBehavior.setState(STATE_COLLAPSED);
                     int count = data.getClipData().getItemCount();
-                    for (int i =0; i < count; i++)
-                    {
+                    for (int i =0; i < count; i++) {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
                         Bitmap bitmap = null;
-                        Bitmap compressedBitmap = null;
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-                        try {
-                            compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-                        byte[] pic = stream.toByteArray();
-                        compressedBitmap.recycle();
-                        imagelist.add(pic);
-
-//                        BasicUtility.showToast(NewPostHome.this, pic.length/1024+"");
-
-                        if(imagelist != null && imagelist.size()>0){
-
-                            container_image.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            recyclerView.setHasFixedSize(false);
-                            final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setItemViewCacheSize(10);
-                            recyclerView.setNestedScrollingEnabled(true);
-
-                            MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
-                            recyclerView.setAdapter(multipleImageAdapter);
-                            multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
-                                @Override
-                                public void onClickListener(int position) {
-                                    imagelist.remove(position);
-                                    multipleImageAdapter.notifyDataSetChanged();
-                                }
-                            });
-
-                        }
-                        else {
-                            container_image.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.GONE);
-                        }
-
+                        new ImageCompressor(bitmap).execute();
                     }
-                }
-                else if (data.getData() != null)
-                {
+                } else if (data.getData() != null) {
                     Bitmap bitmap = null;
-                    Bitmap compressedBitmap = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    try {
-                        compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    compressedBitmap.recycle();
-                    imagelist.add(byteArray);
-
-//                    BasicUtility.showToast(NewPostHome.this, byteArray.length/1024+"");
-
-
-                    if(imagelist != null && imagelist.size()>0){
-
-                        container_image.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        recyclerView.setHasFixedSize(false);
-                        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemViewCacheSize(10);
-                        recyclerView.setNestedScrollingEnabled(true);
-
-                        MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
-                        recyclerView.setAdapter(multipleImageAdapter);
-                        multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
-                            @Override
-                            public void onClickListener(int position) {
-                                imagelist.remove(position);
-                                multipleImageAdapter.notifyDataSetChanged();
-                            }
-                        });
-
-                    }
-                    else {
-                        container_image.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.GONE);
-                    }
+                    new ImageCompressor(bitmap).execute();
                 }
-
             }
-
-            else if(requestCode == IMAGE_PICK_CAMERA_CODE){
-
+            else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
                 Bundle extras = data.getExtras();
-                Bitmap bitmap = (Bitmap) extras.get("data");
-                Bitmap compressedBitmap = null;
+                Bitmap bitmap = (Bitmap) Objects.requireNonNull(extras).get("data");
                 bottomSheetBehavior.setState(STATE_COLLAPSED);
-
-                try {
-                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
-                byte[] byteArray = stream.toByteArray();
-                compressedBitmap.recycle();
-
-                imagelist.add(byteArray);
-                if(imagelist != null && imagelist.size()>0){
-
-                    container_image.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    recyclerView.setHasFixedSize(false);
-                    final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setItemViewCacheSize(10);
-                    recyclerView.setNestedScrollingEnabled(true);
-
-                    MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
-                    recyclerView.setAdapter(multipleImageAdapter);
-                    multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
-                        @Override
-                        public void onClickListener(int position) {
-                            imagelist.remove(position);
-                            multipleImageAdapter.notifyDataSetChanged();
-                        }
-                    });
-
-                }
-                else {
-                    container_image.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.GONE);
-                }
+                new ImageCompressor(bitmap).execute();
             }
-
             else if(requestCode == VIDEO_PICK_CAMERA_CODE) {
                 videoUri = data.getData();
                 bottomSheetBehavior.setState(STATE_COLLAPSED);
@@ -1304,7 +1172,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         public void onStart() {
                             //Start Compress
                             progressDialog[0] = new ProgressDialog(NewPostHome.this);
-                            progressDialog[0].setTitle("Uploading your video");
+                            progressDialog[0].setTitle("Preparing your video");
                             progressDialog[0].setMessage("Please wait...");
                             progressDialog[0].setCancelable(false);
                             progressDialog[0].show();
@@ -1341,8 +1209,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
-
-            else if(requestCode == TAG_PUJO){
+            else if(requestCode == TAG_PUJO) {
                 PujoTagModel pujoTag = new PujoTagModel();
                 pujoTag.setPujoName(data.getStringExtra("name"));
                 pujoTag.setPujoUid(data.getStringExtra("uid"));
@@ -1354,7 +1221,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                 tagPujo.setText(data.getStringExtra("name"));
             }
-
             ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -1370,16 +1236,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 ByteArrayOutputStream baos =new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
                 pic = baos.toByteArray();
-                imageCompressor = new ImageCompressor(pic);
-                imageCompressor.execute();
-
+                new ImageCompressor(bitmap).execute();
             }
             else {//CROP ERROR
-
                 Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
             }
             ////////////////////////CROP//////////////////////
-
             bottomSheetBehavior.setState(STATE_COLLAPSED);
         }
     }
@@ -1440,143 +1302,64 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
     class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
 
-        private final float maxHeight = 1080.0f;
-        private final float maxWidth = 720.0f;
-        private byte[] pic2;
+        private Bitmap bitmap, compressedBitmap;
+        private ProgressDialog progressDialog;
 
-        public ImageCompressor(byte[] pic) {
-            this.pic2 = pic;
+        public ImageCompressor(Bitmap bitmap) {
+            this.bitmap = bitmap;
         }
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            progressDialog = new ProgressDialog(NewPostHome.this);
+            progressDialog.setTitle("Preparing your images");
+            progressDialog.setMessage("Please wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
         @Override
         public byte[] doInBackground(Void... strings) {
-            Bitmap scaledBitmap = null;
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            Bitmap bmp = BitmapFactory.decodeByteArray(pic2, 0, pic2.length, options);
-
-            int actualHeight = options.outHeight;
-            int actualWidth = options.outWidth;
-
-            float imgRatio = (float) actualWidth / (float) actualHeight;
-            float maxRatio = maxWidth / maxHeight;
-
-            if (actualHeight > maxHeight || actualWidth > maxWidth) {
-                if (imgRatio < maxRatio) {
-                    imgRatio = maxHeight / actualHeight;
-                    actualWidth = (int) (imgRatio * actualWidth);
-                    actualHeight = (int) maxHeight;
-                } else if (imgRatio > maxRatio) {
-                    imgRatio = maxWidth / actualWidth;
-                    actualHeight = (int) (imgRatio * actualHeight);
-                    actualWidth = (int) maxWidth;
-                } else {
-                    actualHeight = (int) maxHeight;
-                    actualWidth = (int) maxWidth;
-
-                }
-            }
-
-            options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-            options.inJustDecodeBounds = false;
-            options.inDither = false;
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inTempStorage = new byte[16 * 1024];
-
             try {
-                bmp = BitmapFactory.decodeByteArray(pic2, 0, pic2.length, options);
-            } catch (OutOfMemoryError exception) {
-                exception.printStackTrace();
-
-            }
-            try {
-                scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
-            } catch (OutOfMemoryError exception) {
-                exception.printStackTrace();
+                compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            float ratioX = actualWidth / (float) options.outWidth;
-            float ratioY = actualHeight / (float) options.outHeight;
-            float middleX = actualWidth / 4.0f;
-            float middleY = actualHeight / 4.0f;
-
-            Matrix scaleMatrix = new Matrix();
-            scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-            Canvas canvas = new Canvas(scaledBitmap);
-            canvas.setMatrix(scaleMatrix);
-            canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 4, middleY - bmp.getHeight() / 4, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-
-            scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-            byte[] by = out.toByteArray();
-
-            return by;
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+            byte[] byteArray = stream.toByteArray();
+            compressedBitmap.recycle();
+            imagelist.add(byteArray);
+            return null;
         }
 
         @Override
         protected void onPostExecute(byte[] picCompressed) {
-            if(picCompressed!= null) {
-                pic = picCompressed;
-                imagelist.add(pic);
+            if(progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            if(imagelist != null && imagelist.size() > 0) {
+                container_image.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setHasFixedSize(false);
+                final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setItemViewCacheSize(10);
+                recyclerView.setNestedScrollingEnabled(true);
 
-                if(imagelist != null && imagelist.size()>0){
-
-                    recyclerView.setVisibility(View.VISIBLE);
-                    recyclerView.setHasFixedSize(false);
-                    final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setItemViewCacheSize(20);
-                    recyclerView.setNestedScrollingEnabled(true);
-
-                    MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
-                    recyclerView.setAdapter(multipleImageAdapter);
-                    multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
-                        @Override
-                        public void onClickListener(int position) {
-                            imagelist.remove(position);
-                            multipleImageAdapter.notifyDataSetChanged();
-                        }
-                    });
-
-                }
-                else {
-                    recyclerView.setVisibility(View.GONE);
-                }
-
+                MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
+                recyclerView.setAdapter(multipleImageAdapter);
+                multipleImageAdapter.onClickListener(position -> {
+                    imagelist.remove(position);
+                    multipleImageAdapter.notifyDataSetChanged();
+                });
+            } else {
+                container_image.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
         }
-
-        private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-            final int height = options.outHeight;
-            final int width = options.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-                final int heightRatio = Math.round((float) height / (float) reqHeight);
-                final int widthRatio = Math.round((float) width / (float) reqWidth);
-                inSampleSize = Math.min(heightRatio, widthRatio);
-            }
-            final float totalPixels = width * height;
-            final float totalReqPixelsCap = reqWidth * reqHeight * 4;
-
-            while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-                inSampleSize++;
-            }
-
-            return inSampleSize;
-        }
-
     }
 
     @Override
