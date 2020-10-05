@@ -6,7 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -35,23 +34,19 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.SliderAdapter;
-import com.applex.utsav.adapters.TagAdapter;
+import com.applex.utsav.adapters.TagAdapter2;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.fragments.CommitteeFragment;
-import com.applex.utsav.fragments.FeedsFragment;
-import com.applex.utsav.fragments.Fragment_Posts;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
-import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -91,6 +86,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
     BottomSheetDialog postMenuDialog;
     ProgressDialog progressDialog;
     String link;
+    String tagName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +121,10 @@ public class HashtagPostViewAll extends AppCompatActivity {
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setItemViewCacheSize(20);
 
+
+        tagName = getIntent().getStringExtra("hashtag");
+
+
         buildRecyclerView();
 
         swipeRefreshLayout
@@ -138,11 +138,10 @@ public class HashtagPostViewAll extends AppCompatActivity {
     }
 
     private void buildRecyclerView() {
-        String tag = getIntent().getStringExtra("hashtag");
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds")
-               .whereArrayContains("tagList", tag);
+               .whereArrayContains("tagList", tagName);
 
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -211,9 +210,17 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 programmingViewHolder.tagList.setNestedScrollingEnabled(true);
                 programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
                 ///////////TAG RECYCLER SETUP////////////////
-                if(currentItem.getTagL()!=null && currentItem.getTagL().size()>0 ) {
+                if(currentItem.getTagList()!=null && currentItem.getTagList().size()>0 ) {
                     programmingViewHolder.tagList.setVisibility(View.VISIBLE);
-                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL() , HashtagPostViewAll.this);
+                    TagAdapter2 tagAdapter = new TagAdapter2(currentItem.getTagList() , HashtagPostViewAll.this);
+
+                    tagAdapter.onClickListener((position1, tag) -> {
+                        tagName = tag;
+                        getSupportActionBar().setTitle("#"+ tagName);
+                        buildRecyclerView();
+                        contentprogressposts.setVisibility(View.VISIBLE);
+                    });
+
                     programmingViewHolder.tagList.setAdapter(tagAdapter);
                 }
                 else {

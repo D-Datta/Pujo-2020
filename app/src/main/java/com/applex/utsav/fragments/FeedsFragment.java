@@ -1119,10 +1119,5 @@ public class FeedsFragment extends Fragment {
         super.onResume();
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called IN FRG CMPUS!!!!!!!!!!!!!");
-        System.gc();
-        super.finalize();
-    }
+
 }
