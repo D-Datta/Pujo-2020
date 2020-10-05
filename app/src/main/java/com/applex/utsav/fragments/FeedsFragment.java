@@ -36,6 +36,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
+import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.NewPostHome;
@@ -252,7 +253,6 @@ public class FeedsFragment extends Fragment {
 
                 if(position == 0){
                     feedViewHolder.committeeHolder.setVisibility(View.VISIBLE);
-
                     feedViewHolder.view_all.setOnClickListener(v ->
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
                     );
@@ -369,16 +369,29 @@ public class FeedsFragment extends Fragment {
                 feedViewHolder.tagList.setNestedScrollingEnabled(true);
                 feedViewHolder.tagList.setLayoutManager(linearLayoutManager);
                 ///////////TAG RECYCLER SETUP////////////////
+                TagAdapter tagAdapter;
 
                 if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
                     feedViewHolder.tagList.setVisibility(View.VISIBLE);
-                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
+                    tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
                     feedViewHolder.tagList.setAdapter(tagAdapter);
-                } else {
+
+                    tagAdapter.onClickListener((position1, tag, color) -> {
+                       Intent i = new Intent(getContext(), HashtagPostViewAll.class);
+                       i.putExtra("hashtag", tag);
+//                       i.putExtra("color", color);
+                       startActivity(i);
+                    });
+
+                }
+                else {
                     feedViewHolder.tagList.setAdapter(null);
                     feedViewHolder.tagList.setVisibility(View.GONE);
                 }
+
                 /////////TAGLIST///////////////
+
+
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 feedViewHolder.userimage.setOnClickListener(v -> {
