@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import com.applex.utsav.ActivityNotification;
+import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -153,6 +154,26 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationManagerCompat manager = NotificationManagerCompat.from(context);
             manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
         }
+        else if(action.matches("Profile")) {
+            intent = new Intent(context, ActivityProfileCommittee.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                    .setLargeIcon(dp)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000});
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
+        }
     }
 
     public static void sendNotification2(Context context, String message, String title, String action, String type, String postID, String ts, String pCom_ts) {
@@ -228,6 +249,25 @@ public class MessagingService extends FirebaseMessagingService {
             NotificationManagerCompat manager = NotificationManagerCompat.from(context);
             manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
         }
+        else if(action.matches("Profile")) {
+            intent = new Intent(context, ActivityProfileCommittee.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000});
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
+        }
     }
 
     public void shownotification(Context context, String title, String message) {
@@ -245,7 +285,6 @@ public class MessagingService extends FirebaseMessagingService {
                 .setContentText(message);
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
         manager.notify((int)System.currentTimeMillis(), builder.build());
-
     }
 
     private Bitmap getCircleBitmap(Bitmap bitmap) {
