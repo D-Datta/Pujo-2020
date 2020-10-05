@@ -147,7 +147,7 @@ public class ActivityProfileUser extends AppCompatActivity {
     private IntroPref introPref;
 
     ///Current user details from intropref
-    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT;
+    private String USERNAME, PROFILEPIC, COVERPIC, FirstName, LastName, UserName, ABOUT, Userprofilepic;
 
 
     @Override
@@ -213,7 +213,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         buildRecycler();
 
         /////////////SETUP//////////////
-        PROFILEPIC =  introPref.getUserdp();
+        Userprofilepic =  introPref.getUserdp();
         USERNAME = introPref.getFullName();
         ///////////////RECYCLER VIEW////////////////////
 
@@ -337,8 +337,8 @@ public class ActivityProfileUser extends AppCompatActivity {
 
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-                if (PROFILEPIC != null) {
-                    Picasso.get().load(PROFILEPIC).fit().centerCrop()
+                if (Userprofilepic != null) {
+                    Picasso.get().load(Userprofilepic).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.profileimage);
                 } else {
@@ -740,7 +740,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     flamedModel.setTs(tsLong);
                                     flamedModel.setType(introPref.getType());
                                     flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                    flamedModel.setUserdp(PROFILEPIC);
+                                    flamedModel.setUserdp(Userprofilepic);
                                     flamedModel.setUsername(USERNAME);
                                     flamedModel.setPostUid(currentItem.getUid());
 
