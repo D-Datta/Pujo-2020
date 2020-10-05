@@ -396,6 +396,7 @@
                             app:sliderIndicatorSelectedColor="#5A5A5A"
                             app:sliderIndicatorUnselectedColor="#FFF"
                             app:sliderScrollTimeInSec="1"
+                            android:transitionName="transition"
                             android:visibility="gone"
                             app:sliderStartAutoCycle="true" />
 

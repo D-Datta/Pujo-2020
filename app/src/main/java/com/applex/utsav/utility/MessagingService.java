@@ -73,8 +73,7 @@ public class MessagingService extends FirebaseMessagingService {
                     sendNotification2(this, message, title, Objects.requireNonNull(action), type, ts, pCom_ts, postID);
                 }
             }
-        }
-        else {
+        } else {
             shownotification(this, Objects.requireNonNull(remoteMessage.getNotification()).getTitle(), remoteMessage.getNotification().getBody());
         }
     }

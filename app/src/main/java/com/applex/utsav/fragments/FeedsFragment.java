@@ -13,6 +13,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -502,7 +504,9 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
+                                feedViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(feedViewHolder.sliderView)));
+                        startActivity(intent, optionsCompat.toBundle());
                     });
                 }
                 else {
@@ -529,7 +533,9 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
+                                feedViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(feedViewHolder.sliderView)));
+                        startActivity(intent, optionsCompat.toBundle());
 //                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
 //                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });

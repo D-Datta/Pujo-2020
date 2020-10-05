@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -387,98 +389,6 @@ public class ActivityProfileUser extends AppCompatActivity {
 
                 programmingViewHolder.username.setText(currentItem.getUsN());
 
-
-                ///////////////OPEN VIEW MORE//////////////
-//                programmingViewHolder.itemHome.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("bool", Integer.toString(bool));
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                    startActivity(intent);
-//                });
-//                programmingViewHolder.text_content.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("bool", Integer.toString(bool));
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                    startActivity(intent);
-//                });
-//
-//                programmingViewHolder.postimage.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//                    //            intent.putExtra("tagL", currentItem.getTagL());
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                    intent.putExtra("bool", Integer.toString(bool));;
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                    startActivity(intent);
-//                });
-//
-//                programmingViewHolder.flamedBy.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//                    //            intent.putExtra("tagL", currentItem.getTagL());
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                    intent.putExtra("bool", Integer.toString(bool));
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//
-//                    intent.putExtra("likeLOpen", "likeLOpen");
-//                    startActivity(intent);
-//
-//                });
-                ///////////////OPEN VIEW MORE//////////////
-
-                //////////////////////////TEXT & IMAGE FOR POST//////////////////////
                 if(currentItem.getTxt()==null || currentItem.getTxt().isEmpty()){
                     programmingViewHolder.text_content.setVisibility(View.GONE);
                     programmingViewHolder.LinkPreview.setVisibility(View.GONE);
@@ -581,7 +491,9 @@ public class ActivityProfileUser extends AppCompatActivity {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ActivityProfileUser.this,
+                                programmingViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderView)));
+                        startActivity(intent, optionsCompat.toBundle());
                     });
                 }
                 else {
@@ -608,7 +520,9 @@ public class ActivityProfileUser extends AppCompatActivity {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        startActivity(intent);
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ActivityProfileUser.this,
+                                programmingViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderView)));
+                        startActivity(intent, optionsCompat.toBundle());
 //                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
 //                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                     });
