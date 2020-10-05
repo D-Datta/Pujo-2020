@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/grey"
+            android:background="@color/white"
             app:title="Hashtag"
             app:titleTextColor="@color/black"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -26,50 +26,48 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/view_no_post"
+            android:visibility="visible">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/none_image"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:paddingVertical="40dp"
+                android:src="@drawable/durga_ma2"
+                android:visibility="gone"/>
+
+            <ProgressBar
+                android:id="@+id/content_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:paddingVertical="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_posts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/view_no_post"
-                android:visibility="visible"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-                >
+                android:paddingBottom="50dp"
+                android:clipToPadding="false"/>
 
+            <ProgressBar
+                android:id="@+id/progress_more_posts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="54dp"
+                android:visibility="gone"/>
 
-                <ImageView
-                    android:id="@+id/none_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:paddingVertical="40dp"
-                    android:src="@drawable/durga_ma2"
-                    android:visibility="gone"/>
-
-                <ProgressBar
-                    android:id="@+id/content_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="54dp"
-                    android:visibility="gone"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_posts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="54dp"/>
-
-                <ProgressBar
-                    android:id="@+id/progress_more_posts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="54dp"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
+        </LinearLayout>
 
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
