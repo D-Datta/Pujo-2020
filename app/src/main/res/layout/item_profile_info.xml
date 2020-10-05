@@ -85,7 +85,6 @@
                             android:fontFamily="@font/oxygen_ex_bold"
                             android:paddingVertical="4dp"
                             android:paddingHorizontal="8dp"
-                            android:background="@drawable/custom_ripple_white"
                             android:text="@string/name"
                             android:textColor="@color/black"
                             android:textSize="15dp" />
@@ -128,14 +127,13 @@
                     android:autoLink="all"
                     android:fontFamily="@font/oxygen_bold"
                     android:paddingHorizontal="17dp"
-                    android:background="@drawable/custom_ripple_white"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
                     android:text="@string/post_content"
                     android:textColor="@color/black"
                     android:maxLines="10"
                     android:ellipsize="end"
-                    android:textColorLink="@color/link"
+                    android:textColorLink="@color/colorPrimary"
                     android:textSize="15dp" />
 
                 <com.applex.utsav.LinkPreview.ApplexLinkPreview
@@ -152,34 +150,34 @@
                 <RelativeLayout
                     android:id="@+id/rlLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
-
-                <com.smarteist.autoimageslider.SliderView
-                    android:id="@+id/post_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    app:sliderAnimationDuration="500"
-                    app:sliderAutoCycleDirection="back_and_forth"
-                    app:sliderAutoCycleEnabled="true"
                     android:layout_marginTop="5dp"
-                    app:sliderCircularHandlerEnabled="true"
-                    app:sliderIndicatorAnimationDuration="600"
-                    app:sliderIndicatorGravity="center_horizontal|bottom"
-                    app:sliderIndicatorMargin="15dp"
-                    app:sliderIndicatorOrientation="horizontal"
-                    app:sliderIndicatorPadding="3dp"
-                    app:sliderIndicatorRadius="2dp"
-                    app:sliderIndicatorSelectedColor="#5A5A5A"
-                    app:sliderIndicatorUnselectedColor="#FFF"
-                    app:sliderScrollTimeInSec="1"
-                    android:visibility="gone"
-                    app:sliderStartAutoCycle="true" />
+                    android:layout_height="300dp">
+
+                    <com.smarteist.autoimageslider.SliderView
+                        android:id="@+id/post_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        app:sliderAnimationDuration="500"
+                        app:sliderAutoCycleDirection="back_and_forth"
+                        app:sliderAutoCycleEnabled="true"
+                        app:sliderCircularHandlerEnabled="true"
+                        app:sliderIndicatorAnimationDuration="600"
+                        app:sliderIndicatorGravity="center_horizontal|bottom"
+                        app:sliderIndicatorMargin="15dp"
+                        app:sliderIndicatorOrientation="horizontal"
+                        app:sliderIndicatorPadding="3dp"
+                        app:sliderIndicatorRadius="2dp"
+                        app:sliderIndicatorSelectedColor="#5A5A5A"
+                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderScrollTimeInSec="1"
+                        android:visibility="gone"
+                        app:sliderStartAutoCycle="true" />
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/dhak_anim"
                         android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="match_parent"
                         app:lottie_autoPlay="false"
                         android:padding="80dp"
                         android:background="@color/dark_black_transparent2"

@@ -285,7 +285,8 @@ public class MessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentText(message);
+                .setContentText(message)
+                .setOngoing(true);
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
         manager.notify((int)System.currentTimeMillis(), builder.build());
     }
