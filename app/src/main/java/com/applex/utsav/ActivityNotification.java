@@ -173,7 +173,7 @@ public class ActivityNotification extends AppCompatActivity {
                         Intent i= new Intent(ActivityNotification.this, ViewMoreHome.class);
                         i.putExtra("postID", postID);
                         i.putExtra("type", model.getType());
-                        i.putExtra("campus", "Image");
+                        i.putExtra("from", "Image");
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
                         startActivity(i);
@@ -192,7 +192,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("postID", postID);
                         i.putExtra("type", model.getType());
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
-                        i.putExtra("campus", "Text");
+                        i.putExtra("from", "Text");
                         i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
 
                         startActivity(i);

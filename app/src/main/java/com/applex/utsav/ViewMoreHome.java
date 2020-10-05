@@ -267,7 +267,7 @@ public class ViewMoreHome extends AppCompatActivity {
         Intent i = getIntent();
 
 
-        if (getIntent().getExtras().getString("campus") == null) {
+        if (getIntent().getExtras().getString("from") == null) {
             homePostModel[0].setUid(i.getStringExtra("uid"));
             homePostModel[0].setTs(Long.parseLong(i.getStringExtra("timestamp")));
             //  homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
