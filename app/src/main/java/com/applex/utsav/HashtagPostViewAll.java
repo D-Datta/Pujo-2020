@@ -442,8 +442,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         startActivity(intent, optionsCompat.toBundle());
                     });
                 }
-                else
-                {
+                else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderView.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
