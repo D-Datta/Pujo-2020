@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ///NAV DRAWER VARIABLES/////
     ImageView displaypic;
-    TextView username;
     TextView name, visits, upvoters;
     LinearLayout com_data;
     ///NAV DRAWER VARIABLES/////
@@ -98,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DocumentReference docref3;
 
     private Boolean doubleBackPressed = false;
+
+
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ///////////////NOTIFICATIONS///////////////////
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel channel=new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_HIGH);
-            NotificationManager manager=getSystemService(NotificationManager.class);
+            NotificationChannel channel = new NotificationChannel("MyNotifications","MyNotifications", NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
 
@@ -221,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         TabLayout tabs = findViewById(R.id.tabs);
-        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         setupViewPager(viewPager);
         tabs.setupWithViewPager(viewPager);
 
@@ -262,6 +264,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         registerReceiver(myReceiver, new IntentFilter(MessagingService.INTENT_FILTER));
         /////////////ADD NOTIFICATION BADGE IN MENU ITEM//////////////////
 
+        if(FeedsFragment.changed == 1){
+            viewPager.setCurrentItem(1);
+        }
+        else if(CommitteeFragment.changed == 1){
+            viewPager.setCurrentItem(0);
+        }
+
         final NotifCount[] notifCount = {new NotifCount()};
         docref3.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
@@ -291,8 +300,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbarImage= findViewById(R.id.toolbarimg1);
 
         name.setText(USERNAME);
-
-
 
         if(PROFILEPIC!=null){
 
