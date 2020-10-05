@@ -467,6 +467,7 @@
                         app:sliderIndicatorOrientation="horizontal"
                         app:sliderIndicatorPadding="3dp"
                         app:sliderIndicatorRadius="2dp"
+                        android:transitionName="transition"
                         app:sliderIndicatorSelectedColor="#5A5A5A"
                         app:sliderIndicatorUnselectedColor="#FFF"
                         app:sliderScrollTimeInSec="1"

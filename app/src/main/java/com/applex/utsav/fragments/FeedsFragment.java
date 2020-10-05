@@ -477,7 +477,7 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     feedViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem);
+                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem, feedViewHolder.sliderView);
                     feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
 
                     feedViewHolder.text_content.setOnClickListener(v -> {

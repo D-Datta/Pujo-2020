@@ -557,7 +557,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem);
+                    SliderAdapter sliderAdapter = new SliderAdapter(ActivityProfileUser.this, currentItem.getImg(),currentItem, programmingViewHolder.sliderView);
                     programmingViewHolder.sliderView.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -584,8 +584,7 @@ public class ActivityProfileUser extends AppCompatActivity {
                         startActivity(intent);
                     });
                 }
-                else
-                {
+                else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderView.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setOnClickListener(v -> {
