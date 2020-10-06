@@ -91,12 +91,12 @@ public class SearchActivity extends AppCompatActivity {
 
         sName.setOnClickListener(v -> {
 
-            sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#18357C")));
+            sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
             sName.setTextColor(Color.parseColor("#ffffff"));
 
             sCity.setBackgroundResource(R.drawable.add_tags_button_background);
             sCity.setBackgroundTintList(null);
-            sCity.setTextColor(Color.parseColor("#18357C"));
+            sCity.setTextColor(Color.parseColor("#000000"));
 
 //            susername.setBackgroundResource(R.drawable.search_profile_button_background);
 //            susername.setBackgroundTintList(null);
@@ -140,12 +140,12 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#18357C")));
+                sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
                 sCity.setTextColor(Color.parseColor("#ffffff"));
 
                 sName.setBackgroundResource(R.drawable.add_tags_button_background);
                 sName.setBackgroundTintList(null);
-                sName.setTextColor(Color.parseColor("#18357C"));
+                sName.setTextColor(Color.parseColor("#000000"));
 
 //                susername.setBackgroundResource(R.drawable.search_profile_button_background);
 //                susername.setBackgroundTintList(null);
