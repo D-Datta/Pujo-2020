@@ -1276,7 +1276,6 @@ public class ActivityProfileUser extends AppCompatActivity {
                 });
         ///////////////////////LOAD PROFILE DETAILS///////////////////////
 
-
         PDp.setOnClickListener(v -> {
             if(userModel != null) {
                 if (userModel.getDp() != null && userModel.getDp().length()>2) {
@@ -1306,9 +1305,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         });
     }
 
-
     //////////////////////PREMISSIONS//////////////////////////
-
     private void requestStoragePermission() {
         ActivityCompat.requestPermissions(ActivityProfileUser.this, storagePermission,STORAGE_REQUEST_CODE);
     }
@@ -1317,6 +1314,7 @@ public class ActivityProfileUser extends AppCompatActivity {
         return ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE ) == (PackageManager.PERMISSION_GRANTED);
     }
+    //////////////////////PREMISSIONS//////////////////////////
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -1357,121 +1355,23 @@ public class ActivityProfileUser extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
-            ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 Uri resultUri = result.getUri();
 
-                progressDialog = new ProgressDialog(ActivityProfileUser.this);
-                progressDialog.setTitle("Updating Profile");
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
                 Bitmap bitmap = null;
-                Bitmap compressedBitmap = null;
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                try {
-                    compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
-
-                pic = baos.toByteArray();
-                compressedBitmap.recycle();
-
-//                BasicUtility.showToast(ActivityProfileUser.this, pic.length/1024+"");
-
-                if(pic!= null) {
-                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 ,pic.length);
-                    if(imageCoverOrDp == 0 && from == 0){
-                        PDp.setImageBitmap(bitmap1);
-                    }
-                    else if (imageCoverOrDp == 0 && from == 1){
-                        PDp.setImageBitmap(bitmap1);
-                    }
-                    else if (imageCoverOrDp == 1 && from == 0){
-                        PCoverpic.setImageBitmap(bitmap1);
-                    }
-                    else if (imageCoverOrDp == 1 && from == 1){
-                        PCoverpic.setImageBitmap(bitmap1);
-                    }
-                    FirebaseStorage storage;
-                    StorageReference storageReference;
-                    StorageReference reference;
-                    storage = FirebaseStorage.getInstance();
-                    storageReference = storage.getReference();
-
-                    if(imageCoverOrDp == 1){
-                        reference = storageReference.child("Users/")
-                                .child("Coverpic/")
-                                .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
-                    }
-                    else {
-                        reference = storageReference.child("Users/")
-                                .child("DP/")
-                                .child( FirebaseAuth.getInstance().getUid()+"_dp");
-                    }
-
-                    reference.putBytes(pic)
-                            .addOnSuccessListener(taskSnapshot ->
-                                    reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                        Uri downloadUri = uri;
-                                        String generatedFilePath = downloadUri.toString();
-                                        DocumentReference docref = FirebaseFirestore.getInstance()
-                                                .collection("Users").document(FirebaseAuth.getInstance().getUid());
-                                        if(imageCoverOrDp == 0){
-                                            docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
-                                                if(task.isSuccessful()){
-                                                    introPref.setUserdp(generatedFilePath);
-                                                    progressDialog.dismiss();
-                                                }else{
-                                                    BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
-                                                }
-                                            });
-                                        }
-                                        else {
-                                            docref.update("coverpic", generatedFilePath).addOnCompleteListener(task -> {
-                                                if(task.isSuccessful()){
-                                                    progressDialog.dismiss();
-                                                }else{
-                                                    BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
-                                                }
-                                            });
-                                        }
-
-                                    }))
-
-                            .addOnFailureListener(e -> {
-                                BasicUtility.showToast(getApplicationContext(), "Something went wrong");
-                                progressDialog.dismiss();
-
-                            });
-
-                }
-
-
-
-
-//                /////////////COMPRESS AND UPDATE//////////////
-//                new ImageCompressor().execute();
-//                /////////////COMPRESS AND UPDATE//////////////
-
+                new ImageCompressor(bitmap).execute();
             }
             else {//CROP ERROR
                 Toast.makeText(this, "+error", Toast.LENGTH_SHORT).show();
             }
-            ////////////////////////CROP//////////////////////
         }
     }
-    //////////////////////PREMISSIONS//////////////////////////
 
     private void pickGallery(){
         Intent intent= new Intent();
@@ -1496,6 +1396,108 @@ public class ActivityProfileUser extends AppCompatActivity {
             delete = 0;
         }
         super.onResume();
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
+
+        private Bitmap bitmap, compressedBitmap;
+
+        public ImageCompressor(Bitmap bitmap) {
+            this.bitmap = bitmap;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(ActivityProfileUser.this);
+            progressDialog.setTitle("Updating Profile");
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        public byte[] doInBackground(Void... strings) {
+            try {
+                compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+            byte[] byteArray = stream.toByteArray();
+            compressedBitmap.recycle();
+            return byteArray;
+        }
+
+        @Override
+        protected void onPostExecute(byte[] pic) {
+            if(pic!= null) {
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 ,pic.length);
+                if(imageCoverOrDp == 0 && from == 0){
+                    PDp.setImageBitmap(bitmap1);
+                }
+                else if (imageCoverOrDp == 0 && from == 1){
+                    PDp.setImageBitmap(bitmap1);
+                }
+                else if (imageCoverOrDp == 1 && from == 0){
+                    PCoverpic.setImageBitmap(bitmap1);
+                }
+                else if (imageCoverOrDp == 1 && from == 1){
+                    PCoverpic.setImageBitmap(bitmap1);
+                }
+                FirebaseStorage storage;
+                StorageReference storageReference;
+                StorageReference reference;
+                storage = FirebaseStorage.getInstance();
+                storageReference = storage.getReference();
+
+                if(imageCoverOrDp == 1){
+                    reference = storageReference.child("Users/")
+                            .child("Coverpic/")
+                            .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
+                }
+                else {
+                    reference = storageReference.child("Users/")
+                            .child("DP/")
+                            .child( FirebaseAuth.getInstance().getUid()+"_dp");
+                }
+
+                reference.putBytes(pic)
+                        .addOnSuccessListener(taskSnapshot ->
+                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    String generatedFilePath = uri.toString();
+                                    DocumentReference docref = FirebaseFirestore.getInstance()
+                                            .collection("Users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                                    if(imageCoverOrDp == 0){
+                                        docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
+                                            if(task.isSuccessful()){
+                                                introPref.setUserdp(generatedFilePath);
+                                                progressDialog.dismiss();
+                                            }else{
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        docref.update("coverpic", generatedFilePath).addOnCompleteListener(task -> {
+                                            if(task.isSuccessful()){
+                                                progressDialog.dismiss();
+                                            }else{
+                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
+                                            }
+                                        });
+                                    }
+
+                                }))
+                        .addOnFailureListener(e -> {
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
+                            progressDialog.dismiss();
+
+                        });
+            }
+        }
     }
 
 }

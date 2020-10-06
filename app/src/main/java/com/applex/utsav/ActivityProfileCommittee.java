@@ -71,6 +71,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -78,9 +79,9 @@ import static java.lang.Boolean.TRUE;
 public class ActivityProfileCommittee extends AppCompatActivity {
 
     public static int delete = 0;
-    private TextView PName,PUsername,Paddress;
+    private TextView PName, PUsername, Paddress;
 
-    private ImageView PDp,Pcoverpic;
+    private ImageView PDp, Pcoverpic;
     private ReadMoreTextView PDetaileddesc;
 
     private TabLayout tabLayout;
@@ -125,10 +126,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         introPref = new IntroPref(ActivityProfileCommittee.this);
-        String lang= introPref.getLanguage();
-        Locale locale= new Locale(lang);
+        String lang = introPref.getLanguage();
+        Locale locale = new Locale(lang);
         Locale.setDefault(locale);
-        Configuration config= new Configuration();
+        Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_profile_committee);
@@ -146,7 +147,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         upvote_anim = findViewById(R.id.upvote_anim);
         PDp = findViewById(R.id.Pdp);
         PName = findViewById(R.id.Profilename);
-        PUsername =findViewById(R.id.Pusername);
+        PUsername = findViewById(R.id.Pusername);
         Pcoverpic = findViewById(R.id.coverpic);
         PDetaileddesc = findViewById(R.id.detaildesc);
         edit_profile_com = findViewById(R.id.edit_profile_com);
@@ -176,13 +177,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         cm = (ConnectivityManager) ActivityProfileCommittee.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
-        if(getIntent()!=null && getIntent().getStringExtra("uid")!=null){
+        if (getIntent() != null && getIntent().getStringExtra("uid") != null) {
             uid = getIntent().getStringExtra("uid");
-            if(!uid.matches(fireuser.getUid())){
-                bool =1;//ANOTHER USER ACCOUNT
+            if (!uid.matches(fireuser.getUid())) {
+                bool = 1;//ANOTHER USER ACCOUNT
             }
-        }
-        else{
+        } else {
             uid = fireuser.getUid();
             bool = 0;//CURRENT USER ACCOUNT
         }
@@ -194,7 +194,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         tabLayout.getTabAt(0);
         tabLayout.getTabAt(1);
 
-        if(uid.matches(FirebaseAuth.getInstance().getUid())) {
+        if (uid.matches(FirebaseAuth.getInstance().getUid())) {
             editCover.setVisibility(View.VISIBLE);
             editDp.setVisibility(View.VISIBLE);
 
@@ -213,8 +213,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 public void onClick(View v) {
                     if (!checkStoragePermission()) {
                         requestStoragePermission();
-                    }
-                    else {
+                    } else {
                         imageCoverOrDp = 0; //dp
                         pickGallery();
                     }
@@ -226,15 +225,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 public void onClick(View v) {
                     if (!checkStoragePermission()) {
                         requestStoragePermission();
-                    }
-                    else {
+                    } else {
                         imageCoverOrDp = 1; //cover
                         pickGallery();
                     }
                 }
             });
-        }
-        else {
+        } else {
             selfProfile.setVisibility(View.GONE);
             elseProfile.setVisibility(View.VISIBLE);
 
@@ -257,10 +254,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(isLoadingFinished){
-                        if(isUpvoted){
+                    if (isLoadingFinished) {
+                        if (isUpvoted) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfileCommittee.this);
-                            builder.setTitle("Withdraw vote for "+ baseUserModel.getName()+"?")
+                            builder.setTitle("Withdraw vote for " + baseUserModel.getName() + "?")
                                     .setMessage("Are you sure?")
                                     .setPositiveButton("Withdraw", (dialog, which) -> {
 
@@ -273,7 +270,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         batch.delete(followerRef);
 
                                         batch.commit().addOnCompleteListener(task -> {
-                                            if(task.isSuccessful()){
+                                            if (task.isSuccessful()) {
                                                 FirebaseFirestore.getInstance()
                                                         .collection("Users")
                                                         .document(uid)
@@ -283,26 +280,22 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 upvote.setBackgroundResource(R.drawable.custom_button);
                                                 upvote.setTextColor(getResources().getColor(R.color.white));
 
-                                                if(baseUserModel.getUpvoteL() != null){
-                                                    if(baseUserModel.getUpvoteL().size()-1 == 0){
+                                                if (baseUserModel.getUpvoteL() != null) {
+                                                    if (baseUserModel.getUpvoteL().size() - 1 == 0) {
                                                         upvoters.setText("0");
+                                                    } else if (baseUserModel.getUpvoteL().size() - 1 == 1) {
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
+                                                    } else {
+                                                        upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
                                                     }
-                                                    else if(baseUserModel.getUpvoteL().size()-1 == 1){
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1)+"");
-                                                    }
-                                                    else {
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size()-1)+"");
-                                                    }
-                                                }
-                                                else {
+                                                } else {
                                                     upvoters.setText("0");
                                                     upvoters.setVisibility(View.GONE);
                                                 }
 
                                                 isUpvoted = false;
                                                 baseUserModel.getUpvoteL().remove(fireuser.getUid());
-                                            }
-                                            else {
+                                            } else {
                                                 Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                             }
                                         });
@@ -310,8 +303,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                                     .setCancelable(true)
                                     .show();
-                        }
-                        else {
+                        } else {
                             long tsLong = System.currentTimeMillis();
 
                             SeenModel seenModel = new SeenModel();
@@ -327,12 +319,12 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             try {
                                 AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("dhak.mp3");
                                 MediaPlayer player = new MediaPlayer();
-                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                                 player.prepare();
                                 AudioManager audioManager = (AudioManager) ActivityProfileCommittee.this.getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
-                                    if(!player.isPlaying()) {
+                                    if (!player.isPlaying()) {
                                         upvote_anim.cancelAnimation();
                                         upvote_anim.setVisibility(View.GONE);
                                     }
@@ -361,7 +353,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             batch.set(followerRef, seenModel);
 
                             batch.commit().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()) {
+                                if (task.isSuccessful()) {
                                     FirebaseFirestore.getInstance()
                                             .collection("Users")
                                             .document(uid)
@@ -371,25 +363,21 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     upvote.setBackgroundResource(R.drawable.custom_button_outline);
                                     upvote.setTextColor(getResources().getColor(R.color.purple));
 
-                                    if(baseUserModel.getUpvoteL() != null){
-                                        if(baseUserModel.getUpvoteL().size()+1 == 0){
+                                    if (baseUserModel.getUpvoteL() != null) {
+                                        if (baseUserModel.getUpvoteL().size() + 1 == 0) {
                                             upvoters.setText("0");
+                                        } else if (baseUserModel.getUpvoteL().size() + 1 == 1) {
+                                            upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
+                                        } else {
+                                            upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
                                         }
-                                        else if(baseUserModel.getUpvoteL().size()+1 == 1){
-                                            upvoters.setText((baseUserModel.getUpvoteL().size()+1)+"");
-                                        }
-                                        else {
-                                            upvoters.setText((baseUserModel.getUpvoteL().size()+1)+"");
-                                        }
-                                    }
-                                    else {
+                                    } else {
                                         upvoters.setText("0");
                                     }
 
                                     baseUserModel.getUpvoteL().add(fireuser.getUid());
                                     isUpvoted = true;
-                                }
-                                else {
+                                } else {
                                     Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -403,42 +391,40 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         }
 
         PDp.setOnClickListener(v -> {
-            if(baseUserModel != null) {
-                if (baseUserModel.getDp() != null && baseUserModel.getDp().length()>2) {
+            if (baseUserModel != null) {
+                if (baseUserModel.getDp() != null && baseUserModel.getDp().length() > 2) {
                     Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
                     intent.putExtra("from", "profile");
                     intent.putExtra("Bitmap", baseUserModel.getDp());
                     startActivity(intent);
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
             }
         });
 
         Pcoverpic.setOnClickListener(v -> {
-            if(baseUserModel != null) {
+            if (baseUserModel != null) {
                 if (baseUserModel.getCoverpic() != null) {
                     Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
                     intent.putExtra("from", "profile");
                     intent.putExtra("Bitmap", baseUserModel.getCoverpic());
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         //setup profile
-        if(uid!=null) {
+        if (uid != null) {
             FirebaseFirestore.getInstance().collection("Users")
                     .document(uid).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 baseUserModel = task.getResult().toObject(BaseUserModel.class);
                                 name = baseUserModel.getName();
                                 PName.setText(name);
@@ -446,17 +432,16 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 address = baseUserModel.getAddressline();
                                 city = baseUserModel.getCity();
                                 state = baseUserModel.getState();
-                                if(baseUserModel.getPin()!=null && !baseUserModel.getPin().isEmpty()) {
-                                    pin=baseUserModel.getPin();
+                                if (baseUserModel.getPin() != null && !baseUserModel.getPin().isEmpty()) {
+                                    pin = baseUserModel.getPin();
                                 }
-                                String fulladd = address+"\n"+city+" , "+state+" - "+pin;
+                                String fulladd = address + "\n" + city + " , " + state + " - " + pin;
                                 Paddress.setText(fulladd);
                                 coverpic = baseUserModel.getCoverpic();
-                                if(dp!=null){
+                                if (dp != null) {
 //
                                     Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
-                                }
-                                else{
+                                } else {
                                     Display display = getWindowManager().getDefaultDisplay();
                                     int displayWidth = display.getWidth();
                                     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -468,14 +453,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         options.inSampleSize = widthRatio;
                                     }
                                     options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
                                     PDp.setImageBitmap(scaledBitmap);
                                 }
 
-                                if(coverpic!=null){
+                                if (coverpic != null) {
                                     Picasso.get().load(coverpic).placeholder(R.drawable.image_background_grey).into(Pcoverpic);
-                                }
-                                else{
+                                } else {
                                     Display display = getWindowManager().getDefaultDisplay();
                                     int displayWidth = display.getWidth();
                                     BitmapFactory.Options options = new BitmapFactory.Options();
@@ -487,14 +471,14 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         options.inSampleSize = widthRatio;
                                     }
                                     options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
                                     Pcoverpic.setImageBitmap(scaledBitmap);
                                 }
 
                                 //metrics
-                                if(baseUserModel.getPujoVisits() > 1) {
-                                    if(baseUserModel.getPujoVisits() > 1000) {
-                                        visits.setText(baseUserModel.getPujoVisits()/1000 + "." + (baseUserModel.getPujoVisits() % 1000)/100 + "K");
+                                if (baseUserModel.getPujoVisits() > 1) {
+                                    if (baseUserModel.getPujoVisits() > 1000) {
+                                        visits.setText(baseUserModel.getPujoVisits() / 1000 + "." + (baseUserModel.getPujoVisits() % 1000) / 100 + "K");
                                     } else {
                                         visits.setText(baseUserModel.getPujoVisits() + "");
                                     }
@@ -502,9 +486,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     visits.setText(baseUserModel.getPujoVisits() + "");
                                 }
 
-                                if(baseUserModel.getLikeCount() > 1) {
-                                    if(baseUserModel.getLikeCount() > 1000) {
-                                        likes.setText(baseUserModel.getLikeCount()/1000 + "." + (baseUserModel.getLikeCount() % 1000)/100 + "K");
+                                if (baseUserModel.getLikeCount() > 1) {
+                                    if (baseUserModel.getLikeCount() > 1000) {
+                                        likes.setText(baseUserModel.getLikeCount() / 1000 + "." + (baseUserModel.getLikeCount() % 1000) / 100 + "K");
                                     } else {
                                         likes.setText(baseUserModel.getLikeCount() + "");
                                     }
@@ -521,18 +505,16 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if(task.isSuccessful())
-                                                {
+                                                if (task.isSuccessful()) {
                                                     PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
-                                                    pujotype=model.getType();
+                                                    pujotype = model.getType();
                                                     PUsername.setText(pujotype);
-                                                    if(model.getDescription()!=null && !model.getDescription().isEmpty()){
-                                                        desc=model.getDescription();
+                                                    if (model.getDescription() != null && !model.getDescription().isEmpty()) {
+                                                        desc = model.getDescription();
                                                         PDetaileddesc.setText(desc);
                                                     }
-                                                }
-                                                else{
-                                                    BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                } else {
+                                                    BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
                                                 }
 
                                             }
@@ -540,38 +522,34 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                                                BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
                                             }
                                         });
 
-                                if(baseUserModel.getUpvoteL() != null){
-                                    if(baseUserModel.getUpvoteL().size() == 0){
+                                if (baseUserModel.getUpvoteL() != null) {
+                                    if (baseUserModel.getUpvoteL().size() == 0) {
                                         upvoters.setText("0");
+                                    } else if (baseUserModel.getUpvoteL().size() == 1) {
+                                        upvoters.setText(baseUserModel.getUpvoteL().size() + "");
+                                    } else {
+                                        upvoters.setText(baseUserModel.getUpvoteL().size() + "");
                                     }
-                                    else if(baseUserModel.getUpvoteL().size() == 1){
-                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
-                                    }
-                                    else {
-                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
-                                    }
-                                    for(String uid : baseUserModel.getUpvoteL()){
-                                        if(uid.matches(fireuser.getUid())){
+                                    for (String uid : baseUserModel.getUpvoteL()) {
+                                        if (uid.matches(fireuser.getUid())) {
                                             isUpvoted = true;
                                             break;
                                         }
                                     }
-                                }
-                                else {
+                                } else {
                                     upvoters.setText("0");
                                 }
 
-                                if(isUpvoted){
+                                if (isUpvoted) {
                                     upvote.setText("Upvoted");
                                     upvote.setBackgroundResource(R.drawable.custom_button_outline);
                                     upvote.setTextColor(getResources().getColor(R.color.purple));
 
-                                }
-                                else {
+                                } else {
                                     upvote.setText("Upvote");
                                     upvote.setBackgroundResource(R.drawable.custom_button);
                                     upvote.setTextColor(getResources().getColor(R.color.white));
@@ -580,44 +558,41 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                                 isLoadingFinished = true;
 
-                            }
-                            else{
-                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
+                            } else {
+                                BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
                             }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong...");
-                            }
-                        });
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
+                        }
+                    });
         }
 
 
         PDp.setOnClickListener(v -> {
-            if(baseUserModel != null) {
-                if (baseUserModel.getDp() != null && baseUserModel.getDp().length()>2) {
+            if (baseUserModel != null) {
+                if (baseUserModel.getDp() != null && baseUserModel.getDp().length() > 2) {
                     Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
                     intent.putExtra("from", "profile");
                     intent.putExtra("Bitmap", baseUserModel.getDp());
                     startActivity(intent);
                 }
-            }
-            else {
+            } else {
                 Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
             }
         });
 
         Pcoverpic.setOnClickListener(v -> {
-            if(baseUserModel != null) {
+            if (baseUserModel != null) {
                 if (baseUserModel.getCoverpic() != null) {
                     Intent intent = new Intent(ActivityProfileCommittee.this, ProfilePictureActivity.class);
                     intent.putExtra("from", "profile");
                     intent.putExtra("Bitmap", baseUserModel.getCoverpic());
                     startActivity(intent);
-                }
-                else {
+                } else {
                     Toast.makeText(ActivityProfileCommittee.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -626,14 +601,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         locate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(cm.getActiveNetworkInfo() != null) {
-                    String location = name+","+address+","+city+","+state+"-"+pin;
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+Uri.encode(location)+"&mode=w");
+                if (cm.getActiveNetworkInfo() != null) {
+                    String location = name + "," + address + "," + city + "," + state + "-" + pin;
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(location) + "&mode=w");
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                     mapIntent.setPackage("com.google.android.apps.maps");
                     startActivity(mapIntent);
-                }
-                else {
+                } else {
                     Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -643,7 +617,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ProfileAdapter profileAdapter = new ProfileAdapter(getSupportFragmentManager());
         profileAdapter.addFragment(new Fragment_Posts(uid), "Posts");
-        profileAdapter.addFragment(new Fragment_Reels(uid),"Clips");
+        profileAdapter.addFragment(new Fragment_Reels(uid), "Clips");
 
         viewPager.setAdapter(profileAdapter);
 
@@ -657,40 +631,41 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) { }
+            public void onPageScrollStateChanged(int state) {
+            }
         });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
-
     //////////////////////PREMISSIONS//////////////////////////
     private void requestStoragePermission() {
-        ActivityCompat.requestPermissions(ActivityProfileCommittee.this, storagePermission,STORAGE_REQUEST_CODE);
+        ActivityCompat.requestPermissions(ActivityProfileCommittee.this, storagePermission, STORAGE_REQUEST_CODE);
     }
 
     private boolean checkStoragePermission() {
         return ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE ) == (PackageManager.PERMISSION_GRANTED);
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
     }
+    //////////////////////PREMISSIONS//////////////////////////
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && data!=null){
-            if(requestCode == IMAGE_PICK_GALLERY_CODE){
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 try {
                     filePath = data.getData();
-                    if(filePath!=null) {
-                        if(imageCoverOrDp == 0){
+                    if (filePath != null) {
+                        if (imageCoverOrDp == 0) {
                             CropImage.activity(filePath)
                                     .setActivityTitle("Crop Image")
                                     .setAllowRotation(TRUE)
@@ -698,11 +673,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     .setAllowFlipping(TRUE)
                                     .setAutoZoomEnabled(TRUE)
                                     .setMultiTouchEnabled(FALSE)
-                                    .setAspectRatio(1,1)
+                                    .setAspectRatio(1, 1)
                                     .setGuidelines(CropImageView.Guidelines.ON)
                                     .start(ActivityProfileCommittee.this);
-                        }
-                        else {
+                        } else {
                             CropImage.activity(filePath)
                                     .setActivityTitle("Crop Image")
                                     .setAllowRotation(TRUE)
@@ -710,7 +684,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     .setAllowFlipping(TRUE)
                                     .setAutoZoomEnabled(TRUE)
                                     .setMultiTouchEnabled(FALSE)
-                                    .setAspectRatio(16,9)
+                                    .setAspectRatio(16, 9)
                                     .setGuidelines(CropImageView.Guidelines.ON)
                                     .start(ActivityProfileCommittee.this);
                         }
@@ -720,8 +694,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
-            ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 Uri resultUri = result.getUri();
@@ -732,37 +704,29 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                ByteArrayOutputStream baos =new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                pic = baos.toByteArray();
-
-                /////////////COMPRESS AND UPDATE//////////////
-                new ImageCompressor().execute();
-                /////////////COMPRESS AND UPDATE//////////////
-
+                new ImageCompressor(bitmap).execute();
             }
             else {//CROP ERROR
                 Toast.makeText(this, "+error", Toast.LENGTH_SHORT).show();
             }
-            ////////////////////////CROP//////////////////////
-
         }
-
     }
 
-    //////////////////////PREMISSIONS//////////////////////////
-
-    private void pickGallery(){
-        Intent intent= new Intent();
+    private void pickGallery() {
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Image"),IMAGE_PICK_GALLERY_CODE);
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), IMAGE_PICK_GALLERY_CODE);
     }
 
+    @SuppressLint("StaticFieldLeak")
     class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
 
-        private final float maxHeight = 1080.0f;
-        private final float maxWidth = 720.0f;
+        private Bitmap bitmap, compressedBitmap;
+
+        public ImageCompressor(Bitmap bitmap) {
+            this.bitmap = bitmap;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -775,84 +739,26 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
         @Override
         public byte[] doInBackground(Void... strings) {
-            Bitmap scaledBitmap = null;
-
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            Bitmap bmp = BitmapFactory.decodeByteArray(pic, 0, pic.length, options);
-
-            int actualHeight = options.outHeight;
-            int actualWidth = options.outWidth;
-
-            float imgRatio = (float) actualWidth / (float) actualHeight;
-            float maxRatio = maxWidth / maxHeight;
-
-            if (actualHeight > maxHeight || actualWidth > maxWidth) {
-                if (imgRatio < maxRatio) {
-                    imgRatio = maxHeight / actualHeight;
-                    actualWidth = (int) (imgRatio * actualWidth);
-                    actualHeight = (int) maxHeight;
-                } else if (imgRatio > maxRatio) {
-                    imgRatio = maxWidth / actualWidth;
-                    actualHeight = (int) (imgRatio * actualHeight);
-                    actualWidth = (int) maxWidth;
-                } else {
-                    actualHeight = (int) maxHeight;
-                    actualWidth = (int) maxWidth;
-
-                }
-            }
-
-            options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-            options.inJustDecodeBounds = false;
-            options.inDither = false;
-            options.inPurgeable = true;
-            options.inInputShareable = true;
-            options.inTempStorage = new byte[16 * 1024];
-
             try {
-                bmp = BitmapFactory.decodeByteArray(pic, 0, pic.length, options);
-            } catch (OutOfMemoryError exception) {
-                exception.printStackTrace();
-
-            }
-            try {
-                scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
-            } catch (OutOfMemoryError exception) {
-                exception.printStackTrace();
+                compressedBitmap = BasicUtility.decodeSampledBitmapFromFile(bitmap, 612, 816);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            float ratioX = actualWidth / (float) options.outWidth;
-            float ratioY = actualHeight / (float) options.outHeight;
-            float middleX = actualWidth / 4.0f;
-            float middleY = actualHeight / 4.0f;
-
-            Matrix scaleMatrix = new Matrix();
-            scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-            Canvas canvas = new Canvas(scaledBitmap);
-            canvas.setMatrix(scaleMatrix);
-            canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 4, middleY - bmp.getHeight() / 4, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-            if(bmp!=null)
-            {
-                bmp.recycle();
-            }
-            scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-            byte[] by = out.toByteArray();
-            return by;
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
+            byte[] byteArray = stream.toByteArray();
+            compressedBitmap.recycle();
+            return byteArray;
         }
 
         @Override
         protected void onPostExecute(byte[] picCompressed) {
-            if(picCompressed!= null) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 ,picCompressed.length);
-                if(imageCoverOrDp == 0){
+            if (picCompressed != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0, picCompressed.length);
+                if (imageCoverOrDp == 0) {
                     PDp.setImageBitmap(bitmap);
-                }
-                else {
+                } else {
                     Pcoverpic.setImageBitmap(bitmap);
                 }
                 pic = picCompressed;
@@ -862,77 +768,50 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 storage = FirebaseStorage.getInstance();
                 storageReference = storage.getReference();
 
-                if(imageCoverOrDp == 1){
+                if (imageCoverOrDp == 1) {
                     reference = storageReference.child("Users/")
                             .child("Coverpic/")
-                            .child(FirebaseAuth.getInstance().getUid()+"_coverpic");
-                }
-                else {
+                            .child(FirebaseAuth.getInstance().getUid() + "_coverpic");
+                } else {
                     reference = storageReference.child("Users/")
                             .child("DP/")
-                            .child( FirebaseAuth.getInstance().getUid()+"_dp");
+                            .child(FirebaseAuth.getInstance().getUid() + "_dp");
                 }
 
                 reference.putBytes(picCompressed)
                         .addOnSuccessListener(taskSnapshot ->
                                 reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                    Uri downloadUri = uri;
-                                    String generatedFilePath = downloadUri.toString();
+                                    String generatedFilePath = uri.toString();
                                     DocumentReference docref = FirebaseFirestore.getInstance()
-                                            .collection("Users").document(FirebaseAuth.getInstance().getUid());
-                                    if(imageCoverOrDp == 0){
+                                            .collection("Users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                                    if (imageCoverOrDp == 0) {
                                         docref.update("dp", generatedFilePath).addOnCompleteListener(task -> {
-                                            if(task.isSuccessful()){
+                                            if (task.isSuccessful()) {
                                                 baseUserModel.setDp(generatedFilePath);
                                                 introPref.setUserdp(generatedFilePath);
                                                 progressDialog.dismiss();
-                                            }else{
-                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
+                                            } else {
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                             }
                                         });
-                                    }
-                                    else {
+                                    } else {
                                         docref.update("coverpic", generatedFilePath).addOnCompleteListener(task -> {
-                                            if(task.isSuccessful()){
+                                            if (task.isSuccessful()) {
                                                 baseUserModel.setCoverpic(generatedFilePath);
                                                 progressDialog.dismiss();
-                                            }else{
-                                                BasicUtility.showToast(getApplicationContext(),"Something went wrong.");
+                                            } else {
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                             }
                                         });
                                     }
 
                                 }))
-
                         .addOnFailureListener(e -> {
                             BasicUtility.showToast(getApplicationContext(), "Something went wrong");
                             progressDialog.dismiss();
 
                         });
-
             }
         }
-
-        private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-            final int height = options.outHeight;
-            final int width = options.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-                final int heightRatio = Math.round((float) height / (float) reqHeight);
-                final int widthRatio = Math.round((float) width / (float) reqWidth);
-                inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-            }
-            final float totalPixels = width * height;
-            final float totalReqPixelsCap = reqWidth * reqHeight * 2;
-
-            while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-                inSampleSize++;
-            }
-
-            return inSampleSize;
-        }
-
     }
-
 }
