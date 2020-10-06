@@ -266,7 +266,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
+                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 1) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
