@@ -539,7 +539,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                         && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty())) {
                     BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video...");
                 }
-                else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0){
+                else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0 && videoUri==null){
                     BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
                 else{
