@@ -245,15 +245,15 @@ public class BottomCommentsDialog extends DialogFragment {
                             else {
                                 docRef.get().addOnCompleteListener(task1 -> {
                                     finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task1.getResult()).get("cmtNo")).toString());
-                                    if(from.matches("ActivityProfileUser")){
+                                    if(from.matches("ActivityProfileUser")) {
                                         Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         Fragment_Posts_Users.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-                                    else if(from.matches("CommitteeFragment")){
+                                    else if(from.matches("CommitteeFragment")) {
                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         CommitteeFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-                                    else if(from.matches("FeedsFragment")){
+                                    else if(from.matches("FeedsFragment")) {
                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
