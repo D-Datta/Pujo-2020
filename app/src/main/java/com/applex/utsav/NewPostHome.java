@@ -224,20 +224,20 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("1")) { //committee
             tagPujo.setVisibility(View.GONE);
 
-            video_cam_icon.setVisibility(View.VISIBLE);
-            video_gal_icon.setVisibility(View.VISIBLE);
+//            video_cam_icon.setVisibility(View.VISIBLE);
+//            video_gal_icon.setVisibility(View.VISIBLE);
             videopost.setVisibility(View.VISIBLE);
-            videocam.setVisibility(View.VISIBLE);
-            head_content.setVisibility(View.VISIBLE);
+//            videocam.setVisibility(View.VISIBLE);
+//            head_content.setVisibility(View.VISIBLE);
         }
         else if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("2")) { //indi
             tagPujo.setVisibility(View.VISIBLE);
 
-            video_cam_icon.setVisibility(View.GONE);
-            video_gal_icon.setVisibility(View.GONE);
+//            video_cam_icon.setVisibility(View.GONE);
+//            video_gal_icon.setVisibility(View.GONE);
             head_content.setVisibility(View.GONE);
-            videopost.setVisibility(View.GONE);
-            videocam.setVisibility(View.GONE);
+//            videopost.setVisibility(View.GONE);
+//            videocam.setVisibility(View.GONE);
         }
 
         // get the bottom sheet view

@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -290,7 +289,7 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
-                    if (programmingViewHolder.getItemViewType() != 1) {
+                    if (programmingViewHolder.getItemViewType() != 1 && lastReelDocument != null) {
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .whereEqualTo("type", "com")
@@ -302,6 +301,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             requireActivity().startActivity(intent);
                         });
                     } else {
@@ -315,6 +315,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -1186,6 +1187,7 @@ public class CommitteeFragment extends Fragment {
                         holder.item_reels_video.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             intent.putExtra("docID", currentItem.getDocID());
                             requireActivity().startActivity(intent);
                         });
@@ -1194,6 +1196,7 @@ public class CommitteeFragment extends Fragment {
                         holder.item_reels_image.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             intent.putExtra("docID", currentItem.getDocID());
                             requireActivity().startActivity(intent);
                         });

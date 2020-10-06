@@ -174,6 +174,7 @@ public class FeedsFragment extends Fragment {
         //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
+        positions = new ArrayList<>();
         buildRecyclerView();
 
         //SWIPE REFRESH//
@@ -183,6 +184,7 @@ public class FeedsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             contentProgCom.setVisibility(View.GONE);
+            positions = new ArrayList<>();
             buildRecyclerView();
         });
 
@@ -192,6 +194,7 @@ public class FeedsFragment extends Fragment {
         swiperefreshNoPost.setOnRefreshListener(() -> {
             swiperefreshNoPost.setRefreshing(true);
             contentProgCom.setVisibility(View.GONE);
+            positions = new ArrayList<>();
             buildRecyclerView();
         });
         //SWIPE REFRESH//
@@ -289,7 +292,7 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.committeeHolder.setVisibility(View.GONE);
                     feedViewHolder.reels_item.setVisibility(View.VISIBLE);
 
-                    if (feedViewHolder.getItemViewType() != 4) {
+                    if (feedViewHolder.getItemViewType() != 4 && lastReelDocument != null) {
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .whereEqualTo("type", "indi")
@@ -301,6 +304,7 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.viewallReels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "indi");
                             requireActivity().startActivity(intent);
                         });
                     } else {
@@ -314,6 +318,7 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.viewallReels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "indi");
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -390,7 +395,6 @@ public class FeedsFragment extends Fragment {
 //                       i.putExtra("color", color);
                        startActivity(i);
                     });
-
                 }
                 else {
                     feedViewHolder.tagList.setAdapter(null);
@@ -398,8 +402,6 @@ public class FeedsFragment extends Fragment {
                 }
 
                 /////////TAGLIST///////////////
-
-
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 feedViewHolder.userimage.setOnClickListener(v -> {
@@ -413,7 +415,6 @@ public class FeedsFragment extends Fragment {
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
-
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -996,7 +997,7 @@ public class FeedsFragment extends Fragment {
                         if(positions != null && positions.contains(i)) {
 
                             final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                            CommitteeFragment.ProgrammingViewHolder cvh = (CommitteeFragment.ProgrammingViewHolder) holder;
+                            FeedViewHolder cvh = (FeedViewHolder) holder;
 
                             int[] location = new int[2];
                             Objects.requireNonNull(cvh).reels_item.getLocationOnScreen(location);
@@ -1269,6 +1270,7 @@ public class FeedsFragment extends Fragment {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
                             intent.putExtra("docID", currentItem.getDocID());
+                            intent.putExtra("from", "indi");
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -1276,6 +1278,7 @@ public class FeedsFragment extends Fragment {
                         holder.item_reels_image.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "indi");
                             intent.putExtra("docID", currentItem.getDocID());
                             requireActivity().startActivity(intent);
                         });
@@ -1503,7 +1506,6 @@ public class FeedsFragment extends Fragment {
         }
     }
 
-
     private void noPostView() {
         viewNoPost.setVisibility(View.VISIBLE);
         viewPostExist.setVisibility(View.GONE);
@@ -1541,7 +1543,7 @@ public class FeedsFragment extends Fragment {
                 if(positions != null && positions.contains(i)) {
 
                     final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    CommitteeFragment.ProgrammingViewHolder cvh = (CommitteeFragment.ProgrammingViewHolder) holder;
+                    FeedViewHolder cvh = (FeedViewHolder) holder;
 
                     int[] location = new int[2];
                     Objects.requireNonNull(cvh).reels_item.getLocationOnScreen(location);

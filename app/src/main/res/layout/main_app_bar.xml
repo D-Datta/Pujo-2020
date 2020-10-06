@@ -44,33 +44,31 @@
                 android:id="@+id/toolbarTitle"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_marginStart="54dp"
+                android:layout_marginStart="60dp"
                 android:fontFamily="@font/harabara"
-                android:letterSpacing="0.05"
                 android:padding="10dp"
                 android:text="@string/utsav"
-                android:gravity="left"
+                android:gravity="start|center_vertical"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:textSize="30dp" />
+                android:textSize="25dp" />
 
             <ImageView
                 android:id="@+id/search"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginVertical="2dp"
-                android:layout_marginHorizontal="2dp"
+                android:layout_marginHorizontal="6dp"
                 android:background="@drawable/custom_ripple_white"
-                android:padding="2dp"
-                android:src="@drawable/ic_baseline_search_24"
+                android:padding="5dp"
+                android:src="@drawable/ic_search_icon"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/frameLayout"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/grey2" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <FrameLayout
                 android:id="@+id/frameLayout"
