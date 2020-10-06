@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#F8F8F8">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="2.5dp"
+            android:background="@drawable/custom_ripple_grey_bg"
+            android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:paddingHorizontal="8dp"
+            android:hint="@string/search_for_people"
+            android:background="@drawable/background_rectangle"
+            android:layout_marginVertical="7dp"
+            android:inputType="textCapSentences"
+            android:imeOptions="actionSearch"
+            android:textColor="#000"
+            android:fontFamily="@font/oxygen_bold" />
+
+        <ImageButton
+            android:id="@+id/searchButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="2.5dp"
+            android:padding="2dp"
+            android:tint="@color/black"
+            android:src="@drawable/ic_baseline_search_24"
+            android:background="@drawable/custom_ripple_grey_bg"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f8f8"
+        android:clipToPadding="false"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#F8F8F8"
+            android:layout_marginBottom="7dp">
+
+            <Button
+                android:id="@+id/Sfirstname"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/add_tags_button_background"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:text="@string/name"
+                android:elevation="0dp"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/Scity"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/add_tags_button_background"
+                android:text="@string/city"
+                android:layout_marginStart="10dp"
+                android:textAllCaps="false"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:elevation="0dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+
+<!--            <Button-->
+<!--                android:id="@+id/Susername"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:background="@drawable/search_profile_button_background"-->
+<!--                android:text="Username"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:layout_marginVertical="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:elevation="0dp"-->
+<!--                android:textColor="@color/colorTheme"-->
+<!--                android:textSize="15sp"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/Sinstitute"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:background="@drawable/search_profile_button_background"-->
+<!--                android:text="Institute"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:layout_marginVertical="5dp"-->
+<!--                android:gravity="center"-->
+<!--                android:elevation="0dp"-->
+<!--                android:textColor="@color/colorTheme"-->
+<!--                android:textSize="15sp"/>-->
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ededed"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="7dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="7dp"
+                android:gravity="center_vertical"
+                android:textColor="#212121"
+                android:background="@drawable/shape_latest_post"
+                android:fontFamily="@font/oxygen_bold"
+                android:paddingHorizontal="20dp"
+                android:text="Results"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/content_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/no_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="40dp"
+            android:src="@drawable/ma_durga"
+            android:visibility="visible" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/search_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="50dp" />
+
+            <ProgressBar
+                android:id="@+id/content_progress_search"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:padding="10dp"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

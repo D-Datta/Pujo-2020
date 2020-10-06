@@ -191,5 +191,7 @@
 
     <string name="pujo">পুজো</string>
     <string name="people">জনগন</string>
+    <string name="search_for_people">লোকদের অনুসন্ধান করুন</string>
+    <string name="celebrating_this_puja_with_utsav">এই বছর পুজো উৎসবে</string>
 
 </resources>

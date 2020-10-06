@@ -23,73 +23,56 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-
-        <activity android:name=".HashtagPostViewAll"/>
-
+        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".HashtagPostViewAll" />
         <activity
             android:name=".LanguageChoice"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ActivityTagPujo"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ActivityNotification"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Webview"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".drawerActivities.AboutUs"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".EditProfileIndividualActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".EditProfileCommitteeActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ActivityProfileCommittee"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ActivityProfileUser"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".SearchCityState"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".registration.RegIndividual"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".registration.RegPujoCommittee"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".registration.RegChoice"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".WalkthroughActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".registration.LoginActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".registration.LoginActivityPhone"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Splash"
             android:screenOrientation="portrait"
@@ -100,15 +83,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CommentReplyActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".CommentEdit"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".GateWayActivity"
             android:launchMode="singleTask">
@@ -133,7 +113,6 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ProfilePictureActivity"
             android:screenOrientation="portrait" />
@@ -157,7 +136,6 @@
             <!-- <data android:mimeType="text/plain" /> -->
             <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".ViewMoreHome"
             android:screenOrientation="portrait">
@@ -186,12 +164,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
-
         <activity
             android:name=".MainActivity"
             android:configChanges="uiMode"
@@ -231,7 +207,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
-
     </application>
 
 </manifest>
