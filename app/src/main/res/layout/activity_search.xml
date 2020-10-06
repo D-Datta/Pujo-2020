@@ -164,6 +164,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="40dp"
+            android:background="@color/white"
             android:src="@drawable/ma_durga"
             android:visibility="visible" />
 

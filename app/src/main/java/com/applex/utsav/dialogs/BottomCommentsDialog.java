@@ -53,8 +53,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
-import static com.applex.utsav.ViewMoreHome.homePostModel;
-import static com.applex.utsav.ViewMoreText.homeTextModel;
 import static com.applex.utsav.adapters.ReelsAdapter.currentItem;
 import static java.lang.Boolean.TRUE;
 
@@ -221,21 +219,21 @@ public class BottomCommentsDialog extends DialogFragment {
                             buildRecyclerView_comments();
 
                             if(from.matches("ViewMoreHome")){
-                                finalcmntno=homePostModel[0].getCmtNo()+1;
+                                finalcmntno= new ViewMoreHome().homePostModel[0].getCmtNo()+1;
                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
 //                                CommitteeFragment.changed=1;
 //                                FeedsFragment.changed=1;
 //                                ActivityProfileUser.change=1;
-                                homePostModel[0].setCmtNo(finalcmntno);
+                                new ViewMoreHome().homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ViewMoreText")){
-                                finalcmntno=homeTextModel[0].getCmtNo()+1;
+                                finalcmntno=new ViewMoreText().homeTextModel[0].getCmtNo()+1;
                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
 //                                FeedsFragment.changed=1;
 //                                ActivityProfileUser.change=1;
-                                homeTextModel[0].setCmtNo(finalcmntno);
+                                new ViewMoreText().homeTextModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ReelsAdapter")){
                                 finalcmntno=currentItem.getCmtNo()+1;
@@ -358,8 +356,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                         commentAdapter.notifyItemRemoved(position);
 
                                         if(from.matches("ViewMoreHome")){
-                                            finalcmntno = homePostModel[0].getCmtNo()-total;
-                                            homePostModel[0].setCmtNo(finalcmntno);
+                                            finalcmntno = new ViewMoreHome().homePostModel[0].getCmtNo()-total;
+                                            new ViewMoreHome().homePostModel[0].setCmtNo(finalcmntno);
                                             if(finalcmntno <= 0) {
                                                 ViewMoreHome.comment_layout.setVisibility(View.GONE);
                                             } else {
@@ -371,8 +369,8 @@ public class BottomCommentsDialog extends DialogFragment {
 //                                            ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ViewMoreText")){
-                                            finalcmntno = homeTextModel[0].getCmtNo()-total;
-                                            homeTextModel[0].setCmtNo(finalcmntno);
+                                            finalcmntno = new ViewMoreText().homeTextModel[0].getCmtNo()-total;
+                                            new ViewMoreText().homeTextModel[0].setCmtNo(finalcmntno);
                                             if(finalcmntno <= 0) {
                                                 ViewMoreText.comment_layout.setVisibility(View.GONE);
                                             } else {

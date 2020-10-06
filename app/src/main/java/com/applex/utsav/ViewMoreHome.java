@@ -124,7 +124,7 @@ public class ViewMoreHome extends AppCompatActivity {
     String bool;
     private LottieAnimationView dhak_anim;
 
-    public static final HomePostModel[] homePostModel = {new HomePostModel()};
+    public final HomePostModel[] homePostModel = {new HomePostModel()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -117,7 +117,7 @@ public class ViewMoreText extends AppCompatActivity {
 
     private int commentCount = 0;
     String bool;
-    public static final HomePostModel[] homeTextModel = {new HomePostModel()};
+    public final HomePostModel[] homeTextModel = {new HomePostModel()};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
