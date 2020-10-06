@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Boolean doubleBackPressed = false;
 
-
     ViewPager viewPager;
 
     @Override
