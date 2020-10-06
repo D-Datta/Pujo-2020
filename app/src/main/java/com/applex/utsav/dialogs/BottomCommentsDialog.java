@@ -34,6 +34,8 @@ import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.fragments.Fragment_Posts;
+import com.applex.utsav.fragments.Fragment_Posts_Users;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
@@ -246,8 +248,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                 docRef.get().addOnCompleteListener(task1 -> {
                                     finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task1.getResult()).get("cmtNo")).toString());
                                     if(from.matches("ActivityProfileUser")){
-                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                                        ActivityProfileUser.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                        Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        Fragment_Posts_Users.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
                                     else if(from.matches("CommitteeFragment")){
                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
@@ -396,7 +398,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task2.getResult()).get("cmtNo")).toString());
                                                 if(finalcmntno <= 0) {
                                                     if(from.matches("ActivityProfileUser")){
-                                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                        Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
                                                     else if(from.matches("CommitteeFragment")){
                                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
@@ -406,8 +408,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                                     }
                                                 } else {
                                                     if(from.matches("ActivityProfileUser")){
-                                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                                                        ActivityProfileUser.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                        Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        Fragment_Posts_Users.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
                                                     else if(from.matches("CommitteeFragment")){
                                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);

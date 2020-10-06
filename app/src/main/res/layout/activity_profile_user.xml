@@ -248,111 +248,130 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/view_post_exist">
-
-        <ProgressBar
-            android:id="@+id/content_progress"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:visibility="gone" />
+            android:background="@color/white"
+            app:tabTextColor="@color/colorPrimaryDark"
+            app:tabIndicatorColor="@color/purple"
+            app:tabIndicatorHeight="4dp"
+            app:tabIndicator="@drawable/indicator"
+            app:tabIndicatorFullWidth="true"
+            app:tabUnboundedRipple="true" />
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefresh1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animationCache="false"
-            android:focusableInTouchMode="true">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <ProgressBar
-                    android:id="@+id/progress_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="10dp"
-                    android:background="#e2e2e2"
-                    android:layout_alignParentBottom="true"
-                    android:visibility="gone" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/your_posts_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:descendantFocusability="blocksDescendants"
-                    android:paddingBottom="50dp"
-                    app:reverseLayout="false" />
-
-                <LinearLayout
-                    android:id="@+id/emptyLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:src="@drawable/ic_no_posts"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/noposts"
-                        android:textSize="20dp"
-                        android:gravity="center"
-                        android:textColor="@color/red"/>
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </LinearLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:visibility="gone"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <ImageView
-            android:id="@+id/none_image"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:background="#E5E5E5"
-            android:layout_gravity="top"
-            android:paddingHorizontal="20dp"
-            android:src="@drawable/durga_ma2"
-            android:visibility="visible" />
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        android:visibility="visible"-->
+<!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"-->
+<!--        android:id="@+id/view_post_exist">-->
 
-    </androidx.core.widget.NestedScrollView>
+<!--        <ProgressBar-->
+<!--            android:id="@+id/content_progress"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:visibility="gone" />-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/to_the_top_profile"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:fabCustomSize="35dp"
-        android:layout_marginEnd="30dp"
-        app:borderWidth="0dp"
-        android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
-        android:backgroundTint="@color/colorPrimary"
-        android:scaleType="fitXY"
-        app:rippleColor="#fff"
-        app:elevation="10dp"
-        android:layout_gravity="end|bottom"
-        android:layout_marginBottom="45dp"
-        android:padding="5dp"
-        android:visibility="visible"/>
+<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--            android:id="@+id/swiperefresh1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:animationCache="false"-->
+<!--            android:focusableInTouchMode="true">-->
+
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                <ProgressBar-->
+<!--                    android:id="@+id/progress_more"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:padding="10dp"-->
+<!--                    android:background="#e2e2e2"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:visibility="gone" />-->
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/your_posts_recycler"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:clipToPadding="false"-->
+<!--                    android:descendantFocusability="blocksDescendants"-->
+<!--                    android:paddingBottom="50dp"-->
+<!--                    app:reverseLayout="false" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/emptyLayout"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="200dp"-->
+<!--                        android:src="@drawable/ic_no_posts"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/noposts"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textColor="@color/red"/>-->
+<!--                </LinearLayout>-->
+
+<!--            </RelativeLayout>-->
+
+<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+<!--    </LinearLayout>-->
+
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/none_image"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="350dp"-->
+<!--            android:background="#E5E5E5"-->
+<!--            android:layout_gravity="top"-->
+<!--            android:paddingHorizontal="20dp"-->
+<!--            android:src="@drawable/durga_ma2"-->
+<!--            android:visibility="visible" />-->
+
+<!--    </androidx.core.widget.NestedScrollView>-->
+
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/to_the_top_profile"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        app:fabCustomSize="35dp"-->
+<!--        android:layout_marginEnd="30dp"-->
+<!--        app:borderWidth="0dp"-->
+<!--        android:src="@drawable/ic_baseline_keyboard_arrow_up_24"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:rippleColor="#fff"-->
+<!--        app:elevation="10dp"-->
+<!--        android:layout_gravity="end|bottom"-->
+<!--        android:layout_marginBottom="45dp"-->
+<!--        android:padding="5dp"-->
+<!--        android:visibility="visible"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
