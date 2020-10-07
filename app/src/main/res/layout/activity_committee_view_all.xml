@@ -66,13 +66,90 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f8f8f8"
+        android:clipToPadding="false"
+        android:scrollbars="none"
+        android:layout_marginTop="54dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#F8F8F8"
+            android:layout_marginBottom="7dp">
+
+            <Button
+                android:id="@+id/Sfirstname"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/add_tags_button_background"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:text="@string/name"
+                android:elevation="0dp"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/Scity"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/add_tags_button_background"
+                android:text="@string/city"
+                android:layout_marginStart="10dp"
+                android:textAllCaps="false"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:elevation="0dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+
+            <!--            <Button-->
+            <!--                android:id="@+id/Susername"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="30dp"-->
+            <!--                android:background="@drawable/search_profile_button_background"-->
+            <!--                android:text="Username"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:layout_marginVertical="5dp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:elevation="0dp"-->
+            <!--                android:textColor="@color/colorTheme"-->
+            <!--                android:textSize="15sp"/>-->
+
+            <!--            <Button-->
+            <!--                android:id="@+id/Sinstitute"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="30dp"-->
+            <!--                android:background="@drawable/search_profile_button_background"-->
+            <!--                android:text="Institute"-->
+            <!--                android:layout_marginStart="10dp"-->
+            <!--                android:layout_marginEnd="10dp"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:layout_marginVertical="5dp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:elevation="0dp"-->
+            <!--                android:textColor="@color/colorTheme"-->
+            <!--                android:textSize="15sp"/>-->
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/view_post_exist">
+        android:id="@+id/view_post_exist"
+        android:layout_marginTop="50dp">
         
         <View
             android:layout_width="match_parent"
