@@ -999,6 +999,24 @@ public class ViewMoreHome extends AppCompatActivity {
         commentimg.setOnClickListener(v -> {
                 BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", homePostModel[0].getDocID(), homePostModel[0].getUid(), 1,"ViewMoreHome", null,homePostModel[0].getCmtNo(), null, null);
                 bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+
+            try {
+                AssetFileDescriptor afd =getAssets().openFd("sonkho.mp3");
+                MediaPlayer player = new MediaPlayer();
+                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                player.prepare();
+                AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                    player.start();
+
+                }
+//                else {
+//                    new Handler().postDelayed(() -> {
+//                    }, 2000);
+//                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         more.setOnClickListener(new View.OnClickListener() {

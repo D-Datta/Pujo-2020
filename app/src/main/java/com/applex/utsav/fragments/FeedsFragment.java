@@ -288,6 +288,7 @@ public class FeedsFragment extends Fragment {
                     }
                     buildCommunityRecyclerView(feedViewHolder.cRecyclerView);
                 }
+
                 else if (feedViewHolder.getItemViewType() % 4  == 0) {
                     feedViewHolder.committeeHolder.setVisibility(View.GONE);
                     feedViewHolder.reels_item.setVisibility(View.VISIBLE);
@@ -682,6 +683,24 @@ public class FeedsFragment extends Fragment {
                 feedViewHolder.commentimg.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"FeedsFragment", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+
+                    try {
+                        AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
+                        MediaPlayer player = new MediaPlayer();
+                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                        player.prepare();
+                        AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                            player.start();
+                        } else {
+                            new Handler().postDelayed(() -> {
+//                                feedViewHolder.dhak_anim.cancelAnimation();
+//                                feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                            }, 2000);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
 
                 feedViewHolder.writecomment.setOnClickListener(v -> {
