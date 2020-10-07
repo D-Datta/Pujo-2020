@@ -223,6 +223,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
                     long upvotes = baseUserModel.getUpvotes();
                     ArrayList<String> upvoteL = baseUserModel.getUpvoteL();
+                    Timestamp lastVisit = baseUserModel.getLastVisitTime();
 
                     progressDialog = new ProgressDialog(EditProfileCommitteeActivity.this);
                     progressDialog.setTitle("Editing Your Profile");
@@ -253,6 +254,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setPin(PIN);
                     baseUserModel.setUpvotes(upvotes);
                     baseUserModel.setUpvoteL(upvoteL);
+                    baseUserModel.setLastVisitTime(lastVisit);
+
 
 
                     pujoCommitteeModel = new PujoCommitteeModel();

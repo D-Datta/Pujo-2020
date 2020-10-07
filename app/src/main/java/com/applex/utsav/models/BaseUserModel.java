@@ -177,4 +177,13 @@ public class BaseUserModel {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+
+    public Timestamp getLastVisitTime() {
+        return lastVisitTime;
+    }
+
+    public void setLastVisitTime(Timestamp lastVisitTime) {
+        this.lastVisitTime = lastVisitTime;
+    }
 }
