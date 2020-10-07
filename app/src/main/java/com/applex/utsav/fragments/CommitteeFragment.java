@@ -205,9 +205,8 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
                     programmingViewHolder.sliderView.setSliderAnimationDuration(500);
-                    programmingViewHolder.sliderView.setScrollTimeInSec(7);
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
-                    programmingViewHolder.sliderView.setAutoCycle(true);
+                    programmingViewHolder.sliderView.setAutoCycle(false);
 
                     ArrayList<SliderModel> itemGroups = new ArrayList<>();
 
