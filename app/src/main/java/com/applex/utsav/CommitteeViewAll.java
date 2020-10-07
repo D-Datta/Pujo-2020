@@ -158,7 +158,11 @@ public class CommitteeViewAll extends AppCompatActivity {
             switch (actionId){
                 case EditorInfo.IME_ACTION_SEARCH:
                     if(!searchText.getText().toString().isEmpty()){
-                        buildRecyclerView("name", searchText.getText().toString() );
+                        if(selected_button==1)
+                            buildRecyclerView("name",searchText.getText().toString());
+
+                        else
+                            buildRecyclerView("city", searchText.getText().toString());
                     }
 
             }
