@@ -48,7 +48,7 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
 
         holder.committeeName.setText(currentitem.getName());
 
-        if(positionItem == 1) {
+        if(positionItem == 2) {
             if(currentitem.getUpvotes() > 1) {
                 if(currentitem.getUpvotes() > 1000) {
                     holder.com_views.setText(currentitem.getUpvotes()/1000 + "." + (currentitem.getUpvotes() % 1000)/100 + "K Upvotes");
