@@ -100,7 +100,6 @@ public class CommitteeViewAll extends AppCompatActivity {
             }
         });
 
-
         progress = findViewById(R.id.content_progress);
         progressMoreCom = findViewById(R.id.progress_more_comm);
         progress.setVisibility(View.VISIBLE);
