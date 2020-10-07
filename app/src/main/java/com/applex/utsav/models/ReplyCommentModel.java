@@ -138,9 +138,5 @@ public class ReplyCommentModel {
 
     public void setComUid(String comUid) { this.comUid = comUid; }
 
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called!!!!!!!!!!!!!");
-        super.finalize();
-    }
+
 }

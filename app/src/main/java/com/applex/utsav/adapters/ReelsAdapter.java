@@ -53,11 +53,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private IntroPref introPref;
     private String bool;
     private String uid,link;
-    private String type, ts, pCom_ts;
+    private String type, ts, pCom_ts, from;
     public static ReelsPostModel currentItem;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
-                        String bool, String uid, String type, String ts, String pCom_ts) {
+                        String bool, String uid, String type, String ts, String pCom_ts, String from) {
         this.models = models;
         this.context = context;
         this.bool = bool;
@@ -65,6 +65,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         this.type = type;
         this.ts = ts;
         this.pCom_ts = pCom_ts;
+        this.from = from;
         introPref = new IntroPref(context);
     }
 
@@ -465,6 +466,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .orderBy("ts", Query.Direction.DESCENDING)
+                    .whereEqualTo("type", from)
                     .limit(1)
                     .startAfter(reelslastVisible);
         }
@@ -500,6 +502,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .orderBy("ts", Query.Direction.ASCENDING)
+                    .whereEqualTo("type", from)
                     .limit(1)
                     .startAfter(reelslastVisible);
         }

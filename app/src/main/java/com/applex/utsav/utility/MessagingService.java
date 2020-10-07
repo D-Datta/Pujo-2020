@@ -82,7 +82,29 @@ public class MessagingService extends FirebaseMessagingService {
 
         Intent intent;
 
-        if (action.matches("Feeds")) {
+        if(action.matches("Feeds") && type == null) {
+            intent = new Intent(context, ViewMoreHome.class);
+            intent.putExtra("postID", postID);
+            intent.putExtra("from", "noti");
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setLargeIcon(dp)
+                    .setSound(defaultSoundUri)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000});
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
+        }
+        else if (action.matches("Feeds")) {
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);
@@ -184,7 +206,28 @@ public class MessagingService extends FirebaseMessagingService {
 
         Intent intent;
 
-        if (action.matches("Feeds")) {
+        if(action.matches("Feeds") && type == null) {
+            intent = new Intent(context, ViewMoreHome.class);
+            intent.putExtra("postID", postID);
+            intent.putExtra("from", "noti");
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "MyNotifications")
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setVibrate(new long[]{1000, 1000});
+
+            NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+            manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
+        }
+        else if (action.matches("Feeds")) {
             intent = new Intent(context, ViewMoreHome.class);
             intent.putExtra("type", type);
             intent.putExtra("postID", postID);

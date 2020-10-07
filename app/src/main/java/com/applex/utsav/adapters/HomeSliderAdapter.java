@@ -1,12 +1,16 @@
 package com.applex.utsav.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.applex.utsav.R;
+import com.applex.utsav.Webview;
 import com.applex.utsav.models.SliderModel;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Callback;
@@ -68,22 +72,26 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
         });
 
         viewHolder.imageViewBackground.setOnClickListener(v -> {
-//            Intent intent = new Intent(mContext, ViewMoreSlider.class);
-//            intent.putExtra("docID", currentItem.getDocID());
-//            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//            intent.putExtra("likeL", currentItem.getLikeL());
-//
-//            intent.putExtra("themeColor", currentItem.getThemecolor());
-//            intent.putExtra("eventPic", currentItem.getEventImage());
-//            intent.putExtra("eventText", currentItem.getEventDetails());
-//            intent.putExtra("eventName", currentItem.getEventName());
-//            intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//            intent.putExtra("participate", Boolean.toString(currentItem.isParticipate()));
-//            intent.putExtra("bool", Integer.toString(bool));
-//
-//            intent.putExtra("uid", currentItem.getUid());
-//            mContext.startActivity(intent);
+            switch (currentItem.getOption()){
+                case 1:
+                    break;
+                case 2:
+                    Intent intent = new Intent(mContext, Webview.class);
+                    intent.putExtra("option", Integer.toString(currentItem.getOption()));
+                    intent.putExtra("Link", currentItem.getEventLink());
+                    mContext.startActivity(intent);
+                    break;
+                case 3:
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(currentItem.getEventLink())));
+                    break;
+            }
+        });
 
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
         });
 
 

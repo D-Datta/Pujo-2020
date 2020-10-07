@@ -650,6 +650,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                     commentModel1.setTs(0L); ///Pending state
                     commentModel1.setPostID(postID);
                     commentModel1.setpComID(docID);
+                    commentModel1.setType(introPref.getType());
                     commentModel1.setComUid(i.getStringExtra("pComUid"));
 
                     newComment.setText("");

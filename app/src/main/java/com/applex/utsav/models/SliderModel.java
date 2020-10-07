@@ -1,7 +1,5 @@
 package com.applex.utsav.models;
 
-import android.util.Log;
-
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -9,31 +7,22 @@ import java.util.ArrayList;
 
 @IgnoreExtraProperties
 public class SliderModel {
-    private ArrayList<TagModel> tagL;
-    private String uid;
-    private String eventImage, eventName, eventDetails, themecolor;
 
-    private ArrayList<String> likeL;
-    private long cmtNo;
+    private String eventImage, eventLink, eventDetails;
 
-    @Exclude
-    private String docID;
-    @Exclude
-    private int likeCheck;
+    private ArrayList<String> clickL;
 
-    private boolean participate;
+    @Exclude private String docID;
+
+    private int option;
 
 
-    public SliderModel() {
-        likeCheck = -1;
+    public int getOption() {
+        return option;
     }
 
-    public boolean isParticipate() {
-        return participate;
-    }
-
-    public void setParticipate(boolean participate) {
-        this.participate = participate;
+    public void setOption(int option) {
+        this.option = option;
     }
 
     public String getDocID() {
@@ -44,28 +33,12 @@ public class SliderModel {
         this.docID = docID;
     }
 
-    public String getThemecolor() {
-        return themecolor;
+    public String getEventLink() {
+        return eventLink;
     }
 
-    public void setThemecolor(String themecolor) {
-        this.themecolor = themecolor;
-    }
-
-    public ArrayList<TagModel> getTagL() {
-        return tagL;
-    }
-
-    public void setTagL(ArrayList<TagModel> tagL) {
-        this.tagL = tagL;
-    }
-
-    public String getEventName() {
-        return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setEventLink(String eventLink) {
+        this.eventLink = eventLink;
     }
 
     public String getEventDetails() {
@@ -76,14 +49,6 @@ public class SliderModel {
         this.eventDetails = eventDetails;
     }
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getEventImage() {
         return eventImage;
     }
@@ -92,46 +57,25 @@ public class SliderModel {
         this.eventImage = eventImage;
     }
 
-    public ArrayList<String> getLikeL() {
-        return likeL;
+    public ArrayList<String> getClickL() {
+        return clickL;
     }
 
-    public void setLikeL(ArrayList<String> likeL) {
-        this.likeL = likeL;
-    }
-
-    public long getCmtNo() {
-        return cmtNo;
-    }
-
-    public void setCmtNo(long cmtNo) {
-        this.cmtNo = cmtNo;
-    }
-
-    public int getLikeCheck() {
-        return likeCheck;
-    }
-
-    public void setLikeCheck(int likeCheck) {
-        this.likeCheck = likeCheck;
+    public void setClickL(ArrayList<String> clickL) {
+        this.clickL = clickL;
     }
 
     public void removeFromLikeList(String Uid){
-        this.likeL.remove(Uid);
+        this.clickL.remove(Uid);
     }
 
     public void addToLikeList(String uid) {
-        if(this.likeL == null){
-            this.likeL = new ArrayList<>();
+        if(this.clickL == null){
+            this.clickL = new ArrayList<>();
         }
-        this.likeL.add(uid);
+        this.clickL.add(uid);
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        Log.d("FINALIZE","called!!!!!!!!!!!!!");
-        super.finalize();
-    }
 }
 
 

@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -228,6 +227,7 @@ public class CommitteeFragment extends Fragment {
                             .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
 
                     programmingViewHolder.type_something.setVisibility(View.VISIBLE);
+
                     programmingViewHolder.type_something.setOnClickListener(view -> {
                         if (InternetConnection.checkConnection(requireActivity())) {
                             Intent i = new Intent(getContext(), NewPostHome.class);
@@ -265,37 +265,8 @@ public class CommitteeFragment extends Fragment {
                     } else {
                         programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
-
-//                    if (introPref.getType().matches("com")) {
-//
-//                        programmingViewHolder.type_dp.setOnClickListener(view -> {
-//                            Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
-//                            intent.putExtra("uid", Objects.requireNonNull(FirebaseAuth.getInstance()).getUid());
-//                            startActivity(intent);
-//                        });
-//                        programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-//                            if (InternetConnection.checkConnection(requireActivity())) {
-//                                Intent i = new Intent(getContext(), NewPostHome.class);
-//                                i.putExtra("target", "1");
-//                                startActivity(i);
-//                            } else
-//                                BasicUtility.showToast(getContext(), "Network Unavailable...");
-//                        });
-//
-//                        if (COMMITEE_LOGO != null) {
-//                            Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
-//                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
-//                                    .into(programmingViewHolder.type_dp);
-//                        } else {
-//                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                        }
-//                    }
-
-//                    else {
-//                        programmingViewHolder.new_post_layout.setVisibility(View.GONE);
-//                    }
                 }
-                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 10) {
+                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 1) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
@@ -318,31 +289,25 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
-                    if (programmingViewHolder.getItemViewType() != 1) {
-//                        int query_position = 9 + 10 * ((programmingViewHolder.getItemViewType()/8)-1);
-//                        Query query1 = FirebaseFirestore.getInstance()
-//                                .collection("Reels")
-//                                .orderBy("ts", Query.Direction.DESCENDING);
-//
-//                        query1.get().addOnCompleteListener(task -> {
-
+                    if (programmingViewHolder.getItemViewType() != 1 && lastReelDocument != null) {
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
+                                .whereEqualTo("type", "com")
                                 .orderBy("ts", Query.Direction.DESCENDING)
                                 .startAfter(lastReelDocument);
-//                                    .startAfter(Objects.requireNonNull(task.getResult()).getDocuments().get(query_position));
 
                         buildReelsRecyclerView(position, programmingViewHolder);
 
                         programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             requireActivity().startActivity(intent);
                         });
-//                        });
                     } else {
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
+                                .whereEqualTo("type", "com")
                                 .orderBy("ts", Query.Direction.DESCENDING);
 
                         buildReelsRecyclerView(position, programmingViewHolder);
@@ -350,6 +315,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.view_all_reels.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             requireActivity().startActivity(intent);
                         });
                     }
@@ -720,6 +686,18 @@ public class CommitteeFragment extends Fragment {
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    try {
+                        AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
+                        MediaPlayer player = new MediaPlayer();
+                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                        player.prepare();
+                        AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                            player.start();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
@@ -1221,6 +1199,7 @@ public class CommitteeFragment extends Fragment {
                         holder.item_reels_video.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             intent.putExtra("docID", currentItem.getDocID());
                             requireActivity().startActivity(intent);
                         });
@@ -1229,6 +1208,7 @@ public class CommitteeFragment extends Fragment {
                         holder.item_reels_image.setOnClickListener(v -> {
                             Intent intent = new Intent(requireActivity(), ReelsActivity.class);
                             intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
                             intent.putExtra("docID", currentItem.getDocID());
                             requireActivity().startActivity(intent);
                         });
@@ -1388,10 +1368,8 @@ public class CommitteeFragment extends Fragment {
                         case FINISHED:
                             if(reelsAdapter.getItemCount() == 0) {
                                 pvh.reels_item.setVisibility(View.GONE);
-                                Log.i("BAM", "1");
                             } else {
                                 pvh.reels_item.setVisibility(View.VISIBLE);
-                                Log.i("BAM", "2");
                             }
                             break;
                     }
@@ -1518,6 +1496,7 @@ public class CommitteeFragment extends Fragment {
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
     }
 
+    //erpor ki korbo bolis
     @Override
     public void onResume() {
         if((changed > 0 || delete > 0)) {
@@ -1596,5 +1575,4 @@ public class CommitteeFragment extends Fragment {
             }
         }
     }
-
 }

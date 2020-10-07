@@ -21,7 +21,7 @@ public class ReelsActivity extends AppCompatActivity {
     private Query query;
     private ReelsAdapter adapter;
     private ArrayList<ReelsPostModel> models;
-    private String type, ts, pCom_ts;
+    private String type, ts, pCom_ts, from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,10 @@ public class ReelsActivity extends AppCompatActivity {
             uid = getIntent().getStringExtra("uid");
         }
 
+        if(getIntent().getStringExtra("from") != null) {
+            from = getIntent().getStringExtra("from");
+        }
+
         if(getIntent().getStringExtra("docID") != null) {
             String docID = getIntent().getStringExtra("docID");
             query = FirebaseFirestore.getInstance().collection("Reels").whereEqualTo("docID", docID);
@@ -67,7 +71,6 @@ public class ReelsActivity extends AppCompatActivity {
 
         buildRecyclerView();
     }
-
 
     private void buildRecyclerView() {
 
@@ -83,6 +86,7 @@ public class ReelsActivity extends AppCompatActivity {
                     query = FirebaseFirestore.getInstance()
                             .collection("Reels")
                             .orderBy("ts", Query.Direction.DESCENDING)
+                            .whereEqualTo("type", from)
                             .limit(1)
                             .startAfter(document);
                 }
@@ -104,7 +108,7 @@ public class ReelsActivity extends AppCompatActivity {
                     }
                 });
 
-                adapter = new ReelsAdapter(ReelsActivity.this, models, bool, uid, type, ts, pCom_ts);
+                adapter = new ReelsAdapter(ReelsActivity.this, models, bool, uid, type, ts, pCom_ts, from);
                 reelsList.setAdapter(adapter);
             }
         });

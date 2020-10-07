@@ -92,12 +92,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     GoogleSignInClient mGooglesigninclient;
 
-    ImageView notif;
+    ImageView notif, search;
     TextView notifDot;
     DocumentReference docref3;
 
     private Boolean doubleBackPressed = false;
-
 
     ViewPager viewPager;
 
@@ -168,6 +167,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         com_data = hView.findViewById(R.id.com_data);
         visits = hView.findViewById(R.id.visits);
         upvoters = hView.findViewById(R.id.followers);
+        notif = findViewById(R.id.notif);
+        notifDot = findViewById(R.id.notif_badge);
+        search= findViewById(R.id.search);
 
         hView.setOnClickListener(v -> {
             drawer.closeDrawers();
@@ -197,14 +199,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.openDrawer(GravityCompat.START);
         });
 
-
-        //NOTIFICATION
+        //NOTIFICATION//
         docref3= FirebaseFirestore.getInstance()
                 .collection("Users/"+ FirebaseAuth.getInstance().getUid()+"/notifCount/")
                 .document("notifCount");
 
-        notif = findViewById(R.id.notif);
-        notifDot = findViewById(R.id.notif_badge);
+
 
         if(MessagingService.nCount == null) {
             notifDot.setVisibility(View.GONE);
@@ -220,6 +220,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             docref3.set(notifCount).addOnCompleteListener(task -> Log.d("Check", "nCount set to 0"));
             notifDot.setVisibility(View.GONE);
             startActivity(new Intent(MainActivity.this, ActivityNotification.class));
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(i);
+            }
         });
 
         TabLayout tabs = findViewById(R.id.tabs);
@@ -653,8 +661,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START))
-        {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
         else {

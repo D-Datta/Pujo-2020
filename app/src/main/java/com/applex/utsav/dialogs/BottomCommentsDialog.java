@@ -34,6 +34,8 @@ import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.fragments.Fragment_Posts;
+import com.applex.utsav.fragments.Fragment_Posts_Users;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
@@ -51,8 +53,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
-import static com.applex.utsav.ViewMoreHome.homePostModel;
-import static com.applex.utsav.ViewMoreText.homeTextModel;
 import static com.applex.utsav.adapters.ReelsAdapter.currentItem;
 import static java.lang.Boolean.TRUE;
 
@@ -219,21 +219,21 @@ public class BottomCommentsDialog extends DialogFragment {
                             buildRecyclerView_comments();
 
                             if(from.matches("ViewMoreHome")){
-                                finalcmntno=homePostModel[0].getCmtNo()+1;
+                                finalcmntno= new ViewMoreHome().homePostModel[0].getCmtNo()+1;
                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
 //                                CommitteeFragment.changed=1;
 //                                FeedsFragment.changed=1;
 //                                ActivityProfileUser.change=1;
-                                homePostModel[0].setCmtNo(finalcmntno);
+                                new ViewMoreHome().homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ViewMoreText")){
-                                finalcmntno=homeTextModel[0].getCmtNo()+1;
+                                finalcmntno=new ViewMoreText().homeTextModel[0].getCmtNo()+1;
                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
 //                                FeedsFragment.changed=1;
 //                                ActivityProfileUser.change=1;
-                                homeTextModel[0].setCmtNo(finalcmntno);
+                                new ViewMoreText().homeTextModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ReelsAdapter")){
                                 finalcmntno=currentItem.getCmtNo()+1;
@@ -245,15 +245,15 @@ public class BottomCommentsDialog extends DialogFragment {
                             else {
                                 docRef.get().addOnCompleteListener(task1 -> {
                                     finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task1.getResult()).get("cmtNo")).toString());
-                                    if(from.matches("ActivityProfileUser")){
-                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                                        ActivityProfileUser.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    if(from.matches("ActivityProfileUser")) {
+                                        Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        Fragment_Posts_Users.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-                                    else if(from.matches("CommitteeFragment")){
+                                    else if(from.matches("CommitteeFragment")) {
                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         CommitteeFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-                                    else if(from.matches("FeedsFragment")){
+                                    else if(from.matches("FeedsFragment")) {
                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
@@ -356,8 +356,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                         commentAdapter.notifyItemRemoved(position);
 
                                         if(from.matches("ViewMoreHome")){
-                                            finalcmntno = homePostModel[0].getCmtNo()-total;
-                                            homePostModel[0].setCmtNo(finalcmntno);
+                                            finalcmntno = new ViewMoreHome().homePostModel[0].getCmtNo()-total;
+                                            new ViewMoreHome().homePostModel[0].setCmtNo(finalcmntno);
                                             if(finalcmntno <= 0) {
                                                 ViewMoreHome.comment_layout.setVisibility(View.GONE);
                                             } else {
@@ -369,8 +369,8 @@ public class BottomCommentsDialog extends DialogFragment {
 //                                            ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ViewMoreText")){
-                                            finalcmntno = homeTextModel[0].getCmtNo()-total;
-                                            homeTextModel[0].setCmtNo(finalcmntno);
+                                            finalcmntno = new ViewMoreText().homeTextModel[0].getCmtNo()-total;
+                                            new ViewMoreText().homeTextModel[0].setCmtNo(finalcmntno);
                                             if(finalcmntno <= 0) {
                                                 ViewMoreText.comment_layout.setVisibility(View.GONE);
                                             } else {
@@ -396,7 +396,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 finalcmntno = Long.parseLong(Objects.requireNonNull(Objects.requireNonNull(task2.getResult()).get("cmtNo")).toString());
                                                 if(finalcmntno <= 0) {
                                                     if(from.matches("ActivityProfileUser")){
-                                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                        Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
                                                     else if(from.matches("CommitteeFragment")){
                                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
@@ -406,8 +406,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                                     }
                                                 } else {
                                                     if(from.matches("ActivityProfileUser")){
-                                                        ActivityProfileUser.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                                                        ActivityProfileUser.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                        Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        Fragment_Posts_Users.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
                                                     else if(from.matches("CommitteeFragment")){
                                                         CommitteeFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);

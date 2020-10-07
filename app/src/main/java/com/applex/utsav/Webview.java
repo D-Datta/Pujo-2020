@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,11 +81,26 @@ public class Webview extends AppCompatActivity {
             wv.loadUrl(text);
             tb.setTitle("applex.in");
         }
+        else if(getIntent().getStringExtra("option") != null){
+            String option = getIntent().getStringExtra("option");
+            if(option.matches("1")){
+
+            }
+            else if(option.matches("2")){
+                wv.loadUrl(getIntent().getStringExtra("Link"));
+                tb.setTitle("Utsav");
+            }
+            else if(option.matches("3")){
+
+            }
+        }
 //        else if(getIntent().getStringExtra("bool")!=null && Objects.requireNonNull(getIntent().getStringExtra("bool")).matches("3")){
 //            tb.setTitle("Translate");
 //            wv.loadUrl("https://translate.google.com/#auto/hi/" + text);
 //        }
         ///////////bool=1 for Contact us, 2 for Privacy Policy and 3 for Translate/////////////
+
+
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
