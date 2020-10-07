@@ -89,6 +89,21 @@ public class SearchActivity extends AppCompatActivity {
             super.onBackPressed();
         });
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SEARCH = searchKey.getText().toString();
+                if(!SEARCH.isEmpty()){
+                    userList.clear();
+
+                    contentProgress.setVisibility(View.VISIBLE);
+                    buildRecycler("name");
+
+                }
+
+            }
+        });
+
         sName.setOnClickListener(v -> {
 
             sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
@@ -287,18 +302,43 @@ public class SearchActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull BaseUserModel model) {
                 holder.PName.setText(model.getName());
 
-                if(model.getCity()!=null && model.getState()!=null && !model.getCity().isEmpty() && !model.getState().isEmpty()){
-                    holder.Pcity.setText(model.getCity()+", "+model.getState());
+//                if(model.getCity()!=null && model.getState()!=null && !model.getCity().isEmpty() && !model.getState().isEmpty()){
+//                    holder.Pcity.setText(model.getCity()+", "+model.getState());
+//
+//                }
+//                else if(model.getCity()!=null &&  !model.getCity().isEmpty() && model.getState()==null && model.getState().isEmpty())
+//                    holder.Pcity.setText(model.getCity());
+//
+//                else if(model.getCity()==null &&  model.getCity().isEmpty() && model.getState()!=null && !model.getState().isEmpty())
+//                    holder.Pcity.setText(model.getState());
+//
+//                else
+//                    holder.Pcity.setVisibility(View.GONE);
+
+                if(model.getCity()!=null || model.getState()!=null){
+
+                    if((model.getCity()!=null && model.getCity().isEmpty())
+                            && (model.getState()!=null && !model.getState().isEmpty())){
+                        holder.Pcity.setText(model.getState());
+                    }
+                    else if((model.getState()!=null && model.getState().isEmpty())
+                            && (model.getCity()!=null && !model.getCity().isEmpty())){
+                        holder.Pcity.setText(model.getCity());
+                    }
+                    else if((model.getCity()!=null && !model.getCity().isEmpty())
+                            && (model.getState()!=null && !model.getState().isEmpty())){
+                        holder.Pcity.setText(model.getCity()+", "+model.getState());
+                    }
+                    else if((model.getCity()!=null && model.getCity().isEmpty())
+                            && (model.getState()!=null && model.getState().isEmpty())){
+                        holder.Pcity.setVisibility(View.GONE);
+                    }
 
                 }
-                else if(model.getCity()!=null &&  !model.getCity().isEmpty() && model.getState()==null && model.getState().isEmpty())
-                    holder.Pcity.setText(model.getCity());
-
-                else if(model.getCity()==null &&  model.getCity().isEmpty() && model.getState()!=null && !model.getState().isEmpty())
-                    holder.Pcity.setText(model.getState());
-
-                else
+                else if(model.getCity()==null && model.getState()==null){
                     holder.Pcity.setVisibility(View.GONE);
+                }
+
 
 //                if(model.get()!=null) {
 //                    holder.PDescription.setText(model.getCourse()+ " "+model.getCoursestart()+"-"+model.getCourseend());
