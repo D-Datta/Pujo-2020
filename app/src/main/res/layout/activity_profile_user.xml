@@ -222,17 +222,6 @@
                         android:layout_height="1dp"
                         android:background="#e5e5e5"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_latest_post"
-                        android:fontFamily="@font/oxygen_bold"
-                        android:paddingVertical="10dp"
-                        android:paddingHorizontal="20dp"
-                        android:textColor="@color/black"
-                        android:text="@string/your_posts"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="18sp" />
 
                 </LinearLayout>
 

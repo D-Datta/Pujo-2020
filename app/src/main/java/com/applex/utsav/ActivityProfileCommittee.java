@@ -231,7 +231,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     }
                 }
             });
-        } else {
+        }
+        else {
             selfProfile.setVisibility(View.GONE);
             elseProfile.setVisibility(View.VISIBLE);
 
