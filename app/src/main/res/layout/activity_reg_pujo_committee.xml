@@ -261,44 +261,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="textStart"
-                    android:text="@string/Type_of_pujo"
-                    android:layout_marginStart="0dp"
-                    android:paddingTop="10dp"
-                    android:paddingHorizontal="15dp"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:textStyle="bold"
-                    android:textColor="#212121"
-                    />
-
-                <EditText
-                    android:id="@+id/committee_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="8dp"
-                    android:textSize="18sp"
-                    android:background="@drawable/background_rectangle"
-                    android:ems="10"
-                    android:fontFamily="@font/oxygen_regular"
-                    android:hint="@string/sarbojonin"
-                    android:inputType="textPersonName"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp" />
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -399,6 +362,92 @@
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:layout_weight="1" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/Type_of_pujo"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="#212121" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        app:chipSpacingHorizontal="10dp"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/sarbojonin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:checkable="true"
+                            android:clickable="true"
+                            android:fontFamily="@font/oxygen_ex_bold"
+                            android:text="Sarbojonin"
+                            android:textColor="@color/black"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/colorPrimaryDark"
+                            app:chipStrokeColor="@color/colorPrimary"
+                            app:chipStrokeWidth="1dp"
+                            android:focusable="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/bonediBari"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:checkable="true"
+                            android:clickable="true"
+                            android:fontFamily="@font/oxygen_ex_bold"
+                            android:text="Bonedi Bari"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/colorPrimaryDark"
+                            app:chipStrokeColor="@color/colorPrimary"
+                            app:chipStrokeWidth="1dp"
+                            android:focusable="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/barirPujo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:checkable="true"
+                            android:clickable="true"
+                            android:fontFamily="@font/oxygen_ex_bold"
+                            android:text="Barir pujo"
+                            android:textColor="@color/black"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/colorPrimaryDark"
+                            app:chipStrokeColor="@color/colorPrimary"
+                            app:chipStrokeWidth="1dp"
+                            android:focusable="true" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
 
                 </LinearLayout>
 
