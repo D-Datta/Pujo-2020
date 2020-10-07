@@ -42,6 +42,7 @@
                 android:background="@null"
                 android:maxLines="1"
                 android:inputType="textCapWords"
+                android:imeOptions="actionSearch"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/search"
                 app:layout_constraintHorizontal_bias="0.031"

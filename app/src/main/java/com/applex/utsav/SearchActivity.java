@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +50,7 @@ public class SearchActivity extends AppCompatActivity {
 
     IntroPref introPref;
     private ImageButton back, search;
-    private TextView searchKey;
+    private EditText searchKey;
     private ImageView nosearch;
     private ProgressBar progressMore, contentProgress;
     private RecyclerView mRecyclerView;

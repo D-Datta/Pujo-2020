@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -68,6 +70,7 @@ public class CommitteeViewAll extends AppCompatActivity {
         search = findViewById(R.id.search);
         back = findViewById(R.id.back);
         searchText = findViewById(R.id.search_text);
+        searchText.setOnEditorActionListener(editorActionListener);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +113,20 @@ public class CommitteeViewAll extends AppCompatActivity {
         });
 
     }
+
+    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            switch (actionId){
+                case EditorInfo.IME_ACTION_SEARCH:
+                    if(!searchText.getText().toString().isEmpty()){
+                        buildRecyclerView(searchText.getText().toString());
+                    }
+
+            }
+            return false;
+        }
+    };
 
 
     private void buildRecyclerView(String search) {
