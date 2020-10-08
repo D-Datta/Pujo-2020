@@ -77,7 +77,7 @@ public class GateWayActivity extends AppCompatActivity {
 //                            i.putExtra("campus", "Text");
                             i.putExtra("bool", "1");
                             i.putExtra("docID", postID);
-                            i.putExtra("from", "link");
+//                            i.putExtra("from", "link");
                             startActivity(i);
                             finish();
                         }
@@ -86,7 +86,7 @@ public class GateWayActivity extends AppCompatActivity {
 //                            i.putExtra("campus", "Text");
                             i.putExtra("bool", "2");
                             i.putExtra("docID", postID);
-                            i.putExtra("from", "link");
+//                            i.putExtra("from", "link");
                             startActivity(i);
                             finish();
                         }
