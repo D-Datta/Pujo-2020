@@ -227,13 +227,15 @@ public class Fragment_Reels extends Fragment {
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-//                            String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-//                            Intent i = new Intent();
-//                            i.setAction(Intent.ACTION_SEND);
-//                            i.putExtra(Intent.EXTRA_TEXT, link);
-//                            i.setType("text/plain");
-//                            startActivity(Intent.createChooser(i, "Share with"));
+                            String link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                            Intent i = new Intent();
+                            i.setAction(Intent.ACTION_SEND);
+                            i.putExtra(Intent.EXTRA_TEXT, link);
+                            i.setType("text/plain");
+                            startActivity(Intent.createChooser(i, "Share with"));
                             postMenuDialog.dismiss();
+                            postMenuDialog.dismiss();
+//
                         });
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {

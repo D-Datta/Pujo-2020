@@ -1320,13 +1320,13 @@ public class FeedsFragment extends Fragment {
                     }
 
                     holder.pujo_com_dp.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     holder.pujo_com_name.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
@@ -1351,7 +1351,7 @@ public class FeedsFragment extends Fragment {
                                             FirebaseFirestore.getInstance()
                                                     .collection("Reels").document(currentItem.getDocID()).delete()
                                                     .addOnSuccessListener(aVoid -> {
-                                                        ActivityProfileCommittee.delete = 1;
+                                                        ActivityProfileUser.delete = 1;
                                                         holder.itemView.setVisibility(View.GONE);
                                                         progressDialog.dismiss();
                                                         if(getItemCount() == 0) {
