@@ -387,15 +387,17 @@
                         android:id="@+id/type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
                         app:chipSpacingHorizontal="10dp"
                         app:singleLine="true"
                         app:singleSelection="true">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/sarbojonin"
+                            android:padding="5dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:checkable="true"
                             android:clickable="true"
@@ -403,17 +405,18 @@
                             android:text="Sarbojonin"
                             android:textColor="@color/black"
                             android:textAlignment="center"
+                            android:gravity="center"
                             android:textStyle="bold"
                             app:checkedIconVisible="false"
-                            app:chipBackgroundColor="@color/colorPrimaryDark"
                             app:chipStrokeColor="@color/colorPrimary"
                             app:chipStrokeWidth="1dp"
                             android:focusable="true" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/bonediBari"
+                            android:padding="5dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:checkable="true"
                             android:clickable="true"
@@ -423,15 +426,15 @@
                             android:textStyle="bold"
                             android:textAlignment="center"
                             app:checkedIconVisible="false"
-                            app:chipBackgroundColor="@color/colorPrimaryDark"
-                            app:chipStrokeColor="@color/colorPrimary"
+                            app:chipStrokeColor="@color/colorPrimaryDark"
                             app:chipStrokeWidth="1dp"
                             android:focusable="true" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/barirPujo"
+                            android:padding="5dp"
                             android:layout_width="wrap_content"
-                            android:layout_height="50dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:checkable="true"
                             android:clickable="true"
@@ -441,13 +444,11 @@
                             android:textAlignment="center"
                             android:textStyle="bold"
                             app:checkedIconVisible="false"
-                            app:chipBackgroundColor="@color/colorPrimaryDark"
                             app:chipStrokeColor="@color/colorPrimary"
                             app:chipStrokeWidth="1dp"
                             android:focusable="true" />
 
                     </com.google.android.material.chip.ChipGroup>
-
 
                 </LinearLayout>
 

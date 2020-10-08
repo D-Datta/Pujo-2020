@@ -72,7 +72,7 @@ public class RegPujoCommittee extends AppCompatActivity {
     private String tokenStr;
 
     private Chip chip;
-    private ChipGroup type;
+    private ChipGroup chipGroupType;
 
     private DocumentReference docrefBase, docrefCommittee, docref2, docref3;
     private BaseUserModel baseUserModel;
@@ -95,6 +95,8 @@ public class RegPujoCommittee extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reg_pujo_committee);
+
         introPref = new IntroPref(RegPujoCommittee.this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
@@ -102,7 +104,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        setContentView(R.layout.activity_reg_pujo_committee);
+
 
         etaddressline = findViewById(R.id.committee_addressline);
         etcity = findViewById(R.id.committee_city);
@@ -117,7 +119,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         edit_cover_pc = findViewById(R.id.reg_edit_coverpic_icon_pc);
         edit_dp_pc = findViewById(R.id.reg_edit_dp_pc);
         etpin = findViewById(R.id.committee_pin);
-        type = findViewById(R.id.type);
+        chipGroupType = findViewById(R.id.type);
 
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -188,13 +190,16 @@ public class RegPujoCommittee extends AppCompatActivity {
             }
         });
 
-        type.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener()
+        chipGroupType.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
 
                 chip = chipGroup.findViewById(i);
+//                chip.setChipBackgroundColorResource(R.color.red);
                 stype = chip.getText().toString();
+                BasicUtility.showToast(getApplicationContext(),stype);
+
             }
         });
 
