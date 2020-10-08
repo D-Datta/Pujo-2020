@@ -1121,7 +1121,7 @@ public class ViewMoreText extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 //                String id = postCampus.replaceAll(" ","_");
-                String link = "https://www.utsavapp.in/android/feeds/" + homeTextModel[0].getDocID();
+                String link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homeTextModel[0].getDocID();
                 Intent i = new Intent();
                 i.setAction(Intent.ACTION_SEND);
                 i.putExtra(Intent.EXTRA_TEXT, link);
