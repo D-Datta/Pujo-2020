@@ -38,6 +38,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,7 +60,7 @@ import static java.lang.Boolean.TRUE;
 
 public class RegPujoCommittee extends AppCompatActivity {
 
-    private EditText etcommitteename, etdescription, etaddressline, ettype, etpin;
+    private EditText etcommitteename, etdescription, etaddressline, etpin;
     public static EditText etcity,etstate;
     private String scommitteename, sdescription, saddress, scity, stype, sstate, spin;
     private TextView email_pc;
@@ -68,6 +70,9 @@ public class RegPujoCommittee extends AppCompatActivity {
     private String semail,spassword;
     private ImageView cover_pc,dp_pc,edit_cover_pc,edit_dp_pc;
     private String tokenStr;
+
+    private Chip chip;
+    private ChipGroup type;
 
     private DocumentReference docrefBase, docrefCommittee, docref2, docref3;
     private BaseUserModel baseUserModel;
@@ -103,7 +108,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         etcity = findViewById(R.id.committee_city);
         etcommitteename = findViewById(R.id.committee_name);
         etdescription = findViewById(R.id.committee_description);
-        ettype = findViewById(R.id.committee_type);
+//        ettype = findViewById(R.id.committee_type);
         etstate = findViewById(R.id.committee_state);
         register = findViewById(R.id.register);
         email_pc = findViewById(R.id.email_pc);
@@ -112,6 +117,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         edit_cover_pc = findViewById(R.id.reg_edit_coverpic_icon_pc);
         edit_dp_pc = findViewById(R.id.reg_edit_dp_pc);
         etpin = findViewById(R.id.committee_pin);
+        type = findViewById(R.id.type);
 
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -182,6 +188,16 @@ public class RegPujoCommittee extends AppCompatActivity {
             }
         });
 
+        type.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+
+                chip = chipGroup.findViewById(i);
+                stype = chip.getText().toString();
+            }
+        });
+
         etcity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -208,7 +224,7 @@ public class RegPujoCommittee extends AppCompatActivity {
 
                 scommitteename = etcommitteename.getText().toString().trim();
                 sdescription = etdescription.getText().toString().trim();
-                stype = ettype.getText().toString().trim();
+//                stype = ettype.getText().toString().trim();
                 saddress = etaddressline.getText().toString().trim();
                 scity = etcity.getText().toString().trim();
                 sstate = etstate.getText().toString().trim();
@@ -242,8 +258,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                         etpin.requestFocus();
                     }
                     if (stype.isEmpty()) {
-                        ettype.setError("Type is missing");
-                        ettype.requestFocus();
+                        BasicUtility.showToast(getApplicationContext(),"Please provide type of pujo");
                     }
                     if(pic==null){
                         BasicUtility.showToast(RegPujoCommittee.this,"Please set a Profile Photo");
