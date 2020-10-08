@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,7 +50,7 @@ public class SearchActivity extends AppCompatActivity {
 
     IntroPref introPref;
     private ImageButton back, search;
-    private TextView searchKey;
+    private EditText searchKey;
     private ImageView nosearch;
     private ProgressBar progressMore, contentProgress;
     private RecyclerView mRecyclerView;
@@ -87,6 +88,21 @@ public class SearchActivity extends AppCompatActivity {
 
         back.setOnClickListener(v -> {
             super.onBackPressed();
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SEARCH = searchKey.getText().toString();
+                if(!SEARCH.isEmpty()){
+                    userList.clear();
+
+                    contentProgress.setVisibility(View.VISIBLE);
+                    buildRecycler("name");
+
+                }
+
+            }
         });
 
         sName.setOnClickListener(v -> {
@@ -287,18 +303,43 @@ public class SearchActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull BaseUserModel model) {
                 holder.PName.setText(model.getName());
 
-                if(model.getCity()!=null && model.getState()!=null && !model.getCity().isEmpty() && !model.getState().isEmpty()){
-                    holder.Pcity.setText(model.getCity()+", "+model.getState());
+//                if(model.getCity()!=null && model.getState()!=null && !model.getCity().isEmpty() && !model.getState().isEmpty()){
+//                    holder.Pcity.setText(model.getCity()+", "+model.getState());
+//
+//                }
+//                else if(model.getCity()!=null &&  !model.getCity().isEmpty() && model.getState()==null && model.getState().isEmpty())
+//                    holder.Pcity.setText(model.getCity());
+//
+//                else if(model.getCity()==null &&  model.getCity().isEmpty() && model.getState()!=null && !model.getState().isEmpty())
+//                    holder.Pcity.setText(model.getState());
+//
+//                else
+//                    holder.Pcity.setVisibility(View.GONE);
+
+                if(model.getCity()!=null || model.getState()!=null){
+
+                    if((model.getCity()!=null && model.getCity().isEmpty())
+                            && (model.getState()!=null && !model.getState().isEmpty())){
+                        holder.Pcity.setText(model.getState());
+                    }
+                    else if((model.getState()!=null && model.getState().isEmpty())
+                            && (model.getCity()!=null && !model.getCity().isEmpty())){
+                        holder.Pcity.setText(model.getCity());
+                    }
+                    else if((model.getCity()!=null && !model.getCity().isEmpty())
+                            && (model.getState()!=null && !model.getState().isEmpty())){
+                        holder.Pcity.setText(model.getCity()+", "+model.getState());
+                    }
+                    else if((model.getCity()!=null && model.getCity().isEmpty())
+                            && (model.getState()!=null && model.getState().isEmpty())){
+                        holder.Pcity.setVisibility(View.GONE);
+                    }
 
                 }
-                else if(model.getCity()!=null &&  !model.getCity().isEmpty() && model.getState()==null && model.getState().isEmpty())
-                    holder.Pcity.setText(model.getCity());
-
-                else if(model.getCity()==null &&  model.getCity().isEmpty() && model.getState()!=null && !model.getState().isEmpty())
-                    holder.Pcity.setText(model.getState());
-
-                else
+                else if(model.getCity()==null && model.getState()==null){
                     holder.Pcity.setVisibility(View.GONE);
+                }
+
 
 //                if(model.get()!=null) {
 //                    holder.PDescription.setText(model.getCourse()+ " "+model.getCoursestart()+"-"+model.getCourseend());

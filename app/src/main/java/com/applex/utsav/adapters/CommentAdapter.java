@@ -281,17 +281,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 }
                 else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                     BasicUtility.vibrate(mContext);
-                    try {
-                        AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
-                        MediaPlayer player = new MediaPlayer();
-                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        player.prepare();
-                        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
-                            player.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        AssetFileDescriptor afd = mContext.getAssets().openFd("dhak.mp3");
+//                        MediaPlayer player = new MediaPlayer();
+//                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+//                        player.prepare();
+//                        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+//                        if(audioManager.getRingerMode()==AudioManager.RINGER_MODE_NORMAL)
+//                            player.start();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                     programmingViewHolder.flameimg.setImageResource(R.drawable.ic_flame_red);
 
                     //////////////ADD CURRENT USER TO LIKELIST//////////////////

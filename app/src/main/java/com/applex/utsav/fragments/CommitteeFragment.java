@@ -205,9 +205,8 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
                     programmingViewHolder.sliderView.setSliderAnimationDuration(500);
-                    programmingViewHolder.sliderView.setScrollTimeInSec(7);
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
-                    programmingViewHolder.sliderView.setAutoCycle(true);
+                    programmingViewHolder.sliderView.setAutoCycle(false);
 
                     ArrayList<SliderModel> itemGroups = new ArrayList<>();
 
@@ -266,9 +265,12 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 1) {
+
+                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
+
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
+
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                     programmingViewHolder.view_all.setOnClickListener(v ->

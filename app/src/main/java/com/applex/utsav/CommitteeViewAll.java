@@ -2,12 +2,17 @@ package com.applex.utsav;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,6 +56,8 @@ public class CommitteeViewAll extends AppCompatActivity {
 
     ImageView search, back;
     EditText searchText;
+    private Button sName, sCity;
+    int selected_button=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +75,21 @@ public class CommitteeViewAll extends AppCompatActivity {
         search = findViewById(R.id.search);
         back = findViewById(R.id.back);
         searchText = findViewById(R.id.search_text);
+        searchText.setOnEditorActionListener(editorActionListener);
+        sName = findViewById(R.id.Sfirstname);
+        sCity = findViewById(R.id.Scity);
 
-        search.setOnClickListener(new View.OnClickListener() {
+        sName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!searchText.getText().toString().isEmpty()){
-                    buildRecyclerView(searchText.getText().toString());
-                }
+                sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                sName.setTextColor(Color.parseColor("#ffffff"));
+
+                sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+                sCity.setBackgroundTintList(null);
+                sCity.setTextColor(Color.parseColor("#000000"));
+
+                selected_button = 1;
             }
         });
 
@@ -84,7 +99,6 @@ public class CommitteeViewAll extends AppCompatActivity {
                 CommitteeViewAll.super.onBackPressed();
             }
         });
-
 
         progress = findViewById(R.id.content_progress);
         progressMoreCom = findViewById(R.id.progress_more_comm);
@@ -99,27 +113,72 @@ public class CommitteeViewAll extends AppCompatActivity {
         cRecyclerView.setLayoutManager(gridLayoutManager);
 
 
-        buildRecyclerView(null);
+        buildRecyclerView("name", null );
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
                 .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             searchText.setText(null);
-            buildRecyclerView(null);
+            buildRecyclerView("name",null);
+        });
+
+        sCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                sCity.setTextColor(Color.parseColor("#ffffff"));
+
+                sName.setBackgroundResource(R.drawable.add_tags_button_background);
+                sName.setBackgroundTintList(null);
+                sName.setTextColor(Color.parseColor("#000000"));
+
+                selected_button = 2;
+            }
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!searchText.getText().toString().isEmpty()){
+                    if(selected_button==1)
+                        buildRecyclerView("name",searchText.getText().toString());
+
+                    else
+                        buildRecyclerView("city", searchText.getText().toString());
+                }
+            }
         });
 
     }
 
+    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            switch (actionId){
+                case EditorInfo.IME_ACTION_SEARCH:
+                    if(!searchText.getText().toString().isEmpty()){
+                        if(selected_button==1)
+                            buildRecyclerView("name",searchText.getText().toString());
 
-    private void buildRecyclerView(String search) {
+                        else
+                            buildRecyclerView("city", searchText.getText().toString());
+                    }
+
+            }
+            return false;
+        }
+    };
+
+
+    private void buildRecyclerView( String field, String search) {
 
         Query query;
         if(search != null){
             query = FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
-                    .whereGreaterThanOrEqualTo("name", searchText.getText().toString())
+                    .whereGreaterThanOrEqualTo(field, search)
                     .limit(10);
         }
         else {

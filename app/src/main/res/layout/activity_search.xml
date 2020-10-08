@@ -55,7 +55,8 @@
         android:layout_height="wrap_content"
         android:background="#f8f8f8"
         android:clipToPadding="false"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="wrap_content"

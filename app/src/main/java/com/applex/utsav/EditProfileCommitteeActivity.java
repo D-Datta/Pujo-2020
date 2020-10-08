@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
@@ -42,7 +44,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
     private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid;
     private String tokenStr;
-    private BaseUserModel baseUserModel;
     private PujoCommitteeModel pujoCommitteeModel;
     private DocumentReference docrefBase, docrefCommittee;
     private FirebaseAuth mAuth;
@@ -50,6 +51,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private IntroPref introPref;
 
+    private BaseUserModel baseUserModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         introPref= new IntroPref(EditProfileCommitteeActivity.this);
         uid = FirebaseAuth.getInstance().getUid();
 
-
         FirebaseFirestore.getInstance().collection("Users").document(uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -92,7 +93,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful())
                         {
-                            BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                            baseUserModel = task.getResult().toObject(BaseUserModel.class);
                             PROFILEPIC = baseUserModel.getDp();
                             COVERPIC = baseUserModel.getCoverpic();
                             EMAIL = baseUserModel.getEmail();
@@ -157,6 +158,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         com_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,6 +221,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 }
                 else {
 
+                    long upvotes = baseUserModel.getUpvotes();
+                    ArrayList<String> upvoteL = baseUserModel.getUpvoteL();
+                    Timestamp lastVisit = baseUserModel.getLastVisitTime();
+
                     progressDialog = new ProgressDialog(EditProfileCommitteeActivity.this);
                     progressDialog.setTitle("Editing Your Profile");
                     progressDialog.setMessage("Hang on...");
@@ -227,14 +233,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
                     docrefBase = FirebaseFirestore.getInstance().collection("Users")
                             .document(uid);
-
-//                    docref2= FirebaseFirestore.getInstance()
-//                            .collection("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/AccessToken/")
-//                            .document("Token");
-//                    docref3= FirebaseFirestore.getInstance()
-//                            .collection("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/notifCount/")
-//                            .document("notifCount");
-
 
                     docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+uid+"/"+"com/")
                             .document(uid);
@@ -254,6 +252,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setCoverpic(COVERPIC);
                     baseUserModel.setDp(PROFILEPIC);
                     baseUserModel.setPin(PIN);
+                    baseUserModel.setUpvotes(upvotes);
+                    baseUserModel.setUpvoteL(upvoteL);
+                    baseUserModel.setLastVisitTime(lastVisit);
+
 
 
                     pujoCommitteeModel = new PujoCommitteeModel();
