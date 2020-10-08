@@ -1372,7 +1372,7 @@ public class FeedsFragment extends Fragment {
 //                                else if (bool.matches("2")){
 //                                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
 //                                }
-                                link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
+                                link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
                                 i.putExtra(Intent.EXTRA_TEXT, link);
