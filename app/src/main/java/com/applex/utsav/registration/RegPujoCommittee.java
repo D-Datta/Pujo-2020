@@ -73,9 +73,6 @@ public class RegPujoCommittee extends AppCompatActivity {
     private ImageView cover_pc,dp_pc,edit_cover_pc,edit_dp_pc;
     private String tokenStr;
 
-    private Chip chip;
-    private ChipGroup chipGroupType;
-
     private RadioGroup radioGroup;
     private RadioButton radioButton;
 
@@ -115,7 +112,6 @@ public class RegPujoCommittee extends AppCompatActivity {
         etcity = findViewById(R.id.committee_city);
         etcommitteename = findViewById(R.id.committee_name);
         etdescription = findViewById(R.id.committee_description);
-//        ettype = findViewById(R.id.committee_type);
         etstate = findViewById(R.id.committee_state);
         register = findViewById(R.id.register);
         email_pc = findViewById(R.id.email_pc);
@@ -125,9 +121,6 @@ public class RegPujoCommittee extends AppCompatActivity {
         edit_dp_pc = findViewById(R.id.reg_edit_dp_pc);
         etpin = findViewById(R.id.committee_pin);
         radioGroup = findViewById(R.id.radiogroup);
-
-//        chipGroupType = findViewById(R.id.type);
-
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         introPref = new IntroPref(RegPujoCommittee.this);
@@ -147,10 +140,6 @@ public class RegPujoCommittee extends AppCompatActivity {
         if(getIntent().getStringExtra("password")!=null){
             spassword = getIntent().getStringExtra("password");
         }
-
-//        semail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-//        spassword = getIntent().getStringExtra("password");
-
         accessToken= new AccessToken();
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(task -> {
@@ -162,10 +151,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                     // Get new Instance ID token
                     tokenStr = task.getResult().getToken();
                     accessToken.setRegToken(tokenStr);
-                    // Log and toast
-                    // String msg = getString(R.string.msg_token_fmt, token);
                     Log.d("TAG", tokenStr);
-                    // Toast.makeText(RegFormPost2.this, token, Toast.LENGTH_LONG).show();
                 });
 
         cover_pc.setOnClickListener(new View.OnClickListener() {
@@ -196,21 +182,6 @@ public class RegPujoCommittee extends AppCompatActivity {
                 pictype=10;
             }
         });
-
-//        chipGroupType.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener()
-//        {
-//            @Override
-//            public void onCheckedChanged(ChipGroup chipGroup, int i) {
-//
-//                chip = chipGroup.findViewById(i);
-//                //chip.setChipBackgroundColorResource(R.color.colorPrimaryDark);
-//                stype = chip.getText().toString();
-//                BasicUtility.showToast(getApplicationContext(),stype);
-//
-//            }
-//        });
-
-
 
         etcity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -534,14 +505,6 @@ public class RegPujoCommittee extends AppCompatActivity {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 
-//                Bitmap bitmap = null;
-//                try {
-//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), resultUri);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 if(pictype==0){
                     pic = baos.toByteArray();
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(pic, 0 , pic.length);
@@ -561,201 +524,6 @@ public class RegPujoCommittee extends AppCompatActivity {
             }
             ////////////////////////CROP//////////////////////
         }
-    }
-
-    class ImageCompressor extends AsyncTask<Void, Void, byte[]> {
-
-        private final float maxHeight = 1080.0f;
-        private final float maxWidth = 720.0f;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        public byte[] doInBackground(Void... strings) {
-
-            if(pictype==0) {
-                Bitmap scaledBitmap = null;
-
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                Bitmap bmp = BitmapFactory.decodeByteArray(pic, 0, pic.length, options);
-
-                int actualHeight = options.outHeight;
-                int actualWidth = options.outWidth;
-
-                float imgRatio = (float) actualWidth / (float) actualHeight;
-                float maxRatio = maxWidth / maxHeight;
-
-                if (actualHeight > maxHeight || actualWidth > maxWidth) {
-                    if (imgRatio < maxRatio) {
-                        imgRatio = maxHeight / actualHeight;
-                        actualWidth = (int) (imgRatio * actualWidth);
-                        actualHeight = (int) maxHeight;
-                    } else if (imgRatio > maxRatio) {
-                        imgRatio = maxWidth / actualWidth;
-                        actualHeight = (int) (imgRatio * actualHeight);
-                        actualWidth = (int) maxWidth;
-                    } else {
-                        actualHeight = (int) maxHeight;
-                        actualWidth = (int) maxWidth;
-
-                    }
-                }
-
-                options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-                options.inJustDecodeBounds = false;
-                options.inDither = false;
-                options.inPurgeable = true;
-                options.inInputShareable = true;
-                options.inTempStorage = new byte[16 * 1024];
-
-                try {
-                    bmp = BitmapFactory.decodeByteArray(pic, 0, pic.length, options);
-                } catch (OutOfMemoryError exception) {
-                    exception.printStackTrace();
-                }
-
-                try {
-                    scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
-                } catch (OutOfMemoryError exception) {
-                    exception.printStackTrace();
-                }
-
-                float ratioX = actualWidth / (float) options.outWidth;
-                float ratioY = actualHeight / (float) options.outHeight;
-                float middleX = actualWidth / 4.0f;
-                float middleY = actualHeight / 4.0f;
-
-                Matrix scaleMatrix = new Matrix();
-                scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-                Canvas canvas = new Canvas(scaledBitmap);
-                canvas.setMatrix(scaleMatrix);
-                canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 4, middleY - bmp.getHeight() / 4, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-                if (bmp != null) {
-                    bmp.recycle();
-                }
-                scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight());
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-                byte[] by = out.toByteArray();
-                return by;
-            }
-            else if(pictype==1){
-                Bitmap scaledBitmap = null;
-
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-                Bitmap bmp = BitmapFactory.decodeByteArray(coverpicbyte, 0, coverpicbyte.length, options);
-
-                int actualHeight = options.outHeight;
-                int actualWidth = options.outWidth;
-
-                float imgRatio = (float) actualWidth / (float) actualHeight;
-                float maxRatio = maxWidth / maxHeight;
-
-                if (actualHeight > maxHeight || actualWidth > maxWidth) {
-                    if (imgRatio < maxRatio) {
-                        imgRatio = maxHeight / actualHeight;
-                        actualWidth = (int) (imgRatio * actualWidth);
-                        actualHeight = (int) maxHeight;
-                    } else if (imgRatio > maxRatio) {
-                        imgRatio = maxWidth / actualWidth;
-                        actualHeight = (int) (imgRatio * actualHeight);
-                        actualWidth = (int) maxWidth;
-                    } else {
-                        actualHeight = (int) maxHeight;
-                        actualWidth = (int) maxWidth;
-
-                    }
-                }
-
-                options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
-                options.inJustDecodeBounds = false;
-                options.inDither = false;
-                options.inPurgeable = true;
-                options.inInputShareable = true;
-                options.inTempStorage = new byte[16 * 1024];
-
-                try {
-                    bmp = BitmapFactory.decodeByteArray(coverpicbyte, 0, coverpicbyte.length, options);
-                } catch (OutOfMemoryError exception) {
-                    exception.printStackTrace();
-                }
-
-                try {
-                    scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.RGB_565);
-                } catch (OutOfMemoryError exception) {
-                    exception.printStackTrace();
-                }
-
-                float ratioX = actualWidth / (float) options.outWidth;
-                float ratioY = actualHeight / (float) options.outHeight;
-                float middleX = actualWidth / 4.0f;
-                float middleY = actualHeight / 4.0f;
-
-                Matrix scaleMatrix = new Matrix();
-                scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
-
-                Canvas canvas = new Canvas(scaledBitmap);
-                canvas.setMatrix(scaleMatrix);
-                canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 4, middleY - bmp.getHeight() / 4, new Paint(Paint.FILTER_BITMAP_FLAG));
-
-                if (bmp != null) {
-                    bmp.recycle();
-                }
-                scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight());
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 60, out);
-                byte[] by = out.toByteArray();
-                return by;
-            }
-            else{
-                return new byte[0];
-            }
-        }
-
-        @Override
-        protected void onPostExecute(byte[] picCompressed) {
-            if(picCompressed!= null) {
-
-                if(pictype==0){
-                    pic = picCompressed;
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 , picCompressed.length);
-                    dp_pc.setImageBitmap(bitmap);
-                }
-                else if(pictype==1){
-                    coverpicbyte = picCompressed;
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(picCompressed, 0 , picCompressed.length);
-                    cover_pc.setImageBitmap(bitmap);
-                }
-            }
-        }
-
-        private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-            final int height = options.outHeight;
-            final int width = options.outWidth;
-            int inSampleSize = 1;
-
-            if (height > reqHeight || width > reqWidth) {
-                final int heightRatio = Math.round((float) height / (float) reqHeight);
-                final int widthRatio = Math.round((float) width / (float) reqWidth);
-                inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
-            }
-            final float totalPixels = width * height;
-            final float totalReqPixelsCap = reqWidth * reqHeight * 4;
-
-            while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
-                inSampleSize++;
-            }
-
-            return inSampleSize;
-        }
-
     }
 
 }

@@ -188,18 +188,12 @@ public class ActivityProfileUser extends AppCompatActivity {
 //        contentProgress = findViewById(R.id.content_progress);
 //        progressMore = findViewById(R.id.progress_more);
         editProfile = findViewById(R.id.edit_profile);
-//        emptyLayout = findViewById(R.id.emptyLayout);
+
 
         fireuser = FirebaseAuth.getInstance().getCurrentUser();
-//        floatingActionButton = findViewById(R.id.to_the_top_profile);
-
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
 
-        //////////////POSTS SETUP////////////////////
-//        swipeRefreshLayout= findViewById(R.id.swiperefresh1);
-//        mRecyclerView = findViewById(R.id.your_posts_recycler);
-        //////////////POSTS SETUP////////////////////
 
         ///////////////CHECK UID TO SET VISIBILITY FOR THE EDIT PROFILE ACTIVITY///////////////
         if(getIntent() != null && getIntent().getStringExtra("uid")!=null){
