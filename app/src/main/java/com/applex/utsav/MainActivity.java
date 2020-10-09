@@ -330,20 +330,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Picasso.get().load(PROFILEPIC).into(displaypic);
                     }
                 });
-                Picasso.get()
-                        .load(PROFILEPIC)
-                        .error(R.drawable.image_background_grey)
-                        .placeholder(R.drawable.image_background_grey)
-                        .networkPolicy(NetworkPolicy.OFFLINE).into(toolbarImage, new Callback() {
-                    @Override
-                    public void onSuccess() {
 
-                    }
-                    @Override
-                    public void onError(Exception e) {
-                        Picasso.get().load(PROFILEPIC).into(toolbarImage);
-                    }
-                });
+//                Picasso.get()
+//                        .load(PROFILEPIC)
+//                        .error(R.drawable.image_background_grey)
+//                        .placeholder(R.drawable.image_background_grey)
+//                        .networkPolicy(NetworkPolicy.OFFLINE).into(toolbarImage, new Callback() {
+//                    @Override
+//                    public void onSuccess() {
+//
+//                    }
+//                    @Override
+//                    public void onError(Exception e) {
+//                        Picasso.get().load(PROFILEPIC).into(toolbarImage);
+//                    }
+//                });
             }
 
         if(TYPE.matches("indi")){
