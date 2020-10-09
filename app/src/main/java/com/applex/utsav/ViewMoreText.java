@@ -551,35 +551,13 @@ public class ViewMoreText extends AppCompatActivity {
             String pCom_ts;
 
 //            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
-            docRef = FirebaseFirestore.getInstance().document("Feeds/" + homeTextModel[0].getDocID() + "/");
-            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + homeTextModel[0].getDocID() + "/flameL");
             postID = getIntent().getExtras().getString("postID");
             type = getIntent().getExtras().getString("type");
             ts = getIntent().getExtras().getString("ts");
             pCom_ts = getIntent().getExtras().getString("pCom_ts");
 
-            if(type != null) {
-                if(type.matches("flame")) {
-                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
-                    bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                }
-                else if (type.matches("comment")) {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", null, homeTextModel[0].getCmtNo(), null, null);
-                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                }
-                else if(type.matches("comment_flame")) {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, null);
-                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                }
-                else if(type.matches("comment_reply")) {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, null);
-                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                }
-                else if(type.matches("comment_reply_flame")) {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, pCom_ts);
-                    bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
-                }
-            }
+            docRef = FirebaseFirestore.getInstance().document("Feeds/" + postID + "/");
+            flamedRef = FirebaseFirestore.getInstance().collection("Feeds/" + postID + "/flameL");
 
             FirebaseFirestore.getInstance().document("Feeds/" + postID + "/").get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -588,6 +566,29 @@ public class ViewMoreText extends AppCompatActivity {
                             if (task.getResult().exists()) {
                                 homeTextModel[0] = task.getResult().toObject(HomePostModel.class);
                                 homeTextModel[0].setDocID(task.getResult().getId());
+
+                                if(type != null) {
+                                    if(type.matches("flame")) {
+                                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homeTextModel[0].getDocID());
+                                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                                    }
+                                    else if (type.matches("comment")) {
+                                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", null, homeTextModel[0].getCmtNo(), null, null);
+                                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                                    }
+                                    else if(type.matches("comment_flame")) {
+                                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, null);
+                                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                                    }
+                                    else if(type.matches("comment_reply")) {
+                                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, null);
+                                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                                    }
+                                    else if(type.matches("comment_reply_flame")) {
+                                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", homeTextModel[0].getDocID(), homeTextModel[0].getUid(), 2, "ViewMoreText", type, homeTextModel[0].getCmtNo(), ts, pCom_ts);
+                                        bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
+                                    }
+                                }
 
                                 //SETTING DATABASE REF WRT BOOL VALUE//
                                 docRef = FirebaseFirestore.getInstance().document("Feeds/" + homeTextModel[0].getDocID() + "/");

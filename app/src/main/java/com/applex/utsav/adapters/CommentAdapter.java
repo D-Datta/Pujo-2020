@@ -3,10 +3,7 @@ package com.applex.utsav.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
@@ -38,8 +35,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -328,7 +323,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
             if(currentItem.getLikeL() != null && currentItem.getLikeL().size() > 0){
                 BottomFlamedByDialog2 bottomSheetDialog = null;
                     if(bool == 1) {
-                        bottomSheetDialog = new BottomFlamedByDialog2("Home", currentItem.getPostID(), currentItem.getDocID());
+                        bottomSheetDialog = new BottomFlamedByDialog2("Feeds", currentItem.getPostID(), currentItem.getDocID());
                     } else if(bool == 2) {
                         bottomSheetDialog = new BottomFlamedByDialog2("Reels", currentItem.getPostID(), currentItem.getDocID());
                     }
