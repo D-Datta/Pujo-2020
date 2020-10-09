@@ -318,7 +318,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             upvote_anim.playAnimation();
 
                             try {
-                                AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("dhak.mp3");
+                                AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("fireworks.mp3");
                                 MediaPlayer player = new MediaPlayer();
                                 player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                                 player.prepare();
