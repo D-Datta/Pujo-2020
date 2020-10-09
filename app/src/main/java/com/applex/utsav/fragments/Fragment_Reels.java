@@ -55,9 +55,21 @@ public class Fragment_Reels extends Fragment {
     private ProgressDialog progressDialog;
     private String uid;
 
-    public Fragment_Reels(String uid) {
-        this.uid = uid;
+    public Fragment_Reels() {
+        // Required empty public constructor
     }
+
+    public static Fragment_Reels newInstance(String id) {
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        Fragment_Reels f = new Fragment_Reels();
+        f.setArguments(args);
+        return f;
+    }
+
+//    public Fragment_Reels(String uid) {
+//        this.uid = uid;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +85,7 @@ public class Fragment_Reels extends Fragment {
         contentprogressreels = view.findViewById(R.id.content_progress_reels);
         progressmorereels = view.findViewById(R.id.progress_more_reels);
         noneImage = view.findViewById(R.id.none_image);
+        uid = Objects.requireNonNull(getArguments()).getString("id");
 
         recyclerview.setHasFixedSize(false);
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);

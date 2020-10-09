@@ -504,7 +504,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("type", currentItem.getType());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                                 programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
-                        startActivity(intent, optionsCompat.toBundle());
+                        startActivity(intent);
                     });
 
                     programmingViewHolder.head_content.setOnClickListener(v -> {
@@ -530,7 +530,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("type", currentItem.getType());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                                 programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
-                        startActivity(intent, optionsCompat.toBundle());
+                        startActivity(intent);
                     });
                 }
                 else {
@@ -686,7 +686,7 @@ public class CommitteeFragment extends Fragment {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     try {
                         AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
@@ -703,7 +703,7 @@ public class CommitteeFragment extends Fragment {
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -810,17 +810,17 @@ public class CommitteeFragment extends Fragment {
                     }
 
                     ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 } else {

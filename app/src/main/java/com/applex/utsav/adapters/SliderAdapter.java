@@ -116,8 +116,8 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 intent.putExtra("timestamp", Long.toString(model.getTs()));
                 intent.putExtra("type", model.getType());
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext,
-                        sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(sliderView)));
-                mContext.startActivity(intent, optionsCompat.toBundle());
+                        viewHolder.imageViewBackground, Objects.requireNonNull(ViewCompat.getTransitionName(viewHolder.imageViewBackground)));
+                mContext.startActivity(intent);
             }
         });
 

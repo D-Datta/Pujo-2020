@@ -25,7 +25,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommentEdit;
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
@@ -34,7 +33,6 @@ import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
-import com.applex.utsav.fragments.Fragment_Posts;
 import com.applex.utsav.fragments.Fragment_Posts_Users;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -64,7 +62,7 @@ public class BottomCommentsDialog extends DialogFragment {
     private ProgressBar progressBar, progressComment;
     private String docID,root,from;
     private DocumentSnapshot lastVisible;
-    private int checkGetMore = -1, bool;
+    private int checkGetMore = -1;
     private EditText newComment;
     private ImageView send, commentimg;
     private DocumentReference docRef;
@@ -79,17 +77,37 @@ public class BottomCommentsDialog extends DialogFragment {
     private long cmntno, finalcmntno;
     private int getBool;
 
-    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts, String pCom_ts) {
-        this.root = root;
-        this.docID = docID;
-        this.uid = uid;
-        this.bool = bool;
-        this.from = from;
-        this.type = type;
-        this.cmntno = cmntno;
-        this.ts = ts;
-        this.pCom_ts = pCom_ts;
+    public BottomCommentsDialog() {
+        // Required empty public constructor
     }
+
+    public static BottomCommentsDialog newInstance(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts, String pCom_ts) {
+        Bundle args = new Bundle();
+        args.putString("root", root);
+        args.putString("docID", docID);
+        args.putString("uid", uid);
+        args.putInt("bool", bool);
+        args.putString("from", from);
+        args.putString("type", type);
+        args.putLong("cmntno", cmntno);
+        args.putString("ts", ts);
+        args.putString("pCom_ts", pCom_ts);
+        BottomCommentsDialog f = new BottomCommentsDialog();
+        f.setArguments(args);
+        return f;
+    }
+
+//    public BottomCommentsDialog(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts, String pCom_ts) {
+//        this.root = root;
+//        this.docID = docID;
+//        this.uid = uid;
+//        this.bool = bool;
+//        this.from = from;
+//        this.type = type;
+//        this.cmntno = cmntno;
+//        this.ts = ts;
+//        this.pCom_ts = pCom_ts;
+//    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
@@ -97,6 +115,17 @@ public class BottomCommentsDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheetcomments, container, false);
         EditText newComment = view.findViewById(R.id.new_comment);
+
+        root = Objects.requireNonNull(getArguments()).getString("root");
+        docID = Objects.requireNonNull(getArguments()).getString("docID");
+        uid = Objects.requireNonNull(getArguments()).getString("uid");
+        int bool = Objects.requireNonNull(getArguments()).getInt("bool");
+        from = Objects.requireNonNull(getArguments()).getString("from");
+        type = Objects.requireNonNull(getArguments()).getString("type");
+        cmntno = Objects.requireNonNull(getArguments()).getLong("cmntno");
+        ts = Objects.requireNonNull(getArguments()).getString("ts");
+        pCom_ts = Objects.requireNonNull(getArguments()).getString("pCom_ts");
+
         if(bool == 1) {
             newComment.requestFocus();
             Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);

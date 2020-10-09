@@ -296,8 +296,8 @@ public class ActivityProfileUser extends AppCompatActivity {
     }
     private void setupViewPager(ViewPager viewPager) {
         ProfileAdapter profileAdapter = new ProfileAdapter(getSupportFragmentManager());
-        profileAdapter.addFragment(new Fragment_Posts_Users(my_uid), "Posts");
-        profileAdapter.addFragment(new Fragment_Reels_Users(my_uid),"Clips");
+        profileAdapter.addFragment(Fragment_Posts_Users.newInstance(my_uid), "Posts");
+        profileAdapter.addFragment(Fragment_Reels_Users.newInstance(my_uid),"Clips");
 
         viewPager.setAdapter(profileAdapter);
 

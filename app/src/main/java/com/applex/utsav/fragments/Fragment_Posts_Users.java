@@ -101,9 +101,18 @@ public class Fragment_Posts_Users extends Fragment {
     public Fragment_Posts_Users() {
         // Required empty public constructor
     }
-    public Fragment_Posts_Users(String uid){
-        this.my_uid = uid;
+
+    public static Fragment_Posts_Users newInstance(String id) {
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        Fragment_Posts_Users f = new Fragment_Posts_Users();
+        f.setArguments(args);
+        return f;
     }
+
+//    public Fragment_Posts_Users(String uid){
+//        this.my_uid = uid;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,6 +133,7 @@ public class Fragment_Posts_Users extends Fragment {
         introPref = new IntroPref(requireActivity());
         Userprofilepic =  introPref.getUserdp();
         USERNAME = introPref.getFullName();
+        my_uid = Objects.requireNonNull(getArguments()).getString("id");
 
         mRecyclerView.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -539,7 +549,7 @@ public class Fragment_Posts_Users extends Fragment {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(getFragmentManager(), "CommentsSheet");
                     try {
                         AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
@@ -556,7 +566,7 @@ public class Fragment_Posts_Users extends Fragment {
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(getFragmentManager(), "CommentsSheet");
                 });
 
@@ -576,8 +586,8 @@ public class Fragment_Posts_Users extends Fragment {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
                         programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
@@ -664,18 +674,18 @@ public class Fragment_Posts_Users extends Fragment {
                         programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    programmingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                    ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(getFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(getFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v-> {
-                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(getFragmentManager(), "CommentsSheet");
                     });
                 }
