@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
+import com.google.android.gms.common.util.Base64Utils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -212,6 +214,7 @@ public class BottomCommentsDialog extends DialogFragment {
                 else {
                     send.setVisibility(View.GONE);
                     progressComment.setVisibility(View.VISIBLE);
+
                     String comment = newComment.getText().toString().trim();
                     long tsLong = System.currentTimeMillis();
                     CommentModel commentModel = new CommentModel();
@@ -538,4 +541,17 @@ public class BottomCommentsDialog extends DialogFragment {
             }
         });
     }
+
+//    private class PostCommentBg extends AsyncTask<Void,Void, Void> {
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            BasicUtility.showToast(getActivity(),"Comment Posted");
+//        }
+//    }
 }
