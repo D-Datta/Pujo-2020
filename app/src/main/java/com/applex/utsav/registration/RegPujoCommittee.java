@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +76,9 @@ public class RegPujoCommittee extends AppCompatActivity {
     private Chip chip;
     private ChipGroup chipGroupType;
 
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+
     private DocumentReference docrefBase, docrefCommittee, docref2, docref3;
     private BaseUserModel baseUserModel;
     private IntroPref introPref;
@@ -119,7 +124,9 @@ public class RegPujoCommittee extends AppCompatActivity {
         edit_cover_pc = findViewById(R.id.reg_edit_coverpic_icon_pc);
         edit_dp_pc = findViewById(R.id.reg_edit_dp_pc);
         etpin = findViewById(R.id.committee_pin);
-        chipGroupType = findViewById(R.id.type);
+        radioGroup = findViewById(R.id.radiogroup);
+
+//        chipGroupType = findViewById(R.id.type);
 
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -190,18 +197,18 @@ public class RegPujoCommittee extends AppCompatActivity {
             }
         });
 
-        chipGroupType.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener()
-        {
-            @Override
-            public void onCheckedChanged(ChipGroup chipGroup, int i) {
-
-                chip = chipGroup.findViewById(i);
-                //chip.setChipBackgroundColorResource(R.color.colorPrimaryDark);
-                stype = chip.getText().toString();
-                BasicUtility.showToast(getApplicationContext(),stype);
-
-            }
-        });
+//        chipGroupType.setOnCheckedChangeListener(new ChipGroup.OnCheckedChangeListener()
+//        {
+//            @Override
+//            public void onCheckedChanged(ChipGroup chipGroup, int i) {
+//
+//                chip = chipGroup.findViewById(i);
+//                //chip.setChipBackgroundColorResource(R.color.colorPrimaryDark);
+//                stype = chip.getText().toString();
+//                BasicUtility.showToast(getApplicationContext(),stype);
+//
+//            }
+//        });
 
 
 
@@ -232,11 +239,14 @@ public class RegPujoCommittee extends AppCompatActivity {
 
                 scommitteename = etcommitteename.getText().toString().trim();
                 sdescription = etdescription.getText().toString().trim();
-//                stype = ettype.getText().toString().trim();
                 saddress = etaddressline.getText().toString().trim();
                 scity = etcity.getText().toString().trim();
                 sstate = etstate.getText().toString().trim();
                 spin = etpin.getText().toString().trim();
+
+                int selectedType = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(selectedType);
+                stype = radioButton.getText().toString().trim();
 
 
                 if (scommitteename.isEmpty() || scity.isEmpty() ||stype.isEmpty() || saddress.isEmpty()
