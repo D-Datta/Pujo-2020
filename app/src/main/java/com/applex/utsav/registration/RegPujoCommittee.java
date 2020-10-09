@@ -196,12 +196,14 @@ public class RegPujoCommittee extends AppCompatActivity {
             public void onCheckedChanged(ChipGroup chipGroup, int i) {
 
                 chip = chipGroup.findViewById(i);
-//                chip.setChipBackgroundColorResource(R.color.red);
+                //chip.setChipBackgroundColorResource(R.color.colorPrimaryDark);
                 stype = chip.getText().toString();
                 BasicUtility.showToast(getApplicationContext(),stype);
 
             }
         });
+
+
 
         etcity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +213,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         etstate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

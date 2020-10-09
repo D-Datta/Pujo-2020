@@ -388,10 +388,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
                         app:chipSpacingHorizontal="10dp"
-                        app:singleLine="true"
-                        app:singleSelection="true">
+                        app:singleSelection="true"
+                        android:paddingVertical="10dp"
+                        android:paddingStart="10dp">
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/sarbojonin"
@@ -402,11 +404,12 @@
                             android:checkable="true"
                             android:clickable="true"
                             android:fontFamily="@font/oxygen_ex_bold"
-                            android:text="Sarbojonin"
+                            android:text="@string/sarbojonin"
                             android:textColor="@color/black"
                             android:textAlignment="center"
                             android:gravity="center"
                             android:textStyle="bold"
+                            app:chipBackgroundColor="@color/white"
                             app:checkedIconVisible="false"
                             app:chipStrokeColor="@color/colorPrimary"
                             app:chipStrokeWidth="1dp"
@@ -421,11 +424,12 @@
                             android:checkable="true"
                             android:clickable="true"
                             android:fontFamily="@font/oxygen_ex_bold"
-                            android:text="Bonedi Bari"
+                            android:text="@string/bonedi_bari"
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:textAlignment="center"
                             app:checkedIconVisible="false"
+                            app:chipBackgroundColor="@color/white"
                             app:chipStrokeColor="@color/colorPrimaryDark"
                             app:chipStrokeWidth="1dp"
                             android:focusable="true" />
@@ -439,10 +443,11 @@
                             android:checkable="true"
                             android:clickable="true"
                             android:fontFamily="@font/oxygen_ex_bold"
-                            android:text="Barir pujo"
+                            android:text="@string/abashon"
                             android:textColor="@color/black"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            app:chipBackgroundColor="@color/white"
                             app:checkedIconVisible="false"
                             app:chipStrokeColor="@color/colorPrimary"
                             app:chipStrokeWidth="1dp"
@@ -472,12 +477,6 @@
 
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/colorPrimary"/>
 
     </LinearLayout>
 
