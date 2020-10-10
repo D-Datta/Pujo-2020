@@ -87,7 +87,6 @@ public class FragmentClips extends Fragment {
     private Dialog postMenuDialog;
     private RecyclerView mRecyclerView;
     private String USERDP, USERNAME, link;
-    private boolean isVolumeOn = true;
 
     public FragmentClips() {
         // Required empty public constructor
