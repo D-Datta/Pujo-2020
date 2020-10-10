@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".fragments.FragmentClips"></activity>
+        <activity android:name=".fragments.AllPujoFragment" />
+        <activity android:name=".SearchActivity" />
         <activity android:name=".HashtagPostViewAll" />
         <activity
             android:name=".LanguageChoice"

@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
+import com.applex.utsav.fragments.AllPujoFragment;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.BaseUserModel;
@@ -237,12 +238,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         tabs.getTabAt(0);
         tabs.getTabAt(1);
+        tabs.getTabAt(2);
+        tabs.getTabAt(3);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
         tabAdapter.addFragment(new CommitteeFragment(), getResources().getText(R.string.pujo).toString());
         tabAdapter.addFragment(new FeedsFragment(),getResources().getText(R.string.people).toString());
+        tabAdapter.addFragment(new FeedsFragment(),getResources().getText(R.string.clips).toString());
+        tabAdapter.addFragment(new AllPujoFragment(),getResources().getText(R.string.all_pujo).toString());
         viewPager.setAdapter(tabAdapter);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
