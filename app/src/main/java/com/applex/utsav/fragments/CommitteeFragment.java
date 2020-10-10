@@ -1497,7 +1497,6 @@ public class CommitteeFragment extends Fragment {
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
     }
 
-    //erpor ki korbo bolis
     @Override
     public void onResume() {
         if((changed > 0 || delete > 0)) {

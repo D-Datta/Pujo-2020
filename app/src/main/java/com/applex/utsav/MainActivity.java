@@ -246,9 +246,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupViewPager(ViewPager viewPager) {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
         tabAdapter.addFragment(new CommitteeFragment(), getResources().getText(R.string.pujo).toString());
-        tabAdapter.addFragment(new FeedsFragment(),getResources().getText(R.string.people).toString());
-        tabAdapter.addFragment(new FragmentClips(),getResources().getText(R.string.clips).toString());
-        tabAdapter.addFragment(new AllPujoFragment(),getResources().getText(R.string.all_pujo).toString());
+        tabAdapter.addFragment(new FeedsFragment(), getResources().getText(R.string.people).toString());
+        tabAdapter.addFragment(new FragmentClips(), getResources().getText(R.string.clips).toString());
+        tabAdapter.addFragment(new AllPujoFragment(), getResources().getText(R.string.all_pujo).toString());
         viewPager.setAdapter(tabAdapter);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -359,13 +359,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(TYPE.matches("com")){
             com_data.setVisibility(View.VISIBLE);
             FirebaseFirestore.getInstance().collection("Users")
-                    .document(FirebaseAuth.getInstance().getUid()).get()
+                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()){
-                                BaseUserModel baseUserModel = task.getResult().toObject(BaseUserModel.class);
-                                if(baseUserModel.getPujoVisits() > 1) {
+                                BaseUserModel baseUserModel = Objects.requireNonNull(task.getResult()).toObject(BaseUserModel.class);
+                                if(Objects.requireNonNull(baseUserModel).getPujoVisits() > 1) {
                                     if(baseUserModel.getPujoVisits() > 1000) {
                                         visits.setText(baseUserModel.getPujoVisits()/1000 + "." + (baseUserModel.getPujoVisits() % 1000)/100 + "K");
                                     } else {

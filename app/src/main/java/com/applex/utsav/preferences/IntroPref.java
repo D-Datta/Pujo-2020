@@ -33,6 +33,7 @@ public class IntroPref {
     private static final String BATCHID = "batchID";
     private static final String CITY = "city";
     private static final String LANGUAGE = "language";
+    private static final String VOLUME = "volume";
     private Gson gson;
 
     @SuppressLint("CommitPrefEdits")
@@ -45,9 +46,8 @@ public class IntroPref {
         gson = new Gson();
     }
 
-    public void setIsFirstTimeLaunch(boolean firstTimeLaunch)
-    {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH,firstTimeLaunch);
+    public void setIsFirstTimeLaunch(boolean firstTimeLaunch) {
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH, firstTimeLaunch);
         editor.commit();
     }
 
@@ -121,32 +121,14 @@ public class IntroPref {
     }
     ///TYPE///
 
-    ///PREPTOTAL FOLDER///
-    public String getFolderID() { return preferences.getString(FOLDER, null); }
-
-    public void setFolderID(String folderID) {
-        editor.putString(FOLDER, folderID);
-        editor.apply();
+    public void setIsVolumeOn(boolean volume) {
+        editor.putBoolean(VOLUME, volume);
+        editor.commit();
     }
-    ///PREPTOTAL FOLDER///
 
-    ///ALL OTHER FOLDERS///
-    public String getSpecificFolderID(String folder) { return preferences.getString(folder, null); }
-
-    public void setSpecificFolderID(String folder, String folderID) {
-        editor.putString(folder, folderID);
-        editor.apply();
+    public boolean isVolumeOn(){
+        return preferences.getBoolean(VOLUME,true);
     }
-    ///ALL OTHER FOLDERS///
-
-    ///BATCH ID///
-    public String getBatchID() { return preferences.getString(BATCHID, null); }
-
-    public void setBatchID(String batchID) {
-        editor.putString(BATCHID, batchID);
-        editor.apply();
-    }
-    ///BATCH ID///
 
     public GoogleSignInAccount getGoogleSignInAccount() {
         Gson gson = new GsonBuilder()

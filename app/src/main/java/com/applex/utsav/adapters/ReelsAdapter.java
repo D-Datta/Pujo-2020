@@ -242,8 +242,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                 .setOnClickListener(v -> {
 
-                    //play animation, play audio
-
                     if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
                         holder.like.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
                         if (currentItem.getLikeL().size() - 1 == 0) {
@@ -361,6 +359,9 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             else if (bool.matches("2")){
                 link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
             }
+            else if (bool.matches("3")){
+                link = "https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+            }
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
             i.putExtra(Intent.EXTRA_TEXT, link);
@@ -383,8 +384,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
         holder.reels_video.setOnPreparedListener(mediaPlayer -> {
-            MediaPlayer mp = MediaPlayer.create(context, uri);
-            mp.setLooping(true);
+            mediaPlayer.setLooping(true);
             holder.pujo_headline.setSelected(true);
             holder.video_playing.playAnimation();
             holder.play_image.setVisibility(View.GONE);
@@ -480,6 +480,13 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     .limit(1)
                     .startAfter(reelslastVisible);
         }
+        else if(bool.matches("3")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .orderBy("newTs", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .startAfter(reelslastVisible);
+        }
 
         Objects.requireNonNull(query).get().addOnCompleteListener(task -> {
             if(task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
@@ -513,6 +520,13 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     .collection("Reels")
                     .whereEqualTo("uid", uid)
                     .orderBy("ts", Query.Direction.ASCENDING)
+                    .limit(1)
+                    .startAfter(reelslastVisible);
+        }
+        else if(bool.matches("3")) {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Reels")
+                    .orderBy("newTs", Query.Direction.ASCENDING)
                     .limit(1)
                     .startAfter(reelslastVisible);
         }

@@ -34,6 +34,7 @@ import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.fragments.FragmentClips;
 import com.applex.utsav.fragments.Fragment_Posts_Users;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -289,6 +290,10 @@ public class BottomCommentsDialog extends DialogFragment {
                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
+                                    else if(from.matches("FragmentClips")) {
+                                        FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    }
                                 });
                             }
                         }
@@ -436,6 +441,9 @@ public class BottomCommentsDialog extends DialogFragment {
                                                     else if(from.matches("FeedsFragment")){
                                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
+                                                    else if(from.matches("FragmentClips")){
+                                                        FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                    }
                                                 } else {
                                                     if(from.matches("ActivityProfileUser")){
                                                         Fragment_Posts_Users.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
@@ -448,6 +456,10 @@ public class BottomCommentsDialog extends DialogFragment {
                                                     else if(from.matches("FeedsFragment")){
                                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                    }
+                                                    else if(from.matches("FeedsFragment")){
+                                                        FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
                                                 }
                                             });
@@ -465,7 +477,6 @@ public class BottomCommentsDialog extends DialogFragment {
                                 ///////////////////BATCH WRITE///////////////////
 
                                 if(models.size() == 0) {
-                                    commentimg.setImageResource(R.drawable.ic_comment);
                                     no_comment.setVisibility(View.VISIBLE);
                                 }
                                 commentMenuDialog.dismiss();

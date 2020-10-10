@@ -100,6 +100,13 @@ public class ReelsActivity extends AppCompatActivity {
                             .limit(1)
                             .startAfter(document);
                 }
+                else if(bool.matches("3")) {
+                    query_desc = FirebaseFirestore.getInstance()
+                            .collection("Reels")
+                            .orderBy("newTs", Query.Direction.DESCENDING)
+                            .limit(1)
+                            .startAfter(document);
+                }
 
                 Objects.requireNonNull(query_desc).get().addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful() && Objects.requireNonNull(task1.getResult()).getDocuments().size() != 0) {

@@ -6,30 +6,22 @@ import java.util.ArrayList;
 
 public class ReelsPostModel {
 
-    private String committee_name;
-    private String description;
-    private String duration;
-    private String video;
-    private String committee_dp;
-    private String docID;
-    private String headline;
-    private String frame;
-    private String type;
-
-    private long videoViews;
-
-    private String uid;
-
-    private long ts;
-    private long cmtNo;
+    private String committee_name, description, duration, video, committee_dp, docID, headline, frame, type, uid;
+    private long ts, newTs, cmtNo, videoViews;
 
     private ArrayList<String> likeL;
+    private ArrayList<String> tagList;
+    private ArrayList<TagModel> tagL;
+    private ArrayList<String> reportL;
 
-    @Exclude
-    private int likeCheck;
+    private String com1_usn, com1_dp, com1, com1_uid, com1_gender;
+    private String com2_usn, com2_dp, com2, com2_uid, com2_gender;
+    private long com1_ts, com2_ts;
 
     private PujoTagModel pujoTag;
 
+    @Exclude
+    private int likeCheck;
 
     public ReelsPostModel() {
         likeCheck = -1;
@@ -86,8 +78,6 @@ public class ReelsPostModel {
     public void setReportL(ArrayList<String> reportL) {
         this.reportL = reportL;
     }
-
-    private ArrayList<String> reportL;
 
     public long getTs() {
         return ts;
@@ -164,7 +154,6 @@ public class ReelsPostModel {
         this.videoViews = videoViews;
     }
 
-
     public PujoTagModel getPujoTag() {
         return pujoTag;
     }
@@ -181,4 +170,123 @@ public class ReelsPostModel {
         this.type = type;
     }
 
+    public long getNewTs() {
+        return newTs;
+    }
+
+    public void setNewTs(long newTs) {
+        this.newTs = newTs;
+    }
+
+    public ArrayList<String> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(ArrayList<String> tagList) {
+        this.tagList = tagList;
+    }
+
+    public ArrayList<TagModel> getTagL() {
+        return tagL;
+    }
+
+    public void setTagL(ArrayList<TagModel> tagL) {
+        this.tagL = tagL;
+    }
+
+    public String getCom1_usn() {
+        return com1_usn;
+    }
+
+    public void setCom1_usn(String com1_usn) {
+        this.com1_usn = com1_usn;
+    }
+
+    public String getCom1_dp() {
+        return com1_dp;
+    }
+
+    public void setCom1_dp(String com1_dp) {
+        this.com1_dp = com1_dp;
+    }
+
+    public String getCom1() {
+        return com1;
+    }
+
+    public void setCom1(String com1) {
+        this.com1 = com1;
+    }
+
+    public String getCom1_uid() {
+        return com1_uid;
+    }
+
+    public void setCom1_uid(String com1_uid) {
+        this.com1_uid = com1_uid;
+    }
+
+    public String getCom1_gender() {
+        return com1_gender;
+    }
+
+    public void setCom1_gender(String com1_gender) {
+        this.com1_gender = com1_gender;
+    }
+
+    public String getCom2_usn() {
+        return com2_usn;
+    }
+
+    public void setCom2_usn(String com2_usn) {
+        this.com2_usn = com2_usn;
+    }
+
+    public String getCom2_dp() {
+        return com2_dp;
+    }
+
+    public void setCom2_dp(String com2_dp) {
+        this.com2_dp = com2_dp;
+    }
+
+    public String getCom2() {
+        return com2;
+    }
+
+    public void setCom2(String com2) {
+        this.com2 = com2;
+    }
+
+    public String getCom2_uid() {
+        return com2_uid;
+    }
+
+    public void setCom2_uid(String com2_uid) {
+        this.com2_uid = com2_uid;
+    }
+
+    public String getCom2_gender() {
+        return com2_gender;
+    }
+
+    public void setCom2_gender(String com2_gender) {
+        this.com2_gender = com2_gender;
+    }
+
+    public long getCom1_ts() {
+        return com1_ts;
+    }
+
+    public void setCom1_ts(long com1_ts) {
+        this.com1_ts = com1_ts;
+    }
+
+    public long getCom2_ts() {
+        return com2_ts;
+    }
+
+    public void setCom2_ts(long com2_ts) {
+        this.com2_ts = com2_ts;
+    }
 }
