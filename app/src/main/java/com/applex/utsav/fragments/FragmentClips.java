@@ -87,7 +87,6 @@ public class FragmentClips extends Fragment {
     private Dialog postMenuDialog;
     private RecyclerView mRecyclerView;
     private String USERDP, USERNAME, link, GENDER;
-    private boolean isVolumeOn = true;
 
     public FragmentClips() {
         // Required empty public constructor
@@ -424,11 +423,7 @@ public class FragmentClips extends Fragment {
                         programmingViewHolder.reels_image.setVisibility(View.GONE);
                         programmingViewHolder.sound.setVisibility(View.VISIBLE);
                     }, 500);
-                    if(position == 1) {
-                        programmingViewHolder.sound.setVisibility(View.GONE);
-                        programmingViewHolder.reels_video.seekTo(1);
-                        programmingViewHolder.reels_video.pause();
-                    }
+
                     mp.setLooping(true);
                     if(introPref.isVolumeOn()) {
                         mp.setVolume(1f, 1f);
