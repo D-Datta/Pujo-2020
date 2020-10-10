@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.view.Display;
@@ -50,6 +51,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
     private ArrayList<ReelsPostModel> models;
     private Context context;
+    private Uri uri;
     private IntroPref introPref;
     private String bool;
     private String uid,link;
@@ -121,6 +123,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.play_image.setVisibility(View.VISIBLE);
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
+        uri = Uri.parse(currentItem.getVideo());
         holder.reels_video.start();
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
 
@@ -379,15 +382,14 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
-        holder.reels_video.setOnPreparedListener(mediaPlayer -> new Handler().postDelayed(() -> {
-            if(mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.setLooping(true);
-                holder.pujo_headline.setSelected(true);
-                holder.video_playing.playAnimation();
-                holder.play_image.setVisibility(View.GONE);
-                holder.reels_image.setVisibility(View.GONE);
-            }
-        }, 500));
+        holder.reels_video.setOnPreparedListener(mediaPlayer -> {
+            MediaPlayer mp = MediaPlayer.create(context, uri);
+            mp.setLooping(true);
+            holder.pujo_headline.setSelected(true);
+            holder.video_playing.playAnimation();
+            holder.play_image.setVisibility(View.GONE);
+            new Handler().postDelayed(() -> holder.reels_image.setVisibility(View.GONE), 500);
+        });
     }
 
     @Override
