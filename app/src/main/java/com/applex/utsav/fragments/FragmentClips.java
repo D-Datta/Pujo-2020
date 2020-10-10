@@ -151,7 +151,6 @@ public class FragmentClips extends Fragment {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(1)
                 .setPageSize(1)
-                .setPrefetchDistance(2)
                 .setEnablePlaceholders(true)
                 .build();
 
@@ -192,7 +191,6 @@ public class FragmentClips extends Fragment {
                         } else
                             BasicUtility.showToast(getContext(), "Network Unavailable...");
                     });
-
 
                     programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
                         if (InternetConnection.checkConnection(requireActivity())) {
