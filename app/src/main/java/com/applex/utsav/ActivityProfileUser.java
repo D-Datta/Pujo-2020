@@ -1114,12 +1114,12 @@ public class ActivityProfileUser extends AppCompatActivity {
                                             .into(PCoverpic);
                                 }
 
-                                if(userModel.getDp() != null){
-                                    Picasso.get().load(userModel.getDp())
-                                            .error(R.drawable.image_background_grey)
-                                            .placeholder(R.drawable.image_background_grey)
-                                            .into(PDp);
-                                }
+//                                if(userModel.getDp() != null){
+//                                    Picasso.get().load(userModel.getDp())
+//                                            .error(R.drawable.image_background_grey)
+//                                            .placeholder(R.drawable.image_background_grey)
+//                                            .into(PDp);
+//                                }
 
 
                                 FirebaseFirestore.getInstance().collection("Users")
@@ -1182,20 +1182,37 @@ public class ActivityProfileUser extends AppCompatActivity {
                                     }
                                 }
                                 else{
-                                    Display display = getWindowManager().getDefaultDisplay();
-                                    int displayWidth = display.getWidth();
-                                    BitmapFactory.Options options = new BitmapFactory.Options();
-                                    options.inJustDecodeBounds = true;
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle_black_24dp, options);
-                                    int width = options.outWidth;
-                                    if (width > displayWidth) {
-                                        int widthRatio = Math.round((float) width / (float) displayWidth);
-                                        options.inSampleSize = widthRatio;
+                                    if(userModel.getGender()!=null){
+                                        if (userModel.getGender().matches("Female") || userModel.getGender().matches("মহিলা")){
+                                            PDp.setImageResource(R.drawable.ic_female);
+                                        }
+                                        else if (userModel.getGender().matches("Male") || userModel.getGender().matches("পুরুষ")){
+                                            PDp.setImageResource(R.drawable.ic_male);
+                                        }
+                                        else if (userModel.getGender().matches("Others") || userModel.getGender().matches("অন্যান্য")){
+                                            PDp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
                                     }
-                                    options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle_black_24dp, options);
-                                    PDp.setImageBitmap(scaledBitmap);
+                                    else{
+                                        PDp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
                                 }
+
+//                                else{
+//                                    Display display = getWindowManager().getDefaultDisplay();
+//                                    int displayWidth = display.getWidth();
+//                                    BitmapFactory.Options options = new BitmapFactory.Options();
+//                                    options.inJustDecodeBounds = true;
+//                                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle_black_24dp, options);
+//                                    int width = options.outWidth;
+//                                    if (width > displayWidth) {
+//                                        int widthRatio = Math.round((float) width / (float) displayWidth);
+//                                        options.inSampleSize = widthRatio;
+//                                    }
+//                                    options.inJustDecodeBounds = false;
+//                                    Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_account_circle_black_24dp, options);
+//                                    PDp.setImageBitmap(scaledBitmap);
+//                                }
 
                                 if(userModel.getCoverpic()!=null){
                                     COVERPIC = userModel.getCoverpic();

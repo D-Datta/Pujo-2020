@@ -30,7 +30,8 @@
                 android:layout_marginStart="10dp"
                 android:padding="10dp"
                 android:background="@drawable/custom_ripple_white"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/search_text"
@@ -48,7 +49,8 @@
                 app:layout_constraintHorizontal_bias="0.031"
                 app:layout_constraintStart_toEndOf="@+id/back"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.4" />
+                app:layout_constraintVertical_bias="0.4"
+                android:layout_marginStart="10dp"/>
 
             <ImageView
                 android:id="@+id/search"
@@ -78,7 +80,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="#F8F8F8"
             android:layout_marginBottom="7dp">
 
             <Button

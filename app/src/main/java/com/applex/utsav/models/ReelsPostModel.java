@@ -8,6 +8,7 @@ public class ReelsPostModel {
 
     private String committee_name, description, duration, video, committee_dp, docID, headline, frame, type, uid;
     private long ts, newTs, cmtNo, videoViews;
+    private String gender;
 
     private ArrayList<String> likeL;
     private ArrayList<String> tagList;
@@ -168,6 +169,14 @@ public class ReelsPostModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public long getNewTs() {

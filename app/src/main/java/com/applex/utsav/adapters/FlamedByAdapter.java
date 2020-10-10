@@ -58,43 +58,23 @@ public class FlamedByAdapter extends RecyclerView.Adapter<FlamedByAdapter.Progra
 
         String userimage_url = currentItem.getUserdp();
         if(userimage_url!=null){
-
-//            if(userimage_url.matches("0")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_1);
-//            }
-//            else if(userimage_url.matches("1")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_2);
-//            }
-//            else if(userimage_url.matches("2")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_3);
-//            }
-//            else if(userimage_url.matches("3")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_4);
-//            }
-//            else if(userimage_url.matches("4")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_5);
-//            }
-//            else if(userimage_url.matches("5")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_6);
-//            }
-//            else if(userimage_url.matches("6")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_7);
-//            }
-//            else if(userimage_url.matches("7")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_8);
-//            }
-//            else if(userimage_url.matches("8")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_9);
-//            }
-//            else if(userimage_url.matches("9")){
-//                holder.userimage.setImageResource(R.drawable.default_dp_10);
-//            }
-//            else {
-                Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.userimage);
-//            }
+            Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.userimage);
         }
         else{
-            holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            if(currentItem.getGender()!=null){
+                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                    holder.userimage.setImageResource(R.drawable.ic_female);
+                }
+                else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                    holder.userimage.setImageResource(R.drawable.ic_male);
+                }
+                else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                    holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else {
+                holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
         }
 
         holder.card.setOnClickListener(new View.OnClickListener() {

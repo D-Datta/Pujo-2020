@@ -71,7 +71,7 @@ public class AllPujoFragment extends Fragment {
         Configuration config= new Configuration();
         config.locale = locale;
         Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
-        return inflater.inflate(R.layout.activity_all_pujo_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_all_pujo, container, false);
     }
 
     @Override
@@ -107,23 +107,46 @@ public class AllPujoFragment extends Fragment {
             buildRecyclerView("name",null);
         });
 
-        sCity.setOnClickListener(view1 -> {
-            sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-            sCity.setTextColor(Color.parseColor("#ffffff"));
 
-            sName.setBackgroundResource(R.drawable.add_tags_button_background);
-            sName.setBackgroundTintList(null);
-            sName.setTextColor(Color.parseColor("#000000"));
+        sName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                sName.setTextColor(Color.parseColor("#ffffff"));
 
-            selected_button = 2;
+                sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+                sCity.setBackgroundTintList(null);
+                sCity.setTextColor(Color.parseColor("#000000"));
+
+                selected_button = 1;
+            }
         });
 
-        search.setOnClickListener(view12 -> {
-            if(!searchText.getText().toString().isEmpty()){
-                if(selected_button==1)
-                    buildRecyclerView("name",searchText.getText().toString());
-                else
-                    buildRecyclerView("city", searchText.getText().toString());
+
+        sCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                sCity.setTextColor(Color.parseColor("#ffffff"));
+
+                sName.setBackgroundResource(R.drawable.add_tags_button_background);
+                sName.setBackgroundTintList(null);
+                sName.setTextColor(Color.parseColor("#000000"));
+
+                selected_button = 2;
+            }
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!searchText.getText().toString().isEmpty()){
+                    if(selected_button==1)
+                        buildRecyclerView("name",searchText.getText().toString().trim());
+
+                    else
+                        buildRecyclerView("city", searchText.getText().toString().trim());
+                }
             }
         });
     }

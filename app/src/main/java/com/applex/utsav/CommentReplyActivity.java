@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.CommentReplyAdapter;
+import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReplyCommentModel;
@@ -81,7 +82,7 @@ public class CommentReplyActivity extends AppCompatActivity {
     private CommentReplyAdapter adapter;
 
     private IntroPref introPref;
-    private String PROFILEPIC, user_image;
+    private String PROFILEPIC, user_image, GENDER;
     private String USERNAME, UID, notifType, pCom_ts;
 
     private ArrayList<String> likeList;
@@ -140,6 +141,7 @@ public class CommentReplyActivity extends AppCompatActivity {
         UID = FirebaseAuth.getInstance().getUid();
         PROFILEPIC = introPref.getUserdp();
         USERNAME = introPref.getFullName();
+        GENDER = introPref.getGender();
 
         likeList = new ArrayList<>();
 
@@ -152,9 +154,39 @@ public class CommentReplyActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onError(Exception e) {
-                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        if(GENDER!=null){
+                            if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                                userimage_comment.setImageResource(R.drawable.ic_female);
+                            }
+                            else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                                userimage_comment.setImageResource(R.drawable.ic_male);
+                            }
+                            else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                                userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
+                        else{
+                            userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+//                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
             });
+        }
+        else{
+            if(GENDER!=null){
+                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                    userimage_comment.setImageResource(R.drawable.ic_female);
+                }
+                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                    userimage_comment.setImageResource(R.drawable.ic_male);
+                }
+                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else{
+                userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
         }
 
         //////////////////CURRENT USER DETAILS///////////////////
@@ -197,16 +229,49 @@ public class CommentReplyActivity extends AppCompatActivity {
             }
         }
 
-        Picasso.get().load(user_image).into(userimage, new Callback() {
-            @Override
-            public void onSuccess() {
+        if(user_image!=null){
+            Picasso.get().load(user_image).into(userimage, new Callback() {
+                @Override
+                public void onSuccess() {
 
+                }
+                @Override
+                public void onError(Exception e) {
+                    if(i.getStringExtra("gender")!=null){
+                        if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                            userimage.setImageResource(R.drawable.ic_female);
+                        }
+                        else if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                            userimage.setImageResource(R.drawable.ic_male);
+                        }
+                        else if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                            userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else{
+                        userimage.setImageResource(R.drawable.ic_male);
+                    }
+//                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            });
+        }
+        else{
+            if(i.getStringExtra("gender")!=null){
+                if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                    userimage.setImageResource(R.drawable.ic_female);
+                }
+                else if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                    userimage.setImageResource(R.drawable.ic_male);
+                }
+                else if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
             }
-            @Override
-            public void onError(Exception e) {
-                userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            else{
+                userimage.setImageResource(R.drawable.ic_male);
             }
-        });
+        }
+
 
         ////////////SETTING DETAILS OF THE MAIN COMMENT////////////
 
@@ -338,6 +403,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                         flamedModel.setUserdp(PROFILEPIC);
                         flamedModel.setUsername(USERNAME);
                         flamedModel.setPostUid(i.getStringExtra("uid"));
+                        flamedModel.setGender(introPref.getGender());
 
                         DocumentReference flamedDoc = flameColRef.document(FirebaseAuth.getInstance().getUid());
                         batch.update(commentDocRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
@@ -393,6 +459,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 intent.putExtra("com_bool", bool_comment);
                                 intent.putExtra("from", "yes");
                                 intent.putExtra("type", i.getStringExtra("type"));
+                                intent.putExtra("gender",i.getStringExtra("gender"));
                                 startActivity(intent);
                                 commentMenuDialog.dismiss();
                                 finish();
@@ -515,6 +582,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                     intent.putExtra("com_bool", bool_comment);
                                     intent.putExtra("from", "no");
                                     intent.putExtra("type", CommentList.get(position).getType());
+                                    intent.putExtra("gender", CommentList.get(position).getGender());
                                     startActivity(intent);
                                  //   Toast.makeText(getApplicationContext(), postCampus+ postID + docID+CommentList.get(position).getDocID() , Toast.LENGTH_LONG).show();
 
@@ -559,7 +627,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                                 commentCount--;
                                 repliedByNo.setText(String.valueOf(commentCount));
                                 if(commentCount == 0) {
-                                    replyComment.setImageResource(R.drawable.ic_comment);
+                                    replyComment.setImageResource(R.drawable.ic_conch_shell);
                                 }
 
                                 progressDialog.dismiss();
@@ -573,7 +641,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                         ///////////////////BATCH WRITE///////////////////
 
                         if(CommentList.size() == 0){
-                            replyComment.setImageResource(R.drawable.ic_comment);
+                            replyComment.setImageResource(R.drawable.ic_conch_shell);
                             repliedByNo.setText("0");
                         }
                         commentMenuDialog.dismiss();
@@ -653,6 +721,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                     commentModel1.setpComID(docID);
                     commentModel1.setType(introPref.getType());
                     commentModel1.setComUid(i.getStringExtra("pComUid"));
+                    commentModel1.setGender(introPref.getGender());
 
                     newComment.setText("");
                     CommentList.add(0,commentModel1);
@@ -750,7 +819,7 @@ public class CommentReplyActivity extends AppCompatActivity {
                             checkGetMore = -1;
                             repliedByNo.setText("0");
                             progressBar.setVisibility(View.GONE);
-                            replyComment.setImageResource(R.drawable.ic_comment);
+                            replyComment.setImageResource(R.drawable.ic_conch_shell);
                         }
                     }
                     else {

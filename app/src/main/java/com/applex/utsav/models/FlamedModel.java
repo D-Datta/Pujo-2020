@@ -11,6 +11,7 @@ public class FlamedModel {
     private String type;
     private String username;
     private String pComID, comment;
+    private String gender;
 
     private long ts;
 
@@ -92,4 +93,12 @@ public class FlamedModel {
     public String getType() { return type; }
 
     public void setType(String type) { this.type = type; }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

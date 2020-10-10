@@ -79,6 +79,8 @@ public class BottomCommentsDialog extends DialogFragment {
     private String pCom_ts;
     private long cmntno, finalcmntno;
     private int getBool;
+    private IntroPref introPref;
+    private String DP, GENDER;
 
     public BottomCommentsDialog() {
         // Required empty public constructor
@@ -184,18 +186,67 @@ public class BottomCommentsDialog extends DialogFragment {
             }
         });
 
-        Picasso.get()
-                .load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
-                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                .into(commentimg, new Callback() {
-                    @Override
-                    public void onSuccess() { }
+        introPref = new IntroPref(requireActivity());
+        DP = introPref.getUserdp();
+        GENDER = introPref.getGender();
 
-                    @Override
-                    public void onError(Exception e) {
-                        commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                    }
-                });
+        if(DP!=null){
+            Picasso.get()
+                    .load(DP).fit().centerCrop()
+                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                    .into(commentimg, new Callback() {
+                        @Override
+                        public void onSuccess() { }
+
+                        @Override
+                        public void onError(Exception e) {
+                            if(GENDER!=null){
+                                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                                    commentimg.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                                    commentimg.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                                    commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            }
+                            else {
+                                commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+//                            commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    });
+        }
+        else{
+            if(GENDER!=null){
+                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                    commentimg.setImageResource(R.drawable.ic_female);
+                }
+                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                    commentimg.setImageResource(R.drawable.ic_male);
+                }
+                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                    commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else {
+                commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
+        }
+
+//        Picasso.get()
+//                .load(new IntroPref(requireActivity()).getUserdp()).fit().centerCrop()
+//                .placeholder(R.drawable.ic_account_circle_black_24dp)
+//                .into(commentimg, new Callback() {
+//                    @Override
+//                    public void onSuccess() { }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//                        commentimg.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                    }
+//                });
 
         commentimg.setOnClickListener(v2 -> {
             newComment.requestFocus();
@@ -228,6 +279,7 @@ public class BottomCommentsDialog extends DialogFragment {
                     commentModel.setUsername(new IntroPref(requireActivity()).getFullName());
                     commentModel.setTs(0L); ///Pending state
                     commentModel.setPostID(docID);
+                    commentModel.setGender(new IntroPref(requireActivity()).getGender());
 
                     newComment.setText("");
                     models.add(0,commentModel);
@@ -365,6 +417,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                     intent.putExtra("com_docID_home",models.get(position).getDocID());
                                     intent.putExtra("root", root);
                                     intent.putExtra("from", "no");
+                                    intent.putExtra("gender",models.get(position).getGender());
                                     startActivity(intent);
 
                                     commentMenuDialog.dismiss();
@@ -457,7 +510,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
-                                                    else if(from.matches("FeedsFragment")){
+                                                    else if(from.matches("FragmentClips")){
                                                         FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                         FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }

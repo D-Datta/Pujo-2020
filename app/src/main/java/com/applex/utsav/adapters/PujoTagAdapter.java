@@ -61,20 +61,22 @@ public class PujoTagAdapter extends RecyclerView.Adapter<PujoTagAdapter.Programm
             Picasso.get().load(currentItem.getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(programmingViewHolder.dp);
         }
         else{
-            WindowManager manager = (WindowManager)mcontext.getSystemService(Context.WINDOW_SERVICE);
-            Display display = manager.getDefaultDisplay();
-            int displayWidth = display.getWidth();
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(mcontext.getResources(), R.drawable.durga_ma, options);
-            int width = options.outWidth;
-            if (width > displayWidth) {
-                int widthRatio = Math.round((float) width / (float) displayWidth);
-                options.inSampleSize = widthRatio;
-            }
-            options.inJustDecodeBounds = false;
-            Bitmap scaledBitmap =  BitmapFactory.decodeResource(mcontext.getResources(), R.drawable.durga_ma, options);
-            programmingViewHolder.dp.setImageBitmap(scaledBitmap);
+            programmingViewHolder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+
+//            WindowManager manager = (WindowManager)mcontext.getSystemService(Context.WINDOW_SERVICE);
+//            Display display = manager.getDefaultDisplay();
+//            int displayWidth = display.getWidth();
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inJustDecodeBounds = true;
+//            BitmapFactory.decodeResource(mcontext.getResources(), R.drawable.durga_ma, options);
+//            int width = options.outWidth;
+//            if (width > displayWidth) {
+//                int widthRatio = Math.round((float) width / (float) displayWidth);
+//                options.inSampleSize = widthRatio;
+//            }
+//            options.inJustDecodeBounds = false;
+//            Bitmap scaledBitmap =  BitmapFactory.decodeResource(mcontext.getResources(), R.drawable.durga_ma, options);
+//            programmingViewHolder.dp.setImageBitmap(scaledBitmap);
         }
 
 

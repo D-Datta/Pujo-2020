@@ -154,6 +154,7 @@ public class Fragment_Posts extends Fragment {
                         intent.putExtra("uid", model.getUid());
                         intent.putExtra("timestamp", Long.toString(model.getTs()));
                         intent.putExtra("type", model.getType());
+                        intent.putExtra("gender",model.getGender());
                         startActivity(intent);
                     });
 

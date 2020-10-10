@@ -142,10 +142,10 @@ public class CommitteeViewAll extends AppCompatActivity {
             public void onClick(View view) {
                 if(!searchText.getText().toString().isEmpty()){
                     if(selected_button==1)
-                        buildRecyclerView("name",searchText.getText().toString());
+                        buildRecyclerView("name",searchText.getText().toString().trim());
 
                     else
-                        buildRecyclerView("city", searchText.getText().toString());
+                        buildRecyclerView("city", searchText.getText().toString().trim());
                 }
             }
         });
@@ -159,10 +159,10 @@ public class CommitteeViewAll extends AppCompatActivity {
                 case EditorInfo.IME_ACTION_SEARCH:
                     if(!searchText.getText().toString().isEmpty()){
                         if(selected_button==1)
-                            buildRecyclerView("name",searchText.getText().toString());
+                            buildRecyclerView("name",searchText.getText().toString().trim());
 
                         else
-                            buildRecyclerView("city", searchText.getText().toString());
+                            buildRecyclerView("city", searchText.getText().toString().trim());
                     }
 
             }

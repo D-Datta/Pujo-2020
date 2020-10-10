@@ -100,7 +100,7 @@ public class CommitteeFragment extends Fragment {
     private ProgressDialog progressDialog;
     private Dialog  postMenuDialog;
     private RecyclerView mRecyclerView;
-    private String COMMITEE_LOGO, COMMITTEE_NAME, link;
+    private String COMMITEE_LOGO, COMMITTEE_NAME, link, GENDER;
     private FirestorePagingAdapter reelsAdapter;
     private IntroPref introPref;
     private Query reels_query;
@@ -151,6 +151,7 @@ public class CommitteeFragment extends Fragment {
         introPref = new IntroPref(getActivity());
         COMMITEE_LOGO = introPref.getUserdp();
         COMMITTEE_NAME = introPref.getFullName();
+        GENDER = introPref.getGender();
 
         swipeRefreshLayout
                 .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
@@ -261,9 +262,27 @@ public class CommitteeFragment extends Fragment {
                         Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
                                 .placeholder(R.drawable.ic_account_circle_black_24dp)
                                 .into(programmingViewHolder.type_dp);
-                    } else {
-                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
+                    else{
+                        if(GENDER!=null){
+                            if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
+                            }
+                            else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_male);
+                            }
+                            else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
+                        else{
+                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+
+//                    else {
+//                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                    }
                 }
 
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
@@ -346,9 +365,27 @@ public class CommitteeFragment extends Fragment {
                     Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.profileimage);
-                } else {
-                    programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
+                else{
+                    if(GENDER!=null){
+                        if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                            programmingViewHolder.profileimage.setImageResource(R.drawable.ic_female);
+                        }
+                        else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                            programmingViewHolder.profileimage.setImageResource(R.drawable.ic_male);
+                        }
+                        else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                            programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else{
+                        programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                }
+
+//                else {
+//                    programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                }
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
@@ -396,12 +433,43 @@ public class CommitteeFragment extends Fragment {
 
                                 @Override
                                 public void onError(Exception e) {
-                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    if(currentItem.getGender()!=null){
+                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                            programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
+                                        }
+                                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                            programmingViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                                        }
+                                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                            programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
+                                    }
+                                    else {
+                                        programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+//                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
-                } else {
-                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
+                else{
+                    if(currentItem.getGender()!=null){
+                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                            programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
+                        }
+                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                            programmingViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                        }
+                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                            programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else {
+                        programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                }
+//                else {
+//                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                }
 
                 programmingViewHolder.username.setText(currentItem.getUsN());
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -502,6 +570,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender",currentItem.getGender());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                                 programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
                         startActivity(intent);
@@ -528,6 +597,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender",currentItem.getGender());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                                 programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
                         startActivity(intent);
@@ -671,6 +741,7 @@ public class CommitteeFragment extends Fragment {
                                 flamedModel.setUserdp(COMMITEE_LOGO);
                                 flamedModel.setUsername(COMMITTEE_NAME);
                                 flamedModel.setPostUid(currentItem.getUid());
+                                flamedModel.setGender(introPref.getGender());
 
                                 DocumentReference flamedDoc = likeStore.collection("flameL")
                                         .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
@@ -721,14 +792,37 @@ public class CommitteeFragment extends Fragment {
 
                 if (currentItem.getCmtNo() > 0) {
                     ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+
                     ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if (currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+
                         programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+
                         programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
-                        Picasso.get().load(currentItem.getCom1_dp())
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.dp_cmnt1);
+
+                        if(currentItem.getCom1_dp()!=null && !currentItem.getCom1_dp().isEmpty()){
+                            Picasso.get().load(currentItem.getCom1_dp())
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(programmingViewHolder.dp_cmnt1);
+
+                        }
+                        else{
+                            if(currentItem.getCom1_gender()!=null){
+                                if (currentItem.getCom1_gender().matches("Female") || currentItem.getCom1_gender().matches("মহিলা")){
+                                    programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (currentItem.getCom1_gender().matches("Male") || currentItem.getCom1_gender().matches("পুরুষ")){
+                                    programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (currentItem.getCom1_gender().matches("Others") || currentItem.getCom1_gender().matches("অন্যান্য")){
+                                    programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            }
+                            else {
+                                programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
 
                         programmingViewHolder.cmnt1.setText(currentItem.getCom1());
                         if (programmingViewHolder.cmnt1.getUrls().length > 0) {
@@ -766,11 +860,32 @@ public class CommitteeFragment extends Fragment {
                     }
 
                     if (currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
+
                         programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
+
                         programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
-                        Picasso.get().load(currentItem.getCom2_dp())
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.dp_cmnt2);
+
+                        if(currentItem.getCom2_dp()!=null && !currentItem.getCom2_dp().isEmpty()){
+                            Picasso.get().load(currentItem.getCom2_dp())
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(programmingViewHolder.dp_cmnt2);
+                        }
+                        else{
+                            if(currentItem.getCom2_gender()!=null){
+                                if (currentItem.getCom2_gender().matches("Female") || currentItem.getCom2_gender().matches("মহিলা")){
+                                    programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (currentItem.getCom2_gender().matches("Male") || currentItem.getCom2_gender().matches("পুরুষ")){
+                                    programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (currentItem.getCom2_gender().matches("Others") || currentItem.getCom2_gender().matches("অন্যান্য")){
+                                    programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            }
+                            else {
+                                programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
 
                         programmingViewHolder.cmnt2.setText(currentItem.getCom2());
                         if (programmingViewHolder.cmnt2.getUrls().length > 0) {
@@ -1224,11 +1339,40 @@ public class CommitteeFragment extends Fragment {
 
                                 @Override
                                 public void onError(Exception e) {
-                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    if(currentItem.getGender()!=null){
+                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                            holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
+                                        }
+                                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                            holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
+                                        }
+                                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                            holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
+                                    }
+                                    else {
+                                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+//                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
-                    } else {
-                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                    else {
+                        if(currentItem.getGender()!=null){
+                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
+                            }
+                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
+                            }
+                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
+                        else {
+                            holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+//                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
 
                     holder.pujo_com_dp.setOnClickListener(v -> {

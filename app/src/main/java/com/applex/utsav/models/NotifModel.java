@@ -12,6 +12,7 @@ public class NotifModel {
 
     private String dp, uid;
     private String usN;
+    private String gender;
 
     private long ts;
     private long com_ts;
@@ -117,4 +118,13 @@ public class NotifModel {
     public void setpCom_ts(long pCom_ts) {
         this.pCom_ts = pCom_ts;
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 }

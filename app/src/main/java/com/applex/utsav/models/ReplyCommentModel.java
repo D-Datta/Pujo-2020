@@ -17,6 +17,7 @@ public class ReplyCommentModel {
 
     private String username, comment;
     private long ts;
+    private String gender;
 
     @Exclude
     private String docID;
@@ -137,6 +138,22 @@ public class ReplyCommentModel {
     public String getComUid() { return comUid; }
 
     public void setComUid(String comUid) { this.comUid = comUid; }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public ArrayList<String> getReportL() {
+        return reportL;
+    }
+
+    public void setReportL(ArrayList<String> reportL) {
+        this.reportL = reportL;
+    }
 
 
 }

@@ -93,7 +93,7 @@ public class SearchActivity extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SEARCH = searchKey.getText().toString();
+                SEARCH = searchKey.getText().toString().trim();
                 if(!SEARCH.isEmpty()){
                     userList.clear();
 
@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity {
                 userList.clear();
 
                 contentProgress.setVisibility(View.VISIBLE);
-                SEARCH = searchKey.getText().toString();
+                SEARCH = searchKey.getText().toString().trim();
                 buildRecycler("name");
 
             }
@@ -137,7 +137,7 @@ public class SearchActivity extends AppCompatActivity {
             search.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SEARCH = searchKey.getText().toString();
+                    SEARCH = searchKey.getText().toString().trim();
                     if(!SEARCH.isEmpty()){
                         userList.clear();
 
@@ -177,7 +177,7 @@ public class SearchActivity extends AppCompatActivity {
                     userList.clear();
 
                     contentProgress.setVisibility(View.VISIBLE);
-                    SEARCH = searchKey.getText().toString();
+                    SEARCH = searchKey.getText().toString().trim();
                     buildRecycler("city");
 
                 }
@@ -186,7 +186,7 @@ public class SearchActivity extends AppCompatActivity {
                 search.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SEARCH = searchKey.getText().toString();
+                        SEARCH = searchKey.getText().toString().trim();
                         if(!SEARCH.isEmpty()){
                             contentProgress.setVisibility(View.VISIBLE);
                             userList.clear();
@@ -216,7 +216,7 @@ public class SearchActivity extends AppCompatActivity {
             switch (actionId){
                 case EditorInfo.IME_ACTION_SEARCH:
                     if(selected_button==0 || selected_button==1){
-                        SEARCH = searchKey.getText().toString();
+                        SEARCH = searchKey.getText().toString().trim();
                         if(!SEARCH.isEmpty()){
 
                             userList.clear();
@@ -228,7 +228,7 @@ public class SearchActivity extends AppCompatActivity {
                         }
                     }
                     else if(selected_button==2){
-                        SEARCH = searchKey.getText().toString();
+                        SEARCH = searchKey.getText().toString().trim();
                         if(!SEARCH.isEmpty()){
 
                             userList.clear();
@@ -351,12 +351,24 @@ public class SearchActivity extends AppCompatActivity {
 
                 String userimage_url = model.getDp();
                 if(userimage_url!=null){
-
                         Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.userimage);
-
                 }
                 else{
-                    holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    if(model.getGender()!=null){
+                        if (model.getGender().matches("Female") || model.getGender().matches("মহিলা")){
+                            holder.userimage.setImageResource(R.drawable.ic_female);
+                        }
+                        else if (model.getGender().matches("Male") || model.getGender().matches("পুরুষ")){
+                            holder.userimage.setImageResource(R.drawable.ic_male);
+                        }
+                        else if (model.getGender().matches("Others") || model.getGender().matches("অন্যান্য")){
+                            holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else {
+                        holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+//                    holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
                 holder.card1.setOnClickListener(v -> {

@@ -17,8 +17,8 @@ public class HomePostModel {
     private long newTs;
     private String headline;
 
-    private String com1_usn, com1_dp, com1, com1_uid;
-    private String com2_usn, com2_dp, com2, com2_uid;
+    private String com1_usn, com1_dp, com1, com1_uid, com1_gender;
+    private String com2_usn, com2_dp, com2, com2_uid, com2_gender;
     private long com1_ts, com2_ts;
 
     private ArrayList<TagModel> tagL;
@@ -298,5 +298,20 @@ public class HomePostModel {
 
     public void setCom2_uid(String com2_uid) {
         this.com2_uid = com2_uid;
+    }
+    public String getCom1_gender() {
+        return com1_gender;
+    }
+
+    public void setCom1_gender(String com1_gender) {
+        this.com1_gender = com1_gender;
+    }
+
+    public String getCom2_gender() {
+        return com2_gender;
+    }
+
+    public void setCom2_gender(String com2_gender) {
+        this.com2_gender = com2_gender;
     }
 }

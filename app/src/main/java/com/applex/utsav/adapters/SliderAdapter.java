@@ -115,6 +115,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 intent.putExtra("uid", model.getUid());
                 intent.putExtra("timestamp", Long.toString(model.getTs()));
                 intent.putExtra("type", model.getType());
+                intent.putExtra("gender",model.getGender());
                 ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext,
                         viewHolder.imageViewBackground, Objects.requireNonNull(ViewCompat.getTransitionName(viewHolder.imageViewBackground)));
                 mContext.startActivity(intent);

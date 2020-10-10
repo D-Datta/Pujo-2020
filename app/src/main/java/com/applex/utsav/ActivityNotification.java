@@ -125,7 +125,21 @@ public class ActivityNotification extends AppCompatActivity {
                     Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.dp);
                 }
                 else{
-                    holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    if(model.getGender()!=null){
+                        if (model.getGender().matches("Female") || model.getGender().matches("মহিলা")){
+                            holder.dp.setImageResource(R.drawable.ic_female);
+                        }
+                        else if (model.getGender().matches("Male") || model.getGender().matches("পুরুষ")){
+                            holder.dp.setImageResource(R.drawable.ic_male);
+                        }
+                        else if (model.getGender().matches("Others") || model.getGender().matches("অন্যান্য")){
+                            holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else {
+                        holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+//                    holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
                 holder.title.setText(model.getUsN()+" "+ model.getTitle());
@@ -176,6 +190,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("from", "Image");
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
+                        i.putExtra("gender",model.getGender());
                         startActivity(i);
                         notifyItemChanged(position);
                     }
@@ -194,6 +209,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("from", "Text");
                         i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
+                        i.putExtra("gender",model.getGender());
 
                         startActivity(i);
                         notifyItemChanged(position);
@@ -213,6 +229,7 @@ public class ActivityNotification extends AppCompatActivity {
                         i.putExtra("ts", Long.toString(model.getCom_ts()));
                         i.putExtra("type", model.getType());
                         i.putExtra("pCom_ts", Long.toString(model.getpCom_ts()));
+                        i.putExtra("gender",model.getGender());
 
                         startActivity(i);
                         notifyItemChanged(position);

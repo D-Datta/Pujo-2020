@@ -605,6 +605,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                                                     i.putExtra("uid", editPostModel.getUid());
                                                                     i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
                                                                     i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+                                                                    intent.putExtra("gender",editPostModel.getGender());
                                                                     startActivity(i);
                                                                     finish();
 
@@ -649,6 +650,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                         i.putExtra("uid", editPostModel.getUid());
                                         i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
                                         i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+                                        i.putExtra("gender",editPostModel.getGender());
                                         startActivity(i);
                                         finish();
 
@@ -687,6 +689,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             reelsPostModel.setType(introPref.getType());
                             reelsPostModel.setTs(timestampLong);
                             reelsPostModel.setDocID(String.valueOf(timestampLong));
+                            reelsPostModel.setGender(GENDER);
                             reelsPostModel.setUid(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                             reelsPostModel.setTagList(tagList);
 

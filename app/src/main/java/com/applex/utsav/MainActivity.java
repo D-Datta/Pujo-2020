@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String USERNAME;
     private String PROFILEPIC;
     private String TYPE;
+    private String GENDER;
 
     private String currentVersion;
     BroadcastReceiver myReceiver;
@@ -304,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         USERNAME = introPref.getFullName();
         PROFILEPIC = introPref.getUserdp();
         TYPE = introPref.getType();
+        GENDER = introPref.getGender();
 
         navigationView = findViewById(R.id.nav_view);
         View hView;
@@ -325,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Picasso.get()
                         .load(PROFILEPIC)
                         .error(R.drawable.image_background_grey)
-                        .placeholder(R.drawable.image_background_grey)
+                        .placeholder(R.drawable.ic_account_circle_black_24dp)
                         .networkPolicy(NetworkPolicy.OFFLINE).into(displaypic, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -333,7 +335,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     @Override
                     public void onError(Exception e) {
-                        Picasso.get().load(PROFILEPIC).into(displaypic);
+                        if(GENDER!=null){
+                            if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                                displaypic.setImageResource(R.drawable.ic_female);
+                            }
+                            else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                                displaypic.setImageResource(R.drawable.ic_male);
+                            }
+                            else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                                displaypic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
+                        else{
+                            displaypic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+//                        Picasso.get().load(PROFILEPIC).into(displaypic);
                     }
                 });
 
@@ -352,6 +368,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    }
 //                });
             }
+        else{
+            if(GENDER!=null){
+                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                    displaypic.setImageResource(R.drawable.ic_female);
+                }
+                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                    displaypic.setImageResource(R.drawable.ic_male);
+                }
+                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                    displaypic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else{
+                displaypic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
+        }
 
         if(TYPE.matches("indi")){
             com_data.setVisibility(View.GONE);

@@ -112,6 +112,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                 intent.putExtra("pComUid", currentItem.getUid());
                 intent.putExtra("type", currentItem.getType());
+                intent.putExtra("gender",currentItem.getGender());
                 mContext.startActivity(intent);
             }
             else if(type.matches("comment_reply_flame")) {
@@ -131,6 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("type", currentItem.getType());
                 intent.putExtra("pCom_ts", pCom_ts);
                 intent.putExtra("notiType", type);
+                intent.putExtra("gender",currentItem.getGender());
                 mContext.startActivity(intent);
             }
         }
@@ -161,7 +163,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                     .into(programmingViewHolder.userimage);
         }
         else {
-            programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            if(currentItem.getGender()!=null){
+                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
+                }
+                else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                }
+                else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else {
+                programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
         }
 
         programmingViewHolder.username.setText(currentItem.getUsername());
@@ -309,6 +324,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                     flamedModel.setUserdp(PROFILEPIC);
                     flamedModel.setUsername(USERNAME);
                     flamedModel.setPostUid(currentItem.getUid());
+                    flamedModel.setGender(introPref.getGender());
 
                     DocumentReference flamedDoc = Objects.requireNonNull(finalFlamedCol)
                             .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
@@ -352,6 +368,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                 intent.putExtra("pComUid", currentItem.getUid());
                 intent.putExtra("type", currentItem.getType());
+                intent.putExtra("gender",currentItem.getGender());
                 mContext.startActivity(intent);
             });
         }
@@ -373,6 +390,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
                 intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                 intent.putExtra("pComUid", currentItem.getUid());
                 intent.putExtra("type", currentItem.getType());
+                intent.putExtra("gender",currentItem.getGender());
                 mContext.startActivity(intent);
             });
         }
@@ -392,6 +410,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
             intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
             intent.putExtra("pComUid", currentItem.getUid());
             intent.putExtra("type", currentItem.getType());
+            intent.putExtra("gender",currentItem.getGender());
             mContext.startActivity(intent);
 
         });
@@ -411,6 +430,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.Programm
             intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
             intent.putExtra("pComUid", currentItem.getUid());
             intent.putExtra("type", currentItem.getType());
+            intent.putExtra("gender",currentItem.getGender());
             mContext.startActivity(intent);
         });
         /////////////////COMMENTS REPLY SETUP/////////////////

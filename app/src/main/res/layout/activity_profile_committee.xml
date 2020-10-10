@@ -117,6 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_toEndOf="@id/yyy"
                         android:layout_below="@id/cover_holder">
 
@@ -147,16 +148,7 @@
                                     android:textStyle="bold"
                                     android:layout_marginTop="10dp"/>
 
-<!--                                <ImageView-->
-<!--                                    android:id="@+id/verified"-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="match_parent"-->
-<!--                                    android:src="@drawable/ic_baseline_verified_user_24"-->
-<!--                                    app:tint="@color/colorPrimaryDark"-->
-<!--                                    android:visibility="visible"/>-->
                             </LinearLayout>
-
-
 
                             <TextView
                                 android:id="@+id/Pusername"
@@ -173,6 +165,16 @@
                                 android:textSize="18dp" />
 
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/verified"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_verified_user_24"
+                            app:tint="@color/colorPrimaryDark"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:layout_alignParentEnd="true"/>
 
                     </RelativeLayout>
 

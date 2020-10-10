@@ -119,7 +119,7 @@ public class FeedsFragment extends Fragment {
     private ArrayList<Integer> positions;
     private DocumentSnapshot lastReelDocument;
 
-    private String DP, USERNAME, link;
+    private String DP, USERNAME, link, GENDER;
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -138,6 +138,7 @@ public class FeedsFragment extends Fragment {
         introPref = new IntroPref(getActivity());
         DP = introPref.getUserdp();
         USERNAME = introPref.getFullName();
+        GENDER = introPref.getGender();
 
         changed = 0;
 
@@ -278,9 +279,26 @@ public class FeedsFragment extends Fragment {
                             Picasso.get().load(DP).fit().centerCrop()
                                     .placeholder(R.drawable.ic_account_circle_black_24dp)
                                     .into(feedViewHolder.type_dp);
-                        } else {
-                            feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
+                        else{
+                            if(GENDER!=null){
+                                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                                    feedViewHolder.type_dp.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                                    feedViewHolder.type_dp.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                                    feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            }
+                            else{
+                                feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
+//                        else {
+//                            feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                        }
                     }
                     else {
                         feedViewHolder.new_post_layout.setVisibility(View.GONE);
@@ -368,9 +386,26 @@ public class FeedsFragment extends Fragment {
                     Picasso.get().load(DP).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(feedViewHolder.profileimage);
-                } else {
-                    feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
+                else{
+                    if(GENDER!=null){
+                        if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                            feedViewHolder.profileimage.setImageResource(R.drawable.ic_female);
+                        }
+                        else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                            feedViewHolder.profileimage.setImageResource(R.drawable.ic_male);
+                        }
+                        else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                            feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else{
+                        feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                }
+//                else {
+//                    feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                }
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
@@ -427,12 +462,43 @@ public class FeedsFragment extends Fragment {
 
                                 @Override
                                 public void onError(Exception e) {
-                                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    if(currentItem.getGender()!=null){
+                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_female);
+                                        }
+                                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                                        }
+                                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
+                                    }
+                                    else {
+                                        feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+//                                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
-                } else {
-                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
+                else{
+                    if(currentItem.getGender()!=null){
+                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                            feedViewHolder.userimage.setImageResource(R.drawable.ic_female);
+                        }
+                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                            feedViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                        }
+                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                            feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else {
+                        feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                }
+//                else {
+//                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+//                }
 
                 feedViewHolder.username.setText(currentItem.getUsN());
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -510,6 +576,7 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender",currentItem.getGender());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                                 feedViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(feedViewHolder.sliderView)));
                         startActivity(intent);
@@ -539,6 +606,7 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender",currentItem.getGender());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
                                 feedViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(feedViewHolder.sliderView)));
                         startActivity(intent);
@@ -666,6 +734,7 @@ public class FeedsFragment extends Fragment {
                                 flamedModel.setUserdp(DP);
                                 flamedModel.setUsername(USERNAME);
                                 flamedModel.setPostUid(currentItem.getUid());
+                                flamedModel.setGender(introPref.getGender());
 
                                 DocumentReference flamedDoc = likeStore.collection("flameL")
                                         .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
@@ -727,11 +796,33 @@ public class FeedsFragment extends Fragment {
                     FeedViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if(currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
+
                         feedViewHolder.commentLayout1.setVisibility(View.VISIBLE);
+
                         feedViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
-                        Picasso.get().load(currentItem.getCom1_dp())
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(feedViewHolder.dp_cmnt1);
+
+                        if(currentItem.getCom1_dp()!=null && !currentItem.getCom1_dp().isEmpty()){
+                            Picasso.get().load(currentItem.getCom1_dp())
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(feedViewHolder.dp_cmnt1);
+
+                        }
+                        else{
+                            if(currentItem.getCom1_gender()!=null){
+                                if (currentItem.getCom1_gender().matches("Female") || currentItem.getCom1_gender().matches("মহিলা")){
+                                    feedViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (currentItem.getCom1_gender().matches("Male") || currentItem.getCom1_gender().matches("পুরুষ")){
+                                    feedViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (currentItem.getCom1_gender().matches("Others") || currentItem.getCom1_gender().matches("অন্যান্য")){
+                                    feedViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            }
+                            else {
+                                feedViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
 
                         feedViewHolder.cmnt1.setText(currentItem.getCom1());
                         if (feedViewHolder.cmnt1.getUrls().length > 0) {
@@ -770,11 +861,32 @@ public class FeedsFragment extends Fragment {
                     }
 
                     if(currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
+
                         feedViewHolder.commentLayout2.setVisibility(View.VISIBLE);
+
                         feedViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
-                        Picasso.get().load(currentItem.getCom2_dp())
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(feedViewHolder.dp_cmnt2);
+
+                        if(currentItem.getCom2_dp()!=null && !currentItem.getCom2_dp().isEmpty()){
+                            Picasso.get().load(currentItem.getCom2_dp())
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(feedViewHolder.dp_cmnt2);
+                        }
+                        else{
+                            if(currentItem.getCom2_gender()!=null){
+                                if (currentItem.getCom2_gender().matches("Female") || currentItem.getCom2_gender().matches("মহিলা")){
+                                    feedViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (currentItem.getCom2_gender().matches("Male") || currentItem.getCom2_gender().matches("পুরুষ")){
+                                    feedViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (currentItem.getCom2_gender().matches("Others") || currentItem.getCom2_gender().matches("অন্যান্য")){
+                                    feedViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            }
+                            else {
+                                feedViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
 
                         feedViewHolder.cmnt2.setText(currentItem.getCom2());
                         if (feedViewHolder.cmnt2.getUrls().length > 0) {
@@ -1311,11 +1423,40 @@ public class FeedsFragment extends Fragment {
 
                                     @Override
                                     public void onError(Exception e) {
-                                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        if(currentItem.getGender()!=null){
+                                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                                holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
+                                            }
+                                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                                holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
+                                            }
+                                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                                holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                            }
+                                        }
+                                        else {
+                                            holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
+//                                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
                                 });
-                    } else {
-                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                    else {
+                        if(currentItem.getGender()!=null){
+                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
+                            }
+                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
+                            }
+                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        }
+                        else {
+                            holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+//                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
 
                     holder.pujo_com_dp.setOnClickListener(v -> {

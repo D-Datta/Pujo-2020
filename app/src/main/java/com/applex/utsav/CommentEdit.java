@@ -73,9 +73,39 @@ public class CommentEdit extends AppCompatActivity {
 
                 @Override
                 public void onError(Exception e) {
-                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    if(i.getStringExtra("gender")!=null){
+                        if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("মহিলা")){
+                            userimage_comment.setImageResource(R.drawable.ic_female);
+                        }
+                        else if(i.getStringExtra("gender").matches("Male") || i.getStringExtra("gender").matches("পুরুষ")){
+                            userimage_comment.setImageResource(R.drawable.ic_male);
+                        }
+                        else if(i.getStringExtra("gender").matches("Others") || i.getStringExtra("gender").matches("অন্যান্য")){
+                            userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+                    else{
+                        userimage_comment.setImageResource(R.drawable.ic_male);
+                    }
+//                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
             });
+        }
+        else{
+            if(i.getStringExtra("gender")!=null){
+                if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                    userimage_comment.setImageResource(R.drawable.ic_female);
+                }
+                else if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                    userimage_comment.setImageResource(R.drawable.ic_male);
+                }
+                else if(i.getStringExtra("gender").matches("Female") || i.getStringExtra("gender").matches("Female")){
+                    userimage_comment.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else{
+                userimage_comment.setImageResource(R.drawable.ic_male);
+            }
         }
 
         update.setOnClickListener(v -> {
@@ -108,6 +138,7 @@ public class CommentEdit extends AppCompatActivity {
                         intent1.putExtra("timestamp", i.getStringExtra("timestamp"));
                         intent1.putExtra("pComUid", i.getStringExtra("pComUid"));
                         intent1.putExtra("type", i.getStringExtra("type"));
+                        intent1.putExtra("gender",i.getStringExtra("gender"));
 
                         Toast.makeText(getApplicationContext(),"Comment Updated", Toast.LENGTH_LONG).show();
                         startActivity(intent1);

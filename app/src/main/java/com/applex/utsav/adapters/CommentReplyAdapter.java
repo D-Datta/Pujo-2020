@@ -129,7 +129,20 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
             Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(programmingViewHolder.userimage);
         }
         else{
-            programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            if(currentItem.getGender()!=null){
+                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
+                }
+                else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                }
+                else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else {
+                programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
         }
 
         programmingViewHolder.username.setText(currentItem.getUsername());
@@ -287,6 +300,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                             flamedModel.setPostUid(currentItem.getUid());
                             flamedModel.setpComID(currentItem.getpComID());
                             flamedModel.setComment(currentItem.getComment());
+                            flamedModel.setGender(introPref.getGender());
 
                             DocumentReference flamedDoc = finalFlamedCol.document(FirebaseAuth.getInstance().getUid());
                             batch.update(finalLikeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));

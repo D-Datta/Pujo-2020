@@ -284,10 +284,26 @@ public class ViewMoreHome extends AppCompatActivity {
             username.setText(homePostModel[0].getUsN());
 
             homePostModel[0].setDp(i.getStringExtra("userdp"));
+            homePostModel[0].setGender(i.getStringExtra("gender"));
             if (homePostModel[0].getDp() != null && !homePostModel[0].getDp().isEmpty()) {
                 Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
-            } else {
-                userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
+            else {
+                if(homePostModel[0].getGender()!=null){
+                    if (homePostModel[0].getGender().matches("Female") || homePostModel[0].getGender().matches("মহিলা")){
+                        userimage.setImageResource(R.drawable.ic_female);
+                    }
+                    else if (homePostModel[0].getGender().matches("Male") || homePostModel[0].getGender().matches("পুরুষ")){
+                        userimage.setImageResource(R.drawable.ic_male);
+                    }
+                    else if (homePostModel[0].getGender().matches("Others") || homePostModel[0].getGender().matches("অন্যান্য")){
+                       userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                    }
+                }
+                else {
+                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+//                userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
             }
 
             homePostModel[0].setType(i.getStringExtra("type"));
@@ -608,11 +624,24 @@ public class ViewMoreHome extends AppCompatActivity {
                                 username.setText(homePostModel[0].getUsN());
 
                                 if (homePostModel[0].getDp() != null && !homePostModel[0].getDp().isEmpty()) {
-
                                     Picasso.get().load(homePostModel[0].getDp()).placeholder(R.drawable.ic_account_circle_black_24dp).into(userimage);
-
-                                } else {
-                                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                                else {
+                                    if(homePostModel[0].getGender()!=null){
+                                        if (homePostModel[0].getGender().matches("Female") || homePostModel[0].getGender().matches("মহিলা")){
+                                            userimage.setImageResource(R.drawable.ic_female);
+                                        }
+                                        else if (homePostModel[0].getGender().matches("Male") || homePostModel[0].getGender().matches("পুরুষ")){
+                                            userimage.setImageResource(R.drawable.ic_male);
+                                        }
+                                        else if (homePostModel[0].getGender().matches("Others") || homePostModel[0].getGender().matches("অন্যান্য")){
+                                            userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
+                                    }
+                                    else {
+                                        userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+//                                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
 
                                 if (homePostModel[0].getType().matches("com")) {
@@ -974,6 +1003,7 @@ public class ViewMoreHome extends AppCompatActivity {
                             flamedModel.setUserdp(PROFILEPIC);
                             flamedModel.setUsername(USERNAME);
                             flamedModel.setPostUid(homePostModel[0].getUid());
+                            flamedModel.setGender(introPref.getGender());
 
                             DocumentReference flamedDoc = flamedRef.document(FirebaseAuth.getInstance().getUid());
                             batch.update(docRef, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));

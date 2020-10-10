@@ -51,7 +51,7 @@
         app:lottie_fileName="dhakbajano.json"
         app:lottie_loop="true" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -72,11 +72,13 @@
             android:background="@drawable/custom_ripple_transparent"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:cardCornerRadius="20dp"
             android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
+            android:layout_marginEnd="5dp"
+            android:layout_toEndOf="@+id/back">
 
             <ImageView
                 android:id="@+id/user_image44"
@@ -85,8 +87,15 @@
 
         </androidx.cardview.widget.CardView>
 
+        <RelativeLayout
+            android:id="@+id/rel1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/cardView">
+
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/lin1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="7dp"
@@ -94,8 +103,8 @@
 
             <TextView
                 android:id="@+id/username44"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
                 android:text="@string/pujo_committees"
                 android:textStyle="bold"
                 android:layout_gravity="center_vertical"
@@ -105,13 +114,23 @@
 
             <TextView
                 android:id="@+id/mins_ago44"
-                android:layout_width="match_parent"
+                android:layout_width="220dp"
                 android:layout_height="match_parent"
                 android:text="@string/_10_mins_ago"
                 android:textSize="12sp"
                 android:textColor="@color/white_transparent"/>
 
         </LinearLayout>
+            <ImageView
+                android:id="@+id/verified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_verified_user_24"
+                app:tint="@color/colorPrimaryDark"
+                android:visibility="gone"
+                android:layout_toEndOf="@+id/lin1"/>
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/delete_post"
@@ -121,9 +140,10 @@
             app:tint="@color/white"
             android:layout_gravity="center|end"
             android:src="@drawable/ic_more_horiz_black_24dp"
-            android:background="@drawable/custom_ripple_transparent"/>
+            android:background="@drawable/custom_ripple_transparent"
+            android:layout_alignParentEnd="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

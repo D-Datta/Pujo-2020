@@ -15,6 +15,7 @@ public class CommentModel {
     private String type;
     private long ts;
     private int rCmtNo;
+    private String gender;
 
     @Exclude
     private String docID;
@@ -138,6 +139,14 @@ public class CommentModel {
     protected void finalize() throws Throwable {
         Log.d("FINALIZE","called!!!!!!!!!!!!!");
         super.finalize();
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
 
