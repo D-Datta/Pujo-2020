@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-
 import com.applex.utsav.adapters.ReelsAdapter;
-import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.google.firebase.firestore.DocumentSnapshot;
