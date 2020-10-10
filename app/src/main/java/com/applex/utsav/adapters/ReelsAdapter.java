@@ -380,13 +380,13 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
         holder.reels_video.setOnPreparedListener(mediaPlayer -> new Handler().postDelayed(() -> {
-            if(mediaPlayer!=null && mediaPlayer.isPlaying()) {
+            if(mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.setLooping(true);
+                holder.pujo_headline.setSelected(true);
+                holder.video_playing.playAnimation();
+                holder.play_image.setVisibility(View.GONE);
+                holder.reels_image.setVisibility(View.GONE);
             }
-            holder.pujo_headline.setSelected(true);
-            holder.video_playing.playAnimation();
-            holder.play_image.setVisibility(View.GONE);
-            holder.reels_image.setVisibility(View.GONE);
         }, 500));
     }
 

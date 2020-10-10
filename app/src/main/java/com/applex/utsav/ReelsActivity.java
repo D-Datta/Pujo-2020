@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -80,10 +82,11 @@ public class ReelsActivity extends AppCompatActivity {
                 ReelsPostModel reelsPostModel = document.toObject(ReelsPostModel.class);
                 Objects.requireNonNull(reelsPostModel).setDocID(document.getId());
                 models.add(reelsPostModel);
-                Query query = null;
+
+                Query query_desc = null;
 
                 if(bool.matches("1")) {
-                    query = FirebaseFirestore.getInstance()
+                    query_desc = FirebaseFirestore.getInstance()
                             .collection("Reels")
                             .orderBy("ts", Query.Direction.DESCENDING)
                             .whereEqualTo("type", from)
@@ -91,7 +94,7 @@ public class ReelsActivity extends AppCompatActivity {
                             .startAfter(document);
                 }
                 else if(bool.matches("2")) {
-                    query = FirebaseFirestore.getInstance()
+                    query_desc = FirebaseFirestore.getInstance()
                             .collection("Reels")
                             .whereEqualTo("uid", uid)
                             .orderBy("ts", Query.Direction.DESCENDING)
@@ -99,7 +102,7 @@ public class ReelsActivity extends AppCompatActivity {
                             .startAfter(document);
                 }
 
-                Objects.requireNonNull(query).get().addOnCompleteListener(task1 -> {
+                Objects.requireNonNull(query_desc).get().addOnCompleteListener(task1 -> {
                     if(task1.isSuccessful() && Objects.requireNonNull(task1.getResult()).getDocuments().size() != 0) {
                         DocumentSnapshot document1 = Objects.requireNonNull(task1.getResult()).getDocuments().get(0);
                         ReelsPostModel reelsPostModel1 = document1.toObject(ReelsPostModel.class);

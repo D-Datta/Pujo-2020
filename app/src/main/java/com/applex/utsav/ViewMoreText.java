@@ -1155,6 +1155,4 @@ public class ViewMoreText extends AppCompatActivity {
         }
         super.onResume();
     }
-
-
 }

@@ -738,8 +738,7 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
                                 programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
                                     @Override
-                                    public void onSuccess(boolean status) {
-                                    }
+                                    public void onSuccess(boolean status) { }
 
                                     @Override
                                     public void onError(Exception e) {
