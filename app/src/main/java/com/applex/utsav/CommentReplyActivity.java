@@ -228,6 +228,7 @@ public class CommentReplyActivity extends AppCompatActivity {
             orgCommentColRef = FirebaseFirestore.getInstance().collection("Reels/"+postID+"/commentL/");
             commentDocRef = FirebaseFirestore.getInstance().document("Reels/"+postID+"/commentL/"+docID+"/");
             docRef = FirebaseFirestore.getInstance().document("Reels/"+postID+"/");
+            ReelsActivity.postID = postID;
         }
 
         username.setOnClickListener(v -> {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.applex.utsav.adapters.ReelsAdapter;
+import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,6 +25,7 @@ public class ReelsActivity extends AppCompatActivity {
     private ReelsAdapter adapter;
     private ArrayList<ReelsPostModel> models;
     private String type, ts, pCom_ts, from;
+    public static String postID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +67,13 @@ public class ReelsActivity extends AppCompatActivity {
         if(getIntent().getStringExtra("docID") != null) {
             String docID = getIntent().getStringExtra("docID");
             query = FirebaseFirestore.getInstance().collection("Reels").whereEqualTo("docID", docID);
+        } else if(postID != null) {
+            query = FirebaseFirestore.getInstance().collection("Reels").whereEqualTo("docID", postID);
         } else {
             query = FirebaseFirestore.getInstance().collection("Reels")
                     .orderBy("ts", Query.Direction.DESCENDING)
                     .limit(1);
         }
-
-        buildRecyclerView();
     }
 
     private void buildRecyclerView() {
@@ -115,5 +117,11 @@ public class ReelsActivity extends AppCompatActivity {
                 reelsList.setAdapter(adapter);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        buildRecyclerView();
     }
 }
