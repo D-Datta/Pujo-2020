@@ -3,7 +3,6 @@ package com.applex.utsav;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -215,8 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager = findViewById(R.id.view_pager);
         setupViewPager();
         tabs.setupWithViewPager(viewPager);
-        Objects.requireNonNull(Objects.requireNonNull(tabs.getTabAt(0)).setIcon(R.drawable.ic_home_unselected)
-                .getIcon()).setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.purple));
+        Objects.requireNonNull(Objects.requireNonNull(tabs.getTabAt(0)).setIcon(R.drawable.ic_home_selected));
         Objects.requireNonNull(tabs.getTabAt(1)).setIcon(R.drawable.ic_people_unselected);
         Objects.requireNonNull(tabs.getTabAt(2)).setIcon(R.drawable.ic_video_unselected);
         Objects.requireNonNull(tabs.getTabAt(3)).setIcon(R.drawable.ic_durga_unselected);
@@ -225,22 +223,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Objects.requireNonNull(tab.getIcon())
-                        .setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.purple));
+                if(tab.getPosition() == 0) {
+                    tab.setIcon(R.drawable.ic_home_selected);
+                } else if(tab.getPosition() == 1) {
+                    tab.setIcon(R.drawable.ic_people_selected);
+                } else if(tab.getPosition() == 2) {
+                    tab.setIcon(R.drawable.ic_video_selected);
+                } else if(tab.getPosition() == 3) {
+                    tab.setIcon(R.drawable.ic_durga_selected);
+                }
             }
 
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Objects.requireNonNull(tab.getIcon())
-                        .setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+                if(tab.getPosition() == 0) {
+                    tab.setIcon(R.drawable.ic_home_unselected);
+                } else if(tab.getPosition() == 1) {
+                    tab.setIcon(R.drawable.ic_people_unselected);
+                } else if(tab.getPosition() == 2) {
+                    tab.setIcon(R.drawable.ic_video_unselected);
+                } else if(tab.getPosition() == 3) {
+                    tab.setIcon(R.drawable.ic_durga_unselected);
+                }
             }
 
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Objects.requireNonNull(tab.getIcon())
-                        .setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.purple));
+                if(tab.getPosition() == 0) {
+                    tab.setIcon(R.drawable.ic_home_selected);
+                } else if(tab.getPosition() == 1) {
+                    tab.setIcon(R.drawable.ic_people_selected);
+                } else if(tab.getPosition() == 2) {
+                    tab.setIcon(R.drawable.ic_video_selected);
+                } else if(tab.getPosition() == 3) {
+                    tab.setIcon(R.drawable.ic_durga_selected);
+                }
             }
         });
     }
