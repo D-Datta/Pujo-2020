@@ -174,7 +174,7 @@ public class BasicUtility {
     }
 
     //612, 816
-    public static Bitmap decodeSampledBitmapFromFile(Bitmap bitmap, int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromFile(Bitmap bitmap, int reqWidth, int reqHeight) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 60, out);
         byte[] bytes = out.toByteArray();
