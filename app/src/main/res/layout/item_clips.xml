@@ -241,9 +241,9 @@
                     android:paddingHorizontal="10dp">
 
                     <RelativeLayout
+                        android:id="@+id/dp_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/dp_outline">
+                        android:layout_height="wrap_content">
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="50dp"
@@ -393,7 +393,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:lottie_autoPlay="false"
-                        android:padding="90dp"
+                        android:padding="130dp"
                         android:background="@color/dark_black_transparent2"
                         app:lottie_fileName="dhakbajano.json"
                         app:lottie_loop="true" />

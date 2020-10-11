@@ -85,7 +85,7 @@ public class FragmentClips extends Fragment {
     private ProgressBar progressMore, contentProgress;
     private ProgressDialog progressDialog;
     private Dialog postMenuDialog;
-    private RecyclerView mRecyclerView;
+    public static RecyclerView mRecyclerView;
     private String USERDP, USERNAME, link, GENDER;
 
     public FragmentClips() {
@@ -341,6 +341,12 @@ public class FragmentClips extends Fragment {
                     }
                 });
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+
+                if(currentItem.getType().matches("com")) {
+                    programmingViewHolder.dp_layout.setBackgroundResource(R.drawable.dp_outline);
+                } else {
+                    programmingViewHolder.dp_layout.setBackground(null);
+                }
 
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
@@ -1073,15 +1079,15 @@ public class FragmentClips extends Fragment {
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
 
+        VideoView reels_video;
         TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, type_something, comm_heading, pujoTagHolder;
-        ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp, reels_image, sound;
+        ImageView userimage, like, commentimg, profileimage, menuPost, share, like_image, comment_image, dp_cmnt1, dp_cmnt2, type_dp, reels_image, sound;
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL;
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         LottieAnimationView dhak_anim;
-        VideoView reels_video;
-        RelativeLayout normal_item, rlLayout;
+        RelativeLayout normal_item, rlLayout, dp_layout;
         LinearLayout posting_item, committee_item;
         TextView view_all;
         RecyclerView cRecyclerView;
@@ -1144,6 +1150,7 @@ public class FragmentClips extends Fragment {
             reels_image = itemView.findViewById(R.id.reels_image);
             reels_video = itemView.findViewById(R.id.reels_video);
             sound = itemView.findViewById(R.id.sound);
+            dp_layout = itemView.findViewById(R.id.dp_layout);
         }
     }
 

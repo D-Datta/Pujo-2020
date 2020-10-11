@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -69,6 +72,8 @@ import com.squareup.picasso.Picasso;
 import org.jsoup.Jsoup;
 import java.util.Locale;
 import java.util.Objects;
+
+import static com.applex.utsav.fragments.FragmentClips.mRecyclerView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -703,6 +708,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if(drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        }
+        else if(viewPager.getCurrentItem() != 0) {
+            viewPager.setCurrentItem(0, true);
         }
         else {
             if(doubleBackPressed)
