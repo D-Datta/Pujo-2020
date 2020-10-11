@@ -52,7 +52,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
     private ArrayList<ReelsPostModel> models;
     private Context context;
-    private Uri uri;
     private IntroPref introPref;
     private String bool;
     private String uid,link;
@@ -124,9 +123,9 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.play_image.setVisibility(View.VISIBLE);
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
-        uri = Uri.parse(currentItem.getVideo());
         holder.reels_video.start();
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
+        holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
 
         if(currentItem.getDescription() != null) {
             holder.pujo_desc.setText(currentItem.getDescription());
@@ -146,8 +145,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     .document(String.valueOf(currentItem.getTs()))
                     .update("videoViews", FieldValue.increment(1));
         }
-
-        //holder.reels_video.setOnCompletionListener(v -> reelsList.setCurrentItem(position + 1, true));
 
         holder.reels_video.setOnLongClickListener(view -> {
             holder.reels_video.pause();
@@ -437,6 +434,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.play_image.setVisibility(View.GONE);
             new Handler().postDelayed(() -> holder.reels_image.setVisibility(View.GONE), 500);
         });
+        holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
     }
 
     @Override

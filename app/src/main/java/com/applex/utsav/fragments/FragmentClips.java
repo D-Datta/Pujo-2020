@@ -458,6 +458,8 @@ public class FragmentClips extends Fragment {
                     });
                 });
 
+                programmingViewHolder.reels_video.setOnCompletionListener(MediaPlayer::reset);
+
                 if(programmingViewHolder.reels_video.getVisibility() == View.VISIBLE) {
                     programmingViewHolder.reels_video.setOnClickListener(v -> {
                         Intent intent = new Intent(requireActivity(), ReelsActivity.class);
