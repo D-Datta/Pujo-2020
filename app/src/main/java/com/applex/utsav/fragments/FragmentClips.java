@@ -266,7 +266,7 @@ public class FragmentClips extends Fragment {
                     }
                 }
 
-                likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
+                likeStore = FirebaseFirestore.getInstance().document("Reels/" + currentItem.getDocID() + "/");
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
                 if (USERDP != null) {
