@@ -1,7 +1,6 @@
 package com.applex.utsav;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,8 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.applex.utsav.fragments.CommitteeFragment;
-import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.applex.utsav.adapters.CommentAdapter;
@@ -136,7 +132,7 @@ public class ViewMoreHome extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        setContentView(R.layout.activity_viewmore_post);
+        setContentView(R.layout.activity_view_more_post);
 
         share = findViewById(R.id.share44);
         sliderView = findViewById(R.id.post_image44);

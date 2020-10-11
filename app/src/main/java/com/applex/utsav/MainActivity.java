@@ -22,9 +22,12 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -39,7 +42,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
@@ -105,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Boolean doubleBackPressed = false;
     private ViewPager viewPager;
-    private TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,15 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             manager.createNotificationChannel(channel);
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("users")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "msg sent successfully";
-                        if (!task.isSuccessful()) {
-                            msg = "msg failed";
-                        }
-                    }
-                });
+        FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(task -> { });
 
         ///////////////NOTIFICATIONS///////////////////
 
@@ -228,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(i);
         });
 
-        tabs = findViewById(R.id.tabs);
+        TabLayout tabs = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.view_pager);
         setupViewPager();
         tabs.setupWithViewPager(viewPager);
