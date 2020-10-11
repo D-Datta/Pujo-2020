@@ -299,6 +299,7 @@ public class HomePostModel {
     public void setCom2_uid(String com2_uid) {
         this.com2_uid = com2_uid;
     }
+
     public String getCom1_gender() {
         return com1_gender;
     }

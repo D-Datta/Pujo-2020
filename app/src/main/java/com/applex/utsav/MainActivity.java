@@ -23,6 +23,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DocumentReference docref3;
 
     private Boolean doubleBackPressed = false;
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,9 +286,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     if (firstVisiblePosition >= 0) {
                         for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                            FragmentClips.ProgrammingViewHolder cvh = (FragmentClips.ProgrammingViewHolder) holder;
-                            Objects.requireNonNull(cvh).reels_video.pause();
+                            final RecyclerView.ViewHolder holder1 = mRecyclerView.findViewHolderForAdapterPosition(i);
+                            FragmentClips.ProgrammingViewHolder cvh1 = (FragmentClips.ProgrammingViewHolder) holder1;
+                            Objects.requireNonNull(cvh1).reels_video.pause();
                         }
                     }
                 }
@@ -312,9 +313,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (firstVisiblePosition >= 0) {
                 for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                    final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    FragmentClips.ProgrammingViewHolder cvh = (FragmentClips.ProgrammingViewHolder) holder;
-                    Objects.requireNonNull(cvh).reels_video.pause();
+                    final RecyclerView.ViewHolder holder1 = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    FragmentClips.ProgrammingViewHolder cvh1 = (FragmentClips.ProgrammingViewHolder) holder1;
+                    Objects.requireNonNull(cvh1).reels_video.pause();
                 }
             }
         }
@@ -401,22 +402,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        Picasso.get().load(PROFILEPIC).into(displaypic);
                     }
                 });
-
-//                Picasso.get()
-//                        .load(PROFILEPIC)
-//                        .error(R.drawable.image_background_grey)
-//                        .placeholder(R.drawable.image_background_grey)
-//                        .networkPolicy(NetworkPolicy.OFFLINE).into(toolbarImage, new Callback() {
-//                    @Override
-//                    public void onSuccess() {
-//
-//                    }
-//                    @Override
-//                    public void onError(Exception e) {
-//                        Picasso.get().load(PROFILEPIC).into(toolbarImage);
-//                    }
-//                });
-        } else {
+        }
+        else {
             if(GENDER!=null){
                 if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
                     displaypic.setImageResource(R.drawable.ic_female);
@@ -467,7 +454,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     })
                     .addOnFailureListener(e -> { });
         }
-
     }
 
     @Override

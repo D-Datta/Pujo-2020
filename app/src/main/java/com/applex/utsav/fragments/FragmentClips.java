@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -290,9 +291,6 @@ public class FragmentClips extends Fragment {
                         programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
@@ -355,8 +353,7 @@ public class FragmentClips extends Fragment {
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.userimage, new Callback() {
                                 @Override
-                                public void onSuccess() {
-                                }
+                                public void onSuccess() { }
 
                                 @Override
                                 public void onError(Exception e) {
@@ -374,7 +371,6 @@ public class FragmentClips extends Fragment {
                                     else {
                                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
-//                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
                 }
@@ -394,9 +390,6 @@ public class FragmentClips extends Fragment {
                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
 
                 programmingViewHolder.username.setText(currentItem.getCommittee_name());
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -436,13 +429,18 @@ public class FragmentClips extends Fragment {
                     }
 
                     mp.setLooping(true);
-                    
-                    if(introPref.isVolumeOn()) {
-                        mp.setVolume(1f, 1f);
-                        programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                    } else {
+
+                    if(MainActivity.viewPager.getCurrentItem() == 1 || MainActivity.viewPager.getCurrentItem() == 3) {
                         mp.setVolume(0f, 0f);
-                        programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                    }
+                    else {
+                        if(introPref.isVolumeOn()) {
+                            mp.setVolume(1f, 1f);
+                            programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                        } else {
+                            mp.setVolume(0f, 0f);
+                            programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                        }
                     }
 
                     programmingViewHolder.sound.setOnClickListener(v -> {
@@ -1244,13 +1242,20 @@ public class FragmentClips extends Fragment {
                             cvh.reels_image.setVisibility(View.GONE);
                             cvh.sound.setVisibility(View.VISIBLE);
                         }, 500);
+
                         mp.setLooping(true);
-                        if(introPref.isVolumeOn()) {
-                            mp.setVolume(1f, 1f);
-                            cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                        } else {
+
+                        if(MainActivity.viewPager.getCurrentItem() == 1 || MainActivity.viewPager.getCurrentItem() == 3) {
                             mp.setVolume(0f, 0f);
-                            cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                        }
+                        else {
+                            if(introPref.isVolumeOn()) {
+                                mp.setVolume(1f, 1f);
+                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                            } else {
+                                mp.setVolume(0f, 0f);
+                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                            }
                         }
 
                         cvh.sound.setOnClickListener(v -> {
