@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import java.io.ByteArrayOutputStream;
@@ -133,8 +132,9 @@ public class BasicUtility {
         if (time > now || time <= 0) {
             return null;
         }
-        // TODO: localize
+
         final long diff = (long) (now - time);
+
         if (diff < MINUTE_MILLIS) {
             return "just now";
         }
@@ -150,16 +150,31 @@ public class BasicUtility {
         else if (diff < 24 * HOUR_MILLIS) {
             return diff / HOUR_MILLIS + " hours ago";
         }
-        else if (diff < 48 * HOUR_MILLIS) {
-            return "yesterday";
+        else if (diff / DAY_MILLIS < 7) {
+            return diff / DAY_MILLIS + " days ago";
+        }
+        else if (diff / DAY_MILLIS >= 7 && diff / DAY_MILLIS < 14) {
+            return "1 week ago";
+        }
+        else if (diff / DAY_MILLIS >= 14 && diff / DAY_MILLIS < 30) {
+            return (diff / DAY_MILLIS) / 7 + " weeks ago";
+        }
+        else if (diff / DAY_MILLIS >= 30 && diff / DAY_MILLIS < 60) {
+            return "1 month ago";
+        }
+        else if (diff / DAY_MILLIS >= 60 && diff / DAY_MILLIS < 365) {
+            return (diff / DAY_MILLIS) / 30 + " months ago";
+        }
+        else if (diff / DAY_MILLIS >= 365 && diff / DAY_MILLIS < 730) {
+            return "1 year ago";
         }
         else {
-            return diff / DAY_MILLIS + " days ago";
+            return (diff / DAY_MILLIS) / 365 + " years ago";
         }
     }
 
     //612, 816
-    public static Bitmap decodeSampledBitmapFromFile(Bitmap bitmap, int reqWidth, int reqHeight) throws IOException {
+    public static Bitmap decodeSampledBitmapFromFile(Bitmap bitmap, int reqWidth, int reqHeight) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 60, out);
         byte[] bytes = out.toByteArray();
