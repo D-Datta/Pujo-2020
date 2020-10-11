@@ -99,8 +99,7 @@ public class FeedsFragment extends Fragment {
 
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
-    private FloatingActionButton create_post;
-    private SwipeRefreshLayout swipeRefreshLayout, swiperefreshNoPost;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressMore, contentProgress, contentProgCom;
 
     private TextView view_all_NoPost;
@@ -143,7 +142,6 @@ public class FeedsFragment extends Fragment {
         changed = 0;
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
-        swiperefreshNoPost= view.findViewById(R.id.swiperefresh_no_post);
 
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
@@ -183,16 +181,6 @@ public class FeedsFragment extends Fragment {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
-            contentProgCom.setVisibility(View.GONE);
-            positions = new ArrayList<>();
-            buildRecyclerView();
-        });
-
-        swiperefreshNoPost.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
-                .getColor(R.color.purple));
-
-        swiperefreshNoPost.setOnRefreshListener(() -> {
-            swiperefreshNoPost.setRefreshing(true);
             contentProgCom.setVisibility(View.GONE);
             positions = new ArrayList<>();
             buildRecyclerView();
@@ -1089,9 +1077,6 @@ public class FeedsFragment extends Fragment {
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
-                        }
-                        if(swiperefreshNoPost.isRefreshing()) {
-                            swiperefreshNoPost.setRefreshing(false);
                         }
                         if(adapter.getItemCount() == 0){
                             noPostView();

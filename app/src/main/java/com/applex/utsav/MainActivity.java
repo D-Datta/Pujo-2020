@@ -286,6 +286,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
 
+        if(viewPager.getCurrentItem() != 2 && mRecyclerView != null) {
+            RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+            int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+            int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+            if (firstVisiblePosition >= 0) {
+                for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                    final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                    FragmentClips.ProgrammingViewHolder cvh = (FragmentClips.ProgrammingViewHolder) holder;
+                    Objects.requireNonNull(cvh).reels_video.pause();
+                }
+            }
+        }
+
         myReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
