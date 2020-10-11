@@ -43,6 +43,7 @@ import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
+import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -429,6 +430,11 @@ public class FragmentClips extends Fragment {
                         programmingViewHolder.sound.setVisibility(View.VISIBLE);
                     }, 500);
 
+                    if(position == 1) {
+                        programmingViewHolder.reels_video.seekTo(1);
+                        programmingViewHolder.reels_video.pause();
+                    }
+
                     mp.setLooping(true);
                     if(introPref.isVolumeOn()) {
                         mp.setVolume(1f, 1f);
@@ -766,7 +772,6 @@ public class FragmentClips extends Fragment {
                     if (currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
 
                         programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
-
                         programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
 
                         if(currentItem.getCom2_dp()!=null && !currentItem.getCom2_dp().isEmpty()){
@@ -897,8 +902,7 @@ public class FragmentClips extends Fragment {
                                         progressDialog.setCancelable(false);
                                         progressDialog.show();
                                         FirebaseFirestore.getInstance()
-                                                .collection("Feeds").document(currentItem
-                                                .getDocID()).delete()
+                                                .collection("Reels").document(currentItem.getDocID()).delete()
                                                 .addOnSuccessListener(aVoid -> {
                                                     ActivityProfileCommittee.delete = 1;
                                                     programmingViewHolder.itemHome.setVisibility(View.GONE);
@@ -914,7 +918,7 @@ public class FragmentClips extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v14 -> {
                             FirebaseFirestore.getInstance()
-                                    .collection("Feeds").document(currentItem.getDocID())
+                                    .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                     .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
@@ -931,7 +935,7 @@ public class FragmentClips extends Fragment {
 
                         postMenuDialog.findViewById(R.id.report_post).setOnClickListener(v12 -> {
                             FirebaseFirestore.getInstance()
-                                    .collection("Feeds").document(currentItem.getDocID())
+                                    .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
                                     .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
                             postMenuDialog.dismiss();
@@ -1079,7 +1083,7 @@ public class FragmentClips extends Fragment {
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
 
-        VideoView reels_video;
+        public VideoView reels_video;
         TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, type_something, comm_heading, pujoTagHolder;
         ImageView userimage, like, commentimg, profileimage, menuPost, share, like_image, comment_image, dp_cmnt1, dp_cmnt2, type_dp, reels_image, sound;
         ApplexLinkPreview LinkPreview;
@@ -1092,7 +1096,7 @@ public class FragmentClips extends Fragment {
         TextView view_all;
         RecyclerView cRecyclerView;
 
-        ProgrammingViewHolder(@NonNull View itemView) {
+        public ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tagList = itemView.findViewById(R.id.tagsList);
@@ -1223,7 +1227,7 @@ public class FragmentClips extends Fragment {
                 float overlapArea = x_overlap * y_overlap;
                 float percent = (overlapArea / rect_parent_area) * 100.0f;
 
-                if (percent >= 90) {
+               if (percent >= 90) {
                     cvh.reels_video.start();
                     cvh.reels_video.setOnPreparedListener(mp -> {
                         requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

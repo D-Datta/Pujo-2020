@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private IntroPref introPref;
     private ImageView toolbarImage;
-    private String USERNAME;
-    private String PROFILEPIC;
     private String TYPE;
     private String GENDER;
 
@@ -105,8 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DocumentReference docref3;
 
     private Boolean doubleBackPressed = false;
-
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TabLayout tabs = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.view_pager);
-        setupViewPager(viewPager);
+        setupViewPager();
         tabs.setupWithViewPager(viewPager);
 
         tabs.getTabAt(0);
@@ -249,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabs.getTabAt(3);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager() {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
         tabAdapter.addFragment(new CommitteeFragment(), getResources().getText(R.string.pujo).toString());
         tabAdapter.addFragment(new FeedsFragment(), getResources().getText(R.string.people).toString());
@@ -262,7 +259,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
-            public void onPageSelected(int position) { }
+            public void onPageSelected(int position) {
+                if(position != 2 && mRecyclerView != null) {
+                    RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+                    int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+                    int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+                    if (firstVisiblePosition >= 0) {
+                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                            FragmentClips.ProgrammingViewHolder cvh = (FragmentClips.ProgrammingViewHolder) holder;
+                            Objects.requireNonNull(cvh).reels_video.pause();
+                        }
+                    }
+
+                }
+            }
 
             @Override
             public void onPageScrollStateChanged(int state) { }
@@ -307,8 +319,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         introPref = new IntroPref(MainActivity.this);
-        USERNAME = introPref.getFullName();
-        PROFILEPIC = introPref.getUserdp();
+        String USERNAME = introPref.getFullName();
+        String PROFILEPIC = introPref.getUserdp();
         TYPE = introPref.getType();
         GENDER = introPref.getGender();
 
@@ -322,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         name.setText(USERNAME);
 
-        if(PROFILEPIC!=null){
+        if(PROFILEPIC !=null){
 
                 Picasso.Builder builder = new Picasso.Builder(getApplicationContext());
                 builder.downloader(new OkHttp3Downloader(getApplicationContext(), Integer.MAX_VALUE));
@@ -372,8 +384,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        Picasso.get().load(PROFILEPIC).into(toolbarImage);
 //                    }
 //                });
-            }
-        else{
+        } else {
             if(GENDER!=null){
                 if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
                     displaypic.setImageResource(R.drawable.ic_female);
