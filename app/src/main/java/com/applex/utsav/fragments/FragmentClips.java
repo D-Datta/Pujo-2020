@@ -436,6 +436,7 @@ public class FragmentClips extends Fragment {
                     }
 
                     mp.setLooping(true);
+                    
                     if(introPref.isVolumeOn()) {
                         mp.setVolume(1f, 1f);
                         programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
@@ -478,8 +479,14 @@ public class FragmentClips extends Fragment {
                     programmingViewHolder.head_content.setVisibility(View.GONE);
                     programmingViewHolder.head_content.setText(null);
                 } else {
-                    programmingViewHolder.head_content.setVisibility(View.VISIBLE);
-                    programmingViewHolder.head_content.setText(currentItem.getHeadline());
+                    if(currentItem.getHeadline().equals("Stay safe. Do not forget to wear a mask. And enjoy you puja sitting at home through Utsav")
+                            || currentItem.getHeadline().equals("সাবধানে থাকুন । বাইরে বেরোলে অবশ্যই মাস্ক ব্যবহার করুন । ঘরে বসেই পুজোর আনন্দ উপভোগ করুন")) {
+                        programmingViewHolder.head_content.setVisibility(View.GONE);
+                        programmingViewHolder.head_content.setText(null);
+                    } else {
+                        programmingViewHolder.head_content.setVisibility(View.VISIBLE);
+                        programmingViewHolder.head_content.setText(currentItem.getHeadline());
+                    }
                 }
 
                 if (currentItem.getDescription() == null || currentItem.getDescription().isEmpty()) {

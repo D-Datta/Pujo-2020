@@ -121,10 +121,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setItemViewCacheSize(20);
 
-
         tagName = getIntent().getStringExtra("hashtag");
-
-
         buildRecyclerView();
 
         swipeRefreshLayout
@@ -134,7 +131,6 @@ public class HashtagPostViewAll extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
         });
-
     }
 
     private void buildRecyclerView() {
@@ -142,7 +138,6 @@ public class HashtagPostViewAll extends AppCompatActivity {
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds")
                .whereArrayContains("tagList", tagName);
-
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -167,6 +162,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 return  new ProgrammingViewHolder(v);
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull HomePostModel currentItem) {
 
@@ -574,6 +570,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
                         .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                         .setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("SetTextI18n")
                             @Override
                             public void onClick(View v) {
                                 if(currentItem.getLikeCheck() >= 0){//was already liked by current user
