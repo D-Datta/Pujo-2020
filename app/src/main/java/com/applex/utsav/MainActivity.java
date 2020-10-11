@@ -3,6 +3,7 @@ package com.applex.utsav;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Boolean doubleBackPressed = false;
     private ViewPager viewPager;
+    private TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,24 +180,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         hView.setOnClickListener(v -> {
             drawer.closeDrawers();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(TYPE.matches("com")){
-
-                        Intent i = new Intent(MainActivity.this, ActivityProfileCommittee.class);
-                        i.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }
-                    else if(TYPE.matches("indi")){
-                        Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
-                        i.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }
-
+            new Handler().postDelayed(() -> {
+                if(TYPE.matches("com")){
+                    Intent i = new Intent(MainActivity.this, ActivityProfileCommittee.class);
+                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                    startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 }
+                else if(TYPE.matches("indi")){
+                    Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
+                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                    startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+
             },200);
         });
 
@@ -208,8 +206,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         docref3= FirebaseFirestore.getInstance()
                 .collection("Users/"+ FirebaseAuth.getInstance().getUid()+"/notifCount/")
                 .document("notifCount");
-
-
 
         if(MessagingService.nCount == null) {
             notifDot.setVisibility(View.GONE);
@@ -227,36 +223,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(MainActivity.this, ActivityNotification.class));
         });
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i= new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(i);
-            }
+        search.setOnClickListener(view -> {
+            Intent i= new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(i);
         });
 
-        TabLayout tabs = findViewById(R.id.tabs);
+        tabs = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.view_pager);
         setupViewPager();
         tabs.setupWithViewPager(viewPager);
+        Objects.requireNonNull(Objects.requireNonNull(tabs.getTabAt(0)).setIcon(R.drawable.ic_home_unselected)
+                .getIcon()).setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.purple));
+        Objects.requireNonNull(tabs.getTabAt(1)).setIcon(R.drawable.ic_people_unselected);
+        Objects.requireNonNull(tabs.getTabAt(2)).setIcon(R.drawable.ic_video_unselected);
+        Objects.requireNonNull(tabs.getTabAt(3)).setIcon(R.drawable.ic_durga_unselected);
 
-        tabs.getTabAt(0);
-        tabs.getTabAt(1);
-        tabs.getTabAt(2);
-        tabs.getTabAt(3);
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Objects.requireNonNull(tab.getIcon())
+                        .setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.purple));
+            }
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Objects.requireNonNull(tab.getIcon())
+                        .setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.black));
+            }
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Objects.requireNonNull(tab.getIcon())
+                        .setTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.purple));
+            }
+        });
     }
 
     private void setupViewPager() {
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
-        tabAdapter.addFragment(new CommitteeFragment(), getResources().getText(R.string.pujo).toString());
-        tabAdapter.addFragment(new FeedsFragment(), getResources().getText(R.string.people).toString());
-        tabAdapter.addFragment(new FragmentClips(), getResources().getText(R.string.clips).toString());
-        tabAdapter.addFragment(new AllPujoFragment(), getResources().getText(R.string.all_pujo).toString());
+        tabAdapter.addFragment(new CommitteeFragment(), "");
+        tabAdapter.addFragment(new FeedsFragment(), "");
+        tabAdapter.addFragment(new FragmentClips(), "");
+        tabAdapter.addFragment(new AllPujoFragment(), "");
         viewPager.setAdapter(tabAdapter);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
