@@ -57,7 +57,7 @@
     <string name="pujo_committees">Utsav Pujo</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
 
-    <string name="marquee_text">Stay safe. Do not forget to wear a mask. And enjoy you puja sitting at home through Utsav</string>
+    <string name="marquee_text">Stay safe. Do not forget to wear a mask. And enjoy your puja sitting at home through Utsav</string>
 
     <string-array name="Gender">
         <item>Male</item>
