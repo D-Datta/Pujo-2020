@@ -23,58 +23,76 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".fragments.FragmentClips"></activity>
+
+        <activity android:name=".fragments.FragmentClips"/>
         <activity android:name=".fragments.AllPujoFragment" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".HashtagPostViewAll" />
+
         <activity
             android:name=".LanguageChoice"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ActivityTagPujo"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ActivityNotification"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Webview"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".drawerActivities.AboutUs"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".EditProfileIndividualActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".EditProfileCommitteeActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ActivityProfileCommittee"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".ActivityProfileUser"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".SearchCityState"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".registration.RegIndividual"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".registration.RegPujoCommittee"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".registration.RegChoice"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".WalkthroughActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".registration.LoginActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".registration.LoginActivityPhone"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".Splash"
             android:screenOrientation="portrait"
@@ -85,12 +103,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".CommentReplyActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".CommentEdit"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".GateWayActivity"
             android:launchMode="singleTask">
@@ -115,29 +136,41 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ProfilePictureActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".CommitteeViewAll"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".NewPostHome"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.SEND" /> -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
 
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- <category android:name="android.intent.category.OPENABLE" /> -->
+                <data android:mimeType="image/*" />
+                <data android:mimeType="video/*" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
 
-            <!-- <data android:mimeType="image/*" /> -->
-            <!-- <data android:mimeType="text/plain" /> -->
-            <!-- </intent-filter> -->
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
+
         <activity
             android:name=".ViewMoreHome"
             android:screenOrientation="portrait">

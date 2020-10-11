@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -83,8 +84,12 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -210,10 +215,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         selected_tags = new ArrayList<>();
         tagPujo = findViewById(R.id.pujo_tag);
         TextView newPostToolb= findViewById(R.id.new_post_toolb);
-//
-//        context = LocaleHelper.setLocale(NewPostHome.this, "bn");
-//        resources = context.getResources();
-//        newPostToolb.setText(resources.getText(R.string.new_post));
 
         tagList = new ArrayList<>();
 
@@ -221,23 +222,13 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
-        if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("1")) { //committee
+        if(introPref.getType().matches("com")) { //committee
             tagPujo.setVisibility(View.GONE);
-
-//            video_cam_icon.setVisibility(View.VISIBLE);
-//            video_gal_icon.setVisibility(View.VISIBLE);
             videopost.setVisibility(View.VISIBLE);
-//            videocam.setVisibility(View.VISIBLE);
-//            head_content.setVisibility(View.VISIBLE);
         }
-        else if(Objects.requireNonNull(getIntent().getStringExtra("target")).matches("2")) { //indi
+        else if(introPref.getType().matches("indi")) { //indi
             tagPujo.setVisibility(View.VISIBLE);
-
-//            video_cam_icon.setVisibility(View.GONE);
-//            video_gal_icon.setVisibility(View.GONE);
             head_content.setVisibility(View.GONE);
-//            videopost.setVisibility(View.GONE);
-//            videocam.setVisibility(View.GONE);
         }
 
         // get the bottom sheet view
@@ -248,30 +239,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         //icons.setVisibility(View.GONE);
 
-//        llBottomSheet.setOnDragListener(new View.OnDragListener() {
-//            @Override
-//            public boolean onDrag(View view, DragEvent dragEvent) {
-//                if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
-//                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                    icons.setVisibility(View.GONE);
-//
-//                }
-//                else{
-//                    bottomSheetBehavior.setState(STATE_COLLAPSED);
-//                    //icons.setVisibility(View.VISIBLE);
-//                }
-//                return false;
-//            }
-//        });
-
-//        if(bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED){
-//            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//            icons.setVisibility(View.VISIBLE);
-//        }
-//        else{
-//            bottomSheetBehavior.setState(STATE_COLLAPSED);
-//            icons.setVisibility(View.GONE);
-//        }
 
         addToPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,6 +408,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
         ///////////////////SHARED CONTENT////////////////////
         if(Intent.ACTION_SEND.equals(action) && type != null) {
+            bottomSheetBehavior.setState(STATE_COLLAPSED);
+
             if ("text/plain".equals(type)) {
                 String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
                 if (sharedText != null) {
@@ -461,14 +430,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     }
                 }
             }
-
             else if (type.startsWith("image/")) {
                 filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 finalUri = filePath;
                 //container_image.setVisibility(View.VISIBLE);
-                postimage.setVisibility(View.VISIBLE);
-                postimage.setImageURI(finalUri);
-
                 Bitmap bitmap = null;
                 try {
                     final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -479,17 +444,70 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                     InputStream input = this.getContentResolver().openInputStream(filePath);
                     bitmap = BitmapFactory.decodeStream(input, null, options);
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
-                ByteArrayOutputStream baos =new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                pic = baos.toByteArray();
+                new ImageCompressor(bitmap).execute();
+
 
             }
+            else if (type.startsWith("video/")) {
+//                filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//                finalUri = filePath;
+//                //container_image.setVisibility(View.VISIBLE);
+//                postimage.setVisibility(View.VISIBLE);
+//                postimage.setImageURI(finalUri);
+//
+//                Bitmap bitmap = null;
+//                try {
+//                    final BitmapFactory.Options options = new BitmapFactory.Options();
+//                    options.inJustDecodeBounds = true;
+//                    options.inSampleSize = 2;
+//                    options.inJustDecodeBounds = false;
+//                    options.inTempStorage = new byte[16 * 1024];
+//
+//                    InputStream input = this.getContentResolver().openInputStream(filePath);
+//                    bitmap = BitmapFactory.decodeStream(input, null, options);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                new ImageCompressor(bitmap).execute();
+////                pic = baos.toByteArray();
 
+            }
         }
-        //////////////////SHARED CONTENT///////////////////
+        else if(Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+            bottomSheetBehavior.setState(STATE_COLLAPSED);
+
+            if (type.startsWith("image/")) {
+                ArrayList<Uri> sharedImages2 = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                if(sharedImages2 != null) {
+                    for(Uri uri : sharedImages2){
+                        Bitmap bitmap = null;
+                        try {
+                            final BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inJustDecodeBounds = true;
+                            options.inSampleSize = 2;
+                            options.inJustDecodeBounds = false;
+                            options.inTempStorage = new byte[16 * 1024];
+
+                            InputStream input = this.getContentResolver().openInputStream(uri);
+                            bitmap = BitmapFactory.decodeStream(input, null, options);
+                        }
+                        catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        new ImageCompressor(bitmap).execute();
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+            //////////////////SHARED CONTENT///////////////////
 
         ///////////////////////IMAGE HANDLING////////////////////////
         gallery.setOnClickListener(v -> {
