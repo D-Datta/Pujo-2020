@@ -52,6 +52,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private IntroPref introPref;
 
     private BaseUserModel baseUserModel;
+    int verified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,18 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                            if(task.getResult().getBoolean("verified")!=null){
+                                if(baseUserModel.isVerified()){
+                                    verified = 1;
+                                }
+                                else{
+                                    verified = 0;
+                                }
+                            }
+                            else{
+                                verified = 0;
+                            }
+
                             PROFILEPIC = baseUserModel.getDp();
                             COVERPIC = baseUserModel.getCoverpic();
                             EMAIL = baseUserModel.getEmail();
@@ -255,8 +268,12 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setUpvotes(upvotes);
                     baseUserModel.setUpvoteL(upvoteL);
                     baseUserModel.setLastVisitTime(lastVisit);
-
-
+                    if(verified==1){
+                        baseUserModel.setVerified(true);
+                    }
+                    else if (verified==0){
+                        baseUserModel.setVerified(false);
+                    }
 
                     pujoCommitteeModel = new PujoCommitteeModel();
                     pujoCommitteeModel.setDescription(DESCRIPTION);

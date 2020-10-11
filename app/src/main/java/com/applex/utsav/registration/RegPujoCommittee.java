@@ -288,6 +288,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                       baseUserModel.setUid(userID);
                       baseUserModel.setType(usertype);
                       baseUserModel.setPin(spin);
+                      baseUserModel.setVerified(false);
 
 
                       pujoCommitteeModel = new PujoCommitteeModel();
