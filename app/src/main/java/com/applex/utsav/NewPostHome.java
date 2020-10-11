@@ -453,27 +453,70 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             }
             else if (type.startsWith("video/")) {
-//                filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-//                finalUri = filePath;
-//                //container_image.setVisibility(View.VISIBLE);
-//                postimage.setVisibility(View.VISIBLE);
-//                postimage.setImageURI(finalUri);
-//
-//                Bitmap bitmap = null;
-//                try {
-//                    final BitmapFactory.Options options = new BitmapFactory.Options();
-//                    options.inJustDecodeBounds = true;
-//                    options.inSampleSize = 2;
-//                    options.inJustDecodeBounds = false;
-//                    options.inTempStorage = new byte[16 * 1024];
-//
-//                    InputStream input = this.getContentResolver().openInputStream(filePath);
-//                    bitmap = BitmapFactory.decodeStream(input, null, options);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                new ImageCompressor(bitmap).execute();
-////                pic = baos.toByteArray();
+                videoUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                BasicUtility.saveVideo(videoUri, NewPostHome.this);
+
+                final String[] filePath = {getExternalFilesDir(null) + "/Utsav/" + "VID-" + tsLong + ".mp4"};
+                final ProgressDialog[] progressDialog = new ProgressDialog[1];
+
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                retriever.setDataSource(NewPostHome.this, videoUri);
+                String mVideoDuration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                long mTimeInMilliseconds= Long.parseLong(Objects.requireNonNull(mVideoDuration));
+                duration = (int)mTimeInMilliseconds/1000;
+                Bitmap bitmap = retriever.getFrameAtTime(2000);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                Objects.requireNonNull(bitmap).compress(Bitmap.CompressFormat.JPEG, 80, out);
+                frame = out.toByteArray();
+
+                final long[] size = {new File(filePath[0]).length() / (1024 * 1024)};
+
+                if(size[0] < 100) {
+                    VideoCompress.compressVideoLow(filePath[0], filePath[0].replace(".mp4", "_compressed.mp4"), new VideoCompress.CompressListener() {
+                        @Override
+                        public void onStart() {
+                            //Start Compress
+                            progressDialog[0] = new ProgressDialog(NewPostHome.this);
+                            progressDialog[0].setTitle("Preparing your video");
+                            progressDialog[0].setMessage("Please wait...");
+                            progressDialog[0].setCancelable(false);
+                            progressDialog[0].show();
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            //Finish successfully
+//                            filePath[0] = filePath[0].replace(".mp4", "_compressed.mp4");
+//                            size[0] = new File(filePath[0]).length()/(1024*1024);
+                            if(progressDialog[0] != null && progressDialog[0].isShowing()) {
+                                progressDialog[0].dismiss();
+                            }
+
+                            videoframe.setVisibility(View.VISIBLE);
+                            videoView.setVideoURI(Uri.fromFile(new File(filePath[0].replace(".mp4", "_compressed.mp4"))));
+                            videoView.start();
+                            videoUri = Uri.fromFile(new File(filePath[0].replace(".mp4", "_compressed.mp4")));
+
+                            MediaController mediaController = new MediaController(NewPostHome.this);
+                            videoView.setMediaController(mediaController);
+                            mediaController.setAnchorView(videoView);
+                        }
+
+                        @Override
+                        public void onFail() {
+                            //Failed
+                        }
+
+                        @Override
+                        public void onProgress(float percent) {
+                            //Progress
+                        }
+                    });
+                }
+                else {
+                    BasicUtility.showToast(getApplicationContext(), "Video size too large");
+                }
 
             }
         }
