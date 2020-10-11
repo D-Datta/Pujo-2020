@@ -22,12 +22,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -58,9 +54,6 @@ import com.applex.utsav.utility.MessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -159,8 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        View hView;
-        hView = navigationView.getHeaderView(0);
+        View hView = navigationView.getHeaderView(0);
         navigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple)));
         name = hView.findViewById(R.id.nav_Name);
         displaypic = hView.findViewById(R.id.displaypic);
@@ -191,9 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         toolbarImage= findViewById(R.id.toolbarimg1);
-        toolbarImage.setOnClickListener(v -> {
-            drawer.openDrawer(GravityCompat.START);
-        });
+        toolbarImage.setOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
 
         //NOTIFICATION//
         docref3= FirebaseFirestore.getInstance()
@@ -265,8 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
@@ -282,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Objects.requireNonNull(cvh).reels_video.pause();
                         }
                     }
-
                 }
             }
 
@@ -293,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static MainActivity getInstance() { return instance; }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
@@ -418,45 +407,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             com_data.setVisibility(View.VISIBLE);
             FirebaseFirestore.getInstance().collection("Users")
                     .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid())).get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful()){
-                                BaseUserModel baseUserModel = Objects.requireNonNull(task.getResult()).toObject(BaseUserModel.class);
-                                if(Objects.requireNonNull(baseUserModel).getPujoVisits() > 1) {
-                                    if(baseUserModel.getPujoVisits() > 1000) {
-                                        visits.setText(baseUserModel.getPujoVisits()/1000 + "." + (baseUserModel.getPujoVisits() % 1000)/100 + "K");
-                                    } else {
-                                        visits.setText(baseUserModel.getPujoVisits() + "");
-                                    }
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            BaseUserModel baseUserModel = Objects.requireNonNull(task.getResult()).toObject(BaseUserModel.class);
+                            if(Objects.requireNonNull(baseUserModel).getPujoVisits() > 1) {
+                                if(baseUserModel.getPujoVisits() > 1000) {
+                                    visits.setText(baseUserModel.getPujoVisits()/1000 + "." + (baseUserModel.getPujoVisits() % 1000)/100 + "K");
                                 } else {
                                     visits.setText(baseUserModel.getPujoVisits() + "");
                                 }
-                                if(baseUserModel.getUpvoteL() != null){
-                                    if(baseUserModel.getUpvoteL().size() == 0){
-                                        upvoters.setText("0");
-                                    }
-//                                    else if(baseUserModel.getUpvoteL().size() == 1){
-//                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
-//                                    }
-                                    else {
-                                        upvoters.setText(baseUserModel.getUpvoteL().size()+"");
-                                    }
-                                }
-                                else {
+                            } else {
+                                visits.setText(baseUserModel.getPujoVisits() + "");
+                            }
+                            if(baseUserModel.getUpvoteL() != null){
+                                if(baseUserModel.getUpvoteL().size() == 0){
                                     upvoters.setText("0");
                                 }
+                                else {
+                                    upvoters.setText(baseUserModel.getUpvoteL().size()+"");
+                                }
                             }
-
+                            else {
+                                upvoters.setText("0");
+                            }
                         }
                     })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
+                    .addOnFailureListener(e -> { });
         }
 
     }
@@ -478,155 +454,126 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Log out")
-                            .setMessage("Do you want to continue?")
-                            .setPositiveButton("Log out", (dialog, which) -> {
-                                introPref.setFullName(null);
-                                introPref.setUserdp(null);
-                                introPref.setType(null);
-                                introPref.setGender(null);
+            new Handler().postDelayed(() -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Log out")
+                        .setMessage("Do you want to continue?")
+                        .setPositiveButton("Log out", (dialog, which) -> {
+                            introPref.setFullName(null);
+                            introPref.setUserdp(null);
+                            introPref.setType(null);
+                            introPref.setGender(null);
 
-                                FirebaseFirestore.getInstance()
-                                        .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/AccessToken/")
-                                        .document("Token").delete()
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                FirebaseAuth.getInstance().signOut();
-                                                mGooglesigninclient.signOut();
-                                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                startActivity(intent);
-                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                finish();
-                                            }
-                                        });
-//                                Intent broadcastIntent = new Intent();
-//                                broadcastIntent.setAction("com.package.ACTION_LOGOUT");
-//                                sendBroadcast(broadcastIntent);
-                            })
-                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                            .setCancelable(true)
-                            .show();
+                            FirebaseFirestore.getInstance()
+                                    .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/AccessToken/")
+                                    .document("Token").delete()
+                                    .addOnCompleteListener(task -> {
+                                        FirebaseAuth.getInstance().signOut();
+                                        mGooglesigninclient.signOut();
+                                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        finish();
+                                    });
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                        .setCancelable(true)
+                        .show();
 
-                }
             }, 200);
-
         }
-
         else if(id == R.id.nav_select_lang){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawer.closeDrawers();
-                    Dialog dialog = new Dialog(MainActivity.this);
-                    dialog.setContentView(R.layout.dialog_select_language);
-                    dialog.setCanceledOnTouchOutside(true);
+            new Handler().postDelayed(() -> {
+                drawer.closeDrawers();
+                Dialog dialog = new Dialog(MainActivity.this);
+                dialog.setContentView(R.layout.dialog_select_language);
+                dialog.setCanceledOnTouchOutside(true);
 
-                    RadioButton bangla = dialog.findViewById(R.id.bangla);
-                    RadioButton english = dialog.findViewById(R.id.english);
+                RadioButton bangla = dialog.findViewById(R.id.bangla);
+                RadioButton english = dialog.findViewById(R.id.english);
 
-                    if(introPref.getLanguage().matches("en")) {
-                        english.setChecked(true);
-                        bangla.setChecked(false);
-                    }
-                    else if(introPref.getLanguage().matches("bn")) {
-                        bangla.setChecked(true);
-                        english.setChecked(false);
-                    }
-                    english.setOnClickListener(v -> {
-                        english.setChecked(true);
-                        bangla.setChecked(false);
-                    });
-
-                    bangla.setOnClickListener(v -> {
-                        bangla.setChecked(true);
-                        english.setChecked(false);
-                    });
-
-                    dialog.findViewById(R.id.cancel).setOnClickListener(v -> dialog.dismiss());
-
-                    dialog.findViewById(R.id.done).setOnClickListener(v-> {
-                        if(english.isChecked()) {
-                            introPref.setLanguage("en");
-                        }
-                        else if(bangla.isChecked()) {
-                            introPref.setLanguage("bn");
-                        }
-
-                        new Handler().postDelayed(() -> {
-                            dialog.dismiss();
-                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }, 200);
-                    });
-
-                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    dialog.show();
-
+                if(introPref.getLanguage().matches("en")) {
+                    english.setChecked(true);
+                    bangla.setChecked(false);
                 }
+                else if(introPref.getLanguage().matches("bn")) {
+                    bangla.setChecked(true);
+                    english.setChecked(false);
+                }
+                english.setOnClickListener(v -> {
+                    english.setChecked(true);
+                    bangla.setChecked(false);
+                });
+
+                bangla.setOnClickListener(v -> {
+                    bangla.setChecked(true);
+                    english.setChecked(false);
+                });
+
+                dialog.findViewById(R.id.cancel).setOnClickListener(v -> dialog.dismiss());
+
+                dialog.findViewById(R.id.done).setOnClickListener(v-> {
+                    if(english.isChecked()) {
+                        introPref.setLanguage("en");
+                    }
+                    else if(bangla.isChecked()) {
+                        introPref.setLanguage("bn");
+                    }
+
+                    new Handler().postDelayed(() -> {
+                        dialog.dismiss();
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }, 200);
+                });
+
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
             },200);
 
         }
 
         else if(id == R.id.nav_tellafrnd){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawer.closeDrawers();
-                    Intent i=new Intent();
-                    i.setAction(Intent.ACTION_SEND);
-                    String text="Hey! Join me at Utsav App: Durga Puja 2020 and experience the world of Celebration. Download now. https://play.google.com/store/apps/details?id=com.applex.utsav";
-                    i.putExtra(Intent.EXTRA_TEXT,text);
-                    i.setType("text/plain");
-                    startActivity(Intent.createChooser(i,"Share with"));
-
-                }
+            new Handler().postDelayed(() -> {
+                drawer.closeDrawers();
+                Intent i=new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                String text="Hey! Join me at Utsav App: Durga Puja 2020 and experience the world of Celebration. Download now. https://play.google.com/store/apps/details?id=com.applex.utsav";
+                i.putExtra(Intent.EXTRA_TEXT,text);
+                i.setType("text/plain");
+                startActivity(Intent.createChooser(i,"Share with"));
             },200);
         }
 
         else if(id == R.id.nav_contact){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(MainActivity.this, Webview.class);
-                    intent.putExtra("text","https://applex.in/contact/");
-                    intent.putExtra("bool","1");
-                    startActivity(intent);
-                }
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(MainActivity.this, Webview.class);
+                intent.putExtra("text","https://applex.in/contact/");
+                intent.putExtra("bool","1");
+                startActivity(intent);
             },200);
         }
         else if(id == R.id.nav_privacy){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(MainActivity.this, Webview.class);
-                    intent.putExtra("text","https://applex.in/utsav-app-privacy-policy/");
-                    intent.putExtra("bool","2");
-                    startActivity(intent);
-                }
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(MainActivity.this, Webview.class);
+                intent.putExtra("text","https://applex.in/utsav-app-privacy-policy/");
+                intent.putExtra("bool","2");
+                startActivity(intent);
             },200);
         }
-
         else if(id == R.id.nav_about){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(MainActivity.this, AboutUs.class);
-                    intent.putExtra("text","https://applex.in/contact/");
-                    intent.putExtra("bool","1");
-                    startActivity(intent);
-                }
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(MainActivity.this, AboutUs.class);
+                intent.putExtra("text","https://applex.in/contact/");
+                intent.putExtra("bool","1");
+                startActivity(intent);
             },200);
         }
-
         else if(id== R.id.nav_rate_us){
             Uri uri = Uri.parse("market://details?id=" + getApplicationContext().getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
@@ -642,10 +589,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Uri.parse("http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName())));
             }
         }
-
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -697,14 +642,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.show();
                 }
-//                else if(currentVersion.equalsIgnoreCase(latestVersion) && introPref.isFirstTimeLaunchAfterUpdate()) {
-//                    if (!checkCameraPermission()) {
-//                        requestCameraPermission();
-//                    }
-//                    else {
-//                        new MoveToFolders().execute();
-//                    }
-//                }
             }
         }
     }
@@ -734,19 +671,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             viewPager.setCurrentItem(0, true);
         }
         else {
-            if(doubleBackPressed)
-            {
+            if(doubleBackPressed) {
                 super.onBackPressed();
                 return;
             }
             doubleBackPressed = true;
             Toast.makeText(this, "Press BACK again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    doubleBackPressed = false;
-                }
-            }, 3000);
+            new Handler().postDelayed(() -> doubleBackPressed = false, 3000);
         }
     }
 }
