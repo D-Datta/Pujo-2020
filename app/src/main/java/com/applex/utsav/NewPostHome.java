@@ -433,23 +433,37 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             else if (type.startsWith("image/")) {
                 filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 finalUri = filePath;
-                //container_image.setVisibility(View.VISIBLE);
+                ExifInterface ei = null;
                 Bitmap bitmap = null;
                 try {
-                    final BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    options.inSampleSize = 2;
-                    options.inJustDecodeBounds = false;
-                    options.inTempStorage = new byte[16 * 1024];
-
-                    InputStream input = this.getContentResolver().openInputStream(filePath);
-                    bitmap = BitmapFactory.decodeStream(input, null, options);
-                }
-                catch (IOException e) {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), finalUri);
+                    ei = new ExifInterface(Objects.requireNonNull(getContentResolver().openInputStream(finalUri)));
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-                new ImageCompressor(bitmap).execute();
+                int orientation = Objects.requireNonNull(ei).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
 
+                Bitmap rotatedBitmap;
+                switch(orientation) {
+
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        rotatedBitmap = rotateImage(bitmap, 90);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        rotatedBitmap = rotateImage(bitmap, 180);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        rotatedBitmap = rotateImage(bitmap, 270);
+                        break;
+
+                    case ExifInterface.ORIENTATION_NORMAL:
+                    default:
+                        rotatedBitmap = bitmap;
+                }
+
+                new ImageCompressor(rotatedBitmap).execute();
 
             }
             else if (type.startsWith("video/")) {
@@ -527,21 +541,37 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 ArrayList<Uri> sharedImages2 = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
                 if(sharedImages2 != null) {
                     for(Uri uri : sharedImages2){
+                        ExifInterface ei = null;
                         Bitmap bitmap = null;
                         try {
-                            final BitmapFactory.Options options = new BitmapFactory.Options();
-                            options.inJustDecodeBounds = true;
-                            options.inSampleSize = 2;
-                            options.inJustDecodeBounds = false;
-                            options.inTempStorage = new byte[16 * 1024];
-
-                            InputStream input = this.getContentResolver().openInputStream(uri);
-                            bitmap = BitmapFactory.decodeStream(input, null, options);
-                        }
-                        catch (IOException e) {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                            ei = new ExifInterface(Objects.requireNonNull(getContentResolver().openInputStream(uri)));
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        new ImageCompressor(bitmap).execute();
+                        int orientation = Objects.requireNonNull(ei).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+
+                        Bitmap rotatedBitmap;
+                        switch(orientation) {
+
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                rotatedBitmap = rotateImage(bitmap, 90);
+                                break;
+
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                rotatedBitmap = rotateImage(bitmap, 180);
+                                break;
+
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                rotatedBitmap = rotateImage(bitmap, 270);
+                                break;
+
+                            case ExifInterface.ORIENTATION_NORMAL:
+                            default:
+                                rotatedBitmap = bitmap;
+                        }
+
+                        new ImageCompressor(rotatedBitmap).execute();
                     }
                 }
                 else {
