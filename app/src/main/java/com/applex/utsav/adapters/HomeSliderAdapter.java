@@ -1,5 +1,6 @@
 package com.applex.utsav.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,6 +33,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
     }
     @Override
     public SliderAdapterVH onCreateViewHolder(ViewGroup parent) {
+        @SuppressLint("InflateParams")
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_slider_layout, null);
         return new SliderAdapterVH(inflate);
     }
@@ -100,8 +102,6 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
 
             }
         });
-
-
     }
 
     @Override

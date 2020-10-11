@@ -197,7 +197,7 @@ public class CommitteeFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
 
-                if (programmingViewHolder.getItemViewType() == 0) {
+                if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 5 == 0) {
 
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
@@ -229,65 +229,64 @@ public class CommitteeFragment extends Fragment {
                             })
                             .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
 
-                    programmingViewHolder.type_something.setVisibility(View.VISIBLE);
+                    if(programmingViewHolder.getItemViewType() == 0) {
+                        programmingViewHolder.type_something.setVisibility(View.VISIBLE);
 
-                    programmingViewHolder.type_something.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(requireActivity())) {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
-                            if(introPref.getType().matches("com")){
-                                i.putExtra("target", "1");
+                        programmingViewHolder.type_something.setOnClickListener(view -> {
+                            if (InternetConnection.checkConnection(requireActivity())) {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
+                                if(introPref.getType().matches("com")){
+                                    i.putExtra("target", "1");
+                                }
+                                else
+                                    i.putExtra("target", "2");
+
+                                startActivity(i);
+                            } else
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        });
+
+
+                        programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
+                            if (InternetConnection.checkConnection(requireActivity())) {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
+
+                                if(introPref.getType().matches("com")){
+                                    i.putExtra("target", "1");
+                                }
+                                else
+                                    i.putExtra("target", "2");
+
+                                startActivity(i);
+                            } else
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        });
+
+                        if (COMMITEE_LOGO != null) {
+                            Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(programmingViewHolder.type_dp);
+                        }
+                        else {
+                            if(GENDER!=null){
+                                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                                    programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
+                                }
+                                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                                    programmingViewHolder.type_dp.setImageResource(R.drawable.ic_male);
+                                }
+                                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                                    programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
                             }
-                            else
-                                i.putExtra("target", "2");
-
-                            startActivity(i);
-                        } else
-                            BasicUtility.showToast(getContext(), "Network Unavailable...");
-                    });
-
-
-                    programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(requireActivity())) {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
-
-                            if(introPref.getType().matches("com")){
-                                i.putExtra("target", "1");
-                            }
-                            else
-                                i.putExtra("target", "2");
-
-                            startActivity(i);
-                        } else
-                            BasicUtility.showToast(getContext(), "Network Unavailable...");
-                    });
-
-                    if (COMMITEE_LOGO != null) {
-                        Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.type_dp);
-                    }
-                    else{
-                        if(GENDER!=null){
-                            if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
-                            }
-                            else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_male);
-                            }
-                            else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                            else{
                                 programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
-                        else{
-                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                        }
+                    } else {
+                        programmingViewHolder.type_something.setVisibility(View.GONE);
                     }
-
-//                    else {
-//                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                    }
                 }
-
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
 
