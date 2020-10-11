@@ -290,12 +290,29 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         USERNAME = introPref.getFullName();
         postusername.setText(USERNAME);
 
+        GENDER = introPref.getGender();
         PROFILEPIC = introPref.getUserdp();
         if(PROFILEPIC!= null){
             Picasso.get().load(PROFILEPIC).into(user_image);
         }
+        else{
+            if(GENDER!=null){
+                if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                    user_image.setImageResource(R.drawable.ic_female);
+                }
+                else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                    user_image.setImageResource(R.drawable.ic_male);
+                }
+                else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                    user_image.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                }
+            }
+            else{
+                user_image.setImageResource(R.drawable.ic_account_circle_black_24dp);
+            }
+        }
 
-        GENDER = introPref.getGender();
+
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
         editPostModel= new HomePostModel();
