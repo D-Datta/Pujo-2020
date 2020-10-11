@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/dialog_bg"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/statehead"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:textColor="#212121"
+            android:fontFamily="@font/oxygen_bold"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+    <!--        <TextView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:paddingHorizontal="10dp"-->
+    <!--            android:paddingBottom="10dp"-->
+    <!--            android:text="* Currently your college may not be one of Campus24's partner colleges. Providing your college name shall help Campus24 reach your college faster"/>-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:paddingHorizontal="10dp"-->
+    <!--            android:paddingBottom="10dp"-->
+    <!--            android:text="** Please type the official name of your college/institute"/>-->
+
+    <EditText
+        android:id="@+id/addState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enterstate"
+        android:textSize="16sp"
+        android:inputType="textCapSentences"
+        android:fontFamily="@font/oxygen_regular"
+        android:background="@drawable/background_rectangle"
+        android:maxLines="1"
+        android:padding="15dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
+        <TextView
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp"
+            android:gravity="end"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/oxygen_bold"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+</LinearLayout>

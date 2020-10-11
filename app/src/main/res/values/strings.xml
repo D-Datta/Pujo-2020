@@ -214,5 +214,10 @@
     <string name="all_pujo">All Pujo</string>
     <string name="clips">Clips</string>
 
+    <string name="entercity">Enter your City/District Name</string>
+    <string name="enterstate">Enter your State Name</string>
+    <string name="cityhead">Cannot find your City/District here?</string>
+    <string name="statehead">Cannot find your State here?</string>
+
 
 </resources>

@@ -1,12 +1,16 @@
 package com.applex.utsav;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.applex.utsav.adapters.CitySearchAdapter;
 import com.applex.utsav.adapters.StateSearchAdapter;
@@ -23,12 +28,22 @@ import com.applex.utsav.models.StateSearchModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.RegIndividual;
 import com.applex.utsav.registration.RegPujoCommittee;
+import com.applex.utsav.utility.BasicUtility;
+import com.applex.utsav.utility.InternetConnection;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
+
+import static java.lang.Boolean.TRUE;
 
 public class SearchCityState extends AppCompatActivity {
 
@@ -44,6 +59,7 @@ public class SearchCityState extends AppCompatActivity {
     private ArrayList<StateSearchModel> stateSearchModels= new ArrayList<>();
     private ProgressBar progress;
     IntroPref introPref;
+    private com.google.android.material.floatingactionbutton.FloatingActionButton addcitystate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +81,8 @@ public class SearchCityState extends AppCompatActivity {
         searchcitystate = findViewById(R.id.search_citystate);
         mRecyclerView = findViewById(R.id.search_citystate_recycler);
         progress = findViewById(R.id.progress);
+        addcitystate = findViewById(R.id.addcitystate);
+//        addcitystate.setVisibility(View.GONE);
 
         back1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,25 +136,85 @@ public class SearchCityState extends AppCompatActivity {
                             }
 
                         }
+//                        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("state_pujo")
+//                                ||i.getStringExtra("from").matches("state_ind")||i.getStringExtra("from").matches("state_pujo_edit")
+//                                ||i.getStringExtra("from").matches("state_ind_edit"))){
+//                            stateSearchModels.add(new StateSearchModel(getResources().getString(R.string.statehead)));
+//                        }
+
                         stateadapter = new StateSearchAdapter(SearchCityState.this, searchstate);
                         stateadapter.onClickListener(new StateSearchAdapter.OnClickListener() {
                             @Override
                             public void onClickListener(String name) {
-                                if(i.getStringExtra("from").matches("state_ind")){
-                                    RegIndividual.state_ind.setText(name);
-                                    SearchCityState.super.onBackPressed();
+                                if(name.contains(getResources().getString(R.string.statehead))){
+                                    Dialog myDialogue = new Dialog(SearchCityState.this);
+                                    myDialogue.setContentView(R.layout.dialog_add_state);
+                                    myDialogue.setCanceledOnTouchOutside(TRUE);
+                                    EditText et = myDialogue.findViewById(R.id.addState);
+
+                                    myDialogue.findViewById(R.id.submit).setOnClickListener(v -> {
+                                        String state = et.getText().toString();
+                                        if(InternetConnection.checkConnection(getApplicationContext())){
+                                            if(state.isEmpty()){
+                                                BasicUtility.showToast(SearchCityState.this,"Please add your state name");
+                                            }
+                                            else {
+//                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NewState");
+//                                                reference.child("uid").setValue(FirebaseAuth.getInstance().getUid())
+//                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                            @Override
+//                                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                                Toast.makeText(getApplicationContext(), "Thank you for the input.", Toast.LENGTH_LONG).show();
+////                                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                                            }
+//                                                        });
+                                                myDialogue.dismiss();
+                                                if(i.getStringExtra("from").matches("state_ind")){
+                                                    RegIndividual.state_ind.setText(state);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+                                                else if(i.getStringExtra("from").matches("state_pujo")){
+                                                    RegPujoCommittee.etstate.setText(state);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+                                                else if(i.getStringExtra("from").matches("state_pujo_edit")){
+                                                    EditProfileCommitteeActivity.com_state.setText(state);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+                                                else if(i.getStringExtra("from").matches("state_ind_edit")){
+                                                    EditProfileIndividualActivity.state_ind.setText(state);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+//                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                SearchInstituteActivity.super.onBackPressed();
+                                            }
+
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), "Network unavailable...",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    myDialogue.show();
+                                    Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 }
-                                else if(i.getStringExtra("from").matches("state_pujo")){
-                                    RegPujoCommittee.etstate.setText(name);
-                                    SearchCityState.super.onBackPressed();
-                                }
-                                else if(i.getStringExtra("from").matches("state_pujo_edit")){
-                                    EditProfileCommitteeActivity.com_state.setText(name);
-                                    SearchCityState.super.onBackPressed();
-                                }
-                                else if(i.getStringExtra("from").matches("state_ind_edit")){
-                                    EditProfileIndividualActivity.state_ind.setText(name);
-                                    SearchCityState.super.onBackPressed();
+                                else{
+
+                                    if(i.getStringExtra("from").matches("state_ind")){
+                                        RegIndividual.state_ind.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("state_pujo")){
+                                        RegPujoCommittee.etstate.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("state_pujo_edit")){
+                                        EditProfileCommitteeActivity.com_state.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("state_ind_edit")){
+                                        EditProfileIndividualActivity.state_ind.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
                                 }
 
                             }
@@ -178,27 +256,86 @@ public class SearchCityState extends AppCompatActivity {
                             if(citySearchModel.getCity().toLowerCase().contains(s.toString().toLowerCase())){
                                 searchcity.add(citySearchModel);
                             }
-
                         }
+//                        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("city_ind")
+//                                ||i.getStringExtra("from").matches("city_pujo")||i.getStringExtra("from").matches("city_pujo_edit")
+//                                ||i.getStringExtra("from").matches("city_ind_edit"))){
+//                            citySearchModels.add(new CitySearchModel(getResources().getString(R.string.cityhead)));
+//                        }
+
                         cityadapter = new CitySearchAdapter(SearchCityState.this, searchcity);
                         cityadapter.onClickListener(new CitySearchAdapter.OnClickListener() {
                             @Override
                             public void onClickListener(String name) {
-                                if(i.getStringExtra("from").matches("city_ind")){
-                                    RegIndividual.city_ind.setText(name);
-                                    SearchCityState.super.onBackPressed();
+                                if(name.contains(getResources().getString(R.string.cityhead))){
+                                    Dialog myDialogue = new Dialog(SearchCityState.this);
+                                    myDialogue.setContentView(R.layout.dialog_add_city);
+                                    myDialogue.setCanceledOnTouchOutside(TRUE);
+                                    EditText et = myDialogue.findViewById(R.id.addCity);
+
+                                    myDialogue.findViewById(R.id.submit).setOnClickListener(v -> {
+                                        String city = et.getText().toString();
+                                        if(InternetConnection.checkConnection(getApplicationContext())){
+                                            if(city.isEmpty()){
+                                                BasicUtility.showToast(SearchCityState.this,"Please add your city/district name");
+                                            }
+                                            else {
+//                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NewCity");
+//                                                reference.child("uid").setValue(FirebaseAuth.getInstance().getUid())
+//                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                            @Override
+//                                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                                Toast.makeText(getApplicationContext(), "Thank you for the input.", Toast.LENGTH_LONG).show();
+////                                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                                            }
+//                                                        });
+                                                myDialogue.dismiss();
+                                                if(i.getStringExtra("from").matches("city_ind")){
+                                                    RegIndividual.city_ind.setText(city);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+                                                else if(i.getStringExtra("from").matches("city_pujo")){
+                                                    RegPujoCommittee.etcity.setText(city);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+                                                else if(i.getStringExtra("from").matches("city_pujo_edit")){
+                                                    EditProfileCommitteeActivity.com_city.setText(city);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+                                                else if(i.getStringExtra("from").matches("city_ind_edit")){
+                                                    EditProfileIndividualActivity.city_ind.setText(city);
+                                                    SearchCityState.super.onBackPressed();
+                                                }
+//                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                SearchInstituteActivity.super.onBackPressed();
+                                            }
+
+                                        }
+                                        else{
+                                            Toast.makeText(getApplicationContext(), "Network unavailable...",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    myDialogue.show();
+                                    Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 }
-                                else if(i.getStringExtra("from").matches("city_pujo")){
-                                    RegPujoCommittee.etcity.setText(name);
-                                    SearchCityState.super.onBackPressed();
-                                }
-                                else if(i.getStringExtra("from").matches("city_pujo_edit")){
-                                    EditProfileCommitteeActivity.com_city.setText(name);
-                                    SearchCityState.super.onBackPressed();
-                                }
-                                else if(i.getStringExtra("from").matches("city_ind_edit")){
-                                    EditProfileIndividualActivity.city_ind.setText(name);
-                                    SearchCityState.super.onBackPressed();
+                                else{
+
+                                    if(i.getStringExtra("from").matches("city_ind")){
+                                        RegIndividual.city_ind.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("city_pujo")){
+                                        RegPujoCommittee.etcity.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("city_pujo_edit")){
+                                        EditProfileCommitteeActivity.com_city.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("city_ind_edit")){
+                                        EditProfileIndividualActivity.city_ind.setText(name);
+                                        SearchCityState.super.onBackPressed();
+                                    }
                                 }
 
                             }
@@ -209,8 +346,134 @@ public class SearchCityState extends AppCompatActivity {
 
                 }
             });
-
         }
+
+        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("state_pujo")
+                ||i.getStringExtra("from").matches("state_ind")||i.getStringExtra("from").matches("state_pujo_edit")
+                ||i.getStringExtra("from").matches("state_ind_edit"))){
+            addcitystate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog myDialogue = new Dialog(SearchCityState.this);
+                    myDialogue.setContentView(R.layout.dialog_add_state);
+                    myDialogue.setCanceledOnTouchOutside(TRUE);
+                    EditText et = myDialogue.findViewById(R.id.addState);
+
+                    myDialogue.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String state = et.getText().toString();
+                            if(InternetConnection.checkConnection(getApplicationContext())){
+                                if(state.isEmpty()){
+                                    BasicUtility.showToast(SearchCityState.this, "Please enter your state name");
+
+                                }
+                                else {
+//                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NewState");
+//                                    reference.child("uid").setValue(FirebaseAuth.getInstance().getUid())
+//                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                    Toast.makeText(getApplicationContext(), "Thank you for the input.", Toast.LENGTH_LONG).show();
+////                                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                                }
+//                                            });
+                                    myDialogue.dismiss();
+                                    if(i.getStringExtra("from").matches("state_ind")){
+                                        RegIndividual.state_ind.setText(state);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("state_pujo")){
+                                        RegPujoCommittee.etstate.setText(state);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("state_pujo_edit")){
+                                        EditProfileCommitteeActivity.com_state.setText(state);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("state_ind_edit")){
+                                        EditProfileIndividualActivity.state_ind.setText(state);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+//                                    RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                    SearchInstituteActivity.super.onBackPressed();
+                                }
+
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Network unavailable...",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    myDialogue.show();
+                    Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
+            });
+        }
+        else if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("city_ind")
+                ||i.getStringExtra("from").matches("city_pujo")||i.getStringExtra("from").matches("city_pujo_edit")
+                ||i.getStringExtra("from").matches("city_ind_edit"))){
+            addcitystate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Dialog myDialogue = new Dialog(SearchCityState.this);
+                    myDialogue.setContentView(R.layout.dialog_add_city);
+                    myDialogue.setCanceledOnTouchOutside(TRUE);
+                    EditText et = myDialogue.findViewById(R.id.addCity);
+
+                    myDialogue.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String city = et.getText().toString();
+                            if(InternetConnection.checkConnection(getApplicationContext())){
+                                if(city.isEmpty()){
+                                    BasicUtility.showToast(SearchCityState.this, "Please enter your city/district name");
+
+                                }
+                                else {
+//                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NewCity");
+//                                    reference.child("uid").setValue(FirebaseAuth.getInstance().getUid())
+//                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                @Override
+//                                                public void onComplete(@NonNull Task<Void> task) {
+//                                                    Toast.makeText(getApplicationContext(), "Thank you for the input.", Toast.LENGTH_LONG).show();
+////                                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                                }
+//                                            });
+                                    myDialogue.dismiss();
+                                    if(i.getStringExtra("from").matches("city_ind")){
+                                        RegIndividual.city_ind.setText(city);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("city_pujo")){
+                                        RegPujoCommittee.etcity.setText(city);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("city_pujo_edit")){
+                                        EditProfileCommitteeActivity.com_city.setText(city);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+                                    else if(i.getStringExtra("from").matches("city_ind_edit")){
+                                        EditProfileIndividualActivity.city_ind.setText(city);
+                                        SearchCityState.super.onBackPressed();
+                                    }
+//                                    RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                    SearchInstituteActivity.super.onBackPressed();
+                                }
+
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "Network unavailable...",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    myDialogue.show();
+                    Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                }
+            });
+        }
+
+
     }
 
     private void buildRecyclerViewCity() throws IOException {
@@ -229,25 +492,86 @@ public class SearchCityState extends AppCompatActivity {
             citySearchModels.add(citySearchModel);
         }
 
+//        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("city_ind")
+//                ||i.getStringExtra("from").matches("city_pujo")||i.getStringExtra("from").matches("city_pujo_edit")
+//                ||i.getStringExtra("from").matches("city_ind_edit"))){
+//            citySearchModels.add(new CitySearchModel(getResources().getString(R.string.cityhead)));
+//        }
+
         cityadapter = new CitySearchAdapter(SearchCityState.this, citySearchModels);
         cityadapter.onClickListener(new CitySearchAdapter.OnClickListener() {
             @Override
             public void onClickListener(String name) {
-                if(i.getStringExtra("from").matches("city_ind")){
-                    RegIndividual.city_ind.setText(name);
-                    SearchCityState.super.onBackPressed();
+
+                if(name.contains(getResources().getString(R.string.cityhead))){
+                    Dialog myDialogue = new Dialog(SearchCityState.this);
+                    myDialogue.setContentView(R.layout.dialog_add_city);
+                    myDialogue.setCanceledOnTouchOutside(TRUE);
+                    EditText et = myDialogue.findViewById(R.id.addCity);
+
+                    myDialogue.findViewById(R.id.submit).setOnClickListener(v -> {
+                        String city = et.getText().toString();
+                        if(InternetConnection.checkConnection(getApplicationContext())){
+                            if(city.isEmpty()){
+                                BasicUtility.showToast(SearchCityState.this,"Please add your city/district name");
+                            }
+                            else {
+//                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NewCity");
+//                                reference.child("uid").setValue(FirebaseAuth.getInstance().getUid())
+//                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                Toast.makeText(getApplicationContext(), "Thank you for the input.", Toast.LENGTH_LONG).show();
+////                                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                            }
+//                                        });
+                                myDialogue.dismiss();
+                                if(i.getStringExtra("from").matches("city_ind")){
+                                    RegIndividual.city_ind.setText(city);
+                                    SearchCityState.super.onBackPressed();
+                                }
+                                else if(i.getStringExtra("from").matches("city_pujo")){
+                                    RegPujoCommittee.etcity.setText(city);
+                                    SearchCityState.super.onBackPressed();
+                                }
+                                else if(i.getStringExtra("from").matches("city_pujo_edit")){
+                                    EditProfileCommitteeActivity.com_city.setText(city);
+                                    SearchCityState.super.onBackPressed();
+                                }
+                                else if(i.getStringExtra("from").matches("city_ind_edit")){
+                                    EditProfileIndividualActivity.city_ind.setText(city);
+                                    SearchCityState.super.onBackPressed();
+                                }
+//                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                SearchInstituteActivity.super.onBackPressed();
+                            }
+
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Network unavailable...",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    myDialogue.show();
+                    Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
-                else if(i.getStringExtra("from").matches("city_pujo")){
-                    RegPujoCommittee.etcity.setText(name);
-                    SearchCityState.super.onBackPressed();
-                }
-                else if(i.getStringExtra("from").matches("city_pujo_edit")){
-                    EditProfileCommitteeActivity.com_city.setText(name);
-                    SearchCityState.super.onBackPressed();
-                }
-                else if(i.getStringExtra("from").matches("city_ind_edit")){
-                    EditProfileIndividualActivity.city_ind.setText(name);
-                    SearchCityState.super.onBackPressed();
+                else{
+
+                    if(i.getStringExtra("from").matches("city_ind")){
+                        RegIndividual.city_ind.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
+                    else if(i.getStringExtra("from").matches("city_pujo")){
+                        RegPujoCommittee.etcity.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
+                    else if(i.getStringExtra("from").matches("city_pujo_edit")){
+                        EditProfileCommitteeActivity.com_city.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
+                    else if(i.getStringExtra("from").matches("city_ind_edit")){
+                        EditProfileIndividualActivity.city_ind.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
                 }
             }
         });
@@ -272,27 +596,88 @@ public class SearchCityState extends AppCompatActivity {
             stateSearchModel.setState(line);
             stateSearchModels.add(stateSearchModel);
         }
+//        if(i.getStringExtra("from")!=null && (i.getStringExtra("from").matches("state_pujo")
+//                ||i.getStringExtra("from").matches("state_ind")||i.getStringExtra("from").matches("state_pujo_edit")
+//                ||i.getStringExtra("from").matches("state_ind_edit"))){
+//            stateSearchModels.add(new StateSearchModel(getResources().getString(R.string.statehead)));
+//        }
 
         stateadapter = new StateSearchAdapter(SearchCityState.this, stateSearchModels);
         stateadapter.onClickListener(new StateSearchAdapter.OnClickListener() {
             @Override
             public void onClickListener(String name) {
-                if(i.getStringExtra("from").matches("state_ind")){
-                    RegIndividual.state_ind.setText(name);
-                    SearchCityState.super.onBackPressed();
+
+                if(name.contains(getResources().getString(R.string.statehead))){
+                    Dialog myDialogue = new Dialog(SearchCityState.this);
+                    myDialogue.setContentView(R.layout.dialog_add_state);
+                    myDialogue.setCanceledOnTouchOutside(TRUE);
+                    EditText et = myDialogue.findViewById(R.id.addState);
+
+                    myDialogue.findViewById(R.id.submit).setOnClickListener(v -> {
+                        String state = et.getText().toString();
+                        if(InternetConnection.checkConnection(getApplicationContext())){
+                            if(state.isEmpty()){
+                                BasicUtility.showToast(SearchCityState.this,"Please add your state name");
+                            }
+                            else {
+//                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NewState");
+//                                reference.child("uid").setValue(FirebaseAuth.getInstance().getUid())
+//                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<Void> task) {
+//                                                Toast.makeText(getApplicationContext(), "Thank you for the input.", Toast.LENGTH_LONG).show();
+////                                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                            }
+//                                        });
+                                myDialogue.dismiss();
+                                if(i.getStringExtra("from").matches("state_ind")){
+                                    RegIndividual.state_ind.setText(state);
+                                    SearchCityState.super.onBackPressed();
+                                }
+                                else if(i.getStringExtra("from").matches("state_pujo")){
+                                    RegPujoCommittee.etstate.setText(state);
+                                    SearchCityState.super.onBackPressed();
+                                }
+                                else if(i.getStringExtra("from").matches("state_pujo_edit")){
+                                    EditProfileCommitteeActivity.com_state.setText(state);
+                                    SearchCityState.super.onBackPressed();
+                                }
+                                else if(i.getStringExtra("from").matches("state_ind_edit")){
+                                    EditProfileIndividualActivity.state_ind.setText(state);
+                                    SearchCityState.super.onBackPressed();
+                                }
+//                                RegistrationFormPost.etinstitute.setText("NEW : {"+college+"}");
+//                                SearchInstituteActivity.super.onBackPressed();
+                            }
+
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Network unavailable...",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    myDialogue.show();
+                    Objects.requireNonNull(myDialogue.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 }
-                else if(i.getStringExtra("from").matches("state_pujo")){
-                    RegPujoCommittee.etstate.setText(name);
-                    SearchCityState.super.onBackPressed();
+                else{
+
+                    if(i.getStringExtra("from").matches("state_ind")){
+                        RegIndividual.state_ind.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
+                    else if(i.getStringExtra("from").matches("state_pujo")){
+                        RegPujoCommittee.etstate.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
+                    else if(i.getStringExtra("from").matches("state_pujo_edit")){
+                        EditProfileCommitteeActivity.com_state.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
+                    else if(i.getStringExtra("from").matches("state_ind_edit")){
+                        EditProfileIndividualActivity.state_ind.setText(name);
+                        SearchCityState.super.onBackPressed();
+                    }
                 }
-                else if(i.getStringExtra("from").matches("state_pujo_edit")){
-                    EditProfileCommitteeActivity.com_state.setText(name);
-                    SearchCityState.super.onBackPressed();
-                }
-                else if(i.getStringExtra("from").matches("state_ind_edit")){
-                    EditProfileIndividualActivity.state_ind.setText(name);
-                    SearchCityState.super.onBackPressed();
-                }
+
             }
         });
 

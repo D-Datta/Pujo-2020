@@ -237,7 +237,8 @@
                         android:hint="@string/city"
                         android:inputType="textPersonName"
                         android:paddingStart="20dp"
-                        android:paddingEnd="20dp" />
+                        android:paddingEnd="20dp"
+                        android:focusableInTouchMode="false"/>
 
 
                     <LinearLayout
