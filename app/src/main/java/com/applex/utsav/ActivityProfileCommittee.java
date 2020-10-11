@@ -81,7 +81,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     public static int delete = 0;
     private TextView PName, PUsername, Paddress;
 
-    private ImageView PDp, Pcoverpic;
+    private ImageView PDp, Pcoverpic, verified;
     private ReadMoreTextView PDetaileddesc;
 
     private TabLayout tabLayout;
@@ -153,6 +153,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         edit_profile_com = findViewById(R.id.edit_profile_com);
         locate = findViewById(R.id.locate);
         Paddress = findViewById(R.id.address_com);
+        verified = findViewById(R.id.verified);
 
         visits = findViewById(R.id.visits);
         likes = findViewById(R.id.likes);
@@ -427,6 +428,18 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                                if(task.getResult().getBoolean("verified")!=null){
+                                    if(baseUserModel.isVerified()){
+                                        verified.setVisibility(View.VISIBLE);
+                                    }
+                                    else{
+                                        verified.setVisibility(View.GONE);
+                                    }
+                                }
+                                else{
+                                    verified.setVisibility(View.GONE);
+                                }
+
                                 name = baseUserModel.getName();
                                 PName.setText(name);
                                 dp = baseUserModel.getDp();

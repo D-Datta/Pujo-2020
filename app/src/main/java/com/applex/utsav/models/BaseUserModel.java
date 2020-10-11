@@ -20,6 +20,7 @@ public class BaseUserModel {
     private String email;
 
     private String type;
+    private boolean verified;
 
     //committee special
     private long likeCount;
@@ -185,5 +186,13 @@ public class BaseUserModel {
 
     public void setLastVisitTime(Timestamp lastVisitTime) {
         this.lastVisitTime = lastVisitTime;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }
