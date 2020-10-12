@@ -203,7 +203,6 @@
     <string name="cityhead">এখানে আপনার শহর/জেলা খুঁজে পাচ্ছেন না?</string>
     <string name="statehead">এখানে আপনার রাজ্য খুঁজে পাচ্ছেন না?</string>
     <string name="people_post">People\'s Posts</string>
-    <string name="contactnumber">যোগাযোগ নম্বর</string>
     <string name="contactnumber">যোগাযোগ নম্বর*</string>
     <string name="upi_id">** এই অ্যাপ্লিকেশনটির কোনও ব্যবহারকারী যদি ই-প্রোনামি দিতে চান, তবে ইউপিআই আইডি লাগবে।</string>
     <string name="upi_id_hint">ইউপিআই আইডি</string>
