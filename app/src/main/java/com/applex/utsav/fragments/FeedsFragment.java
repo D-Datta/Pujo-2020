@@ -120,6 +120,8 @@ public class FeedsFragment extends Fragment {
     private DocumentSnapshot lastReelDocument;
 
     private String DP, USERNAME, link, GENDER;
+    private FloatingActionButton floatingActionButton;
+
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -146,6 +148,7 @@ public class FeedsFragment extends Fragment {
 
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
+        floatingActionButton = view.findViewById(R.id.to_the_top_people);
 //        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
 //        create_post = view.findViewById(R.id.create_post_ind);
 //        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
@@ -1097,6 +1100,7 @@ public class FeedsFragment extends Fragment {
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
 
+        final int[] scrollY = {0};
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1173,6 +1177,30 @@ public class FeedsFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                scrollY[0] = scrollY[0] + dy;
+                if (scrollY[0] <= 2000 && dy < 0) {
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+                else {
+                    if(dy < 0){
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("ObjectAnimatorBinding")
+                            @Override
+                            public void onClick(View v) {
+                                recyclerView.scrollToPosition(0);
+                                recyclerView.postDelayed(new Runnable() {
+                                    public void run() {
+                                        recyclerView.scrollToPosition(0);
+                                    }
+                                },300);
+                            }
+                        });
+                    } else {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                }
             }
         });
     }
@@ -1600,6 +1628,8 @@ public class FeedsFragment extends Fragment {
             positions.add(position);
 
             RecyclerView.LayoutManager manager = pvh.reelsList.getLayoutManager();
+
+            final int[] scrollY = {0};
             pvh.reelsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1648,6 +1678,30 @@ public class FeedsFragment extends Fragment {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
+
+                    scrollY[0] = scrollY[0] + dy;
+                    if (scrollY[0] <= 2000 && dy < 0) {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                    else {
+                        if(dy < 0){
+                            floatingActionButton.setVisibility(View.VISIBLE);
+                            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                                @SuppressLint("ObjectAnimatorBinding")
+                                @Override
+                                public void onClick(View v) {
+                                    recyclerView.scrollToPosition(0);
+                                    recyclerView.postDelayed(new Runnable() {
+                                        public void run() {
+                                            recyclerView.scrollToPosition(0);
+                                        }
+                                    },300);
+                                }
+                            });
+                        } else {
+                            floatingActionButton.setVisibility(View.GONE);
+                        }
+                    }
                 }
             });
         }

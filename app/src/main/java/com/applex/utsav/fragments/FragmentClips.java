@@ -62,6 +62,7 @@ import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -89,6 +90,8 @@ public class FragmentClips extends Fragment {
     private Dialog postMenuDialog;
     public static RecyclerView mRecyclerView;
     private String USERDP, USERNAME, link, GENDER;
+    private FloatingActionButton floatingActionButton;
+
 
     public FragmentClips() {
         // Required empty public constructor
@@ -113,6 +116,7 @@ public class FragmentClips extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
+        floatingActionButton = view.findViewById(R.id.to_the_top_clips);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerClips) ;
@@ -1006,6 +1010,8 @@ public class FragmentClips extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+
+        final int[] scrollY = {0};
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1076,6 +1082,30 @@ public class FragmentClips extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                scrollY[0] = scrollY[0] + dy;
+                if (scrollY[0] <= 2000 && dy < 0) {
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+                else {
+                    if(dy < 0){
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("ObjectAnimatorBinding")
+                            @Override
+                            public void onClick(View v) {
+                                recyclerView.scrollToPosition(0);
+                                recyclerView.postDelayed(new Runnable() {
+                                    public void run() {
+                                        recyclerView.scrollToPosition(0);
+                                    }
+                                },300);
+                            }
+                        });
+                    } else {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                }
             }
         });
     }

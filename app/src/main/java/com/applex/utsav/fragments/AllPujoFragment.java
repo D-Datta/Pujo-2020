@@ -35,6 +35,7 @@ import com.applex.utsav.utility.BasicUtility;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
@@ -57,6 +58,8 @@ public class AllPujoFragment extends Fragment {
     EditText searchText;
     private Button sName, sCity;
     int selected_button=1;
+    private FloatingActionButton floatingActionButton;
+
 
     public AllPujoFragment() {
         // Required empty public constructor
@@ -94,6 +97,7 @@ public class AllPujoFragment extends Fragment {
         cRecyclerView = view.findViewById(R.id.community_view_all);
         cRecyclerView.setHasFixedSize(true);
         emptyLayout = view.findViewById(R.id.emptyLayout);
+        floatingActionButton = view.findViewById(R.id.to_the_top_pujos);
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -272,10 +276,35 @@ public class AllPujoFragment extends Fragment {
         progressMoreCom.setVisibility(View.GONE);
         cRecyclerView.setAdapter(adapter);
 
+        final int[] scrollY = {0};
         cRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
+                scrollY[0] = scrollY[0] + dy;
+                if (scrollY[0] <= 2000 && dy < 0) {
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+                else {
+                    if(dy < 0){
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("ObjectAnimatorBinding")
+                            @Override
+                            public void onClick(View v) {
+                                recyclerView.scrollToPosition(0);
+                                recyclerView.postDelayed(new Runnable() {
+                                    public void run() {
+                                        recyclerView.scrollToPosition(0);
+                                    }
+                                },300);
+                            }
+                        });
+                    } else {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                }
             }
         });
     }
