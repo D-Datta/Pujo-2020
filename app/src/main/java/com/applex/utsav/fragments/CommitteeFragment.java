@@ -1627,6 +1627,10 @@ public class CommitteeFragment extends Fragment {
             pvh.fRecyclerView.setItemViewCacheSize(10);
             pvh.fRecyclerView.setDrawingCacheEnabled(true);
 
+            SnapHelper snapHelper = new PagerSnapHelper();
+            pvh.fRecyclerView.setOnFlingListener(null);
+            snapHelper.attachToRecyclerView(pvh.fRecyclerView);
+
             PagedList.Config config = new PagedList.Config.Builder()
                     .setInitialLoadSizeHint(5)
                     .setPageSize(1)
