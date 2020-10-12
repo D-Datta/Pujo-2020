@@ -116,14 +116,14 @@ public class CommitteeViewAll extends AppCompatActivity {
         cRecyclerView.setLayoutManager(gridLayoutManager);
 
 
-        buildRecyclerView("name", null );
+        buildRecyclerView("small_name", null );
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
                 .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             searchText.setText(null);
-            buildRecyclerView("name",null);
+            buildRecyclerView("small_name",null);
         });
 
         sCity.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class CommitteeViewAll extends AppCompatActivity {
             public void onClick(View view) {
                 if(!searchText.getText().toString().isEmpty()){
                     if(selected_button==1)
-                        buildRecyclerView("name",searchText.getText().toString().trim());
+                        buildRecyclerView("small_name",searchText.getText().toString().trim().toLowerCase());
 
                     else
                         buildRecyclerView("city", searchText.getText().toString().trim());
@@ -162,7 +162,7 @@ public class CommitteeViewAll extends AppCompatActivity {
                 case EditorInfo.IME_ACTION_SEARCH:
                     if(!searchText.getText().toString().isEmpty()){
                         if(selected_button==1)
-                            buildRecyclerView("name",searchText.getText().toString().trim());
+                            buildRecyclerView("small_name",searchText.getText().toString().trim().toLowerCase());
 
                         else
                             buildRecyclerView("city", searchText.getText().toString().trim());
