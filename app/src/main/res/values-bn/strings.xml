@@ -201,5 +201,6 @@
     <string name="enterstate">নিজের রাজ্যের নাম লিখুন</string>
     <string name="cityhead">এখানে আপনার শহর/জেলা খুঁজে পাচ্ছেন না?</string>
     <string name="statehead">এখানে আপনার রাজ্য খুঁজে পাচ্ছেন না?</string>
+    <string name="contactnumber">যোগাযোগ নম্বর</string>
 
 </resources>

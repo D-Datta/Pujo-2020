@@ -21,6 +21,7 @@ public class BaseUserModel {
 
     private String type;
     private boolean verified;
+    private String contact;
 
     //committee special
     private long likeCount;
@@ -195,4 +196,13 @@ public class BaseUserModel {
     public void setVerified(boolean verified) {
         this.verified = verified;
     }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
 }

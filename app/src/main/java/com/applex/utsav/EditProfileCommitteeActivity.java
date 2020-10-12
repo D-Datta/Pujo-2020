@@ -33,7 +33,7 @@ import java.util.Locale;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
 
-    private EditText com_name, com_desc, com_type, com_address, com_pin;
+    private EditText com_name, com_desc, com_type, com_address, com_pin, com_contact;
     public static EditText com_state, com_city;
     private Button submit;
 
@@ -42,7 +42,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private long pujoVisits;
     private Timestamp lastVisitTs;
 
-    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid;
+    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid, CONTACT;
     private String tokenStr;
     private PujoCommitteeModel pujoCommitteeModel;
     private DocumentReference docrefBase, docrefCommittee;
@@ -81,6 +81,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         com_city = findViewById(R.id.edit_committee_city);
         submit = findViewById(R.id.edit_com_profile);
         com_pin = findViewById(R.id.edit_committee_pin);
+        com_contact = findViewById(R.id.edit_committee_contact_number);
 
         mAuth=FirebaseAuth.getInstance();
         fireuser= mAuth.getCurrentUser();
@@ -126,7 +127,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                             {
                                 com_pin.setText(baseUserModel.getPin());
                             }
-
                             if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
                             {
                                 com_name.setText(baseUserModel.getName());
@@ -134,6 +134,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                             if(baseUserModel.getState()!=null && !baseUserModel.getState().isEmpty())
                             {
                                 com_state.setText(baseUserModel.getState());
+                            }
+                            if(baseUserModel.getContact()!=null && !baseUserModel.getContact().isEmpty())
+                            {
+                                com_contact.setText(baseUserModel.getContact());
                             }
 
                         }
@@ -192,10 +196,11 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 CITY = com_city.getText().toString().trim();
                 STATE = com_state.getText().toString().trim();
                 PIN =com_pin.getText().toString().trim();
+                CONTACT = com_contact.getText().toString().trim();
 
 
                 if (COMNAME.isEmpty() || CITY.isEmpty() ||PUJOTYPE.isEmpty() || ADDRESS.isEmpty()
-                        || STATE.isEmpty() || PIN.isEmpty() || DESCRIPTION.isEmpty() || PROFILEPIC==null || COVERPIC==null) {
+                        || STATE.isEmpty() || PIN.isEmpty() || DESCRIPTION.isEmpty() || PROFILEPIC==null || COVERPIC==null || CONTACT.isEmpty()) {
                     if (COMNAME.isEmpty()) {
                         com_name.setError("Committee name is missing");
                         com_name.requestFocus();
@@ -219,6 +224,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     if (PIN.isEmpty()) {
                         com_pin.setError("Pincode is missing");
                         com_pin.requestFocus();
+                    }
+                    if (CONTACT.isEmpty()) {
+                        com_contact.setError("Contact Number is missing");
+                        com_contact.requestFocus();
                     }
                     if (PUJOTYPE.isEmpty()) {
                         com_type.setError("Type is missing");
@@ -265,6 +274,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setCoverpic(COVERPIC);
                     baseUserModel.setDp(PROFILEPIC);
                     baseUserModel.setPin(PIN);
+                    baseUserModel.setContact(CONTACT);
                     baseUserModel.setUpvotes(upvotes);
                     baseUserModel.setUpvoteL(upvoteL);
                     baseUserModel.setLastVisitTime(lastVisit);

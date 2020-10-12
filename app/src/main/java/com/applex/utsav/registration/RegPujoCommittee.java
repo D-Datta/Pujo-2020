@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -62,9 +63,9 @@ import static java.lang.Boolean.TRUE;
 
 public class RegPujoCommittee extends AppCompatActivity {
 
-    private EditText etcommitteename, etdescription, etaddressline, etpin;
+    private EditText etcommitteename, etdescription, etaddressline, etpin, etcontact;
     public static EditText etcity,etstate;
-    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin;
+    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin, scontact;
     private TextView email_pc;
     private Button register;
     private ProgressDialog progressDialog;
@@ -121,6 +122,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         edit_dp_pc = findViewById(R.id.reg_edit_dp_pc);
         etpin = findViewById(R.id.committee_pin);
         radioGroup = findViewById(R.id.radiogroup);
+        etcontact = findViewById(R.id.committee_contact_number);
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         introPref = new IntroPref(RegPujoCommittee.this);
@@ -214,6 +216,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 scity = etcity.getText().toString().trim();
                 sstate = etstate.getText().toString().trim();
                 spin = etpin.getText().toString().trim();
+                scontact = etcontact.getText().toString().trim();
 
                 int selectedType = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedType);
@@ -221,7 +224,7 @@ public class RegPujoCommittee extends AppCompatActivity {
 
 
                 if (scommitteename.isEmpty() || scity.isEmpty() ||stype.isEmpty() || saddress.isEmpty()
-                        || sstate.isEmpty() || spin.isEmpty()|| sdescription.isEmpty() ||pic==null || coverpicbyte==null) {
+                        || sstate.isEmpty() || spin.isEmpty()|| sdescription.isEmpty() ||pic==null || coverpicbyte==null || scontact.isEmpty()) {
                     if (scommitteename.isEmpty()) {
                         etcommitteename.setError("Committee name is missing");
                         etcommitteename.requestFocus();
@@ -245,6 +248,10 @@ public class RegPujoCommittee extends AppCompatActivity {
                     if (spin.isEmpty()) {
                         etpin.setError("Pincode is missing");
                         etpin.requestFocus();
+                    }
+                    if (scontact.isEmpty()) {
+                        etcontact.setError("Contact Number is missing");
+                        etcontact.requestFocus();
                     }
                     if (stype.isEmpty()) {
                         BasicUtility.showToast(getApplicationContext(),"Please provide type of pujo");
@@ -289,6 +296,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                       baseUserModel.setType(usertype);
                       baseUserModel.setPin(spin);
                       baseUserModel.setVerified(false);
+                      baseUserModel.setContact(scontact);
 
 
                       pujoCommitteeModel = new PujoCommitteeModel();

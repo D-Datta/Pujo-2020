@@ -222,6 +222,44 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textStart"
+                    android:text="@string/contactnumber"
+                    android:layout_marginStart="0dp"
+                    android:paddingTop="10dp"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="15dp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:textColor="#212121" />
+
+                <EditText
+                    android:id="@+id/committee_contact_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:background="@drawable/background_rectangle"
+                    android:ems="10"
+                    android:fontFamily="@font/oxygen_regular"
+                    android:hint="@string/contactnumber"
+                    android:inputType="number"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
