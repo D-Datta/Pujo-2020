@@ -28,7 +28,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
@@ -47,16 +45,13 @@ import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
-import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
-import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
-import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.adapters.TagAdapter2;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
@@ -149,14 +144,6 @@ public class FeedsFragment extends Fragment {
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
         floatingActionButton = view.findViewById(R.id.to_the_top_people);
-//        floatingActionButton = view.findViewById(R.id.to_the_top_campus);
-//        create_post = view.findViewById(R.id.create_post_ind);
-//        noPostYet1= view.findViewById(R.id.no_recent_com_post1);
-//
-//        if(introPref.getType().matches("com")) {
-//            create_post.setVisibility(View.GONE);
-//        }
-//        create_post.setVisibility(View.GONE);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCampusPost);
@@ -366,11 +353,8 @@ public class FeedsFragment extends Fragment {
                 }
 
                 ///////////SET DOCUMENT REFERENCEE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
-
                 likeStore = FirebaseFirestore.getInstance().document("Feeds/" + currentItem.getDocID() + "/");
-
                 feedViewHolder.menuPost.setVisibility(View.VISIBLE);
-
                 ///////////SET DOCUMENT REFERENCE FOR LIKES. & OTHER BOOLEAN VALUE CHANGES/////////
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
@@ -395,9 +379,6 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
@@ -447,33 +428,30 @@ public class FeedsFragment extends Fragment {
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
                     Picasso.get().load(currentItem.getDp()).fit().centerCrop()
-                            .placeholder(R.drawable.ic_account_circle_black_24dp)
-                            .into(feedViewHolder.userimage, new Callback() {
-                                @Override
-                                public void onSuccess() { }
+                        .placeholder(R.drawable.ic_account_circle_black_24dp)
+                        .into(feedViewHolder.userimage, new Callback() {
+                            @Override
+                            public void onSuccess() { }
 
-                                @Override
-                                public void onError(Exception e) {
-                                    if(currentItem.getGender()!=null){
-                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
-                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_female);
-                                        }
-                                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
-                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_male);
-                                        }
-                                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
-                                            feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                                        }
+                            @Override
+                            public void onError(Exception e) {
+                                if(currentItem.getGender() != null) {
+                                    if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                        feedViewHolder.userimage.setImageResource(R.drawable.ic_female);
                                     }
-                                    else {
+                                    else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                        feedViewHolder.userimage.setImageResource(R.drawable.ic_male);
+                                    }
+                                    else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
                                         feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
-//                                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                } else {
+                                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
-                            });
-                }
-                else{
-                    if(currentItem.getGender()!=null){
+                            }
+                        });
+                } else {
+                    if(currentItem.getGender() != null) {
                         if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
                             feedViewHolder.userimage.setImageResource(R.drawable.ic_female);
                         }
@@ -483,14 +461,10 @@ public class FeedsFragment extends Fragment {
                         else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
                             feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
-                    }
-                    else {
+                    } else {
                         feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    feedViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
 
                 feedViewHolder.username.setText(currentItem.getUsN());
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -544,7 +518,7 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     feedViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem, feedViewHolder.sliderView);
+                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem);
                     feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
 
                     feedViewHolder.text_content.setOnClickListener(v -> {
@@ -569,8 +543,6 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
-                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
-                                feedViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(feedViewHolder.sliderView)));
                         startActivity(intent);
                     });
                 }
@@ -599,11 +571,7 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
-                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
-                                feedViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(feedViewHolder.sliderView)));
                         startActivity(intent);
-//                        BottomCommentsDialog bottomCommentsDialog = new BottomCommentsDialog("Feeds", currentItem.getDocID(), currentItem.getUid(), 2);
-//                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
 
@@ -1099,8 +1067,8 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
-
         final int[] scrollY = {0};
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1185,17 +1153,9 @@ public class FeedsFragment extends Fragment {
                 else {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("ObjectAnimatorBinding")
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView.scrollToPosition(0);
-                                recyclerView.postDelayed(new Runnable() {
-                                    public void run() {
-                                        recyclerView.scrollToPosition(0);
-                                    }
-                                },300);
-                            }
+                        floatingActionButton.setOnClickListener(v -> {
+                            recyclerView.scrollToPosition(0);
+                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
                         });
                     } else {
                         floatingActionButton.setVisibility(View.GONE);
@@ -1336,9 +1296,6 @@ public class FeedsFragment extends Fragment {
                 if(document.exists()) {
                     BaseUserModel communityModel1 = document.toObject(BaseUserModel.class);
                     committees.add(communityModel1);
-//                    long pos = (long) (Math.random() * 1000000000);
-//                    FirebaseFirestore.getInstance().document("Home/Communities/" + document.getId())
-//                            .update("random", pos);
                 }
             }
             if(committees.size()>0) {
@@ -1350,9 +1307,6 @@ public class FeedsFragment extends Fragment {
     }
 
     private void buildReelsRecyclerView(int position, FeedViewHolder pvh) {
-//        final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(position);
-//        ProgrammingViewHolder pvh = (ProgrammingViewHolder) holder;
-
         if(pvh != null) {
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -1456,7 +1410,6 @@ public class FeedsFragment extends Fragment {
                                         else {
                                             holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                         }
-//                                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
                                 });
                     }
@@ -1475,7 +1428,6 @@ public class FeedsFragment extends Fragment {
                         else {
                             holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
-//                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
 
                     holder.pujo_com_dp.setOnClickListener(v -> {
@@ -1525,12 +1477,6 @@ public class FeedsFragment extends Fragment {
                             });
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-//                                if(bool.matches("1")){
-//                                    link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
-//                                }
-//                                else if (bool.matches("2")){
-//                                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
-//                                }
                                 link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
@@ -1557,12 +1503,6 @@ public class FeedsFragment extends Fragment {
                             postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-//                                String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-//                                Intent i = new Intent();
-//                                i.setAction(Intent.ACTION_SEND);
-//                                i.putExtra(Intent.EXTRA_TEXT, link);
-//                                i.setType("text/plain");
-//                                startActivity(Intent.createChooser(i, "Share with"));
                                 link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
@@ -1609,9 +1549,6 @@ public class FeedsFragment extends Fragment {
                     switch (state) {
                         case ERROR:
                             BasicUtility.showToast(getActivity(), "Something went wrong...");
-                            break;
-                        case LOADED:
-//                            BasicUtility.showToast(getActivity(), "top10 "+ position);
                             break;
                         case FINISHED:
                             if(reelsAdapter.getItemCount() == 0) {
@@ -1671,35 +1608,6 @@ public class FeedsFragment extends Fragment {
                                     cvh.item_reels_video.pause();
                                 }
                             }
-                        }
-                    }
-                }
-
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-
-                    scrollY[0] = scrollY[0] + dy;
-                    if (scrollY[0] <= 2000 && dy < 0) {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                    else {
-                        if(dy < 0){
-                            floatingActionButton.setVisibility(View.VISIBLE);
-                            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                                @SuppressLint("ObjectAnimatorBinding")
-                                @Override
-                                public void onClick(View v) {
-                                    recyclerView.scrollToPosition(0);
-                                    recyclerView.postDelayed(new Runnable() {
-                                        public void run() {
-                                            recyclerView.scrollToPosition(0);
-                                        }
-                                    },300);
-                                }
-                            });
-                        } else {
-                            floatingActionButton.setVisibility(View.GONE);
                         }
                     }
                 }

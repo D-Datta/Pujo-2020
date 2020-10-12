@@ -83,7 +83,7 @@
     <string name="_10_mins_ago">10 mins ago</string>
     <string name="post_content">post_content</string>
     <string name="_2_4k">2.4k</string>
-    <string name="_154">154</string>
+    <string name="_154">15.3k</string>
     <string name="write_a_comment">Write a comment…</string>
     <string name="_42_comments">42 comments</string>
     <string name="search">Search…</string>
@@ -98,9 +98,11 @@
     <string name="post_hint">How are you enjoying puja?</string>
     <string name="short_videos">Short Videos</string>
     <string name="see_all"><![CDATA[See All —>]]></string>
+    <string name="see_all_posts"><![CDATA[See All —>]]></string>
     <string name="about_yourself">Something about you</string>
     <string name="useful_information">Useful Information</string>
     <string name="privacy_nav">Privacy</string>
+    <string name="people_post">People\'s Posts</string>
 
     <string name="_0_18">0:18</string>
 

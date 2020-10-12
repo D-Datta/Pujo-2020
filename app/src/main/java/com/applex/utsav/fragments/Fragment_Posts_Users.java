@@ -385,7 +385,7 @@ public class Fragment_Posts_Users extends Fragment {
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(requireActivity(), currentItem.getImg(),currentItem, programmingViewHolder.sliderView);
+                    SliderAdapter sliderAdapter = new SliderAdapter(requireActivity(), currentItem.getImg(),currentItem);
                     programmingViewHolder.sliderView.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {

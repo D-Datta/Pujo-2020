@@ -14,7 +14,6 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -48,18 +46,12 @@ public class AllPujoFragment extends Fragment {
     private ProgressBar progress;
     private ProgressBar progressMoreCom;
     private LinearLayout emptyLayout;
-
     private SwipeRefreshLayout swipeRefreshLayout;
-
     private FirestorePagingAdapter adapter;
-    IntroPref introPref;
-
-    ImageView search, back;
-    EditText searchText;
+    private EditText searchText;
     private Button sName, sCity;
-    int selected_button=1;
+    private int selected_button=1;
     private FloatingActionButton floatingActionButton;
-
 
     public AllPujoFragment() {
         // Required empty public constructor
@@ -69,7 +61,7 @@ public class AllPujoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        introPref = new IntroPref(getActivity());
+        IntroPref introPref = new IntroPref(getActivity());
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
         Locale.setDefault(locale);
@@ -82,13 +74,11 @@ public class AllPujoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        search = view.findViewById(R.id.search);
-        back = view.findViewById(R.id.back);
+        ImageView search = view.findViewById(R.id.search);
         searchText = view.findViewById(R.id.search_text);
         searchText.setOnEditorActionListener(editorActionListener);
         sName = view.findViewById(R.id.Sfirstname);
         sCity = view.findViewById(R.id.Scity);
-
 
         progress = view.findViewById(R.id.content_progress);
         progressMoreCom = view.findViewById(R.id.progress_more_comm);
@@ -113,45 +103,35 @@ public class AllPujoFragment extends Fragment {
             buildRecyclerView("name",null);
         });
 
-        sName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-                sName.setTextColor(Color.parseColor("#ffffff"));
+        sName.setOnClickListener(view13 -> {
+            sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+            sName.setTextColor(Color.parseColor("#ffffff"));
 
-                sCity.setBackgroundResource(R.drawable.add_tags_button_background);
-                sCity.setBackgroundTintList(null);
-                sCity.setTextColor(Color.parseColor("#000000"));
+            sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+            sCity.setBackgroundTintList(null);
+            sCity.setTextColor(Color.parseColor("#000000"));
 
-                selected_button = 1;
-            }
+            selected_button = 1;
         });
 
+        sCity.setOnClickListener(view1 -> {
+            sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+            sCity.setTextColor(Color.parseColor("#ffffff"));
 
-        sCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-                sCity.setTextColor(Color.parseColor("#ffffff"));
+            sName.setBackgroundResource(R.drawable.add_tags_button_background);
+            sName.setBackgroundTintList(null);
+            sName.setTextColor(Color.parseColor("#000000"));
 
-                sName.setBackgroundResource(R.drawable.add_tags_button_background);
-                sName.setBackgroundTintList(null);
-                sName.setTextColor(Color.parseColor("#000000"));
-
-                selected_button = 2;
-            }
+            selected_button = 2;
         });
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!searchText.getText().toString().isEmpty()){
-                    if(selected_button==1)
-                        buildRecyclerView("name",searchText.getText().toString().trim());
+        search.setOnClickListener(view12 -> {
+            if(!searchText.getText().toString().isEmpty()){
+                if(selected_button==1)
+                    buildRecyclerView("name",searchText.getText().toString().trim());
 
-                    else
-                        buildRecyclerView("city", searchText.getText().toString().trim());
-                }
+                else
+                    buildRecyclerView("city", searchText.getText().toString().trim());
             }
         });
     }
@@ -289,17 +269,9 @@ public class AllPujoFragment extends Fragment {
                 else {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("ObjectAnimatorBinding")
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView.scrollToPosition(0);
-                                recyclerView.postDelayed(new Runnable() {
-                                    public void run() {
-                                        recyclerView.scrollToPosition(0);
-                                    }
-                                },300);
-                            }
+                        floatingActionButton.setOnClickListener(v -> {
+                            recyclerView.scrollToPosition(0);
+                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
                         });
                     } else {
                         floatingActionButton.setVisibility(View.GONE);
@@ -309,7 +281,7 @@ public class AllPujoFragment extends Fragment {
         });
     }
 
-    private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
+    private static class ProgrammingViewHolder extends RecyclerView.ViewHolder {
 
         TextView committeeName;
         ImageView committeeCover, committeeDp;

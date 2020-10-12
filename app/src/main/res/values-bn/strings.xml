@@ -103,6 +103,7 @@
     <string name="post_hint">পুজো কেমন উপভোগ করছেন?</string>
     <string name="short_videos">ছোট ভিডিও</string>
     <string name="see_all">সব ক্লিপস দেখুন —></string>
+    <string name="see_all_posts"><![CDATA[See All —>]]></string>
     <string name="about_yourself">নিজের সম্পর্কে কিছু</string>
 
     <string name="nocommittee">কোনো কমিটি নেই</string>
@@ -201,6 +202,7 @@
     <string name="enterstate">নিজের রাজ্যের নাম লিখুন</string>
     <string name="cityhead">এখানে আপনার শহর/জেলা খুঁজে পাচ্ছেন না?</string>
     <string name="statehead">এখানে আপনার রাজ্য খুঁজে পাচ্ছেন না?</string>
+    <string name="people_post">People\'s Posts</string>
     <string name="contactnumber">যোগাযোগ নম্বর</string>
 
 </resources>

@@ -464,7 +464,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(HashtagPostViewAll.this, currentItem.getImg(),currentItem, programmingViewHolder.sliderView);
+                    SliderAdapter sliderAdapter = new SliderAdapter(HashtagPostViewAll.this, currentItem.getImg(),currentItem);
                     programmingViewHolder.sliderView.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
