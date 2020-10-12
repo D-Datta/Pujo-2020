@@ -39,11 +39,11 @@
                 app:sliderIndicatorMargin="15dp"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="3dp"
-                app:sliderIndicatorRadius="1.5dp"
+                app:sliderIndicatorRadius="1dp"
                 app:sliderIndicatorSelectedColor="#5A5A5A"
                 app:sliderIndicatorUnselectedColor="#FFF"
                 app:sliderScrollTimeInSec="1"
-                app:sliderStartAutoCycle="true" />
+                app:sliderStartAutoCycle="false" />
 
         </androidx.cardview.widget.CardView>
 
@@ -185,7 +185,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:id="@+id/view_type_smth"
@@ -246,7 +246,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <View
             android:id="@+id/view"
@@ -306,7 +306,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/committee_item">
 
         <View

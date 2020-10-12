@@ -201,9 +201,9 @@ public class CommitteeFragment extends Fragment {
 
                 if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 7 == 0) {
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
-                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
+//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
 
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -284,9 +284,9 @@ public class CommitteeFragment extends Fragment {
                 }
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
-                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
+//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                     programmingViewHolder.view_all.setOnClickListener(v ->
                             startActivity(new Intent(getActivity(), CommitteeViewAll.class))
@@ -301,9 +301,9 @@ public class CommitteeFragment extends Fragment {
                     buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
                 }
                 else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
-                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
                     if (programmingViewHolder.getItemViewType() != 1 && lastReelDocument != null) {
@@ -328,11 +328,12 @@ public class CommitteeFragment extends Fragment {
                         requireActivity().startActivity(intent);
                     });
                 }
+                //people post
                 else if(programmingViewHolder.getItemViewType() % 4 == 0) {
                     programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
-                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
 
                     if (programmingViewHolder.getItemViewType() != 4 && lastfeedDocument != null) {
                         feeds_query = FirebaseFirestore.getInstance()
@@ -1540,7 +1541,6 @@ public class CommitteeFragment extends Fragment {
 
         ReelsItemViewHolder(View itemView) {
             super(itemView);
-
             item_reels = itemView.findViewById(R.id.item_reels);
             item_reels_video = itemView.findViewById(R.id.item_reels_video);
             video_time = itemView.findViewById(R.id.video_time);

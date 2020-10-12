@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="15dp"
+    android:paddingVertical="10dp"
     android:background="@drawable/custom_ripple_white_rectangle"
     android:paddingHorizontal="8dp"
     android:gravity="center_vertical">
