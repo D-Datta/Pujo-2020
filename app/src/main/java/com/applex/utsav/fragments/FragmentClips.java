@@ -852,7 +852,8 @@ public class FragmentClips extends Fragment {
                         BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
-                } else {
+                }
+                else {
                     ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
@@ -1196,13 +1197,13 @@ public class FragmentClips extends Fragment {
                     .collection("Users")
                     .whereEqualTo("type", "com")
                     .orderBy("lastVisitTime", Query.Direction.DESCENDING)
-                    .limit(15);
+                    .limit(20);
         } else {
             query =  FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
                     .orderBy("upvotes", Query.Direction.DESCENDING)
-                    .limit(15);
+                    .limit(20);
         }
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {

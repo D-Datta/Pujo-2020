@@ -98,7 +98,7 @@ public class SearchActivity extends AppCompatActivity {
                     userList.clear();
 
                     contentProgress.setVisibility(View.VISIBLE);
-                    buildRecycler("name");
+                    buildRecycler("small_name");
 
                 }
 
@@ -129,7 +129,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchKey.getText().toString().trim();
-                buildRecycler("name");
+                buildRecycler("small_name");
 
             }
 
@@ -141,7 +141,7 @@ public class SearchActivity extends AppCompatActivity {
                     if(!SEARCH.isEmpty()){
                         userList.clear();
 
-                        buildRecycler("name");
+                        buildRecycler("small_name");
                         contentProgress.setVisibility(View.VISIBLE);
 
                     }
@@ -222,7 +222,7 @@ public class SearchActivity extends AppCompatActivity {
                             userList.clear();
 
                             contentProgress.setVisibility(View.VISIBLE);
-                            buildRecycler("name");
+                            buildRecycler("small_name");
 
 
                         }
@@ -274,7 +274,7 @@ public class SearchActivity extends AppCompatActivity {
                 .collection("Users")
                 .whereEqualTo("type", "indi")
                 .orderBy(type)
-                .startAt(SEARCH);
+                .startAt(SEARCH.toLowerCase());
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)

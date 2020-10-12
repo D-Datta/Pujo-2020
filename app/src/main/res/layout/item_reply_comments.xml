@@ -45,13 +45,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/harabara"
                     android:paddingHorizontal="8dp"
                     android:text="Name"
+                    android:textStyle="bold"
                     android:paddingVertical="2dp"
                     android:textColor="#212121" />
 
@@ -75,10 +76,9 @@
                 android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:fontFamily="@font/oxygen_regular"
+                android:fontFamily="@font/oxygen_bold"
                 android:autoLink="all"
-                android:textColorLink="@color/toolbarStart"
+                android:textColorLink="@color/colorPrimary"
                 android:text=""
                 android:textColor="#212121"
                 android:paddingHorizontal="8dp"/>
@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="100"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:padding="2dp"
                 android:gravity="center_vertical" />
 

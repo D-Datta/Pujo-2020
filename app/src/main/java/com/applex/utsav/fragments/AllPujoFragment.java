@@ -93,14 +93,14 @@ public class AllPujoFragment extends Fragment {
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
 
-        buildRecyclerView("name", null );
+        buildRecyclerView("small_name", null );
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
                 .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             searchText.setText(null);
-            buildRecyclerView("name",null);
+            buildRecyclerView("small_name",null);
         });
 
         sName.setOnClickListener(view13 -> {
@@ -128,7 +128,7 @@ public class AllPujoFragment extends Fragment {
         search.setOnClickListener(view12 -> {
             if(!searchText.getText().toString().isEmpty()){
                 if(selected_button==1)
-                    buildRecyclerView("name",searchText.getText().toString().trim());
+                    buildRecyclerView("small_name",searchText.getText().toString().trim().toLowerCase());
 
                 else
                     buildRecyclerView("city", searchText.getText().toString().trim());
@@ -300,7 +300,7 @@ public class AllPujoFragment extends Fragment {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (!searchText.getText().toString().isEmpty()) {
                     if (selected_button == 1)
-                        buildRecyclerView("name", searchText.getText().toString());
+                        buildRecyclerView("small_name", searchText.getText().toString().toLowerCase());
                     else
                         buildRecyclerView("city", searchText.getText().toString());
                 }

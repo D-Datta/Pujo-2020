@@ -1289,7 +1289,7 @@ public class FeedsFragment extends Fragment {
                 .collection("Users")
                 .whereEqualTo("type", "com")
                 .orderBy("pujoVisits", Query.Direction.DESCENDING)
-                .limit(15);
+                .limit(20);
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
             for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
