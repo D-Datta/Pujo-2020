@@ -479,14 +479,14 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                     int displayWidth = display.getWidth();
                                     BitmapFactory.Options options = new BitmapFactory.Options();
                                     options.inJustDecodeBounds = true;
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
                                     int width = options.outWidth;
                                     if (width > displayWidth) {
                                         int widthRatio = Math.round((float) width / (float) displayWidth);
                                         options.inSampleSize = widthRatio;
                                     }
                                     options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dhaki_png, options);
+                                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
                                     Pcoverpic.setImageBitmap(scaledBitmap);
                                 }
 

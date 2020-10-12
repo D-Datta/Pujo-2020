@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -220,7 +223,21 @@ public class CommitteeViewAll extends AppCompatActivity {
                             .into(programmingViewHolder.committeeCover);
                 }
                 else {
-                    programmingViewHolder.committeeCover.setImageResource(R.drawable.image_background_grey);
+                    Display display = getWindowManager().getDefaultDisplay();
+                    int displayWidth = display.getWidth();
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
+                    int width = options.outWidth;
+                    if (width > displayWidth) {
+                        int widthRatio = Math.round((float) width / (float) displayWidth);
+                        options.inSampleSize = widthRatio;
+                    }
+                    options.inJustDecodeBounds = false;
+                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
+                    programmingViewHolder.committeeCover.setImageBitmap(scaledBitmap);
+
+//                    programmingViewHolder.committeeCover.setImageResource(R.drawable.image_background_grey);
                 }
 
                 if(currentItem.getDp() != null){
