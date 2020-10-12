@@ -111,6 +111,10 @@ public class CommitteeFragment extends Fragment {
     private DocumentSnapshot lastReelDocument, lastfeedDocument;
     private FloatingActionButton floatingActionButton;
 
+
+    private ArrayList<SliderModel> itemGroups;
+
+
     public CommitteeFragment() {
         // Required empty public constructor
     }
@@ -152,6 +156,8 @@ public class CommitteeFragment extends Fragment {
         positions = new ArrayList<>();
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
+
+        itemGroups = new ArrayList<>();
 
         introPref = new IntroPref(getActivity());
         COMMITEE_LOGO = introPref.getUserdp();
@@ -199,7 +205,8 @@ public class CommitteeFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
 
-                if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 7 == 0) {
+                //slider & new Post
+                if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 6 == 0) {
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
 //                    programmingViewHolder.reels_item.setVisibility(View.GONE);
 //                    programmingViewHolder.committee_item.setVisibility(View.GONE);
@@ -213,22 +220,29 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(false);
 
-                    ArrayList<SliderModel> itemGroups = new ArrayList<>();
 
-                    FirebaseFirestore.getInstance().collection("Sliders")
-                            .get()
-                            .addOnSuccessListener(queryDocumentSnapshots -> {
-                                for (DocumentSnapshot document : queryDocumentSnapshots) {
-                                    if (document.exists()) {
-                                        SliderModel itemGroup = document.toObject(SliderModel.class);
-                                        Objects.requireNonNull(itemGroup).setDocID(document.getId());
-                                        itemGroups.add(itemGroup);
+                    if(itemGroups.size() == 0){
+                        FirebaseFirestore.getInstance().collection("Sliders")
+                                .get()
+                                .addOnSuccessListener(queryDocumentSnapshots -> {
+                                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                                        if (document.exists()) {
+                                            SliderModel itemGroup = document.toObject(SliderModel.class);
+                                            Objects.requireNonNull(itemGroup).setDocID(document.getId());
+                                            itemGroups.add(itemGroup);
+                                        }
                                     }
-                                }
-                                HomeSliderAdapter adapter1 = new HomeSliderAdapter(getContext(), itemGroups, 2);
-                                programmingViewHolder.sliderView.setSliderAdapter(adapter1);
-                            })
-                            .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
+                                    HomeSliderAdapter adapter1 = new HomeSliderAdapter(getContext(), itemGroups, 2);
+                                    programmingViewHolder.sliderView.setSliderAdapter(adapter1);
+                                })
+                                .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
+                    }
+                    else {
+                        HomeSliderAdapter adapter1 = new HomeSliderAdapter(getContext(), itemGroups, 2);
+                        programmingViewHolder.sliderView.setSliderAdapter(adapter1);
+                        programmingViewHolder.sliderView.setCurrentPagePosition((position/7)%itemGroups.size());
+                    }
+
 
                     if(programmingViewHolder.getItemViewType() == 0) {
                         programmingViewHolder.view.setVisibility(View.GONE);
@@ -277,86 +291,108 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
-                    } else {
+                    }
+                    else {
                         programmingViewHolder.view.setVisibility(View.VISIBLE);
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
-                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
-                    programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
-//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-
-                    programmingViewHolder.view_all.setOnClickListener(v ->
-                            startActivity(new Intent(getActivity(), CommitteeViewAll.class))
-                    );
-
-                    if (programmingViewHolder.getItemViewType() == 4) {
-                        programmingViewHolder.comm_heading.setText(getResources().getText(R.string.recently_visited_pujos));
-                    } else {
-                        programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
-                    }
-
-                    buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
-                }
-                else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
-//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-                    programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
-
-                    if (programmingViewHolder.getItemViewType() != 1 && lastReelDocument != null) {
-                        reels_query = FirebaseFirestore.getInstance()
-                                .collection("Reels")
-                                .whereEqualTo("type", "com")
-                                .orderBy("ts", Query.Direction.DESCENDING)
-                                .startAfter(lastReelDocument);
-                    } else {
-                        reels_query = FirebaseFirestore.getInstance()
-                                .collection("Reels")
-                                .whereEqualTo("type", "com")
-                                .orderBy("ts", Query.Direction.DESCENDING);
-                    }
-
-                    buildReelsRecyclerView(position, programmingViewHolder);
-
-                    programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                        intent.putExtra("bool", "1");
-                        intent.putExtra("from", "com");
-                        requireActivity().startActivity(intent);
-                    });
-                }
-                //people post
-                else if(programmingViewHolder.getItemViewType() % 4 == 0) {
-                    programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-
-                    if (programmingViewHolder.getItemViewType() != 4 && lastfeedDocument != null) {
-                        feeds_query = FirebaseFirestore.getInstance()
-                                .collection("Feeds")
-                                .whereEqualTo("type", "indi")
-                                .orderBy("ts", Query.Direction.DESCENDING)
-                                .startAfter(lastReelDocument);
-                    } else {
-                        feeds_query = FirebaseFirestore.getInstance()
-                                .collection("Feeds")
-                                .whereEqualTo("type", "indi")
-                                .orderBy("ts", Query.Direction.DESCENDING);
-                    }
-
-                    buildFeedsRecyclerView(programmingViewHolder);
-                    programmingViewHolder.view_all_feeds.setOnClickListener(v -> MainActivity.viewPager.setCurrentItem(1, true));
-                }
                 else {
-                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
-                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+
+                    //committee
+                    if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
+                        programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
+//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
+//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+
+                        programmingViewHolder.view_all.setOnClickListener(v ->
+                                startActivity(new Intent(getActivity(), CommitteeViewAll.class))
+                        );
+
+                        if (programmingViewHolder.getItemViewType() == 4) {
+                            programmingViewHolder.comm_heading.setText(getResources().getText(R.string.recently_visited_pujos));
+                        } else {
+                            programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
+                        }
+
+                        buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
+                    }
+                    else {
+                        programmingViewHolder.committee_item.setVisibility(View.GONE);
+                    }
+
+                    //Clips
+                    if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
+//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+                        programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
+
+                        if (programmingViewHolder.getItemViewType() != 1 && lastReelDocument != null) {
+                            reels_query = FirebaseFirestore.getInstance()
+                                    .collection("Reels")
+                                    .whereEqualTo("type", "com")
+                                    .orderBy("ts", Query.Direction.DESCENDING)
+                                    .startAfter(lastReelDocument);
+                        } else {
+                            reels_query = FirebaseFirestore.getInstance()
+                                    .collection("Reels")
+                                    .whereEqualTo("type", "com")
+                                    .orderBy("ts", Query.Direction.DESCENDING);
+                        }
+
+                        buildReelsRecyclerView(position, programmingViewHolder);
+
+                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                            intent.putExtra("bool", "1");
+                            intent.putExtra("from", "com");
+                            requireActivity().startActivity(intent);
+                        });
+                    }
+                    else {
+                        programmingViewHolder.reels_item.setVisibility(View.GONE);
+                    }
+
+                    //people post
+                    if(programmingViewHolder.getItemViewType() % 4 == 0) {
+                        programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+
+                        if (programmingViewHolder.getItemViewType() != 4 && lastfeedDocument != null) {
+                            feeds_query = FirebaseFirestore.getInstance()
+                                    .collection("Feeds")
+                                    .whereEqualTo("type", "indi")
+                                    .orderBy("ts", Query.Direction.DESCENDING)
+                                    .startAfter(lastReelDocument);
+                        } else {
+                            feeds_query = FirebaseFirestore.getInstance()
+                                    .collection("Feeds")
+                                    .whereEqualTo("type", "indi")
+                                    .orderBy("ts", Query.Direction.DESCENDING);
+                        }
+
+                        buildFeedsRecyclerView(programmingViewHolder);
+                        programmingViewHolder.view_all_feeds.setOnClickListener(v -> MainActivity.viewPager.setCurrentItem(1, true));
+                    }
+                    else {
+                        programmingViewHolder.feeds_item.setVisibility(View.GONE);
+                    }
+
                 }
+
+
+
+//                else {
+//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
+//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+//                }
 
                 DocumentReference likeStore;
                 String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
