@@ -328,13 +328,13 @@ public class CommitteeFragment extends Fragment {
                         requireActivity().startActivity(intent);
                     });
                 }
-                else if(programmingViewHolder.getItemViewType() % 5 == 0) {
+                else if(programmingViewHolder.getItemViewType() % 4 == 0) {
                     programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
 
-                    if (programmingViewHolder.getItemViewType() != 5 && lastfeedDocument != null) {
+                    if (programmingViewHolder.getItemViewType() != 4 && lastfeedDocument != null) {
                         feeds_query = FirebaseFirestore.getInstance()
                                 .collection("Feeds")
                                 .whereEqualTo("type", "indi")
