@@ -231,9 +231,6 @@ public class FragmentClips extends Fragment {
                             programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
                     }
-//                    else {
-//                        programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                    }
                 }
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);

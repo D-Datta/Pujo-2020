@@ -31,8 +31,6 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -47,7 +45,6 @@ import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
-import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -566,8 +563,6 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
-                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
-                                programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
                         startActivity(intent);
                     });
 
@@ -593,8 +588,6 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
-                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(),
-                                programmingViewHolder.sliderViewpost, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderViewpost)));
                         startActivity(intent);
                     });
                 }
@@ -1085,67 +1078,68 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            if (newState == 0) {
-                int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
-                int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == 0) {
+                    int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+                    int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
 
-                if (firstVisiblePosition >= 0) {
-                    Rect rect_parent = new Rect();
-                    mRecyclerView.getGlobalVisibleRect(rect_parent);
+                    if (firstVisiblePosition >= 0) {
+                        Rect rect_parent = new Rect();
+                        mRecyclerView.getGlobalVisibleRect(rect_parent);
 
-                    for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                        if(positions != null && positions.contains(i)) {
+                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                            if(positions != null && positions.contains(i)) {
 
-                            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                            ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
+                                final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
+                                ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
 
-                            int[] location = new int[2];
-                            Objects.requireNonNull(cvh).reels_item.getLocationOnScreen(location);
-                            Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_item.getWidth(), location[1] + cvh.reels_item.getHeight());
+                                int[] location = new int[2];
+                                Objects.requireNonNull(cvh).reels_item.getLocationOnScreen(location);
+                                Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_item.getWidth(), location[1] + cvh.reels_item.getHeight());
 
-                            float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
-                            float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
-                            float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
-                            float overlapArea = x_overlap * y_overlap;
-                            float percent = (overlapArea / rect_parent_area) * 100.0f;
+                                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                                float overlapArea = x_overlap * y_overlap;
+                                float percent = (overlapArea / rect_parent_area) * 100.0f;
 
-                            if (percent >= 90) {
-                                RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
+                                if (percent >= 90) {
+                                    RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
 
-                                int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
-                                int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
+                                    int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
+                                    int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
 
-                                if (firstVisiblePosition1 >= 0) {
-                                    Rect rect_parent1 = new Rect();
-                                    cvh.reelsList.getGlobalVisibleRect(rect_parent1);
+                                    if (firstVisiblePosition1 >= 0) {
+                                        Rect rect_parent1 = new Rect();
+                                        cvh.reelsList.getGlobalVisibleRect(rect_parent1);
 
-                                    for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
-                                        final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
-                                        ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
+                                        for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
+                                            final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
+                                            ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
 
-                                        int[] location1 = new int[2];
+                                            int[] location1 = new int[2];
 
-                                        Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
-                                        Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
+                                            Objects.requireNonNull(cvh1).item_reels_video.getLocationOnScreen(location1);
+                                            Rect rect_child1 = new Rect(location1[0], location1[1], location1[0] + cvh1.item_reels_video.getWidth(), location1[1] + cvh1.item_reels_video.getHeight());
 
-                                        float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);
-                                        float x_overlap1 = Math.max(0, Math.min(rect_child1.right, rect_parent1.right) - Math.max(rect_child1.left, rect_parent1.left));
-                                        float y_overlap1 = Math.max(0, Math.min(rect_child1.bottom, rect_parent1.bottom) - Math.max(rect_child1.top, rect_parent1.top));
-                                        float overlapArea1 = x_overlap1 * y_overlap1;
-                                        float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
+                                            float rect_parent_area1 = (rect_child1.right - rect_child1.left) * (rect_child1.bottom - rect_child1.top);
+                                            float x_overlap1 = Math.max(0, Math.min(rect_child1.right, rect_parent1.right) - Math.max(rect_child1.left, rect_parent1.left));
+                                            float y_overlap1 = Math.max(0, Math.min(rect_child1.bottom, rect_parent1.bottom) - Math.max(rect_child1.top, rect_parent1.top));
+                                            float overlapArea1 = x_overlap1 * y_overlap1;
+                                            float percent1 = (overlapArea1 / rect_parent_area1) * 100.0f;
 
-                                        if (percent1 >= 90) {
-                                            cvh1.item_reels_video.start();
-                                            cvh1.item_reels_video.setOnPreparedListener(mp -> {
-                                                requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                new Handler().postDelayed(() -> cvh1.item_reels_image.setVisibility(View.GONE), 500);
-                                                mp.setVolume(0f, 0f);
-                                                mp.setLooping(true);
-                                            });
-                                        } else {
-                                            cvh1.item_reels_video.seekTo(1);
-                                            cvh1.item_reels_video.pause();
+                                            if (percent1 >= 90) {
+                                                cvh1.item_reels_video.start();
+                                                cvh1.item_reels_video.setOnPreparedListener(mp -> {
+                                                    requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                    new Handler().postDelayed(() -> cvh1.item_reels_image.setVisibility(View.GONE), 500);
+                                                    mp.setVolume(0f, 0f);
+                                                    mp.setLooping(true);
+                                                });
+                                            } else {
+                                                cvh1.item_reels_video.seekTo(1);
+                                                cvh1.item_reels_video.pause();
+                                            }
                                         }
                                     }
                                 }
@@ -1154,6 +1148,9 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
             }
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
     }
@@ -1242,8 +1239,6 @@ public class CommitteeFragment extends Fragment {
     }
 
     private void buildReelsRecyclerView(int position, ProgrammingViewHolder pvh) {
-//        final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(position);
-//        ProgrammingViewHolder pvh = (ProgrammingViewHolder) holder;
 
         if(pvh != null) {
 

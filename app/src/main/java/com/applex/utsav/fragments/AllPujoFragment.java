@@ -109,7 +109,6 @@ public class AllPujoFragment extends Fragment {
             buildRecyclerView("name",null);
         });
 
-
         sName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,11 +230,9 @@ public class AllPujoFragment extends Fragment {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-
                 LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
                 View v = layoutInflater.inflate(R.layout.item_committee_grid, viewGroup, false);
                 return new ProgrammingViewHolder(v);
-
             }
 
             @Override
@@ -274,6 +271,13 @@ public class AllPujoFragment extends Fragment {
         progress.setVisibility(View.GONE);
         progressMoreCom.setVisibility(View.GONE);
         cRecyclerView.setAdapter(adapter);
+
+        cRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
