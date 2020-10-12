@@ -13,6 +13,12 @@
         android:orientation="vertical"
         android:visibility="visible">
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/light_background"/>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +29,7 @@
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="177dp"
+                android:layout_height="160dp"
                 app:sliderAnimationDuration="500"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"

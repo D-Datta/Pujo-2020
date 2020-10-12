@@ -51,6 +51,7 @@ import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
+import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
@@ -199,7 +200,6 @@ public class CommitteeFragment extends Fragment {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
 
                 if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 7 == 0) {
-
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
@@ -230,55 +230,59 @@ public class CommitteeFragment extends Fragment {
                             })
                             .addOnFailureListener(e -> BasicUtility.showToast(getContext(), "No Internet Connection"));
 
-                    programmingViewHolder.type_something.setVisibility(View.VISIBLE);
+                    if(programmingViewHolder.getItemViewType() == 0) {
+                        programmingViewHolder.view.setVisibility(View.GONE);
+                        programmingViewHolder.new_post_layout.setVisibility(View.VISIBLE);
+                        programmingViewHolder.type_something.setOnClickListener(view -> {
+                            if (InternetConnection.checkConnection(requireActivity())) {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
+                                if (introPref.getType().matches("com")) {
+                                    i.putExtra("target", "1");
+                                } else
+                                    i.putExtra("target", "2");
 
-                    programmingViewHolder.type_something.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(requireActivity())) {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
-                            if (introPref.getType().matches("com")) {
-                                i.putExtra("target", "1");
+                                startActivity(i);
                             } else
-                                i.putExtra("target", "2");
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        });
 
-                            startActivity(i);
-                        } else
-                            BasicUtility.showToast(getContext(), "Network Unavailable...");
-                    });
+                        programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
+                            if (InternetConnection.checkConnection(requireActivity())) {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
 
-                    programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(requireActivity())) {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
+                                if (introPref.getType().matches("com")) {
+                                    i.putExtra("target", "1");
+                                } else
+                                    i.putExtra("target", "2");
 
-                            if (introPref.getType().matches("com")) {
-                                i.putExtra("target", "1");
+                                startActivity(i);
                             } else
-                                i.putExtra("target", "2");
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        });
 
-                            startActivity(i);
-                        } else
-                            BasicUtility.showToast(getContext(), "Network Unavailable...");
-                    });
-
-                    if (COMMITEE_LOGO != null) {
-                        Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.type_dp);
-                    } else {
-                        if (GENDER != null) {
-                            if (GENDER.matches("Female") || GENDER.matches("মহিলা")) {
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
-                            } else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")) {
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_male);
-                            } else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")) {
+                        if (COMMITEE_LOGO != null) {
+                            Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
+                                    .placeholder(R.drawable.ic_account_circle_black_24dp)
+                                    .into(programmingViewHolder.type_dp);
+                        } else {
+                            if (GENDER != null) {
+                                if (GENDER.matches("Female") || GENDER.matches("মহিলা")) {
+                                    programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
+                                } else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")) {
+                                    programmingViewHolder.type_dp.setImageResource(R.drawable.ic_male);
+                                } else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")) {
+                                    programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                }
+                            } else {
                                 programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
-                        } else {
-                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
+                    } else {
+                        programmingViewHolder.view.setVisibility(View.VISIBLE);
+                        programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
-
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
@@ -297,7 +301,6 @@ public class CommitteeFragment extends Fragment {
                     buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
                 }
                 else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
-
                     programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
@@ -326,7 +329,6 @@ public class CommitteeFragment extends Fragment {
                     });
                 }
                 else if(programmingViewHolder.getItemViewType() % 5 == 0) {
-
                     programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
@@ -1136,8 +1138,9 @@ public class CommitteeFragment extends Fragment {
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
-        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL, reels_item, slider_item, committee_item, feeds_item;
+        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout, new_post_layout, newPostIconsLL, reels_item, slider_item, committee_item, feeds_item;
         LottieAnimationView dhak_anim;
+        View view;
         RelativeLayout normal_item, rlLayout;
         RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView;
 
@@ -1203,6 +1206,7 @@ public class CommitteeFragment extends Fragment {
             fRecyclerView = itemView.findViewById(R.id.feedsRecycler);
             feeds_item = itemView.findViewById(R.id.feeds_item);
             view_all_feeds = itemView.findViewById(R.id.view_all_feeds);
+            view = itemView.findViewById(R.id.view);
         }
     }
 
@@ -1780,7 +1784,7 @@ public class CommitteeFragment extends Fragment {
                     }
 
                     holder.text_without_image.setOnClickListener(v -> {
-                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
                         intent.putExtra("username", currentItem.getUsN());
                         intent.putExtra("userdp", currentItem.getDp());
                         intent.putExtra("docID", currentItem.getDocID());
