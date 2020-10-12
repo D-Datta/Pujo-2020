@@ -57,6 +57,7 @@ import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.MultipleImageAdapter;
 import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.adapters.TagAdapter2;
+import com.applex.utsav.adapters.ViewmoreSliderAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.HomePostModel;
@@ -79,6 +80,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -112,6 +116,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private ImageView cross, user_image, video_cam_icon, video_gal_icon;
     private ImageView postimage;
     private LinearLayout customTag, icons;
+    private PujoTagModel pujoTag;
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
@@ -321,85 +326,144 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
 
             if(intent.getStringExtra("target").matches("100")){// EDIT POST
+
+                if(intent.getStringExtra("headline")!=null)
+                {
+                    head_content.setVisibility(View.VISIBLE);
+                    head_content.setText(intent.getStringExtra("headline"));
+                }
+                if(intent.getStringExtra("txt")!=null)
+                {
+                    postcontent.setVisibility(View.VISIBLE);
+                    postcontent.setText(intent.getStringExtra("txt"));
+                }
+                Bundle args = getIntent().getBundleExtra("BUNDLETAGS");
+                if (args != null) {
+                    if ((ArrayList<String>) args.getSerializable("ARRAYLISTTAGS") != null
+                            && ((ArrayList<String>) args.getSerializable("ARRAYLISTTAGS")).size() > 0) {
+
+                        tagList = (ArrayList<String>) args.getSerializable("ARRAYLISTTAGS");
+
+                        if (tagList != null && tagList.size() > 0) {
+                            tags_selectedRecycler.setHasFixedSize(true);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                            tags_selectedRecycler.setLayoutManager(linearLayoutManager);
+                            tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
+                            //  selected_tags = new ArrayList<>();
+
+                            tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
+                            tags_selectedRecycler.setAdapter(tagAdapter2);
+
+                            tagAdapter2.onClickListener((position, tag) -> {
+                                Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
+                            });
+
+                            tagAdapter2.onLongClickListener((position, tag_name) ->{
+//            TagModel tagModel = new TagModel();
+//            tagModel.setName_tag(tag_name);
+
+                                tagList.remove(position);
+                                tagAdapter2.notifyItemRemoved(position);
+
+                                if(tagList.size()==0)
+                                    tags_selectedRecycler.setVisibility(View.GONE);
+
+                                //   tagAdapter.notifyDataSetChanged();
+                            });
+
+                        }
+//                        else {
+//                            sliderView.setVisibility(View.GONE);
+//                        }
+
+                    }
+                }
+                if(StoreTemp.getInstance().getPujoTagModel()!=null)
+                {
+                    tagPujo.setVisibility(View.VISIBLE);
+                    pujoTag = StoreTemp.getInstance().getPujoTagModel();
+                    tagPujo.setText(StoreTemp.getInstance().getPujoTagModel().getPujoName());
+                }
                 //post_anon.setVisibility(View.GONE);
-                if(intent.getStringExtra("usN")!=null){
-                    editPostModel.setUsN(intent.getStringExtra("usN"));
-                    postusername.setText(editPostModel.getUsN());
-
-                }
-
-                if(intent.getStringExtra("dp")!=null)
-                    editPostModel.setDp(intent.getStringExtra("dp"));
-
-                if(intent.getStringExtra("uid")!=null)
-                    editPostModel.setUid(intent.getStringExtra("uid"));
-
-                if(intent.getStringExtra("bool")!=null){
-                    if(intent.getStringExtra("bool").matches("0")||intent.getStringExtra("bool").matches("2")){
-                        postingIn.add("Global");
-                    }
-                    else if(intent.getStringExtra("bool").matches("3")){
-                        postingIn.add("Your Campus");
-                    }
-                }
-
-                if(intent.getStringExtra("challengeID")!=null){
-                    postingIn.add("Global");
-
-                    //post_anon.setVisibility(View.GONE);
-                    //info.setVisibility(View.GONE);
-                    editPostModel.setChallengeID(intent.getStringExtra("challengeID"));
-                }
-
-                if(intent.getSerializableExtra("reportL")!=null)
-                    editPostModel.setReportL((ArrayList<String>) intent.getSerializableExtra("reportL"));
-
-                if(intent.getStringExtra("docID")!=null)
-                    editPostModel.setDocID(intent.getStringExtra("docID"));
-
-                if(intent.getStringExtra("type")!=null)
-                    editPostModel.setType(intent.getStringExtra("type"));
-
-                if(intent.getStringExtra("likeCheck")!=null)
-                    editPostModel.setLikeCheck(Integer.parseInt(intent.getStringExtra("likeCheck")));
-
-                if(intent.getSerializableExtra("likeL")!=null)
-                    editPostModel.setLikeL((ArrayList<String>) intent.getSerializableExtra("likeL"));
-
-                if(intent.getStringExtra("cmtNo")!=null)
-                    editPostModel.setCmtNo(Long.parseLong(intent.getStringExtra("cmtNo")));
-
-                if((StoreTemp.getInstance().getTagTemp())!=null){
-                    editPostModel.setTagL(StoreTemp.getInstance().getTagTemp());
-                    tags_selectedRecycler.setVisibility(View.VISIBLE);
-                    selected_tags= editPostModel.getTagL();
-
-                    tagAdapter2.notifyDataSetChanged();
-                    buildRecyclerView_selectedtags();
-                }
-
-
-                if(intent.getStringExtra("txt")!=null){
-                    editPostModel.setTxt(intent.getStringExtra("txt"));
-                    postcontent.setText(editPostModel.getTxt());
-                }
-
-                if(intent.getStringExtra("comID")!=null){
-                    postingIn.add(intent.getStringExtra("comName"));
-                    //post_anon.setVisibility(View.GONE);
-                    //info.setVisibility(View.GONE);
-                    editPostModel.setComID(intent.getStringExtra("comID"));
-                }
-
-
-                if(intent.getStringExtra("comName")!=null)
-                    editPostModel.setComName(intent.getStringExtra("comName"));
-
-                if(intent.getStringExtra("ts")!=null)
-                    editPostModel.setTs(Long.parseLong(intent.getStringExtra("ts")));
-
-                if(intent.getStringExtra("newTs")!=null)
-                    editPostModel.setNewTs(Long.parseLong(intent.getStringExtra("newTs")));
+//                if(intent.getStringExtra("usN")!=null){
+//                    editPostModel.setUsN(intent.getStringExtra("usN"));
+//                    postusername.setText(editPostModel.getUsN());
+//
+//                }
+//
+//                if(intent.getStringExtra("dp")!=null)
+//                    editPostModel.setDp(intent.getStringExtra("dp"));
+//
+//                if(intent.getStringExtra("uid")!=null)
+//                    editPostModel.setUid(intent.getStringExtra("uid"));
+//
+//                if(intent.getStringExtra("bool")!=null){
+//                    if(intent.getStringExtra("bool").matches("0")||intent.getStringExtra("bool").matches("2")){
+//                        postingIn.add("Global");
+//                    }
+//                    else if(intent.getStringExtra("bool").matches("3")){
+//                        postingIn.add("Your Campus");
+//                    }
+//                }
+//
+//                if(intent.getStringExtra("challengeID")!=null){
+//                    postingIn.add("Global");
+//
+//                    //post_anon.setVisibility(View.GONE);
+//                    //info.setVisibility(View.GONE);
+//                    editPostModel.setChallengeID(intent.getStringExtra("challengeID"));
+//                }
+//
+//                if(intent.getSerializableExtra("reportL")!=null)
+//                    editPostModel.setReportL((ArrayList<String>) intent.getSerializableExtra("reportL"));
+//
+//                if(intent.getStringExtra("docID")!=null)
+//                    editPostModel.setDocID(intent.getStringExtra("docID"));
+//
+//                if(intent.getStringExtra("type")!=null)
+//                    editPostModel.setType(intent.getStringExtra("type"));
+//
+//                if(intent.getStringExtra("likeCheck")!=null)
+//                    editPostModel.setLikeCheck(Integer.parseInt(intent.getStringExtra("likeCheck")));
+//
+//                if(intent.getSerializableExtra("likeL")!=null)
+//                    editPostModel.setLikeL((ArrayList<String>) intent.getSerializableExtra("likeL"));
+//
+//                if(intent.getStringExtra("cmtNo")!=null)
+//                    editPostModel.setCmtNo(Long.parseLong(intent.getStringExtra("cmtNo")));
+//
+//                if((StoreTemp.getInstance().getTagTemp())!=null){
+//                    editPostModel.setTagL(StoreTemp.getInstance().getTagTemp());
+//                    tags_selectedRecycler.setVisibility(View.VISIBLE);
+//                    selected_tags= editPostModel.getTagL();
+//
+//                    tagAdapter2.notifyDataSetChanged();
+//                    buildRecyclerView_selectedtags();
+//                }
+//
+//
+//                if(intent.getStringExtra("txt")!=null){
+//                    editPostModel.setTxt(intent.getStringExtra("txt"));
+//                    postcontent.setText(editPostModel.getTxt());
+//                }
+//
+//                if(intent.getStringExtra("comID")!=null){
+//                    postingIn.add(intent.getStringExtra("comName"));
+//                    //post_anon.setVisibility(View.GONE);
+//                    //info.setVisibility(View.GONE);
+//                    editPostModel.setComID(intent.getStringExtra("comID"));
+//                }
+//
+//
+//                if(intent.getStringExtra("comName")!=null)
+//                    editPostModel.setComName(intent.getStringExtra("comName"));
+//
+//                if(intent.getStringExtra("ts")!=null)
+//                    editPostModel.setTs(Long.parseLong(intent.getStringExtra("ts")));
+//
+//                if(intent.getStringExtra("newTs")!=null)
+//                    editPostModel.setNewTs(Long.parseLong(intent.getStringExtra("newTs")));
 
             }
 
@@ -665,113 +729,182 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             CommitteeFragment.changed=1;
                         }
 
-                        docRef = firebaseFirestore.collection("Feeds").document(editPostModel.getDocID());
-
-                        ts = Long.toString(editPostModel.getTs());
-
-                        if(selected_tags!= null && selected_tags.size()>0 ) {
-                            editPostModel.setTagL(selected_tags);
-                        }
-                        if(!text_content.isEmpty()) {
-                            editPostModel.setTxt(text_content.trim());
-                        }
-
-                        if (imagelist != null && imagelist.size() > 0) {
-                            for (int j = 0; j < imagelist.size(); j++) {
-                                Long tsLong = System.currentTimeMillis();
-                                ts = tsLong.toString();
-                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid()+"/").child(ts+j + "post_img");
-
-                                int finalJ = j;
-                                reference.putBytes(imagelist.get(finalJ))
-                                        .addOnSuccessListener(taskSnapshot ->
-                                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                                                    downloadUri = uri;
-                                                    generatedFilePath.add(downloadUri.toString());
-                                                    Log.i("count", generatedFilePath.size() + " " + imagelist.size());
-                                                    if (generatedFilePath.size() == imagelist.size()) {
-                                                        homePostModel.setImg(generatedFilePath);
-                                                        docRef.set(homePostModel).addOnCompleteListener(task -> {
-                                                            if(task.isSuccessful()){
-                                                                progressDialog.dismiss();
-                                                                if(isTaskRoot()){
-                                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                                                }
-                                                                else if(intent.getStringExtra("FromViewMoreHome")!=null){
-                                                                    Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
-                                                                    i.putExtra("username", editPostModel.getUsN());
-                                                                    i.putExtra("userdp", editPostModel.getDp());
-                                                                    i.putExtra("docID", editPostModel.getDocID());
-                                                                    StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-
-                                                                    i.putExtra("likeL", editPostModel.getLikeL());
-                                                                    i.putExtra("postPic", editPostModel.getImg());
-                                                                    i.putExtra("postText", editPostModel.getTxt());
-                                                                    i.putExtra("bool", "3");
-                                                                    i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
-
-                                                                    i.putExtra("uid", editPostModel.getUid());
-                                                                    i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
-                                                                    i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
-                                                                    intent.putExtra("gender",editPostModel.getGender());
-                                                                    startActivity(i);
-                                                                    finish();
-
-                                                                }
-                                                                else {
-                                                                    NewPostHome.super.onBackPressed();
-                                                                }
-                                                            } else {
-                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
-                                                            }
-                                                        });
-                                                    }
-                                                }))
-                                        .addOnFailureListener(e -> {
-                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
-                                            if (progressDialog != null)
+                        if(intent.getStringExtra("typeofpost")!= null && intent.getStringExtra("typeofpost").matches("notreel"))
+                        {
+                            if(intent.getStringExtra("docID")!=null)
+                            FirebaseFirestore.getInstance().collection("Feeds")
+                                    .document(intent.getStringExtra("docID"))
+                                    .update("tagList", tagList, "headline", headline, "txt", text_content, "pujoTag", pujoTag)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful())
+                                            {
+                                                Toast.makeText(getApplicationContext(), "Post edited", Toast.LENGTH_LONG).show();
                                                 progressDialog.dismiss();
-                                        });
-                            }
-                        }
-                        else {
-                            editPostModel.setImg(null);
-                            docRef.set(editPostModel).addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
+//                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                            finish();
+                                                if (isTaskRoot()) {
+                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                    finish();
+                                                } else {
+                                                    NewPostHome.super.onBackPressed();
+                                                }
+                                            }
+                                            else {
+                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Post edit failed", Toast.LENGTH_LONG).show();
                                     progressDialog.dismiss();
-
-                                    if (isTaskRoot()) {
-                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                    } else if (intent.getStringExtra("FromViewMoreHome") != null) {
-                                        Intent i = new Intent(NewPostHome.this, ViewMoreHome.class);
-                                        i.putExtra("username", editPostModel.getUsN());
-                                        i.putExtra("userdp", editPostModel.getDp());
-                                        i.putExtra("docID", editPostModel.getDocID());
-                                        StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
-
-                                        i.putExtra("likeL", editPostModel.getLikeL());
-                                        i.putExtra("postPic", editPostModel.getImg());
-                                        i.putExtra("postText", editPostModel.getTxt());
-                                        i.putExtra("bool", "3");
-                                        i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
-
-                                        i.putExtra("uid", editPostModel.getUid());
-                                        i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
-                                        i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
-                                        i.putExtra("gender",editPostModel.getGender());
-                                        startActivity(i);
-                                        finish();
-
-                                    } else {
-                                        NewPostHome.super.onBackPressed();
-                                    }
-
-                                } else {
-                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-
                                 }
                             });
                         }
+                        else if(intent.getStringExtra("typeofpost")!= null && intent.getStringExtra("typeofpost").matches("reel"))
+                        {
+                            if(intent.getStringExtra("docID")!=null)
+                                FirebaseFirestore.getInstance().collection("Reels")
+                                        .document(intent.getStringExtra("docID"))
+                                        .update("tagList", tagList, "headline", headline, "description", text_content, "pujoTag", pujoTag)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful())
+                                                {
+                                                    Toast.makeText(getApplicationContext(), "Post edited", Toast.LENGTH_LONG).show();
+                                                    progressDialog.dismiss();
+//                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                            finish();
+                                                    if (isTaskRoot()) {
+                                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                        finish();
+                                                    } else {
+                                                        NewPostHome.super.onBackPressed();
+                                                    }
+                                                }
+                                                else {
+                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
+                                                }
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Post edit failed", Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                        }
+
+//                        docRef = firebaseFirestore.collection("Feeds").document(editPostModel.getDocID());
+
+//                        ts = Long.toString(editPostModel.getTs());
+
+//                        if(selected_tags!= null && selected_tags.size()>0 ) {
+//                            editPostModel.setTagL(selected_tags);
+//                        }
+//                        if(!text_content.isEmpty()) {
+//                            editPostModel.setTxt(text_content.trim());
+//                        }
+
+//                        if (imagelist != null && imagelist.size() > 0) {
+//                            for (int j = 0; j < imagelist.size(); j++) {
+//                                Long tsLong = System.currentTimeMillis();
+//                                ts = tsLong.toString();
+//                                StorageReference reference = storageReferenece.child("Feeds/").child(fireuser.getUid()+"/").child(ts+j + "post_img");
+//
+//                                int finalJ = j;
+//                                reference.putBytes(imagelist.get(finalJ))
+//                                        .addOnSuccessListener(taskSnapshot ->
+//                                                reference.getDownloadUrl().addOnSuccessListener(uri -> {
+//                                                    downloadUri = uri;
+//                                                    generatedFilePath.add(downloadUri.toString());
+//                                                    Log.i("count", generatedFilePath.size() + " " + imagelist.size());
+//                                                    if (generatedFilePath.size() == imagelist.size()) {
+//                                                        homePostModel.setImg(generatedFilePath);
+//                                                        docRef.set(homePostModel).addOnCompleteListener(task -> {
+//                                                            if(task.isSuccessful()){
+//                                                                progressDialog.dismiss();
+//                                                                if(isTaskRoot()){
+//                                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                                                }
+//                                                                else if(intent.getStringExtra("FromViewMoreHome")!=null){
+//                                                                    Intent i= new Intent(NewPostHome.this, ViewMoreHome.class);
+//                                                                    i.putExtra("username", editPostModel.getUsN());
+//                                                                    i.putExtra("userdp", editPostModel.getDp());
+//                                                                    i.putExtra("docID", editPostModel.getDocID());
+//                                                                    StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
+//
+//                                                                    i.putExtra("likeL", editPostModel.getLikeL());
+//                                                                    i.putExtra("postPic", editPostModel.getImg());
+//                                                                    i.putExtra("postText", editPostModel.getTxt());
+//                                                                    i.putExtra("bool", "3");
+//                                                                    i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
+//
+//                                                                    i.putExtra("uid", editPostModel.getUid());
+//                                                                    i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
+//                                                                    i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+//                                                                    intent.putExtra("gender",editPostModel.getGender());
+//                                                                    startActivity(i);
+//                                                                    finish();
+//
+//                                                                }
+//                                                                else {
+//                                                                    NewPostHome.super.onBackPressed();
+//                                                                }
+//                                                            } else {
+//                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
+//                                                            }
+//                                                        });
+//                                                    }
+//                                                }))
+//                                        .addOnFailureListener(e -> {
+//                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong");
+//                                            if (progressDialog != null)
+//                                                progressDialog.dismiss();
+//                                        });
+//                            }
+//                        }
+//                        else {
+//                            editPostModel.setImg(null);
+//                            docRef.set(editPostModel).addOnCompleteListener(task -> {
+//                                if (task.isSuccessful()) {
+//                                    progressDialog.dismiss();
+//
+//                                    if (isTaskRoot()) {
+//                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
+//                                    } else if (intent.getStringExtra("FromViewMoreHome") != null) {
+//                                        Intent i = new Intent(NewPostHome.this, ViewMoreHome.class);
+//                                        i.putExtra("username", editPostModel.getUsN());
+//                                        i.putExtra("userdp", editPostModel.getDp());
+//                                        i.putExtra("docID", editPostModel.getDocID());
+//                                        StoreTemp.getInstance().setTagTemp(editPostModel.getTagL());
+//
+//                                        i.putExtra("likeL", editPostModel.getLikeL());
+//                                        i.putExtra("postPic", editPostModel.getImg());
+//                                        i.putExtra("postText", editPostModel.getTxt());
+//                                        i.putExtra("bool", "3");
+//                                        i.putExtra("commentNo", Long.toString(editPostModel.getCmtNo()));
+//
+//                                        i.putExtra("uid", editPostModel.getUid());
+//                                        i.putExtra("timestamp", Long.toString(editPostModel.getTs()));
+//                                        i.putExtra("newTs", Long.toString(editPostModel.getNewTs()));
+//                                        i.putExtra("gender",editPostModel.getGender());
+//                                        startActivity(i);
+//                                        finish();
+//
+//                                    } else {
+//                                        NewPostHome.super.onBackPressed();
+//                                    }
+//
+//                                } else {
+//                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
+//
+//                                }
+//                            });
+//                        }
                     }
                     else {
                         long timestampLong = System.currentTimeMillis();
@@ -1363,7 +1496,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 }
             }
             else if(requestCode == TAG_PUJO) {
-                PujoTagModel pujoTag = new PujoTagModel();
+                pujoTag = new PujoTagModel();
                 pujoTag.setPujoName(data.getStringExtra("name"));
                 pujoTag.setPujoUid(data.getStringExtra("uid"));
                 pujoTag.setDp(data.getStringExtra("dp"));

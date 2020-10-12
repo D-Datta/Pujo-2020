@@ -1,6 +1,7 @@
 package com.applex.utsav.utility;
 
 
+import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.TagModel;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class StoreTemp {
 
     private ArrayList<TagModel> tagTemp;
     private byte[] pic;
+    public PujoTagModel pujoTagModel;
 
     private long cmtNo;
     private byte[] coverpic;
@@ -60,5 +62,13 @@ public class StoreTemp {
 
     public void setLikeList(ArrayList<String> likeList) {
         this.likeList = likeList;
+    }
+
+    public PujoTagModel getPujoTagModel() {
+        return pujoTagModel;
+    }
+
+    public void setPujoTagModel(PujoTagModel pujoTagModel) {
+        this.pujoTagModel = pujoTagModel;
     }
 }

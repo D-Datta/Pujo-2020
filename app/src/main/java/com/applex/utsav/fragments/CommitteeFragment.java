@@ -928,11 +928,22 @@ public class CommitteeFragment extends Fragment {
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
-                        postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
-//                        postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-//                            Intent i = new Intent(getContext(), NewPostHome.class);
-//                            i.putExtra("target", "100"); //target value for edit post
-//                            i.putExtra("bool", "2");
+                        //postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
+                        postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                            Intent i = new Intent(getContext(), NewPostHome.class);
+                            i.putExtra("target", "100"); //target value for edit post
+                            i.putExtra("bool", "2");
+                            i.putExtra("typeofpost", "notreel");
+                            i.putExtra("txt", currentItem.getTxt());
+                            i.putExtra("headline", currentItem.getHeadline());
+                            if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
+                                Bundle args = new Bundle();
+                                args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
+                                i.putExtra("BUNDLETAGS", args);
+                            }
+                            i.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+
 //                            i.putExtra("usN", currentItem.getUsN());
 //                            i.putExtra("dp", currentItem.getDp());
 //                            i.putExtra("uid", currentItem.getUid());
@@ -942,7 +953,6 @@ public class CommitteeFragment extends Fragment {
 //                                args.putSerializable("ARRAYLIST", currentItem.getImg());
 //                                i.putExtra("BUNDLE", args);
 //                            }
-//                            i.putExtra("txt", currentItem.getTxt());
 //                            i.putExtra("comID", currentItem.getComID());
 //                            i.putExtra("comName", currentItem.getComName());
 //                            i.putExtra("ts", Long.toString(currentItem.getTs()));
@@ -951,12 +961,12 @@ public class CommitteeFragment extends Fragment {
 //                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
 //                            i.putExtra("likeL", currentItem.getLikeL());
 //                            i.putExtra("likeCheck", currentItem.getLikeCheck());
-//                            i.putExtra("docID", currentItem.getDocID());
+
 //                            i.putExtra("reportL", currentItem.getReportL());
 //                            i.putExtra("challengeID", currentItem.getChallengeID());
-//                            startActivity(i);
-//                            postMenuDialog.dismiss();
-//                        });
+                            startActivity(i);
+                            postMenuDialog.dismiss();
+                        });
 
                         postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -1390,7 +1400,27 @@ public class CommitteeFragment extends Fragment {
                             postMenuDialog = new BottomSheetDialog(requireActivity());
                             postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                             postMenuDialog.setCanceledOnTouchOutside(TRUE);
-                            postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
+//                            postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
+                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent i = new Intent(getContext(), NewPostHome.class);
+                                    i.putExtra("target", "100"); //target value for edit post
+                                    i.putExtra("bool", "2");
+                                    i.putExtra("typeofpost", "reel");
+                                    i.putExtra("txt", currentItem.getDescription());
+                                    i.putExtra("headline", currentItem.getHeadline());
+                                    if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
+                                        Bundle args = new Bundle();
+                                        args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
+                                        i.putExtra("BUNDLETAGS", args);
+                                    }
+                                    i.putExtra("docID", currentItem.getDocID());
+                                    StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+                                    startActivity(i);
+                                    postMenuDialog.dismiss();
+                                }
+                            });
 
                             postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
