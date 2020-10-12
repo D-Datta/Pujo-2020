@@ -65,7 +65,7 @@
                     android:visibility="gone"
                     app:sliderStartAutoCycle="true" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:id="@+id/layout_with_text_and_image"
                     android:visibility="visible"
                     android:layout_width="match_parent"
@@ -75,9 +75,9 @@
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/item_image"
                         android:layout_width="match_parent"
-                        android:layout_height="230dp"
-                        android:minHeight="190dp"
-                        android:maxHeight="230dp"
+                        android:layout_height="195dp"
+                        android:transitionName="transition"
+                        android:visibility="visible"
                         app:sliderAnimationDuration="500"
                         app:sliderAutoCycleDirection="back_and_forth"
                         app:sliderAutoCycleEnabled="true"
@@ -88,32 +88,24 @@
                         app:sliderIndicatorOrientation="horizontal"
                         app:sliderIndicatorPadding="3dp"
                         app:sliderIndicatorRadius="1dp"
-                        android:transitionName="transition"
                         app:sliderIndicatorSelectedColor="#5A5A5A"
                         app:sliderIndicatorUnselectedColor="#FFF"
                         app:sliderScrollTimeInSec="1"
-                        android:visibility="visible"
-                        app:sliderStartAutoCycle="true"
-                        app:layout_constraintBottom_toTopOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/item_text"/>
+                        app:sliderStartAutoCycle="true" />
 
                     <TextView
                         android:id="@+id/item_text"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="4"
-                        android:padding="10dp"
+                        android:maxLines="3"
+                        android:padding="13dp"
                         android:text="@string/lorem_ipsum"
                         android:textColor="@color/black"
                         android:textSize="13dp"
-                        android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/item_image"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:layout_editor_absoluteX="0dp" />
+                        android:visibility="visible" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
 
             </RelativeLayout>
 

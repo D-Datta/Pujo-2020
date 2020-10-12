@@ -31,7 +31,6 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -1711,6 +1710,22 @@ public class CommitteeFragment extends Fragment {
                         holder.slider_image_without_text.setVisibility(View.GONE);
                         holder.layout_with_text_and_image.setVisibility(View.VISIBLE);
 
+                        if(currentItem.getTxt().length() < 35) {
+                            int width = (int)getResources().getDimension(R.dimen.image_width);
+                            int height = (int)getResources().getDimension(R.dimen.image_height_large);
+                            setDimensions(holder.slider_image_with_text, width, height);
+                        }
+                        else if(currentItem.getTxt().length() >= 35 && currentItem.getTxt().length() < 70) {
+                            int width = (int)getResources().getDimension(R.dimen.image_width);
+                            int height = (int)getResources().getDimension(R.dimen.image_height_medium);
+                            setDimensions(holder.slider_image_with_text, width, height);
+                        }
+                        else if(currentItem.getTxt().length() >= 70) {
+                            int width = (int)getResources().getDimension(R.dimen.image_width);
+                            int height = (int)getResources().getDimension(R.dimen.image_height_small);
+                            setDimensions(holder.slider_image_with_text, width, height);
+                        }
+
                         holder.text_with_image.setText(currentItem.getTxt());
 
                         holder.slider_image_with_text.setIndicatorAnimation(IndicatorAnimations.SCALE);
@@ -1724,7 +1739,7 @@ public class CommitteeFragment extends Fragment {
                         holder.slider_image_with_text.setSliderAdapter(sliderAdapter);
                     }
 
-                    if(currentItem.getCmtNo() == 0 && currentItem.getLikeL().size() != 0) {
+                    if(currentItem.getCmtNo() == 0 && currentItem.getLikeL() != null && currentItem.getLikeL().size() != 0) {
                         holder.comment_count.setVisibility(View.GONE);
                         holder.comment_image.setVisibility(View.GONE);
                         holder.view1.setVisibility(View.GONE);
@@ -1734,7 +1749,7 @@ public class CommitteeFragment extends Fragment {
 
                         holder.likes_count.setText(Integer.toString(currentItem.getLikeL().size()));
                     }
-                    else if(currentItem.getCmtNo() != 0 && currentItem.getLikeL().size() == 0) {
+                    else if(currentItem.getCmtNo() != 0 && currentItem.getLikeL() != null && currentItem.getLikeL().size() == 0) {
                         holder.comment_count.setVisibility(View.VISIBLE);
                         holder.comment_image.setVisibility(View.VISIBLE);
                         holder.view1.setVisibility(View.GONE);
@@ -1744,7 +1759,7 @@ public class CommitteeFragment extends Fragment {
 
                         holder.comment_count.setText(Long.toString(currentItem.getCmtNo()));
                     }
-                    else if(currentItem.getCmtNo() != 0 && currentItem.getLikeL().size() != 0) {
+                    else if(currentItem.getCmtNo() != 0 && currentItem.getLikeL() != null && currentItem.getLikeL().size() != 0) {
                         holder.comment_count.setVisibility(View.VISIBLE);
                         holder.comment_image.setVisibility(View.VISIBLE);
                         holder.view1.setVisibility(View.VISIBLE);
@@ -1880,8 +1895,7 @@ public class CommitteeFragment extends Fragment {
         ImageView profile_pic, like_image, comment_image;
         TextView profile_name, text_without_image, text_with_image, likes_count, comment_count, feeds_mins_ago;
         CardView feeds_card;
-        ConstraintLayout layout_with_text_and_image;
-        LinearLayout stats_layout;
+        LinearLayout stats_layout, layout_with_text_and_image;
         View view1, view2;
         SliderView slider_image_without_text, slider_image_with_text;
 
@@ -1905,6 +1919,13 @@ public class CommitteeFragment extends Fragment {
             view1 = itemView.findViewById(R.id.view1);
             view2 = itemView.findViewById(R.id.view2);
         }
+    }
+
+    private void setDimensions(View view, int width, int height){
+        android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
     }
 
     @Override
