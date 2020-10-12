@@ -161,32 +161,34 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             PujoCommitteeModel pujoCommitteeModel = task.getResult().toObject(PujoCommitteeModel.class);
-                            if(pujoCommitteeModel.getDescription()!=null && !pujoCommitteeModel.getDescription().isEmpty())
-                            {
+                            if(pujoCommitteeModel.getDescription()!=null && !pujoCommitteeModel.getDescription().isEmpty()) {
                                 com_desc.setText(pujoCommitteeModel.getDescription());
                             }
-                            if(pujoCommitteeModel.getType()!=null && !pujoCommitteeModel.getType().isEmpty())
-                            {
+                            if(pujoCommitteeModel.getType()!=null && !pujoCommitteeModel.getType().isEmpty()) {
 //                                com_type.setText(pujoCommitteeModel.getType());
+                                RadioButton radioButton1 = findViewById(R.id.sarbojonin);
+                                RadioButton radioButton2 = findViewById(R.id.bonediBari);
+                                RadioButton radioButton3 = findViewById(R.id.abashon);
+
                                 if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.sarbojonin))){
-                                    radioGroup.setSelected(true);
-                                    radioButton = findViewById(R.id.sarbojonin);
-                                    radioButton.setSelected(true);
+                                    radioButton1.setSelected(true);
+                                    radioButton2.setSelected(false);
+                                    radioButton3.setSelected(false);
                                 }
                                 else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.bonedi_bari))){
-                                    radioGroup.setSelected(true);
-                                    radioButton = findViewById(R.id.bonediBari);
-                                    radioButton.setSelected(true);
+                                    radioButton1.setSelected(false);
+                                    radioButton2.setSelected(true);
+                                    radioButton3.setSelected(false);
                                 }
                                 else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.abashon))){
-                                    radioGroup.setSelected(true);
-                                    radioButton = findViewById(R.id.abashon);
-                                    radioButton.setSelected(true);
+                                    radioButton1.setSelected(false);
+                                    radioButton2.setSelected(false);
+                                    radioButton3.setSelected(true);
                                 }
                             }
                             if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
                                 com_upi.setText(pujoCommitteeModel.getUpiid());
-                        }
+                            }
                         }
                     }
                 });
@@ -226,7 +228,6 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 int selectedType = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedType);
                 PUJOTYPE = radioButton.getText().toString().trim();
-
 
                 if (COMNAME.isEmpty() || CITY.isEmpty() ||PUJOTYPE.isEmpty() || ADDRESS.isEmpty()
                         || STATE.isEmpty() || PIN.isEmpty() || DESCRIPTION.isEmpty() || PROFILEPIC==null || COVERPIC==null || CONTACT.isEmpty()) {
