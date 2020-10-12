@@ -504,7 +504,6 @@ public class FeedsFragment extends Fragment {
                     } else {
                         feedViewHolder.LinkPreview.setVisibility(View.GONE);
                     }
-
                 }
 
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
@@ -1259,7 +1258,7 @@ public class FeedsFragment extends Fragment {
 
         RelativeLayout item_reels;
         VideoView item_reels_video;
-        TextView video_time;
+        TextView video_time, reels_mins_ago;
         ImageView pujo_com_dp, reels_more, item_reels_image;
         TextView pujo_com_name;
 
@@ -1273,6 +1272,7 @@ public class FeedsFragment extends Fragment {
             pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
             reels_more =  itemView.findViewById(R.id.reels_more);
             item_reels_image = itemView.findViewById(R.id.item_reels_image);
+            reels_mins_ago = itemView.findViewById(R.id.reels_mins_ago);
         }
     }
 
@@ -1345,6 +1345,16 @@ public class FeedsFragment extends Fragment {
                 @SuppressLint("SetTextI18n")
                 @Override
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
+                    String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
+                    holder.reels_mins_ago.setText(timeAgo);
+                    if (timeAgo != null) {
+                        if (timeAgo.matches("just now")) {
+                            holder.reels_mins_ago.setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.white));
+                        }
+                    }
+
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                     holder.item_reels_video.start();
 
