@@ -171,19 +171,22 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 RadioButton radioButton3 = radioGroup.findViewById(R.id.abashon);
 
                                 if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.sarbojonin))){
-                                    radioButton1.setSelected(true);
-                                    radioButton2.setSelected(false);
-                                    radioButton3.setSelected(false);
+                                    radioGroup.check(R.id.sarbojonin);
+//                                    radioButton1.setSelected(true);
+//                                    radioButton2.setSelected(false);
+//                                    radioButton3.setSelected(false);
                                 }
                                 else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.bonedi_bari))){
-                                    radioButton1.setSelected(false);
-                                    radioButton2.setSelected(true);
-                                    radioButton3.setSelected(false);
+                                    radioGroup.check(R.id.bonediBari);
+//                                    radioButton1.setSelected(false);
+//                                    radioButton2.setSelected(true);
+//                                    radioButton3.setSelected(false);
                                 }
                                 else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.abashon))){
-                                    radioButton1.setSelected(false);
-                                    radioButton2.setSelected(false);
-                                    radioButton3.setSelected(true);
+                                    radioGroup.check(R.id.abashon);
+//                                    radioButton1.setSelected(false);
+//                                    radioButton2.setSelected(false);
+//                                    radioButton3.setSelected(true);
                                 }
                             }
                             if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
