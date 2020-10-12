@@ -386,14 +386,6 @@ public class CommitteeFragment extends Fragment {
                 }
 
 
-
-//                else {
-//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-//                }
-
                 DocumentReference likeStore;
                 String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 programmingViewHolder.minsago.setText(timeAgo);

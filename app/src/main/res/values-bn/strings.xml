@@ -196,13 +196,13 @@
     <string name="abashon">আবাসন</string>
     <string name="all_pujo">সব পুজো</string>
     <string name="clips">ভিডিও</string>
-    <string name="search_pujo">Search your favorite pujo…</string>
+    <string name="search_pujo">প্রিয় পুজো অনুসন্ধান করুন ...…</string>
 
     <string name="entercity">নিজের শহর/জেলার নাম লিখুন</string>
     <string name="enterstate">নিজের রাজ্যের নাম লিখুন</string>
     <string name="cityhead">এখানে আপনার শহর/জেলা খুঁজে পাচ্ছেন না?</string>
     <string name="statehead">এখানে আপনার রাজ্য খুঁজে পাচ্ছেন না?</string>
-    <string name="people_post">People\'s Posts</string>
+    <string name="people_post">জনগনের পোস্ট</string>
     <string name="contactnumber">যোগাযোগ নম্বর*</string>
     <string name="upi_id">** এই অ্যাপ্লিকেশনটির কোনও ব্যবহারকারী যদি ই-প্রোনামি দিতে চান, তবে ইউপিআই আইডি লাগবে।</string>
     <string name="upi_id_hint">ইউপিআই আইডি</string>
