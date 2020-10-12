@@ -228,7 +228,7 @@ public class AllPujoFragment extends Fragment {
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR:
-                        BasicUtility.showToast(getActivity(), "Something went wrong...");
+//                        BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE:
                         progressMoreCom.setVisibility(View.VISIBLE);
@@ -237,6 +237,12 @@ public class AllPujoFragment extends Fragment {
                         progressMoreCom.setVisibility(View.GONE);
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
+                        }
+                        if(adapter.getItemCount() == 0) {
+                            emptyLayout.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            emptyLayout.setVisibility(View.GONE);
                         }
                         break;
                     case FINISHED:
@@ -247,6 +253,9 @@ public class AllPujoFragment extends Fragment {
                         }
                         if(adapter.getItemCount() == 0) {
                             emptyLayout.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            emptyLayout.setVisibility(View.GONE);
                         }
                         break;
                 }
