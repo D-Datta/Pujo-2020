@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/slider_item"
@@ -33,7 +33,7 @@
                 app:sliderIndicatorMargin="15dp"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="3dp"
-                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorRadius="1.5dp"
                 app:sliderIndicatorSelectedColor="#5A5A5A"
                 app:sliderIndicatorUnselectedColor="#FFF"
                 app:sliderScrollTimeInSec="1"
@@ -229,6 +229,67 @@
             android:paddingHorizontal="20dp"
             android:paddingTop="5dp"
             android:text="@string/see_all"
+            android:paddingBottom="5dp"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/feeds_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:visibility="visible">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/light_background"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/oxygen_bold"
+            android:gravity="center_vertical"
+            android:textColor="@color/purple"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/people_post"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="345dp"
+            android:orientation="horizontal"
+            android:background="@color/white">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/feedsRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="5dp"
+                android:clipToPadding="false"
+                android:paddingBottom="5dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/view_all_feeds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/oxygen_bold"
+            android:background="@drawable/custom_ripple_white"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="5dp"
+            android:text="@string/see_all_posts"
             android:paddingBottom="5dp"
             android:textSize="18sp" />
 
@@ -443,10 +504,6 @@
                     android:visibility="gone"
                     android:layout_height="wrap_content"/>
 
-<!--                <HorizontalScrollView-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
-
                 <RelativeLayout
                     android:id="@+id/rlLayout"
                     android:layout_width="match_parent"
@@ -485,7 +542,6 @@
                         app:lottie_fileName="dhakbajano.json"
                         app:lottie_loop="true" />
                 </RelativeLayout>
-                <!--                </HorizontalScrollView>-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"

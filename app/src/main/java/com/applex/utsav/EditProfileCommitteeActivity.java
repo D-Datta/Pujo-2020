@@ -296,6 +296,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setCity(CITY);
                     baseUserModel.setEmail(EMAIL);
                     baseUserModel.setName(COMNAME);
+                    baseUserModel.setSmall_name(COMNAME.toLowerCase());
                     baseUserModel.setState(STATE);
                     baseUserModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     baseUserModel.setType(introPref.getType());

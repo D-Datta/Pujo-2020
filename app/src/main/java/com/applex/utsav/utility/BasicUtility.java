@@ -150,7 +150,10 @@ public class BasicUtility {
         else if (diff < 24 * HOUR_MILLIS) {
             return diff / HOUR_MILLIS + " hours ago";
         }
-        else if (diff / DAY_MILLIS < 7) {
+        else if (diff / DAY_MILLIS == 1) {
+            return "1 day ago";
+        }
+        else if (diff / DAY_MILLIS > 1 && diff / DAY_MILLIS < 7) {
             return diff / DAY_MILLIS + " days ago";
         }
         else if (diff / DAY_MILLIS >= 7 && diff / DAY_MILLIS < 14) {

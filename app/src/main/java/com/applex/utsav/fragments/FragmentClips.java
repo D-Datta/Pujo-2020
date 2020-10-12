@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +90,6 @@ public class FragmentClips extends Fragment {
     public static RecyclerView mRecyclerView;
     private String USERDP, USERNAME, link, GENDER;
     private FloatingActionButton floatingActionButton;
-
 
     public FragmentClips() {
         // Required empty public constructor
@@ -1010,8 +1008,8 @@ public class FragmentClips extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
-
         final int[] scrollY = {0};
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1090,17 +1088,9 @@ public class FragmentClips extends Fragment {
                 else {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("ObjectAnimatorBinding")
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView.scrollToPosition(0);
-                                recyclerView.postDelayed(new Runnable() {
-                                    public void run() {
-                                        recyclerView.scrollToPosition(0);
-                                    }
-                                },300);
-                            }
+                        floatingActionButton.setOnClickListener(v -> {
+                            recyclerView.scrollToPosition(0);
+                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
                         });
                     } else {
                         floatingActionButton.setVisibility(View.GONE);

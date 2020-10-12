@@ -7,7 +7,7 @@ import java.util.ArrayList;
 @IgnoreExtraProperties
 public class BaseUserModel {
 
-    private String name;
+    private String name, small_name;
     private String addressline;
     private String city;
     private String state;
@@ -44,6 +44,14 @@ public class BaseUserModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSmall_name() {
+        return small_name;
+    }
+
+    public void setSmall_name(String small_name) {
+        this.small_name = small_name;
     }
 
     public String getAddressline() {

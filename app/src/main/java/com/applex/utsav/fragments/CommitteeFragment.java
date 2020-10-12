@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -42,9 +42,11 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
+import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
+import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -98,15 +100,14 @@ public class CommitteeFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressMore, contentProgress;
     private ProgressDialog progressDialog;
-    private Dialog  postMenuDialog;
+    private Dialog postMenuDialog;
     private RecyclerView mRecyclerView;
     private String COMMITEE_LOGO, COMMITTEE_NAME, link, GENDER;
-    private FirestorePagingAdapter reelsAdapter;
+    private FirestorePagingAdapter reelsAdapter, feedsAdapter;
     private IntroPref introPref;
-    private Query reels_query;
+    private Query reels_query, feeds_query;
     private ArrayList<Integer> positions;
-    private DocumentSnapshot lastReelDocument;
-    private FirestorePagingAdapter adapter;
+    private DocumentSnapshot lastReelDocument, lastfeedDocument;
     private FloatingActionButton floatingActionButton;
 
     public CommitteeFragment() {
@@ -192,7 +193,7 @@ public class CommitteeFragment extends Fragment {
                 })
                 .build();
 
-         adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
+        FirestorePagingAdapter adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
@@ -202,9 +203,9 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
+                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
 
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                    programmingViewHolder.sliderView.setIndicatorRadius(5);
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
                     programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
                     programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
@@ -234,10 +235,9 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.type_something.setOnClickListener(view -> {
                         if (InternetConnection.checkConnection(requireActivity())) {
                             Intent i = new Intent(getContext(), NewPostHome.class);
-                            if(introPref.getType().matches("com")){
+                            if (introPref.getType().matches("com")) {
                                 i.putExtra("target", "1");
-                            }
-                            else
+                            } else
                                 i.putExtra("target", "2");
 
                             startActivity(i);
@@ -245,15 +245,13 @@ public class CommitteeFragment extends Fragment {
                             BasicUtility.showToast(getContext(), "Network Unavailable...");
                     });
 
-
                     programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
                         if (InternetConnection.checkConnection(requireActivity())) {
                             Intent i = new Intent(getContext(), NewPostHome.class);
 
-                            if(introPref.getType().matches("com")){
+                            if (introPref.getType().matches("com")) {
                                 i.putExtra("target", "1");
-                            }
-                            else
+                            } else
                                 i.putExtra("target", "2");
 
                             startActivity(i);
@@ -265,8 +263,7 @@ public class CommitteeFragment extends Fragment {
                         Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
                                 .placeholder(R.drawable.ic_account_circle_black_24dp)
                                 .into(programmingViewHolder.type_dp);
-                    }
-                    else {
+                    } else {
                         if (GENDER != null) {
                             if (GENDER.matches("Female") || GENDER.matches("মহিলা")) {
                                 programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
@@ -281,10 +278,10 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
                 else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
+
                     programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
-
+                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
-
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                     programmingViewHolder.view_all.setOnClickListener(v ->
@@ -301,6 +298,7 @@ public class CommitteeFragment extends Fragment {
                 }
                 else if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
 
+                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
@@ -311,32 +309,47 @@ public class CommitteeFragment extends Fragment {
                                 .whereEqualTo("type", "com")
                                 .orderBy("ts", Query.Direction.DESCENDING)
                                 .startAfter(lastReelDocument);
-
-                        buildReelsRecyclerView(position, programmingViewHolder);
-
-                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                            intent.putExtra("bool", "1");
-                            intent.putExtra("from", "com");
-                            requireActivity().startActivity(intent);
-                        });
                     } else {
                         reels_query = FirebaseFirestore.getInstance()
                                 .collection("Reels")
                                 .whereEqualTo("type", "com")
                                 .orderBy("ts", Query.Direction.DESCENDING);
-
-                        buildReelsRecyclerView(position, programmingViewHolder);
-
-                        programmingViewHolder.view_all_reels.setOnClickListener(v -> {
-                            Intent intent = new Intent(requireActivity(), ReelsActivity.class);
-                            intent.putExtra("bool", "1");
-                            intent.putExtra("from", "com");
-                            requireActivity().startActivity(intent);
-                        });
                     }
+
+                    buildReelsRecyclerView(position, programmingViewHolder);
+
+                    programmingViewHolder.view_all_reels.setOnClickListener(v -> {
+                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        intent.putExtra("bool", "1");
+                        intent.putExtra("from", "com");
+                        requireActivity().startActivity(intent);
+                    });
+                }
+                else if(programmingViewHolder.getItemViewType() % 5 == 0) {
+
+                    programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
+                    programmingViewHolder.slider_item.setVisibility(View.GONE);
+                    programmingViewHolder.reels_item.setVisibility(View.GONE);
+                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+
+                    if (programmingViewHolder.getItemViewType() != 5 && lastfeedDocument != null) {
+                        feeds_query = FirebaseFirestore.getInstance()
+                                .collection("Feeds")
+                                .whereEqualTo("type", "indi")
+                                .orderBy("ts", Query.Direction.DESCENDING)
+                                .startAfter(lastReelDocument);
+                    } else {
+                        feeds_query = FirebaseFirestore.getInstance()
+                                .collection("Feeds")
+                                .whereEqualTo("type", "indi")
+                                .orderBy("ts", Query.Direction.DESCENDING);
+                    }
+
+                    buildFeedsRecyclerView(programmingViewHolder);
+                    programmingViewHolder.view_all_feeds.setOnClickListener(v -> MainActivity.viewPager.setCurrentItem(1, true));
                 }
                 else {
+                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
                     programmingViewHolder.reels_item.setVisibility(View.GONE);
                     programmingViewHolder.committee_item.setVisibility(View.GONE);
@@ -360,27 +373,19 @@ public class CommitteeFragment extends Fragment {
                     Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.profileimage);
-                }
-                else{
-                    if(GENDER!=null){
-                        if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                } else {
+                    if (GENDER != null) {
+                        if (GENDER.matches("Female") || GENDER.matches("মহিলা")) {
                             programmingViewHolder.profileimage.setImageResource(R.drawable.ic_female);
-                        }
-                        else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                        } else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")) {
                             programmingViewHolder.profileimage.setImageResource(R.drawable.ic_male);
-                        }
-                        else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                        } else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")) {
                             programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
-                    }
-                    else{
+                    } else {
                         programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-
-//                else {
-//                    programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
@@ -423,48 +428,36 @@ public class CommitteeFragment extends Fragment {
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.userimage, new Callback() {
                                 @Override
-                                public void onSuccess() {
-                                }
+                                public void onSuccess() { }
 
                                 @Override
                                 public void onError(Exception e) {
-                                    if(currentItem.getGender()!=null){
-                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                    if (currentItem.getGender() != null) {
+                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
-                                        }
-                                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                        } else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")) {
                                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_male);
-                                        }
-                                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                        } else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")) {
                                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                         }
-                                    }
-                                    else {
+                                    } else {
                                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
-//                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
-                }
-                else{
-                    if(currentItem.getGender()!=null){
-                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                } else {
+                    if (currentItem.getGender() != null) {
+                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
-                        }
-                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                        } else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")) {
                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_male);
-                        }
-                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                        } else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")) {
                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
-                    }
-                    else {
+                    } else {
                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
 
                 programmingViewHolder.username.setText(currentItem.getUsN());
                 //////////////LOADING USERNAME AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
@@ -485,7 +478,7 @@ public class CommitteeFragment extends Fragment {
                 } else {
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
-                    if (programmingViewHolder.text_content.getUrls().length > 0 ) {
+                    if (programmingViewHolder.text_content.getUrls().length > 0) {
                         URLSpan urlSnapItem = programmingViewHolder.text_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
                         if (url.contains("http")) {
@@ -504,16 +497,14 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
-                    }
-                    else if (programmingViewHolder.head_content.getUrls().length > 0 ) {
+                    } else if (programmingViewHolder.head_content.getUrls().length > 0) {
                         URLSpan urlSnapItem = programmingViewHolder.head_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
                         if (url.contains("http")) {
                             programmingViewHolder.LinkPreview.setVisibility(View.VISIBLE);
                             programmingViewHolder.LinkPreview.setLink(url, new ViewListener() {
                                 @Override
-                                public void onSuccess(boolean status) {
-                                }
+                                public void onSuccess(boolean status) { }
 
                                 @Override
                                 public void onError(Exception e) {
@@ -524,8 +515,7 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
-                    }
-                    else {
+                    } else {
                         programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                     }
                 }
@@ -541,7 +531,7 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderViewpost.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderViewpost.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(), currentItem, programmingViewHolder.sliderViewpost);
+                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(), currentItem);
                     programmingViewHolder.sliderViewpost.setSliderAdapter(sliderAdapter);
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
@@ -565,7 +555,7 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        intent.putExtra("gender",currentItem.getGender());
+                        intent.putExtra("gender", currentItem.getGender());
                         startActivity(intent);
                     });
 
@@ -590,46 +580,21 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("uid", currentItem.getUid());
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
-                        intent.putExtra("gender",currentItem.getGender());
+                        intent.putExtra("gender", currentItem.getGender());
                         startActivity(intent);
                     });
-                }
-                else {
+                } else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
-//                    programmingViewHolder.text_content.setOnClickListener(v -> {
-//                        Intent intent = new Intent(getActivity(), ViewMoreText.class);
-//                        intent.putExtra("username", currentItem.getUsN());
-//                        intent.putExtra("userdp", currentItem.getDp());
-//                        intent.putExtra("docID", currentItem.getDocID());
-//                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                        intent.putExtra("comName", currentItem.getComName());
-//                        intent.putExtra("comID", currentItem.getComID());
-//                        intent.putExtra("likeL", currentItem.getLikeL());
-//                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
-//                            Bundle args = new Bundle();
-//                            args.putSerializable("ARRAYLIST", currentItem.getImg());
-//                            intent.putExtra("BUNDLE", args);
-//                        }
-//                        intent.putExtra("postText", currentItem.getTxt());
-//                        intent.putExtra("bool", "3");
-//                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                        intent.putExtra("type", currentItem.getType());
-//                        startActivity(intent);
-//                    });
                 }
-
                 //////////////////////////TEXT & IMAGE FOR POST//////////////////////
+
+                ///////////////////FLAMES AND COMMENTS///////////////////////
 
                 programmingViewHolder.like_layout.setOnClickListener(v -> {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", currentItem.getDocID());
                     bottomSheetDialog.show(requireActivity().getSupportFragmentManager(), "FlamedBySheet");
                 });
-
-                ///////////////////FLAMES AND COMMENTS///////////////////////
 
                 //INITIAL SETUP//
                 if (currentItem.getLikeL() != null) {
@@ -652,111 +617,112 @@ public class CommitteeFragment extends Fragment {
                 //INITIAL SETUP//
 
                 PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
-                        .setScale(PushDownAnim.MODE_STATIC_DP, 6)
-                        .setOnClickListener(v -> {
-                            if (currentItem.getLikeCheck() >= 0) {
-                                programmingViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications);//was already liked by current user
-                                if (currentItem.getLikeL().size() - 1 == 0) {
-                                    programmingViewHolder.like_layout.setVisibility(View.GONE);
-                                } else {
-                                    programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
-                                    programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
-                                }
-                                ///////////REMOVE CURRENT USER LIKE/////////////
-                                currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
-                                currentItem.setLikeCheck(-1);
-
-                                ///////////////////BATCH WRITE///////////////////
-                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
-
-                                DocumentReference flamedDoc = likeStore.collection("flameL")
-                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                                batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-                                batch.delete(flamedDoc);
-
-                                batch.commit().addOnSuccessListener(task -> {
-                                });
-                                ///////////////////BATCH WRITE///////////////////
-                            } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                BasicUtility.vibrate(requireActivity());
-                                programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
-                                programmingViewHolder.dhak_anim.playAnimation();
-                                try {
-                                    AssetFileDescriptor afd = requireActivity().getAssets().openFd("dhak.mp3");
-                                    MediaPlayer player = new MediaPlayer();
-                                    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                                    player.prepare();
-                                    AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                    if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                                        player.start();
-                                        if (!player.isPlaying()) {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        }
-                                        player.setOnCompletionListener(mediaPlayer -> {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        });
-                                    } else {
-                                        new Handler().postDelayed(() -> {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        }, 2000);
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
+                    .setScale(PushDownAnim.MODE_STATIC_DP, 6)
+                    .setOnClickListener(v -> {
+                        if (currentItem.getLikeCheck() >= 0) {
+                            programmingViewHolder.like.setImageResource(R.drawable.ic_btmnav_notifications); //was already liked by current user
+                            if (currentItem.getLikeL().size() - 1 == 0) {
+                                programmingViewHolder.like_layout.setVisibility(View.GONE);
+                            } else {
                                 programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
-                                if (currentItem.getLikeL() != null) {
-                                    programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
-                                } else {
-                                    programmingViewHolder.likesCount.setText("1");
-                                }
-
-                                //////////////ADD CURRENT USER TO LIKELIST//////////////////
-                                currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
-                                currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
-                                //For local changes current item like added to remote list end
-
-                                ///////////////////BATCH WRITE///////////////////
-                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                FlamedModel flamedModel = new FlamedModel();
-                                long tsLong = System.currentTimeMillis();
-
-                                flamedModel.setPostID(currentItem.getDocID());
-                                flamedModel.setTs(tsLong);
-                                flamedModel.setType(introPref.getType());
-                                flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                flamedModel.setUserdp(COMMITEE_LOGO);
-                                flamedModel.setUsername(COMMITTEE_NAME);
-                                flamedModel.setPostUid(currentItem.getUid());
-                                flamedModel.setGender(introPref.getGender());
-
-                                DocumentReference flamedDoc = likeStore.collection("flameL")
-                                        .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
-                                batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                                batch.set(flamedDoc, flamedModel);
-                                if (currentItem.getLikeL().size() % 5 == 0) {
-                                    batch.update(likeStore, "newTs", tsLong);
-                                }
-                                batch.commit().addOnSuccessListener(task -> {
-                                });
-                                ///////////////////BATCH WRITE///////////////////
+                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
                             }
-                        });
+                            ///////////REMOVE CURRENT USER LIKE/////////////
+                            currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
+                            currentItem.setLikeCheck(-1);
+
+                            ///////////////////BATCH WRITE///////////////////
+                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
+
+                            DocumentReference flamedDoc = likeStore.collection("flameL")
+                                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                            batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                            batch.delete(flamedDoc);
+
+                            batch.commit().addOnSuccessListener(task -> {
+                            });
+                            ///////////////////BATCH WRITE///////////////////
+                        }
+                        else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                            BasicUtility.vibrate(requireActivity());
+                            programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
+                            programmingViewHolder.dhak_anim.playAnimation();
+                            try {
+                                AssetFileDescriptor afd = requireActivity().getAssets().openFd("dhak.mp3");
+                                MediaPlayer player = new MediaPlayer();
+                                player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                                player.prepare();
+                                AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                    player.start();
+                                    if (!player.isPlaying()) {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }
+                                    player.setOnCompletionListener(mediaPlayer -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    });
+                                } else {
+                                    new Handler().postDelayed(() -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }, 2000);
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            programmingViewHolder.like.setImageResource(R.drawable.ic_flame_red);
+                            programmingViewHolder.like_layout.setVisibility(View.VISIBLE);
+                            if (currentItem.getLikeL() != null) {
+                                programmingViewHolder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() + 1));
+                            } else {
+                                programmingViewHolder.likesCount.setText("1");
+                            }
+
+                            //////////////ADD CURRENT USER TO LIKELIST//////////////////
+                            currentItem.addToLikeList(FirebaseAuth.getInstance().getUid());
+                            currentItem.setLikeCheck(currentItem.getLikeL().size() - 1);
+                            //For local changes current item like added to remote list end
+
+                            ///////////////////BATCH WRITE///////////////////
+                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                            FlamedModel flamedModel = new FlamedModel();
+                            long tsLong = System.currentTimeMillis();
+
+                            flamedModel.setPostID(currentItem.getDocID());
+                            flamedModel.setTs(tsLong);
+                            flamedModel.setType(introPref.getType());
+                            flamedModel.setUid(FirebaseAuth.getInstance().getUid());
+                            flamedModel.setUserdp(COMMITEE_LOGO);
+                            flamedModel.setUsername(COMMITTEE_NAME);
+                            flamedModel.setPostUid(currentItem.getUid());
+                            flamedModel.setGender(introPref.getGender());
+
+                            DocumentReference flamedDoc = likeStore.collection("flameL")
+                                    .document(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+                            batch.update(likeStore, "likeL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                            batch.set(flamedDoc, flamedModel);
+                            if (currentItem.getLikeL().size() % 5 == 0) {
+                                batch.update(likeStore, "newTs", tsLong);
+                            }
+                            batch.commit().addOnSuccessListener(task -> {
+                            });
+                            ///////////////////BATCH WRITE///////////////////
+                        }
+                    });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     try {
-                        AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
+                        AssetFileDescriptor afd = requireActivity().getAssets().openFd("sonkho.mp3");
                         MediaPlayer player = new MediaPlayer();
-                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                        player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                         player.prepare();
                         AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                             player.start();
                         }
                     } catch (IOException e) {
@@ -783,34 +749,28 @@ public class CommitteeFragment extends Fragment {
 
                 if (currentItem.getCmtNo() > 0) {
                     ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-
                     ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if (currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
 
                         programmingViewHolder.commentLayout1.setVisibility(View.VISIBLE);
-
                         programmingViewHolder.name_cmnt1.setText(currentItem.getCom1_usn());
 
-                        if(currentItem.getCom1_dp()!=null && !currentItem.getCom1_dp().isEmpty()){
+                        if (currentItem.getCom1_dp() != null && !currentItem.getCom1_dp().isEmpty()) {
                             Picasso.get().load(currentItem.getCom1_dp())
                                     .placeholder(R.drawable.ic_account_circle_black_24dp)
                                     .into(programmingViewHolder.dp_cmnt1);
 
-                        }
-                        else{
-                            if(currentItem.getCom1_gender()!=null){
-                                if (currentItem.getCom1_gender().matches("Female") || currentItem.getCom1_gender().matches("মহিলা")){
+                        } else {
+                            if (currentItem.getCom1_gender() != null) {
+                                if (currentItem.getCom1_gender().matches("Female") || currentItem.getCom1_gender().matches("মহিলা")) {
                                     programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_female);
-                                }
-                                else if (currentItem.getCom1_gender().matches("Male") || currentItem.getCom1_gender().matches("পুরুষ")){
+                                } else if (currentItem.getCom1_gender().matches("Male") || currentItem.getCom1_gender().matches("পুরুষ")) {
                                     programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_male);
-                                }
-                                else if (currentItem.getCom1_gender().matches("Others") || currentItem.getCom1_gender().matches("অন্যান্য")){
+                                } else if (currentItem.getCom1_gender().matches("Others") || currentItem.getCom1_gender().matches("অন্যান্য")) {
                                     programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
-                            }
-                            else {
+                            } else {
                                 programmingViewHolder.dp_cmnt1.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
@@ -853,27 +813,22 @@ public class CommitteeFragment extends Fragment {
                     if (currentItem.getCom2() != null && !currentItem.getCom2().isEmpty()) {
 
                         programmingViewHolder.commentLayout2.setVisibility(View.VISIBLE);
-
                         programmingViewHolder.name_cmnt2.setText(currentItem.getCom2_usn());
 
-                        if(currentItem.getCom2_dp()!=null && !currentItem.getCom2_dp().isEmpty()){
+                        if (currentItem.getCom2_dp() != null && !currentItem.getCom2_dp().isEmpty()) {
                             Picasso.get().load(currentItem.getCom2_dp())
                                     .placeholder(R.drawable.ic_account_circle_black_24dp)
                                     .into(programmingViewHolder.dp_cmnt2);
-                        }
-                        else{
-                            if(currentItem.getCom2_gender()!=null){
-                                if (currentItem.getCom2_gender().matches("Female") || currentItem.getCom2_gender().matches("মহিলা")){
+                        } else {
+                            if (currentItem.getCom2_gender() != null) {
+                                if (currentItem.getCom2_gender().matches("Female") || currentItem.getCom2_gender().matches("মহিলা")) {
                                     programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_female);
-                                }
-                                else if (currentItem.getCom2_gender().matches("Male") || currentItem.getCom2_gender().matches("পুরুষ")){
+                                } else if (currentItem.getCom2_gender().matches("Male") || currentItem.getCom2_gender().matches("পুরুষ")) {
                                     programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_male);
-                                }
-                                else if (currentItem.getCom2_gender().matches("Others") || currentItem.getCom2_gender().matches("অন্যান্য")){
+                                } else if (currentItem.getCom2_gender().matches("Others") || currentItem.getCom2_gender().matches("অন্যান্য")) {
                                     programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
-                            }
-                            else {
+                            } else {
                                 programmingViewHolder.dp_cmnt2.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
@@ -886,8 +841,7 @@ public class CommitteeFragment extends Fragment {
                                 programmingViewHolder.link_preview1.setVisibility(View.VISIBLE);
                                 programmingViewHolder.link_preview1.setLink(url, new ViewListener() {
                                     @Override
-                                    public void onSuccess(boolean status) {
-                                    }
+                                    public void onSuccess(boolean status) { }
 
                                     @Override
                                     public void onError(Exception e) {
@@ -1039,14 +993,10 @@ public class CommitteeFragment extends Fragment {
             }
 
             @Override
-            public int getItemViewType(int position) {
-                return position;
-            }
+            public int getItemViewType(int position) { return position; }
 
             @Override
-            public int getItemCount() {
-                return super.getItemCount();
-            }
+            public int getItemCount() { return super.getItemCount(); }
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
@@ -1077,8 +1027,8 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
-
         final int[] scrollY = {0};
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -1108,17 +1058,17 @@ public class CommitteeFragment extends Fragment {
                                 float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                                 if (percent >= 90) {
-                                    RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
+                                    RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).rRecyclerView.getLayoutManager();
 
                                     int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
                                     int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
 
                                     if (firstVisiblePosition1 >= 0) {
                                         Rect rect_parent1 = new Rect();
-                                        cvh.reelsList.getGlobalVisibleRect(rect_parent1);
+                                        cvh.rRecyclerView.getGlobalVisibleRect(rect_parent1);
 
                                         for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
-                                            final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
+                                            final RecyclerView.ViewHolder holder2 = cvh.rRecyclerView.findViewHolderForAdapterPosition(j);
                                             ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
 
                                             int[] location1 = new int[2];
@@ -1152,6 +1102,7 @@ public class CommitteeFragment extends Fragment {
                     }
                 }
             }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -1162,17 +1113,9 @@ public class CommitteeFragment extends Fragment {
                 else {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                            @SuppressLint("ObjectAnimatorBinding")
-                            @Override
-                            public void onClick(View v) {
-                                recyclerView.scrollToPosition(0);
-                                recyclerView.postDelayed(new Runnable() {
-                                    public void run() {
-                                        recyclerView.scrollToPosition(0);
-                                    }
-                                },300);
-                            }
+                        floatingActionButton.setOnClickListener(v -> {
+                            recyclerView.scrollToPosition(0);
+                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
                         });
                     } else {
                         floatingActionButton.setVisibility(View.GONE);
@@ -1182,27 +1125,21 @@ public class CommitteeFragment extends Fragment {
         });
     }
 
-    public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
+    public static class ProgrammingViewHolder extends RecyclerView.ViewHolder {
 
         @SuppressLint("StaticFieldLeak")
         public static TextView commentCount;
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
-        SliderView sliderView;
-        TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something, comm_heading;
+        SliderView sliderView, sliderViewpost;
+        TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, view_all_reels, type_something, comm_heading, view_all, view_all_feeds;
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL, reels_item;
-        RecyclerView tagList;
-        RecyclerView reelsList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
-        SliderView sliderViewpost;
+        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL, reels_item, slider_item, committee_item, feeds_item;
         LottieAnimationView dhak_anim;
-
         RelativeLayout normal_item, rlLayout;
-        LinearLayout slider_item, committee_item;
-        TextView view_all;
-        RecyclerView cRecyclerView;
+        RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1245,7 +1182,7 @@ public class CommitteeFragment extends Fragment {
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
 
             view_all_reels = itemView.findViewById(R.id.view_all_reels);
-            reelsList = itemView.findViewById(R.id.reelsRecycler);
+            rRecyclerView = itemView.findViewById(R.id.reelsRecycler);
             type_dp = itemView.findViewById(R.id.Pdp);
             type_something = itemView.findViewById(R.id.type_smthng);
             new_post_layout = itemView.findViewById(R.id.type_something);
@@ -1262,24 +1199,27 @@ public class CommitteeFragment extends Fragment {
             view_all = itemView.findViewById(R.id.community_view_all);
             cRecyclerView = itemView.findViewById(R.id.communityRecycler);
             comm_heading = itemView.findViewById(R.id.com_heading);
+
+            fRecyclerView = itemView.findViewById(R.id.feedsRecycler);
+            feeds_item = itemView.findViewById(R.id.feeds_item);
+            view_all_feeds = itemView.findViewById(R.id.view_all_feeds);
         }
     }
 
     private void buildReelsRecyclerView(int position, ProgrammingViewHolder pvh) {
 
         if(pvh != null) {
-
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            pvh.reelsList.setHasFixedSize(true);
-            pvh.reelsList.setLayoutManager(layoutManager);
-            pvh.reelsList.setNestedScrollingEnabled(true);
-            pvh.reelsList.setItemViewCacheSize(10);
-            pvh.reelsList.setDrawingCacheEnabled(true);
+            pvh.rRecyclerView.setHasFixedSize(true);
+            pvh.rRecyclerView.setLayoutManager(layoutManager);
+            pvh.rRecyclerView.setNestedScrollingEnabled(true);
+            pvh.rRecyclerView.setItemViewCacheSize(10);
+            pvh.rRecyclerView.setDrawingCacheEnabled(true);
 
             SnapHelper snapHelper = new PagerSnapHelper();
-            pvh.reelsList.setOnFlingListener(null);
-            snapHelper.attachToRecyclerView(pvh.reelsList);
+            pvh.rRecyclerView.setOnFlingListener(null);
+            snapHelper.attachToRecyclerView(pvh.rRecyclerView);
 
             PagedList.Config config = new PagedList.Config.Builder()
                     .setInitialLoadSizeHint(10)
@@ -1305,6 +1245,16 @@ public class CommitteeFragment extends Fragment {
                 @SuppressLint("SetTextI18n")
                 @Override
                 protected void onBindViewHolder(@NonNull ReelsItemViewHolder holder, int position, @NonNull ReelsPostModel currentItem) {
+                    String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
+                    holder.reels_mins_ago.setText(timeAgo);
+                    if (timeAgo != null) {
+                        if (timeAgo.matches("just now")) {
+                            holder.reels_mins_ago.setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.white));
+                        }
+                    }
+
                     holder.item_reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                     holder.item_reels_video.start();
 
@@ -1370,26 +1320,24 @@ public class CommitteeFragment extends Fragment {
                                     else {
                                         holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
-//                                    holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
                     }
                     else {
-                        if(currentItem.getGender()!=null){
-                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                        if(currentItem.getGender() != null) {
+                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
                             }
-                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")) {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
                             }
-                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")) {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
                         else {
                             holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
-//                        holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
 
                     holder.pujo_com_dp.setOnClickListener(v -> {
@@ -1439,12 +1387,6 @@ public class CommitteeFragment extends Fragment {
                             });
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-//                                if(bool.matches("1")){
-//                                    link = "https://www.applex.in/utsav-app/reels/" + "1/" + currentItem.getDocID();
-//                                }
-//                                else if (bool.matches("2")){
-//                                    link = "https://www.applex.in/utsav-app/reels/" + "2/" + currentItem.getDocID();
-//                                }
                                 link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
@@ -1471,12 +1413,6 @@ public class CommitteeFragment extends Fragment {
                             postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                             postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-//                                String link = "https://www.utsavapp.in/android/reels/" + currentItem.getDocID();
-//                                Intent i = new Intent();
-//                                i.setAction(Intent.ACTION_SEND);
-//                                i.putExtra(Intent.EXTRA_TEXT, link);
-//                                i.setType("text/plain");
-//                                startActivity(Intent.createChooser(i, "Share with"));
                                 link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
@@ -1524,9 +1460,6 @@ public class CommitteeFragment extends Fragment {
                         case ERROR:
                             BasicUtility.showToast(getActivity(), "Something went wrong...");
                             break;
-                        case LOADED:
-//                            BasicUtility.showToast(getActivity(), "top10 "+ position);
-                            break;
                         case FINISHED:
                             if(reelsAdapter.getItemCount() == 0) {
                                 pvh.reels_item.setVisibility(View.GONE);
@@ -1538,13 +1471,11 @@ public class CommitteeFragment extends Fragment {
                 }
             };
 
-            pvh.reelsList.setAdapter(reelsAdapter);
+            pvh.rRecyclerView.setAdapter(reelsAdapter);
             positions.add(position);
 
-            RecyclerView.LayoutManager manager = pvh.reelsList.getLayoutManager();
-
-            final int[] scrollY = {0};
-            pvh.reelsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            RecyclerView.LayoutManager manager = pvh.rRecyclerView.getLayoutManager();
+            pvh.rRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
@@ -1555,10 +1486,10 @@ public class CommitteeFragment extends Fragment {
 
                         if (firstVisiblePosition >= 0) {
                             Rect rect_parent = new Rect();
-                            pvh.reelsList.getGlobalVisibleRect(rect_parent);
+                            pvh.rRecyclerView.getGlobalVisibleRect(rect_parent);
 
                             for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                                final RecyclerView.ViewHolder holder = pvh.reelsList.findViewHolderForAdapterPosition(i);
+                                final RecyclerView.ViewHolder holder = pvh.rRecyclerView.findViewHolderForAdapterPosition(i);
                                 ReelsItemViewHolder cvh = (ReelsItemViewHolder) holder;
 
                                 int[] location = new int[2];
@@ -1588,35 +1519,6 @@ public class CommitteeFragment extends Fragment {
                         }
                     }
                 }
-
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-
-                    scrollY[0] = scrollY[0] + dy;
-                    if (scrollY[0] <= 2000 && dy < 0) {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                    else {
-                        if(dy < 0){
-                            floatingActionButton.setVisibility(View.VISIBLE);
-                            floatingActionButton.setOnClickListener(new View.OnClickListener() {
-                                @SuppressLint("ObjectAnimatorBinding")
-                                @Override
-                                public void onClick(View v) {
-                                    recyclerView.scrollToPosition(0);
-                                    recyclerView.postDelayed(new Runnable() {
-                                        public void run() {
-                                            recyclerView.scrollToPosition(0);
-                                        }
-                                    },300);
-                                }
-                            });
-                        } else {
-                            floatingActionButton.setVisibility(View.GONE);
-                        }
-                    }
-                }
             });
         }
         else {
@@ -1628,7 +1530,7 @@ public class CommitteeFragment extends Fragment {
 
         RelativeLayout item_reels;
         VideoView item_reels_video;
-        TextView video_time;
+        TextView video_time, reels_mins_ago;
         ImageView pujo_com_dp, reels_more, item_reels_image;
         TextView pujo_com_name;
 
@@ -1642,14 +1544,13 @@ public class CommitteeFragment extends Fragment {
             pujo_com_name = itemView.findViewById(R.id.pujo_com_name);
             reels_more =  itemView.findViewById(R.id.reels_more);
             item_reels_image = itemView.findViewById(R.id.item_reels_image);
+            reels_mins_ago = itemView.findViewById(R.id.reels_mins_ago);
         }
     }
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
         cRecyclerView.setHasFixedSize(true);
-//        LinearLayoutManager layoutManagerCom = new LinearLayoutManager(getActivity());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.HORIZONTAL, false);
-//        layoutManagerCom.setOrientation(LinearLayoutManager.HORIZONTAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
         cRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -1657,17 +1558,17 @@ public class CommitteeFragment extends Fragment {
         Query query;
 
         if(position == 4) {
-            query =  FirebaseFirestore.getInstance()
-                    .collection("Users")
-                    .whereEqualTo("type", "com")
-                    .orderBy("lastVisitTime", Query.Direction.DESCENDING)
-                    .limit(15);
+            query = FirebaseFirestore.getInstance()
+                        .collection("Users")
+                        .whereEqualTo("type", "com")
+                        .orderBy("lastVisitTime", Query.Direction.DESCENDING)
+                        .limit(15);
         } else {
-            query =  FirebaseFirestore.getInstance()
-                    .collection("Users")
-                    .whereEqualTo("type", "com")
-                    .orderBy("upvotes", Query.Direction.DESCENDING)
-                    .limit(15);
+            query = FirebaseFirestore.getInstance()
+                        .collection("Users")
+                        .whereEqualTo("type", "com")
+                        .orderBy("upvotes", Query.Direction.DESCENDING)
+                        .limit(15);
         }
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -1682,6 +1583,349 @@ public class CommitteeFragment extends Fragment {
                 cRecyclerView.setAdapter(communityAdapter);
             }
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
+    }
+
+    private void buildFeedsRecyclerView(ProgrammingViewHolder pvh) {
+        if(pvh != null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            pvh.fRecyclerView.setHasFixedSize(true);
+            pvh.fRecyclerView.setLayoutManager(layoutManager);
+            pvh.fRecyclerView.setNestedScrollingEnabled(true);
+            pvh.fRecyclerView.setItemViewCacheSize(10);
+            pvh.fRecyclerView.setDrawingCacheEnabled(true);
+
+            PagedList.Config config = new PagedList.Config.Builder()
+                    .setInitialLoadSizeHint(5)
+                    .setPageSize(1)
+                    .setPrefetchDistance(0)
+                    .setEnablePlaceholders(true)
+                    .build();
+
+            FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
+                    .setLifecycleOwner(this)
+                    .setQuery(feeds_query, config, snapshot -> {
+                        HomePostModel homePostModel = new HomePostModel();
+                        if (snapshot.exists()) {
+                            homePostModel = snapshot.toObject(HomePostModel.class);
+                            Objects.requireNonNull(homePostModel).setDocID(snapshot.getId());
+                            lastfeedDocument = snapshot;
+                        }
+                        return homePostModel;
+                    })
+                    .build();
+
+            feedsAdapter = new FirestorePagingAdapter<HomePostModel, FeedsItemViewHolder>(options) {
+                @SuppressLint("SetTextI18n")
+                @Override
+                protected void onBindViewHolder(@NonNull FeedsItemViewHolder holder, int position, @NonNull HomePostModel currentItem) {
+                    String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
+                    holder.feeds_mins_ago.setText(timeAgo);
+                    if (timeAgo != null) {
+                        if (timeAgo.matches("just now")) {
+                            holder.feeds_mins_ago.setTextColor(Color.parseColor("#00C853"));
+                        } else {
+                            holder.feeds_mins_ago.setTextColor(Color.parseColor("#aa212121"));
+                        }
+                    }
+
+                    holder.profile_name.setText(currentItem.getUsN());
+
+                    if (currentItem.getDp() != null && !currentItem.getDp().isEmpty()) {
+                        Picasso.get().load(currentItem.getDp()).fit().centerCrop()
+                            .placeholder(R.drawable.ic_account_circle_black_24dp)
+                            .into(holder.profile_pic, new Callback() {
+                                @Override
+                                public void onSuccess() { }
+
+                                @Override
+                                public void onError(Exception e) {
+                                    if(currentItem.getGender() != null) {
+                                        if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                            holder.profile_pic.setImageResource(R.drawable.ic_female);
+                                        }
+                                        else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                            holder.profile_pic.setImageResource(R.drawable.ic_male);
+                                        }
+                                        else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                            holder.profile_pic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                        }
+                                    } else {
+                                        holder.profile_pic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                                    }
+                                }
+                            });
+                    } else {
+                        if(currentItem.getGender() != null) {
+                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                                holder.profile_pic.setImageResource(R.drawable.ic_female);
+                            }
+                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                holder.profile_pic.setImageResource(R.drawable.ic_male);
+                            }
+                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                holder.profile_pic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            }
+                        } else {
+                            holder.profile_pic.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                        }
+                    }
+
+                    holder.profile_pic.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
+                    });
+
+                    holder.profile_name.setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        intent.putExtra("uid", currentItem.getUid());
+                        startActivity(intent);
+                    });
+
+                    if(currentItem.getTxt() != null &&!currentItem.getTxt().isEmpty() && currentItem.getImg() == null) {
+                        holder.text_without_image.setVisibility(View.VISIBLE);
+                        holder.slider_image_without_text.setVisibility(View.GONE);
+                        holder.layout_with_text_and_image.setVisibility(View.GONE);
+
+                        holder.text_without_image.setText(currentItem.getTxt());
+                    }
+                    else if(currentItem.getImg() != null && (currentItem.getTxt() == null || currentItem.getTxt().isEmpty())) {
+                        holder.text_without_image.setVisibility(View.GONE);
+                        holder.slider_image_without_text.setVisibility(View.VISIBLE);
+                        holder.layout_with_text_and_image.setVisibility(View.GONE);
+
+                        holder.slider_image_without_text.setIndicatorAnimation(IndicatorAnimations.SCALE);
+                        holder.slider_image_without_text.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        holder.slider_image_without_text.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        holder.slider_image_without_text.setIndicatorSelectedColor(Color.WHITE);
+                        holder.slider_image_without_text.setIndicatorUnselectedColor(R.color.colorAccent);
+                        holder.slider_image_without_text.setAutoCycle(false);
+
+                        SliderAdapter sliderAdapter = new SliderAdapter(requireActivity(), currentItem.getImg(), currentItem);
+                        holder.slider_image_without_text.setSliderAdapter(sliderAdapter);
+                    }
+                    else if(currentItem.getImg() != null && currentItem.getTxt() != null && !currentItem.getTxt().isEmpty()) {
+                        holder.text_without_image.setVisibility(View.GONE);
+                        holder.slider_image_without_text.setVisibility(View.GONE);
+                        holder.layout_with_text_and_image.setVisibility(View.VISIBLE);
+
+                        if(currentItem.getTxt().length() < 35) {
+                            int width = (int)getResources().getDimension(R.dimen.image_width);
+                            int height = (int)getResources().getDimension(R.dimen.image_height_large);
+                            setDimensions(holder.slider_image_with_text, width, height);
+                        }
+                        else if(currentItem.getTxt().length() >= 35 && currentItem.getTxt().length() < 70) {
+                            int width = (int)getResources().getDimension(R.dimen.image_width);
+                            int height = (int)getResources().getDimension(R.dimen.image_height_medium);
+                            setDimensions(holder.slider_image_with_text, width, height);
+                        }
+                        else if(currentItem.getTxt().length() >= 70) {
+                            int width = (int)getResources().getDimension(R.dimen.image_width);
+                            int height = (int)getResources().getDimension(R.dimen.image_height_small);
+                            setDimensions(holder.slider_image_with_text, width, height);
+                        }
+
+                        holder.text_with_image.setText(currentItem.getTxt());
+
+                        holder.slider_image_with_text.setIndicatorAnimation(IndicatorAnimations.SCALE);
+                        holder.slider_image_with_text.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        holder.slider_image_with_text.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        holder.slider_image_with_text.setIndicatorSelectedColor(Color.WHITE);
+                        holder.slider_image_with_text.setIndicatorUnselectedColor(R.color.colorAccent);
+                        holder.slider_image_with_text.setAutoCycle(false);
+
+                        SliderAdapter sliderAdapter = new SliderAdapter(requireActivity(), currentItem.getImg(), currentItem);
+                        holder.slider_image_with_text.setSliderAdapter(sliderAdapter);
+                    }
+
+                    if(currentItem.getCmtNo() == 0 && currentItem.getLikeL() != null && currentItem.getLikeL().size() != 0) {
+                        holder.comment_count.setVisibility(View.GONE);
+                        holder.comment_image.setVisibility(View.GONE);
+                        holder.view1.setVisibility(View.GONE);
+                        holder.view2.setVisibility(View.GONE);
+                        holder.likes_count.setVisibility(View.VISIBLE);
+                        holder.like_image.setVisibility(View.VISIBLE);
+
+                        holder.likes_count.setText(Integer.toString(currentItem.getLikeL().size()));
+                    }
+                    else if(currentItem.getCmtNo() != 0 && currentItem.getLikeL() != null && currentItem.getLikeL().size() == 0) {
+                        holder.comment_count.setVisibility(View.VISIBLE);
+                        holder.comment_image.setVisibility(View.VISIBLE);
+                        holder.view1.setVisibility(View.GONE);
+                        holder.view2.setVisibility(View.GONE);
+                        holder.likes_count.setVisibility(View.GONE);
+                        holder.like_image.setVisibility(View.GONE);
+
+                        holder.comment_count.setText(Long.toString(currentItem.getCmtNo()));
+                    }
+                    else if(currentItem.getCmtNo() != 0 && currentItem.getLikeL() != null && currentItem.getLikeL().size() != 0) {
+                        holder.comment_count.setVisibility(View.VISIBLE);
+                        holder.comment_image.setVisibility(View.VISIBLE);
+                        holder.view1.setVisibility(View.VISIBLE);
+                        holder.view2.setVisibility(View.VISIBLE);
+                        holder.likes_count.setVisibility(View.VISIBLE);
+                        holder.like_image.setVisibility(View.VISIBLE);
+
+                        holder.likes_count.setText(Integer.toString(currentItem.getLikeL().size()));
+                        holder.comment_count.setText(Long.toString(currentItem.getCmtNo()));
+                    }
+                    else {
+                        holder.comment_count.setVisibility(View.GONE);
+                        holder.comment_image.setVisibility(View.GONE);
+                        holder.view1.setVisibility(View.GONE);
+                        holder.view2.setVisibility(View.GONE);
+                        holder.likes_count.setVisibility(View.GONE);
+                        holder.like_image.setVisibility(View.GONE);
+                    }
+
+                    holder.text_without_image.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender", currentItem.getGender());
+                        startActivity(intent);
+                    });
+
+                    holder.text_with_image.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender", currentItem.getGender());
+                        startActivity(intent);
+                    });
+
+                    holder.stats_layout.setOnClickListener(v -> {
+                        Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                        intent.putExtra("username", currentItem.getUsN());
+                        intent.putExtra("userdp", currentItem.getDp());
+                        intent.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                        intent.putExtra("comName", currentItem.getComName());
+                        intent.putExtra("comID", currentItem.getComID());
+                        intent.putExtra("likeL", currentItem.getLikeL());
+                        if (currentItem.getImg() != null && currentItem.getImg().size() > 0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLIST", currentItem.getImg());
+                            intent.putExtra("BUNDLE", args);
+                        }
+                        intent.putExtra("postText", currentItem.getTxt());
+                        intent.putExtra("bool", "3");
+                        intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                        intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                        intent.putExtra("uid", currentItem.getUid());
+                        intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                        intent.putExtra("type", currentItem.getType());
+                        intent.putExtra("gender", currentItem.getGender());
+                        startActivity(intent);
+                    });
+                }
+
+                @NonNull
+                @Override
+                public FeedsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+                    LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
+                    View v = layoutInflater.inflate(R.layout.item_home_feeds_post, viewGroup, false);
+                    return new FeedsItemViewHolder(v);
+                }
+
+                @Override
+                public int getItemViewType(int position) { return position; }
+
+                @Override
+                protected void onLoadingStateChanged(@NonNull LoadingState state) {
+                    super.onLoadingStateChanged(state);
+                    switch (state) {
+                        case ERROR:
+                            BasicUtility.showToast(getActivity(), "Something went wrong...");
+                            break;
+                        case FINISHED:
+                            if(feedsAdapter.getItemCount() == 0) {
+                                pvh.feeds_item.setVisibility(View.GONE);
+                            } else {
+                                pvh.feeds_item.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                    }
+                }
+            };
+            pvh.fRecyclerView.setAdapter(feedsAdapter);
+        }
+        else {
+            BasicUtility.showToast(requireActivity(), "Something went wrong...");
+        }
+    }
+
+    private static class FeedsItemViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView profile_pic, like_image, comment_image;
+        TextView profile_name, text_without_image, text_with_image, likes_count, comment_count, feeds_mins_ago;
+        CardView feeds_card;
+        LinearLayout stats_layout, layout_with_text_and_image;
+        View view1, view2;
+        SliderView slider_image_without_text, slider_image_with_text;
+
+        FeedsItemViewHolder(View itemView) {
+            super(itemView);
+
+            feeds_card = itemView.findViewById(R.id.feeds_card);
+            slider_image_with_text = itemView.findViewById(R.id.item_image);
+            text_with_image = itemView.findViewById(R.id.item_text);
+            slider_image_without_text = itemView.findViewById(R.id.item_image_without_text);
+            text_without_image = itemView.findViewById(R.id.item_text_without_image);
+            layout_with_text_and_image = itemView.findViewById(R.id.layout_with_text_and_image);
+            stats_layout = itemView.findViewById(R.id.stats_layout);
+            profile_pic = itemView.findViewById(R.id.profile_pic);
+            profile_name = itemView.findViewById(R.id.profile_name);
+            like_image = itemView.findViewById(R.id.like_image);
+            comment_image = itemView.findViewById(R.id.comment_image);
+            likes_count = itemView.findViewById(R.id.no_of_likes);
+            comment_count = itemView.findViewById(R.id.no_of_comments);
+            feeds_mins_ago = itemView.findViewById(R.id.feeds_mins_ago);
+            view1 = itemView.findViewById(R.id.view1);
+            view2 = itemView.findViewById(R.id.view2);
+        }
+    }
+
+    private void setDimensions(View view, int width, int height){
+        android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
     }
 
     @Override
@@ -1718,17 +1962,17 @@ public class CommitteeFragment extends Fragment {
                     float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                     if (percent >= 90) {
-                        RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).reelsList.getLayoutManager();
+                        RecyclerView.LayoutManager manager1 = Objects.requireNonNull(cvh).rRecyclerView.getLayoutManager();
 
                         int firstVisiblePosition1 = ((LinearLayoutManager) Objects.requireNonNull(manager1)).findFirstVisibleItemPosition();
                         int lastVisiblePosition1 = ((LinearLayoutManager) manager1).findLastVisibleItemPosition();
 
                         if (firstVisiblePosition1 >= 0) {
                             Rect rect_parent1 = new Rect();
-                            cvh.reelsList.getGlobalVisibleRect(rect_parent1);
+                            cvh.rRecyclerView.getGlobalVisibleRect(rect_parent1);
 
                             for (int j = firstVisiblePosition1; j <= lastVisiblePosition1; j++) {
-                                final RecyclerView.ViewHolder holder2 = cvh.reelsList.findViewHolderForAdapterPosition(j);
+                                final RecyclerView.ViewHolder holder2 = cvh.rRecyclerView.findViewHolderForAdapterPosition(j);
                                 ReelsItemViewHolder cvh1 = (ReelsItemViewHolder) holder2;
 
                                 int[] location1 = new int[2];
