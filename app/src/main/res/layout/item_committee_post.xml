@@ -14,7 +14,7 @@
         android:visibility="visible">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/view_slider"
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:background="@color/light_background"/>

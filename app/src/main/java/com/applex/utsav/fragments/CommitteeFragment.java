@@ -1206,7 +1206,7 @@ public class CommitteeFragment extends Fragment {
             fRecyclerView = itemView.findViewById(R.id.feedsRecycler);
             feeds_item = itemView.findViewById(R.id.feeds_item);
             view_all_feeds = itemView.findViewById(R.id.view_all_feeds);
-            view = itemView.findViewById(R.id.view);
+            view = itemView.findViewById(R.id.view_slider);
         }
     }
 
