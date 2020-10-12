@@ -63,9 +63,9 @@ import static java.lang.Boolean.TRUE;
 
 public class RegPujoCommittee extends AppCompatActivity {
 
-    private EditText etcommitteename, etdescription, etaddressline, etpin, etcontact;
+    private EditText etcommitteename, etdescription, etaddressline, etpin, etcontact, etupiid;
     public static EditText etcity,etstate;
-    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin, scontact;
+    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin, scontact, supi;
     private TextView email_pc;
     private Button register;
     private ProgressDialog progressDialog;
@@ -123,6 +123,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         etpin = findViewById(R.id.committee_pin);
         radioGroup = findViewById(R.id.radiogroup);
         etcontact = findViewById(R.id.committee_contact_number);
+        etupiid = findViewById(R.id.committee_upiid);
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         introPref = new IntroPref(RegPujoCommittee.this);
@@ -217,6 +218,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 sstate = etstate.getText().toString().trim();
                 spin = etpin.getText().toString().trim();
                 scontact = etcontact.getText().toString().trim();
+                supi = etupiid.getText().toString().trim();
 
                 int selectedType = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedType);
@@ -291,6 +293,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                       baseUserModel.setCity(scity);
                       baseUserModel.setEmail(semail);
                       baseUserModel.setName(scommitteename);
+                      baseUserModel.setSmall_name(scommitteename.toLowerCase());
                       baseUserModel.setState(sstate);
                       baseUserModel.setUid(userID);
                       baseUserModel.setType(usertype);
@@ -302,6 +305,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                       pujoCommitteeModel = new PujoCommitteeModel();
                       pujoCommitteeModel.setDescription(sdescription);
                       pujoCommitteeModel.setType(stype);
+                      pujoCommitteeModel.setUpiid(supi);
 
                       introPref.setFullName(scommitteename);
                       introPref.setGender(null);

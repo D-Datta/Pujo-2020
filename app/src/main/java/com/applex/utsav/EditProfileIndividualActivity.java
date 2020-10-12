@@ -288,6 +288,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
                     baseUserModel = new BaseUserModel();
                     baseUserModel.setName(USERNAME);
+                    baseUserModel.setSmall_name(USERNAME.toLowerCase());
                     baseUserModel.setEmail(EMAIL);
                     baseUserModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     baseUserModel.setAddressline(ADDRESS);

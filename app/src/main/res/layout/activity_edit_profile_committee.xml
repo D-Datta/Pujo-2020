@@ -55,7 +55,7 @@
                         android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
                         android:textStyle="bold"
-                        android:textColor="#212121"
+                        android:textColor="@color/black"
                         />
 
                     <EditText
@@ -125,7 +125,7 @@
                         android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
                         android:textStyle="bold"
-                        android:textColor="#212121"
+                        android:textColor="@color/black"
                         />
 
                     <EditText
@@ -164,7 +164,7 @@
                         android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
                         android:textStyle="bold"
-                        android:textColor="#212121"
+                        android:textColor="@color/black"
                         />
 
                     <EditText
@@ -191,6 +191,57 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/upi_id_hint"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+
+                    <EditText
+                        android:id="@+id/edit_committee_upiid"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="8dp"
+                        android:textSize="18sp"
+                        android:background="@drawable/background_rectangle"
+                        android:ems="10"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:hint="@string/upi_id_hint"
+                        android:inputType="textPersonName"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/upi_id"
+                        android:layout_marginStart="0dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textColor="@color/ingr_red1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -326,6 +377,125 @@
                             android:layout_weight="1" />
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:text="@string/Type_of_pujo"
+                        android:layout_marginStart="0dp"
+                        android:paddingTop="10dp"
+                        android:paddingHorizontal="15dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/oxygen_regular"
+                        android:textStyle="bold"
+                        android:textColor="@color/black" />
+
+                    <RadioGroup
+                        android:id="@+id/radiogroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/sarbojonin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sarbojonin"
+                            android:padding="10dp"
+                            android:checked="true"/>
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/bonediBari"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bonedi_bari"
+                            android:padding="10dp"/>
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/abashon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/abashon"
+                            android:padding="10dp"/>
+                    </RadioGroup>
+                    <!--                    <com.google.android.material.chip.ChipGroup-->
+                    <!--                        android:id="@+id/type"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:gravity="center"-->
+                    <!--                        style="@style/Widget.MaterialComponents.Chip.Choice"-->
+                    <!--                        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"-->
+                    <!--                        app:chipSpacingHorizontal="10dp"-->
+                    <!--                        app:singleSelection="true"-->
+                    <!--                        android:paddingVertical="10dp"-->
+                    <!--                        android:paddingStart="10dp">-->
+
+                    <!--                        <com.google.android.material.chip.Chip-->
+                    <!--                            android:id="@+id/sarbojonin"-->
+                    <!--                            android:padding="5dp"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:checkable="true"-->
+                    <!--                            android:clickable="true"-->
+                    <!--                            android:fontFamily="@font/oxygen_ex_bold"-->
+                    <!--                            android:text="@string/sarbojonin"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textAlignment="center"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:textStyle="bold"-->
+                    <!--                            app:chipBackgroundColor="@color/white"-->
+                    <!--                            app:checkedIconVisible="false"-->
+                    <!--                            app:chipStrokeColor="@color/colorPrimary"-->
+                    <!--                            app:chipStrokeWidth="1dp"-->
+                    <!--                            android:focusable="true" />-->
+
+                    <!--                        <com.google.android.material.chip.Chip-->
+                    <!--                            android:id="@+id/bonediBari"-->
+                    <!--                            android:padding="5dp"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:checkable="true"-->
+                    <!--                            android:clickable="true"-->
+                    <!--                            android:fontFamily="@font/oxygen_ex_bold"-->
+                    <!--                            android:text="@string/bonedi_bari"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textStyle="bold"-->
+                    <!--                            android:textAlignment="center"-->
+                    <!--                            app:checkedIconVisible="false"-->
+                    <!--                            app:chipBackgroundColor="@color/white"-->
+                    <!--                            app:chipStrokeColor="@color/colorPrimaryDark"-->
+                    <!--                            app:chipStrokeWidth="1dp"-->
+                    <!--                            android:focusable="true" />-->
+
+                    <!--                        <com.google.android.material.chip.Chip-->
+                    <!--                            android:id="@+id/barirPujo"-->
+                    <!--                            android:padding="5dp"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:checkable="true"-->
+                    <!--                            android:clickable="true"-->
+                    <!--                            android:fontFamily="@font/oxygen_ex_bold"-->
+                    <!--                            android:text="@string/abashon"-->
+                    <!--                            android:textColor="@color/black"-->
+                    <!--                            android:textAlignment="center"-->
+                    <!--                            android:textStyle="bold"-->
+                    <!--                            app:chipBackgroundColor="@color/white"-->
+                    <!--                            app:checkedIconVisible="false"-->
+                    <!--                            app:chipStrokeColor="@color/colorPrimary"-->
+                    <!--                            app:chipStrokeWidth="1dp"-->
+                    <!--                            android:focusable="true" />-->
+
+                    <!--                    </com.google.android.material.chip.ChipGroup>-->
 
                 </LinearLayout>
 

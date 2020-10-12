@@ -4,6 +4,7 @@ public class PujoCommitteeModel {
 
     private String description;
     private String type;
+    private String upiid;
 
     public String getDescription() {
         return description;
@@ -20,4 +21,13 @@ public class PujoCommitteeModel {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getUpiid() {
+        return upiid;
+    }
+
+    public void setUpiid(String upiid) {
+        this.upiid = upiid;
+    }
+
 }
