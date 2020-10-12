@@ -291,6 +291,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                       baseUserModel.setCity(scity);
                       baseUserModel.setEmail(semail);
                       baseUserModel.setName(scommitteename);
+                      baseUserModel.setSmall_name(scommitteename.toLowerCase());
                       baseUserModel.setState(sstate);
                       baseUserModel.setUid(userID);
                       baseUserModel.setType(usertype);
