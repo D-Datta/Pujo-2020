@@ -1252,7 +1252,7 @@ public class CommitteeFragment extends Fragment {
                         if (timeAgo.matches("just now")) {
                             holder.reels_mins_ago.setTextColor(Color.parseColor("#00C853"));
                         } else {
-                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.white_transparent));
+                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.white));
                         }
                     }
 
@@ -1325,14 +1325,14 @@ public class CommitteeFragment extends Fragment {
                             });
                     }
                     else {
-                        if(currentItem.getGender()!=null){
-                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                        if(currentItem.getGender() != null) {
+                            if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
                             }
-                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                            else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")) {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
                             }
-                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                            else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")) {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }

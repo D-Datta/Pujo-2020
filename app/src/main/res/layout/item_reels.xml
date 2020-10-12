@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/_10_mins_ago"
                         android:textSize="10dp"
-                        android:textColor="@color/white_transparent"/>
+                        android:textColor="@color/white"/>
 
                 </LinearLayout>
 
