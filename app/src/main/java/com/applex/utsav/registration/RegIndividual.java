@@ -52,6 +52,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Locale;
 
 import static java.lang.Boolean.FALSE;
@@ -271,11 +272,13 @@ public class RegIndividual extends AppCompatActivity
 
                     if (pic != null || coverpicbyte != null) {
 
+                        long ts = Calendar.getInstance().getTimeInMillis();
+
                         NotifCount notifCount= new NotifCount();
                         notifCount.setNotifCount(0);
 
                         if (pic != null) {
-                            reference = storageReference.child("Users/").child("DP/").child(fireuser.getUid() + "_dp");
+                            reference = storageReference.child("Users/").child("DP/").child(fireuser.getUid() + ts + "_dp");
                             reference.putBytes(pic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -288,7 +291,7 @@ public class RegIndividual extends AppCompatActivity
                                             baseUserModel.setDp(generatedfilepath);
 
                                             if (coverpicbyte != null) {
-                                                reference = storageReference.child("Users/").child("Coverpic/").child(fireuser.getUid() + "_coverpic");
+                                                reference = storageReference.child("Users/").child("Coverpic/").child(fireuser.getUid() +ts+ "_coverpic");
                                                 reference.putBytes(coverpicbyte).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                     @Override
                                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -473,6 +476,7 @@ public class RegIndividual extends AppCompatActivity
                         }
 
                         else if (coverpicbyte != null) {
+
                             reference = storageReference.child("Users/").child("Coverpic/").child(fireuser.getUid() + "_coverpic");
                             reference.putBytes(coverpicbyte).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -485,7 +489,7 @@ public class RegIndividual extends AppCompatActivity
                                             baseUserModel.setCoverpic(generatedfilepath);
 
                                             if(pic!=null){
-                                                reference = storageReference.child("Users/").child("DP/").child(fireuser.getUid() + "_dp");
+                                                reference = storageReference.child("Users/").child("DP/").child(fireuser.getUid() +ts+ "_dp");
                                                 reference.putBytes(pic).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                     @Override
                                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

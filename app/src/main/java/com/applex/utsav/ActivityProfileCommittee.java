@@ -70,6 +70,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -781,15 +782,16 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 StorageReference reference;
                 storage = FirebaseStorage.getInstance();
                 storageReference = storage.getReference();
+                long ts = Calendar.getInstance().getTimeInMillis();
 
                 if (imageCoverOrDp == 1) {
                     reference = storageReference.child("Users/")
                             .child("Coverpic/")
-                            .child(FirebaseAuth.getInstance().getUid() + "_coverpic");
+                            .child(FirebaseAuth.getInstance().getUid() +ts+ "_coverpic");
                 } else {
                     reference = storageReference.child("Users/")
                             .child("DP/")
-                            .child(FirebaseAuth.getInstance().getUid() + "_dp");
+                            .child(FirebaseAuth.getInstance().getUid() +ts+ "_dp");
                 }
 
                 reference.putBytes(picCompressed)

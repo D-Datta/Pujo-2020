@@ -1566,13 +1566,13 @@ public class CommitteeFragment extends Fragment {
                         .collection("Users")
                         .whereEqualTo("type", "com")
                         .orderBy("lastVisitTime", Query.Direction.DESCENDING)
-                        .limit(15);
+                        .limit(20);
         } else {
             query = FirebaseFirestore.getInstance()
                         .collection("Users")
                         .whereEqualTo("type", "com")
                         .orderBy("upvotes", Query.Direction.DESCENDING)
-                        .limit(15);
+                        .limit(20);
         }
 
         query.get().addOnSuccessListener(queryDocumentSnapshots -> {
