@@ -89,7 +89,7 @@
     <string name="search">Search…</string>
     <string name="search_pujo">Search your favorite pujo…</string>
     <string name="Recent_searches">Recent searches</string>
-    <string name="Description">Description</string>
+    <string name="Description">Description*</string>
     <string name="Type_of_pujo">Type of Pujo*</string>
     <string name="sarbojonin">Sarbojonin</string>
     <string name="committee_name">Committee Name / Bari Name*</string>
@@ -218,7 +218,9 @@
     <string name="enterstate">Enter your State Name</string>
     <string name="cityhead">Cannot find your City/District here?</string>
     <string name="statehead">Cannot find your State here?</string>
-    <string name="contactnumber">Contact Number</string>
+    <string name="contactnumber">Contact Number*</string>
+    <string name="upi_id">** If any user of this application wants to send e-pronami, the UPI ID will be needed.</string>
+    <string name="upi_id_hint">UPI ID</string>
 
 
 </resources>

@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.PujoCommitteeModel;
@@ -33,7 +35,7 @@ import java.util.Locale;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
 
-    private EditText com_name, com_desc, com_type, com_address, com_pin, com_contact;
+    private EditText com_name, com_desc, com_type, com_address, com_pin, com_contact, com_upi;
     public static EditText com_state, com_city;
     private Button submit;
 
@@ -42,7 +44,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private long pujoVisits;
     private Timestamp lastVisitTs;
 
-    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid, CONTACT;
+    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid, CONTACT, UPIID;
     private String tokenStr;
     private PujoCommitteeModel pujoCommitteeModel;
     private DocumentReference docrefBase, docrefCommittee;
@@ -53,6 +55,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
     private BaseUserModel baseUserModel;
     int verified;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         submit = findViewById(R.id.edit_com_profile);
         com_pin = findViewById(R.id.edit_committee_pin);
         com_contact = findViewById(R.id.edit_committee_contact_number);
+        radioGroup = findViewById(R.id.radiogroup);
+        com_upi = findViewById(R.id.edit_committee_upiid);
 
         mAuth=FirebaseAuth.getInstance();
         fireuser= mAuth.getCurrentUser();
@@ -161,8 +167,26 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                             }
                             if(pujoCommitteeModel.getType()!=null && !pujoCommitteeModel.getType().isEmpty())
                             {
-                                com_type.setText(pujoCommitteeModel.getType());
+//                                com_type.setText(pujoCommitteeModel.getType());
+                                if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.sarbojonin))){
+                                    radioGroup.setSelected(true);
+                                    radioButton = findViewById(R.id.sarbojonin);
+                                    radioButton.setSelected(true);
+                                }
+                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.bonedi_bari))){
+                                    radioGroup.setSelected(true);
+                                    radioButton = findViewById(R.id.bonediBari);
+                                    radioButton.setSelected(true);
+                                }
+                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.abashon))){
+                                    radioGroup.setSelected(true);
+                                    radioButton = findViewById(R.id.abashon);
+                                    radioButton.setSelected(true);
+                                }
                             }
+                            if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
+                                com_upi.setText(pujoCommitteeModel.getUpiid());
+                        }
                         }
                     }
                 });
@@ -197,6 +221,11 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 STATE = com_state.getText().toString().trim();
                 PIN =com_pin.getText().toString().trim();
                 CONTACT = com_contact.getText().toString().trim();
+                UPIID = com_upi.getText().toString().trim();
+
+                int selectedType = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(selectedType);
+                PUJOTYPE = radioButton.getText().toString().trim();
 
 
                 if (COMNAME.isEmpty() || CITY.isEmpty() ||PUJOTYPE.isEmpty() || ADDRESS.isEmpty()
@@ -229,9 +258,12 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         com_contact.setError("Contact Number is missing");
                         com_contact.requestFocus();
                     }
+//                    if (PUJOTYPE.isEmpty()) {
+//                        com_type.setError("Type is missing");
+//                        com_type.requestFocus();
+//                    }
                     if (PUJOTYPE.isEmpty()) {
-                        com_type.setError("Type is missing");
-                        com_type.requestFocus();
+                        BasicUtility.showToast(getApplicationContext(),"Please provide type of pujo");
                     }
                     if(PROFILEPIC==null){
                         BasicUtility.showToast(EditProfileCommitteeActivity.this,"Please set a Profile Photo");
@@ -288,6 +320,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     pujoCommitteeModel = new PujoCommitteeModel();
                     pujoCommitteeModel.setDescription(DESCRIPTION);
                     pujoCommitteeModel.setType(PUJOTYPE);
+                    pujoCommitteeModel.setUpiid(UPIID);
 
                     docrefBase.set(baseUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

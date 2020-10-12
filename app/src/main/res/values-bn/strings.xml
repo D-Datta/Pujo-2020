@@ -94,7 +94,7 @@
     <string name="_42_comments">৪২ মন্তব্য</string>
     <string name="search">সন্ধান করুন…</string>
     <string name="Recent_searches">সাম্প্রতিক সন্ধান</string>
-    <string name="Description">বিবরণ</string>
+    <string name="Description">বিবরণ*</string>
     <string name="Type_of_pujo">পুজোর ধরণ</string>
     <string name="sarbojonin">সর্বজনীন</string>
     <string name="committee_name">কমিটির নাম</string>
@@ -201,6 +201,8 @@
     <string name="enterstate">নিজের রাজ্যের নাম লিখুন</string>
     <string name="cityhead">এখানে আপনার শহর/জেলা খুঁজে পাচ্ছেন না?</string>
     <string name="statehead">এখানে আপনার রাজ্য খুঁজে পাচ্ছেন না?</string>
-    <string name="contactnumber">যোগাযোগ নম্বর</string>
+    <string name="contactnumber">যোগাযোগ নম্বর*</string>
+    <string name="upi_id">** এই অ্যাপ্লিকেশনটির কোনও ব্যবহারকারী যদি ই-প্রোনামি দিতে চান, তবে ইউপিআই আইডি লাগবে।</string>
+    <string name="upi_id_hint">ইউপিআই আইডি</string>
 
 </resources>
