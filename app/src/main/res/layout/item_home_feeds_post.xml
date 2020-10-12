@@ -26,8 +26,7 @@
             <RelativeLayout
                 android:id="@+id/rlLayout"
                 android:layout_width="270dp"
-                android:layout_height="270dp"
-                tools:ignore="MissingConstraints">
+                android:layout_height="270dp">
 
                 <TextView
                     android:id="@+id/item_text_without_image"
