@@ -37,7 +37,7 @@ public class Splash extends AppCompatActivity {
 
 //        /////////////////DAY OR NIGHT MODE///////////////////
 //        FirebaseFirestore.getInstance().document("Mode/night_mode")
-//                .addSnapshotListener(MainActivity.this, (value, error) -> {
+//                .addSnapshotListener(Splash.this, (value, error) -> {
 //                    if(value != null) {
 //                        if(value.getBoolean("night_mode")) {
 //                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

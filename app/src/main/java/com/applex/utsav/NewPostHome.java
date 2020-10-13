@@ -188,7 +188,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
 //        /////////////////DAY OR NIGHT MODE///////////////////
 //        FirebaseFirestore.getInstance().document("Mode/night_mode")
-//                .addSnapshotListener(MainActivity.this, (value, error) -> {
+//                .addSnapshotListener(NewPostHome.this, (value, error) -> {
 //                    if(value != null) {
 //                        if(value.getBoolean("night_mode")) {
 //                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
