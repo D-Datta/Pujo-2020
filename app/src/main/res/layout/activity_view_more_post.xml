@@ -36,7 +36,7 @@
         app:sliderIndicatorRadius="1dp"
         android:transitionName="transition"
         app:sliderIndicatorSelectedColor="@color/colorPrimary"
-        app:sliderIndicatorUnselectedColor="#FFF"
+        app:sliderIndicatorUnselectedColor="@color/white"
         app:sliderScrollTimeInSec="1"
         app:sliderStartAutoCycle="true" />
 

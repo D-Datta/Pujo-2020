@@ -8,7 +8,6 @@
     android:orientation="horizontal"
     android:paddingVertical="10dp"
     android:background="@drawable/custom_ripple_white_rectangle"
-    android:backgroundTint="@color/white"
     android:paddingHorizontal="8dp"
     android:gravity="center_vertical">
 
