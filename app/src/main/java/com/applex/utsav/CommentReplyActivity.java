@@ -110,20 +110,20 @@ public class CommentReplyActivity extends AppCompatActivity {
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
-        /////////////////DAY OR NIGHT MODE///////////////////
-        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
-                        if(task.getResult().getBoolean("night_mode")) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    }
-                });
-        /////////////////DAY OR NIGHT MODE///////////////////
+//        /////////////////DAY OR NIGHT MODE///////////////////
+//        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
+//                .addOnCompleteListener(task -> {
+//                    if(task.isSuccessful()) {
+//                        if(task.getResult().getBoolean("night_mode")) {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                        } else {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                        }
+//                    } else {
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                    }
+//                });
+//        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_reply_comments);
 
