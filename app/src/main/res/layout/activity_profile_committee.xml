@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".ActivityProfileCommittee"
     android:fitsSystemWindows="true"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -208,7 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/visitors"
-                            android:textColor="#212121"
+                            android:textColor="@color/black"
                             android:paddingHorizontal="10dp"
                             android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
@@ -330,7 +331,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:autoLink="all"
-                        android:background="#FFF"
+                        android:background="@color/white"
                         android:fontFamily="@font/oxygen_ex_bold"
                         android:textColor="@color/purple"
                         android:paddingHorizontal="20dp"
@@ -354,7 +355,7 @@
                     android:paddingHorizontal="20dp"
                     android:paddingBottom="10dp"
                     android:textColor="@color/black"
-                    android:background="#fff"
+                    android:background="@color/white"
                     android:text=""
                     android:scrollbars="vertical"
                     android:textSize="15sp"

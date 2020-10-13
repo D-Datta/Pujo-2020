@@ -5,12 +5,13 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="#e5e5e5"/>
+        android:background="@color/white_e5e5e5"/>
 
     <LinearLayout
         android:id="@+id/post"
@@ -23,7 +24,7 @@
         android:id="@+id/no_recent_post"
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:background="#e2e2e2"
+        android:background="@color/light_background"
         android:paddingHorizontal="20dp"
         android:paddingVertical="45dp"
         android:src="@drawable/ic_no_posts"
@@ -168,8 +169,8 @@
                         app:sliderIndicatorPadding="3dp"
                         app:sliderIndicatorRadius="2dp"
                         android:transitionName="transition"
-                        app:sliderIndicatorSelectedColor="#5A5A5A"
-                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderIndicatorSelectedColor="@color/grey_5A5A5A"
+                        app:sliderIndicatorUnselectedColor="@color/white"
                         app:sliderScrollTimeInSec="1"
                         android:visibility="gone"
                         app:sliderStartAutoCycle="true" />
@@ -368,7 +369,7 @@
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
                             android:text=""
-                            android:textColor="#212121"
+                            android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
                         <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort
@@ -459,7 +460,7 @@
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
                             android:text=""
-                            android:textColor="#212121"
+                            android:textColor="@color/black"
                             android:paddingHorizontal="8dp"/>
 
                         <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort

@@ -39,6 +39,25 @@
     <color name="red">#B30F0F</color>
     <color name="ingr_red1">#FFCC0000</color>
 
+    <color name="grey_716A6A">#716A6A</color>
+    <color name="grey_605F5F">#605F5F</color>
+    <color name="navyblue_171E30">#171E30</color>
+    <color name="grey_aa212121">#aa212121</color>
+    <color name="grey_878787">#878787</color>
+    <color name="black_aa000000">#aa000000</color>
+    <color name="white_E0E0E0">#E0E0E0</color>
+    <color name="white_e5e5e5">#e5e5e5</color>
+    <color name="grey_595252">#595252</color>
+    <color name="white_f8f8f8">#f8f8f8</color>
+    <color name="white_ededed">#ededed</color>
+    <color name="white_E5e5e5">#E5e5e5</color>
+    <color name="white_E5E5E5">#E5E5E5</color>
+    <color name="white_E2E2E2">#E2E2E2</color>
+    <color name="grey_868686">#868686</color>
+    <color name="grey_5A5A5A">#5A5A5A</color>
+    <color name="grey_58212121">#58212121</color>
+    <color name="grey_626262">#626262</color>
+
     //dots inactive colors
     <color name="inactive_one">#7EAFAEAE</color>
     <color name="inactive_two">#7EAFAEAE</color>

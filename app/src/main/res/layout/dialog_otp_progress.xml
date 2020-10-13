@@ -62,7 +62,7 @@
             android:text="Enter OTP"
             android:padding="5sp"
             android:gravity="center"
-            android:textColor="#212121"
+            android:textColor="@color/black"
             android:fontFamily="@font/oxygen_bold"
             android:textSize="20dp"/>
 
@@ -82,7 +82,7 @@
         <View
             android:layout_width="200dp"
             android:layout_height="1dp"
-            android:background="#878787"/>
+            android:background="@color/grey_878787"/>
 
     </LinearLayout>
     <TextView

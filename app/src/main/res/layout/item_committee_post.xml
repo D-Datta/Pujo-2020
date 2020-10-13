@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,7 +42,7 @@
                 app:sliderIndicatorPadding="3dp"
                 app:sliderIndicatorRadius="1dp"
                 app:sliderIndicatorSelectedColor="#5A5A5A"
-                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderIndicatorUnselectedColor="@color/white"
                 app:sliderScrollTimeInSec="1"
                 app:sliderStartAutoCycle="false" />
 
@@ -531,8 +532,8 @@
                         app:sliderIndicatorPadding="3dp"
                         app:sliderIndicatorRadius="2dp"
                         android:transitionName="transition"
-                        app:sliderIndicatorSelectedColor="#5A5A5A"
-                        app:sliderIndicatorUnselectedColor="#FFF"
+                        app:sliderIndicatorSelectedColor="@color/grey_5A5A5A"
+                        app:sliderIndicatorUnselectedColor="@color/white"
                         app:sliderScrollTimeInSec="1"
                         android:visibility="gone"
                         app:sliderStartAutoCycle="true" />

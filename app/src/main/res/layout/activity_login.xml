@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".registration.LoginActivity"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="@color/white"
     tools:ignore="NamespaceTypo">
 
     <ImageView
@@ -87,7 +87,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingStart="18dp"
                 android:paddingEnd="10dp"
-                android:textColor="#716A6A"
+                android:textColor="@color/grey_716A6A"
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -131,7 +131,7 @@
                 android:layout_marginEnd="45dp"
                 android:fontFamily="@font/oxygen_regular"
                 android:text="@string/forgot_password"
-                android:textColor="#605F5F"
+                android:textColor="@color/grey_605F5F"
                 android:textSize="12sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -235,7 +235,7 @@
                     android:fontFamily="@font/oxygen_bold"
                     android:padding="5dp"
                     android:text="@string/sign_up"
-                    android:textColor="#171E30"
+                    android:textColor="@color/navyblue_171E30"
                     android:textSize="18sp" />
 
                 <TextView
@@ -245,7 +245,7 @@
                     android:fontFamily="@font/oxygen_bold"
                     android:padding="5dp"
                     android:text="@string/login"
-                    android:textColor="#171E30"
+                    android:textColor="@color/navyblue_171E30"
                     android:textSize="18sp"
                     android:visibility="gone" />
 
@@ -258,7 +258,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/oxygen_regular"
                 android:text="@string/or"
-                android:textColor="#212121" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
@@ -282,7 +282,7 @@
             android:padding="5dp"
             android:text="@string/terms_conditions"
             android:textAlignment="center"
-            android:textColor="#aa212121"
+            android:textColor="@color/grey_aa212121"
             android:textSize="12dp"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -307,7 +307,7 @@
                 android:lineSpacingExtra="5dp"
                 android:text="@string/privacy"
                 android:textSize="12dp"
-                android:textColor="#aa212121" />
+                android:textColor="@color/grey_aa212121" />
 
             <TextView
                 android:id="@+id/cookies"
@@ -319,7 +319,7 @@
                 android:lineSpacingExtra="5dp"
                 android:textSize="12dp"
                 android:text="@string/and_cookies"
-                android:textColor="#aa212121" />
+                android:textColor="@color/grey_aa212121" />
 
         </LinearLayout>
 
@@ -331,7 +331,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="#55212121"
+        android:background="@color/black_transparent"
         android:padding="100dp"
         android:visibility="gone"
         app:lottie_autoPlay="true"

@@ -6,13 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".CommentReplyActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar12"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#F8F8F8"
+        android:background="@color/white_F8F8F8"
         android:elevation="5dp"
         app:layout_collapseMode="pin"
         app:title="@string/replies"
@@ -82,7 +83,7 @@
                                 android:paddingHorizontal="8dp"
                                 android:text="Name"
                                 android:paddingVertical="2dp"
-                                android:textColor="#212121" />
+                                android:textColor="@color/black" />
 
                             <ImageView
                                 android:id="@+id/comment_more1"
@@ -206,7 +207,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:background="#fff"
+        android:background="@color/white"
         android:elevation="10dp"
         android:layout_height="55dp"
         tools:ignore="Orientation">
