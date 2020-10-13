@@ -76,9 +76,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance().document("Mode/night_mode").get()
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
-                        boolean night_mode = Boolean.getBoolean(
-                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
-                        if(night_mode) {
+                        if(task.getResult().getBoolean("night_mode")) {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         } else {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
