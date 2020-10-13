@@ -346,6 +346,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             if(intent.getStringExtra("target").matches("100")){// EDIT POST
 
+                BasicUtility.showToast(getApplicationContext(), "Media files cannot be edited. \n Only text can be changed.");
+
                 if(intent.getStringExtra("headline")!=null && introPref.getType().matches("com"))
                 {
                     head_content.setVisibility(View.VISIBLE);
