@@ -14,6 +14,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.media.MediaMetadataRetriever;
@@ -24,6 +25,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.DragEvent;
@@ -99,15 +104,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage;
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
 import static com.applex.utsav.utility.BasicUtility.tsLong;
 
-public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.BottomSheetListener {
+public class NewPostHome extends AppCompatActivity {
 
-    private ArrayList<TagModel> selected_tags;
 
     private TextView postusername;
     private Button post;
@@ -123,8 +129,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private IntroPref introPref;
     private RecyclerView recyclerView;
 
-    private String textdata = "";
-    private RecyclerView tags_selectedRecycler;
+//    private String textdata = "";
+//    private RecyclerView tags_selectedRecycler;
     private TagAdapter2 tagAdapter2;
     private ImageCompressor imageCompressor;
 
@@ -169,6 +175,8 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
     private BottomSheetBehavior bottomSheetBehavior;
 
     private ArrayList<String> tagList;
+
+//    private ArrayList<TagModel> selected_tags;
 
     Context context;
     Resources resources;
@@ -233,14 +241,15 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReferenece = storage.getReference();
 
-        tags_selectedRecycler = findViewById(R.id.tags_selectedList) ;
-        selected_tags = new ArrayList<>();
+//        tags_selectedRecycler = findViewById(R.id.tags_selectedList) ;
+
         tagPujo = findViewById(R.id.pujo_tag);
         TextView newPostToolb= findViewById(R.id.new_post_toolb);
 
-        tagList = new ArrayList<>();
+//        selected_tags = new ArrayList<>();
 
-        buildRecyclerView_selectedtags();
+//        tagList = new ArrayList<>();
+//        buildRecyclerView_selectedtags();
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
@@ -356,48 +365,46 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     postcontent.setVisibility(View.VISIBLE);
                     postcontent.setText(intent.getStringExtra("txt"));
                 }
+
+                //TAGS RECYCLER PREVIOUS
                 Bundle args = getIntent().getBundleExtra("BUNDLETAGS");
                 if (args != null) {
                     if ((ArrayList<String>) args.getSerializable("ARRAYLISTTAGS") != null
                             && ((ArrayList<String>) args.getSerializable("ARRAYLISTTAGS")).size() > 0) {
 
                         tagList = (ArrayList<String>) args.getSerializable("ARRAYLISTTAGS");
-
-                        if (tagList != null && tagList.size() > 0) {
-                            tags_selectedRecycler.setHasFixedSize(true);
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                            tags_selectedRecycler.setLayoutManager(linearLayoutManager);
-                            tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
-                            //  selected_tags = new ArrayList<>();
-
-                            tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
-                            tags_selectedRecycler.setAdapter(tagAdapter2);
-
-                            tagAdapter2.onClickListener((position, tag) -> {
-                                Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
-                            });
-
-                            tagAdapter2.onLongClickListener((position, tag_name) ->{
-//            TagModel tagModel = new TagModel();
-//            tagModel.setName_tag(tag_name);
-
-                                tagList.remove(position);
-                                tagAdapter2.notifyItemRemoved(position);
-
-                                if(tagList.size()==0)
-                                    tags_selectedRecycler.setVisibility(View.GONE);
-
-                                //   tagAdapter.notifyDataSetChanged();
-                            });
-
-                        }
+//                        if (tagList != null && tagList.size() > 0) {
+//                            tags_selectedRecycler.setHasFixedSize(true);
+//                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//                            tags_selectedRecycler.setLayoutManager(linearLayoutManager);
+//                            tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
+//                            //  selected_tags = new ArrayList<>();
+//
+//                            tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
+//                            tags_selectedRecycler.setAdapter(tagAdapter2);
+//
+//                            tagAdapter2.onClickListener((position, tag) -> {
+//                                Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
+//                            });
+//
+//                            tagAdapter2.onLongClickListener((position, tag_name) ->{
+//
+//                                tagList.remove(position);
+//                                tagAdapter2.notifyItemRemoved(position);
+//
+//                                if(tagList.size()==0)
+//                                    tags_selectedRecycler.setVisibility(View.GONE);
+//                            });
+//
+//                        }
 //                        else {
 //                            sliderView.setVisibility(View.GONE);
 //                        }
-
                     }
                 }
+                //TAGS RECYCLER PREVIOUS
+
                 if(StoreTemp.getInstance().getPujoTagModel()!=null)
                 {
                     tagPujo.setVisibility(View.VISIBLE);
@@ -663,7 +670,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         }
 
-            //////////////////SHARED CONTENT///////////////////
+        //////////////////SHARED CONTENT///////////////////
 
         ///////////////////////IMAGE HANDLING////////////////////////
         gallery.setOnClickListener(v -> {
@@ -733,6 +740,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0 && videoUri==null){
                     BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
+
                 else{
                     if(intent.getStringExtra("target")!=null && intent.getStringExtra("target").matches("100")){
                         progressDialog = new ProgressDialog(NewPostHome.this);
@@ -750,44 +758,16 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                         if(intent.getStringExtra("typeofpost")!= null && intent.getStringExtra("typeofpost").matches("notreel"))
                         {
-                            if(intent.getStringExtra("docID")!=null)
-                            FirebaseFirestore.getInstance().collection("Feeds")
-                                    .document(intent.getStringExtra("docID"))
-                                    .update("tagList", tagList, "headline", headline, "txt", text_content, "pujoTag", pujoTag)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful())
-                                            {
-                                                Toast.makeText(getApplicationContext(), "Post edited", Toast.LENGTH_LONG).show();
-                                                progressDialog.dismiss();
-//                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                            finish();
-                                                if (isTaskRoot()) {
-                                                    startActivity(new Intent(NewPostHome.this, MainActivity.class));
-                                                    finish();
-                                                } else {
-                                                    NewPostHome.super.onBackPressed();
-                                                }
-                                            }
-                                            else {
-                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
-                                            }
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Post edit failed", Toast.LENGTH_LONG).show();
-                                    progressDialog.dismiss();
+                            if(intent.getStringExtra("docID")!=null) {
+
+                                //UPDATE TAGS
+                                if(!text_content.isEmpty()){
+                                    generateTagList(text_content);
                                 }
-                            });
-                        }
-                        else if(intent.getStringExtra("typeofpost")!= null && intent.getStringExtra("typeofpost").matches("reel"))
-                        {
-                            if(intent.getStringExtra("docID")!=null)
-                                FirebaseFirestore.getInstance().collection("Reels")
+
+                                FirebaseFirestore.getInstance().collection("Feeds")
                                         .document(intent.getStringExtra("docID"))
-                                        .update("tagList", tagList, "headline", headline, "description", text_content, "pujoTag", pujoTag)
+                                        .update("tagList", tagList, "headline", headline, "txt", text_content, "pujoTag", pujoTag)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -795,8 +775,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                                 {
                                                     Toast.makeText(getApplicationContext(), "Post edited", Toast.LENGTH_LONG).show();
                                                     progressDialog.dismiss();
-//                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                            finish();
                                                     if (isTaskRoot()) {
                                                         startActivity(new Intent(NewPostHome.this, MainActivity.class));
                                                         finish();
@@ -815,6 +793,48 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                         progressDialog.dismiss();
                                     }
                                 });
+                            }
+
+                        }
+                        else if(intent.getStringExtra("typeofpost")!= null && intent.getStringExtra("typeofpost").matches("reel"))
+                        {
+                            if(intent.getStringExtra("docID")!=null){
+                                //UPDATE TAGS
+                                if(!text_content.isEmpty()){
+                                    generateTagList(text_content);
+                                }
+
+                                FirebaseFirestore.getInstance().collection("Reels")
+                                        .document(intent.getStringExtra("docID"))
+                                        .update("tagList", tagList, "headline", headline, "description", text_content, "pujoTag", pujoTag)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful())
+                                                {
+                                                    Toast.makeText(getApplicationContext(), "Post edited", Toast.LENGTH_LONG).show();
+                                                    progressDialog.dismiss();
+                                                    if (isTaskRoot()) {
+                                                        startActivity(new Intent(NewPostHome.this, MainActivity.class));
+                                                        finish();
+                                                    } else {
+                                                        NewPostHome.super.onBackPressed();
+                                                    }
+                                                }
+                                                else {
+                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong...");
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Post edit failed", Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                            }
+
                         }
 
 //                        docRef = firebaseFirestore.collection("Feeds").document(editPostModel.getDocID());
@@ -927,7 +947,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                     }
                     else {
                         long timestampLong = System.currentTimeMillis();
-//                        ts = tsLong.toString();
                         progressDialog = new ProgressDialog(NewPostHome.this);
                         progressDialog.setTitle("Uploading");
                         progressDialog.setMessage("Please wait...");
@@ -952,11 +971,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             reelsPostModel.setDocID(String.valueOf(timestampLong));
                             reelsPostModel.setGender(GENDER);
                             reelsPostModel.setUid(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
-                            reelsPostModel.setTagList(tagList);
 
-                            if(selected_tags!= null && selected_tags.size()>0 ) {
-                                reelsPostModel.setTagL(selected_tags);
-                            }
+//                            if(selected_tags!= null && selected_tags.size()>0 ) {
+//                                reelsPostModel.setTagL(selected_tags);
+//                            }
 
                             if(duration % 60 < 10) {
                                 reelsPostModel.setDuration(duration / 60 + ":0" + duration % 60);
@@ -966,6 +984,10 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
                             if (!text_content.isEmpty()) {
                                 reelsPostModel.setDescription(text_content.trim());
+
+                                //TAGS
+                                generateTagList(text_content.trim());
+                                reelsPostModel.setTagList(tagList);
                             }
 
                             if(!head_content.getText().toString().isEmpty()) {
@@ -1036,15 +1058,17 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                             homePostModel.setNewTs(timestampLong);
                             homePostModel.setType(introPref.getType());
                             homePostModel.setGender(GENDER);
-                            homePostModel.setTagList(tagList);
+
 
                             homePostModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                            if(selected_tags!= null && selected_tags.size()>0 ) {
-                                homePostModel.setTagL(selected_tags);
-                            }
                             if(!text_content.isEmpty()) {
                                 homePostModel.setTxt(text_content.trim());
+
+                                //TAGS
+                                generateTagList(text_content.trim());
+                                homePostModel.setTagList(tagList);
+
                             }
                             if(!head_content.getText().toString().isEmpty()) {
                                 homePostModel.setHeadline(head_content.getText().toString().trim());
@@ -1088,6 +1112,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                             });
                                 }
                             }
+
                             else {
                                 docRef.set(homePostModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
@@ -1095,8 +1120,6 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
                                         if (task.isSuccessful()) {
                                             Toast.makeText(getApplicationContext(), "Post Created", Toast.LENGTH_LONG).show();
                                             progressDialog.dismiss();
-//                                            startActivity(new Intent(NewPostHome.this, MainActivity.class));
-//                                            finish();
                                             if (isTaskRoot()) {
                                                 startActivity(new Intent(NewPostHome.this, MainActivity.class));
                                                 finish();
@@ -1125,12 +1148,12 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-        customTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-            }
-        });
+//        customTag.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                openDialog();
+//            }
+//        });
 
         cross.setOnClickListener(v -> {
             String text_content = postcontent.getText().toString();
@@ -1177,97 +1200,135 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
             }
         });
 
-
-    }
-
-    ////////////TAGS////////////////
-    private void openDialog() {
-        AlertDialog.Builder dialog= new AlertDialog.Builder(NewPostHome.this);
-        LayoutInflater inflater= LayoutInflater.from(NewPostHome.this);
-        View view=inflater.inflate(R.layout.dialog_tag_spinner,null);
-        edtagtxt =view.findViewById(R.id.addtag);
-        dialog.setView(view)
-                .setTitle("Add Tag")
-                .setNegativeButton("Cancel", (dialog12, which) ->
-                        dialog12.dismiss())
-                .setPositiveButton("Done", (dialog1, which) -> {
-                    textdata = edtagtxt.getText().toString().trim();
-                    if(textdata.isEmpty()){
-                        Toast.makeText(getApplicationContext(), "Empty tag", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        edtagtxt.setText("");
-
-//                        ArrayList<String> TagColorArray = new ArrayList<>();
-//                        TagColorArray.add("#f4b4ff");
-//                        TagColorArray.add("#aaf1ff");
-//                        TagColorArray.add("#ffdfad");
-//                        TagColorArray.add("#bcffa2");
-//                        TagColorArray.add("#cecbff");
-//                        TagColorArray.add("#cfffef");
-//                        TagColorArray.add("#ffc0bd");
-//                        TagColorArray.add("#faff9c");
-//                        TagColorArray.add("#7efdff");
-//                        TagColorArray.add("#ffe87b");
-//
-//                        int pos= (int) (Math.random()* 10);
-//                        colorValue= TagColorArray.get(pos);
-//
-//                        TagModel mytag = new TagModel();
-//                        mytag.setName_tag(textdata);
-//                        mytag.setColor_hex(colorValue);
-//                        selected_tags.add(mytag);
-
-                        tagList.add(textdata);
-
-                        tagAdapter2.notifyDataSetChanged();
-                        tags_selectedRecycler.setVisibility(View.VISIBLE);
-                    }
-                })
-                .show();
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void buildRecyclerView_selectedtags(){
-        tags_selectedRecycler.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        tags_selectedRecycler.setLayoutManager(linearLayoutManager);
-        tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
-      //  selected_tags = new ArrayList<>();
-
-        tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
-        tags_selectedRecycler.setAdapter(tagAdapter2);
-
-        tagAdapter2.onClickListener((position, tag) -> {
-            Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
-        });
-
-        tagAdapter2.onLongClickListener((position, tag_name) ->{
-//            TagModel tagModel = new TagModel();
-//            tagModel.setName_tag(tag_name);
-
-            tagList.remove(position);
-            tagAdapter2.notifyItemRemoved(position);
-
-            if(tagList.size()==0)
-                tags_selectedRecycler.setVisibility(View.GONE);
-
-            //   tagAdapter.notifyDataSetChanged();
+        head_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(STATE_COLLAPSED);
+            }
         });
 
 
+
+        //CREATING HASHTAG COLOR EFFECT
+        postcontent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                Matcher m = p.matcher(text);
+                int cursorPosition = postcontent.getSelectionStart();
+                while(m.find())
+                {
+                    if (cursorPosition >= m.start() && cursorPosition <= m.end())
+                    {
+                        final int a = m.start(); // add 1 to ommit the "@" tag
+                        final int b = m.end();
+                        postcontent.getText().setSpan(new ForegroundColorSpan(getResources().getColor(R.color.md_blue_500)),a, b, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        break;
+                    }
+                }
+            }
+        });
+        //CREATING HASHTAG COLOR EFFECT
+
     }
 
+    //TAGS NEW
+    private void generateTagList(String postContent){
+        Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+        Matcher m = p.matcher(postContent);
 
-    @Override
-    public void onTagClicked(TagModel tagModel) {
-//        tags_selectedRecycler.setVisibility(View.VISIBLE);
-//        selected_tags.add(tagModel);
-//        tagAdapter2.notifyDataSetChanged();
+        tagList = new ArrayList<>();
+        //CHECK ALL HASHTAGS WHILE POSTING
+        while(m.find())
+        {
+            final int a = m.start(); // add 1 to ommit the "@" tag
+            final int b = m.end();
+            Log.d("here", postContent.substring(a+1, b));
+            tagList.add(postContent.substring(a+1, b));
+        }
+
     }
+    //TAGS NEW
+
     ////////////TAGS////////////////
+
+//    private void openDialog() {
+//        AlertDialog.Builder dialog= new AlertDialog.Builder(NewPostHome.this);
+//        LayoutInflater inflater= LayoutInflater.from(NewPostHome.this);
+//        View view=inflater.inflate(R.layout.dialog_tag_spinner,null);
+//        edtagtxt =view.findViewById(R.id.addtag);
+//        dialog.setView(view)
+//                .setTitle("Add Tag")
+//                .setNegativeButton("Cancel", (dialog12, which) ->
+//                        dialog12.dismiss())
+//                .setPositiveButton("Done", (dialog1, which) -> {
+//                    textdata = edtagtxt.getText().toString().trim();
+//                    if(textdata.isEmpty()){
+//                        Toast.makeText(getApplicationContext(), "Empty tag", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//                        edtagtxt.setText("");
+//
+//
+//                        tagList.add(textdata);
+//
+//                        tagAdapter2.notifyDataSetChanged();
+//                        tags_selectedRecycler.setVisibility(View.VISIBLE);
+//                    }
+//                })
+//                .show();
+//    }
+
+
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    private void buildRecyclerView_selectedtags(){
+//        tags_selectedRecycler.setHasFixedSize(true);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//        tags_selectedRecycler.setLayoutManager(linearLayoutManager);
+//        tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
+//      //  selected_tags = new ArrayList<>();
+//
+//        tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
+//        tags_selectedRecycler.setAdapter(tagAdapter2);
+//
+//        tagAdapter2.onClickListener((position, tag) -> {
+//            Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
+//        });
+//
+//        tagAdapter2.onLongClickListener((position, tag_name) ->{
+////            TagModel tagModel = new TagModel();
+////            tagModel.setName_tag(tag_name);
+//
+//            tagList.remove(position);
+//            tagAdapter2.notifyItemRemoved(position);
+//
+//            if(tagList.size()==0)
+//                tags_selectedRecycler.setVisibility(View.GONE);
+//
+//            //   tagAdapter.notifyDataSetChanged();
+//        });
+//
+//
+//    }
+
+
+    ////////////TAGS////////////////
+
+
+
 
     ///////////////////////HANDLE CAMERA AND GALLERY//////////////////////////
     private void pickGallery(){

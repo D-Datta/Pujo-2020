@@ -146,13 +146,13 @@
                     </LinearLayout>
             </LinearLayout>
 
-                 <androidx.recyclerview.widget.RecyclerView
-                     android:id="@+id/tags_selectedList"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:clipToPadding="false"
-                     android:paddingHorizontal="4dp"
-                     android:layout_marginBottom="0dp"/>
+<!--                 <androidx.recyclerview.widget.RecyclerView-->
+<!--                     android:id="@+id/tags_selectedList"-->
+<!--                     android:layout_width="match_parent"-->
+<!--                     android:layout_height="wrap_content"-->
+<!--                     android:clipToPadding="false"-->
+<!--                     android:paddingHorizontal="4dp"-->
+<!--                     android:layout_marginBottom="0dp"/>-->
 
             </LinearLayout>
 
@@ -184,7 +184,7 @@
                 android:fontFamily="@font/oxygen_regular"
                 android:textColor="@color/black"
                 android:inputType="textMultiLine|textCapSentences"
-                android:textColorLink="@color/toolbarStart"
+                android:textColorLink="@color/colorPrimary"
                 android:autoLink="all"
                 android:hint="@string/post_hint"
                 android:gravity="top"

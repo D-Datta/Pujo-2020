@@ -68,9 +68,10 @@
                     android:textSize="12sp"
                     android:textColor="@color/grey_868686"
                     android:paddingHorizontal="5dp"
-                    android:fontFamily="@font/oxygen_regular"
+                    android:fontFamily="@font/oxygen_bold"
                     android:paddingVertical="2dp"
                     android:background="@android:color/transparent"/>
+
                 <TextView
                     android:id="@+id/Pdescription"
                     android:layout_width="match_parent"
@@ -82,7 +83,7 @@
                     android:textColor="@color/grey_868686"
                     android:paddingVertical="3dp"
                     android:paddingHorizontal="5dp"
-                    android:fontFamily="@font/oxygen_regular"
+                    android:fontFamily="@font/oxygen_bold"
                     android:background="@android:color/transparent"/>
 
                 <!--            <LinearLayout-->
