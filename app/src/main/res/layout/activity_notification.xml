@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ActivityNotification">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -45,7 +46,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#e5e5e5"/>
+                android:background="@color/grey"/>
 
             <ImageView
                 android:id="@+id/no_recent_notiff"

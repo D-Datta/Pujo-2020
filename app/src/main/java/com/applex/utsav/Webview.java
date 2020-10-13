@@ -2,6 +2,7 @@ package com.applex.utsav;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.applex.utsav.preferences.IntroPref;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -37,6 +39,24 @@ public class Webview extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        boolean night_mode = Boolean.getBoolean(
+                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
+                        if(night_mode) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                });
+        /////////////////DAY OR NIGHT MODE///////////////////
+
         setContentView(R.layout.activity_web_view);
 
         Toolbar tb = findViewById(R.id.toolb);

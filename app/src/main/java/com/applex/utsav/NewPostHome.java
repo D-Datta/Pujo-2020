@@ -44,6 +44,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
@@ -184,7 +185,25 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        this.setContentView(R.layout.activity_new_post);
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        boolean night_mode = Boolean.getBoolean(
+                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
+                        if(night_mode) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                });
+        /////////////////DAY OR NIGHT MODE///////////////////
+
+        setContentView(R.layout.activity_new_post);
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};

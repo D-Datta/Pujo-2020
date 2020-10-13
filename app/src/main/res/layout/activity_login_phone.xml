@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/white"
     tools:context=".registration.LoginActivityPhone">
 
     <RelativeLayout
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginHorizontal="50dp"
-                android:background="#878787"/>
+                android:background="@color/grey_878787"/>
 
             <Button
                 android:id="@+id/otp"

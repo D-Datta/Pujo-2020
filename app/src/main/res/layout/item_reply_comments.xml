@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingEnd="15dp"
     android:paddingStart="65dp"
-    android:paddingVertical="8dp">
+    android:paddingVertical="8dp"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -54,7 +55,7 @@
                     android:text="Name"
                     android:textStyle="bold"
                     android:paddingVertical="2dp"
-                    android:textColor="#212121" />
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/comment_more"
@@ -80,7 +81,7 @@
                 android:autoLink="all"
                 android:textColorLink="@color/colorPrimary"
                 android:text=""
-                android:textColor="#212121"
+                android:textColor="@color/black"
                 android:paddingHorizontal="8dp"/>
 
             <com.applex.utsav.LinkPreview.ApplexLinkPreviewShort

@@ -2,6 +2,7 @@ package com.applex.utsav;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -71,11 +73,27 @@ public class SearchCityState extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        boolean night_mode = Boolean.getBoolean(
+                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
+                        if(night_mode) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                });
+        /////////////////DAY OR NIGHT MODE///////////////////
+
         setContentView(R.layout.activity_search_city_state);
 
         i = getIntent();
-
-
         back1 = findViewById(R.id.back1);
 //        searchinstbutton = findViewById(R.id.searchinstButton);
         searchcitystate = findViewById(R.id.search_citystate);

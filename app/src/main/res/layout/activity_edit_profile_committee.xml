@@ -409,8 +409,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/sarbojonin"
-                            android:padding="10dp"
-                            android:checked="true"/>
+                            android:padding="10dp" />
                         <androidx.appcompat.widget.AppCompatRadioButton
                             android:id="@+id/bonediBari"
                             android:layout_width="match_parent"

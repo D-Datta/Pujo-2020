@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -108,6 +109,24 @@ public class CommentReplyActivity extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        boolean night_mode = Boolean.getBoolean(
+                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
+                        if(night_mode) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                });
+        /////////////////DAY OR NIGHT MODE///////////////////
+
         setContentView(R.layout.activity_reply_comments);
 
         Toolbar toolbar = findViewById(R.id.toolbar12);

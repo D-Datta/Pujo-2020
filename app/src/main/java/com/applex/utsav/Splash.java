@@ -2,6 +2,7 @@ package com.applex.utsav;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Objects;
+
 public class Splash extends AppCompatActivity {
 
     private IntroPref introPref;
@@ -31,6 +34,24 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        boolean night_mode = Boolean.getBoolean(
+                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
+                        if(night_mode) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                });
+        /////////////////DAY OR NIGHT MODE///////////////////
+
         setContentView(R.layout.activity_splash);
 
         introPref = new IntroPref(this);

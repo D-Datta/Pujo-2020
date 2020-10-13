@@ -1,4 +1,4 @@
-package com.applex.utsav;
+package com.applex.utsav.utility;
 
 import android.annotation.TargetApi;
 import android.content.Context;
