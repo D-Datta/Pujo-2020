@@ -95,7 +95,7 @@
                 android:text="@string/name"
                 android:elevation="0dp"
                 android:textAllCaps="false"
-                android:textColor="#fff"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
 
             <Button
@@ -157,7 +157,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#e5e5e5"/>
+            android:background="@color/white_e5e5e5"/>
 
         <ProgressBar
             android:id="@+id/content_progress"
@@ -182,7 +182,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#e2e2e2"
+                    android:background="@color/light_background"
                     android:padding="10dp"
                     android:visibility="gone" />
 

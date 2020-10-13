@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -86,7 +87,7 @@
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_margin="10dp"
-                            app:cardBackgroundColor="#E0E0E0"
+                            app:cardBackgroundColor="@color/white_E0E0E0"
                             app:cardCornerRadius="65dp"
                             app:cardElevation="0dp">
 
@@ -135,7 +136,7 @@
                             android:paddingHorizontal="10dp"
                             android:text="Name"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:textColor="#000"
+                            android:textColor="@color/dark_black"
                             android:textSize="22dp"
                             android:textStyle="bold" />
 
@@ -150,7 +151,7 @@
                             android:paddingTop="5dp"
                             android:paddingEnd="5dp"
                             android:text="City, State"
-                            android:textColor="#212121"
+                            android:textColor="@color/black"
                             android:textSize="15dp" />
 
                     </LinearLayout>
@@ -219,7 +220,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#e5e5e5"/>
+                        android:background="@color/white_e5e5e5"/>
 
 
                 </LinearLayout>

@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:minHeight="300dp"
+    android:background="@color/white"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <LinearLayout
@@ -56,7 +57,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E5E5E5"
+            android:background="@color/white_E5E5E5"
             android:layout_marginHorizontal="8dp"/>
 
     </LinearLayout>

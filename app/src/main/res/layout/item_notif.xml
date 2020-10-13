@@ -8,6 +8,7 @@
     android:orientation="horizontal"
     android:paddingVertical="10dp"
     android:background="@drawable/custom_ripple_white_rectangle"
+    android:backgroundTint="@color/white"
     android:paddingHorizontal="8dp"
     android:gravity="center_vertical">
 
@@ -78,7 +79,7 @@
             android:paddingHorizontal="5dp"
             android:text="Comment"
             android:maxLines="2"
-            android:textColor="#000"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView

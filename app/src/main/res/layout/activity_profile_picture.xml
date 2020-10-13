@@ -5,20 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ProfilePictureActivity">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:background="#000"
+        android:background="@color/dark_black"
         android:adjustViewBounds="true"
         android:id="@+id/imageView"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#aa000000"
+        android:background="@color/black_aa000000"
         android:gravity="start">
 
         <ImageView

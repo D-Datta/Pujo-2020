@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".registration.RegPujoCommittee">
 
     <LinearLayout
@@ -130,7 +131,7 @@
                         android:gravity="center"
                         android:text="@string/choose_pic"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="#595252"
+                        android:textColor="@color/grey_595252"
                         android:textSize="15dp"
                         android:layout_marginTop="25dp"/>
 
@@ -163,7 +164,7 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
                     android:textStyle="bold"
-                    android:textColor="#212121"
+                    android:textColor="@color/black"
                     />
 
                 <EditText
@@ -202,7 +203,7 @@
                     android:paddingHorizontal="15dp"
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
-                    android:textColor="#212121" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/email_pc"
@@ -239,7 +240,7 @@
                     android:paddingHorizontal="15dp"
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
-                    android:textColor="#212121" />
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/committee_contact_number"
@@ -278,7 +279,7 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
                     android:textStyle="bold"
-                    android:textColor="#212121" />
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/committee_description"
@@ -316,7 +317,7 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
                     android:textStyle="bold"
-                    android:textColor="#212121"
+                    android:textColor="@color/black"
                     />
 
                 <EditText
@@ -365,7 +366,7 @@
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
                     android:textStyle="bold"
-                    android:textColor="#212121"/>
+                    android:textColor="@color/black"/>
 
                 <EditText
                     android:id="@+id/committee_addressline"
@@ -465,7 +466,7 @@
                         android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
                         android:textStyle="bold"
-                        android:textColor="#212121" />
+                        android:textColor="@color/black" />
 
                     <RadioGroup
                         android:id="@+id/radiogroup"
@@ -583,7 +584,7 @@
                 android:paddingEnd="5dp"
                 android:text="SUBMIT"
                 android:textAllCaps="false"
-                android:textColor="#ffffff" />
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
