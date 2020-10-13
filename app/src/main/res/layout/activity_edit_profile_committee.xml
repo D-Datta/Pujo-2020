@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/white"
     tools:context=".EditProfileCommitteeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -49,14 +49,12 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="textStart"
                         android:text="@string/committee_name"
-                        android:layout_marginStart="0dp"
                         android:paddingTop="10dp"
                         android:paddingHorizontal="15dp"
-                        android:textSize="15sp"
+                        android:textSize="15dp"
                         android:fontFamily="@font/oxygen_regular"
                         android:textStyle="bold"
-                        android:textColor="@color/black"
-                        />
+                        android:textColor="@color/black" />
 
                     <EditText
                         android:id="@+id/edit_committee_name"
@@ -254,7 +252,7 @@
                         android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
                         android:textStyle="bold"
-                        android:textColor="#212121"
+                        android:textColor="@color/black"
                         />
 
                     <EditText
@@ -358,6 +356,7 @@
                             android:paddingEnd="20dp"
                             android:layout_weight="1"
                             android:focusableInTouchMode="false"/>
+
                         <EditText
                             android:id="@+id/edit_committee_pin"
                             android:layout_width="0dp"
@@ -513,11 +512,9 @@
                     android:paddingEnd="5dp"
                     android:text="@string/submit"
                     android:textAllCaps="false"
-                    android:textColor="#ffffff" />
-
+                    android:textColor="@color/white" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 

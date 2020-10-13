@@ -21,6 +21,7 @@
             android:background="@color/white"
             app:title="Hashtag"
             app:titleTextColor="@color/black"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -69,8 +70,6 @@
 
         </LinearLayout>
 
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

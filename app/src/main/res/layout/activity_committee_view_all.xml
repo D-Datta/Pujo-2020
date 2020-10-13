@@ -92,7 +92,7 @@
                 android:text="@string/name"
                 android:elevation="0dp"
                 android:textAllCaps="false"
-                android:textColor="#fff"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
 
             <Button
@@ -141,6 +141,7 @@
         </LinearLayout>
 
     </HorizontalScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -153,7 +154,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#e5e5e5"/>
+            android:background="@color/light_background"/>
 
         <ProgressBar
             android:id="@+id/content_progress"
@@ -178,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:background="#e2e2e2"
+                    android:background="@color/light_background"
                     android:padding="10dp"
                     android:visibility="gone" />
 
@@ -199,21 +200,22 @@
                     android:visibility="gone"
                     android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:src="@drawable/dui_dhaki"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nocommittee"
-                    android:textSize="20dp"
-                    android:gravity="center"
-                    android:textColor="@color/red"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:src="@drawable/dui_dhaki"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nocommittee"
+                        android:textSize="20dp"
+                        android:gravity="center"
+                        android:textColor="@color/red"/>
+
                 </LinearLayout>
 
             </RelativeLayout>
-
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

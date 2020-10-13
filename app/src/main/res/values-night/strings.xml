@@ -1,0 +1,228 @@
+<resources>
+    <string name="app_name">Utsav</string>
+
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="skip_for_now">skip for now</string>
+    <string name="enter_email">Enter email</string>
+    <string name="enter_password">Enter password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="applex_in">applex.in</string>
+    <string name="utsav">Utsav</string>
+    <string name="or">OR</string>
+    <string name="from">from</string>
+    <string name="locate">Locate</string>
+
+
+    <string name="enter_committeeName">Enter Committee Name</string>
+    <string name="enter_committeeDescription">Enter Description </string>
+    <string name="enter_committeeAddressline">Enter Address Line </string>
+    <string name="enter_committeeCity">Enter City </string>
+    <string name="enter_committeeState">Enter State </string>
+    <string name="enter_committeeType">Enter type of Pujo (e.g : Sarbojonin)  </string>
+    <string name="upload_logo">Upload your committee logo</string>
+    <string name="upload_coverpic"> Upload a cover photo </string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="terms_conditions">
+        <a href="https://applex.in/utsav-app-terms-and-conditions/">By signing in, you agree to our Terms and Conditions,</a>
+    </string>
+
+    <string name="terms_conditions_about">
+        <a href="https://applex.in/utsav-app-terms-and-conditions/">Check out our Terms and Conditions.</a>
+    </string>
+
+    <string name="privacy_about">
+        <a href="https://applex.in/utsav-app-privacy-policy/">Check out our Privacy Policy.</a>
+    </string>
+
+    <string name="privacy">
+        <a href="https://applex.in/utsav-app-privacy-policy/">Privacy Policy</a>
+    </string>
+
+    <string name="and_cookies">
+        <a href="https://applex.in/utsav-app-privacy-policy/">and Cookies.</a>
+    </string>
+
+    <string name="faq_help">
+        <a href="https://applex.in/faq/">More further queries check out FAQs.</a>
+    </string>
+
+    <string name="pujo_committees">Utsav Pujo</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+
+    <string name="marquee_text">Stay safe. Do not forget to wear a mask. And enjoy your puja sitting at home through Utsav</string>
+
+    <string-array name="Gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+
+    <string name="reg">Registration</string>
+    <string name="fname">First Name*</string>
+    <string name="lname">Last Name*</string>
+    <string name="username">Username*</string>
+    <string name="attherate">\@</string>
+    <string name="email">Email</string>
+    <string name="choose_gender">Choose Gender*</string>
+    <string name="address">Address</string>
+    <string name="address_line">Address Line</string>
+    <string name="city">City/District</string>
+    <string name="state">State</string>
+    <string name="about">About</string>
+    <string name="submit">SUBMIT</string>
+    <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
+    <string name="trending_posts">Trending Posts</string>
+    <string name="_10_mins_ago">10 mins ago</string>
+    <string name="post_content">post_content</string>
+    <string name="_2_4k">2.4k</string>
+    <string name="_154">15.3k</string>
+    <string name="write_a_comment">Write a comment…</string>
+    <string name="_42_comments">42 comments</string>
+    <string name="search">Search…</string>
+    <string name="search_pujo">Search your favorite pujo…</string>
+    <string name="Recent_searches">Recent searches</string>
+    <string name="Description">Description*</string>
+    <string name="Type_of_pujo">Type of Pujo*</string>
+    <string name="sarbojonin">Sarbojonin</string>
+    <string name="committee_name">Committee Name / Bari Name*</string>
+    <string name="save_to_device">Save to device</string>
+    <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
+    <string name="post_hint">How are you enjoying puja?</string>
+    <string name="short_videos">Short Videos</string>
+    <string name="see_all"><![CDATA[See All —>]]></string>
+    <string name="see_all_posts"><![CDATA[See All —>]]></string>
+    <string name="about_yourself">Something about you</string>
+    <string name="useful_information">Useful Information</string>
+    <string name="privacy_nav">Privacy</string>
+    <string name="people_post">People\'s Posts</string>
+
+    <string name="_0_18">0:18</string>
+
+    <string name="nocommittee">No committees to show</string>
+    <string name="noposts">You have not posted anything yet.\nPost now!!</string>
+    <string name="no_posts">No posts to display</string>
+    <string name="noreels">No reels to display. \nCreate a reel now!!</string>
+    <string name="first_comments">Be the first one to comment</string>
+
+    <string name="walkthrough">অঞ্জলিতে শাড়ি, বা কুর্তি \n নবমী তে পার্টির সিন।\n ঘরে বসেই হবে এবার \nUtsav- এ কাটবে দিন </string>
+
+    <string name="comments">Comments</string>
+    <string name="type_something_n">Type something..\n</string>
+    <string name="bio">About you</string>
+    <string name="recorder">Recorder</string>
+    <string name="video">Video</string>
+    <string name="communicate">Communicate</string>
+    <string name="tell_a_friend">Share with a Friend</string>
+    <string name="about_us">About us</string>
+    <string name="account">Account</string>
+    <string name="log_out">Log Out</string>
+    <string name="live">LIVE</string>
+    <string name="update">Update</string>
+    <string name="Edit_comment">Edit Comment</string>
+    <string name="Search">Search</string>
+    <string name="Edit_Profile">Edit Profile</string>
+    <string name="register_as">Register as:</string>
+    <string name="committee">Committee</string>
+    <string name="login_as_guest">Login as Guest</string>
+    <string name="individual">Individual</string>
+    <string name="replies">Replies</string>
+    <string name="liked_by">Liked by</string>
+    <string name="report_comment">Report Comment</string>
+    <string name="share_post">Share Post</string>
+    <string name="report_post">Report Post</string>
+    <string name="edit_post">Edit Post</string>
+    <string name="delete_comment">Delete Comment</string>
+    <string name="delete_post">Delete Post</string>
+    <string name="share_your_pujo_story">Share your pujo story…</string>
+    <string name="view_all">View all</string>
+    <string name="utsav_durga_pujo_2020">UTSAV: Durga Pujo 2020</string>
+    <string name="an_initiative_by_applex_in">~an initiative by applex.in</string>
+    <string name="reply">Reply</string>
+    <string name="pin">Pin</string>
+    <string name="add_to_post">Add to post</string>
+    <string name="visitors">Visitors</string>
+    <string name="tag">Add tag</string>
+    <string name="tags">Tags</string>
+    <string name="contact_us">Contact us</string>
+    <string name="rate_us">"Rate us "</string>
+    <string name="an_initiative_of">an initiative of</string>
+    <string name="utsav_clips">Utsav Clips</string>
+    <string name="your_posts">Posts</string>
+
+    <string name="videos">Videos</string>
+    <string name="camera">Camera</string>
+    <string name="photos">Photos</string>
+    <string name="gallery">Gallery</string>
+    <string name="follow">FOLLOW</string>
+    <string name="loading">Loading…</string>
+    <string name="upvotes">Upvotes</string>
+    <string name="likes">Likes</string>
+    <string name="tag_your_pujo">Tag your pujo</string>
+    <string name="name">Name</string>
+    <string name="headline">Headline:</string>
+    <string name="head_content">head_content</string>
+    <string name="continue_with_phone_no">Continue with Phone No.</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+
+    <string name="description">If you are a Pujo Organizer</string>
+    <string name="descriptionIndividual">If you are a general visitor and want to share your pujo stories</string>
+
+    <string name="aboutUtsav">Due to this current pandemic, it\'s evident that Durga Pujo 2020 is not going to be the same as every year.\n\nHowever, in an effort to not let the spirit of Durga Puja fade away totally, we , a group of students from Kolkata have taken the initiative to create an android app ,<b>"Utsav"</b> through which the people of Bengal will be able to participate in the festivities, right from the safety of their homes. \n\n A viewer’s choice award will be given to the best Pujo of 2020 based on public interaction.</string>
+
+    <string name="utsavFeature1">Photos</string>
+    <string name="utsavFeature2">360 degree shots</string>
+    <string name="utsavFeature3">Locate various pujo</string>
+    <string name="utsavFeature4">Participation in Live Contests</string>
+    <string name="utsavFeature5">Pre-Pujo updates</string>
+
+    <string name="linkJEE" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.adarshbarnwal.notesapp&amp;hl=en_IN">Jee AB 360</a>
+    </string>
+
+    <string name="linkCampus24" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.bytera.campus24">Campus 24</a>
+    </string>
+
+    <string name="linkSnaplingo" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.applex.snaplingo">Snaplingo</a>
+    </string>
+
+    <string name="linkInnovacion" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.applex.innovacion">Innovacion</a>
+    </string>
+    <string name="new_post">New Post</string>
+    <string name="Post">Post</string>
+    <string name="set_app_lang">Select language</string>
+    <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">Experience Pujo of different Bonedi Baris, their heritage, some of the greatest Pujo by Committees, minorities as well as Pujo held in different places like Columbia, Chattisgarh, Agartala etc.</string>
+    <string name="edit_comment">Edit Comment</string>
+    <string name="intro_three">Photos \n 360 degree shots \n Videos \nLocate various pujo \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Pujo updates</string>
+    <string name="upvoted_pujos">Top 20 Pujos</string>
+    <string name="recently_visited_pujos">Recently Visited Pujos</string>
+
+    <string name="pujo">Pujo</string>
+    <string name="people">People</string>
+    <string name="search_for_people">Search for people…</string>
+    <string name="celebrating_this_puja_with_utsav">Celebrating this Puja with Utsav</string>
+    <string name="bonedi_bari">Bonedi Bari</string>
+    <string name="abashon">Housing Complex</string>
+    <string name="all_pujo">All Pujo</string>
+    <string name="clips">Clips</string>
+
+    <string name="entercity">Enter your City/District Name</string>
+    <string name="enterstate">Enter your State Name</string>
+    <string name="cityhead">Cannot find your City/District here?</string>
+    <string name="statehead">Cannot find your State here?</string>
+    <string name="contactnumber">Contact Number*</string>
+    <string name="upi_id">** If any user of this application wants to send e-pronami, the UPI ID will be needed.</string>
+    <string name="upi_id_hint">UPI ID</string>
+
+
+</resources>
