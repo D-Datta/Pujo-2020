@@ -327,7 +327,7 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 
             if(intent.getStringExtra("target").matches("100")){// EDIT POST
 
-                if(intent.getStringExtra("headline")!=null)
+                if(intent.getStringExtra("headline")!=null && introPref.getType().matches("com"))
                 {
                     head_content.setVisibility(View.VISIBLE);
                     head_content.setText(intent.getStringExtra("headline"));
