@@ -14,6 +14,13 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -64,6 +71,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Boolean.TRUE;
 
@@ -507,6 +516,43 @@ public class ViewMoreHome extends AppCompatActivity {
                 textContent.setVisibility(View.VISIBLE);
                 textContent.setText(homePostModel[0].getTxt());
 
+                //TAGS COLOURED DISPLAY
+                Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                Matcher m = p.matcher(textContent.getText().toString());
+
+                SpannableString ss = new SpannableString(textContent.getText().toString());
+
+                while(m.find()) // loops through all the words in the text which matches the pattern
+                {
+                    final int s = m.start(); // add 1 to omit the "@" tag
+                    final int e = m.end();
+
+                    ClickableSpan clickableSpan = new ClickableSpan() {
+                        @Override
+                        public void onClick(View textView)
+                        {
+                            Intent i = new Intent(ViewMoreHome.this, HashtagPostViewAll.class);
+                            i.putExtra("hashtag", textContent.getText().toString().substring(s+1, e));
+                            startActivity(i);
+//                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void updateDrawState(@NonNull TextPaint ds) {
+                            super.updateDrawState(ds);
+                            ds.setColor(getResources().getColor(R.color.md_blue_500));
+                            ds.setUnderlineText(false);
+                        }
+                    };
+
+                    ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                textContent.setText(ss);
+                textContent.setMovementMethod(LinkMovementMethod.getInstance());
+                textContent.setHighlightColor(Color.TRANSPARENT);
+                //TAGS COLOURED DISPLAY
+
 //                if(textContent.getUrls().length>0){
 //                    URLSpan urlSnapItem = textContent.getUrls()[0];
 //                    String url = urlSnapItem.getURL();
@@ -557,13 +603,10 @@ public class ViewMoreHome extends AppCompatActivity {
                 }
                 commentCount = Integer.parseInt(i.getStringExtra("commentNo"));
             } else {
-//                mRecyclerView.setVisibility(View.GONE);
-//                no_comment.setVisibility(View.VISIBLE);
                 comment_layout.setVisibility(View.GONE);
                 commentCount = 0;
                 checkGetMore = -1;
             }
-
 
         }
 
@@ -590,8 +633,6 @@ public class ViewMoreHome extends AppCompatActivity {
             String type;
             String ts;
             String pCom_ts;
-
-//            commentRef = FirebaseFirestore.getInstance().collection("Feeds/"+ homePostModel[0].getDocID()+"/commentL");
 
             postID = getIntent().getExtras().getString("postID");
             type = getIntent().getExtras().getString("type");
@@ -732,47 +773,8 @@ public class ViewMoreHome extends AppCompatActivity {
                                             flameimg.setImageResource(R.drawable.ic_flame_red);
                                             flameimg.setImageTintList(null);
                                             LikeCheck = j;
-
-//                                            Display display7 = getWindowManager().getDefaultDisplay();
-//                                            int displayWidth7 = display7.getWidth();
-//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-//                                            options7.inJustDecodeBounds = true;
-//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                                            int width7 = options7.outWidth;
-//                                            if (width7 > displayWidth7) {
-//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-//                                            }
-//                                            options7.inJustDecodeBounds = false;
-//                                            Bitmap scaledBitmap7 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                                            flameimg.setImageBitmap(scaledBitmap7);
-//                                            flameimg.setImageResource(R.drawable.ic_flame_red);
-//////                                            flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_flame_red));
-////                                            flameimg.setImageTintList(null);
-//                                            LikeCheck = j;
-//                                            if((likeList.size()-1) == 1)
-//                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" other");
-//                                            else if((likeList.size()-1) == 0){
-//                                                flamedBy.setText("Flamed by you");
-//                                            }
-//                                            else
-//                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" others");
-                                            //Position in likeList where the current USer UId is found stored in likeCheck
                                         }
                                         else {
-//                                            Display display7 = getWindowManager().getDefaultDisplay();
-//                                            int displayWidth7 = display7.getWidth();
-//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-//                                            options7.inJustDecodeBounds = true;
-//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
-//
-//                                            int width7 = options7.outWidth;
-//                                            if (width7 > displayWidth7) {
-//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-//                                            }
-//                                            options7.inJustDecodeBounds = false;
-//
-//                                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
-//                                            flameimg.setImageBitmap(scaledBitmap11);
 
                                             flameimg.setImageResource(R.drawable.ic_normal_flame);
 
@@ -782,18 +784,6 @@ public class ViewMoreHome extends AppCompatActivity {
                                 } else {
                                     like_layout.setVisibility(View.GONE);
                                 }
-
-                                ///////////When viewing likelist from fragment global/campus////////////////
-//                                if(i.getStringExtra("likeLOpen")!=null && i.getStringExtra("likeLOpen").matches("likeLOpen"))
-//                                {
-//                                    if(likeList!=null && likeList.size() > 0){
-//                                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
-//                                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-//                                    }
-//                                    else
-//                                        Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
-//                                }
-                                ///////////When viewing likelist from fragment global/campus////////////////
 
                                 like_layout.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -835,6 +825,43 @@ public class ViewMoreHome extends AppCompatActivity {
                                 if (homePostModel[0].getTxt() != null && !homePostModel[0].getTxt().isEmpty()) {
                                     textContent.setVisibility(View.VISIBLE);
                                     textContent.setText(homePostModel[0].getTxt());
+
+                                    //TAGS COLOURED DISPLAY
+                                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                                    Matcher m = p.matcher(textContent.getText().toString());
+
+                                    SpannableString ss = new SpannableString(textContent.getText().toString());
+
+                                    while(m.find()) // loops through all the words in the text which matches the pattern
+                                    {
+                                        final int s = m.start(); // add 1 to omit the "@" tag
+                                        final int e = m.end();
+
+                                        ClickableSpan clickableSpan = new ClickableSpan() {
+                                            @Override
+                                            public void onClick(View textView)
+                                            {
+                                                Intent i = new Intent(ViewMoreHome.this, HashtagPostViewAll.class);
+                                                i.putExtra("hashtag", textContent.getText().toString().substring(s+1, e));
+                                                startActivity(i);
+                                            }
+
+                                            @Override
+                                            public void updateDrawState(@NonNull TextPaint ds) {
+                                                super.updateDrawState(ds);
+                                                ds.setColor(getResources().getColor(R.color.md_blue_500));
+                                                ds.setUnderlineText(false);
+                                            }
+                                        };
+
+                                        ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                    textContent.setText(ss);
+                                    textContent.setMovementMethod(LinkMovementMethod.getInstance());
+                                    textContent.setHighlightColor(Color.TRANSPARENT);
+                                    //TAGS COLOURED DISPLAY
+
 //                                    if(textContent.getUrls().length>0){
 //                                        URLSpan urlSnapItem = textContent.getUrls()[0];
 //                                        String url = urlSnapItem.getURL();
@@ -915,19 +942,6 @@ public class ViewMoreHome extends AppCompatActivity {
                         change = 1;
                         if (LikeCheck >= 0) {//was already liked by current user
 
-//                            Display display7 = getWindowManager().getDefaultDisplay();
-//                            int displayWidth7 = display7.getWidth();
-//                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-//                            options7.inJustDecodeBounds = true;
-//                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                            int width7 = options7.outWidth;
-//                            if (width7 > displayWidth7) {
-//                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-//                            }
-//                            options7.inJustDecodeBounds = false;
-//                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                            flameimg.setImageBitmap(scaledBitmap11);
-
                             flameimg.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
 
                             if (likeList.size() - 1 == 0) {
@@ -950,8 +964,6 @@ public class ViewMoreHome extends AppCompatActivity {
                             batch.commit().addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     change = 1;
-//                                    CommitteeFragment.changed=1;
-//                                    FeedsFragment.changed=1;
                                 } else {
                                     Toast.makeText(ViewMoreHome.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                 }

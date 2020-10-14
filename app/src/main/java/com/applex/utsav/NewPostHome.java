@@ -27,7 +27,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
@@ -344,17 +349,10 @@ public class NewPostHome extends AppCompatActivity {
 
             else if(intent.getStringExtra("target").matches("11")){ //Challenge
                 postingIn.add("Global");
-                //post_anon.setVisibility(View.GONE);
-                //info.setVisibility(View.GONE);
-
             }
 
             else if(intent.getStringExtra("target").matches("4")){ //Community
                 postingIn.add(intent.getStringExtra("comName"));
-//                postingIn.add("Your Campus");
-//                postingIn.add("Global");
-                //post_anon.setVisibility(View.GONE);
-               // info.setVisibility(View.GONE);
 
             }
 
@@ -371,6 +369,42 @@ public class NewPostHome extends AppCompatActivity {
                 {
                     postcontent.setVisibility(View.VISIBLE);
                     postcontent.setText(intent.getStringExtra("txt"));
+
+                    //TAGS COLOURED DISPLAY
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Matcher m = p.matcher(postcontent.getText().toString());
+
+                    SpannableString ss = new SpannableString(postcontent.getText().toString());
+
+                    while(m.find()) // loops through all the words in the text which matches the pattern
+                    {
+                        final int s = m.start(); // add 1 to omit the "@" tag
+                        final int e = m.end();
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View textView)
+                            {
+                                Intent i = new Intent(NewPostHome.this, HashtagPostViewAll.class);
+                                i.putExtra("hashtag", postcontent.getText().toString().substring(s+1, e));
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void updateDrawState(@NonNull TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setColor(getResources().getColor(R.color.md_blue_500));
+                                ds.setUnderlineText(false);
+                            }
+                        };
+
+                        ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    postcontent.setText(ss);
+                    postcontent.setMovementMethod(LinkMovementMethod.getInstance());
+                    postcontent.setHighlightColor(Color.TRANSPARENT);
+                    //TAGS COLOURED DISPLAY
                 }
 
                 //TAGS RECYCLER PREVIOUS

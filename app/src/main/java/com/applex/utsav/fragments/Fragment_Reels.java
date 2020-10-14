@@ -187,7 +187,6 @@ public class Fragment_Reels extends Fragment {
                         postMenuDialog = new BottomSheetDialog(requireActivity());
                         postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
-//                        postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
                         postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                             Intent i = new Intent(getActivity(), NewPostHome.class);
                             i.putExtra("target", "100"); //target value for edit post
@@ -202,29 +201,6 @@ public class Fragment_Reels extends Fragment {
                             }
                             i.putExtra("docID", currentItem.getDocID());
                             StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
-//                            i.putExtra("target", "100"); //target value for edit post
-//                            i.putExtra("bool", "3");
-//                            i.putExtra("usN", currentItem.getUsN());
-//                            i.putExtra("dp", currentItem.getDp());
-//                            i.putExtra("uid", currentItem.getUid());
-//                            i.putExtra("type", currentItem.getType());
-//                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-//                                Bundle args = new Bundle();
-//                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-//                                i.putExtra("BUNDLE", args);
-//                            }
-//                            i.putExtra("txt", currentItem.getTxt());
-//                            i.putExtra("comID", currentItem.getComID());
-//                            i.putExtra("comName", currentItem.getComName());
-//                            i.putExtra("ts", Long.toString(currentItem.getTs()));
-//                            i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-//                            i.putExtra("likeL", currentItem.getLikeL());
-//                            i.putExtra("likeCheck", currentItem.getLikeCheck());
-//                            i.putExtra("docID", currentItem.getDocID());
-//                            i.putExtra("reportL", currentItem.getReportL());
-//                            i.putExtra("challengeID", currentItem.getChallengeID());
                             startActivity(i);
                             postMenuDialog.dismiss();
 

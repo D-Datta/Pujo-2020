@@ -26,6 +26,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +48,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommitteeViewAll;
+import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.MainActivity;
@@ -77,6 +85,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static java.lang.Boolean.TRUE;
 
 public class FragmentClips extends Fragment {
@@ -496,6 +507,44 @@ public class FragmentClips extends Fragment {
                 } else {
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getDescription());
+
+                    //TAGS COLOURED DISPLAY
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Matcher m = p.matcher(programmingViewHolder.text_content.getText().toString());
+
+                    SpannableString ss = new SpannableString(programmingViewHolder.text_content.getText().toString());
+
+                    while(m.find()) // loops through all the words in the text which matches the pattern
+                    {
+                        final int s = m.start(); // add 1 to omit the "@" tag
+                        final int e = m.end();
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View textView)
+                            {
+                                Intent i = new Intent(getContext(), HashtagPostViewAll.class);
+                                i.putExtra("hashtag", programmingViewHolder.text_content.getText().toString().substring(s+1, e));
+                                startActivity(i);
+//                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void updateDrawState(@NonNull TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setColor(getResources().getColor(R.color.md_blue_500));
+                                ds.setUnderlineText(false);
+                            }
+                        };
+
+                        ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    programmingViewHolder.text_content.setText(ss);
+                    programmingViewHolder.text_content.setMovementMethod(LinkMovementMethod.getInstance());
+                    programmingViewHolder.text_content.setHighlightColor(Color.TRANSPARENT);
+                    //TAGS COLOURED DISPLAY
+
                     if (programmingViewHolder.text_content.getUrls().length > 0 ) {
                         URLSpan urlSnapItem = programmingViewHolder.text_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
@@ -869,7 +918,6 @@ public class FragmentClips extends Fragment {
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
-//                        postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
                         postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                             Intent i = new Intent(getActivity(), NewPostHome.class);
                             i.putExtra("target", "100"); //target value for edit post
@@ -884,29 +932,6 @@ public class FragmentClips extends Fragment {
                             }
                             i.putExtra("docID", currentItem.getDocID());
                             StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
-//                            i.putExtra("target", "100"); //target value for edit post
-//                            i.putExtra("bool", "3");
-//                            i.putExtra("usN", currentItem.getUsN());
-//                            i.putExtra("dp", currentItem.getDp());
-//                            i.putExtra("uid", currentItem.getUid());
-//                            i.putExtra("type", currentItem.getType());
-//                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-//                                Bundle args = new Bundle();
-//                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-//                                i.putExtra("BUNDLE", args);
-//                            }
-//                            i.putExtra("txt", currentItem.getTxt());
-//                            i.putExtra("comID", currentItem.getComID());
-//                            i.putExtra("comName", currentItem.getComName());
-//                            i.putExtra("ts", Long.toString(currentItem.getTs()));
-//                            i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-//                            i.putExtra("likeL", currentItem.getLikeL());
-//                            i.putExtra("likeCheck", currentItem.getLikeCheck());
-//                            i.putExtra("docID", currentItem.getDocID());
-//                            i.putExtra("reportL", currentItem.getReportL());
-//                            i.putExtra("challengeID", currentItem.getChallengeID());
                             startActivity(i);
                             postMenuDialog.dismiss();
 
