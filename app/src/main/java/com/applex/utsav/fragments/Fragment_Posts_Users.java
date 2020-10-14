@@ -25,6 +25,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +43,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.NewPostHome;
@@ -77,6 +85,8 @@ import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Boolean.TRUE;
 
@@ -316,6 +326,44 @@ public class Fragment_Posts_Users extends Fragment {
                 else{
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
+
+                    //TAGS COLOURED DISPLAY
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Matcher m = p.matcher(programmingViewHolder.text_content.getText().toString());
+
+                    SpannableString ss = new SpannableString(programmingViewHolder.text_content.getText().toString());
+
+                    while(m.find()) // loops through all the words in the text which matches the pattern
+                    {
+                        final int s = m.start(); // add 1 to omit the "@" tag
+                        final int e = m.end();
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View textView)
+                            {
+                                Intent i = new Intent(getContext(), HashtagPostViewAll.class);
+                                i.putExtra("hashtag", programmingViewHolder.text_content.getText().toString().substring(s+1, e));
+                                startActivity(i);
+//                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void updateDrawState(@NonNull TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setColor(getResources().getColor(R.color.md_blue_500));
+                                ds.setUnderlineText(false);
+                            }
+                        };
+
+                        ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    programmingViewHolder.text_content.setText(ss);
+                    programmingViewHolder.text_content.setMovementMethod(LinkMovementMethod.getInstance());
+                    programmingViewHolder.text_content.setHighlightColor(Color.TRANSPARENT);
+                    //TAGS COLOURED DISPLAY
+
                     if(programmingViewHolder.text_content.getUrls().length>0){
                         URLSpan urlSnapItem = programmingViewHolder.text_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
