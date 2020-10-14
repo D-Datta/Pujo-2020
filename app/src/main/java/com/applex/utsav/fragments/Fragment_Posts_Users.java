@@ -244,28 +244,27 @@ public class Fragment_Posts_Users extends Fragment {
                     else{
                         programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
-//                    programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
                 ///////////TAG RECYCLER SETUP////////////////
-                programmingViewHolder.tagList.setHasFixedSize(false);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
-                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
-                ///////////TAG RECYCLER SETUP////////////////
-                if(currentItem.getTagL()!=null && currentItem.getTagL().size()>0 ) {
-                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
-                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL() , requireActivity());
-                    programmingViewHolder.tagList.setAdapter(tagAdapter);
-                }
-                else {
-                    programmingViewHolder.tagList.setAdapter(null);
-                    programmingViewHolder.tagList.setVisibility(View.GONE);
-                }
+//                programmingViewHolder.tagList.setHasFixedSize(false);
+//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+//                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
+//                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
+//                ///////////TAG RECYCLER SETUP////////////////
+//                if(currentItem.getTagL()!=null && currentItem.getTagL().size()>0 ) {
+//                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
+//                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL() , requireActivity());
+//                    programmingViewHolder.tagList.setAdapter(tagAdapter);
+//                }
+//                else {
+//                    programmingViewHolder.tagList.setAdapter(null);
+//                    programmingViewHolder.tagList.setVisibility(View.GONE);
+//                }
                 /////////TAGLIST///////////////
 
 
@@ -294,7 +293,6 @@ public class Fragment_Posts_Users extends Fragment {
                                     else {
                                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                     }
-//                                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
                             });
                 }
@@ -313,7 +311,6 @@ public class Fragment_Posts_Users extends Fragment {
                     else {
                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
-//                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
                 programmingViewHolder.username.setText(currentItem.getUsN());

@@ -27,7 +27,9 @@
         <activity android:name=".fragments.FragmentClips"/>
         <activity android:name=".fragments.AllPujoFragment" />
         <activity android:name=".SearchActivity" />
+
         <activity android:name=".HashtagPostViewAll" />
+        <activity android:name=".HashtagClipsViewAll" />
 
         <activity
             android:name=".LanguageChoice"

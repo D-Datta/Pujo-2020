@@ -119,15 +119,16 @@ import static com.applex.utsav.utility.BasicUtility.tsLong;
 
 public class NewPostHome extends AppCompatActivity {
 
-
     private TextView postusername;
     private Button post;
     private LinearLayout cam, gallery,  videopost, videocam;
     private RelativeLayout addToPost;
-    private EditText postcontent, edtagtxt, head_content;
-    private ImageView cross, user_image, video_cam_icon, video_gal_icon;
-    private ImageView postimage;
-    private LinearLayout customTag, icons;
+    private EditText postcontent, head_content;
+    private ImageView cross, user_image;
+
+//    private ImageView postimage;
+//    private LinearLayout customTag, icons;
+
     private PujoTagModel pujoTag;
 
     private ApplexLinkPreview LinkPreview;
@@ -136,7 +137,7 @@ public class NewPostHome extends AppCompatActivity {
 
 //    private String textdata = "";
 //    private RecyclerView tags_selectedRecycler;
-    private TagAdapter2 tagAdapter2;
+//    private TagAdapter2 tagAdapter2;
     private ImageCompressor imageCompressor;
 
     private Uri filePath, finalUri, videoUri;
@@ -181,8 +182,9 @@ public class NewPostHome extends AppCompatActivity {
 
     private ArrayList<String> tagList;
 
-//    private ArrayList<TagModel> selected_tags;
 
+    private TextView preview;
+    private boolean isEdit = false;
     Context context;
     Resources resources;
 
@@ -235,20 +237,18 @@ public class NewPostHome extends AppCompatActivity {
         cam= findViewById(R.id.camera);
         gallery = findViewById(R.id.Photos);
         postcontent = findViewById(R.id.post_content);
-        postimage = findViewById(R.id.post_image);
         post = findViewById(R.id.post);
         recyclerView = findViewById(R.id.recyclerimages);
-        icons = findViewById(R.id.icons);
         container_image = findViewById(R.id.image_container);
         LinkPreview = findViewById(R.id.LinkPreView);
         videoView = findViewById(R.id.videoview);
         videopost = findViewById(R.id.Video);
         videocam = findViewById(R.id.Recorder);
-        customTag = findViewById(R.id.tag);
+//        customTag = findViewById(R.id.tag);
         addToPost = findViewById(R.id.add_to_post);
         videoframe = findViewById(R.id.videoframe);
-        video_cam_icon = findViewById(R.id.video_cam_icon);
-        video_gal_icon = findViewById(R.id.video_gal_icon);
+//        video_cam_icon = findViewById(R.id.video_cam_icon);
+//        video_gal_icon = findViewById(R.id.video_gal_icon);
         head_content = findViewById(R.id.post_headline);
 
         mAuth = FirebaseAuth.getInstance();
@@ -256,15 +256,13 @@ public class NewPostHome extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReferenece = storage.getReference();
 
-//        tags_selectedRecycler = findViewById(R.id.tags_selectedList) ;
+
+        preview = findViewById(R.id.edit_preview);
+
 
         tagPujo = findViewById(R.id.pujo_tag);
         TextView newPostToolb= findViewById(R.id.new_post_toolb);
 
-//        selected_tags = new ArrayList<>();
-
-//        tagList = new ArrayList<>();
-//        buildRecyclerView_selectedtags();
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
@@ -361,7 +359,11 @@ public class NewPostHome extends AppCompatActivity {
 
             if(intent.getStringExtra("target").matches("100")){// EDIT POST
 
-                BasicUtility.showToast(getApplicationContext(), "Media files cannot be edited. \n Only text can be changed.");
+//                BasicUtility.showToast(getApplicationContext(), "Media files cannot be edited. \n Only text can be changed.");
+
+                llBottomSheet.setVisibility(View.GONE);
+                preview.setVisibility(View.VISIBLE);
+                isEdit = true;
 
                 if(intent.getStringExtra("headline")!=null && introPref.getType().matches("com"))
                 {
@@ -384,25 +386,26 @@ public class NewPostHome extends AppCompatActivity {
                         final int s = m.start(); // add 1 to omit the "@" tag
                         final int e = m.end();
 
-                        ClickableSpan clickableSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(View textView)
-                            {
-                                Intent i = new Intent(NewPostHome.this, HashtagPostViewAll.class);
-                                i.putExtra("hashtag", postcontent.getText().toString().substring(s+1, e));
-                                startActivity(i);
-                            }
+//                        ClickableSpan clickableSpan = new ClickableSpan() {
+//                            @Override
+//                            public void onClick(View textView)
+//                            {
+//                                Intent i = new Intent(NewPostHome.this, HashtagPostViewAll.class);
+//                                i.putExtra("hashtag", postcontent.getText().toString().substring(s+1, e));
+//                                startActivity(i);
+//                            }
+//
+//                            @Override
+//                            public void updateDrawState(@NonNull TextPaint ds) {
+//                                super.updateDrawState(ds);
+//                                ds.setColor(getResources().getColor(R.color.md_blue_500));
+//                                ds.setUnderlineText(false);
+//                            }
+//                        };
+//
+//                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-                            @Override
-                            public void updateDrawState(@NonNull TextPaint ds) {
-                                super.updateDrawState(ds);
-                                ds.setColor(getResources().getColor(R.color.md_blue_500));
-                                ds.setUnderlineText(false);
-                            }
-                        };
-
-                        ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.md_blue_500)), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
                     postcontent.setText(ss);
                     postcontent.setMovementMethod(LinkMovementMethod.getInstance());
@@ -449,96 +452,16 @@ public class NewPostHome extends AppCompatActivity {
                 }
                 //TAGS RECYCLER PREVIOUS
 
-                if(StoreTemp.getInstance().getPujoTagModel()!=null)
-                {
+                if(StoreTemp.getInstance().getPujoTagModel()!=null) {
                     tagPujo.setVisibility(View.VISIBLE);
                     pujoTag = StoreTemp.getInstance().getPujoTagModel();
                     tagPujo.setText(StoreTemp.getInstance().getPujoTagModel().getPujoName());
                 }
-                //post_anon.setVisibility(View.GONE);
-//                if(intent.getStringExtra("usN")!=null){
-//                    editPostModel.setUsN(intent.getStringExtra("usN"));
-//                    postusername.setText(editPostModel.getUsN());
-//
-//                }
-//
-//                if(intent.getStringExtra("dp")!=null)
-//                    editPostModel.setDp(intent.getStringExtra("dp"));
-//
-//                if(intent.getStringExtra("uid")!=null)
-//                    editPostModel.setUid(intent.getStringExtra("uid"));
-//
-//                if(intent.getStringExtra("bool")!=null){
-//                    if(intent.getStringExtra("bool").matches("0")||intent.getStringExtra("bool").matches("2")){
-//                        postingIn.add("Global");
-//                    }
-//                    else if(intent.getStringExtra("bool").matches("3")){
-//                        postingIn.add("Your Campus");
-//                    }
-//                }
-//
-//                if(intent.getStringExtra("challengeID")!=null){
-//                    postingIn.add("Global");
-//
-//                    //post_anon.setVisibility(View.GONE);
-//                    //info.setVisibility(View.GONE);
-//                    editPostModel.setChallengeID(intent.getStringExtra("challengeID"));
-//                }
-//
-//                if(intent.getSerializableExtra("reportL")!=null)
-//                    editPostModel.setReportL((ArrayList<String>) intent.getSerializableExtra("reportL"));
-//
-//                if(intent.getStringExtra("docID")!=null)
-//                    editPostModel.setDocID(intent.getStringExtra("docID"));
-//
-//                if(intent.getStringExtra("type")!=null)
-//                    editPostModel.setType(intent.getStringExtra("type"));
-//
-//                if(intent.getStringExtra("likeCheck")!=null)
-//                    editPostModel.setLikeCheck(Integer.parseInt(intent.getStringExtra("likeCheck")));
-//
-//                if(intent.getSerializableExtra("likeL")!=null)
-//                    editPostModel.setLikeL((ArrayList<String>) intent.getSerializableExtra("likeL"));
-//
-//                if(intent.getStringExtra("cmtNo")!=null)
-//                    editPostModel.setCmtNo(Long.parseLong(intent.getStringExtra("cmtNo")));
-//
-//                if((StoreTemp.getInstance().getTagTemp())!=null){
-//                    editPostModel.setTagL(StoreTemp.getInstance().getTagTemp());
-//                    tags_selectedRecycler.setVisibility(View.VISIBLE);
-//                    selected_tags= editPostModel.getTagL();
-//
-//                    tagAdapter2.notifyDataSetChanged();
-//                    buildRecyclerView_selectedtags();
-//                }
-//
-//
-//                if(intent.getStringExtra("txt")!=null){
-//                    editPostModel.setTxt(intent.getStringExtra("txt"));
-//                    postcontent.setText(editPostModel.getTxt());
-//                }
-//
-//                if(intent.getStringExtra("comID")!=null){
-//                    postingIn.add(intent.getStringExtra("comName"));
-//                    //post_anon.setVisibility(View.GONE);
-//                    //info.setVisibility(View.GONE);
-//                    editPostModel.setComID(intent.getStringExtra("comID"));
-//                }
-//
-//
-//                if(intent.getStringExtra("comName")!=null)
-//                    editPostModel.setComName(intent.getStringExtra("comName"));
-//
-//                if(intent.getStringExtra("ts")!=null)
-//                    editPostModel.setTs(Long.parseLong(intent.getStringExtra("ts")));
-//
-//                if(intent.getStringExtra("newTs")!=null)
-//                    editPostModel.setNewTs(Long.parseLong(intent.getStringExtra("newTs")));
 
             }
 
-
         }
+
 
         ///////////////////SHARED CONTENT////////////////////
         if(Intent.ACTION_SEND.equals(action) && type != null) {
@@ -716,6 +639,7 @@ public class NewPostHome extends AppCompatActivity {
 
         //////////////////SHARED CONTENT///////////////////
 
+
         ///////////////////////IMAGE HANDLING////////////////////////
         gallery.setOnClickListener(v -> {
             if (!checkStoragePermission()) {
@@ -752,8 +676,8 @@ public class NewPostHome extends AppCompatActivity {
                 pickVideoCam();
             }
         });
-
         ///////////////////////IMAGE HANDLING////////////////////////
+
 
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         ///////////////////////POST////////////////////////
@@ -770,21 +694,20 @@ public class NewPostHome extends AppCompatActivity {
                     BasicUtility.showToast(getApplicationContext(),"Please give a headline while posting a video...");
                 }
                 else if(introPref.getType().matches("com") && (!headline.trim().isEmpty())
-                        && (imagelist.size()==0 && videoUri == null && text_content.trim().isEmpty())) {
+                        && (imagelist.size()==0 && videoUri == null && text_content.trim().isEmpty()) && !isEdit) {
                     BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video along with headline...");
                 }
                 else if(introPref.getType().matches("com") && (!headline.trim().isEmpty())
-                        && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty())) {
+                        && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty()) && !isEdit) {
                     BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video...");
                 }
                 else if(introPref.getType().matches("com") && (headline.trim().isEmpty())
-                        && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty())) {
+                        && (imagelist.size()==0 && videoUri == null) && (!text_content.trim().isEmpty()) && !isEdit) {
                     BasicUtility.showToast(getApplicationContext(),"Post should contain picture or video...");
                 }
                 else if(introPref.getType().matches("indi") && text_content.trim().isEmpty() && imagelist.size() == 0 && videoUri==null){
                     BasicUtility.showToast(getApplicationContext(),"Post has got nothing...");
                 }
-
                 else{
                     if(intent.getStringExtra("target")!=null && intent.getStringExtra("target").matches("100")){
                         progressDialog = new ProgressDialog(NewPostHome.this);
@@ -1192,12 +1115,6 @@ public class NewPostHome extends AppCompatActivity {
             }
         });
 
-//        customTag.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                openDialog();
-//            }
-//        });
 
         cross.setOnClickListener(v -> {
             String text_content = postcontent.getText().toString();

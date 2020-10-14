@@ -25,6 +25,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -74,10 +81,13 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Boolean.TRUE;
 
 public class HashtagPostViewAll extends AppCompatActivity {
+
     IntroPref introPref;
     FirestorePagingAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -236,37 +246,34 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
 
                 ///////////TAGLIST///////////////
                 ///////////TAG RECYCLER SETUP////////////////
-                programmingViewHolder.tagList.setHasFixedSize(false);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
-                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
-                ///////////TAG RECYCLER SETUP////////////////
-                if(currentItem.getTagList()!=null && currentItem.getTagList().size()>0 ) {
-                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
-                    TagAdapter2 tagAdapter = new TagAdapter2(currentItem.getTagList() , HashtagPostViewAll.this);
-
-                    tagAdapter.onClickListener((position1, tag) -> {
-                        tagName = tag;
-                        getSupportActionBar().setTitle("#"+ tagName);
-                        buildRecyclerView();
-                        contentprogressposts.setVisibility(View.VISIBLE);
-                    });
-
-                    programmingViewHolder.tagList.setAdapter(tagAdapter);
-                }
-                else {
-                    programmingViewHolder.tagList.setAdapter(null);
-                    programmingViewHolder.tagList.setVisibility(View.GONE);
-                }
+//                programmingViewHolder.tagList.setHasFixedSize(false);
+//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
+//                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
+//                ///////////TAG RECYCLER SETUP////////////////
+//                if(currentItem.getTagList()!=null && currentItem.getTagList().size()>0 ) {
+//                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
+//                    TagAdapter2 tagAdapter = new TagAdapter2(currentItem.getTagList() , HashtagPostViewAll.this);
+//
+//                    tagAdapter.onClickListener((position1, tag) -> {
+//                        tagName = tag;
+//                        getSupportActionBar().setTitle("#"+ tagName);
+//                        buildRecyclerView();
+//                        contentprogressposts.setVisibility(View.VISIBLE);
+//                    });
+//
+//                    programmingViewHolder.tagList.setAdapter(tagAdapter);
+//                }
+//                else {
+//                    programmingViewHolder.tagList.setAdapter(null);
+//                    programmingViewHolder.tagList.setVisibility(View.GONE);
+//                }
                 /////////TAGLIST///////////////
 
 
@@ -315,104 +322,11 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-//                else {
-//                    programmingViewHolder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                }
+
 
                 programmingViewHolder.username.setText(currentItem.getUsN());
 
 
-                ///////////////OPEN VIEW MORE//////////////
-//                programmingViewHolder.itemHome.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("bool", Integer.toString(bool));
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                    startActivity(intent);
-//                });
-//                programmingViewHolder.text_content.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("bool", Integer.toString(bool));
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                    startActivity(intent);
-//                });
-//
-//                programmingViewHolder.postimage.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//                    //            intent.putExtra("tagL", currentItem.getTagL());
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                    intent.putExtra("bool", Integer.toString(bool));;
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//                    startActivity(intent);
-//                });
-//
-//                programmingViewHolder.flamedBy.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getApplicationContext(), ViewMoreHome.class);
-//                    intent.putExtra("username", currentItem.getUsN());
-//                    intent.putExtra("userdp", currentItem.getDp());
-//                    intent.putExtra("docID", currentItem.getDocID());
-//                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                    //            StoreTemp.getInstance().setLikeList(currentItem.getLikeL());
-//                    intent.putExtra("comName", currentItem.getComName());
-//                    intent.putExtra("comID", currentItem.getComID());
-//                    //            intent.putExtra("tagL", currentItem.getTagL());
-//                    intent.putExtra("likeL", currentItem.getLikeL());
-//                    intent.putExtra("postPic", currentItem.getImg());
-//                    intent.putExtra("postText", currentItem.getTxt());
-//                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
-//                    intent.putExtra("bool", Integer.toString(bool));
-//
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
-//
-//                    intent.putExtra("likeLOpen", "likeLOpen");
-//                    startActivity(intent);
-//
-//                });
-                ///////////////OPEN VIEW MORE//////////////
-
-                //////////////////////////TEXT & IMAGE FOR POST//////////////////////
                 if(currentItem.getTxt()==null || currentItem.getTxt().isEmpty()){
                     programmingViewHolder.text_content.setVisibility(View.GONE);
                     programmingViewHolder.LinkPreview.setVisibility(View.GONE);
@@ -421,6 +335,44 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 else{
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
+
+                    //TAGS COLOURED DISPLAY
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Matcher m = p.matcher(programmingViewHolder.text_content.getText().toString());
+
+                    SpannableString ss = new SpannableString(programmingViewHolder.text_content.getText().toString());
+
+                    while(m.find()) // loops through all the words in the text which matches the pattern
+                    {
+                        final int s = m.start(); // add 1 to omit the "@" tag
+                        final int e = m.end();
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View textView)
+                            {
+                                Intent i = new Intent(HashtagPostViewAll.this, HashtagPostViewAll.class);
+                                i.putExtra("hashtag", programmingViewHolder.text_content.getText().toString().substring(s+1, e));
+                                startActivity(i);
+//                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void updateDrawState(@NonNull TextPaint ds) {
+                                super.updateDrawState(ds);
+                                ds.setColor(getResources().getColor(R.color.md_blue_500));
+                                ds.setUnderlineText(false);
+                            }
+                        };
+
+                        ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    programmingViewHolder.text_content.setText(ss);
+                    programmingViewHolder.text_content.setMovementMethod(LinkMovementMethod.getInstance());
+                    programmingViewHolder.text_content.setHighlightColor(Color.TRANSPARENT);
+                    //TAGS COLOURED DISPLAY
+
                     if(programmingViewHolder.text_content.getUrls().length>0){
                         URLSpan urlSnapItem = programmingViewHolder.text_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
@@ -449,37 +401,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                     }
 
                 }
-//
-//                        String postimage_url = currentItem.getImg();
-//                        if(postimage_url!=null){
-//                            programmingViewHolder.postimage.setVisibility(View.VISIBLE);
-//                            Picasso.get().load(postimage_url)
-//                                    .placeholder(R.drawable.image_background_grey)
-//                                    .memoryPolicy(MemoryPolicy.NO_STORE)
-//                                    .into(programmingViewHolder.postimage);
-//
-//                            programmingViewHolder.postimage.setOnLongClickListener(v -> {
-//
-//                                Picasso.get().load(postimage_url).memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE).into(new Target() {
-//                                    @Override
-//                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                                        save_Dialog(bitmap);
-//                                    }
-//                                    @Override
-//                                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//                                        Toast.makeText(getApplicationContext(), "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                    @Override
-//                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-//
-//                                    }
-//
-//                                });
-//                                return true;
-//                            });
-//                        }
-//                        else
-//                            programmingViewHolder.postimage.setVisibility(View.GONE);
+
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
                     programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
                     programmingViewHolder.sliderView.setVisibility(View.VISIBLE);

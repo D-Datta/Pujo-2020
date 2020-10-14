@@ -11,6 +11,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +34,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
+import com.applex.utsav.HashtagClipsViewAll;
+import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
@@ -47,6 +56,8 @@ import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemViewHolder> {
 
@@ -129,6 +140,42 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
         if(currentItem.getDescription() != null) {
             holder.pujo_desc.setText(currentItem.getDescription());
+
+            //TAGS COLOURED DISPLAY
+            Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+            Matcher m = p.matcher(holder.pujo_desc.getText().toString());
+
+            SpannableString ss = new SpannableString(holder.pujo_desc.getText().toString());
+
+            while(m.find()) // loops through all the words in the text which matches the pattern
+            {
+                final int s = m.start(); // add 1 to omit the "@" tag
+                final int e = m.end();
+
+                ClickableSpan clickableSpan = new ClickableSpan() {
+                    @Override
+                    public void onClick(View textView)
+                    {
+                        Intent i = new Intent(context, HashtagClipsViewAll.class);
+                        i.putExtra("hashtag", holder.pujo_desc.getText().toString().substring(s+1, e));
+                        context.startActivity(i);
+                    }
+
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        super.updateDrawState(ds);
+                        ds.setColor(context.getResources().getColor(R.color.md_blue_500));
+                        ds.setUnderlineText(false);
+                    }
+                };
+
+                ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            holder.pujo_desc.setText(ss);
+            holder.pujo_desc.setMovementMethod(LinkMovementMethod.getInstance());
+            holder.pujo_desc.setHighlightColor(Color.TRANSPARENT);
+            //TAGS COLOURED DISPLAY
         }
         else {
             holder.pujo_desc.setVisibility(View.GONE);

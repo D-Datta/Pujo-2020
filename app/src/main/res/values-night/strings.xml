@@ -95,7 +95,7 @@
     <string name="committee_name">Committee Name / Bari Name*</string>
     <string name="save_to_device">Save to device</string>
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
-    <string name="post_hint">How are you enjoying puja?</string>
+    <string name="post_hint">How are you enjoying puja? \n#পুজো #utsav</string>
     <string name="short_videos">Short Videos</string>
     <string name="see_all"><![CDATA[See All —>]]></string>
     <string name="see_all_posts"><![CDATA[See All —>]]></string>
@@ -223,6 +223,7 @@
     <string name="contactnumber">Contact Number*</string>
     <string name="upi_id">** If any user of this application wants to send e-pronami, the UPI ID will be needed.</string>
     <string name="upi_id_hint">UPI ID</string>
+    <string name="media_preview_will_be_visible_after_editing">Media preview will be visible after editing</string>
 
 
 </resources>

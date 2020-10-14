@@ -1,24 +1,13 @@
-package com.applex.utsav.fragments;
+package com.applex.utsav;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -35,6 +24,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,26 +32,28 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.airbnb.lottie.LottieAnimationView;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
-import com.applex.utsav.CommitteeViewAll;
-import com.applex.utsav.HashtagClipsViewAll;
-import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
-import com.applex.utsav.MainActivity;
-import com.applex.utsav.NewPostHome;
-import com.applex.utsav.R;
-import com.applex.utsav.ReelsActivity;
-import com.applex.utsav.adapters.CommitteeTopAdapter;
-import com.applex.utsav.adapters.TagAdapter;
+import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
-import com.applex.utsav.models.BaseUserModel;
+import com.applex.utsav.fragments.CommitteeFragment;
+import com.applex.utsav.fragments.FragmentClips;
 import com.applex.utsav.models.FlamedModel;
+import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
@@ -70,20 +62,26 @@ import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
+
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -91,69 +89,83 @@ import java.util.regex.Pattern;
 
 import static java.lang.Boolean.TRUE;
 
-public class FragmentClips extends Fragment {
-
-    public static int changed = 0;
-    public static int delete = 0;
-    private IntroPref introPref;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressMore, contentProgress;
-    private ProgressDialog progressDialog;
-    private Dialog postMenuDialog;
-    public static RecyclerView mRecyclerView;
-    private String USERDP, USERNAME, link, GENDER;
-    private FloatingActionButton floatingActionButton;
-
-    public FragmentClips() {
-        // Required empty public constructor
-    }
+public class HashtagClipsViewAll extends AppCompatActivity {
+    IntroPref introPref;
+    FirestorePagingAdapter adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
+    RecyclerView recyclerview;
+    ProgressBar contentprogressposts, progressmoreposts;
+    ImageView noneImage;
+    BottomSheetDialog postMenuDialog;
+    ProgressDialog progressDialog;
+    String link;
+    String tagName;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        introPref = new IntroPref(getActivity());
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        introPref = new IntroPref(this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
         Locale.setDefault(locale);
         Configuration config= new Configuration();
         config.locale = locale;
-        Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
-        return inflater.inflate(R.layout.fragment_clips, container, false);
-    }
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
-        contentProgress = view.findViewById(R.id.content_progress);
-        progressMore = view.findViewById(R.id.progress_more);
-        floatingActionButton = view.findViewById(R.id.to_the_top_clips);
+//        /////////////////DAY OR NIGHT MODE///////////////////
+//        FirebaseFirestore.getInstance().document("Mode/night_mode")
+//                .addSnapshotListener(HashtagPostViewAll.this, (value, error) -> {
+//                    if(value != null) {
+//                        if(value.getBoolean("night_mode")) {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                        } else {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                        }
+//                        if(value.getBoolean("listener")) {
+//                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+//                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                            finish();
+//                        }
+//                    } else {
+//                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                        finish();
+//                    }
+//                });
+//        /////////////////DAY OR NIGHT MODE///////////////////
 
-        //////////////RECYCLER VIEW////////////////////
-        mRecyclerView = view.findViewById(R.id.recyclerClips) ;
-        contentProgress.setVisibility(View.VISIBLE);
+        setContentView(R.layout.activity_hashtag_clips_view_all);
 
-        /////////////SETUP//////////////
-        mRecyclerView.setHasFixedSize(false);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("#"+ getIntent().getStringExtra("hashtag"));
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_black_24dp);
+
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        recyclerview = findViewById(R.id.recycler_posts);
+        contentprogressposts = findViewById(R.id.content_progress);
+        progressmoreposts = findViewById(R.id.progress_more_posts);
+        noneImage = findViewById(R.id.none_image);
+
+        recyclerview.setHasFixedSize(false);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setItemViewCacheSize(20);
-        mRecyclerView.setDrawingCacheEnabled(true);
-        /////////////SETUP//////////////
+        recyclerview.setLayoutManager(layoutManager);
+        recyclerview.setItemViewCacheSize(20);
 
+        tagName = getIntent().getStringExtra("hashtag");
         buildRecyclerView();
-        //////////////RECYCLER VIEW////////////////////
-
-        introPref = new IntroPref(getActivity());
-        USERDP = introPref.getUserdp();
-        USERNAME = introPref.getFullName();
-        GENDER = introPref.getGender();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),
-                        getResources().getColor(R.color.purple));
+                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
+                        .getColor(R.color.purple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
@@ -161,15 +173,14 @@ public class FragmentClips extends Fragment {
     }
 
     private void buildRecyclerView() {
+
         Query query = FirebaseFirestore.getInstance()
                 .collection("Reels")
-                .orderBy("newTs", Query.Direction.DESCENDING);
+               .whereArrayContains("tagList", tagName);
 
         PagedList.Config config = new PagedList.Config.Builder()
-                .setInitialLoadSizeHint(1)
-                .setPageSize(1)
-                .setPrefetchDistance(2)
-                .setEnablePlaceholders(true)
+                .setInitialLoadSizeHint(10)
+                .setPageSize(10)
                 .build();
 
         FirestorePagingOptions<ReelsPostModel> options = new FirestorePagingOptions.Builder<ReelsPostModel>()
@@ -184,7 +195,15 @@ public class FragmentClips extends Fragment {
                 })
                 .build();
 
-        FirestorePagingAdapter adapter = new FirestorePagingAdapter<ReelsPostModel, ProgrammingViewHolder>(options) {
+        adapter = new FirestorePagingAdapter<ReelsPostModel, ProgrammingViewHolder>(options) {
+            @NonNull
+            @Override
+            public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+                View v = layoutInflater.inflate(R.layout.item_clips, parent, false);
+                return  new ProgrammingViewHolder(v);
+            }
+
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull ReelsPostModel currentItem) {
@@ -197,8 +216,8 @@ public class FragmentClips extends Fragment {
                     programmingViewHolder.type_something.setVisibility(View.VISIBLE);
 
                     programmingViewHolder.type_something.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(requireActivity())) {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
+                        if (InternetConnection.checkConnection(HashtagClipsViewAll.this)) {
+                            Intent i = new Intent(HashtagClipsViewAll.this, NewPostHome.class);
                             if(introPref.getType().matches("com")){
                                 i.putExtra("target", "1");
                             }
@@ -207,12 +226,12 @@ public class FragmentClips extends Fragment {
 
                             startActivity(i);
                         } else
-                            BasicUtility.showToast(getContext(), "Network Unavailable...");
+                            BasicUtility.showToast(HashtagClipsViewAll.this, "Network Unavailable...");
                     });
 
                     programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(requireActivity())) {
-                            Intent i = new Intent(getContext(), NewPostHome.class);
+                        if (InternetConnection.checkConnection(HashtagClipsViewAll.this)) {
+                            Intent i = new Intent(HashtagClipsViewAll.this, NewPostHome.class);
 
                             if(introPref.getType().matches("com")){
                                 i.putExtra("target", "1");
@@ -222,28 +241,29 @@ public class FragmentClips extends Fragment {
 
                             startActivity(i);
                         } else
-                            BasicUtility.showToast(getContext(), "Network Unavailable...");
+                            BasicUtility.showToast(HashtagClipsViewAll.this, "Network Unavailable...");
                     });
 
-                    if (USERDP != null) {
-                        Picasso.get().load(USERDP).fit().centerCrop()
+                    //current user dp
+                    if (introPref.getUserdp() != null) {
+                        Picasso.get().load(introPref.getUserdp()).fit().centerCrop()
                                 .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.type_dp);
+                                .into(programmingViewHolder.profileimage);
                     }
                     else{
-                        if(GENDER!=null){
-                            if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_female);
+                        if(introPref.getGender()!=null){
+                            if (introPref.getGender().matches("Female") || introPref.getGender().matches("মহিলা")){
+                                programmingViewHolder.profileimage.setImageResource(R.drawable.ic_female);
                             }
-                            else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_male);
+                            else if (introPref.getGender().matches("Male") || introPref.getGender().matches("পুরুষ")){
+                                programmingViewHolder.profileimage.setImageResource(R.drawable.ic_male);
                             }
-                            else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
-                                programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            else if (introPref.getGender().matches("Others") || introPref.getGender().matches("অন্যান্য")){
+                                programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
                         else{
-                            programmingViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
+                            programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
                     }
                 }
@@ -252,7 +272,7 @@ public class FragmentClips extends Fragment {
                     programmingViewHolder.posting_item.setVisibility(View.GONE);
 
                     programmingViewHolder.view_all.setOnClickListener(v ->
-                            startActivity(new Intent(getActivity(), CommitteeViewAll.class))
+                            startActivity(new Intent(HashtagClipsViewAll.this, CommitteeViewAll.class))
                     );
 
                     if (programmingViewHolder.getItemViewType() == 4) {
@@ -261,7 +281,6 @@ public class FragmentClips extends Fragment {
                         programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
                     }
 
-                    buildCommunityRecyclerView(programmingViewHolder.cRecyclerView, programmingViewHolder.getItemViewType());
                 }
                 else {
                     programmingViewHolder.posting_item.setVisibility(View.GONE);
@@ -282,20 +301,21 @@ public class FragmentClips extends Fragment {
                 likeStore = FirebaseFirestore.getInstance().document("Reels/" + currentItem.getDocID() + "/");
 
                 ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-                if (USERDP != null) {
-                    Picasso.get().load(USERDP).fit().centerCrop()
+                //current user dp
+                if (introPref.getUserdp() != null) {
+                    Picasso.get().load(introPref.getUserdp()).fit().centerCrop()
                             .placeholder(R.drawable.ic_account_circle_black_24dp)
                             .into(programmingViewHolder.profileimage);
                 }
                 else{
-                    if(GENDER!=null){
-                        if (GENDER.matches("Female") || GENDER.matches("মহিলা")){
+                    if(introPref.getGender()!=null){
+                        if (introPref.getGender().matches("Female") || introPref.getGender().matches("মহিলা")){
                             programmingViewHolder.profileimage.setImageResource(R.drawable.ic_female);
                         }
-                        else if (GENDER.matches("Male") || GENDER.matches("পুরুষ")){
+                        else if (introPref.getGender().matches("Male") || introPref.getGender().matches("পুরুষ")){
                             programmingViewHolder.profileimage.setImageResource(R.drawable.ic_male);
                         }
-                        else if (GENDER.matches("Others") || GENDER.matches("অন্যান্য")){
+                        else if (introPref.getGender().matches("Others") || introPref.getGender().matches("অন্যান্য")){
                             programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
                     }
@@ -328,12 +348,12 @@ public class FragmentClips extends Fragment {
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 programmingViewHolder.username.setOnClickListener(v -> {
                     if(currentItem.getType().matches("com")) {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     }
                     else {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileUser.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     }
@@ -341,12 +361,12 @@ public class FragmentClips extends Fragment {
 
                 programmingViewHolder.userimage.setOnClickListener(v -> {
                     if(currentItem.getType().matches("com")) {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     }
                     else {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileUser.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     }
@@ -412,7 +432,7 @@ public class FragmentClips extends Fragment {
 
                     programmingViewHolder.pujoTagHolder.setOnClickListener(v -> {
                         //To be changed
-                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
                         intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
                         startActivity(intent);
                     });
@@ -429,7 +449,7 @@ public class FragmentClips extends Fragment {
                 Picasso.get().load(currentItem.getFrame()).into(programmingViewHolder.reels_image);
 
                 programmingViewHolder.reels_video.setOnPreparedListener(mp -> {
-                    requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    HashtagClipsViewAll.this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     new Handler().postDelayed(() -> {
                         programmingViewHolder.reels_image.setVisibility(View.GONE);
                         programmingViewHolder.sound.setVisibility(View.VISIBLE);
@@ -472,18 +492,18 @@ public class FragmentClips extends Fragment {
 
                 if(programmingViewHolder.reels_video.getVisibility() == View.VISIBLE) {
                     programmingViewHolder.reels_video.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ReelsActivity.class);
                         intent.putExtra("bool", "3");
                         intent.putExtra("docID", currentItem.getDocID());
-                        requireActivity().startActivity(intent);
+                        HashtagClipsViewAll.this.startActivity(intent);
                     });
                 }
                 else if(programmingViewHolder.reels_image.getVisibility() == View.VISIBLE) {
                     programmingViewHolder.reels_image.setOnClickListener(v -> {
-                        Intent intent = new Intent(requireActivity(), ReelsActivity.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ReelsActivity.class);
                         intent.putExtra("bool", "3");
                         intent.putExtra("docID", currentItem.getDocID());
-                        requireActivity().startActivity(intent);
+                        HashtagClipsViewAll.this.startActivity(intent);
                     });
                 }
 
@@ -524,9 +544,10 @@ public class FragmentClips extends Fragment {
                             @Override
                             public void onClick(View textView)
                             {
-                                Intent i = new Intent(getContext(), HashtagClipsViewAll.class);
+                                Intent i = new Intent(HashtagClipsViewAll.this, HashtagPostViewAll.class);
                                 i.putExtra("hashtag", programmingViewHolder.text_content.getText().toString().substring(s+1, e));
                                 startActivity(i);
+//                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
                             }
 
                             @Override
@@ -591,14 +612,14 @@ public class FragmentClips extends Fragment {
                 programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
 
                 programmingViewHolder.text_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ReelsActivity.class);
+                    Intent intent = new Intent(HashtagClipsViewAll.this, ReelsActivity.class);
                     intent.putExtra("bool", "3");
                     intent.putExtra("docID", currentItem.getDocID());
                     startActivity(intent);
                 });
 
                 programmingViewHolder.head_content.setOnClickListener(v -> {
-                    Intent intent = new Intent(getActivity(), ReelsActivity.class);
+                    Intent intent = new Intent(HashtagClipsViewAll.this, ReelsActivity.class);
                     intent.putExtra("bool", "3");
                     intent.putExtra("docID", currentItem.getDocID());
                     startActivity(intent);
@@ -607,7 +628,7 @@ public class FragmentClips extends Fragment {
 
                 programmingViewHolder.like_layout.setOnClickListener(v -> {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
-                    bottomSheetDialog.show(requireActivity().getSupportFragmentManager(), "FlamedBySheet");
+                    bottomSheetDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "FlamedBySheet");
                 });
 
                 ///////////////////FLAMES AND COMMENTS///////////////////////
@@ -659,15 +680,15 @@ public class FragmentClips extends Fragment {
                                 });
                                 ///////////////////BATCH WRITE///////////////////
                             } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
-                                BasicUtility.vibrate(requireActivity());
+                                BasicUtility.vibrate(HashtagClipsViewAll.this);
                                 programmingViewHolder.dhak_anim.setVisibility(View.VISIBLE);
                                 programmingViewHolder.dhak_anim.playAnimation();
                                 try {
-                                    AssetFileDescriptor afd = requireActivity().getAssets().openFd("dhak.mp3");
+                                    AssetFileDescriptor afd = HashtagClipsViewAll.this.getAssets().openFd("dhak.mp3");
                                     MediaPlayer player = new MediaPlayer();
                                     player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
                                     player.prepare();
-                                    AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                                    AudioManager audioManager = (AudioManager) HashtagClipsViewAll.this.getSystemService(Context.AUDIO_SERVICE);
                                     if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                         player.start();
                                         if (!player.isPlaying()) {
@@ -710,8 +731,8 @@ public class FragmentClips extends Fragment {
                                 flamedModel.setTs(tsLong);
                                 flamedModel.setType(introPref.getType());
                                 flamedModel.setUid(FirebaseAuth.getInstance().getUid());
-                                flamedModel.setUserdp(USERDP);
-                                flamedModel.setUsername(USERNAME);
+                                flamedModel.setUserdp(introPref.getUserdp());
+                                flamedModel.setUsername(introPref.getFullName());
                                 flamedModel.setPostUid(currentItem.getUid());
 
                                 DocumentReference flamedDoc = likeStore.collection("flameL")
@@ -729,13 +750,13 @@ public class FragmentClips extends Fragment {
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "FragmentClips", null, currentItem.getCmtNo(), null, null);
-                    bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     try {
-                        AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
+                        AssetFileDescriptor afd = HashtagClipsViewAll.this.getAssets().openFd("sonkho.mp3");
                         MediaPlayer player = new MediaPlayer();
                         player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                         player.prepare();
-                        AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                        AudioManager audioManager = (AudioManager) HashtagClipsViewAll.this.getSystemService(Context.AUDIO_SERVICE);
                         if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                             player.start();
                         }
@@ -746,7 +767,7 @@ public class FragmentClips extends Fragment {
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "FragmentClips", null, currentItem.getCmtNo(), null, null);
-                    bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                    bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.share.setOnClickListener(view -> {
@@ -759,8 +780,8 @@ public class FragmentClips extends Fragment {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if (currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
 
@@ -888,23 +909,23 @@ public class FragmentClips extends Fragment {
                         programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
+                    FragmentClips.ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
-                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                        bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
-                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                        bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
-                        bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
+                        bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
                 else {
-                    ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                    FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
@@ -913,13 +934,13 @@ public class FragmentClips extends Fragment {
                 ////////POST MENU///////
                 programmingViewHolder.menuPost.setOnClickListener(v -> {
                     if (currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
-                        postMenuDialog = new BottomSheetDialog(requireActivity());
+                        postMenuDialog = new BottomSheetDialog(HashtagClipsViewAll.this);
                         postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
                         postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-                            Intent i = new Intent(getActivity(), NewPostHome.class);
+                            Intent i = new Intent(HashtagClipsViewAll.this, NewPostHome.class);
                             i.putExtra("target", "100"); //target value for edit post
                             i.putExtra("bool", "2");
                             i.putExtra("typeofpost", "reel");
@@ -938,11 +959,11 @@ public class FragmentClips extends Fragment {
                         });
 
                         postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HashtagClipsViewAll.this);
                             builder.setTitle("Are you sure?")
                                     .setMessage("Post will be deleted permanently")
                                     .setPositiveButton("Delete", (dialog, which) -> {
-                                        progressDialog = new ProgressDialog(getActivity());
+                                        progressDialog = new ProgressDialog(HashtagClipsViewAll.this);
                                         progressDialog.setTitle("Deleting Post");
                                         progressDialog.setMessage("Please wait...");
                                         progressDialog.setCancelable(false);
@@ -966,14 +987,14 @@ public class FragmentClips extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(HashtagClipsViewAll.this, "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
 
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         postMenuDialog.show();
                     } else {
-                        postMenuDialog = new BottomSheetDialog(requireActivity());
+                        postMenuDialog = new BottomSheetDialog(HashtagClipsViewAll.this);
                         postMenuDialog.setContentView(R.layout.dialog_post_menu);
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
@@ -983,7 +1004,7 @@ public class FragmentClips extends Fragment {
                             FirebaseFirestore.getInstance()
                                     .collection("Reels").document(currentItem.getDocID())
                                     .update("reportL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()))
-                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(getActivity(), "Post has been reported."));
+                                    .addOnSuccessListener(aVoid -> BasicUtility.showToast(HashtagClipsViewAll.this, "Post has been reported."));
                             postMenuDialog.dismiss();
                         });
                         Objects.requireNonNull(postMenuDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -993,151 +1014,39 @@ public class FragmentClips extends Fragment {
                 ////////POST MENU///////
             }
 
-            @NonNull
-            @Override
-            public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-                LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                View v = layoutInflater.inflate(R.layout.item_clips, viewGroup, false);
-                return new ProgrammingViewHolder(v);
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(@NonNull ProgrammingViewHolder holder) {
-                super.onViewDetachedFromWindow(holder);
-                holder.reels_video.pause();
-                holder.reels_image.setVisibility(View.VISIBLE);
-                holder.sound.setVisibility(View.GONE);
-            }
-
             @Override
             public int getItemViewType(int position) {
                 return position;
             }
 
-            @Override
-            public int getItemCount() {
-                return super.getItemCount();
-            }
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
+
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR:
-                        BasicUtility.showToast(getActivity(), "Something went wrong...");
-                        break;
-                    case LOADING_MORE:
-                        progressMore.setVisibility(View.VISIBLE);
-                        break;
-                    case LOADED:
-                        progressMore.setVisibility(View.GONE);
-                        if (swipeRefreshLayout.isRefreshing()) {
+                    case ERROR: BasicUtility.showToast(getApplicationContext(),"Something went wrong..."); break;
+                    case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE); break;
+                    case LOADED: progressmoreposts.setVisibility(View.GONE);
+                        if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
-                    case FINISHED:
-                        contentProgress.setVisibility(View.GONE);
-                        progressMore.setVisibility(View.GONE);
+                    case FINISHED: contentprogressposts.setVisibility(View.GONE);
+                        progressmoreposts.setVisibility(View.GONE);
+                        if(swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                        if(adapter!=null && adapter.getItemCount() == 0)
+                            noneImage.setVisibility(View.VISIBLE);
                         break;
                 }
             }
         };
 
-        contentProgress.setVisibility(View.GONE);
-        progressMore.setVisibility(View.GONE);
-        mRecyclerView.setAdapter(adapter);
-
-        RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
-        final int[] scrollY = {0};
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (newState == 0) {
-                    int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
-                    int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
-
-                    if (firstVisiblePosition >= 0) {
-                        Rect rect_parent = new Rect();
-                        mRecyclerView.getGlobalVisibleRect(rect_parent);
-
-                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                            final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                            ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
-
-                            int[] location = new int[2];
-                            Objects.requireNonNull(cvh).reels_video.getLocationOnScreen(location);
-
-                            Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_video.getWidth(), location[1] + cvh.reels_video.getHeight());
-
-                            float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
-                            float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
-                            float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
-                            float overlapArea = x_overlap * y_overlap;
-                            float percent = (overlapArea / rect_parent_area) * 100.0f;
-
-                            if (percent >= 90) {
-                                cvh.reels_video.start();
-                                cvh.reels_video.setOnPreparedListener(mp -> {
-                                    requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                    new Handler().postDelayed(() -> {
-                                        cvh.reels_image.setVisibility(View.GONE);
-                                        cvh.sound.setVisibility(View.VISIBLE);
-                                    }, 500);
-                                    mp.setLooping(true);
-                                    if(introPref.isVolumeOn()) {
-                                        mp.setVolume(1f, 1f);
-                                        cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                                    } else {
-                                        mp.setVolume(0f, 0f);
-                                        cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
-                                    }
-
-                                    cvh.sound.setOnClickListener(v -> {
-                                        if(introPref.isVolumeOn()) {
-                                            mp.setVolume(0f, 0f);
-                                            introPref.setIsVolumeOn(false);
-                                            cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
-                                        } else {
-                                            mp.setVolume(1f, 1f);
-                                            introPref.setIsVolumeOn(true);
-                                            cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                                        }
-                                    });
-                                });
-                            } else {
-                                cvh.sound.setVisibility(View.GONE);
-                                cvh.reels_video.seekTo(1);
-                                cvh.reels_video.pause();
-                            }
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                scrollY[0] = scrollY[0] + dy;
-                if (scrollY[0] <= 2000 && dy < 0) {
-                    floatingActionButton.setVisibility(View.GONE);
-                }
-                else {
-                    if(dy < 0){
-                        floatingActionButton.setVisibility(View.VISIBLE);
-                        floatingActionButton.setOnClickListener(v -> {
-                            recyclerView.scrollToPosition(0);
-                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
-                        });
-                    } else {
-                        floatingActionButton.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
+        contentprogressposts.setVisibility(View.GONE);
+        noneImage.setVisibility(View.GONE);
+        recyclerview.setAdapter(adapter);
     }
 
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
@@ -1222,117 +1131,13 @@ public class FragmentClips extends Fragment {
         }
     }
 
-    private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
-        cRecyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.HORIZONTAL, false);
-        cRecyclerView.setLayoutManager(gridLayoutManager);
-        cRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        ArrayList<BaseUserModel> committees = new ArrayList<>();
-        Query query;
-
-        if(position == 4) {
-            query =  FirebaseFirestore.getInstance()
-                    .collection("Users")
-                    .whereEqualTo("type", "com")
-                    .orderBy("lastVisitTime", Query.Direction.DESCENDING)
-                    .limit(20);
-        } else {
-            query =  FirebaseFirestore.getInstance()
-                    .collection("Users")
-                    .whereEqualTo("type", "com")
-                    .orderBy("upvotes", Query.Direction.DESCENDING)
-                    .limit(20);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            super.onBackPressed();
         }
-
-        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
-                if(document.exists()) {
-                    BaseUserModel communityModel1 = document.toObject(BaseUserModel.class);
-                    committees.add(communityModel1);
-                }
-            }
-            if(committees.size()>0) {
-                CommitteeTopAdapter communityAdapter= new CommitteeTopAdapter(committees, getActivity(), position);
-                cRecyclerView.setAdapter(communityAdapter);
-            }
-        }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error Community", Toast.LENGTH_LONG).show());
+        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
-        if((changed > 0 || delete > 0)) {
-            buildRecyclerView();
-            changed = 0;
-            delete = 0;
-        }
-        super.onResume();
-
-        RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
-        int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
-        int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
-
-        if (firstVisiblePosition >= 0) {
-            Rect rect_parent = new Rect();
-            mRecyclerView.getGlobalVisibleRect(rect_parent);
-
-            for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
-                final RecyclerView.ViewHolder holder = mRecyclerView.findViewHolderForAdapterPosition(i);
-                ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
-
-                int[] location = new int[2];
-                Objects.requireNonNull(cvh).reels_video.getLocationOnScreen(location);
-
-                Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_video.getWidth(), location[1] + cvh.reels_video.getHeight());
-
-                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
-                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
-                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
-                float overlapArea = x_overlap * y_overlap;
-                float percent = (overlapArea / rect_parent_area) * 100.0f;
-
-               if (percent >= 90) {
-                    cvh.reels_video.start();
-                    cvh.reels_video.setOnPreparedListener(mp -> {
-                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        new Handler().postDelayed(() -> {
-                            cvh.reels_image.setVisibility(View.GONE);
-                            cvh.sound.setVisibility(View.VISIBLE);
-                        }, 500);
-
-                        mp.setLooping(true);
-
-                        if(MainActivity.viewPager.getCurrentItem() == 1 || MainActivity.viewPager.getCurrentItem() == 3) {
-                            mp.setVolume(0f, 0f);
-                        }
-                        else {
-                            if(introPref.isVolumeOn()) {
-                                mp.setVolume(1f, 1f);
-                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                            } else {
-                                mp.setVolume(0f, 0f);
-                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
-                            }
-                        }
-
-                        cvh.sound.setOnClickListener(v -> {
-                            if(introPref.isVolumeOn()) {
-                                mp.setVolume(0f, 0f);
-                                introPref.setIsVolumeOn(false);
-                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
-                            } else {
-                                mp.setVolume(1f, 1f);
-                                introPref.setIsVolumeOn(true);
-                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                            }
-                        });
-                    });
-                } else {
-                    cvh.sound.setVisibility(View.GONE);
-                    cvh.reels_video.seekTo(1);
-                    cvh.reels_video.pause();
-                }
-            }
-        }
-    }
 }

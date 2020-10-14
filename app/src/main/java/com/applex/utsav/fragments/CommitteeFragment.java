@@ -220,9 +220,6 @@ public class CommitteeFragment extends Fragment {
                 //slider & new Post
                 if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 6 == 0) {
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
-//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
 
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -254,7 +251,6 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.sliderView.setSliderAdapter(adapter1);
                         programmingViewHolder.sliderView.setCurrentPagePosition((position/7)%itemGroups.size());
                     }
-
 
                     if(programmingViewHolder.getItemViewType() == 0) {
                         programmingViewHolder.view.setVisibility(View.GONE);
@@ -304,6 +300,7 @@ public class CommitteeFragment extends Fragment {
                             }
                         }
                     }
+
                     else {
                         programmingViewHolder.view.setVisibility(View.VISIBLE);
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
@@ -315,9 +312,6 @@ public class CommitteeFragment extends Fragment {
                     //committee
                     if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
                         programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
-//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
 
                         programmingViewHolder.view_all.setOnClickListener(v ->
                                 startActivity(new Intent(getActivity(), CommitteeViewAll.class))
@@ -337,9 +331,7 @@ public class CommitteeFragment extends Fragment {
 
                     //Clips
                     if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
-//                    programmingViewHolder.feeds_item.setVisibility(View.GONE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
+
                         programmingViewHolder.reels_item.setVisibility(View.VISIBLE);
 
                         if (programmingViewHolder.getItemViewType() != 1 && lastReelDocument != null) {
@@ -371,9 +363,6 @@ public class CommitteeFragment extends Fragment {
                     //people post
                     if(programmingViewHolder.getItemViewType() % 4 == 0) {
                         programmingViewHolder.feeds_item.setVisibility(View.VISIBLE);
-//                    programmingViewHolder.slider_item.setVisibility(View.GONE);
-//                    programmingViewHolder.reels_item.setVisibility(View.GONE);
-//                    programmingViewHolder.committee_item.setVisibility(View.GONE);
 
                         if (programmingViewHolder.getItemViewType() != 4 && lastfeedDocument != null) {
                             feeds_query = FirebaseFirestore.getInstance()
@@ -434,22 +423,22 @@ public class CommitteeFragment extends Fragment {
                 ///////////TAGLIST///////////////
 
                 ///////////TAG RECYCLER SETUP////////////////
-                programmingViewHolder.tagList.setHasFixedSize(false);
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
-                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
-                ///////////TAG RECYCLER SETUP////////////////
-
-                if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
-                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
-                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
-                    programmingViewHolder.tagList.setAdapter(tagAdapter);
-                }
-                else {
-                    programmingViewHolder.tagList.setAdapter(null);
-                    programmingViewHolder.tagList.setVisibility(View.GONE);
-                }
+//                programmingViewHolder.tagList.setHasFixedSize(false);
+//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+//                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+//                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
+//                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
+//                ///////////TAG RECYCLER SETUP////////////////
+//
+//                if (currentItem.getTagL() != null && currentItem.getTagL().size() > 0) {
+//                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
+//                    TagAdapter tagAdapter = new TagAdapter(currentItem.getTagL(), getActivity());
+//                    programmingViewHolder.tagList.setAdapter(tagAdapter);
+//                }
+//                else {
+//                    programmingViewHolder.tagList.setAdapter(null);
+//                    programmingViewHolder.tagList.setVisibility(View.GONE);
+//                }
                 /////////TAGLIST///////////////
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////

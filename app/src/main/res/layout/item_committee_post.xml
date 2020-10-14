@@ -471,6 +471,7 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:paddingHorizontal="8dp"
+                    android:visibility="gone"
                     android:paddingTop="5dp" />
 
                 <TextView
@@ -481,7 +482,7 @@
                     android:fontFamily="@font/oxygen_ex_bold"
                     android:paddingHorizontal="17dp"
                     android:paddingTop="8dp"
-                    android:paddingBottom="15dp"
+                    android:paddingBottom="10dp"
                     android:text="@string/head_content"
                     android:textColor="@color/purple"
                     android:ellipsize="end"

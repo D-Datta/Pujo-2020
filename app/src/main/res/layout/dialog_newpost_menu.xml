@@ -40,13 +40,6 @@
             android:layout_centerVertical="true">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_baseline_tag_24"
-                android:padding="8dp"
-                app:tint="@color/pink" />
-
-            <ImageView
                 android:id="@+id/yay4"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -207,36 +200,38 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey"/>
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0.5dp"-->
+<!--        android:background="@color/grey"/>-->
     
-    <LinearLayout
-        android:id="@+id/tag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="5dp"
-        android:background="@drawable/custom_ripple_white_rectangle"
-        android:gravity="center_vertical">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/tag"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingHorizontal="15dp"-->
+<!--        android:paddingVertical="5dp"-->
+<!--        android:visibility="gone"-->
+<!--        android:background="@drawable/custom_ripple_white_rectangle"-->
+<!--        android:gravity="center_vertical">-->
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_baseline_tag_24"
-            android:padding="8dp"
-            app:tint="@color/pink" />
+<!--        <ImageView-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:src="@drawable/ic_baseline_tag_24"-->
+<!--            android:padding="8dp"-->
+<!--            app:tint="@color/pink" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tags"
-            android:textColor="@color/black"
-            android:fontFamily="@font/oxygen_bold"
-            android:paddingStart="10dp"
-            android:paddingEnd="20dp"
-            android:textSize="15sp" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/tags"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:fontFamily="@font/oxygen_bold"-->
+<!--            android:paddingStart="10dp"-->
+<!--            android:paddingEnd="20dp"-->
+<!--            android:textSize="15sp" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
+
 </LinearLayout>
