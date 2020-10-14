@@ -208,84 +208,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull ReelsPostModel currentItem) {
 
-                if (programmingViewHolder.getItemViewType() == 0) {
-
-                    programmingViewHolder.posting_item.setVisibility(View.VISIBLE);
-                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-
-                    programmingViewHolder.type_something.setVisibility(View.VISIBLE);
-
-                    programmingViewHolder.type_something.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(HashtagClipsViewAll.this)) {
-                            Intent i = new Intent(HashtagClipsViewAll.this, NewPostHome.class);
-                            if(introPref.getType().matches("com")){
-                                i.putExtra("target", "1");
-                            }
-                            else
-                                i.putExtra("target", "2");
-
-                            startActivity(i);
-                        } else
-                            BasicUtility.showToast(HashtagClipsViewAll.this, "Network Unavailable...");
-                    });
-
-                    programmingViewHolder.newPostIconsLL.setOnClickListener(view -> {
-                        if (InternetConnection.checkConnection(HashtagClipsViewAll.this)) {
-                            Intent i = new Intent(HashtagClipsViewAll.this, NewPostHome.class);
-
-                            if(introPref.getType().matches("com")){
-                                i.putExtra("target", "1");
-                            }
-                            else
-                                i.putExtra("target", "2");
-
-                            startActivity(i);
-                        } else
-                            BasicUtility.showToast(HashtagClipsViewAll.this, "Network Unavailable...");
-                    });
-
-                    //current user dp
-                    if (introPref.getUserdp() != null) {
-                        Picasso.get().load(introPref.getUserdp()).fit().centerCrop()
-                                .placeholder(R.drawable.ic_account_circle_black_24dp)
-                                .into(programmingViewHolder.profileimage);
-                    }
-                    else{
-                        if(introPref.getGender()!=null){
-                            if (introPref.getGender().matches("Female") || introPref.getGender().matches("মহিলা")){
-                                programmingViewHolder.profileimage.setImageResource(R.drawable.ic_female);
-                            }
-                            else if (introPref.getGender().matches("Male") || introPref.getGender().matches("পুরুষ")){
-                                programmingViewHolder.profileimage.setImageResource(R.drawable.ic_male);
-                            }
-                            else if (introPref.getGender().matches("Others") || introPref.getGender().matches("অন্যান্য")){
-                                programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                            }
-                        }
-                        else{
-                            programmingViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
-                        }
-                    }
-                }
-                else if (programmingViewHolder.getItemViewType() == 4 || programmingViewHolder.getItemViewType() == 2) {
-                    programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
-                    programmingViewHolder.posting_item.setVisibility(View.GONE);
-
-                    programmingViewHolder.view_all.setOnClickListener(v ->
-                            startActivity(new Intent(HashtagClipsViewAll.this, CommitteeViewAll.class))
-                    );
-
-                    if (programmingViewHolder.getItemViewType() == 4) {
-                        programmingViewHolder.comm_heading.setText(getResources().getText(R.string.recently_visited_pujos));
-                    } else {
-                        programmingViewHolder.comm_heading.setText(getResources().getText(R.string.upvoted_pujos));
-                    }
-
-                }
-                else {
-                    programmingViewHolder.posting_item.setVisibility(View.GONE);
-                    programmingViewHolder.committee_item.setVisibility(View.GONE);
-                }
+                programmingViewHolder.posting_item.setVisibility(View.GONE);
+                programmingViewHolder.committee_item.setVisibility(View.GONE);
 
                 DocumentReference likeStore;
                 String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
