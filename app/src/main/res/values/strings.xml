@@ -223,7 +223,7 @@
     <string name="contactnumber">Contact Number*</string>
     <string name="upi_id">** If any user of this application wants to send e-pronami, the UPI ID will be needed.</string>
     <string name="upi_id_hint">UPI ID</string>
-    <string name="media_preview_will_be_visible_after_editing">Media preview will be visible after editing</string>
+    <string name="media_preview_will_be_visible_after_editing">Media (if any) preview will be visible after editing</string>
 
 
 </resources>

@@ -362,7 +362,6 @@ public class NewPostHome extends AppCompatActivity {
 //                BasicUtility.showToast(getApplicationContext(), "Media files cannot be edited. \n Only text can be changed.");
 
                 llBottomSheet.setVisibility(View.GONE);
-                preview.setVisibility(View.VISIBLE);
                 isEdit = true;
 
                 if(intent.getStringExtra("headline")!=null && introPref.getType().matches("com"))
