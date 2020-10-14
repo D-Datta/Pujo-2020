@@ -204,6 +204,9 @@ public class NewPostHome extends AppCompatActivity implements BottomTagsDialog.B
 //                    } else {
 //                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
 //                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                        finish();
 //                    }
 //                });
 //        /////////////////DAY OR NIGHT MODE///////////////////
