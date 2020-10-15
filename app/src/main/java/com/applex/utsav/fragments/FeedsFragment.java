@@ -489,7 +489,7 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.text_content.setText(currentItem.getTxt());
 
                     //TAGS COLOURED DISPLAY
-                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                     Matcher m = p.matcher(feedViewHolder.text_content.getText().toString());
 
                     SpannableString ss = new SpannableString(feedViewHolder.text_content.getText().toString());
