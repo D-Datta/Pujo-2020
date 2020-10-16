@@ -136,7 +136,12 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
-        new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute();
+        holder.reels_video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute();
+            }
+        });
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
         holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
 
@@ -271,7 +276,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                             else {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
-//                            holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                         }
                     });
         }
@@ -290,7 +294,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             else {
                 holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
             }
-//            holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
         }
 
         DocumentReference likeStore;
@@ -309,7 +312,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         holder.like.setImageResource(R.drawable.ic_flame_red);
                         holder.like.setImageTintList(null);
                         currentItem.setLikeCheck(j);
-//                        holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
                         //Position in likeList where the current USer UId is found stored in likeCheck
                     }
                     else{
