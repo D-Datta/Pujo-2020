@@ -50,12 +50,11 @@
                     android:paddingHorizontal="15dp"
                     android:textSize="15dp"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/oxygen_regular"
+                    android:fontFamily="@font/oxygen_bold"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/grey_868686"
                     android:background="@drawable/layerlistbg"/>
 
             </LinearLayout>
@@ -154,7 +153,7 @@
             android:id="@+id/view_pujo"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -217,7 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_alignParentTop="true"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -530,7 +529,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/light_background"
+                android:background="@color/divider_color"
                 android:layout_marginTop="2dp"
                 android:layout_marginHorizontal="8dp"/>
 

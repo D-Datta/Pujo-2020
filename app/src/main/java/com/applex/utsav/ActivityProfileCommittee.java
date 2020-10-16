@@ -111,6 +111,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
     private Button locate, ePronami;
     private Button upvote, edit_profile_com;
+    private LinearLayout upvoteHolder;
 
     private LinearLayout selfProfile, elseProfile;
 
@@ -205,6 +206,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         elseProfile = findViewById(R.id.elseProfile);
 
         upvote = findViewById(R.id.follow);
+        upvoteHolder = findViewById(R.id.upvote_holder);
         ePronami = findViewById(R.id.e_pronami);
 
         tabLayout = findViewById(R.id.tabBar);
@@ -239,6 +241,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         if (uid.matches(FirebaseAuth.getInstance().getUid())) {
             editCover.setVisibility(View.VISIBLE);
             editDp.setVisibility(View.VISIBLE);
+
+            upvoteHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
             selfProfile.setVisibility(View.VISIBLE);
             elseProfile.setVisibility(View.GONE);

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_background"
+    android:background="@color/divider_color"
     tools:context=".ActivityTagPujo">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="50dp"
         android:clipToPadding="false"
-        android:background="@color/light_background"
+        android:background="@color/divider_color"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
