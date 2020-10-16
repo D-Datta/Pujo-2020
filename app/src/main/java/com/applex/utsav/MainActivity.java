@@ -581,34 +581,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if(task.isSuccessful()) {
                                     if(task.getResult().getBoolean("night_mode")) {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                                        new Handler().postDelayed(() -> {
-                                            dialog.dismiss();
-                                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                            finish();
-                                        }, 200);
                                     } else {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                     }
                                 } else {
                                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                 }
-                            });
+                        new Handler().postDelayed(() -> {
+                            dialog.dismiss();
+                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }, 200);
+                    });
                 }
                 else if(light_mode.isChecked()) {
                     introPref.setTheme(2);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    new Handler().postDelayed(() -> {
+                        dialog.dismiss();
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }, 200);
                 }
                 else if(dark_mode.isChecked()) {
                     introPref.setTheme(3);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    new Handler().postDelayed(() -> {
+                        dialog.dismiss();
+                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }, 200);
                 }
-                new Handler().postDelayed(() -> {
-                    dialog.dismiss();
-                    startActivity(new Intent(MainActivity.this, MainActivity.class));
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    finish();
-                }, 200);
+
             });
 
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

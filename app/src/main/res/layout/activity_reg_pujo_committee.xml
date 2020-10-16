@@ -346,7 +346,7 @@
                     android:paddingHorizontal="15dp"
                     android:textSize="15sp"
                     android:fontFamily="@font/oxygen_regular"
-                    android:textColor="@color/ingr_red1"/>
+                    android:textColor="@color/purple1"/>
 
             </LinearLayout>
             <LinearLayout
