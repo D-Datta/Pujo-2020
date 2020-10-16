@@ -138,7 +138,14 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
-//        /////////////////DAY OR NIGHT MODE///////////////////
+        /////////////////DAY OR NIGHT MODE///////////////////
+        if(introPref.getTheme() == 1) {
+
+        } else if(introPref.getTheme() == 2) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if(introPref.getTheme() == 3) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
         FirebaseFirestore.getInstance().document("Mode/night_mode")
                 .addSnapshotListener(ActivityProfileCommittee.this, (value, error) -> {
                     if(value != null) {
@@ -161,7 +168,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                         finish();
                     }
                 });
-//        /////////////////DAY OR NIGHT MODE///////////////////
+        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_profile_committee);
 
@@ -487,167 +494,158 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         if (uid != null) {
             FirebaseFirestore.getInstance().collection("Users")
                     .document(uid).get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @SuppressLint("SetTextI18n")
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                baseUserModel = task.getResult().toObject(BaseUserModel.class);
-                                if(task.getResult().getBoolean("verified")!=null){
-                                    if(baseUserModel.isVerified()){
-                                        verified.setVisibility(View.VISIBLE);
-                                    }
-                                    else{
-                                        verified.setVisibility(View.GONE);
-                                    }
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            baseUserModel = task.getResult().toObject(BaseUserModel.class);
+                            if(task.getResult().getBoolean("verified")!=null){
+                                if(baseUserModel.isVerified()){
+                                    verified.setVisibility(View.VISIBLE);
                                 }
                                 else{
                                     verified.setVisibility(View.GONE);
                                 }
+                            }
+                            else{
+                                verified.setVisibility(View.GONE);
+                            }
 
-                                name = baseUserModel.getName();
-                                PName.setText(name);
-                                dp = baseUserModel.getDp();
-                                address = baseUserModel.getAddressline();
-                                city = baseUserModel.getCity();
-                                state = baseUserModel.getState();
-                                if (baseUserModel.getPin() != null && !baseUserModel.getPin().isEmpty()) {
-                                    pin = baseUserModel.getPin();
-                                }
-                                String fulladd = address + "\n" + city + " , " + state + " - " + pin;
-                                Paddress.setText(fulladd);
-                                coverpic = baseUserModel.getCoverpic();
-                                if (dp != null) {
+                            name = baseUserModel.getName();
+                            PName.setText(name);
+                            dp = baseUserModel.getDp();
+                            address = baseUserModel.getAddressline();
+                            city = baseUserModel.getCity();
+                            state = baseUserModel.getState();
+                            if (baseUserModel.getPin() != null && !baseUserModel.getPin().isEmpty()) {
+                                pin = baseUserModel.getPin();
+                            }
+                            String fulladd = address + "\n" + city + " , " + state + " - " + pin;
+                            Paddress.setText(fulladd);
+                            coverpic = baseUserModel.getCoverpic();
+                            if (dp != null) {
 //
-                                    Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
-                                } else {
-                                    Display display = getWindowManager().getDefaultDisplay();
-                                    int displayWidth = display.getWidth();
-                                    BitmapFactory.Options options = new BitmapFactory.Options();
-                                    options.inJustDecodeBounds = true;
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-                                    int width = options.outWidth;
-                                    if (width > displayWidth) {
-                                        int widthRatio = Math.round((float) width / (float) displayWidth);
-                                        options.inSampleSize = widthRatio;
-                                    }
-                                    options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
-                                    PDp.setImageBitmap(scaledBitmap);
+                                Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
+                            } else {
+                                Display display = getWindowManager().getDefaultDisplay();
+                                int displayWidth = display.getWidth();
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inJustDecodeBounds = true;
+                                BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                int width = options.outWidth;
+                                if (width > displayWidth) {
+                                    int widthRatio = Math.round((float) width / (float) displayWidth);
+                                    options.inSampleSize = widthRatio;
                                 }
+                                options.inJustDecodeBounds = false;
+                                Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                                PDp.setImageBitmap(scaledBitmap);
+                            }
 
-                                if (coverpic != null) {
-                                    Picasso.get().load(coverpic).placeholder(R.drawable.image_background_grey).into(Pcoverpic);
-                                } else {
-                                    Display display = getWindowManager().getDefaultDisplay();
-                                    int displayWidth = display.getWidth();
-                                    BitmapFactory.Options options = new BitmapFactory.Options();
-                                    options.inJustDecodeBounds = true;
-                                    BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
-                                    int width = options.outWidth;
-                                    if (width > displayWidth) {
-                                        int widthRatio = Math.round((float) width / (float) displayWidth);
-                                        options.inSampleSize = widthRatio;
-                                    }
-                                    options.inJustDecodeBounds = false;
-                                    Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
-                                    Pcoverpic.setImageBitmap(scaledBitmap);
+                            if (coverpic != null) {
+                                Picasso.get().load(coverpic).placeholder(R.drawable.image_background_grey).into(Pcoverpic);
+                            } else {
+                                Display display = getWindowManager().getDefaultDisplay();
+                                int displayWidth = display.getWidth();
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inJustDecodeBounds = true;
+                                BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
+                                int width = options.outWidth;
+                                if (width > displayWidth) {
+                                    int widthRatio = Math.round((float) width / (float) displayWidth);
+                                    options.inSampleSize = widthRatio;
                                 }
+                                options.inJustDecodeBounds = false;
+                                Bitmap scaledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
+                                Pcoverpic.setImageBitmap(scaledBitmap);
+                            }
 
-                                //metrics
-                                if (baseUserModel.getPujoVisits() > 1) {
-                                    if (baseUserModel.getPujoVisits() > 1000) {
-                                        visits.setText(baseUserModel.getPujoVisits() / 1000 + "." + (baseUserModel.getPujoVisits() % 1000) / 100 + "K");
-                                    } else {
-                                        visits.setText(baseUserModel.getPujoVisits() + "");
-                                    }
+                            //metrics
+                            if (baseUserModel.getPujoVisits() > 1) {
+                                if (baseUserModel.getPujoVisits() > 1000) {
+                                    visits.setText(baseUserModel.getPujoVisits() / 1000 + "." + (baseUserModel.getPujoVisits() % 1000) / 100 + "K");
                                 } else {
                                     visits.setText(baseUserModel.getPujoVisits() + "");
                                 }
+                            } else {
+                                visits.setText(baseUserModel.getPujoVisits() + "");
+                            }
 
-                                if (baseUserModel.getLikeCount() > 1) {
-                                    if (baseUserModel.getLikeCount() > 1000) {
-                                        likes.setText(baseUserModel.getLikeCount() / 1000 + "." + (baseUserModel.getLikeCount() % 1000) / 100 + "K");
-                                    } else {
-                                        likes.setText(baseUserModel.getLikeCount() + "");
-                                    }
+                            if (baseUserModel.getLikeCount() > 1) {
+                                if (baseUserModel.getLikeCount() > 1000) {
+                                    likes.setText(baseUserModel.getLikeCount() / 1000 + "." + (baseUserModel.getLikeCount() % 1000) / 100 + "K");
                                 } else {
                                     likes.setText(baseUserModel.getLikeCount() + "");
                                 }
-                                //metrics
+                            } else {
+                                likes.setText(baseUserModel.getLikeCount() + "");
+                            }
+                            //metrics
 
-                                FirebaseFirestore.getInstance().collection("Users")
-                                        .document(uid)
-                                        .collection("com")
-                                        .document(uid)
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
-                                                    pujotype = model.getType();
-                                                    PUsername.setText(pujotype);
-                                                    if (model.getDescription() != null && !model.getDescription().isEmpty()) {
-                                                        desc = model.getDescription();
-                                                        PDetaileddesc.setText(desc);
-                                                    }
-                                                } else {
-                                                    BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
+                            FirebaseFirestore.getInstance().collection("Users")
+                                    .document(uid)
+                                    .collection("com")
+                                    .document(uid)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                PujoCommitteeModel model = task.getResult().toObject(PujoCommitteeModel.class);
+                                                pujotype = model.getType();
+                                                PUsername.setText(pujotype);
+                                                if (model.getDescription() != null && !model.getDescription().isEmpty()) {
+                                                    desc = model.getDescription();
+                                                    PDetaileddesc.setText(desc);
                                                 }
-
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
+                                            } else {
                                                 BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
                                             }
-                                        });
 
-                                if (baseUserModel.getUpvoteL() != null) {
-                                    if (baseUserModel.getUpvoteL().size() == 0) {
-                                        upvoters.setText("0");
-                                    } else if (baseUserModel.getUpvoteL().size() == 1) {
-                                        upvoters.setText(baseUserModel.getUpvoteL().size() + "");
-                                    } else {
-                                        upvoters.setText(baseUserModel.getUpvoteL().size() + "");
-                                    }
-                                    for (String uid : baseUserModel.getUpvoteL()) {
-                                        if (uid.matches(fireuser.getUid())) {
-                                            isUpvoted = true;
-                                            break;
                                         }
-                                    }
-                                } else {
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
+                                        }
+                                    });
+
+                            if (baseUserModel.getUpvoteL() != null) {
+                                if (baseUserModel.getUpvoteL().size() == 0) {
                                     upvoters.setText("0");
-                                }
-
-                                if (isUpvoted) {
-                                    upvote.setText("Upvoted");
-                                    upvote.setBackgroundResource(R.drawable.custom_button_outline);
-                                    upvote.setTextColor(getResources().getColor(R.color.purple));
-
+                                } else if (baseUserModel.getUpvoteL().size() == 1) {
+                                    upvoters.setText(baseUserModel.getUpvoteL().size() + "");
                                 } else {
-                                    upvote.setText("Upvote");
-                                    upvote.setBackgroundResource(R.drawable.custom_button);
-                                    upvote.setTextColor(getResources().getColor(R.color.reels_white));
-
+                                    upvoters.setText(baseUserModel.getUpvoteL().size() + "");
                                 }
+                                for (String uid : baseUserModel.getUpvoteL()) {
+                                    if (uid.matches(fireuser.getUid())) {
+                                        isUpvoted = true;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                upvoters.setText("0");
+                            }
 
-                                isLoadingFinished = true;
+                            if (isUpvoted) {
+                                upvote.setText("Upvoted");
+                                upvote.setBackgroundResource(R.drawable.custom_button_outline);
+                                upvote.setTextColor(getResources().getColor(R.color.purple));
 
                             } else {
-                                BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
+                                upvote.setText("Upvote");
+                                upvote.setBackgroundResource(R.drawable.custom_button);
+                                upvote.setTextColor(getResources().getColor(R.color.reels_white));
+
                             }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
+
+                            isLoadingFinished = true;
+
+                        } else {
                             BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
                         }
-                    });
+                    })
+                    .addOnFailureListener(e -> BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong..."));
         }
 
 
@@ -677,18 +675,15 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             }
         });
 
-        locate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cm.getActiveNetworkInfo() != null) {
-                    String location = name + "," + address + "," + city + "," + state + "-" + pin;
-                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(location) + "&mode=w");
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    mapIntent.setPackage("com.google.android.apps.maps");
-                    startActivity(mapIntent);
-                } else {
-                    Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
-                }
+        locate.setOnClickListener(view -> {
+            if (cm.getActiveNetworkInfo() != null) {
+                String location = name + "," + address + "," + city + "," + state + "-" + pin;
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(location) + "&mode=w");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            } else {
+                Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -894,6 +889,4 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             }
         }
     }
-
-
 }

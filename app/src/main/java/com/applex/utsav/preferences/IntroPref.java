@@ -34,6 +34,7 @@ public class IntroPref {
     private static final String CITY = "city";
     private static final String LANGUAGE = "language";
     private static final String VOLUME = "volume";
+    private static final String THEME = "theme";
     private Gson gson;
 
     @SuppressLint("CommitPrefEdits")
@@ -129,6 +130,13 @@ public class IntroPref {
     public boolean isVolumeOn(){
         return preferences.getBoolean(VOLUME,true);
     }
+
+    public void setTheme(int isDarkMode){
+        editor.putInt(THEME, isDarkMode);
+        editor.apply();
+    }
+
+    public int getTheme() { return preferences.getInt(THEME,1); }
 
     public GoogleSignInAccount getGoogleSignInAccount() {
         Gson gson = new GsonBuilder()

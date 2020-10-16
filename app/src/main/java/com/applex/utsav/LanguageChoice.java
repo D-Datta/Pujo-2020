@@ -23,31 +23,38 @@ public class LanguageChoice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntroPref introPref = new IntroPref(LanguageChoice.this);
 
-//        /////////////////DAY OR NIGHT MODE///////////////////
-        FirebaseFirestore.getInstance().document("Mode/night_mode")
-                .addSnapshotListener(LanguageChoice.this, (value, error) -> {
-                    if(value != null) {
-                        if(value.getBoolean("night_mode")) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        /////////////////DAY OR NIGHT MODE///////////////////
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                    .addSnapshotListener(LanguageChoice.this, (value, error) -> {
+                        if(value != null) {
+                            if(value.getBoolean("night_mode")) {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            } else {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            }
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                                startActivity(new Intent(LanguageChoice.this, LanguageChoice.class));
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
                         } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
-                        if(value.getBoolean("listener")) {
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(LanguageChoice.this, LanguageChoice.class));
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }
-                    } else {
-                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        startActivity(new Intent(LanguageChoice.this, LanguageChoice.class));
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
-                    }
-                });
-//        /////////////////DAY OR NIGHT MODE///////////////////
+                    });
+        } else if(introPref.getTheme() == 2) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if(introPref.getTheme() == 3) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_language_choice);
         bangla = findViewById(R.id.button_bangla);
@@ -70,8 +77,6 @@ public class LanguageChoice extends AppCompatActivity {
         Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.decorative_item, options);
         imageView.setImageBitmap(scaledBitmap);
         ///////////////Set Image Bitmap/////////////////////
-
-        IntroPref introPref = new IntroPref(LanguageChoice.this);
 
         english.setOnClickListener(new View.OnClickListener() {
             @Override

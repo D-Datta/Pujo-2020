@@ -134,7 +134,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         }
 
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
-        holder.play_image.setVisibility(View.VISIBLE);
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
         new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute();
@@ -469,18 +468,27 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.pujo_headline.setSelected(false);
         holder.reels_video.pause();
         holder.reels_image.setVisibility(View.VISIBLE);
-        holder.play_image.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onViewAttachedToWindow(@NonNull ReelsItemViewHolder holder) {
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
+        holder.reels_video.setOnInfoListener((mediaPlayer, i2, i1) -> {
+            if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                holder.progress_bar.setVisibility(View.VISIBLE);
+                return true;
+            } else if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                holder.progress_bar.setVisibility(View.GONE);
+                return true;
+            }
+            return false;
+        });
         holder.reels_video.setOnPreparedListener(mediaPlayer -> {
             mediaPlayer.setLooping(true);
             holder.pujo_headline.setSelected(true);
             holder.video_playing.playAnimation();
-            holder.play_image.setVisibility(View.GONE);
+            holder.progress_bar.setVisibility(View.GONE);
             new Handler().postDelayed(() -> holder.reels_image.setVisibility(View.GONE), 500);
         });
         holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
@@ -497,7 +505,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         LottieAnimationView video_playing;
         LinearLayout like_layout;
-        ProgressBar video_progress;
+        ProgressBar video_progress, progress_bar;
         LottieAnimationView dhak_anim;
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
@@ -531,6 +539,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             comment_layout = itemView.findViewById(R.id.comment_layout);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
             video_progress = itemView.findViewById(R.id.video_progress);
+            progress_bar = itemView.findViewById(R.id.progress_bar_clips);
         }
     }
 

@@ -78,34 +78,36 @@ public class LoginActivityPhone extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         /////////////////DAY OR NIGHT MODE///////////////////
-        FirebaseFirestore.getInstance().document("Mode/night_mode")
-                .addSnapshotListener(LoginActivityPhone.this, (value, error) -> {
-                    if(value != null) {
-                        if(value.getBoolean("night_mode")) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                    .addSnapshotListener(LoginActivityPhone.this, (value, error) -> {
+                        if(value != null) {
+                            if(value.getBoolean("night_mode")) {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            } else {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            }
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                                startActivity(new Intent(LoginActivityPhone.this, LoginActivityPhone.class));
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
                         } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
-                        if(value.getBoolean("listener")) {
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(LoginActivityPhone.this, LoginActivityPhone.class));
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }
-                    } else {
-                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        startActivity(new Intent(LoginActivityPhone.this, LoginActivityPhone.class));
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
-                    }
-                });
-//        /////////////////DAY OR NIGHT MODE///////////////////
-
-
+                    });
+        } else if(introPref.getTheme() == 2) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if(introPref.getTheme() == 3) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        /////////////////DAY OR NIGHT MODE///////////////////
         setContentView(R.layout.activity_login_phone);
-
-        introPref = new IntroPref(LoginActivityPhone.this);
 
         mCode = findViewById(R.id.code);
         mPhoneNo = findViewById(R.id.phone);

@@ -55,6 +55,8 @@ import com.applex.utsav.utility.MessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -114,30 +116,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
-//        /////////////////DAY OR NIGHT MODE///////////////////
-        FirebaseFirestore.getInstance().document("Mode/night_mode")
-                .addSnapshotListener(MainActivity.this, (value, error) -> {
-                    if(value != null) {
-                        if(value.getBoolean("night_mode")) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        /////////////////DAY OR NIGHT MODE///////////////////
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                    .addSnapshotListener(MainActivity.this, (value, error) -> {
+                        if(value != null) {
+                            if(value.getBoolean("night_mode")) {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            } else {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            }
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
                         } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
-                        if(value.getBoolean("listener")) {
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(MainActivity.this, MainActivity.class));
                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }
-                    } else {
-                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
-                    }
-                });
-//        /////////////////DAY OR NIGHT MODE///////////////////
+                    });
+        } else if(introPref.getTheme() == 2) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if(introPref.getTheme() == 3) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_main);
 
@@ -499,7 +507,87 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_logout) {
+        if(id == R.id.theme) {
+            Dialog dialog = new Dialog(MainActivity.this);
+            dialog.setContentView(R.layout.dialog_set_theme);
+            dialog.setCanceledOnTouchOutside(true);
+
+            RadioButton system_default = dialog.findViewById(R.id.system_default);
+            RadioButton light_mode = dialog.findViewById(R.id.light_mode);
+            RadioButton dark_mode = dialog.findViewById(R.id.dark_mode);
+
+            if(introPref.getTheme() == 1) {
+                system_default.setChecked(true);
+                light_mode.setChecked(false);
+                dark_mode.setChecked(false);
+            }
+            else if(introPref.getTheme() == 2) {
+                light_mode.setChecked(true);
+                system_default.setChecked(false);
+                dark_mode.setChecked(false);
+            }
+            else {
+                dark_mode.setChecked(true);
+                system_default.setChecked(false);
+                light_mode.setChecked(false);
+            }
+
+            system_default.setOnClickListener(v -> {
+                system_default.setChecked(true);
+                light_mode.setChecked(false);
+                dark_mode.setChecked(false);
+            });
+
+            light_mode.setOnClickListener(v -> {
+                light_mode.setChecked(true);
+                system_default.setChecked(false);
+                dark_mode.setChecked(false);
+            });
+
+            dark_mode.setOnClickListener(v -> {
+                dark_mode.setChecked(true);
+                system_default.setChecked(false);
+                light_mode.setChecked(false);
+            });
+
+            dialog.findViewById(R.id.cancel).setOnClickListener(v -> dialog.dismiss());
+
+            dialog.findViewById(R.id.update).setOnClickListener(v-> {
+                if(system_default.isChecked()) {
+                    introPref.setTheme(1);
+                    FirebaseFirestore.getInstance().document("Mode/night_mode")
+                            .get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    if(task.getResult().getBoolean("night_mode")) {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                    } else {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                    }
+                                } else {
+                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                }
+                            });
+                }
+                else if(light_mode.isChecked()) {
+                    introPref.setTheme(2);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+                else if(dark_mode.isChecked()) {
+                    introPref.setTheme(3);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
+                new Handler().postDelayed(() -> {
+                    dialog.dismiss();
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    finish();
+                }, 200);
+            });
+
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }
+        else if (id == R.id.nav_logout) {
             new Handler().postDelayed(() -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Log out")
@@ -583,7 +671,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             },200);
 
         }
-
         else if(id == R.id.nav_tellafrnd){
             new Handler().postDelayed(() -> {
                 drawer.closeDrawers();
@@ -595,7 +682,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(Intent.createChooser(i,"Share with"));
             },200);
         }
-
         else if(id == R.id.nav_contact){
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(MainActivity.this, Webview.class);

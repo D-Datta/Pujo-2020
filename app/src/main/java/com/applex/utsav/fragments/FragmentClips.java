@@ -426,9 +426,21 @@ public class FragmentClips extends Fragment {
                 programmingViewHolder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
                 programmingViewHolder.reels_video.start();
 
+                programmingViewHolder.reels_video.setOnInfoListener((mediaPlayer, i, i1) -> {
+                    if(i == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                        programmingViewHolder.progress_bar.setVisibility(View.VISIBLE);
+                        return true;
+                    } else if(i == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                        programmingViewHolder.progress_bar.setVisibility(View.GONE);
+                        return true;
+                    }
+                    return false;
+                });
+
                 Picasso.get().load(currentItem.getFrame()).into(programmingViewHolder.reels_image);
 
                 programmingViewHolder.reels_video.setOnPreparedListener(mp -> {
+                    programmingViewHolder.progress_bar.setVisibility(View.GONE);
                     requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     new Handler().postDelayed(() -> {
                         programmingViewHolder.reels_image.setVisibility(View.GONE);
@@ -1080,9 +1092,20 @@ public class FragmentClips extends Fragment {
 
                             if (percent >= 90) {
                                 cvh.reels_video.start();
+                                cvh.reels_video.setOnInfoListener((mediaPlayer, i2, i1) -> {
+                                    if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                                        cvh.progress_bar.setVisibility(View.VISIBLE);
+                                        return true;
+                                    } else if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                                        cvh.progress_bar.setVisibility(View.GONE);
+                                        return true;
+                                    }
+                                    return false;
+                                });
                                 cvh.reels_video.setOnPreparedListener(mp -> {
                                     requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                     new Handler().postDelayed(() -> {
+                                        cvh.progress_bar.setVisibility(View.GONE);
                                         cvh.reels_image.setVisibility(View.GONE);
                                         cvh.sound.setVisibility(View.VISIBLE);
                                     }, 500);
@@ -1108,6 +1131,7 @@ public class FragmentClips extends Fragment {
                                     });
                                 });
                             } else {
+                                cvh.progress_bar.setVisibility(View.GONE);
                                 cvh.sound.setVisibility(View.GONE);
                                 cvh.reels_video.seekTo(1);
                                 cvh.reels_video.pause();
@@ -1155,6 +1179,7 @@ public class FragmentClips extends Fragment {
         RecyclerView tagList;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         LottieAnimationView dhak_anim;
+        ProgressBar progress_bar;
         RelativeLayout normal_item, rlLayout, dp_layout;
         LinearLayout posting_item, committee_item;
         TextView view_all;
@@ -1219,6 +1244,7 @@ public class FragmentClips extends Fragment {
             reels_video = itemView.findViewById(R.id.reels_video);
             sound = itemView.findViewById(R.id.sound);
             dp_layout = itemView.findViewById(R.id.dp_layout);
+            progress_bar = itemView.findViewById(R.id.progress_bar_clips);
         }
     }
 
@@ -1292,9 +1318,20 @@ public class FragmentClips extends Fragment {
                 float percent = (overlapArea / rect_parent_area) * 100.0f;
 
                if (percent >= 90) {
-                    cvh.reels_video.start();
-                    cvh.reels_video.setOnPreparedListener(mp -> {
-                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                   cvh.reels_video.start();
+                   cvh.reels_video.setOnInfoListener((mediaPlayer, i2, i1) -> {
+                       if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                           cvh.progress_bar.setVisibility(View.VISIBLE);
+                           return true;
+                       } else if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                           cvh.progress_bar.setVisibility(View.GONE);
+                           return true;
+                       }
+                       return false;
+                   });
+                   cvh.reels_video.setOnPreparedListener(mp -> {
+                       cvh.progress_bar.setVisibility(View.GONE);
+                       requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         new Handler().postDelayed(() -> {
                             cvh.reels_image.setVisibility(View.GONE);
                             cvh.sound.setVisibility(View.VISIBLE);
@@ -1328,6 +1365,7 @@ public class FragmentClips extends Fragment {
                         });
                     });
                 } else {
+                    cvh.progress_bar.setVisibility(View.GONE);
                     cvh.sound.setVisibility(View.GONE);
                     cvh.reels_video.seekTo(1);
                     cvh.reels_video.pause();

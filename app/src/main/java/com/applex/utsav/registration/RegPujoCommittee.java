@@ -102,33 +102,6 @@ public class RegPujoCommittee extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /////////////////DAY OR NIGHT MODE///////////////////
-        FirebaseFirestore.getInstance().document("Mode/night_mode")
-                .addSnapshotListener(RegPujoCommittee.this, (value, error) -> {
-                    if(value != null) {
-                        if(value.getBoolean("night_mode")) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
-                        if(value.getBoolean("listener")) {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                            startActivity(new Intent(RegPujoCommittee.this, RegPujoCommittee.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }
-                    } else {
-                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        startActivity(new Intent(RegPujoCommittee.this, RegPujoCommittee.class));
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
-                    }
-                });
-//        /////////////////DAY OR NIGHT MODE///////////////////
-
-        setContentView(R.layout.activity_reg_pujo_committee);
-
         introPref = new IntroPref(RegPujoCommittee.this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
@@ -137,6 +110,38 @@ public class RegPujoCommittee extends AppCompatActivity {
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
+        /////////////////DAY OR NIGHT MODE///////////////////
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                    .addSnapshotListener(RegPujoCommittee.this, (value, error) -> {
+                        if(value != null) {
+                            if(value.getBoolean("night_mode")) {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            } else {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            }
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                                startActivity(new Intent(RegPujoCommittee.this, RegPujoCommittee.class));
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
+                        } else {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            startActivity(new Intent(RegPujoCommittee.this, RegPujoCommittee.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    });
+        } else if(introPref.getTheme() == 2) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if(introPref.getTheme() == 3) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        /////////////////DAY OR NIGHT MODE///////////////////
+
+        setContentView(R.layout.activity_reg_pujo_committee);
 
         etaddressline = findViewById(R.id.committee_addressline);
         etcity = findViewById(R.id.committee_city);

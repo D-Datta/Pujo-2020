@@ -19,6 +19,14 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar_clips"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_transparent3"
+        android:padding="170dp"
+        android:indeterminateTint="@color/colorPrimary"/>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/dhak_anim"
         android:visibility="gone"

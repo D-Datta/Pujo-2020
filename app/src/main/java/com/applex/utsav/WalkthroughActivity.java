@@ -58,22 +58,14 @@ public class WalkthroughActivity extends AppCompatActivity {
 //                R.layout.intro_four
         };
 
-        tvSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchHomeScreen();
-            }
-        });
+        tvSkip.setOnClickListener(v -> launchHomeScreen());
 
-        tvNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int current = WalkthroughActivity.this.getItem(+1);
-                if (current < layouts.length) {
-                    viewPager.setCurrentItem(current);
-                } else {
-                    WalkthroughActivity.this.launchHomeScreen();
-                }
+        tvNext.setOnClickListener(v -> {
+            int current = WalkthroughActivity.this.getItem(+1);
+            if (current < layouts.length) {
+                viewPager.setCurrentItem(current);
+            } else {
+                WalkthroughActivity.this.launchHomeScreen();
             }
         });
 
