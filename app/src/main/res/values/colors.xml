@@ -23,6 +23,8 @@
     <color name="black_transparent2">#AA212121</color>
 
     <color name="white">#fff</color>
+    <color name="toolbar_bg">#fff</color>
+
     <color name="white_transparent">#88ffffff</color>
     <color name="white_transparent2">#88ffffff</color>
     <color name="dark_black_transparent2">#99000000</color>
@@ -153,6 +155,7 @@
     <color name="view_black">#212121</color>
     <color name="reels_white">#fff</color>
     <color name="login_white">#fff</color>
+    <color name="dialog_bg">#fff</color>
 
     //dots inactive colors
     <color name="inactive_one">#7EAFAEAE</color>
