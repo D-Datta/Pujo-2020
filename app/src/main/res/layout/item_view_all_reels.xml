@@ -300,9 +300,8 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:progressTint="@color/colorPrimary"
-        android:progress="50"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
+        android:visibility="visible"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
 </RelativeLayout>
