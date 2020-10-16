@@ -51,10 +51,9 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     private ImageView titleImage;
     private Context mContext;
 
-    public BottomFlamedByDialog(String root, String docID, Context mContext) {
+    public BottomFlamedByDialog(String root, String docID) {
         this.docID = docID;
         this.root = root;
-        this.mContext = mContext;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -85,7 +84,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         if(root.matches("Upvotes")){
             title.setText("Upvotes");
-//            titleImage.setImageResource(mContext.getResource().getDrawable(R.drawable.ic_baseline_star_24));
+            titleImage.setImageResource(R.drawable.ic_baseline_stars_24);
             flamedList = FirebaseFirestore.getInstance().collection("Users" + "/" + docID + "/Upvoters/");
             nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
                 if(vv.getChildAt(vv.getChildCount() - 1) != null){

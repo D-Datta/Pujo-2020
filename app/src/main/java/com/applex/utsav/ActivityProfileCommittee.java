@@ -464,24 +464,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 }
             });
 
-            if(UPIID!=null && !UPIID.isEmpty()){
-                ePronami.setVisibility(View.VISIBLE);
-            }
-            else {
-                ePronami.setVisibility(View.GONE);
-            }
-
-            ePronami.setOnClickListener(view -> {
-                if(UPIID!=null && !UPIID.isEmpty()){
-                    BottomPayDialog bottomPayDialog = new BottomPayDialog(UPIID);
-                    bottomPayDialog.show(getSupportFragmentManager(), "BottomPayDialog");
-                }
-                else {
-                    BasicUtility.showToast(ActivityProfileCommittee.this,"e-Pronami is not supported by this Puja");
-                }
-
-            });
-
         }
 
         upvoteHolder.setOnClickListener(new View.OnClickListener() {
@@ -623,6 +605,27 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                 if (model.getDescription() != null && !model.getDescription().isEmpty()) {
                                                     desc = model.getDescription();
                                                     PDetaileddesc.setText(desc);
+                                                }
+                                                //PRONAMI
+                                                if(!uid.matches(FirebaseAuth.getInstance().getUid())){
+                                                    UPIID = model.getUpiid();
+                                                    if(UPIID!=null && !UPIID.isEmpty()){
+                                                        ePronami.setVisibility(View.VISIBLE);
+                                                    }
+                                                    else {
+                                                        ePronami.setVisibility(View.GONE);
+                                                    }
+
+                                                    ePronami.setOnClickListener(view -> {
+                                                        if(UPIID!=null && !UPIID.isEmpty()){
+                                                            BottomPayDialog bottomPayDialog = new BottomPayDialog(UPIID);
+                                                            bottomPayDialog.show(getSupportFragmentManager(), "BottomPayDialog");
+                                                        }
+                                                        else {
+                                                            BasicUtility.showToast(ActivityProfileCommittee.this,"e-Pronami is not supported by this Puja");
+                                                        }
+
+                                                    });
                                                 }
                                             } else {
                                                 BasicUtility.showToast(ActivityProfileCommittee.this, "Something went wrong...");
