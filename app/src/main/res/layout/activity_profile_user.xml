@@ -232,7 +232,7 @@
                 android:layout_height="55dp"
                 android:id="@+id/toolbar"
                 app:titleTextColor="@color/black"
-                android:background="@color/white_transparent"
+                android:background="@color/white_transparent2"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
 

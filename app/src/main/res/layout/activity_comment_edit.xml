@@ -54,7 +54,6 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="3dp"
             android:minLines="2"
-            android:fontFamily="@font/oxygen_regular"
             android:autoLink="all"
             android:textColorLink="@color/colorPrimary"
             android:background="@null"

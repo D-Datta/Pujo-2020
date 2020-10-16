@@ -181,7 +181,7 @@
                     android:layout_width="32dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="26dp"
-                    android:src="@drawable/ic_normal_flame"/>
+                    android:src="@drawable/ic_dhak_view_more"/>
 
                 <ImageView
                     android:id="@+id/comment44"

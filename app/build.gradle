@@ -44,7 +44,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
   //  implementation project(path: ':EasyUpiPayment')
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation ('androidx.test.espresso:espresso-core:3.3.0', {
         exclude group: 'com.android.support', module: 'support-annotations'

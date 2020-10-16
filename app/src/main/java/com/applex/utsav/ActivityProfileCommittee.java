@@ -437,18 +437,22 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 }
             });
 
-            ePronami.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(UPIID!=null && !UPIID.isEmpty()){
-                        BottomPayDialog bottomPayDialog = new BottomPayDialog(UPIID);
-                        bottomPayDialog.show(getSupportFragmentManager(), "BottomPayDialog");
-                    }
-                    else {
-                        BasicUtility.showToast(ActivityProfileCommittee.this,"e-Pronami is not supported by this Puja");
-                    }
+            if(UPIID!=null && !UPIID.isEmpty()){
+                ePronami.setVisibility(View.VISIBLE);
+            }
+            else {
+                ePronami.setVisibility(View.GONE);
+            }
 
+            ePronami.setOnClickListener(view -> {
+                if(UPIID!=null && !UPIID.isEmpty()){
+                    BottomPayDialog bottomPayDialog = new BottomPayDialog(UPIID);
+                    bottomPayDialog.show(getSupportFragmentManager(), "BottomPayDialog");
                 }
+                else {
+                    BasicUtility.showToast(ActivityProfileCommittee.this,"e-Pronami is not supported by this Puja");
+                }
+
             });
 
         }

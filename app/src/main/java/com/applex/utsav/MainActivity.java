@@ -311,8 +311,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-
-
     }
 
     private void setupViewPager() {

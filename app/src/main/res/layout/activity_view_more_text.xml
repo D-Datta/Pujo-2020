@@ -121,28 +121,23 @@
             <com.borjabravo.readmoretextview.ReadMoreTextView
                 android:id="@+id/text_content44"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="50dp"
-                android:autoLink="all"
-                android:fontFamily="@font/oxygen_bold"
-                android:gravity="center"
-                android:paddingHorizontal="20dp"
-                android:paddingTop="8dp"
+                android:layout_height="match_parent"
                 android:paddingBottom="5dp"
-                android:scrollbars="vertical"
-                android:text="@string/lorem_ipsum"
-                android:textColor="@color/reels_white"
+                android:paddingTop="8dp"
+                android:paddingHorizontal="20dp"
+                android:autoLink="all"
                 android:textColorLink="@color/link"
+                android:text="@string/lorem_ipsum"
+                android:scrollbars="vertical"
                 android:textSize="25dp"
-                android:visibility="visible"
-                app:colorClickableText="@color/white_transparent"
-                app:trimCollapsedText="@string/read_more"
+                android:gravity="center"
                 app:trimExpandedText="@string/read_less"
-                app:trimLength="220"
-                app:trimMode="trimModeLength" />
+                app:trimCollapsedText="@string/read_more"
+                app:trimMode="trimModeLength"
+                app:trimLength="270"
+                app:colorClickableText="@color/white_transparent"
+                android:visibility="visible"
+                android:textColor="@color/reels_white" />
 
         </LinearLayout>
 
@@ -168,7 +163,7 @@
                     android:layout_width="32dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="26dp"
-                    android:src="@drawable/ic_normal_flame"/>
+                    android:src="@drawable/ic_dhak_view_more"/>
 
                 <ImageView
                     android:id="@+id/comment44"

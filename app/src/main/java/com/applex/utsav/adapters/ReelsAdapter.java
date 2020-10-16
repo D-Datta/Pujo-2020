@@ -10,7 +10,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -25,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -35,7 +38,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.HashtagClipsViewAll;
-import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
@@ -135,6 +137,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.play_image.setVisibility(View.VISIBLE);
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
+        new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute();
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
         holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
 
@@ -244,7 +247,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 context.startActivity(intent);
             });
         }
-
         //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
         if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {
@@ -312,7 +314,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         //Position in likeList where the current USer UId is found stored in likeCheck
                     }
                     else{
-                        holder.like.setImageResource(R.drawable.ic_normal_flame);
+                        holder.like.setImageResource(R.drawable.ic_dhak_view_more);
                     }
                 }
 
@@ -333,7 +335,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 .setOnClickListener(v -> {
 
                     if (currentItem.getLikeCheck() >= 0) {//was already liked by current user
-                        holder.like.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
+                        holder.like.setImageResource(R.drawable.ic_dhak_view_more);//was already liked by current user
                         if (currentItem.getLikeL().size() - 1 == 0) {
                             holder.like_layout.setVisibility(View.GONE);
                         }
@@ -495,7 +497,8 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
         LottieAnimationView video_playing;
         LinearLayout like_layout;
-        private LottieAnimationView dhak_anim;
+        ProgressBar video_progress;
+        LottieAnimationView dhak_anim;
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
         @SuppressLint("StaticFieldLeak")
@@ -527,6 +530,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             like_layout = itemView.findViewById(R.id.like_layout);
             comment_layout = itemView.findViewById(R.id.comment_layout);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
+            video_progress = itemView.findViewById(R.id.video_progress);
         }
     }
 
@@ -637,5 +641,43 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 }
             }
         });
+    }
+
+    private static class Video_Progress extends AsyncTask<Void, Integer, Void> {
+
+        private final int duration;
+        @SuppressLint("StaticFieldLeak")
+        private final VideoView videoView;
+        @SuppressLint("StaticFieldLeak")
+        private final ProgressBar video_progress;
+
+        Video_Progress(int duration, VideoView videoView, ProgressBar video_progress) {
+            this.duration = duration;
+            this.videoView = videoView;
+            this.video_progress = video_progress;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            int current = videoView.getCurrentPosition()/1000;
+            Log.i("BAM", "1");
+            do {
+                try {
+                    int currentPercent = current * 100/duration;
+                    publishProgress(currentPercent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } while(video_progress.getProgress() <= 100);
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Log.i("BAM", values[0]+"");
+            video_progress.setProgress(values[0]);
+        }
     }
 }

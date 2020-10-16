@@ -73,7 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -198,7 +199,7 @@
                     android:layout_height="36dp"
                     android:layout_marginStart="20dp"
                     android:background="@drawable/custom_ripple_transparent"
-                    android:src="@drawable/ic_normal_flame" />
+                    android:src="@drawable/ic_dhak_view_more" />
 
                 <ImageView
                     android:id="@+id/comment"
@@ -226,64 +227,73 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/like_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:background="@drawable/custom_ripple_transparent">
-
-                <ImageView
-                    android:id="@+id/like_image"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_baseline_favorite_24"
-                    app:tint="@color/white_transparent" />
-
-                <TextView
-                    android:id="@+id/likes_count"
+                <LinearLayout
+                    android:id="@+id/like_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="5dp"
-                    android:text="@string/_2_4k"
-                    android:textColor="@color/white_transparent"
-                    android:textSize="12dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="@drawable/custom_ripple_transparent">
 
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/comment_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:background="@drawable/custom_ripple_transparent">
-
-                <ImageView
-                        android:id="@+id/comment_image"
+                    <ImageView
+                        android:id="@+id/like_image"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_comment_viewmore"
-                        app:tint="@color/white_transparent"/>
+                        android:padding="5dp"
+                        android:src="@drawable/ic_baseline_favorite_24"
+                        app:tint="@color/white_transparent" />
 
-                <TextView
-                    android:id="@+id/comment_count"
+                    <TextView
+                        android:id="@+id/likes_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="5dp"
+                        android:text="@string/_2_4k"
+                        android:textColor="@color/white_transparent"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/comment_layout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/_154"
-                    android:textColor="@color/white_transparent"
-                    android:textSize="12dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:background="@drawable/custom_ripple_transparent">
 
-            </LinearLayout>
+                    <ImageView
+                            android:id="@+id/comment_image"
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:padding="6dp"
+                            android:src="@drawable/ic_comment_viewmore"
+                            app:tint="@color/white_transparent"/>
+
+                    <TextView
+                        android:id="@+id/comment_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/_154"
+                        android:textColor="@color/white_transparent"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </RelativeLayout>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/video_progress"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:progressTint="@color/colorPrimary"
+        android:progress="50"
+        android:layout_alignParentBottom="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
 </RelativeLayout>
