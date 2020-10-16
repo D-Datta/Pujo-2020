@@ -29,9 +29,9 @@
                 android:visibility="gone"
                 android:layout_marginVertical="30dp">
                 <ImageView
+                    android:id="@+id/noneimageview"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:src="@drawable/durga_ma2"
                     android:paddingHorizontal="20dp"
                     android:layout_gravity="center" />
 

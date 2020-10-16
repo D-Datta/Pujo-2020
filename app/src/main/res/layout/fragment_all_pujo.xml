@@ -198,9 +198,9 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/pujoimg"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:src="@drawable/dui_dhaki"/>
+                        android:layout_height="200dp" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -1,15 +1,20 @@
 package com.applex.utsav.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +43,7 @@ public class Fragment_Posts extends Fragment {
     private RecyclerView recyclerview;
     private ProgressBar contentprogressposts,progressmoreposts;
     private LinearLayout noneImage;
+    private ImageView noneimageview;
     private FirestorePagingAdapter adapter;
 
     private String uid;
@@ -73,6 +79,7 @@ public class Fragment_Posts extends Fragment {
         contentprogressposts = view.findViewById(R.id.content_progress_posts);
         progressmoreposts = view.findViewById(R.id.progress_more_posts);
         noneImage = view.findViewById(R.id.none_image);
+        noneimageview=view.findViewById(R.id.noneimageview);
 
         uid = Objects.requireNonNull(getArguments()).getString("id");
 
@@ -91,6 +98,41 @@ public class Fragment_Posts extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
         });
+
+        ///////////////Set Image Bitmap/////////////////////
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+            Display display = requireActivity().getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            noneimageview.setImageBitmap(scaledBitmap);
+        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+
+            Display display = requireActivity().getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            noneimageview.setImageBitmap(scaledBitmap);
+        }
+        ///////////////Set Image Bitmap/////////////////////
+
     }
 
     private void buildRecyclerView() {

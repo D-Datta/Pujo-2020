@@ -18,6 +18,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -33,6 +35,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -174,6 +177,40 @@ public class HashtagPostViewAll extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();
         });
+
+        ///////////////Set Image Bitmap/////////////////////
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+            Display display = getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            noneImage.setImageBitmap(scaledBitmap);
+        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+
+            Display display = getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            noneImage.setImageBitmap(scaledBitmap);
+        }
+        ///////////////Set Image Bitmap/////////////////////
     }
 
     private void buildRecyclerView() {
