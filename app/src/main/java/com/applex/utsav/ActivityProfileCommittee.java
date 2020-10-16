@@ -32,16 +32,19 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.dialogs.BottomPayDialog;
 import com.applex.utsav.models.SeenModel;
 import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
@@ -103,9 +106,10 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
     private int imageCoverOrDp = 0; //dp = 0, cover = 1
     private ImageView editDp, editCover;
+    private String UPIID;
 
 
-    private Button locate;
+    private Button locate, ePronami;
     private Button upvote, edit_profile_com;
 
     private LinearLayout selfProfile, elseProfile;
@@ -192,6 +196,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         elseProfile = findViewById(R.id.elseProfile);
 
         upvote = findViewById(R.id.follow);
+        ePronami = findViewById(R.id.e_pronami);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -279,6 +284,21 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 //                    .collection("Users")
 //                    .document(uid)
 //                    .update("lastVisitTime", Timestamp.now());
+
+            FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .document(uid).collection("com").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.getResult()!=null){
+                        PujoCommitteeModel pujoCommitteeModel = task.getResult().toObject(PujoCommitteeModel.class);
+                        UPIID = pujoCommitteeModel.getUpiid();
+                    }
+                    else{
+                        BasicUtility.showToast(ActivityProfileCommittee.this,"Something went wrong");
+                    }
+                }
+            });
 
             upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -412,6 +432,20 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                             });
                         }
 
+                    }
+
+                }
+            });
+
+            ePronami.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(UPIID!=null && !UPIID.isEmpty()){
+                        BottomPayDialog bottomPayDialog = new BottomPayDialog(UPIID);
+                        bottomPayDialog.show(getSupportFragmentManager(), "BottomPayDialog");
+                    }
+                    else {
+                        BasicUtility.showToast(ActivityProfileCommittee.this,"e-Pronami is not supported by this Puja");
                     }
 
                 }
@@ -856,4 +890,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             }
         }
     }
+
+
 }

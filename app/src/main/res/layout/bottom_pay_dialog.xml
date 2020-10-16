@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:minHeight="350dp"
+    android:background="@color/white"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/e_pronami"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_donation"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_amount"
+                android:paddingTop="10dp"
+                android:layout_marginStart="60dp"
+                android:paddingHorizontal="5dp"
+                android:paddingBottom="10dp"
+                android:textColor="@color/purple"
+                android:fontFamily="@font/oxygen_bold"
+                android:textSize="18sp"/>
+
+            <ImageView
+                android:id="@+id/dismissflame"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:padding="5dp"
+                android:background="@drawable/custom_ripple_white"
+                android:src="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white_E5E5E5"
+            android:layout_marginHorizontal="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₹"
+                android:textSize="50dp"
+                android:padding="10dp"/>
+
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textSize="40sp"
+                android:layout_gravity="center_vertical"
+                android:ems="10"
+                android:fontFamily="@font/oxygen_regular"
+                android:hint="51.00"
+                android:inputType="numberDecimal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp" />
+        </LinearLayout>
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Choose Mode"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingHorizontal="10dp"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            android:textColor="@color/purple"-->
+<!--            android:fontFamily="@font/oxygen_bold"-->
+<!--            android:textSize="18sp"/>-->
+
+<!--        <RadioGroup-->
+<!--            android:id="@+id/radioAppChoice"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingHorizontal="10dp">-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/app_default"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:checked="true"-->
+<!--                android:text="All UPI Options" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/app_amazonpay"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="AmazonPay" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/app_bhim_upi"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="BHIM UPI" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/app_google_pay"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Google Pay" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/app_phonepe"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="PhonePe" />-->
+
+<!--            <RadioButton-->
+<!--                android:id="@+id/app_paytm"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="PayTm" />-->
+<!--        </RadioGroup>-->
+
+        <Button
+            android:id="@+id/button_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Pay"
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="50dp"
+            android:background="@drawable/custom_button"/>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textView_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Click above button to Pay"
+            android:textColor="@color/grey2"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -207,5 +207,8 @@
     <string name="upi_id">** এই অ্যাপ্লিকেশনটির কোনও ব্যবহারকারী যদি ই-প্রোনামি দিতে চান, তবে ইউপিআই আইডি লাগবে।</string>
     <string name="upi_id_hint">ইউপিআই আইডি</string>
     <string name="media_preview_will_be_visible_after_editing">Media preview will be visible after editing</string>
+    <string name="e_pronami">e-Pronami</string>
+    <string name="enter_amount">প্রণামির মুল্য</string>
+    <string name="Math_Mission">মঠ/ মিশন</string>
 
 </resources>

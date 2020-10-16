@@ -121,8 +121,6 @@ public class CommitteeFragment extends Fragment {
     private ArrayList<Integer> positions;
     private DocumentSnapshot lastReelDocument, lastfeedDocument;
     private FloatingActionButton floatingActionButton;
-
-
     private ArrayList<SliderModel> itemGroups;
 
 
@@ -570,7 +568,8 @@ public class CommitteeFragment extends Fragment {
                                 }
                             });
                         }
-                    } else if (programmingViewHolder.head_content.getUrls().length > 0) {
+                    }
+                    else if (programmingViewHolder.head_content.getUrls().length > 0) {
                         URLSpan urlSnapItem = programmingViewHolder.head_content.getUrls()[0];
                         String url = urlSnapItem.getURL();
                         if (url.contains("http")) {

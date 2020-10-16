@@ -1,2 +1,3 @@
+include ':EasyUpiPayment'
 include ':app'
 rootProject.name = "Pujo360"

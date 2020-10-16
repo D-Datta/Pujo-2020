@@ -216,6 +216,9 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 //                                    radioButton2.setSelected(false);
 //                                    radioButton3.setSelected(true);
                                 }
+                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.Math_Mission))){
+                                    radioGroup.check(R.id.math);
+                                }
                             }
                             if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
                                 com_upi.setText(pujoCommitteeModel.getUpiid());
