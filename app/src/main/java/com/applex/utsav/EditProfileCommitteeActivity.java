@@ -209,31 +209,37 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 RadioButton radioButton5 = radioGroup.findViewById(R.id.prabashi);
                                 RadioButton radioButton6 = radioGroup.findViewById(R.id.others);
 
-                                if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.sarbojonin))){
+                                if(pujoCommitteeModel.getType().matches("Sarbojonin")
+                                || pujoCommitteeModel.getType().matches("সর্বজনীন")){
                                     radioGroup.check(R.id.sarbojonin);
 //                                    radioButton1.setSelected(true);
 //                                    radioButton2.setSelected(false);
 //                                    radioButton3.setSelected(false);
                                 }
-                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.bonedi_bari))){
+                                else if(pujoCommitteeModel.getType().matches("Bonedi Bari")
+                                || pujoCommitteeModel.getType().matches("বোনেদি বাড়ি")){
                                     radioGroup.check(R.id.bonediBari);
 //                                    radioButton1.setSelected(false);
 //                                    radioButton2.setSelected(true);
 //                                    radioButton3.setSelected(false);
                                 }
-                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.abashon))){
+                                else if(pujoCommitteeModel.getType().matches("Housing Complex")
+                                || pujoCommitteeModel.getType().matches("আবাসন")){
                                     radioGroup.check(R.id.abashon);
 //                                    radioButton1.setSelected(false);
 //                                    radioButton2.setSelected(false);
 //                                    radioButton3.setSelected(true);
                                 }
-                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.Math_Mission))){
+                                else if(pujoCommitteeModel.getType().matches("Math/ Mission")
+                                || pujoCommitteeModel.getType().matches("মঠ/ মিশন")){
                                     radioGroup.check(R.id.math);
                                 }
-                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.prabashi))){
+                                else if(pujoCommitteeModel.getType().matches("Prabashi")
+                                || pujoCommitteeModel.getType().matches("প্রবাসী")){
                                     radioGroup.check(R.id.prabashi);
                                 }
-                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.others))){
+                                else if(pujoCommitteeModel.getType().matches("Others")
+                                || pujoCommitteeModel.getType().matches("অন্যান্য")){
                                     radioGroup.check(R.id.others);
                                 }
                             }
