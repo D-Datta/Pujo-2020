@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.applex.utsav.preferences.IntroPref;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -28,27 +30,17 @@ public class LanguageChoice extends AppCompatActivity {
         /////////////////DAY OR NIGHT MODE///////////////////
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Mode/night_mode")
-                    .addSnapshotListener(LanguageChoice.this, (value, error) -> {
-                        if(value != null) {
-                            if(value.getBoolean("night_mode")) {
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            } else {
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            }
-                            if(value.getBoolean("listener")) {
-                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                                startActivity(new Intent(LanguageChoice.this, LanguageChoice.class));
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                finish();
-                            }
-                        } else {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            startActivity(new Intent(LanguageChoice.this, LanguageChoice.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }
-                    });
+                    .get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    if(task.getResult().getBoolean("night_mode")) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            });
         } else if(introPref.getTheme() == 2) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else if(introPref.getTheme() == 3) {
@@ -59,6 +51,32 @@ public class LanguageChoice extends AppCompatActivity {
         setContentView(R.layout.activity_language_choice);
         bangla = findViewById(R.id.button_bangla);
         english = findViewById(R.id.button_english);
+
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
+                    .addSnapshotListener(LanguageChoice.this, (value, error) -> {
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                    .get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    if(task.getResult().getBoolean("night_mode")) {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                    } else {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                    }
+                                } else {
+                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                }
+                                new Handler().postDelayed(() -> {
+                                    FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                    startActivity(new Intent(LanguageChoice.this, LanguageChoice.class));
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finish();
+                                }, 200);
+                            });
+                        }
+                    });
+        }
 
         ///////////////Set Image Bitmap/////////////////////
         ImageView imageView = findViewById(R.id.dhaki_png);

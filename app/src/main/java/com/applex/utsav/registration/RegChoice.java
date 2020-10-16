@@ -9,13 +9,16 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.preferences.IntroPref;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
@@ -40,27 +43,17 @@ public class RegChoice extends AppCompatActivity {
         /////////////////DAY OR NIGHT MODE///////////////////
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Mode/night_mode")
-                    .addSnapshotListener(RegChoice.this, (value, error) -> {
-                        if(value != null) {
-                            if(value.getBoolean("night_mode")) {
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            } else {
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            }
-                            if(value.getBoolean("listener")) {
-                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                                startActivity(new Intent(RegChoice.this, RegChoice.class));
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                finish();
-                            }
-                        } else {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            startActivity(new Intent(RegChoice.this, RegChoice.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }
-                    });
+                    .get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    if(task.getResult().getBoolean("night_mode")) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            });
         } else if(introPref.getTheme() == 2) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else if(introPref.getTheme() == 3) {
@@ -69,6 +62,32 @@ public class RegChoice extends AppCompatActivity {
         /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_reg_choice);
+
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
+                    .addSnapshotListener(RegChoice.this, (value, error) -> {
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                    .get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    if(task.getResult().getBoolean("night_mode")) {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                    } else {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                    }
+                                } else {
+                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                }
+                                new Handler().postDelayed(() -> {
+                                    FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                    startActivity(new Intent(RegChoice.this, RegChoice.class));
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finish();
+                                }, 200);
+                            });
+                        }
+                    });
+        }
 
         ///////////////Set Image Bitmap/////////////////////
         ImageView imageView = findViewById(R.id.ma_durga);

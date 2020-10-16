@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,39 +42,53 @@ public class GateWayActivity extends AppCompatActivity {
         /////////////////DAY OR NIGHT MODE///////////////////
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Mode/night_mode")
-                    .addSnapshotListener(GateWayActivity.this, (value, error) -> {
-                        if(value != null) {
-                            if(value.getBoolean("night_mode")) {
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                            } else {
-                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            }
-                            if(value.getBoolean("listener")) {
-                                MainActivity.mode_changed = 1;
-                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                                startActivity(new Intent(GateWayActivity.this, GateWayActivity.class));
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                finish();
-                            }
-                        } else {
-                            MainActivity.mode_changed = 1;
-                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            startActivity(new Intent(GateWayActivity.this, GateWayActivity.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }
-                    });
+                    .get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    if(task.getResult().getBoolean("night_mode")) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            });
         } else if(introPref.getTheme() == 2) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else if(introPref.getTheme() == 3) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
-        /////////////////DAY OR NIGHT MODE///////////////////
+        /////////////////DAY OR NIGHT MODE//////////////////
 
         setContentView(R.layout.activity_gate_way_activty);
         String campus;
         String postID;
+
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
+                    .addSnapshotListener(GateWayActivity.this, (value, error) -> {
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                    .get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    if(task.getResult().getBoolean("night_mode")) {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                    } else {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                    }
+                                } else {
+                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                }
+                                new Handler().postDelayed(() -> {
+                                    FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                    startActivity(new Intent(GateWayActivity.this, GateWayActivity.class));
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    finish();
+                                }, 200);
+                            });
+                        }
+                    });
+        }
 
         if(FirebaseAuth.getInstance().getCurrentUser() != null){
             Uri uri = getIntent().getData();

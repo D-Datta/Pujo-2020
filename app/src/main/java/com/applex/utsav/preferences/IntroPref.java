@@ -24,6 +24,7 @@ public class IntroPref {
     private int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "com.applex.campus24.users";
     private static final String IS_FIRST_TIME_LAUNCH = "firstTime";
+    private static final String IS_FIRST_TIME = "firsttime";
     private static final String USERDP = "userdp";
     private static final String FULLNAME = "fullname";
     private static final String USERTYPE = "type";
@@ -56,6 +57,14 @@ public class IntroPref {
         return preferences.getBoolean(IS_FIRST_TIME_LAUNCH,true);
     }
 
+    public void setIsFirstTime(boolean firstTimeLaunch) {
+        editor.putBoolean(IS_FIRST_TIME, firstTimeLaunch);
+        editor.commit();
+    }
+
+    public boolean isFirstTime(){
+        return preferences.getBoolean(IS_FIRST_TIME,true);
+    }
 
     //GENDER////
     public String getGender(){

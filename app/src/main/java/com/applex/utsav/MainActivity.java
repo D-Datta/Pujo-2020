@@ -123,25 +123,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /////////////////DAY OR NIGHT MODE///////////////////
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Mode/night_mode")
-                    .addSnapshotListener(MainActivity.this, (value, error) -> {
-                        if(value != null) {
-                            if(value.getBoolean("night_mode")) {
+                    .get().addOnCompleteListener(task -> {
+                        if(task.isSuccessful()) {
+                            if(task.getResult().getBoolean("night_mode")) {
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                             } else {
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             }
-                            if(value.getBoolean("listener")) {
-                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                                startActivity(new Intent(MainActivity.this, MainActivity.class));
-                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                finish();
-                            }
                         } else {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
                         }
                     });
         } else if(introPref.getTheme() == 2) {
@@ -169,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         FirebaseMessaging.getInstance().subscribeToTopic("users").addOnCompleteListener(task -> { });
-
         ///////////////NOTIFICATIONS///////////////////
 
         //////////////LATEST VERSION CHECK////////////////////
@@ -202,6 +191,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         notif = findViewById(R.id.notif);
         notifDot = findViewById(R.id.notif_badge);
         search= findViewById(R.id.search);
+
+        if(introPref.getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
+                    .addSnapshotListener(MainActivity.this, (value, error) -> {
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                    .get().addOnCompleteListener(task -> {
+                                        if(task.isSuccessful()) {
+                                            if(task.getResult().getBoolean("night_mode")) {
+                                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                            } else {
+                                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                            }
+                                        } else {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                        }
+                                        new Handler().postDelayed(() -> {
+                                            Log.i("BAM", "1");
+                                            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                            finish();
+                                        }, 200);
+                                    });
+                        }
+                    });
+        }
 
         ///////////////Set Image Bitmap/////////////////////
 
@@ -364,10 +380,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
 
         if(mode_changed == 1) {
-            mode_changed = 0;
-            startActivity(new Intent(MainActivity.this, MainActivity.class));
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            finish();
+//            mode_changed = 0;
+//            startActivity(new Intent(MainActivity.this, MainActivity.class));
+//            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//            finish();
         }
 
         if(viewPager.getCurrentItem() != 2 && mRecyclerView != null) {

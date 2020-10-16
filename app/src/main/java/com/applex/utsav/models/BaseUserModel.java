@@ -28,6 +28,8 @@ public class BaseUserModel {
     private long commentcount;
     private long pujoVisits;
     private long upvotes;
+
+    private boolean listener;
     private Timestamp lastVisitTs;
     private ArrayList<String> upvoteL;
 
@@ -213,4 +215,11 @@ public class BaseUserModel {
         this.contact = contact;
     }
 
+    public boolean isListener() {
+        return listener;
+    }
+
+    public void setListener(boolean listener) {
+        this.listener = listener;
+    }
 }
