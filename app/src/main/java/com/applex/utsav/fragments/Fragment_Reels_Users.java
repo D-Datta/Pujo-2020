@@ -261,7 +261,7 @@ public class Fragment_Reels_Users extends Fragment {
                             String link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
+                            i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
                             i.setType("text/plain");
                             startActivity(Intent.createChooser(i, "Share with"));
                             postMenuDialog.dismiss();
@@ -288,7 +288,7 @@ public class Fragment_Reels_Users extends Fragment {
                             String link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link);
+                            i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
                             i.setType("text/plain");
                             startActivity(Intent.createChooser(i, "Share with"));
                             postMenuDialog.dismiss();

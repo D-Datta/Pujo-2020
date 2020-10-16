@@ -1208,7 +1208,7 @@ public class ViewMoreText extends AppCompatActivity {
                 String link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homeTextModel[0].getDocID();
                 Intent i = new Intent();
                 i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_TEXT, link);
+                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
                 i.setType("text/plain");
                 startActivity(Intent.createChooser(i, "Share with"));
 

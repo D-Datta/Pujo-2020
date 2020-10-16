@@ -453,7 +453,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             }
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
-            i.putExtra(Intent.EXTRA_TEXT, link);
+            i.putExtra(Intent.EXTRA_TEXT, link + context.getResources().getString(R.string.link_suffix));
             i.setType("text/plain");
             context.startActivity(Intent.createChooser(i, "Share with"));
         });
