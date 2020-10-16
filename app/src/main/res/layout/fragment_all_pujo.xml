@@ -44,8 +44,8 @@
                 android:paddingStart="15dp"
                 android:layout_centerVertical="true"
                 android:inputType="textCapWords"
+                android:textColorHint="@color/black_transparent"
                 android:background="@drawable/background_rectangle"
-                android:imeOptions="actionSearch"
                 android:layout_marginStart="10dp"/>
 
             <ImageView

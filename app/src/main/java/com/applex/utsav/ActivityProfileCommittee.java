@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.dialogs.BottomPayDialog;
 import com.applex.utsav.models.SeenModel;
 import com.applex.utsav.utility.BasicUtility;
@@ -245,7 +246,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             upvoteHolder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", FirebaseAuth.getInstance().getUid());
+                    bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
                 }
             });
 
