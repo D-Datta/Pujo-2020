@@ -44,6 +44,7 @@
                 android:paddingStart="15dp"
                 android:layout_centerVertical="true"
                 android:inputType="textCapWords"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black_transparent"
                 android:background="@drawable/background_rectangle"
                 android:layout_marginStart="10dp"/>

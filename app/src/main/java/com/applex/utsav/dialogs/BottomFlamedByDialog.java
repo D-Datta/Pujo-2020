@@ -2,6 +2,7 @@ package com.applex.utsav.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
 import com.applex.utsav.adapters.FlamedByAdapter;
 import com.applex.utsav.models.FlamedModel;
@@ -45,10 +48,13 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     private CollectionReference flamedList;
 
     private TextView title;
+    private ImageView titleImage;
+    private Context mContext;
 
-    public BottomFlamedByDialog(String root, String docID) {
+    public BottomFlamedByDialog(String root, String docID, Context mContext) {
         this.docID = docID;
         this.root = root;
+        this.mContext = mContext;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -62,6 +68,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
         progressBar = v.findViewById(R.id.progress5);
 
         title = v.findViewById(R.id.title);
+        titleImage = v.findViewById(R.id.flame);
 
         ImageView dismiss = v.findViewById(R.id.dismissflame);
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
@@ -78,6 +85,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         if(root.matches("Upvotes")){
             title.setText("Upvotes");
+//            titleImage.setImageResource(mContext.getResource().getDrawable(R.drawable.ic_baseline_star_24));
             flamedList = FirebaseFirestore.getInstance().collection("Users" + "/" + docID + "/Upvoters/");
             nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
                 if(vv.getChildAt(vv.getChildCount() - 1) != null){
