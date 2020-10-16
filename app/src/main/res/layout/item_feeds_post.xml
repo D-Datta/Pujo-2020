@@ -40,7 +40,7 @@
                 android:text="@string/view_all"
                 android:background="@drawable/custom_ripple_white"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/purple"
+                android:textColor="@color/purple1"
                 android:textSize="12dp" />
 
         </RelativeLayout>

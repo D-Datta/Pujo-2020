@@ -62,12 +62,14 @@ public class ActivityTagPujo extends AppCompatActivity {
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             }
                             if(value.getBoolean("listener")) {
+                                NewPostHome.mode_changed = 1;
                                 FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                                 startActivity(new Intent(ActivityTagPujo.this, ActivityTagPujo.class));
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 finish();
                             }
                         } else {
+                            NewPostHome.mode_changed = 1;
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(ActivityTagPujo.this, ActivityTagPujo.class));

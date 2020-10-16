@@ -83,12 +83,14 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             }
                             if(value.getBoolean("listener")) {
+                                ActivityProfileCommittee.mode_changed = 1;
                                 FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                                 startActivity(new Intent(EditProfileCommitteeActivity.this, EditProfileCommitteeActivity.class));
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 finish();
                             }
                         } else {
+                            ActivityProfileCommittee.mode_changed = 1;
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(EditProfileCommitteeActivity.this, EditProfileCommitteeActivity.class));
@@ -403,19 +405,16 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                             }
                         }
                     })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    progressDialog.dismiss();
-                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                }
-                            });
-
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
+                        }
+                    });
                 }
-
             }
         });
-
     }
 
     @Override

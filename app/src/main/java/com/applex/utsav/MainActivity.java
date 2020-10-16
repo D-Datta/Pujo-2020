@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Boolean doubleBackPressed = false;
     public static ViewPager viewPager;
+    public static int mode_changed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -361,6 +362,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+
+        if(mode_changed == 1) {
+            mode_changed = 0;
+            startActivity(new Intent(MainActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            finish();
+        }
 
         if(viewPager.getCurrentItem() != 2 && mRecyclerView != null) {
             RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
