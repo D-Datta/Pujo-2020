@@ -476,7 +476,8 @@ public class CommitteeFragment extends Fragment {
                                     }
                                 }
                             });
-                } else {
+                }
+                else {
                     if (currentItem.getGender() != null) {
                         if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                             programmingViewHolder.userimage.setImageResource(R.drawable.ic_female);
@@ -508,7 +509,6 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.text_content.setText(null);
                 }
                 else {
-
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
 
@@ -655,7 +655,8 @@ public class CommitteeFragment extends Fragment {
                         intent.putExtra("gender", currentItem.getGender());
                         startActivity(intent);
                     });
-                } else {
+                }
+                else {
                     programmingViewHolder.rlLayout.setVisibility(View.GONE);
                     programmingViewHolder.sliderViewpost.setVisibility(View.GONE);
                 }
@@ -954,7 +955,8 @@ public class CommitteeFragment extends Fragment {
                         BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
-                } else {
+                }
+                else {
                     ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
@@ -969,7 +971,6 @@ public class CommitteeFragment extends Fragment {
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
-                        //postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
                         postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
                             Intent i = new Intent(getContext(), NewPostHome.class);
                             i.putExtra("target", "100"); //target value for edit post
@@ -985,26 +986,6 @@ public class CommitteeFragment extends Fragment {
                             i.putExtra("docID", currentItem.getDocID());
                             StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
 
-//                            i.putExtra("usN", currentItem.getUsN());
-//                            i.putExtra("dp", currentItem.getDp());
-//                            i.putExtra("uid", currentItem.getUid());
-//                            i.putExtra("type", currentItem.getType());
-//                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-//                                Bundle args = new Bundle();
-//                                args.putSerializable("ARRAYLIST", currentItem.getImg());
-//                                i.putExtra("BUNDLE", args);
-//                            }
-//                            i.putExtra("comID", currentItem.getComID());
-//                            i.putExtra("comName", currentItem.getComName());
-//                            i.putExtra("ts", Long.toString(currentItem.getTs()));
-//                            i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-//                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-//                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-//                            i.putExtra("likeL", currentItem.getLikeL());
-//                            i.putExtra("likeCheck", currentItem.getLikeCheck());
-
-//                            i.putExtra("reportL", currentItem.getReportL());
-//                            i.putExtra("challengeID", currentItem.getChallengeID());
                             startActivity(i);
                             postMenuDialog.dismiss();
                         });

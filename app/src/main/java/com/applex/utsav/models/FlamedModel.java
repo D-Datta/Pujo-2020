@@ -1,8 +1,9 @@
 package com.applex.utsav.models;
 
-
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
+@IgnoreExtraProperties
 public class FlamedModel {
 
     private String userdp;

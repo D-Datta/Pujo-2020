@@ -216,11 +216,13 @@
 
 
                     <LinearLayout
+                        android:id="@+id/upvote_holder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@drawable/custom_ripple_white_rectangle"
                         android:paddingVertical="5dp">
 
                         <TextView
@@ -426,7 +428,7 @@
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="2dp"
-                    android:background="@color/light_background"/>
+                    android:background="@color/divider_color"/>
 
             </LinearLayout>
 

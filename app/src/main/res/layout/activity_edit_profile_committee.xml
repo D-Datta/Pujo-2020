@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_edit_com"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/light_background"
+            android:background="@color/divider_color"
             app:title="@string/Edit_Profile"/>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -230,7 +230,7 @@
                         android:layout_marginStart="0dp"
                         android:paddingHorizontal="15dp"
                         android:textSize="15sp"
-                        android:fontFamily="@font/oxygen_regular"
+                        android:fontFamily="@font/oxygen_bold"
                         android:textColor="@color/purple1"/>
 
                 </LinearLayout>

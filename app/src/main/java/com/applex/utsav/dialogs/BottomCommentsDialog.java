@@ -423,6 +423,9 @@ public class BottomCommentsDialog extends DialogFragment {
                                     commentMenuDialog.dismiss();
                                 });
                             }
+                            else{
+                                commentMenuDialog.findViewById(R.id.edit_comment).setVisibility(View.GONE);
+                            }
                             commentMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                             commentMenuDialog.findViewById(R.id.delete_post).setVisibility(View.VISIBLE);
