@@ -495,40 +495,40 @@ public class ViewMoreText extends AppCompatActivity {
 
 
                 //TAGS COLOURED DISPLAY
-                Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
-                Matcher m = p.matcher(textContent.getText().toString());
-
-                SpannableString ss = new SpannableString(textContent.getText().toString());
-
-                while(m.find()) // loops through all the words in the text which matches the pattern
-                {
-                    final int s = m.start(); // add 1 to omit the "@" tag
-                    final int e = m.end();
-
-                    ClickableSpan clickableSpan = new ClickableSpan() {
-                        @Override
-                        public void onClick(View textView)
-                        {
-                            Intent i = new Intent(ViewMoreText.this, HashtagPostViewAll.class);
-                            i.putExtra("hashtag", textContent.getText().toString().substring(s+1, e));
-                            startActivity(i);
-//                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void updateDrawState(@NonNull TextPaint ds) {
-                            super.updateDrawState(ds);
-                            ds.setColor(getResources().getColor(R.color.md_blue_500));
-                            ds.setUnderlineText(false);
-                        }
-                    };
-
-                    ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-                textContent.setText(ss);
-                textContent.setMovementMethod(LinkMovementMethod.getInstance());
-                textContent.setHighlightColor(Color.TRANSPARENT);
+//                Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
+//                Matcher m = p.matcher(textContent.getText().toString());
+//
+//                SpannableString ss = new SpannableString(textContent.getText().toString());
+//
+//                while(m.find()) // loops through all the words in the text which matches the pattern
+//                {
+//                    final int s = m.start(); // add 1 to omit the "@" tag
+//                    final int e = m.end();
+//
+//                    ClickableSpan clickableSpan = new ClickableSpan() {
+//                        @Override
+//                        public void onClick(View textView)
+//                        {
+//                            Intent i = new Intent(ViewMoreText.this, HashtagPostViewAll.class);
+//                            i.putExtra("hashtag", textContent.getText().toString().substring(s+1, e));
+//                            startActivity(i);
+////                                Toast.makeText(getActivity(), programmingViewHolder.text_content.getText().toString().substring(s+1, e), Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void updateDrawState(@NonNull TextPaint ds) {
+//                            super.updateDrawState(ds);
+//                            ds.setColor(getResources().getColor(R.color.md_blue_500));
+//                            ds.setUnderlineText(false);
+//                        }
+//                    };
+//
+//                    ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                    ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                }
+//                textContent.setText(ss);
+//                textContent.setMovementMethod(LinkMovementMethod.getInstance());
+//                textContent.setHighlightColor(Color.TRANSPARENT);
                 //TAGS COLOURED DISPLAY
 
 //                if(textContent.getUrls().length>0){
