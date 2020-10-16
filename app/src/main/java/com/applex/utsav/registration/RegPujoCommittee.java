@@ -225,7 +225,6 @@ public class RegPujoCommittee extends AppCompatActivity {
                 radioButton = findViewById(selectedType);
                 stype = radioButton.getText().toString().trim();
 
-
                 if (scommitteename.isEmpty() || scity.isEmpty() ||stype.isEmpty() || saddress.isEmpty()
                         || sstate.isEmpty() || spin.isEmpty()|| sdescription.isEmpty() ||pic==null || coverpicbyte==null || scontact.isEmpty()) {
                     if (scommitteename.isEmpty()) {

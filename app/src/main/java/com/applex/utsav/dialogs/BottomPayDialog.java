@@ -81,9 +81,15 @@ public class BottomPayDialog extends BottomSheetDialogFragment implements Paymen
                         .setDescription("e-Pronami")
                         .setAmount(amountEt.getText().toString())
                         .build();
-            }
-            else
-            {
+
+                // Register Listener for Events
+                easyUpiPayment.setPaymentStatusListener(this);
+
+                // Start payment / transaction
+                easyUpiPayment.startPayment();
+
+                }
+            else {
                 toast("Please enter amount in the given format");
             }
 
@@ -91,11 +97,7 @@ public class BottomPayDialog extends BottomSheetDialogFragment implements Paymen
             e.printStackTrace();
         }
 
-            // Register Listener for Events
-            easyUpiPayment.setPaymentStatusListener(this);
 
-            // Start payment / transaction
-            easyUpiPayment.startPayment();
 
 
     }
