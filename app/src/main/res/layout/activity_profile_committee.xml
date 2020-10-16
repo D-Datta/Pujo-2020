@@ -303,25 +303,6 @@
                         android:layout_weight="1"/>
 
                     <Button
-                        android:id="@+id/e_pronami"
-                        android:layout_width="0dp"
-                        android:layout_height="35dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/locatebutton"
-                        android:fontFamily="@font/oxygen_ex_bold"
-                        android:paddingStart="10dp"
-                        android:drawableStart="@drawable/ic_donation2"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginVertical="5dp"
-                        android:paddingEnd="15dp"
-                        android:text="@string/e_pronami"
-                        android:textSize="12dp"
-                        android:textAllCaps="false"
-                        android:textColor="@color/reels_white"
-                        android:layout_weight="1"/>
-
-                    <Button
                         android:id="@+id/follow"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
@@ -341,6 +322,42 @@
                         android:layout_weight="1"/>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pronami_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="Orientation">
+
+                    <Button
+                        android:id="@+id/e_pronami"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/locatebutton"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:paddingStart="10dp"
+                        android:drawableStart="@drawable/ic_donation2"
+                        android:layout_marginVertical="5dp"
+                        android:paddingEnd="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="50dp"
+                        android:text="@string/e_pronami"
+                        android:textSize="12dp"
+                        android:textAllCaps="false"
+                        android:visibility="visible"
+                        android:textColor="@color/reels_white" />
+
+                    <ImageView
+                        android:id="@+id/pronami_info"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="8dp"
+                        android:background="@drawable/custom_ripple_white"
+                        android:src="@drawable/ic_info_outline_black_24dp"
+                        android:layout_marginStart="-50dp"/>
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
