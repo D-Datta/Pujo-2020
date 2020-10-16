@@ -152,6 +152,7 @@
     <color name="view_black">#212121</color>
     <color name="reels_white">#fff</color>
     <color name="login_white">#000</color>
+    <color name="dialog_bg">#212121</color>
 
 
     //dots inactive colors
