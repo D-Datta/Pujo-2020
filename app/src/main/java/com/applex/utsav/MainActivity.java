@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                         }
                                         new Handler().postDelayed(() -> {
-                                            Log.i("BAM", "1");
                                             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
                                             startActivity(new Intent(MainActivity.this, MainActivity.class));
                                             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -380,10 +379,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
 
         if(mode_changed == 1) {
-//            mode_changed = 0;
-//            startActivity(new Intent(MainActivity.this, MainActivity.class));
-//            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//            finish();
+            mode_changed = 0;
+            startActivity(new Intent(MainActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            finish();
         }
 
         if(viewPager.getCurrentItem() != 2 && mRecyclerView != null) {
