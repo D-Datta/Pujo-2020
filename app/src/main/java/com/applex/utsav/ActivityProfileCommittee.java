@@ -487,7 +487,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         upvoteHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", FirebaseAuth.getInstance().getUid());
+                BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
                 bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
             }
         });
