@@ -206,6 +206,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 RadioButton radioButton2 = radioGroup.findViewById(R.id.bonediBari);
                                 RadioButton radioButton3 = radioGroup.findViewById(R.id.abashon);
                                 RadioButton radioButton4 = radioGroup.findViewById(R.id.math);
+                                RadioButton radioButton5 = radioGroup.findViewById(R.id.prabashi);
+                                RadioButton radioButton6 = radioGroup.findViewById(R.id.others);
 
                                 if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.sarbojonin))){
                                     radioGroup.check(R.id.sarbojonin);
@@ -227,6 +229,12 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 }
                                 else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.Math_Mission))){
                                     radioGroup.check(R.id.math);
+                                }
+                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.prabashi))){
+                                    radioGroup.check(R.id.prabashi);
+                                }
+                                else if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.others))){
+                                    radioGroup.check(R.id.others);
                                 }
                             }
                             if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
