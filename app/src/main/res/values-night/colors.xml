@@ -25,6 +25,8 @@
     <color name="black_transparent3">#55212121</color>
 
     <color name="white">#000</color>
+    <color name="toolbar_bg">#212121</color>
+
     <color name="white_transparent">#88ffffff</color>
     <color name="dark_black_transparent2">#99000000</color>
 
