@@ -70,23 +70,42 @@ public class BottomPayDialog extends BottomSheetDialogFragment implements Paymen
     void payAmount()
     {
         try {
-            if(amountEt.getText().toString().trim()!=null && !amountEt.getText().toString().trim().isEmpty()
-                && amountEt.getText().toString().contains(".")){
-                easyUpiPayment = new EasyUpiPayment.Builder(getActivity())
-                        .with()
-                        .setPayeeVpa(payeeVpa)
-                        .setPayeeName("Utsav")
-                        .setTransactionId("TID" + System.currentTimeMillis())
-                        .setTransactionRefId("TID" + System.currentTimeMillis())
-                        .setDescription("e-Pronami")
-                        .setAmount(amountEt.getText().toString())
-                        .build();
+            if(amountEt.getText().toString().trim()!=null && !amountEt.getText().toString().trim().isEmpty()){
+                if(amountEt.getText().toString().contains(".")){
+                    easyUpiPayment = new EasyUpiPayment.Builder(getActivity())
+                            .with()
+                            .setPayeeVpa(payeeVpa)
+                            .setPayeeName("Utsav")
+                            .setTransactionId("TID" + System.currentTimeMillis())
+                            .setTransactionRefId("TID" + System.currentTimeMillis())
+                            .setDescription("e-Pronami")
+                            .setAmount(amountEt.getText().toString())
+                            .build();
 
-                // Register Listener for Events
-                easyUpiPayment.setPaymentStatusListener(this);
+                    // Register Listener for Events
+                    easyUpiPayment.setPaymentStatusListener(this);
 
-                // Start payment / transaction
-                easyUpiPayment.startPayment();
+                    // Start payment / transaction
+                    easyUpiPayment.startPayment();
+                }
+                else {
+                    easyUpiPayment = new EasyUpiPayment.Builder(getActivity())
+                            .with()
+                            .setPayeeVpa(payeeVpa)
+                            .setPayeeName("Utsav")
+                            .setTransactionId("TID" + System.currentTimeMillis())
+                            .setTransactionRefId("TID" + System.currentTimeMillis())
+                            .setDescription("e-Pronami")
+                            .setAmount(amountEt.getText().toString()+".00")
+                            .build();
+
+                    // Register Listener for Events
+                    easyUpiPayment.setPaymentStatusListener(this);
+
+                    // Start payment / transaction
+                    easyUpiPayment.startPayment();
+                }
+
 
                 }
             else {
@@ -96,9 +115,6 @@ public class BottomPayDialog extends BottomSheetDialogFragment implements Paymen
         } catch (AppNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
 
     }
 

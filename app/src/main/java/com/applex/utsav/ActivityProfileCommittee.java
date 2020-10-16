@@ -129,6 +129,9 @@ public class ActivityProfileCommittee extends AppCompatActivity {
     private LottieAnimationView upvote_anim;
     public static int mode_changed = 0;
 
+    private LinearLayout pronamiHolder;
+    private ImageView pronamiInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +200,8 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         upvote = findViewById(R.id.follow);
         upvoteHolder = findViewById(R.id.upvote_holder);
         ePronami = findViewById(R.id.e_pronami);
+        pronamiHolder = findViewById(R.id.pronami_holder);
+        pronamiInfo = findViewById(R.id.pronami_info);
 
         tabLayout = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -611,9 +616,19 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     UPIID = model.getUpiid();
                                                     if(UPIID!=null && !UPIID.isEmpty()){
                                                         ePronami.setVisibility(View.VISIBLE);
+                                                        pronamiHolder.setVisibility(View.VISIBLE);
+                                                        pronamiInfo.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+                                                                BottomPayDialog bottomPayDialog = new BottomPayDialog(UPIID);
+                                                                bottomPayDialog.show(getSupportFragmentManager(), "BottomPayDialog");
+                                                            }
+                                                        });
                                                     }
                                                     else {
                                                         ePronami.setVisibility(View.GONE);
+                                                        pronamiHolder.setVisibility(View.GONE);
+
                                                     }
 
                                                     ePronami.setOnClickListener(view -> {
@@ -717,6 +732,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 Toast.makeText(ActivityProfileCommittee.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
