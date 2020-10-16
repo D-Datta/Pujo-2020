@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app1="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/dialog_bg"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="How e-Pronami works?"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="During this period of global pandemic we at UTSAV are also promoting cashless transactions.\nKeeping that in mind we have got this feature of e-Pronami"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="PROCESS"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="30dp"
+        android:layout_gravity="center_horizontal"
+        android:text="1. For e-Pronami to work, the Pujo Committee must "
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+</LinearLayout>

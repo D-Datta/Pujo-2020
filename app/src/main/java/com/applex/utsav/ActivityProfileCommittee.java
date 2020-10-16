@@ -616,7 +616,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                                     UPIID = model.getUpiid();
                                                     if(UPIID!=null && !UPIID.isEmpty()){
                                                         ePronami.setVisibility(View.VISIBLE);
-                                                        pronamiHolder.setVisibility(View.VISIBLE);
+                                                        pronamiHolder.setVisibility(View.GONE);
                                                         pronamiInfo.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View view) {
