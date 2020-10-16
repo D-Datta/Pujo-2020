@@ -143,7 +143,7 @@
                     android:layout_height="35dp"
                     android:src="@drawable/ic_baseline_photo_gallery_library_24"
                     android:padding="8dp"
-                    app:tint="@color/purple" />
+                    app:tint="@color/purple1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

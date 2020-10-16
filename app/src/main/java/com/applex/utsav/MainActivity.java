@@ -581,6 +581,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 if(task.isSuccessful()) {
                                     if(task.getResult().getBoolean("night_mode")) {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                        new Handler().postDelayed(() -> {
+                                            dialog.dismiss();
+                                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                            finish();
+                                        }, 200);
                                     } else {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                     }

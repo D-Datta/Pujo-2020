@@ -516,7 +516,7 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseAuthWithGoogle(account);
                 }
             } catch (ApiException e) {
-                Toast.makeText(LoginActivity.this, "2100", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, "2100", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
