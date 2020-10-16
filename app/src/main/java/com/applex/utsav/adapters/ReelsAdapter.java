@@ -144,39 +144,39 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.pujo_desc.setText(currentItem.getDescription());
 
             //TAGS COLOURED DISPLAY
-            Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
-            Matcher m = p.matcher(holder.pujo_desc.getText().toString());
-
-            SpannableString ss = new SpannableString(holder.pujo_desc.getText().toString());
-
-            while(m.find()) // loops through all the words in the text which matches the pattern
-            {
-                final int s = m.start(); // add 1 to omit the "@" tag
-                final int e = m.end();
-
-                ClickableSpan clickableSpan = new ClickableSpan() {
-                    @Override
-                    public void onClick(View textView)
-                    {
-                        Intent i = new Intent(context, HashtagClipsViewAll.class);
-                        i.putExtra("hashtag", holder.pujo_desc.getText().toString().substring(s+1, e));
-                        context.startActivity(i);
-                    }
-
-                    @Override
-                    public void updateDrawState(@NonNull TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setColor(context.getResources().getColor(R.color.md_blue_500));
-                        ds.setUnderlineText(false);
-                    }
-                };
-
-                ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            holder.pujo_desc.setText(ss);
-            holder.pujo_desc.setMovementMethod(LinkMovementMethod.getInstance());
-            holder.pujo_desc.setHighlightColor(Color.TRANSPARENT);
+//            Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
+//            Matcher m = p.matcher(holder.pujo_desc.getText().toString());
+//
+//            SpannableString ss = new SpannableString(holder.pujo_desc.getText().toString());
+//
+//            while(m.find()) // loops through all the words in the text which matches the pattern
+//            {
+//                final int s = m.start(); // add 1 to omit the "@" tag
+//                final int e = m.end();
+//
+//                ClickableSpan clickableSpan = new ClickableSpan() {
+//                    @Override
+//                    public void onClick(View textView)
+//                    {
+//                        Intent i = new Intent(context, HashtagClipsViewAll.class);
+//                        i.putExtra("hashtag", holder.pujo_desc.getText().toString().substring(s+1, e));
+//                        context.startActivity(i);
+//                    }
+//
+//                    @Override
+//                    public void updateDrawState(@NonNull TextPaint ds) {
+//                        super.updateDrawState(ds);
+//                        ds.setColor(context.getResources().getColor(R.color.md_blue_500));
+//                        ds.setUnderlineText(false);
+//                    }
+//                };
+//
+//                ss.setSpan(new ForegroundColorSpan(Color.BLUE), s, e, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                ss.setSpan(clickableSpan, s, e, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+//            holder.pujo_desc.setText(ss);
+//            holder.pujo_desc.setMovementMethod(LinkMovementMethod.getInstance());
+//            holder.pujo_desc.setHighlightColor(Color.TRANSPARENT);
             //TAGS COLOURED DISPLAY
         }
         else {
