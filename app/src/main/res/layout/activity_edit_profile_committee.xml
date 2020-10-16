@@ -231,7 +231,7 @@
                         android:paddingHorizontal="15dp"
                         android:textSize="15sp"
                         android:fontFamily="@font/oxygen_regular"
-                        android:textColor="@color/ingr_red1"/>
+                        android:textColor="@color/purple1"/>
 
                 </LinearLayout>
 
@@ -428,6 +428,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/Math_Mission"
+                            android:padding="10dp"/>
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/prabashi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prabashi"
+                            android:padding="10dp"/>
+                        <androidx.appcompat.widget.AppCompatRadioButton
+                            android:id="@+id/others"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/others"
                             android:padding="10dp"/>
                     </RadioGroup>
                     <!--                    <com.google.android.material.chip.ChipGroup-->
