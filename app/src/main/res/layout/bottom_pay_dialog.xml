@@ -83,7 +83,7 @@
                 android:textSize="40sp"
                 android:layout_gravity="center_vertical"
                 android:ems="10"
-                android:textColor="@color/grey_868686"
+                android:textColor="@color/black"
                 android:gravity="center_horizontal"
                 android:textColorHint="@color/grey_868686"
                 android:fontFamily="@font/oxygen_regular"
