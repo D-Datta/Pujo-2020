@@ -16,7 +16,7 @@
     <color name="pink">#EB2C65</color>
     <color name="text_bg">#F47EA4</color>
 
-    <color name="black">#C5C3C3</color>
+    <color name="black">#fff</color>
     <color name="dark_black">#fff</color>
     <color name="dark_black_transparent">#44000000</color>
     <color name="black_transparent">#55ffffff</color>
