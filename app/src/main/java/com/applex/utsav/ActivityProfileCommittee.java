@@ -243,14 +243,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             editCover.setVisibility(View.VISIBLE);
             editDp.setVisibility(View.VISIBLE);
 
-            upvoteHolder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", FirebaseAuth.getInstance().getUid());
-                    bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                }
-            });
-
             selfProfile.setVisibility(View.VISIBLE);
             elseProfile.setVisibility(View.GONE);
 
@@ -476,6 +468,14 @@ public class ActivityProfileCommittee extends AppCompatActivity {
             });
 
         }
+
+        upvoteHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", FirebaseAuth.getInstance().getUid());
+                bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+            }
+        });
 
         PDp.setOnClickListener(v -> {
             if (baseUserModel != null) {

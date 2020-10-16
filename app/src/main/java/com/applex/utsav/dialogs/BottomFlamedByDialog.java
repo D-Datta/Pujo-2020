@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
@@ -42,6 +44,8 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     private int checkGetMore = -1;
     private CollectionReference flamedList;
 
+    private TextView title;
+
     public BottomFlamedByDialog(String root, String docID) {
         this.docID = docID;
         this.root = root;
@@ -56,6 +60,9 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         flamerecycler=v.findViewById(R.id.flamed_recycler);
         progressBar = v.findViewById(R.id.progress5);
+
+        title = v.findViewById(R.id.title);
+
         ImageView dismiss = v.findViewById(R.id.dismissflame);
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
         nestedScrollView.setNestedScrollingEnabled(true);
@@ -69,21 +76,43 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        flamedList = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/flameL/");
-
-        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
-            if(vv.getChildAt(vv.getChildCount() - 1) != null){
-                if((scrollY >= (vv.getChildAt(vv.getChildCount() - 1).getMeasuredHeight() - vv.getMeasuredHeight() )) &&
-                        scrollY > oldScrollY){
-                    if(checkGetMore != -1){
-                        if(progressBar.getVisibility() == View.GONE){
-                            progressBar.setVisibility(View.VISIBLE);
-                            fetchMore_flames();//Load more data
+        if(root.matches("Upvotes")){
+            title.setText("Upvotes");
+            flamedList = FirebaseFirestore.getInstance().collection("Users" + "/" + docID + "/Upvoters/");
+            nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
+                if(vv.getChildAt(vv.getChildCount() - 1) != null){
+                    if((scrollY >= (vv.getChildAt(vv.getChildCount() - 1).getMeasuredHeight() - vv.getMeasuredHeight() )) &&
+                            scrollY > oldScrollY){
+                        if(checkGetMore != -1){
+                            if(progressBar.getVisibility() == View.GONE){
+                                progressBar.setVisibility(View.VISIBLE);
+                                fetchMore_flames();//Load more data
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
+        else {
+            title.setText("Liked By");
+
+            flamedList = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/flameL/");
+
+            nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)(vv, scrollX, scrollY, oldScrollX, oldScrollY) ->{
+                if(vv.getChildAt(vv.getChildCount() - 1) != null){
+                    if((scrollY >= (vv.getChildAt(vv.getChildCount() - 1).getMeasuredHeight() - vv.getMeasuredHeight() )) &&
+                            scrollY > oldScrollY){
+                        if(checkGetMore != -1){
+                            if(progressBar.getVisibility() == View.GONE){
+                                progressBar.setVisibility(View.VISIBLE);
+                                fetchMore_flames();//Load more data
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
 
         buildRecyclerView_flames();
 

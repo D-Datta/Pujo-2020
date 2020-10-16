@@ -30,6 +30,7 @@
                 android:src="@drawable/ic_flame_red"/>
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/liked_by"
