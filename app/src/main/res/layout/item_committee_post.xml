@@ -18,7 +18,7 @@
             android:id="@+id/view_slider"
             android:layout_width="match_parent"
             android:layout_height="6dp"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="6dp"
-                android:background="@color/light_background"/>
+                android:background="@color/divider_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,12 +89,11 @@
                     android:paddingHorizontal="15dp"
                     android:textSize="15dp"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/oxygen_regular"
+                    android:fontFamily="@font/oxygen_bold"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/grey_868686"
                     android:background="@drawable/layerlistbg"/>
 
             </LinearLayout>
@@ -193,7 +192,7 @@
             android:id="@+id/view_type_smth"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -255,7 +254,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -300,8 +299,7 @@
             android:paddingTop="5dp"
             android:text="@string/see_all_posts"
             android:paddingBottom="5dp"
-            android:textSize="18sp"
-            android:textColor="@color/grey_868686"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -317,7 +315,7 @@
             android:id="@+id/view_pujo"
             android:layout_width="match_parent"
             android:layout_height="7dp"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -347,7 +345,7 @@
                 android:text="@string/view_all"
                 android:background="@drawable/custom_ripple_white"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/purple"
+                android:textColor="@color/purple1"
                 android:textSize="12dp" />
 
         </RelativeLayout>
@@ -380,7 +378,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_alignParentTop="true"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -663,7 +661,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/light_background"
+                android:background="@color/divider_color"
                 android:layout_marginTop="2dp"
                 android:layout_marginHorizontal="8dp"/>
 

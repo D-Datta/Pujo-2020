@@ -71,12 +71,14 @@ public class ActivityNotification extends AppCompatActivity {
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             }
                             if(value.getBoolean("listener")) {
+                                MainActivity.mode_changed = 1;
                                 FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                                 startActivity(new Intent(ActivityNotification.this, ActivityNotification.class));
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 finish();
                             }
                         } else {
+                            MainActivity.mode_changed = 1;
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(ActivityNotification.this, ActivityNotification.class));

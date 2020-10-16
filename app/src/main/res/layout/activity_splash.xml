@@ -34,9 +34,7 @@
         android:textSize="15dp"
         android:fontFamily="@font/oxygen_bold"
         android:layout_above="@+id/preptotal"
-        android:textAllCaps="false"
-        android:textColor="@color/grey_868686"
-        android:background="@android:color/transparent"/>
+        android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/preptotal"

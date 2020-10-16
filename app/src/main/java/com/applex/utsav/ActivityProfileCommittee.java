@@ -111,6 +111,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
     private Button locate, ePronami;
     private Button upvote, edit_profile_com;
+    private LinearLayout upvoteHolder;
 
     private LinearLayout selfProfile, elseProfile;
 
@@ -125,6 +126,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
     private IntroPref introPref;
     private LottieAnimationView upvote_anim;
+    public static int mode_changed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,34 +142,35 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
         /////////////////DAY OR NIGHT MODE///////////////////
         if(introPref.getTheme() == 1) {
-
+            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                    .addSnapshotListener(ActivityProfileCommittee.this, (value, error) -> {
+                        if(value != null) {
+                            if(value.getBoolean("night_mode")) {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            } else {
+                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            }
+                            if(value.getBoolean("listener")) {
+                                MainActivity.mode_changed = 1;
+                                FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                                startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
+                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                finish();
+                            }
+                        } else {
+                            MainActivity.mode_changed = 1;
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    });
         } else if(introPref.getTheme() == 2) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         } else if(introPref.getTheme() == 3) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
-        FirebaseFirestore.getInstance().document("Mode/night_mode")
-                .addSnapshotListener(ActivityProfileCommittee.this, (value, error) -> {
-                    if(value != null) {
-                        if(value.getBoolean("night_mode")) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
-                        if(value.getBoolean("listener")) {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                            startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }
-                    } else {
-                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
-                    }
-                });
         /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_profile_committee);
@@ -203,6 +206,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         elseProfile = findViewById(R.id.elseProfile);
 
         upvote = findViewById(R.id.follow);
+        upvoteHolder = findViewById(R.id.upvote_holder);
         ePronami = findViewById(R.id.e_pronami);
 
         tabLayout = findViewById(R.id.tabBar);
@@ -237,6 +241,13 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         if (uid.matches(FirebaseAuth.getInstance().getUid())) {
             editCover.setVisibility(View.VISIBLE);
             editDp.setVisibility(View.VISIBLE);
+
+            upvoteHolder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
             selfProfile.setVisibility(View.VISIBLE);
             elseProfile.setVisibility(View.GONE);
@@ -791,6 +802,17 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Image"), IMAGE_PICK_GALLERY_CODE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mode_changed == 1) {
+            mode_changed = 0;
+            startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            finish();
+        }
     }
 
     @SuppressLint("StaticFieldLeak")

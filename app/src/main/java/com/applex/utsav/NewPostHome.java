@@ -187,6 +187,7 @@ public class NewPostHome extends AppCompatActivity {
     private boolean isEdit = false;
     Context context;
     Resources resources;
+    public static int mode_changed = 0;
 
     @SuppressLint("WrongThread")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -212,12 +213,14 @@ public class NewPostHome extends AppCompatActivity {
                                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             }
                             if(value.getBoolean("listener")) {
+                                MainActivity.mode_changed = 1;
                                 FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                                 startActivity(new Intent(NewPostHome.this, NewPostHome.class));
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 finish();
                             }
                         } else {
+                            MainActivity.mode_changed = 1;
                             FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                             startActivity(new Intent(NewPostHome.this, NewPostHome.class));
@@ -1730,6 +1733,17 @@ public class NewPostHome extends AppCompatActivity {
         super.onDestroy();
         if(imageCompressor != null) {
             imageCompressor.cancel(true);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mode_changed == 1) {
+            mode_changed = 0;
+            startActivity(new Intent(NewPostHome.this, NewPostHome.class));
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            finish();
         }
     }
 }

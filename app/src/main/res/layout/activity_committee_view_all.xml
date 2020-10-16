@@ -156,7 +156,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_background"/>
+            android:background="@color/divider_color"/>
 
         <ProgressBar
             android:id="@+id/content_progress"
@@ -181,7 +181,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/light_background"
+                    android:background="@color/divider_color"
                     android:padding="10dp"
                     android:visibility="gone" />
 
