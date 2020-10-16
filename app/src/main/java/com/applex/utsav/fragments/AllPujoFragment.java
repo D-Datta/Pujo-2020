@@ -2,6 +2,7 @@ package com.applex.utsav.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,8 +13,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +56,7 @@ public class AllPujoFragment extends Fragment {
     private Button sName, sCity;
     private int selected_button=1;
     private FloatingActionButton floatingActionButton;
+    private ImageView pujoimg;
 
     public AllPujoFragment() {
         // Required empty public constructor
@@ -88,10 +93,45 @@ public class AllPujoFragment extends Fragment {
         cRecyclerView.setHasFixedSize(true);
         emptyLayout = view.findViewById(R.id.emptyLayout);
         floatingActionButton = view.findViewById(R.id.to_the_top_pujos);
+        pujoimg = view.findViewById(R.id.pujoimg);
 
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
+
+        ///////////////Set Image Bitmap/////////////////////
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+            Display display = requireActivity().getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            pujoimg.setImageBitmap(scaledBitmap);
+        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+
+            Display display = requireActivity().getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            pujoimg.setImageBitmap(scaledBitmap);
+        }
+        ///////////////Set Image Bitmap/////////////////////
 
         buildRecyclerView("small_name", null );
 

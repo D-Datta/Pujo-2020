@@ -197,6 +197,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 RadioButton radioButton1 = radioGroup.findViewById(R.id.sarbojonin);
                                 RadioButton radioButton2 = radioGroup.findViewById(R.id.bonediBari);
                                 RadioButton radioButton3 = radioGroup.findViewById(R.id.abashon);
+                                RadioButton radioButton4 = radioGroup.findViewById(R.id.math);
 
                                 if(pujoCommitteeModel.getType().matches(getResources().getString(R.string.sarbojonin))){
                                     radioGroup.check(R.id.sarbojonin);

@@ -22,6 +22,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
@@ -31,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavigationView navigationView;
     ///NAV DRAWER VARIABLES/////
-    ImageView displaypic;
+    ImageView displaypic, chandmala;
     TextView name, visits, upvoters;
     LinearLayout com_data;
     ///NAV DRAWER VARIABLES/////
@@ -186,9 +189,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         com_data = hView.findViewById(R.id.com_data);
         visits = hView.findViewById(R.id.visits);
         upvoters = hView.findViewById(R.id.followers);
+        chandmala = hView.findViewById(R.id.chandmala);
         notif = findViewById(R.id.notif);
         notifDot = findViewById(R.id.notif_badge);
         search= findViewById(R.id.search);
+
+        ///////////////Set Image Bitmap/////////////////////
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.decorative_item, options);
+        int width = options.outWidth;
+        if (width > displayWidth) {
+            int widthRatio = Math.round((float) width / (float) displayWidth);
+            options.inSampleSize = widthRatio;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.decorative_item, options);
+        chandmala.setImageBitmap(scaledBitmap);
+        ///////////////Set Image Bitmap/////////////////////
 
         hView.setOnClickListener(v -> {
             drawer.closeDrawers();

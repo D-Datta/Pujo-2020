@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -33,6 +36,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +99,7 @@ public class Fragment_Posts_Users extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar contentprogressposts,progressmoreposts;
     private LinearLayout noneImage;
+    private ImageView noneimageview;
     private FirestorePagingAdapter adapter1;
     private String my_uid, link;
     private ProgressDialog progressDialog;
@@ -137,6 +142,8 @@ public class Fragment_Posts_Users extends Fragment {
         contentprogressposts = view.findViewById(R.id.content_progress_posts);
         progressmoreposts = view.findViewById(R.id.progress_more_posts);
         noneImage = view.findViewById(R.id.none_image);
+        noneimageview=view.findViewById(R.id.noneimageview);
+
 
         introPref = new IntroPref(requireActivity());
         Userprofilepic =  introPref.getUserdp();
@@ -160,6 +167,40 @@ public class Fragment_Posts_Users extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
             buildRecycler();
         });
+
+        ///////////////Set Image Bitmap/////////////////////
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+
+            Display display = requireActivity().getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            noneimageview.setImageBitmap(scaledBitmap);
+        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+
+            Display display = requireActivity().getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            noneimageview.setImageBitmap(scaledBitmap);
+        }
+        ///////////////Set Image Bitmap/////////////////////
     }
 
     private void buildRecycler(){
