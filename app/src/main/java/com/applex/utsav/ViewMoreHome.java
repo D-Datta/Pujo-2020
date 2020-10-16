@@ -445,7 +445,7 @@ public class ViewMoreHome extends AppCompatActivity {
 //
 //                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
 //                        flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_normal_flame));
-                        flameimg.setImageResource(R.drawable.ic_normal_flame);
+                        flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                     }
                 }
 
@@ -779,7 +779,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                         }
                                         else {
 
-                                            flameimg.setImageResource(R.drawable.ic_normal_flame);
+                                            flameimg.setImageResource(R.drawable.ic_dhak_view_more);
 
                                         }
                                     }
@@ -945,7 +945,7 @@ public class ViewMoreHome extends AppCompatActivity {
                         change = 1;
                         if (LikeCheck >= 0) {//was already liked by current user
 
-                            flameimg.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
+                            flameimg.setImageResource(R.drawable.ic_dhak_view_more);//was already liked by current user
 
                             if (likeList.size() - 1 == 0) {
                                 like_layout.setVisibility(View.GONE);

@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#FF9800</color>
     <color name="colorAccent">#FA382B</color>
 
-    <color name="colorPrimaryLight">#99FFF3AF</color>
+    <color name="colorPrimaryLight">#33BC0079</color>
     <color name="metrics_bg">#EACF4A</color>
 
     <color name="background">#252525</color>
@@ -20,10 +20,12 @@
     <color name="dark_black_transparent">#44000000</color>
     <color name="black_transparent">#55ffffff</color>
     <color name="black_transparent2">#AA212121</color>
+    <color name="white_transparent2">#88000000</color>
+    <color name="black_transparent3">#55212121</color>
 
     <color name="white">#000</color>
     <color name="white_transparent">#88ffffff</color>
-    <color name="dark_black_transparent2">#99ffffff</color>
+    <color name="dark_black_transparent2">#99000000</color>
 
     <color name="link">#00C853</color>
     <color name="grey">#e5e5e5</color>

@@ -1087,7 +1087,8 @@ public class FeedsFragment extends Fragment {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         if(adapter.getItemCount() == 0){
-                            noPostView();
+                            viewNoPost.setVisibility(View.VISIBLE);
+                            viewPostExist.setVisibility(View.GONE);
                         }
                         else {
                             viewNoPost.setVisibility(View.GONE);
@@ -1704,18 +1705,6 @@ public class FeedsFragment extends Fragment {
         else {
             BasicUtility.showToast(getActivity(), "Something went wrong...");
         }
-    }
-
-    private void noPostView() {
-        viewNoPost.setVisibility(View.VISIBLE);
-        viewPostExist.setVisibility(View.GONE);
-        contentProgCom.setVisibility(View.GONE);
-
-        view_all_NoPost.setOnClickListener(v ->
-                startActivity(new Intent(getActivity(), CommitteeViewAll.class))
-        );
-
-        buildCommunityRecyclerView(comRecyclerView);
     }
 
     @Override

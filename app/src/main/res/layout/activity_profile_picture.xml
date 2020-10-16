@@ -19,7 +19,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@color/black_aa000000"
+        android:background="@color/view_dark_black"
         android:gravity="start">
 
         <ImageView

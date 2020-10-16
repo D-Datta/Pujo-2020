@@ -432,7 +432,7 @@ public class ViewMoreText extends AppCompatActivity {
 //                        flameimg.setImageTintList(null);
 //                        LikeCheck = j;
 
-                        flameimg.setImageResource(R.drawable.ic_flame_red);
+                        flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                         flameimg.setImageTintList(null);
                         LikeCheck = j;
 
@@ -816,7 +816,7 @@ public class ViewMoreText extends AppCompatActivity {
 //                                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
 //                                            flameimg.setImageBitmap(scaledBitmap11);
 
-                                            flameimg.setImageResource(R.drawable.ic_normal_flame);
+                                            flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                                         }
                                     }
 
@@ -968,7 +968,7 @@ public class ViewMoreText extends AppCompatActivity {
 //                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
 //                            flameimg.setImageBitmap(scaledBitmap11);
 
-                            flameimg.setImageResource(R.drawable.ic_normal_flame);//was already liked by current user
+                            flameimg.setImageResource(R.drawable.ic_dhak_view_more);//was already liked by current user
 
                             if (likeList.size() - 1 == 0) {
                                 like_layout.setVisibility(View.GONE);

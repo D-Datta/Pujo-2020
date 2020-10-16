@@ -39,6 +39,7 @@
                 android:layout_height="50dp"
                 android:minWidth="200dp"
                 android:hint="@string/search_pujo"
+                android:textColorHint="@color/grey_868686"
                 android:textColor="@color/grey_868686"
                 android:maxLines="1"
                 android:inputType="textCapWords"
