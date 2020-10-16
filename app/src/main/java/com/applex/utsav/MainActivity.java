@@ -378,6 +378,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
 
+        if(introPref.isFirstTime()) {
+            super.onBackPressed();
+        }
+
         if(mode_changed == 1) {
             mode_changed = 0;
             startActivity(new Intent(MainActivity.this, MainActivity.class));
@@ -861,6 +865,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else {
             if(doubleBackPressed) {
+                introPref.setIsFirstTime(true);
                 super.onBackPressed();
                 return;
             }
