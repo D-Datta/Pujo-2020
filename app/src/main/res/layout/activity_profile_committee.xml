@@ -299,7 +299,7 @@
                         android:text="@string/locate"
                         android:textSize="12dp"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/reels_white"
                         android:layout_weight="1"/>
 
                     <Button
