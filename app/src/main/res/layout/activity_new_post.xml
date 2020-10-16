@@ -61,7 +61,7 @@
                 android:text="@string/Post"
                 android:layout_marginEnd="10dp"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/reels_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -163,7 +163,7 @@
                 android:minHeight="80dp"
                 android:minLines="1"
                 android:fontFamily="@font/oxygen_bold"
-                android:textColor="@color/black"
+                android:textColor="@color/purple"
                 android:inputType="textMultiLine|textCapSentences"
                 android:textColorLink="@color/colorPrimary"
                 android:autoLink="all"
@@ -189,7 +189,7 @@
                 android:minLines="4"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
-                android:textColor="@color/black"
+                android:textColor="@color/grey_868686"
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="17dp" />
 

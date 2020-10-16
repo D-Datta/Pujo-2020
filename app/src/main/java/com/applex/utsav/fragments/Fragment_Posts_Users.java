@@ -204,6 +204,12 @@ public class Fragment_Posts_Users extends Fragment {
 
                 ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
 
+                if(programmingViewHolder.getItemViewType() == 0) {
+                    programmingViewHolder.view.setVisibility(View.GONE);
+                } else {
+                    programmingViewHolder.view.setVisibility(View.VISIBLE);
+                }
+
                 DocumentReference likeStore;
                 String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
                 programmingViewHolder.minsago.setText(timeAgo);
@@ -211,7 +217,7 @@ public class Fragment_Posts_Users extends Fragment {
                     if (timeAgo.matches("just now")) {
                         programmingViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                     } else {
-                        programmingViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
+                        programmingViewHolder.minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                     }
                 }
 
@@ -737,7 +743,7 @@ public class Fragment_Posts_Users extends Fragment {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt1_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -800,7 +806,7 @@ public class Fragment_Posts_Users extends Fragment {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt2_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -1038,7 +1044,7 @@ public class Fragment_Posts_Users extends Fragment {
         private ImageView dp_cmnt1, dp_cmnt2;
         private TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2;
 
-        private View view1, view2;
+        private View view;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         LottieAnimationView dhak_anim;
         RelativeLayout rlLayout;
@@ -1063,7 +1069,7 @@ public class Fragment_Posts_Users extends Fragment {
             share =itemView.findViewById(R.id.share);
             LinkPreview =itemView.findViewById(R.id.LinkPreView);
 
-//            view1 = itemView.findViewById(R.id.view1);
+            view = itemView.findViewById(R.id.view_profile);
 //            view2 = itemView.findViewById(R.id.view2);
             postHolder = itemView.findViewById(R.id.post);
             profile_header = itemView.findViewById(R.id.profile_header);

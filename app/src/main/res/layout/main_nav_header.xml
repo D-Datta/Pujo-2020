@@ -50,7 +50,8 @@
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/dark_black"/>
 
             <LinearLayout
                 android:id="@+id/com_data"
@@ -77,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="10dp"
                     android:text="--"
-                    android:textColor="@color/black"
+                    android:textColor="@color/view_black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -85,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/visitors"
-                    android:textColor="@color/black"
+                    android:textColor="@color/view_black"
                     android:paddingHorizontal="10dp"
                     android:fontFamily="@font/oxygen_bold"
                     android:textSize="13sp" />
@@ -106,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="--"
-                    android:textColor="@color/black"
+                    android:textColor="@color/view_black"
                     android:paddingHorizontal="10dp"
                     android:textStyle="bold"
                     android:textSize="15sp" />
@@ -115,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/upvotes"
                     android:paddingHorizontal="10dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/view_black"
                     android:fontFamily="@font/oxygen_bold"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -134,7 +135,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white_e5e5e5"
+        android:background="@color/light_background"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

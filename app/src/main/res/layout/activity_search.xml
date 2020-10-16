@@ -12,15 +12,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white_F8F8F8">
+        android:background="@color/white">
 
         <ImageButton
             android:id="@+id/back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="2.5dp"
-            android:background="@drawable/custom_ripple_grey_bg"
-            android:src="@drawable/ic_arrow_back_black_24dp"/>
+            android:background="@drawable/custom_ripple_white"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/dark_black"/>
 
         <EditText
             android:id="@+id/search"
@@ -35,7 +36,7 @@
             android:layout_marginVertical="7dp"
             android:inputType="textCapSentences"
             android:imeOptions="actionSearch"
-            android:textColor="@color/dark_black"
+            android:textColor="@color/grey_868686"
             android:fontFamily="@font/oxygen_bold" />
 
         <ImageButton
@@ -44,9 +45,9 @@
             android:layout_height="50dp"
             android:layout_margin="2.5dp"
             android:padding="2dp"
-            android:tint="@color/black"
+            android:tint="@color/dark_black"
             android:src="@drawable/ic_baseline_search_24"
-            android:background="@drawable/custom_ripple_grey_bg"
+            android:background="@drawable/custom_ripple_white"
             android:layout_gravity="center"/>
 
     </LinearLayout>
@@ -131,7 +132,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_ededed"
+        android:background="@color/light_background"
         android:orientation="vertical">
 
         <LinearLayout
@@ -166,8 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="40dp"
-            android:background="@color/white"
-            android:src="@drawable/ma_durga"
+            android:background="@color/login_white"
             android:visibility="visible" />
 
         <RelativeLayout

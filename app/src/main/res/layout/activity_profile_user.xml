@@ -206,7 +206,7 @@
                     android:layout_marginVertical="5dp"
                     android:text="@string/Edit_Profile"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/reels_white"
                     android:visibility="gone"
                     android:layout_weight="1"/>
 
@@ -214,13 +214,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#E5E5E5"
+                    android:background="@color/light_background"
                     android:paddingBottom="0dp">
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/white_e5e5e5"/>
+                        android:background="@color/light_background"/>
 
 
                 </LinearLayout>

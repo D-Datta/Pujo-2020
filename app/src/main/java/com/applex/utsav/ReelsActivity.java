@@ -3,6 +3,8 @@ package com.applex.utsav;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.viewpager2.widget.ViewPager2;
+
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import com.applex.utsav.adapters.ReelsAdapter;
@@ -37,28 +39,28 @@ public class ReelsActivity extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
 //        /////////////////DAY OR NIGHT MODE///////////////////
-//        FirebaseFirestore.getInstance().document("Mode/night_mode")
-//                .addSnapshotListener(ReelsActivity.this, (value, error) -> {
-//                    if(value != null) {
-//                        if(value.getBoolean("night_mode")) {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                        } else {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        }
-//                        if(value.getBoolean("listener")) {
-//                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                            finish();
-//                        }
-//                    } else {
-//                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                        finish();
-//                    }
-//                });
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(ReelsActivity.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(ReelsActivity.this, ReelsActivity.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(ReelsActivity.this, ReelsActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
 //        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_reels);

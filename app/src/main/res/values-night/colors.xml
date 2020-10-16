@@ -7,23 +7,23 @@
     <color name="colorPrimaryLight">#99FFF3AF</color>
     <color name="metrics_bg">#EACF4A</color>
 
-    <color name="background">#fff</color>
-    <color name="statusBarColor">#f5f5f5</color>
+    <color name="background">#252525</color>
+    <color name="statusBarColor">#252525</color>
 
     <color name="darkpurple">#490531</color>
-    <color name="purple">#730D4F</color>
+    <color name="purple">#BC0079</color>
     <color name="pink">#EB2C65</color>
     <color name="text_bg">#F47EA4</color>
 
-    <color name="black">#212121</color>
-    <color name="dark_black">#000</color>
+    <color name="black">#C5C3C3</color>
+    <color name="dark_black">#fff</color>
     <color name="dark_black_transparent">#44000000</color>
-    <color name="black_transparent">#55212121</color>
+    <color name="black_transparent">#55ffffff</color>
     <color name="black_transparent2">#AA212121</color>
 
-    <color name="white">#fff</color>
+    <color name="white">#000</color>
     <color name="white_transparent">#88ffffff</color>
-    <color name="dark_black_transparent2">#99000000</color>
+    <color name="dark_black_transparent2">#99ffffff</color>
 
     <color name="link">#00C853</color>
     <color name="grey">#e5e5e5</color>
@@ -33,7 +33,7 @@
     <color name="tabIndicatorColor">#0d47a1</color>
     <color name="md_blue_400">#42A5F5</color>
     <color name="md_blue_500">#2196F3</color>
-    <color name="light_background">#e2e2e2</color>
+    <color name="light_background">#bb212121</color>
 
     <color name="lightblue1">#DFCCFA</color>
     <color name="red">#B30F0F</color>
@@ -42,13 +42,14 @@
     <color name="grey_716A6A">#716A6A</color>
     <color name="grey_605F5F">#605F5F</color>
     <color name="navyblue_171E30">#171E30</color>
-    <color name="grey_aa212121">#aa212121</color>
+    <color name="grey_aa212121">#aaffffff</color>
     <color name="grey_878787">#878787</color>
-    <color name="black_aa000000">#aa000000</color>
-    <color name="white_E0E0E0">#E0E0E0</color>
+    <color name="black_aa000000">#aaffffff</color>
+    <color name="white_E0E0E0">#3A3A3A</color>
     <color name="white_e5e5e5">#e5e5e5</color>
     <color name="grey_595252">#595252</color>
-    <color name="white_f8f8f8">#f8f8f8</color>
+    <color name="white_F8F8F8">#252525</color>
+    <color name="white_f8f8f8">#252525</color>
     <color name="white_ededed">#ededed</color>
     <color name="white_E5e5e5">#E5e5e5</color>
     <color name="white_E5E5E5">#E5E5E5</color>
@@ -57,12 +58,12 @@
     <color name="grey_5A5A5A">#5A5A5A</color>
     <color name="grey_58212121">#58212121</color>
     <color name="grey_626262">#626262</color>
-    <color name="white_F2F2F2">#F2F2F2</color>
+    <color name="white_F2F2F2">#201E1E</color>
     <color name="grey_858585">#858585</color>
     <color name="blue_448AF3">#448AF3</color>
     <color name="white_f9f9f9">#f9f9f9</color>
     <color name="white_00ffffff">#00ffffff</color>
-    <color name="black_FF000000">#FF000000</color>
+    <color name="black_FF000000">#FFffffff</color>
     <color name="grey_A2A2A2">#A2A2A2</color>
     <color name="green_00C853">#00C853</color>
     <color name="black_00000000">#00000000</color>
@@ -144,6 +145,10 @@
     <color name="green_8edaf6">#8edaf6</color>
     <color name="blue_0e4c7a">#0e4c7a</color>
     <color name="white_d7eff9">#d7eff9</color>
+    <color name="view_dark_black">#000</color>
+    <color name="view_black">#212121</color>
+    <color name="reels_white">#fff</color>
+    <color name="login_white">#000</color>
 
 
     //dots inactive colors

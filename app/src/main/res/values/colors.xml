@@ -146,6 +146,10 @@
     <color name="green_8edaf6">#8edaf6</color>
     <color name="blue_0e4c7a">#0e4c7a</color>
     <color name="white_d7eff9">#d7eff9</color>
+    <color name="view_dark_black">#000</color>
+    <color name="view_black">#212121</color>
+    <color name="reels_white">#fff</color>
+    <color name="login_white">#fff</color>
 
     //dots inactive colors
     <color name="inactive_one">#7EAFAEAE</color>

@@ -139,28 +139,28 @@ public class ActivityProfileCommittee extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
 //        /////////////////DAY OR NIGHT MODE///////////////////
-//        FirebaseFirestore.getInstance().document("Mode/night_mode")
-//                .addSnapshotListener(ActivityProfileCommittee.this, (value, error) -> {
-//                    if(value != null) {
-//                        if(value.getBoolean("night_mode")) {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                        } else {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        }
-//                        if(value.getBoolean("listener")) {
-//                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                            finish();
-//                        }
-//                    } else {
-//                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                        finish();
-//                    }
-//                });
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(ActivityProfileCommittee.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
 //        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_profile_committee);
@@ -327,7 +327,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
 
                                                 upvote.setText("Upvote");
                                                 upvote.setBackgroundResource(R.drawable.custom_button);
-                                                upvote.setTextColor(getResources().getColor(R.color.white));
+                                                upvote.setTextColor(getResources().getColor(R.color.reels_white));
 
                                                 if (baseUserModel.getUpvoteL() != null) {
                                                     if (baseUserModel.getUpvoteL().size() - 1 == 0) {
@@ -627,7 +627,7 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                                 } else {
                                     upvote.setText("Upvote");
                                     upvote.setBackgroundResource(R.drawable.custom_button);
-                                    upvote.setTextColor(getResources().getColor(R.color.white));
+                                    upvote.setTextColor(getResources().getColor(R.color.reels_white));
 
                                 }
 

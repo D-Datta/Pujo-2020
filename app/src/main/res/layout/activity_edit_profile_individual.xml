@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_edit_indi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/grey"
+            android:background="@color/light_background"
             android:elevation="2dp"
             app:title="Edit Profile"/>
 
@@ -379,7 +379,7 @@
                     android:paddingEnd="5dp"
                     android:text="SUBMIT"
                     android:textAllCaps="false"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/reels_white" />
 
             </LinearLayout>
 

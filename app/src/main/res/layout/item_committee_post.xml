@@ -94,6 +94,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
                     android:layout_marginEnd="10dp"
+                    android:textColor="@color/grey_868686"
                     android:background="@drawable/layerlistbg"/>
 
             </LinearLayout>
@@ -126,7 +127,7 @@
                         android:layout_height="match_parent"
                         android:text="@string/camera"
                         android:fontFamily="@font/oxygen_bold"
-                        android:textColor="@color/grey2"
+                        android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -148,7 +149,7 @@
                         android:layout_height="match_parent"
                         android:text="@string/gallery"
                         android:fontFamily="@font/oxygen_bold"
-                        android:textColor="@color/grey2"
+                        android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -170,7 +171,7 @@
                         android:layout_height="match_parent"
                         android:text="@string/recorder"
                         android:fontFamily="@font/oxygen_bold"
-                        android:textColor="@color/grey2"
+                        android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -237,7 +238,8 @@
             android:paddingTop="5dp"
             android:text="@string/see_all"
             android:paddingBottom="5dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/grey_868686"/>
 
     </LinearLayout>
 
@@ -298,7 +300,8 @@
             android:paddingTop="5dp"
             android:text="@string/see_all_posts"
             android:paddingBottom="5dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/grey_868686"/>
 
     </LinearLayout>
 

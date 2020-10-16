@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="15dp"
@@ -14,14 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/custom_ripple_white_rectangle"
+        android:background="@drawable/custom_ripple_white"
         android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/ic_outline_share_24"
-            android:padding="8dp" />
+            android:padding="8dp"
+            app:tint="@color/grey_868686"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +31,8 @@
             android:text="@string/share_post"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/grey_868686"/>
 
     </LinearLayout>
 
@@ -38,14 +41,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/custom_ripple_white_rectangle"
+        android:background="@drawable/custom_ripple_white"
         android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:src="@drawable/ic_outline_report_24"
-            android:padding="8dp" />
+            android:padding="8dp"
+            app:tint="@color/grey_868686" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +57,8 @@
             android:text="@string/report_post"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/grey_868686"/>
     </LinearLayout>
 
 </LinearLayout>

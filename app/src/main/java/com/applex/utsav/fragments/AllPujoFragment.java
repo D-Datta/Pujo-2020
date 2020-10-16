@@ -105,22 +105,22 @@ public class AllPujoFragment extends Fragment {
 
         sName.setOnClickListener(view13 -> {
             sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-            sName.setTextColor(Color.parseColor("#ffffff"));
+            sName.setTextColor(getResources().getColor(R.color.white));
 
             sCity.setBackgroundResource(R.drawable.add_tags_button_background);
             sCity.setBackgroundTintList(null);
-            sCity.setTextColor(Color.parseColor("#000000"));
+            sCity.setTextColor(getResources().getColor(R.color.black));
 
             selected_button = 1;
         });
 
         sCity.setOnClickListener(view1 -> {
             sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-            sCity.setTextColor(Color.parseColor("#ffffff"));
+            sCity.setTextColor(getResources().getColor(R.color.white));
 
             sName.setBackgroundResource(R.drawable.add_tags_button_background);
             sName.setBackgroundTintList(null);
-            sName.setTextColor(Color.parseColor("#000000"));
+            sName.setTextColor(getResources().getColor(R.color.black));
 
             selected_button = 2;
         });

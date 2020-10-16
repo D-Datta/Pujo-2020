@@ -3,6 +3,7 @@ package com.applex.utsav.registration;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.ActivityNotification;
 import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
@@ -76,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
 
     AccessToken accessToken;
     String tokenStr;
-
+    boolean night_mode;
     TextView terms;
     IntroPref introPref;
 
@@ -90,8 +92,35 @@ public class LoginActivity extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        setContentView(R.layout.activity_login);
 
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(LoginActivity.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                            night_mode = true;
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                            night_mode = false;
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
+//        /////////////////DAY OR NIGHT MODE///////////////////
+
+        setContentView(R.layout.activity_login);
 
         mAuth= FirebaseAuth.getInstance();
         fireuser = mAuth.getCurrentUser();
@@ -116,23 +145,40 @@ public class LoginActivity extends AppCompatActivity {
         TextView privacy = findViewById(R.id.privacy_policy);
         TextView cookies = findViewById(R.id.cookies);
 
-
         ///////////////Set Image Bitmap/////////////////////
-        ImageView imageView = findViewById(R.id.dhaki_png);
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            ImageView imageView = findViewById(R.id.dhaki_png);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        int displayWidth = display.getWidth();
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma2, options);
-        int width = options.outWidth;
-        if (width > displayWidth) {
-            int widthRatio = Math.round((float) width / (float) displayWidth);
-            options.inSampleSize = widthRatio;
+            Display display = getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            imageView.setImageBitmap(scaledBitmap);
+        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+            ImageView imageView = findViewById(R.id.dhaki_png);
+
+            Display display = getWindowManager().getDefaultDisplay();
+            int displayWidth = display.getWidth();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            int width = options.outWidth;
+            if (width > displayWidth) {
+                int widthRatio = Math.round((float) width / (float) displayWidth);
+                options.inSampleSize = widthRatio;
+            }
+            options.inJustDecodeBounds = false;
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            imageView.setImageBitmap(scaledBitmap);
         }
-        options.inJustDecodeBounds = false;
-        Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma2, options);
-        imageView.setImageBitmap(scaledBitmap);
         ///////////////Set Image Bitmap/////////////////////
 
         terms.setMovementMethod(LinkMovementMethod.getInstance());

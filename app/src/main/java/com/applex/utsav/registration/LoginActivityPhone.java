@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.MainActivity;
@@ -75,6 +76,33 @@ public class LoginActivityPhone extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(LoginActivityPhone.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(LoginActivityPhone.this, LoginActivityPhone.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(LoginActivityPhone.this, LoginActivityPhone.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
+//        /////////////////DAY OR NIGHT MODE///////////////////
+
+
         setContentView(R.layout.activity_login_phone);
 
         introPref = new IntroPref(LoginActivityPhone.this);

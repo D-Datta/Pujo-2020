@@ -36,6 +36,7 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
@@ -114,28 +115,28 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
 //        /////////////////DAY OR NIGHT MODE///////////////////
-//        FirebaseFirestore.getInstance().document("Mode/night_mode")
-//                .addSnapshotListener(HashtagPostViewAll.this, (value, error) -> {
-//                    if(value != null) {
-//                        if(value.getBoolean("night_mode")) {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                        } else {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        }
-//                        if(value.getBoolean("listener")) {
-//                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                            finish();
-//                        }
-//                    } else {
-//                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                        finish();
-//                    }
-//                });
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(HashtagClipsViewAll.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(HashtagClipsViewAll.this, HashtagClipsViewAll.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(HashtagClipsViewAll.this, HashtagClipsViewAll.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
 //        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_hashtag_clips_view_all);

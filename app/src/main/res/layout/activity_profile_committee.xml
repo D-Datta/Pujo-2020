@@ -317,7 +317,7 @@
                         android:text="@string/e_pronami"
                         android:textSize="12dp"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/reels_white"
                         android:layout_weight="1"/>
 
                     <Button
@@ -336,7 +336,7 @@
                         android:text="@string/loading"
                         android:textSize="12dp"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/reels_white"
                         android:layout_weight="1"/>
 
                 </LinearLayout>
@@ -417,7 +417,7 @@
                         android:paddingEnd="40dp"
                         android:text="@string/Edit_Profile"
                         android:textAllCaps="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/reels_white"
                         android:layout_weight="1"/>
 
                 </LinearLayout>
@@ -427,7 +427,7 @@
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="5dp"
                     android:layout_marginTop="2dp"
-                    android:background="#e5e5e5"/>
+                    android:background="@color/light_background"/>
 
             </LinearLayout>
 

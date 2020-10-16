@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.applex.utsav.ActivityNotification;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.preferences.IntroPref;
@@ -39,18 +41,26 @@ public class AboutUs extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         /////////////////DAY OR NIGHT MODE///////////////////
-        FirebaseFirestore.getInstance().document("Mode/night_mode").get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
-                        boolean night_mode = Boolean.getBoolean(
-                                Objects.requireNonNull(Objects.requireNonNull(task.getResult()).get("night_mode")).toString());
-                        if(night_mode) {
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(AboutUs.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                         } else {
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                         }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(AboutUs.this, AboutUs.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
                     } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(AboutUs.this, AboutUs.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
                     }
                 });
         /////////////////DAY OR NIGHT MODE///////////////////

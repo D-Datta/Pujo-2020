@@ -52,6 +52,7 @@ import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
+import com.applex.utsav.MainActivity;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -224,7 +225,7 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.committeeHolder.setVisibility(View.VISIBLE);
                     feedViewHolder.reels_item.setVisibility(View.GONE);
                     feedViewHolder.view_all.setOnClickListener(v ->
-                            startActivity(new Intent(getActivity(), CommitteeViewAll.class))
+                            MainActivity.viewPager.setCurrentItem(3, true)
                     );
 
                     if(introPref.getType().matches("indi")){
@@ -342,7 +343,7 @@ public class FeedsFragment extends Fragment {
                     if (timeAgo.matches("just now")) {
                         feedViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                     } else {
-                        feedViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
+                        feedViewHolder.minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                     }
                 }
 
@@ -859,7 +860,7 @@ public class FeedsFragment extends Fragment {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
                                 feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                feedViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                feedViewHolder.cmnt1_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -922,7 +923,7 @@ public class FeedsFragment extends Fragment {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
                                 feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                feedViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                feedViewHolder.cmnt2_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -1387,7 +1388,7 @@ public class FeedsFragment extends Fragment {
                         if (timeAgo.matches("just now")) {
                             holder.reels_mins_ago.setTextColor(Color.parseColor("#00C853"));
                         } else {
-                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.white));
+                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.reels_white));
                         }
                     }
 

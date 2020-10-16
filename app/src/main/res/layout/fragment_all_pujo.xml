@@ -16,7 +16,7 @@
         android:background="@color/white"
         android:theme="@style/ThemeOverlay.AppCompat.Light">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="55dp">
 
@@ -35,21 +35,15 @@
 
             <EditText
                 android:id="@+id/search_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:minWidth="200dp"
                 android:hint="@string/search_pujo"
-                android:textColor="@color/black"
-                android:background="@null"
+                android:textColor="@color/grey_868686"
                 android:maxLines="1"
                 android:inputType="textCapWords"
+                android:background="@null"
                 android:imeOptions="actionSearch"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/search"
-                app:layout_constraintHorizontal_bias="0.031"
-                app:layout_constraintStart_toEndOf="@+id/back"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.4"
                 android:layout_marginStart="10dp"/>
 
             <ImageView
@@ -61,11 +55,10 @@
                 android:layout_marginTop="5dp"
                 android:padding="10dp"
                 android:background="@drawable/custom_ripple_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:tint="@color/dark_black"
+                android:layout_alignParentEnd="true"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -157,7 +150,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/white_e5e5e5"/>
+            android:background="@color/light_background"/>
 
         <ProgressBar
             android:id="@+id/content_progress"

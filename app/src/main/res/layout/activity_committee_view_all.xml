@@ -29,6 +29,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="10dp"
                 android:padding="10dp"
+                app:tint="@color/dark_black"
                 android:background="@drawable/custom_ripple_white"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +39,7 @@
                 android:layout_height="50dp"
                 android:minWidth="200dp"
                 android:hint="@string/search_pujo"
-                android:textColor="@color/black"
+                android:textColor="@color/grey_868686"
                 android:background="@null"
                 android:maxLines="1"
                 android:inputType="textCapWords"
@@ -57,6 +58,7 @@
                 android:src="@drawable/ic_baseline_search_24"
                 android:layout_marginEnd="5dp"
                 android:padding="10dp"
+                app:tint="@color/dark_black"
                 android:background="@drawable/custom_ripple_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

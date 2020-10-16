@@ -77,28 +77,28 @@ public class CommitteeViewAll extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
 //        /////////////////DAY OR NIGHT MODE///////////////////
-//        FirebaseFirestore.getInstance().document("Mode/night_mode")
-//                .addSnapshotListener(CommitteeViewAll.this, (value, error) -> {
-//                    if(value != null) {
-//                        if(value.getBoolean("night_mode")) {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                        } else {
-//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        }
-//                        if(value.getBoolean("listener")) {
-//                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                            finish();
-//                        }
-//                    } else {
-//                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                        startActivity(new Intent(MainActivity.this, MainActivity.class));
-//                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//                        finish();
-//                    }
-//                });
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(CommitteeViewAll.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(CommitteeViewAll.this, CommitteeViewAll.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(CommitteeViewAll.this, CommitteeViewAll.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
 //        /////////////////DAY OR NIGHT MODE///////////////////
 
         setContentView(R.layout.activity_committee_view_all);

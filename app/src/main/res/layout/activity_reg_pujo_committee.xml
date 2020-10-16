@@ -214,7 +214,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="8dp"
                     android:textSize="18sp"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="@color/black"
                     android:background="@drawable/background_rectangle"
                     android:hint="@string/email"
                     android:gravity="center_vertical"
@@ -590,7 +590,7 @@
                 android:paddingEnd="5dp"
                 android:text="SUBMIT"
                 android:textAllCaps="false"
-                android:textColor="@color/white" />
+                android:textColor="@color/reels_white" />
 
 
         </LinearLayout>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".registration.LoginActivity"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/login_white"
     tools:ignore="NamespaceTypo">
 
     <ImageView
@@ -22,8 +22,7 @@
         android:id="@+id/dhaki_png"
         android:layout_width="250dp"
         android:layout_height="200dp"
-        android:layout_gravity="top|end"
-        android:layout_marginEnd="-50dp" />
+        android:layout_gravity="top|end" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -150,7 +149,7 @@
             android:paddingEnd="5dp"
             android:text="@string/login"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/reels_white"
             android:textSize="18sp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -194,7 +193,7 @@
             android:paddingEnd="5dp"
             android:text="@string/sign_up"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/reels_white"
             android:textSize="18sp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -235,7 +234,7 @@
                     android:fontFamily="@font/oxygen_bold"
                     android:padding="5dp"
                     android:text="@string/sign_up"
-                    android:textColor="@color/navyblue_171E30"
+                    android:textColor="@color/purple"
                     android:textSize="18sp" />
 
                 <TextView
@@ -245,7 +244,7 @@
                     android:fontFamily="@font/oxygen_bold"
                     android:padding="5dp"
                     android:text="@string/login"
-                    android:textColor="@color/navyblue_171E30"
+                    android:textColor="@color/purple"
                     android:textSize="18sp"
                     android:visibility="gone" />
 

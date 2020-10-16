@@ -9,9 +9,10 @@
     android:background="@color/white">
 
     <View
+        android:id="@+id/view_profile"
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/white_e5e5e5"/>
+        android:background="@color/light_background"/>
 
     <LinearLayout
         android:id="@+id/post"

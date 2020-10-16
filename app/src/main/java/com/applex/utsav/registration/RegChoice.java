@@ -1,6 +1,7 @@
 package com.applex.utsav.registration;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.preferences.IntroPref;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Locale;
 
@@ -35,6 +37,32 @@ public class RegChoice extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(RegChoice.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(RegChoice.this, RegChoice.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(RegChoice.this, RegChoice.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
+//        /////////////////DAY OR NIGHT MODE///////////////////
+
         setContentView(R.layout.activity_reg_choice);
 
         ///////////////Set Image Bitmap/////////////////////

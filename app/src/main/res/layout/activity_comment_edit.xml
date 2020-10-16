@@ -10,7 +10,7 @@
         android:id="@+id/toolbar12"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/lightgrey"
+        android:background="@color/light_background"
         android:elevation="5dp"
         app:layout_collapseMode="pin"
         app:title="@string/Edit_comment"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:text="@string/update"
         android:background="@drawable/custom_button"
-        android:textColor="@color/white"
+        android:textColor="@color/reels_white"
         android:layout_margin="5dp"
         android:layout_gravity="center"/>
 

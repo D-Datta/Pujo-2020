@@ -3,6 +3,7 @@ package com.applex.utsav.registration;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +102,32 @@ public class RegIndividual extends AppCompatActivity
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        FirebaseFirestore.getInstance().document("Mode/night_mode")
+                .addSnapshotListener(RegIndividual.this, (value, error) -> {
+                    if(value != null) {
+                        if(value.getBoolean("night_mode")) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+                        if(value.getBoolean("listener")) {
+                            FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                            startActivity(new Intent(RegIndividual.this, RegIndividual.class));
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            finish();
+                        }
+                    } else {
+                        FirebaseFirestore.getInstance().document("Mode/night_mode").update("listener", false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        startActivity(new Intent(RegIndividual.this, RegIndividual.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    }
+                });
+//        /////////////////DAY OR NIGHT MODE///////////////////
+
         setContentView(R.layout.activity_reg_individual);
 
         reg_dhak = findViewById(R.id.reg_dhak);
@@ -122,6 +150,21 @@ public class RegIndividual extends AppCompatActivity
         storage= FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         introPref= new IntroPref(RegIndividual.this);
+
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
+        int width = options.outWidth;
+        if (width > displayWidth) {
+            int widthRatio = Math.round((float) width / (float) displayWidth);
+            options.inSampleSize = widthRatio;
+        }
+        options.inJustDecodeBounds = false;
+        Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.cover_kaash, options);
+        cover_ind.setImageBitmap(scaledBitmap);
 
         if(getIntent().getStringExtra("email")!=null){
             EMAIL = getIntent().getStringExtra("email");

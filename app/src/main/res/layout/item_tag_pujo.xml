@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         app:cardCornerRadius="8dp"
-        android:background="@drawable/custom_ripple_white"
+        android:background="@color/white"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="6dp"
         android:elevation="2dp">

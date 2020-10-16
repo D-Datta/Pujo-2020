@@ -312,7 +312,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.committee_item.setVisibility(View.VISIBLE);
 
                         programmingViewHolder.view_all.setOnClickListener(v ->
-                                startActivity(new Intent(getActivity(), CommitteeViewAll.class))
+                                MainActivity.viewPager.setCurrentItem(3, true)
                         );
 
                         if (programmingViewHolder.getItemViewType() == 4) {
@@ -392,7 +392,7 @@ public class CommitteeFragment extends Fragment {
                     if (timeAgo.matches("just now")) {
                         programmingViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                     } else {
-                        programmingViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
+                        programmingViewHolder.minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                     }
                 }
 
@@ -875,7 +875,7 @@ public class CommitteeFragment extends Fragment {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt1_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -933,7 +933,7 @@ public class CommitteeFragment extends Fragment {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt2_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -1335,7 +1335,7 @@ public class CommitteeFragment extends Fragment {
                         if (timeAgo.matches("just now")) {
                             holder.reels_mins_ago.setTextColor(Color.parseColor("#00C853"));
                         } else {
-                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.white));
+                            holder.reels_mins_ago.setTextColor(getResources().getColor(R.color.reels_white));
                         }
                     }
 
@@ -1732,7 +1732,7 @@ public class CommitteeFragment extends Fragment {
                         if (timeAgo.matches("just now")) {
                             holder.feeds_mins_ago.setTextColor(Color.parseColor("#00C853"));
                         } else {
-                            holder.feeds_mins_ago.setTextColor(Color.parseColor("#aa212121"));
+                            holder.feeds_mins_ago.setTextColor(getResources().getColor(R.color.grey_868686));
                         }
                     }
 
