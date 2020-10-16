@@ -309,12 +309,14 @@
         android:orientation="vertical"
         android:background="@color/white"
         android:visibility="gone"
+        android:paddingBottom="5dp"
         android:id="@+id/committee_item">
 
         <View
             android:id="@+id/view_pujo"
             android:layout_width="match_parent"
             android:layout_height="7dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/divider_color"/>
 
         <RelativeLayout
