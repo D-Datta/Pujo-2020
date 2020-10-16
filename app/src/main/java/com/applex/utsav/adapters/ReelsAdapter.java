@@ -142,7 +142,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             holder.pujo_desc.setText(currentItem.getDescription());
 
             //TAGS COLOURED DISPLAY
-            Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+            Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
             Matcher m = p.matcher(holder.pujo_desc.getText().toString());
 
             SpannableString ss = new SpannableString(holder.pujo_desc.getText().toString());

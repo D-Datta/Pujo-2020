@@ -362,7 +362,6 @@ public class NewPostHome extends AppCompatActivity {
 //                BasicUtility.showToast(getApplicationContext(), "Media files cannot be edited. \n Only text can be changed.");
 
                 llBottomSheet.setVisibility(View.GONE);
-                preview.setVisibility(View.VISIBLE);
                 isEdit = true;
 
                 if(intent.getStringExtra("headline")!=null && introPref.getType().matches("com"))
@@ -376,7 +375,7 @@ public class NewPostHome extends AppCompatActivity {
                     postcontent.setText(intent.getStringExtra("txt"));
 
                     //TAGS COLOURED DISPLAY
-                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                     Matcher m = p.matcher(postcontent.getText().toString());
 
                     SpannableString ss = new SpannableString(postcontent.getText().toString());
@@ -1185,7 +1184,7 @@ public class NewPostHome extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = s.toString();
-                Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                 Matcher m = p.matcher(text);
                 int cursorPosition = postcontent.getSelectionStart();
                 while(m.find())
@@ -1206,7 +1205,7 @@ public class NewPostHome extends AppCompatActivity {
 
     //TAGS NEW
     private void generateTagList(String postContent){
-        Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+        Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
         Matcher m = p.matcher(postContent);
 
         tagList = new ArrayList<>();

@@ -337,7 +337,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                     programmingViewHolder.text_content.setText(currentItem.getTxt());
 
                     //TAGS COLOURED DISPLAY
-                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                     Matcher m = p.matcher(programmingViewHolder.text_content.getText().toString());
 
                     SpannableString ss = new SpannableString(programmingViewHolder.text_content.getText().toString());

@@ -520,7 +520,7 @@ public class ViewMoreHome extends AppCompatActivity {
                 textContent.setText(homePostModel[0].getTxt());
 
                 //TAGS COLOURED DISPLAY
-                Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                 Matcher m = p.matcher(textContent.getText().toString());
 
                 SpannableString ss = new SpannableString(textContent.getText().toString());
@@ -830,7 +830,7 @@ public class ViewMoreHome extends AppCompatActivity {
                                     textContent.setText(homePostModel[0].getTxt());
 
                                     //TAGS COLOURED DISPLAY
-                                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-.]+");
+                                    Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                                     Matcher m = p.matcher(textContent.getText().toString());
 
                                     SpannableString ss = new SpannableString(textContent.getText().toString());
