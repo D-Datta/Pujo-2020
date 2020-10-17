@@ -135,8 +135,8 @@ public class AllPujoFragment extends Fragment {
 
         buildRecyclerView("small_name", null );
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
-                .getColor(R.color.purple));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
+                .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             searchText.setText(null);

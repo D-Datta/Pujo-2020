@@ -161,8 +161,8 @@ public class Fragment_Posts_Users extends Fragment {
         buildRecycler();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
-                        .getColor(R.color.purple));
+                .setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
+                        .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             buildRecycler();

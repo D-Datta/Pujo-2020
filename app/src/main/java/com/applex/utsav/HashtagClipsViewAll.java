@@ -164,8 +164,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         buildRecyclerView();
 
         swipeRefreshLayout
-                .setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
-                        .getColor(R.color.purple));
+                .setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
+                        .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             buildRecyclerView();

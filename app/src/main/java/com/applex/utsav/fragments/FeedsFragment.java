@@ -174,8 +174,8 @@ public class FeedsFragment extends Fragment {
         buildRecyclerView();
 
         //SWIPE REFRESH//
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources()
-                        .getColor(R.color.purple));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
+                        .getColor(R.color.darkpurple));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
