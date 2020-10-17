@@ -235,28 +235,35 @@ public class ActivityProfileCommittee extends AppCompatActivity {
           if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
                     .addSnapshotListener(ActivityProfileCommittee.this, (value, error) -> {
-                        if(value.getBoolean("listener")) {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode")
-                                    .get().addOnCompleteListener(task -> {
-                                        if(task.isSuccessful()) {
-                                            if(task.getResult().getBoolean("night_mode")) {
-                                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                                            } else {
-                                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                                            }
+                        if(value != null) {
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                        .get().addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()) {
+                                        if(task.getResult().getBoolean("night_mode")) {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                                         } else {
                                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                         }
-                                        new Handler().postDelayed(() -> {
-                                            MainActivity.mode_changed = 1;
-                                            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
-                                            startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
-                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                            finish();
-                                        }, 200);
-                                    });
+                                    } else {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                    }
+                                    new Handler().postDelayed(() -> {
+                                        MainActivity.mode_changed = 1;
+                                        FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                        startActivity(new Intent(ActivityProfileCommittee.this, ActivityProfileCommittee.class));
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        finish();
+                                    }, 200);
+                                });
+                            }
                         }
                     });
+        }
+
+        if(getIntent().getStringExtra("to") != null && getIntent().getStringExtra("to").matches("profile")) {
+            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
+            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
         }
 
         if (uid.matches(FirebaseAuth.getInstance().getUid())) {
@@ -273,27 +280,21 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 finish();
             });
 
-            editDp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!checkStoragePermission()) {
-                        requestStoragePermission();
-                    } else {
-                        imageCoverOrDp = 0; //dp
-                        pickGallery();
-                    }
+            editDp.setOnClickListener(v -> {
+                if (!checkStoragePermission()) {
+                    requestStoragePermission();
+                } else {
+                    imageCoverOrDp = 0; //dp
+                    pickGallery();
                 }
             });
 
-            editCover.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!checkStoragePermission()) {
-                        requestStoragePermission();
-                    } else {
-                        imageCoverOrDp = 1; //cover
-                        pickGallery();
-                    }
+            editCover.setOnClickListener(v -> {
+                if (!checkStoragePermission()) {
+                    requestStoragePermission();
+                } else {
+                    imageCoverOrDp = 1; //cover
+                    pickGallery();
                 }
             });
         }
@@ -311,12 +312,6 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                     .document(uid)
                     .update("pujoVisits", FieldValue.increment(1), "lastVisitTime", Timestamp.now());
 
-//            set the last time profile was visited
-//            FirebaseFirestore.getInstance()
-//                    .collection("Users")
-//                    .document(uid)
-//                    .update("lastVisitTime", Timestamp.now());
-
             FirebaseFirestore.getInstance()
                     .collection("Users")
                     .document(uid).collection("com").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -332,151 +327,142 @@ public class ActivityProfileCommittee extends AppCompatActivity {
                 }
             });
 
-            upvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isLoadingFinished) {
-                        if (isUpvoted) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfileCommittee.this);
-                            builder.setTitle("Withdraw vote for " + baseUserModel.getName() + "?")
-                                    .setMessage("Are you sure?")
-                                    .setPositiveButton("Withdraw", (dialog, which) -> {
+            upvote.setOnClickListener(v -> {
+                if (isLoadingFinished) {
+                    if (isUpvoted) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfileCommittee.this);
+                        builder.setTitle("Withdraw vote for " + baseUserModel.getName() + "?")
+                                .setMessage("Are you sure?")
+                                .setPositiveButton("Withdraw", (dialog, which) -> {
 
-                                        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(uid);
+                                    DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(uid);
 
-                                        DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
+                                    DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
 
-                                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                                        batch.update(docRef, "upvoteL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-                                        batch.delete(followerRef);
+                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                                    batch.update(docRef, "upvoteL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
+                                    batch.delete(followerRef);
 
-                                        batch.commit().addOnCompleteListener(task -> {
-                                            if (task.isSuccessful()) {
-                                                FirebaseFirestore.getInstance()
-                                                        .collection("Users")
-                                                        .document(uid)
-                                                        .update("upvotes", FieldValue.increment(-1));
+                                    batch.commit().addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            FirebaseFirestore.getInstance()
+                                                    .collection("Users")
+                                                    .document(uid)
+                                                    .update("upvotes", FieldValue.increment(-1));
 
-                                                upvote.setText("Upvote");
-                                                upvote.setBackgroundResource(R.drawable.custom_button);
-                                                upvote.setTextColor(getResources().getColor(R.color.reels_white));
+                                            upvote.setText("Upvote");
+                                            upvote.setBackgroundResource(R.drawable.custom_button);
+                                            upvote.setTextColor(getResources().getColor(R.color.reels_white));
 
-                                                if (baseUserModel.getUpvoteL() != null) {
-                                                    if (baseUserModel.getUpvoteL().size() - 1 == 0) {
-                                                        upvoters.setText("0");
-                                                    } else if (baseUserModel.getUpvoteL().size() - 1 == 1) {
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
-                                                    } else {
-                                                        upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
-                                                    }
-                                                } else {
+                                            if (baseUserModel.getUpvoteL() != null) {
+                                                if (baseUserModel.getUpvoteL().size() - 1 == 0) {
                                                     upvoters.setText("0");
-                                                    upvoters.setVisibility(View.GONE);
+                                                } else if (baseUserModel.getUpvoteL().size() - 1 == 1) {
+                                                    upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
+                                                } else {
+                                                    upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
                                                 }
-
-                                                isUpvoted = false;
-                                                baseUserModel.getUpvoteL().remove(fireuser.getUid());
                                             } else {
-                                                Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                                upvoters.setText("0");
+                                                upvoters.setVisibility(View.GONE);
                                             }
-                                        });
-                                    })
-                                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-                                    .setCancelable(true)
-                                    .show();
-                        } else {
-                            long tsLong = System.currentTimeMillis();
 
-                            SeenModel seenModel = new SeenModel();
-                            seenModel.setUid(fireuser.getUid());
-                            seenModel.setUserdp(introPref.getUserdp());
-                            seenModel.setUsername(introPref.getFullName());
-                            seenModel.setType(introPref.getType());
-                            seenModel.setTs(tsLong);
-
-                            upvote_anim.setVisibility(View.VISIBLE);
-                            upvote_anim.playAnimation();
-
-                            try {
-                                AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("fireworks.mp3");
-                                MediaPlayer player = new MediaPlayer();
-                                player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                                player.prepare();
-                                AudioManager audioManager = (AudioManager) ActivityProfileCommittee.this.getSystemService(Context.AUDIO_SERVICE);
-                                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                                    player.start();
-                                    if (!player.isPlaying()) {
-                                        upvote_anim.cancelAnimation();
-                                        upvote_anim.setVisibility(View.GONE);
-                                    }
-                                    player.setOnCompletionListener(mediaPlayer -> {
-                                        upvote_anim.cancelAnimation();
-                                        upvote_anim.setVisibility(View.GONE);
-                                    });
-                                } else {
-                                    new Handler().postDelayed(() -> {
-                                        upvote_anim.cancelAnimation();
-                                        upvote_anim.setVisibility(View.GONE);
-                                    }, 2000);
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            DocumentReference docRef = FirebaseFirestore.getInstance()
-                                    .collection("Users")
-                                    .document(uid);
-
-                            DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
-
-                            WriteBatch batch = FirebaseFirestore.getInstance().batch();
-                            batch.update(docRef, "upvoteL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-                            batch.set(followerRef, seenModel);
-
-                            batch.commit().addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    FirebaseFirestore.getInstance()
-                                            .collection("Users")
-                                            .document(uid)
-                                            .update("upvotes", FieldValue.increment(1));
-
-                                    upvote.setText("Upvoted");
-                                    upvote.setBackgroundResource(R.drawable.custom_button_outline);
-                                    upvote.setTextColor(getResources().getColor(R.color.purple));
-
-                                    if (baseUserModel.getUpvoteL() != null) {
-                                        if (baseUserModel.getUpvoteL().size() + 1 == 0) {
-                                            upvoters.setText("0");
-                                        } else if (baseUserModel.getUpvoteL().size() + 1 == 1) {
-                                            upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
+                                            isUpvoted = false;
+                                            baseUserModel.getUpvoteL().remove(fireuser.getUid());
                                         } else {
-                                            upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
+                                            Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
                                         }
-                                    } else {
-                                        upvoters.setText("0");
-                                    }
+                                    });
+                                })
+                                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                                .setCancelable(true)
+                                .show();
+                    } else {
+                        long tsLong = System.currentTimeMillis();
 
-                                    baseUserModel.getUpvoteL().add(fireuser.getUid());
-                                    isUpvoted = true;
-                                } else {
-                                    Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                        SeenModel seenModel = new SeenModel();
+                        seenModel.setUid(fireuser.getUid());
+                        seenModel.setUserdp(introPref.getUserdp());
+                        seenModel.setUsername(introPref.getFullName());
+                        seenModel.setType(introPref.getType());
+                        seenModel.setTs(tsLong);
+
+                        upvote_anim.setVisibility(View.VISIBLE);
+                        upvote_anim.playAnimation();
+
+                        try {
+                            AssetFileDescriptor afd = ActivityProfileCommittee.this.getAssets().openFd("fireworks.mp3");
+                            MediaPlayer player = new MediaPlayer();
+                            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                            player.prepare();
+                            AudioManager audioManager = (AudioManager) ActivityProfileCommittee.this.getSystemService(Context.AUDIO_SERVICE);
+                            if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                player.start();
+                                if (!player.isPlaying()) {
+                                    upvote_anim.cancelAnimation();
+                                    upvote_anim.setVisibility(View.GONE);
                                 }
-                            });
+                                player.setOnCompletionListener(mediaPlayer -> {
+                                    upvote_anim.cancelAnimation();
+                                    upvote_anim.setVisibility(View.GONE);
+                                });
+                            } else {
+                                new Handler().postDelayed(() -> {
+                                    upvote_anim.cancelAnimation();
+                                    upvote_anim.setVisibility(View.GONE);
+                                }, 2000);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
 
-                    }
+                        DocumentReference docRef = FirebaseFirestore.getInstance()
+                                .collection("Users")
+                                .document(uid);
 
+                        DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
+
+                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
+                        batch.update(docRef, "upvoteL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
+                        batch.set(followerRef, seenModel);
+
+                        batch.commit().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                FirebaseFirestore.getInstance()
+                                        .collection("Users")
+                                        .document(uid)
+                                        .update("upvotes", FieldValue.increment(1));
+
+                                upvote.setText("Upvoted");
+                                upvote.setBackgroundResource(R.drawable.custom_button_outline);
+                                upvote.setTextColor(getResources().getColor(R.color.purple));
+
+                                if (baseUserModel.getUpvoteL() != null) {
+                                    if (baseUserModel.getUpvoteL().size() + 1 == 0) {
+                                        upvoters.setText("0");
+                                    } else if (baseUserModel.getUpvoteL().size() + 1 == 1) {
+                                        upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
+                                    } else {
+                                        upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
+                                    }
+                                } else {
+                                    upvoters.setText("0");
+                                }
+
+                                baseUserModel.getUpvoteL().add(fireuser.getUid());
+                                isUpvoted = true;
+                            } else {
+                                Toast.makeText(ActivityProfileCommittee.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             });
-
         }
 
-        upvoteHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
-                bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-            }
+        upvoteHolder.setOnClickListener(view -> {
+            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
+            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
         });
 
         PDp.setOnClickListener(v -> {

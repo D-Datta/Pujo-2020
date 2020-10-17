@@ -69,6 +69,7 @@
         android:layout_marginEnd="17dp"
         app:borderWidth="0dp"
         android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:tint="@color/purple1"
         android:backgroundTint="@color/colorPrimary"
         android:scaleType="fitXY"
         app:rippleColor="@color/white"

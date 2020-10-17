@@ -28,6 +28,7 @@ import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import java.io.IOException;
@@ -182,6 +183,8 @@ public class MessagingService extends FirebaseMessagingService {
         }
         else if(action.matches("Profile")) {
             intent = new Intent(context, ActivityProfileCommittee.class);
+            intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
+            intent.putExtra("to", "profile");
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

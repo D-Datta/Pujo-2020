@@ -15,6 +15,7 @@
     <color name="purple1">#730D4F</color>
     <color name="pink">#EB2C65</color>
     <color name="text_bg">#F47EA4</color>
+    <color name="purple2">#730D4F</color>
 
     <color name="black">#212121</color>
     <color name="dark_black">#000</color>
@@ -39,6 +40,7 @@
     <color name="md_blue_400">#42A5F5</color>
     <color name="md_blue_500">#2196F3</color>
     <color name="divider_color">#e2e2e2</color>
+    <color name="blue">#0d47a1</color>
 
     <color name="lightblue1">#DFCCFA</color>
     <color name="red">#B30F0F</color>

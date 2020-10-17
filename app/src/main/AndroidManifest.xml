@@ -145,10 +145,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".CommitteeViewAll"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".NewPostHome"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

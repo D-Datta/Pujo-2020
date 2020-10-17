@@ -179,25 +179,27 @@ public class LoginActivity extends AppCompatActivity {
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
                     .addSnapshotListener(LoginActivity.this, (value, error) -> {
-                        if(value.getBoolean("listener")) {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode")
-                                    .get().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()) {
-                                    if(task.getResult().getBoolean("night_mode")) {
-                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        if(value != null) {
+                            if(value.getBoolean("listener") != null && value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                        .get().addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()) {
+                                        if(task.getResult().getBoolean("night_mode")) {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                        } else {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                        }
                                     } else {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                     }
-                                } else {
-                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                                }
-                                new Handler().postDelayed(() -> {
-                                    FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
-                                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                    finish();
-                                }, 200);
-                            });
+                                    new Handler().postDelayed(() -> {
+                                        FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                        startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        finish();
+                                    }, 200);
+                                });
+                            }
                         }
                     });
         }
@@ -715,8 +717,19 @@ public class LoginActivity extends AppCompatActivity {
         else {
             BasicUtility.showToast(getApplicationContext(), "Network unavailable...");
         }
-
     }
 
+    @Override
+    protected void onResume() {
+        if(introPref.isFirstTime()) {
+            super.onBackPressed();
+        }
+        super.onResume();
+    }
 
+    @Override
+    public void onBackPressed() {
+        introPref.setIsFirstTime(true);
+        super.onBackPressed();
+    }
 }

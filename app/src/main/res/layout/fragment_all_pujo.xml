@@ -230,6 +230,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:scaleType="fitXY"
         app:rippleColor="@color/white"
+        android:tint="@color/purple1"
         app:elevation="10dp"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="70dp"

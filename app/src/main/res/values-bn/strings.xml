@@ -120,7 +120,7 @@
     <string name="recorder">রেকর্ডার</string>
     <string name="video">ভিডিও</string>
     <string name="communicate">যোগাযোগ করা</string>
-    <string name="tell_a_friend">বন্ধুকে বলো</string>
+    <string name="tell_a_friend">বন্ধুদের বলুন</string>
     <string name="contact_us">যোগাযোগ করুন</string>
     <string name="about">বিষয়</string>
     <string name="account">অ্যাকাউন্ট</string>
@@ -214,6 +214,7 @@
     <string name="others">অন্যান্য</string>
 
     <string name="link_suffix">আপনি যদি এখনও উৎসব অ্যাপটি ডাউনলোড না করে থাকেন\n\nএখনই ডাউনলোড করুন \nhttps://play.google.com/store/apps/details?id=com.applex.utsav \nআর দেখতে পান দেশ বিদেশের দুর্গা পুজো</string>
+    <string name="set_theme">থিম সেট করুন</string>
 
 
 </resources>

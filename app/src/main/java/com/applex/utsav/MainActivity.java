@@ -181,7 +181,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         View hView = navigationView.getHeaderView(0);
-        navigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple)));
+        navigationView.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple2)));
+
         name = hView.findViewById(R.id.nav_Name);
         displaypic = hView.findViewById(R.id.displaypic);
         com_data = hView.findViewById(R.id.com_data);
@@ -195,25 +196,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
                     .addSnapshotListener(MainActivity.this, (value, error) -> {
-                        if(value.getBoolean("listener")) {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode")
-                                    .get().addOnCompleteListener(task -> {
-                                        if(task.isSuccessful()) {
-                                            if(task.getResult().getBoolean("night_mode")) {
-                                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                                            } else {
-                                                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                                            }
+                        if(value != null) {
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                        .get().addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()) {
+                                        if(task.getResult().getBoolean("night_mode")) {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                                         } else {
                                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                         }
-                                        new Handler().postDelayed(() -> {
-                                            FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
-                                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                            finish();
-                                        }, 200);
-                                    });
+                                    } else {
+                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                    }
+                                    new Handler().postDelayed(() -> {
+                                        FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                        startActivity(new Intent(MainActivity.this, MainActivity.class));
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        finish();
+                                    }, 200);
+                                });
+                            }
                         }
                     });
         }
@@ -376,11 +379,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
-        super.onResume();
-
         if(introPref.isFirstTime()) {
             super.onBackPressed();
         }
+
+        super.onResume();
 
         if(mode_changed == 1) {
             mode_changed = 0;

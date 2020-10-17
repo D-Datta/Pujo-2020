@@ -115,26 +115,28 @@ public class ActivityNotification extends AppCompatActivity {
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
                     .addSnapshotListener(ActivityNotification.this, (value, error) -> {
-                        if(value.getBoolean("listener")) {
-                            FirebaseFirestore.getInstance().document("Mode/night_mode")
-                                    .get().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()) {
-                                    if(task.getResult().getBoolean("night_mode")) {
-                                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        if(value != null) {
+                            if(value.getBoolean("listener")) {
+                                FirebaseFirestore.getInstance().document("Mode/night_mode")
+                                        .get().addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()) {
+                                        if(task.getResult().getBoolean("night_mode")) {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                                        } else {
+                                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                                        }
                                     } else {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                     }
-                                } else {
-                                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                                }
-                                new Handler().postDelayed(() -> {
-                                    MainActivity.mode_changed = 1;
-                                    FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
-                                    startActivity(new Intent(ActivityNotification.this, ActivityNotification.class));
-                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                    finish();
-                                }, 200);
-                            });
+                                    new Handler().postDelayed(() -> {
+                                        MainActivity.mode_changed = 1;
+                                        FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
+                                        startActivity(new Intent(ActivityNotification.this, ActivityNotification.class));
+                                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                        finish();
+                                    }, 200);
+                                });
+                            }
                         }
                     });
         }
@@ -226,7 +228,6 @@ public class ActivityNotification extends AppCompatActivity {
                     else {
                         holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
-//                    holder.dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
                 holder.title.setText(model.getUsN()+" "+ model.getTitle());
@@ -321,7 +322,6 @@ public class ActivityNotification extends AppCompatActivity {
                         startActivity(i);
                         notifyItemChanged(position);
                     }
-
                     else if(model.getTitle().contains("upvoted")){
                         model.setSeen(true);
                         FirebaseFirestore.getInstance()
@@ -332,6 +332,7 @@ public class ActivityNotification extends AppCompatActivity {
                                 });
                         Intent i= new Intent(ActivityNotification.this, ActivityProfileCommittee.class);
                         i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                        i.putExtra("to", "profile");
                         startActivity(i);
                         notifyItemChanged(position);
                     }

@@ -165,7 +165,7 @@
                 android:id="@+id/com_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="20dp"
+                android:paddingHorizontal="18dp"
                 android:paddingVertical="5dp"
                 android:layout_centerVertical="true"
                 android:text="@string/upvoted_pujos"
@@ -175,17 +175,17 @@
             <TextView
                 android:id="@+id/community_view_all"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="25dp"
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
                 android:paddingHorizontal="8dp"
                 android:layout_marginVertical="5dp"
                 android:layout_centerVertical="true"
-                android:layout_marginHorizontal="5dp"
+                android:layout_marginHorizontal="10dp"
                 android:text="@string/view_all"
                 android:background="@drawable/custom_ripple_white"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/purple1"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/darkpurple"
                 android:textSize="12dp" />
 
         </RelativeLayout>

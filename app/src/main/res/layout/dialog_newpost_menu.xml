@@ -25,7 +25,7 @@
             android:text="@string/add_to_post"
             android:paddingVertical="15dp"
             android:fontFamily="@font/oxygen_ex_bold"
-            android:textColor="@color/purple"
+            android:textColor="@color/blue"
             android:textSize="18dp"
             android:gravity="center_vertical"
             android:paddingHorizontal="25dp" />
@@ -45,7 +45,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_camera_24"
                 android:padding="8dp"
-                app:tint="@color/colorPrimaryDark" />
+                app:tint="@color/purple1" />
 
             <ImageView
                 android:id="@+id/yay3"
@@ -53,7 +53,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_photo_gallery_library_24"
                 android:padding="8dp"
-                app:tint="@color/purple" />
+                app:tint="@color/colorPrimaryDark" />
 
             <ImageView
                 android:id="@+id/video_gal_icon"
@@ -89,7 +89,7 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_baseline_camera_24"
             android:padding="8dp"
-            app:tint="@color/colorPrimaryDark" />
+            app:tint="@color/purple1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,7 +105,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.2dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@color/grey"/>
 
     <LinearLayout
@@ -120,9 +121,9 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_baseline_photo_gallery_library_24"
             android:padding="8dp"
-            app:tint="@color/purple" />
+            android:src="@drawable/ic_baseline_photo_gallery_library_24"
+            app:tint="@color/colorPrimaryDark" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -138,7 +139,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.2dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@color/grey"/>
 
     <LinearLayout
@@ -168,10 +170,13 @@
             android:textSize="15sp" />
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.2dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@color/grey"/>
+
     <LinearLayout
         android:id="@+id/Recorder"
         android:layout_width="match_parent"

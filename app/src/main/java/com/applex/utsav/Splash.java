@@ -58,6 +58,7 @@ public class Splash extends AppCompatActivity {
         if (introPref.isFirstTimeLaunch()) {
             new Handler().postDelayed(() -> {
                 introPref.setIsFirstTimeLaunch(false);
+                introPref.setIsFirstTime(false);
                 startActivity(new Intent(Splash.this, LanguageChoice.class));
                 finish();
             },Splash_time_out);
@@ -95,6 +96,7 @@ public class Splash extends AppCompatActivity {
                                         Intent homeIntent = new Intent(Splash.this, LoginActivity.class);
                                         homeIntent.putExtra("value", "splash");
                                         homeIntent.putExtra("email", fireuser.getEmail());
+                                        introPref.setIsFirstTime(false);
                                         startActivity(homeIntent);
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                         finish();
@@ -105,6 +107,7 @@ public class Splash extends AppCompatActivity {
                                 Intent homeIntent = new Intent(Splash.this, LoginActivity.class);
                                 homeIntent.putExtra("value", "splash");
                                 homeIntent.putExtra("email", fireuser.getEmail());
+                                introPref.setIsFirstTime(false);
                                 startActivity(homeIntent);
                                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 finish();
@@ -112,6 +115,7 @@ public class Splash extends AppCompatActivity {
                 }
                 else {
                     new Handler().postDelayed(() -> {
+                        introPref.setIsFirstTime(false);
                         Intent intent = new Intent(Splash.this, LoginActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

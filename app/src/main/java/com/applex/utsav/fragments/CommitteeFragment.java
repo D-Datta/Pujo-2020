@@ -50,7 +50,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
-import com.applex.utsav.CommitteeViewAll;
 import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -63,7 +62,6 @@ import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
-import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.BaseUserModel;
@@ -367,7 +365,7 @@ public class CommitteeFragment extends Fragment {
                                     .collection("Feeds")
                                     .whereEqualTo("type", "indi")
                                     .orderBy("ts", Query.Direction.DESCENDING)
-                                    .startAfter(lastReelDocument);
+                                    .startAfter(lastfeedDocument);
                         } else {
                             feeds_query = FirebaseFirestore.getInstance()
                                     .collection("Feeds")
