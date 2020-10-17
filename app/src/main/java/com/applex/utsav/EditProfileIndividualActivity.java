@@ -131,7 +131,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
                     .addSnapshotListener(EditProfileIndividualActivity.this, (value, error) -> {
                         if(value != null) {
-                            if(value.getBoolean("listener")) {
+                            if(value.getBoolean("listener") != null && value.getBoolean("listener")) {
                                 FirebaseFirestore.getInstance().document("Mode/night_mode")
                                         .get().addOnCompleteListener(task -> {
                                     if(task.isSuccessful()) {

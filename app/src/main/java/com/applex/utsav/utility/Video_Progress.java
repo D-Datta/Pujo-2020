@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
 
-public class Video_Progress extends AsyncTask<Void, Integer, Void> {
+public class Video_Progress extends AsyncTask<Integer, Integer, Integer> {
 
     private final int duration;
     @SuppressLint("StaticFieldLeak")
@@ -22,9 +22,9 @@ public class Video_Progress extends AsyncTask<Void, Integer, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected Integer doInBackground(Integer... integers) {
         int current = videoView.getCurrentPosition()/1000;
-        Log.i("BAM", "1");
+        Log.i("BAM", "2");
         do {
             try {
                 int currentPercent = current * 100/duration;
@@ -33,7 +33,6 @@ public class Video_Progress extends AsyncTask<Void, Integer, Void> {
                 e.printStackTrace();
             }
         } while(video_progress.getProgress() <= 100);
-
         return null;
     }
 

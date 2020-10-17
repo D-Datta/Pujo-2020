@@ -137,7 +137,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
-        holder.reels_video.setOnPreparedListener(mediaPlayer -> new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute());
+        holder.reels_video.setOnPreparedListener(mediaPlayer -> new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute(0,0,0));
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
         holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
 
