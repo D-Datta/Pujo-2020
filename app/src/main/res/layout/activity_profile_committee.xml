@@ -53,15 +53,14 @@
 
                         <ImageView
                             android:id="@+id/edit_cover"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:layout_margin="10dp"
-                            android:padding="5dp"
-                            android:background="@drawable/custom_ripple_grey_bg"
-                            android:src="@drawable/ic_outline_edit_24"
-                            app:tint="@color/purple" />
+                            android:padding="10dp"
+                            android:background="@drawable/custom_ripple_white"
+                            android:src="@drawable/edit_dp" />
 
                     </RelativeLayout>
 
@@ -76,14 +75,13 @@
 
                         <ImageView
                             android:id="@+id/edit_dp"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:padding="5dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="7dp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentBottom="true"
                             android:background="@drawable/custom_ripple_white"
-                            android:src="@drawable/ic_outline_edit_24"
-                            app:tint="@color/purple" />
+                            android:src="@drawable/edit_dp" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
@@ -290,7 +288,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/locatebutton"
                         android:fontFamily="@font/oxygen_ex_bold"
-                        android:drawableStart="@drawable/ic_baseline_location_on_24"
+                        android:drawableStart="@drawable/locate_icon_profile"
                         android:paddingStart="10dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="5dp"

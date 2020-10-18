@@ -524,7 +524,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="15dp"
                     android:background="@drawable/custom_button"
-                    android:backgroundTint="@color/purple"
                     android:fontFamily="@font/oxygen_ex_bold"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"

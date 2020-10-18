@@ -62,12 +62,10 @@
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_margin="10dp"
                     android:padding="10dp"
                     android:background="@drawable/custom_ripple_white"
-                    android:src="@drawable/ic_outline_edit_24"
-                    app:tint="@color/purple" />
+                    android:src="@drawable/edit_dp" />
 
             </RelativeLayout>
 
@@ -91,10 +89,9 @@
                         android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
-                        android:padding="5dp"
+                        android:padding="7dp"
                         android:background="@drawable/custom_ripple_white"
-                        android:src="@drawable/ic_outline_edit_24"
-                        app:tint="@color/purple" />
+                        android:src="@drawable/edit_dp" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="130dp"
@@ -596,7 +593,6 @@
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:background="@drawable/custom_button"
-                android:backgroundTint="@color/purple"
                 android:fontFamily="@font/oxygen_ex_bold"
                 android:paddingStart="5dp"
                 android:layout_centerInParent="true"
