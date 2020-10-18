@@ -158,6 +158,7 @@
     <color name="reels_white">#fff</color>
     <color name="login_white">#fff</color>
     <color name="dialog_bg">#fff</color>
+    <color name="view_all_text">#BC0079</color>
 
     //dots inactive colors
     <color name="inactive_one">#7EAFAEAE</color>

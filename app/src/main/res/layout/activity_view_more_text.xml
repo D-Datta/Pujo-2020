@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/text_bg">
+    android:background="#BC0079">
 
     <ImageView
         android:id="@+id/post_image45"
@@ -74,8 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/_10_mins_ago"
-                android:textSize="12sp"
-                android:textColor="@color/white_transparent"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
         <ImageView
@@ -126,7 +125,7 @@
                 android:paddingTop="8dp"
                 android:paddingHorizontal="20dp"
                 android:autoLink="all"
-                android:textColorLink="@color/link"
+                android:textColorLink="@color/yellow_FFD500"
                 android:text="@string/lorem_ipsum"
                 android:scrollbars="vertical"
                 android:textSize="25dp"
@@ -178,6 +177,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:padding="5dp"
+                    app:tint="@color/reels_white"
                     android:src="@drawable/ic_blossom"/>
             </LinearLayout>
 
