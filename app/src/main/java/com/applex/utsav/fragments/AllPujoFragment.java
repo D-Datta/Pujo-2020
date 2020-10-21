@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.annotation.SuppressLint;
@@ -319,8 +320,16 @@ public class AllPujoFragment extends Fragment {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
                         floatingActionButton.setOnClickListener(v -> {
-                            recyclerView.scrollToPosition(0);
-                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+//                            recyclerView.scrollToPosition(0);
+//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(requireActivity()) {
+                                @Override
+                                protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                            smoothScroller.setTargetPosition(0);
+                            Objects.requireNonNull(recyclerView.getLayoutManager()).startSmoothScroll(smoothScroller);
                         });
                     } else {
                         floatingActionButton.setVisibility(View.GONE);

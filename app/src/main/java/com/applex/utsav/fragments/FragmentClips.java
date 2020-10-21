@@ -7,6 +7,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.annotation.SuppressLint;
@@ -531,8 +532,7 @@ public class FragmentClips extends Fragment {
 
                         ClickableSpan clickableSpan = new ClickableSpan() {
                             @Override
-                            public void onClick(View textView)
-                            {
+                            public void onClick(@NonNull View textView) {
                                 Intent i = new Intent(getContext(), HashtagClipsViewAll.class);
                                 i.putExtra("hashtag", programmingViewHolder.text_content.getText().toString().substring(s+1, e));
                                 startActivity(i);
@@ -1016,6 +1016,7 @@ public class FragmentClips extends Fragment {
                 holder.reels_video.pause();
                 holder.reels_image.setVisibility(View.VISIBLE);
                 holder.sound.setVisibility(View.GONE);
+                holder.progress_bar.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -1150,8 +1151,16 @@ public class FragmentClips extends Fragment {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
                         floatingActionButton.setOnClickListener(v -> {
-                            recyclerView.scrollToPosition(0);
-                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+//                            recyclerView.scrollToPosition(0);
+//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(requireActivity()) {
+                                @Override
+                                protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                            smoothScroller.setTargetPosition(0);
+                            Objects.requireNonNull(recyclerView.getLayoutManager()).startSmoothScroll(smoothScroller);
                         });
                     } else {
                         floatingActionButton.setVisibility(View.GONE);

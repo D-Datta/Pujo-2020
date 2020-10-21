@@ -157,8 +157,6 @@ public class ActivityTagPujo extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.tag_search_menu, menu);
@@ -183,6 +181,17 @@ public class ActivityTagPujo extends AppCompatActivity {
                     }
                 }
                 adapter = new PujoTagAdapter(tagList, ActivityTagPujo.this);
+                adapter.onClickListener(new PujoTagAdapter.OnClickListener() {
+                    @Override
+                    public void onClickListener(int position, String pujo, String uid, String dp) {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("name", pujo);
+                        returnIntent.putExtra("uid", uid);
+                        returnIntent.putExtra("dp", dp);
+                        setResult(Activity.RESULT_OK, returnIntent);
+                        finish();
+                    }
+                });
                 tagsRecycler.setAdapter(adapter);
 
                 return true;

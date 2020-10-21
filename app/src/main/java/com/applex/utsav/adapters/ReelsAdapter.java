@@ -12,14 +12,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
-import com.applex.utsav.HashtagClipsViewAll;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
@@ -46,7 +37,6 @@ import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
-import com.applex.utsav.utility.Video_Progress;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -59,8 +49,6 @@ import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemViewHolder> {
 
@@ -68,9 +56,10 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private Context context;
     private IntroPref introPref;
     private String bool;
-    private String uid,link;
+    private String uid, link;
     private String type, ts, pCom_ts, from;
     public static ReelsPostModel currentItem;
+    private int duration;
 
     public ReelsAdapter(Context context, ArrayList<ReelsPostModel> models,
                         String bool, String uid, String type, String ts, String pCom_ts, String from) {
@@ -102,46 +91,49 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         FirebaseFirestore.getInstance().collection("Reels")
                 .whereEqualTo("docID", currentItem.getDocID())
                 .get().addOnCompleteListener(task -> {
-                    DocumentSnapshot reelslastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
-                    if(position == 0) {
-                        fetchBefore(bool, reelslastVisible, models, uid);
-                    }
-                    else if(position == models.size()-1) {
-                        fetchAfter(bool, reelslastVisible, models, uid);
-                    }
-                });
+            DocumentSnapshot reelslastVisible = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
+            if (position == 0) {
+                fetchBefore(bool, reelslastVisible, models, uid);
+            } else if (position == models.size() - 1) {
+                fetchAfter(bool, reelslastVisible, models, uid);
+            }
+        });
 
-        if(type != null) {
-            if(type.matches("flame")) {
+        if (type != null) {
+            if (type.matches("flame")) {
                 BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
-                bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
-            }
-            else if (type.matches("comment")) {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
-                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
-            }
-            else if(type.matches("comment_flame")) {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts, null);
-                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
-            }
-            else if(type.matches("comment_reply")) {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts, null);
-                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
-            }
-            else if(type.matches("comment_reply_flame")) {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", type,currentItem.getCmtNo(), ts, pCom_ts);
-                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+                bottomSheetDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "FlamedBySheet");
+            } else if (type.matches("comment")) {
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", null, currentItem.getCmtNo(), null, null);
+                bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
+            } else if (type.matches("comment_flame")) {
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", type, currentItem.getCmtNo(), ts, null);
+                bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
+            } else if (type.matches("comment_reply")) {
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", type, currentItem.getCmtNo(), ts, null);
+                bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
+            } else if (type.matches("comment_reply_flame")) {
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", type, currentItem.getCmtNo(), ts, pCom_ts);
+                bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
             }
         }
 
         holder.pujo_com_name.setText(currentItem.getCommittee_name());
         holder.reels_video.setVideoURI(Uri.parse(currentItem.getVideo()));
         holder.reels_video.start();
-        holder.reels_video.setOnPreparedListener(mediaPlayer -> new Video_Progress(holder.reels_video.getDuration() / 1000, holder.reels_video, holder.video_progress).execute(0,0,0));
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
         holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
 
-        if(currentItem.getDescription() != null) {
+        if (currentItem.getDuration().length() == 4) {
+            duration = (Integer.parseInt(currentItem.getDuration().substring(0, 1)) * 60) + Integer.parseInt(currentItem.getDuration().substring(2));
+        } else {
+            duration = (Integer.parseInt(currentItem.getDuration().substring(0, 2)) * 60) + Integer.parseInt(currentItem.getDuration().substring(3));
+        }
+
+//        Video_Progress progress = new Video_Progress(duration, holder.reels_video, holder.progress_bar);
+//        progress.execute(0, 0, 0);
+
+        if (currentItem.getDescription() != null) {
             holder.pujo_desc.setText(currentItem.getDescription());
             //TAGS COLOURED DISPLAY
 //            Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
@@ -178,17 +170,16 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 //            holder.pujo_desc.setMovementMethod(LinkMovementMethod.getInstance());
 //            holder.pujo_desc.setHighlightColor(Color.TRANSPARENT);
             //TAGS COLOURED DISPLAY
-        }
-        else {
+        } else {
             holder.pujo_desc.setVisibility(View.GONE);
         }
 
-        if(currentItem.getHeadline() != null) {
+        if (currentItem.getHeadline() != null) {
             holder.pujo_headline.setText(currentItem.getHeadline());
             holder.pujo_headline.setSingleLine();
         }
 
-        if(!currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
+        if (!currentItem.getUid().matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
             FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .document(String.valueOf(currentItem.getTs()))
@@ -216,11 +207,11 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             }
         }
 
-        holder.back_reel.setOnClickListener(v -> ((ReelsActivity)context).onBackPressed());
+        holder.back_reel.setOnClickListener(v -> ((ReelsActivity) context).onBackPressed());
         holder.save_reel.setOnClickListener(v -> save_Dialog(currentItem.getVideo()));
 
         //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
-        if (currentItem.getType().matches("com")){
+        if (currentItem.getType().matches("com")) {
             holder.pujo_com_dp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityProfileCommittee.class);
                 intent.putExtra("uid", currentItem.getUid());
@@ -232,8 +223,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 intent.putExtra("uid", currentItem.getUid());
                 context.startActivity(intent);
             });
-        }
-        else if (currentItem.getType().matches("indi")){
+        } else if (currentItem.getType().matches("indi")) {
             holder.pujo_com_dp.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityProfileUser.class);
                 intent.putExtra("uid", currentItem.getUid());
@@ -253,40 +243,34 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                     .placeholder(R.drawable.ic_account_circle_black_24dp)
                     .into(holder.pujo_com_dp, new Callback() {
                         @Override
-                        public void onSuccess() { }
+                        public void onSuccess() {
+                        }
 
                         @Override
                         public void onError(Exception e) {
-                            if(currentItem.getGender()!=null){
-                                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+                            if (currentItem.getGender() != null) {
+                                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                                     holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
-                                }
-                                else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                                } else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")) {
                                     holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
-                                }
-                                else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                                } else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")) {
                                     holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
-                            }
-                            else {
+                            } else {
                                 holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
                     });
-        }
-        else {
-            if(currentItem.getGender()!=null){
-                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){
+        } else {
+            if (currentItem.getGender() != null) {
+                if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")) {
                     holder.pujo_com_dp.setImageResource(R.drawable.ic_female);
-                }
-                else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")){
+                } else if (currentItem.getGender().matches("Male") || currentItem.getGender().matches("পুরুষ")) {
                     holder.pujo_com_dp.setImageResource(R.drawable.ic_male);
-                }
-                else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")){
+                } else if (currentItem.getGender().matches("Others") || currentItem.getGender().matches("অন্যান্য")) {
                     holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
-            }
-            else {
+            } else {
                 holder.pujo_com_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
             }
         }
@@ -302,21 +286,20 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                 holder.like_layout.setVisibility(View.VISIBLE);
                 holder.likesCount.setText(String.valueOf(currentItem.getLikeL().size()));
 
-                for(int j = 0; j < currentItem.getLikeL().size(); j++) {
-                    if(currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
+                for (int j = 0; j < currentItem.getLikeL().size(); j++) {
+                    if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
                         holder.like.setImageResource(R.drawable.ic_flame_red);
                         holder.like.setImageTintList(null);
                         currentItem.setLikeCheck(j);
                         //Position in likeList where the current USer UId is found stored in likeCheck
-                    }
-                    else{
+                    } else {
                         holder.like.setImageResource(R.drawable.ic_dhak_view_more);
                     }
                 }
 
                 holder.like_layout.setOnClickListener(v -> {
                     BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Reels", currentItem.getDocID());
-                    bottomSheetDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "FlamedBySheet");
+                    bottomSheetDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "FlamedBySheet");
                 });
 
             }
@@ -334,10 +317,9 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         holder.like.setImageResource(R.drawable.ic_dhak_view_more);//was already liked by current user
                         if (currentItem.getLikeL().size() - 1 == 0) {
                             holder.like_layout.setVisibility(View.GONE);
-                        }
-                        else {
+                        } else {
                             holder.like_layout.setVisibility(View.VISIBLE);
-                            holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size()-1));
+                            holder.likesCount.setText(Integer.toString(currentItem.getLikeL().size() - 1));
                         }
                         ///////////REMOVE CURRENT USER LIKE/////////////
                         currentItem.removeFromLikeList(FirebaseAuth.getInstance().getUid());
@@ -351,10 +333,10 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         batch.update(likeStore, "likeL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
                         batch.delete(flamedDoc);
 
-                        batch.commit().addOnSuccessListener(task -> {});
+                        batch.commit().addOnSuccessListener(task -> {
+                        });
                         ///////////////////BATCH WRITE///////////////////
-                    }
-                    else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
+                    } else { //WHEN CURRENT USER HAS NOT LIKED OR NO ONE HAS LIKED
                         BasicUtility.vibrate(context);
                         holder.dhak_anim.setVisibility(View.VISIBLE);
                         holder.dhak_anim.playAnimation();
@@ -364,7 +346,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                             holder.dhak_anim.setVisibility(View.GONE);
                         }, 2000);
 
-                        WindowManager manager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+                        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
                         Display display8 = manager.getDefaultDisplay();
                         int displayWidth8 = display8.getWidth();
                         BitmapFactory.Options options8 = new BitmapFactory.Options();
@@ -375,7 +357,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                             options8.inSampleSize = Math.round((float) width8 / (float) displayWidth8);
                         }
                         options8.inJustDecodeBounds = false;
-                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_flame_red, options8);
+                        Bitmap scaledBitmap11 = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_flame_red, options8);
                         holder.like.setImageBitmap(scaledBitmap11);
 
 //                        holder.like.setImageResource(R.drawable.ic_flame_red);
@@ -412,7 +394,8 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
                         if (currentItem.getLikeL().size() % 5 == 0) {
                             batch.update(likeStore, "newTs", tsLong);
                         }
-                        batch.commit().addOnSuccessListener(task -> {});
+                        batch.commit().addOnSuccessListener(task -> {
+                        });
                         ///////////////////BATCH WRITE///////////////////
                     }
                 });
@@ -424,31 +407,28 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             ReelsItemViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
             ReelsItemViewHolder.commentimg.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
-                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", null, currentItem.getCmtNo(), null, null);
+                bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
             });
             ReelsItemViewHolder.commentCount.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 2,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
-                bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", null, currentItem.getCmtNo(), null, null);
+                bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
             });
-        }
-        else {
+        } else {
             ReelsItemViewHolder.comment_layout.setVisibility(View.GONE);
         }
         /////COMMENT/////
 
         holder.comment.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels",currentItem.getDocID(), currentItem.getUid(), 1,"ReelsAdapter", null,currentItem.getCmtNo(), null, null);
-            bottomCommentsDialog.show(((ReelsActivity)context).getSupportFragmentManager(), "CommentsSheet");
+            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ReelsAdapter", null, currentItem.getCmtNo(), null, null);
+            bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
         });
         holder.share.setOnClickListener(view -> {
-            if(bool.matches("1")){
+            if (bool.matches("1")) {
                 link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
-            }
-            else if (bool.matches("2")){
+            } else if (bool.matches("2")) {
                 link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
-            }
-            else if (bool.matches("3")){
+            } else if (bool.matches("3")) {
                 link = "https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
             }
             Intent i = new Intent();
@@ -465,6 +445,8 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.pujo_headline.setSelected(false);
         holder.reels_video.pause();
         holder.reels_image.setVisibility(View.VISIBLE);
+        holder.progress_bar.setVisibility(View.VISIBLE);
+        holder.video_progress.setProgress(0);
     }
 
     @Override
@@ -472,10 +454,10 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         super.onViewAttachedToWindow(holder);
         holder.reels_video.start();
         holder.reels_video.setOnInfoListener((mediaPlayer, i2, i1) -> {
-            if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+            if (i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
                 holder.progress_bar.setVisibility(View.VISIBLE);
                 return true;
-            } else if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+            } else if (i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
                 holder.progress_bar.setVisibility(View.GONE);
                 return true;
             }
@@ -492,18 +474,32 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     }
 
     @Override
-    public int getItemCount() { return models.size(); }
+    public int getItemCount() {
+        return models.size();
+    }
 
     public static class ReelsItemViewHolder extends RecyclerView.ViewHolder {
 
-        VideoView reels_video;
-        ImageView pujo_com_dp, like_image, like, comment, share,back_reel,save_reel, play_image, reels_image;
-        TextView pujo_com_name, pujo_headline, likesCount, mins_ago;
-        com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
-        LottieAnimationView video_playing;
-        LinearLayout like_layout;
-        ProgressBar video_progress, progress_bar;
-        LottieAnimationView dhak_anim;
+        public VideoView reels_video;
+        public ImageView pujo_com_dp;
+        public ImageView like_image;
+        public ImageView like;
+        public ImageView comment;
+        public ImageView share;
+        public ImageView back_reel;
+        public ImageView save_reel;
+        public ImageView play_image;
+        public ImageView reels_image;
+        public TextView pujo_com_name;
+        public TextView pujo_headline;
+        public TextView likesCount;
+        public TextView mins_ago;
+        public com.borjabravo.readmoretextview.ReadMoreTextView pujo_desc;
+        public LottieAnimationView video_playing;
+        public LinearLayout like_layout;
+        public ProgressBar video_progress;
+        public ProgressBar progress_bar;
+        public LottieAnimationView dhak_anim;
         @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
         @SuppressLint("StaticFieldLeak")
@@ -545,15 +541,13 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         myDialogue.setContentView(R.layout.dialog_image_options);
         myDialogue.setCanceledOnTouchOutside(true);
         myDialogue.findViewById(R.id.saveToInternal).setOnClickListener(v -> {
-            if(!BasicUtility.checkStoragePermission(context)) {
+            if (!BasicUtility.checkStoragePermission(context)) {
                 BasicUtility.requestStoragePermission(context);
-            }
-            else {
+            } else {
                 boolean bool = BasicUtility.downloadVideo(url, context);
-                if(bool) {
+                if (bool) {
                     Toast.makeText(context, "Saved to device", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(context, "Something went wrong...", Toast.LENGTH_SHORT).show();
                 }
                 myDialogue.dismiss();
@@ -566,23 +560,21 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private void fetchAfter(String bool, DocumentSnapshot reelslastVisible, ArrayList<ReelsPostModel> models, String uid) {
         Query query = null;
 
-        if(bool.matches("1")) {
+        if (bool.matches("1")) {
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .orderBy("ts", Query.Direction.DESCENDING)
                     .whereEqualTo("type", from)
                     .limit(1)
                     .startAfter(reelslastVisible);
-        }
-        else if(bool.matches("2")) {
+        } else if (bool.matches("2")) {
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .whereEqualTo("uid", uid)
                     .orderBy("ts", Query.Direction.DESCENDING)
                     .limit(1)
                     .startAfter(reelslastVisible);
-        }
-        else if(bool.matches("3")) {
+        } else if (bool.matches("3")) {
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .orderBy("newTs", Query.Direction.DESCENDING)
@@ -591,14 +583,14 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         }
 
         Objects.requireNonNull(query).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
+            if (task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
                 ArrayList<ReelsPostModel> reelsPostModels = new ArrayList<>();
                 DocumentSnapshot document = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
                 ReelsPostModel reelsPostModel = document.toObject(ReelsPostModel.class);
                 Objects.requireNonNull(reelsPostModel).setDocID(document.getId());
                 reelsPostModels.add(reelsPostModel);
 
-                if(models.size() > 0) {
+                if (models.size() > 0) {
                     models.addAll(models.size(), reelsPostModels);
                     notifyItemInserted(models.size());
                 }
@@ -609,23 +601,21 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
     private void fetchBefore(String bool, DocumentSnapshot reelslastVisible, ArrayList<ReelsPostModel> models, String uid) {
         Query query = null;
 
-        if(bool.matches("1")) {
+        if (bool.matches("1")) {
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .orderBy("ts", Query.Direction.ASCENDING)
                     .whereEqualTo("type", from)
                     .limit(1)
                     .startAfter(reelslastVisible);
-        }
-        else if(bool.matches("2")) {
+        } else if (bool.matches("2")) {
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .whereEqualTo("uid", uid)
                     .orderBy("ts", Query.Direction.ASCENDING)
                     .limit(1)
                     .startAfter(reelslastVisible);
-        }
-        else if(bool.matches("3")) {
+        } else if (bool.matches("3")) {
             query = FirebaseFirestore.getInstance()
                     .collection("Reels")
                     .orderBy("newTs", Query.Direction.ASCENDING)
@@ -634,18 +624,56 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         }
 
         Objects.requireNonNull(query).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
+            if (task.isSuccessful() && Objects.requireNonNull(task.getResult()).getDocuments().size() != 0) {
                 ArrayList<ReelsPostModel> reelsPostModels = new ArrayList<>();
                 DocumentSnapshot document = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
                 ReelsPostModel reelsPostModel = document.toObject(ReelsPostModel.class);
                 Objects.requireNonNull(reelsPostModel).setDocID(document.getId());
                 reelsPostModels.add(reelsPostModel);
 
-                if(models.size() > 0) {
+                if (models.size() > 0) {
                     models.addAll(0, reelsPostModels);
                     notifyItemInserted(0);
                 }
             }
         });
+    }
+
+    public class Video_Progress extends AsyncTask<Integer, Integer, Integer> {
+
+        int duration;
+        int currentPercent;
+
+        @SuppressLint("StaticFieldLeak")
+        VideoView videoView;
+        @SuppressLint("StaticFieldLeak")
+        ProgressBar video_progress;
+
+        @SuppressLint("StaticFieldLeak")
+
+        public Video_Progress(int duration, VideoView videoView, ProgressBar video_progress) {
+            this.duration = duration;
+            this.videoView = videoView;
+            this.video_progress = video_progress;
+        }
+
+        @Override
+        public Integer doInBackground(Integer... integers) {
+            int current = videoView.getCurrentPosition() / 1000;
+            do {
+                try {
+                    currentPercent = current * 100 / duration;
+                    publishProgress(currentPercent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } while (video_progress.getProgress() <= 100);
+            return currentPercent;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            video_progress.setProgress(values[0]);
+        }
     }
 }

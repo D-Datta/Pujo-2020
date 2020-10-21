@@ -3,42 +3,29 @@ package com.applex.utsav;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.media.MediaMetadataRetriever;
-import android.media.VolumeShaper;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,19 +34,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,21 +56,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.MultipleImageAdapter;
-import com.applex.utsav.adapters.TagAdapter;
-import com.applex.utsav.adapters.TagAdapter2;
-import com.applex.utsav.adapters.ViewmoreSliderAdapter;
+import com.applex.utsav.adapters.UserTagAdapter;
+import com.applex.utsav.adapters.UserTaggingAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
-import com.applex.utsav.models.TagModel;
+import com.applex.utsav.models.UserTagModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.dialogs.BottomTagsDialog;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
+import com.applex.utsav.utility.ItemMoveCallback;
+import com.applex.utsav.utility.SpaceTokenizer;
 import com.applex.utsav.utility.StoreTemp;
 import com.applex.utsav.videoCompressor.VideoCompress;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -89,24 +79,20 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -401,7 +387,7 @@ public class NewPostHome extends AppCompatActivity {
                     postcontent.setVisibility(View.VISIBLE);
                     postcontent.setText(intent.getStringExtra("txt"));
 
-                    //TAGS COLOURED DISPLAY
+                    //HASHTAGS COLOURED DISPLAY
                     Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                     Matcher m = p.matcher(postcontent.getText().toString());
 
@@ -436,7 +422,7 @@ public class NewPostHome extends AppCompatActivity {
                     postcontent.setText(ss);
                     postcontent.setMovementMethod(LinkMovementMethod.getInstance());
                     postcontent.setHighlightColor(Color.TRANSPARENT);
-                    //TAGS COLOURED DISPLAY
+                    //HASHTAGS COLOURED DISPLAY
                 }
 
                 //TAGS RECYCLER PREVIOUS
@@ -1203,9 +1189,58 @@ public class NewPostHome extends AppCompatActivity {
 
             }
 
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+//                String text = s.toString();
+//
+//                if(text.isEmpty()) {
+//                    postcontent.setAdapter(null);
+//                } else {
+//                    Pattern p1 = Pattern.compile("[@][a-zA-Z0-9]+");
+//                    Matcher m1 = p1.matcher(text);
+//                    int cursorPosition1 = postcontent.getSelectionStart();
+//                    while(m1.find()) {
+//                        if (cursorPosition1 >= m1.start() && cursorPosition1 <= m1.end()) {
+//                            final int a = m1.start(); // add 1 to ommit the "@" tag
+//                            final int b = m1.end();
+//
+//                            postcontent.getText().setSpan(new ForegroundColorSpan(getResources().getColor(R.color.purple2)),a, b, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//                            String newText = text.substring(a + 1, b);
+//                            Query query = FirebaseFirestore.getInstance()
+//                                    .collection("Users")
+//                                    .whereGreaterThanOrEqualTo("small_name", newText.trim().toLowerCase())
+//                                    .limit(5);
+//
+//                            query.get().addOnCompleteListener(task -> {
+//                                if(task.isSuccessful()) {
+//                                    ArrayList<UserTagModel> userTagModels = new ArrayList<>();
+//                                    ArrayList<String> users = new ArrayList<>();
+//                                    for(DocumentSnapshot documentSnapshot: Objects.requireNonNull(task.getResult())) {
+//                                        UserTagModel userTagModel = new UserTagModel();
+//                                        if(documentSnapshot.get("gender") != null) {
+//                                            userTagModel.setGender(Objects.requireNonNull(documentSnapshot.get("gender")).toString());
+//                                        }
+//                                        if(documentSnapshot.get("dp") != null) {
+//                                            userTagModel.setDp(Objects.requireNonNull(documentSnapshot.get("dp")).toString());
+//                                        }
+//                                        userTagModel.setName(Objects.requireNonNull(documentSnapshot.get("name")).toString());
+//                                        users.add(Objects.requireNonNull(documentSnapshot.get("name")).toString());
+//                                        userTagModel.setType(Objects.requireNonNull(documentSnapshot.get("type")).toString());
+//                                        userTagModel.setUid(Objects.requireNonNull(documentSnapshot.get("uid")).toString());
+//                                        userTagModels.add(userTagModel);
+//                                    }
+////                                    ArrayAdapter<UserTagModel> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.item_tag_user, userTagModels);
+//                                    UserTagAdapter userTagAdapter = new UserTagAdapter(getApplicationContext(), R.layout.item_tag_user, userTagModels);
+//                                    postcontent.setThreshold(1);
+//                                    postcontent.setTokenizer(new SpaceTokenizer());
+//                                    postcontent.setAdapter(userTagAdapter);
+//                                }
+//                            });
+//                            break;
+//                        }
+//                    }
+//                }
             }
 
             @Override
@@ -1214,13 +1249,11 @@ public class NewPostHome extends AppCompatActivity {
                 Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
                 Matcher m = p.matcher(text);
                 int cursorPosition = postcontent.getSelectionStart();
-                while(m.find())
-                {
-                    if (cursorPosition >= m.start() && cursorPosition <= m.end())
-                    {
+                while(m.find()) {
+                    if (cursorPosition >= m.start() && cursorPosition <= m.end()) {
                         final int a = m.start(); // add 1 to ommit the "@" tag
                         final int b = m.end();
-                        postcontent.getText().setSpan(new ForegroundColorSpan(getResources().getColor(R.color.md_blue_500)),a, b, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        postcontent.getText().setSpan(new ForegroundColorSpan(getResources().getColor(R.color.md_blue_500)), a, b, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         break;
                     }
                 }
@@ -1704,6 +1737,11 @@ public class NewPostHome extends AppCompatActivity {
                 recyclerView.setNestedScrollingEnabled(true);
 
                 MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
+
+//                ItemTouchHelper.Callback callback = new ItemMoveCallback(multipleImageAdapter);
+//                ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+//                touchHelper.attachToRecyclerView(recyclerView);
+
                 recyclerView.setAdapter(multipleImageAdapter);
                 multipleImageAdapter.onClickListener(position -> {
                     imagelist.remove(position);

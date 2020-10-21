@@ -45,6 +45,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -70,6 +71,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -102,6 +104,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
     ImageView noneImage;
     BottomSheetDialog postMenuDialog;
     ProgressDialog progressDialog;
+    FloatingActionButton floatingActionButton;
     String link;
     String tagName;
 
@@ -153,6 +156,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         contentprogressposts = findViewById(R.id.content_progress);
         progressmoreposts = findViewById(R.id.progress_more_posts);
         noneImage = findViewById(R.id.none_image);
+        floatingActionButton = findViewById(R.id.to_the_top);
 
         recyclerview.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -1034,6 +1038,38 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         contentprogressposts.setVisibility(View.GONE);
         noneImage.setVisibility(View.GONE);
         recyclerview.setAdapter(adapter);
+
+        final int[] scrollY = {0};
+        recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                scrollY[0] = scrollY[0] + dy;
+                if (scrollY[0] <= 2000 && dy < 0) {
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+                else {
+                    if(dy < 0){
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(v -> {
+//                            recyclerView.scrollToPosition(0);
+//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getApplicationContext()) {
+                                @Override
+                                protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                            smoothScroller.setTargetPosition(0);
+                            Objects.requireNonNull(recyclerView.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        });
+                    } else {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
     }
 
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{

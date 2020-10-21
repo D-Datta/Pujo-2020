@@ -163,7 +163,7 @@
                 android:minHeight="80dp"
                 android:minLines="1"
                 android:fontFamily="@font/oxygen_bold"
-                android:textColor="@color/purple"
+                android:textColor="@color/purple2"
                 android:inputType="textMultiLine|textCapSentences"
                 android:textColorLink="@color/colorPrimary"
                 android:autoLink="all"
@@ -181,17 +181,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:autoLink="all"
-                android:background="@null"
                 android:fontFamily="@font/oxygen_bold"
                 android:gravity="top"
                 android:hint="@string/post_hint"
                 android:inputType="textMultiLine|textCapSentences"
-                android:minLines="4"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
-                android:textColor="@color/grey_868686"
+                android:textColor="@color/black"
+                android:background="@null"
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="17dp" />
+
+<!--            <MultiAutoCompleteTextView-->
+<!--                android:id="@+id/post_content"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="5dp"-->
+<!--                android:autoLink="all"-->
+<!--                android:fontFamily="@font/oxygen_bold"-->
+<!--                android:gravity="top"-->
+<!--                android:hint="@string/post_hint"-->
+<!--                android:inputType="textMultiLine|textCapSentences"-->
+<!--                android:paddingHorizontal="15dp"-->
+<!--                android:paddingVertical="10dp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:background="@null"-->
+<!--                android:completionThreshold="1"-->
+<!--                android:dropDownWidth="300dp"-->
+<!--                android:dropDownSelector="@drawable/custom_ripple_white"-->
+<!--                android:textColorLink="@color/colorPrimary"-->
+<!--                android:textSize="17dp" />-->
 
             <TextView
                 android:id="@+id/edit_preview"
@@ -233,9 +252,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dp"
                     android:clipToPadding="false"
-                    android:overScrollMode="never"
                     android:visibility="gone"
-                    android:descendantFocusability="blocksDescendants"
                     app:reverseLayout="false"/>
 
             </RelativeLayout>

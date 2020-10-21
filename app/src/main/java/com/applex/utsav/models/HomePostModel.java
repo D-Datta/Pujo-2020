@@ -35,6 +35,7 @@ public class HomePostModel {
     private ArrayList<String> reportL;
     private String challengeID;
     private PujoTagModel pujoTag;
+    private UserTagModel userTagModel;
 
     ////////////DEFAULT CONSTRUCTOR///////////
     public HomePostModel(){
@@ -314,5 +315,13 @@ public class HomePostModel {
 
     public void setCom2_gender(String com2_gender) {
         this.com2_gender = com2_gender;
+    }
+
+    public UserTagModel getUserTagModel() {
+        return userTagModel;
+    }
+
+    public void setUserTagModel(UserTagModel userTagModel) {
+        this.userTagModel = userTagModel;
     }
 }
