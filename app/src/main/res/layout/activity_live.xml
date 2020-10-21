@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:showYouTubeButton="false"
-        app:videoId="YUIJyHnyLvw"
-        app:autoPlay="true"
         app:showFullScreenButton="true" />
 </LinearLayout>
+
+    <!--        app:videoId="oWPE7WxjEvw"-->
+    <!--        app:autoPlay="true"-->

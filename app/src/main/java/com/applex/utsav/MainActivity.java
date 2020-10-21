@@ -43,6 +43,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
 import com.applex.utsav.fragments.AllPujoFragment;
@@ -53,6 +54,7 @@ import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
+import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.DialogUtils;
 import com.applex.utsav.utility.MessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView notif, search, live;
     TextView notifDot;
     DocumentReference docref3;
+    LottieAnimationView lottieAnimationView;
 
     private Boolean doubleBackPressed = false;
     public static ViewPager viewPager;
@@ -193,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         live = findViewById(R.id.live);
         notifDot = findViewById(R.id.notif_badge);
         search= findViewById(R.id.search);
+        lottieAnimationView = findViewById(R.id.lottie);
 
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
@@ -292,6 +296,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 Intent i= new Intent(MainActivity.this, LiveActivity.class);
                 startActivity(i);
+            }
+        });
+
+        FirebaseFirestore.getInstance().document("Live/Stream").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().getBoolean("bool")){
+                        live.setVisibility(View.VISIBLE);
+                        lottieAnimationView.setVisibility(View.VISIBLE);
+                    }
+                    else{
+                        live.setVisibility(View.GONE);
+                        lottieAnimationView.setVisibility(View.GONE);
+                    }
+
+                }
+                else
+                    BasicUtility.showToast(MainActivity.this,"Somehing went wrong");
             }
         });
 
