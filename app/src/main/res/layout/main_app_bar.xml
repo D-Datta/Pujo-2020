@@ -47,8 +47,36 @@
                 android:textSize="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/search"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="redripple.json"
+                    app:lottie_loop="true"/>
+                <ImageView
+                    android:id="@+id/live"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginVertical="2dp"
+                    android:layout_marginHorizontal="6dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_baseline_live_tv_24"
+                    android:visibility="visible"
+                    app:tint="@color/black" />
+            </RelativeLayout>
+
 
             <ImageView
                 android:id="@+id/search"

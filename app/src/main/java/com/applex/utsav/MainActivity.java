@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     GoogleSignInClient mGooglesigninclient;
 
-    ImageView notif, search;
+    ImageView notif, search, live;
     TextView notifDot;
     DocumentReference docref3;
 
@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         upvoters = hView.findViewById(R.id.followers);
         chandmala = hView.findViewById(R.id.chandmala);
         notif = findViewById(R.id.notif);
+        live = findViewById(R.id.live);
         notifDot = findViewById(R.id.notif_badge);
         search= findViewById(R.id.search);
 
@@ -284,6 +285,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         search.setOnClickListener(view -> {
             Intent i= new Intent(MainActivity.this, SearchActivity.class);
             startActivity(i);
+        });
+
+        live.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i= new Intent(MainActivity.this, LiveActivity.class);
+                startActivity(i);
+            }
         });
 
         TabLayout tabs = findViewById(R.id.tabs);
