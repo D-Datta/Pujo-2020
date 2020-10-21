@@ -299,9 +299,10 @@
         android:id="@+id/video_progress"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:progressTint="@color/colorPrimary"
         android:layout_alignParentBottom="true"
-        android:visibility="visible"
+        android:progressTint="@color/colorPrimary"
+        android:visibility="gone"
+        android:max="100"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
 </RelativeLayout>

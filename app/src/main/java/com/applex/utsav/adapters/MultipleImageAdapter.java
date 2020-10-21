@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.applex.utsav.R;
+import com.applex.utsav.utility.ItemMoveCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdapter.ProgrammingViewHolder>
+public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdapter.ProgrammingViewHolder> implements ItemMoveCallback.ItemTouchHelperContract
 {
     private ArrayList<byte[]> mList;
     private ArrayList<String> mListUrl;
@@ -56,8 +58,7 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
     @NonNull
     @Override
     public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_multiple_image,viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_multiple_image,viewGroup, false);
         return new ProgrammingViewHolder(v , mListener, Listener);
     }
 
@@ -76,6 +77,29 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
         return mList.size();
     }
 
+    @Override
+    public void onRowMoved(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mList, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onRowSelected(ProgrammingViewHolder myViewHolder) {
+        myViewHolder.itemView.setAlpha(0.5f);
+    }
+
+    @Override
+    public void onRowClear(ProgrammingViewHolder myViewHolder) {
+        myViewHolder.itemView.setAlpha(1.0f);
+    }
 
     public class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 

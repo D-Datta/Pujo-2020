@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
 <!--    <androidx.recyclerview.widget.RecyclerView-->
 <!--        android:id="@+id/recyclerReelsViewAll"-->
@@ -23,5 +23,6 @@
 <!--        android:clipToPadding="false"-->
 <!--        android:descendantFocusability="blocksDescendants"-->
 <!--        app:reverseLayout="false" />-->
+
 
 </LinearLayout>

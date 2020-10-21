@@ -8,6 +8,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -66,6 +67,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -100,6 +102,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
     BottomSheetDialog postMenuDialog;
     ProgressDialog progressDialog;
     String link;
+    FloatingActionButton floatingActionButton;
     String tagName;
 
     @Override
@@ -150,6 +153,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
         contentprogressposts = findViewById(R.id.content_progress);
         progressmoreposts = findViewById(R.id.progress_more_posts);
         noneImage = findViewById(R.id.none_image);
+        floatingActionButton = findViewById(R.id.to_the_top);
 
         recyclerview.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -1047,10 +1051,44 @@ public class HashtagPostViewAll extends AppCompatActivity {
         contentprogressposts.setVisibility(View.GONE);
         noneImage.setVisibility(View.GONE);
         recyclerview.setAdapter(adapter);
+
+        final int[] scrollY = {0};
+        recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                scrollY[0] = scrollY[0] + dy;
+                if (scrollY[0] <= 2000 && dy < 0) {
+                    floatingActionButton.setVisibility(View.GONE);
+                }
+                else {
+                    if(dy < 0){
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                        floatingActionButton.setOnClickListener(v -> {
+//                            recyclerView.scrollToPosition(0);
+//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
+                            RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(getApplicationContext()) {
+                                @Override
+                                protected int getVerticalSnapPreference() {
+                                    return LinearSmoothScroller.SNAP_TO_START;
+                                }
+                            };
+                            smoothScroller.setTargetPosition(0);
+                            Objects.requireNonNull(recyclerView.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        });
+                    } else {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
     }
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
+        @SuppressLint("StaticFieldLeak")
         public static TextView commentCount;
+        @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
 
         private TextView  username, likesCount, text_content, minsago, writecomment;
@@ -1112,90 +1150,6 @@ public class HashtagPostViewAll extends AppCompatActivity {
             cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
             dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
-
-        }
-    }
-    public static class FeedViewHolder extends RecyclerView.ViewHolder{
-
-        TextView view_all;
-        ImageView noPost;
-        RecyclerView cRecyclerView;
-
-        TextView pujoTagHolder;
-
-        @SuppressLint("StaticFieldLeak")
-        public static TextView commentCount;
-        public static LinearLayout comment_layout;
-
-        TextView username, likesCount, text_content, minsago, writecomment;
-        ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image;
-        ImageView dp_cmnt1, dp_cmnt2, type_dp;
-        TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2, type_something;
-        SliderView sliderView;
-        ApplexLinkPreview LinkPreview;
-        LinearLayout itemHome, new_post_layout, newPostIconsLL;
-        RelativeLayout first_post,rlLayout;
-        RecyclerView tagList;
-        com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
-
-        LinearLayout postHolder, like_layout, commentLayout1, commentLayout2;
-        LinearLayout committeeHolder;
-        LottieAnimationView dhak_anim;
-
-
-        public FeedViewHolder(@NonNull View itemView) {
-            super(itemView);
-            view_all = itemView.findViewById(R.id.community_view_all);
-            cRecyclerView = itemView.findViewById(R.id.communityRecycler);
-
-            tagList = itemView.findViewById(R.id.tagsList);
-            username = itemView.findViewById(R.id.username);
-            text_content = itemView.findViewById(R.id.text_content);
-            userimage = itemView.findViewById(R.id.user_image);
-            sliderView = itemView.findViewById(R.id.post_image);
-            minsago = itemView.findViewById(R.id.mins_ago);
-            like = itemView.findViewById(R.id.like);
-            commentimg = itemView.findViewById(R.id.comment);
-            profileimage = itemView.findViewById(R.id.profile_image);
-            menuPost = itemView.findViewById(R.id.delete_post);
-            writecomment = itemView.findViewById(R.id.write_comment);
-            itemHome = itemView.findViewById(R.id.item_home);
-            share = itemView.findViewById(R.id.share);
-            LinkPreview = itemView.findViewById(R.id.LinkPreView);
-            first_post = itemView.findViewById(R.id.first_post);
-            noPost = itemView.findViewById(R.id.no_recent_post);
-
-            postHolder = itemView.findViewById(R.id.post);
-            committeeHolder = itemView.findViewById(R.id.header_committee);
-            type_dp = itemView.findViewById(R.id.Pdp);
-            type_something = itemView.findViewById(R.id.type_smthng);
-            new_post_layout = itemView.findViewById(R.id.type_something);
-            newPostIconsLL = itemView.findViewById(R.id.post_icons_ll);
-
-            like_image = itemView.findViewById(R.id.like_image);
-            comment_image = itemView.findViewById(R.id.comment_image);
-            likesCount = itemView.findViewById(R.id.no_of_likes);
-            commentCount = itemView.findViewById(R.id.no_of_comments);
-            like_layout = itemView.findViewById(R.id.like_layout);
-            comment_layout = itemView.findViewById(R.id.comment_layout);
-
-            commentLayout1 = itemView.findViewById(R.id.comment_layout1);
-            name_cmnt1 = itemView.findViewById(R.id.comment_username1);
-            cmnt1 = itemView.findViewById(R.id.comment1);
-            cmnt1_minsago = itemView.findViewById(R.id.comment_mins_ago1);
-            dp_cmnt1 = itemView.findViewById(R.id.comment_user_dp1);
-            link_preview1 = itemView.findViewById(R.id.LinkPreViewComment1);
-
-            commentLayout2 = itemView.findViewById(R.id.comment_layout2);
-            name_cmnt2 = itemView.findViewById(R.id.comment_username2);
-            cmnt2 = itemView.findViewById(R.id.comment2);
-            cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
-            dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
-            link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
-
-            pujoTagHolder = itemView.findViewById(R.id.tag_pujo);
-            dhak_anim = itemView.findViewById(R.id.dhak_anim);
-            rlLayout = itemView.findViewById(R.id.rlLayout);
 
         }
     }
