@@ -23,6 +23,16 @@
         android:background="@color/black_transparent">
 
         <ImageButton
+            android:id="@+id/crop"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_ripple_white"
+            android:padding="8dp"
+            android:tint="#212121"
+            android:src="@drawable/ic_baseline_crop_24" />
+
+        <ImageButton
             android:id="@+id/unselect"
             android:layout_width="35dp"
             android:layout_height="35dp"

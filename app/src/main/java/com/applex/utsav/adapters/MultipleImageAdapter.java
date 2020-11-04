@@ -22,28 +22,21 @@ import java.util.Collections;
 public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdapter.ProgrammingViewHolder> implements ItemMoveCallback.ItemTouchHelperContract
 {
     private ArrayList<byte[]> mList;
-    private ArrayList<String> mListUrl;
 
     Context mcontext;
 
     private OnClickListener mListener;
-    private OnLongClickListener Listener;
 
     public interface OnClickListener {
         void onClickListener(int position);
+        void onCropClickListener(int position);
+
     }
 
     public void onClickListener(OnClickListener listener) {
         mListener = listener;
     }
 
-    public interface OnLongClickListener {
-        void onLongClickListener(int position);
-    }
-
-    public void onLongClickListener(OnLongClickListener onLongClickListener) {
-        Listener= onLongClickListener;
-    }
 
     public MultipleImageAdapter() {
     }
@@ -59,7 +52,7 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
     @Override
     public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_multiple_image,viewGroup, false);
-        return new ProgrammingViewHolder(v , mListener, Listener);
+        return new ProgrammingViewHolder(v , mListener);
     }
 
     @Override
@@ -103,18 +96,16 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
 
     public class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
-        //        TextView name;
-//        CardView card;
         ImageView image;
         ImageButton unselect;
+        ImageButton crop;
 
-        private ProgrammingViewHolder(@NonNull View itemView, OnClickListener listener, OnLongClickListener onLongClickListener) {
+        private ProgrammingViewHolder(@NonNull View itemView, OnClickListener listener) {
             super(itemView);
-//            name = itemView.findViewById(R.id.display_name_student);
-//            card = itemView.findViewById(R.id.Card);
+
             image = itemView.findViewById(R.id.image);
             unselect = itemView.findViewById(R.id.unselect);
-
+            unselect = itemView.findViewById(R.id.crop);
 
             unselect.setOnClickListener(v -> {
                 if(listener != null){
@@ -124,18 +115,15 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
                     }
                 }
             });
-//
-//            card.setOnLongClickListener(v -> {
-//                if(onLongClickListener != null){
-//                    int position = getAdapterPosition();
-//                    if(position != RecyclerView.NO_POSITION ){
-//                        onLongClickListener.onLongClickListener(position);
-//                    }
-//                }
-//                return true;
-//            });
 
-
+            crop.setOnClickListener(v -> {
+                if(listener != null){
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION ){
+                        listener.onCropClickListener(position);
+                    }
+                }
+            });
         }
     }
 }

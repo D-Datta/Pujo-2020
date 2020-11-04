@@ -87,6 +87,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -103,6 +104,8 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 import static com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED;
 
 import static com.applex.utsav.utility.BasicUtility.tsLong;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class NewPostHome extends AppCompatActivity {
 
@@ -129,6 +132,9 @@ public class NewPostHome extends AppCompatActivity {
 
     private Uri filePath, finalUri, videoUri;
     private ArrayList<byte[]> imagelist = new ArrayList<>();
+    private ArrayList<Uri> imageUriList = new ArrayList<>();
+    private int cropPosition = -1;
+
     private StorageReference storageReferenece;
     private ArrayList<String> generatedFilePath = new ArrayList<>();
 
@@ -169,7 +175,6 @@ public class NewPostHome extends AppCompatActivity {
 
     private ArrayList<String> tagList;
 
-
     private TextView preview;
     private boolean isEdit = false;
     Context context;
@@ -181,6 +186,7 @@ public class NewPostHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         introPref = new IntroPref(NewPostHome.this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
@@ -188,6 +194,8 @@ public class NewPostHome extends AppCompatActivity {
         Configuration config= new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        imageUriList = new ArrayList<>();
 
         /////////////////DAY OR NIGHT MODE///////////////////
         if(introPref.getTheme() == 1) {
@@ -1461,6 +1469,7 @@ public class NewPostHome extends AppCompatActivity {
                     int count = data.getClipData().getItemCount();
                     for (int i =0; i < count; i++) {
                         Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        imageUriList.add(imageUri);
                         ExifInterface ei = null;
                         Bitmap bitmap = null;
                         try {
@@ -1493,6 +1502,7 @@ public class NewPostHome extends AppCompatActivity {
                         new ImageCompressor(rotatedBitmap).execute();
                     }
                 } else if (data.getData() != null) {
+                    imageUriList.add(data.getData());
                     Bitmap bitmap = null;
                     ExifInterface ei = null;
                     try {
@@ -1528,6 +1538,15 @@ public class NewPostHome extends AppCompatActivity {
             else if(requestCode == IMAGE_PICK_CAMERA_CODE) {
                 Bundle extras = data.getExtras();
                 Bitmap bitmap = (Bitmap) Objects.requireNonNull(extras).get("data");
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                pic = baos.toByteArray();
+                String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
+                filePath = Uri.parse(path);
+                finalUri = filePath;
+                imageUriList.add(finalUri);
+
                 bottomSheetBehavior.setState(STATE_COLLAPSED);
                 new ImageCompressor(bitmap).execute();
             }
@@ -1595,6 +1614,7 @@ public class NewPostHome extends AppCompatActivity {
                     BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
+
             else if(requestCode == TAG_PUJO) {
                 pujoTag = new PujoTagModel();
                 pujoTag.setPujoName(data.getStringExtra("name"));
@@ -1607,6 +1627,7 @@ public class NewPostHome extends AppCompatActivity {
 
                 tagPujo.setText(data.getStringExtra("name"));
             }
+
             ////////////////////////CROP//////////////////////
             else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -1717,7 +1738,15 @@ public class NewPostHome extends AppCompatActivity {
             compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
             byte[] byteArray = stream.toByteArray();
             compressedBitmap.recycle();
-            imagelist.add(byteArray);
+
+            if(cropPosition != -1){
+                imagelist.remove(cropPosition);
+                imagelist.add(cropPosition, byteArray);
+            }
+            else {
+                imagelist.add(byteArray);
+
+            }
             return null;
         }
 
@@ -1738,14 +1767,29 @@ public class NewPostHome extends AppCompatActivity {
 
                 MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
 
-//                ItemTouchHelper.Callback callback = new ItemMoveCallback(multipleImageAdapter);
-//                ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-//                touchHelper.attachToRecyclerView(recyclerView);
-
                 recyclerView.setAdapter(multipleImageAdapter);
-                multipleImageAdapter.onClickListener(position -> {
-                    imagelist.remove(position);
-                    multipleImageAdapter.notifyDataSetChanged();
+
+                multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
+                    @Override
+                    public void onClickListener(int position) {
+                        imagelist.remove(position);
+                        imageUriList.remove(position);
+                        multipleImageAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCropClickListener(int position) {
+                        cropPosition = position;
+                        CropImage.activity(imageUriList.get(position))
+                                .setActivityTitle("Crop Image")
+                                .setAllowRotation(TRUE)
+                                .setAllowCounterRotation(TRUE)
+                                .setAllowFlipping(TRUE)
+                                .setAutoZoomEnabled(TRUE)
+                                .setMultiTouchEnabled(FALSE)
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(NewPostHome.this);
+                    }
                 });
             } else {
                 container_image.setVisibility(View.GONE);
