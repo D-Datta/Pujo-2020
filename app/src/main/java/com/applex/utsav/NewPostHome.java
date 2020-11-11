@@ -1727,6 +1727,7 @@ public class NewPostHome extends AppCompatActivity {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 finalUri = result.getUri();
                 bottomSheetBehavior.setState(STATE_COLLAPSED);
+                cropPosition = -1;
 
                 Bitmap bitmap = null;
                 try {
@@ -1839,7 +1840,6 @@ public class NewPostHome extends AppCompatActivity {
             }
             else {
                 imagelist.add(byteArray);
-
             }
             return null;
         }
@@ -1868,7 +1868,7 @@ public class NewPostHome extends AppCompatActivity {
                     public void onClickListener(int position) {
                         imagelist.remove(position);
                         imageUriList.remove(position);
-                        multipleImageAdapter.notifyDataSetChanged();
+                        multipleImageAdapter.notifyItemRemoved(position);
                     }
 
                     @Override
