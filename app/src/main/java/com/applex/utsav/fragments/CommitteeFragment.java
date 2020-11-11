@@ -1253,7 +1253,7 @@ public class CommitteeFragment extends Fragment {
         View view;
         RelativeLayout normal_item, rlLayout;
         RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView, suggestedHashtagsRecycler;
-        CardView suggestedTagCard;
+        LinearLayout suggestedTagCard;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1713,6 +1713,7 @@ public class CommitteeFragment extends Fragment {
                         for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
                             if(document.exists()) {
                                 Suggestedtag model = document.toObject(Suggestedtag.class);
+                                model.setDocID(document.getId());
                                 suggestedtagArrayList.add(model);
                             }
                         }
@@ -1723,6 +1724,8 @@ public class CommitteeFragment extends Fragment {
                             adapter.onClickListener(new SuggestedTagAdapterHome.OnClickListener() {
                                 @Override
                                 public void onClickListener(int position, String title) {
+                                    FirebaseFirestore.getInstance().collection("SuggestedTags")
+                                            .document(suggestedtagArrayList.get(position).getDocID()).update("value", FieldValue.increment(1));
                                    Intent i = new Intent(getActivity(),HashtagPostViewAll.class);
                                    i.putExtra("hashtag",suggestedtagArrayList.get(position).getName());
                                    startActivity(i);

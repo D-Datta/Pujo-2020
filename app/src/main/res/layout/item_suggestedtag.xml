@@ -42,5 +42,6 @@
         android:text="100+ Posts"
         android:textColor="@color/grey_550B0B0B"
         android:textSize="10sp"
+        android:visibility="gone"
         android:fontFamily="@font/oxygen_bold" />
 </LinearLayout>

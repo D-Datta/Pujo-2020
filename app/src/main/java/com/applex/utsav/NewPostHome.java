@@ -93,6 +93,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -368,13 +369,14 @@ public class NewPostHome extends AppCompatActivity {
 
 
 
-        FirebaseFirestore.getInstance().collection("SuggestedTags").orderBy("value").get()
+        FirebaseFirestore.getInstance().collection("SuggestedTags").orderBy("value", Query.Direction.DESCENDING).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
                     if(document.exists()) {
                         Suggestedtag model = document.toObject(Suggestedtag.class);
+                        model.setDocID(document.getId());
                         suggestedtagArrayList.add(model);
                     }
                 }
@@ -385,9 +387,11 @@ public class NewPostHome extends AppCompatActivity {
                     adapter.onClickListener(new SuggestedTagAdapter.OnClickListener() {
                         @Override
                         public void onClickListener(int position, String title) {
+                            FirebaseFirestore.getInstance().collection("SuggestedTags")
+                                    .document(suggestedtagArrayList.get(position).getDocID()).update("value", FieldValue.increment(1));
                             String tag= title;
                             tagList.add(title.substring(1));
-                            postcontent.append("#"+ tag);
+                            postcontent.append(" #"+ tag);
                         }
                     });
                 }

@@ -36,16 +36,17 @@
                 android:paddingTop="5dp"
                 android:fontFamily="@font/harabara"
                 android:textAlignment="center"
+                android:textSize="16dp"
                 android:textColor="@color/white"/>
             <TextView
                 android:id="@+id/postCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="100+ Posts"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:fontFamily="@font/oxygen_regular"
                 android:textAlignment="center"
-                android:textColor="@color/grey"/>
+                android:textColor="@color/green_3DDC84"/>
         </LinearLayout>
 
 

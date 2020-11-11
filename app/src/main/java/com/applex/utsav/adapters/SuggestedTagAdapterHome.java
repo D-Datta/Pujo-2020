@@ -62,7 +62,7 @@ public class SuggestedTagAdapterHome extends RecyclerView.Adapter<SuggestedTagAd
 
         Suggestedtag currentItem = mList.get(i);
 
-        programmingViewHolder.title.setText(currentItem.getName());
+        programmingViewHolder.title.setText("#"+ currentItem.getName());
         programmingViewHolder.postCount.setText(currentItem.getValue()+" Uses");
         Picasso.get().load(currentItem.getImg()).into(programmingViewHolder.img);
     }

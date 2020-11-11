@@ -1,7 +1,7 @@
 package com.applex.utsav.models;
 
 public class Suggestedtag {
-    String name;
+    String name, docID;
     String img;
     int value;
 
@@ -27,5 +27,13 @@ public class Suggestedtag {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public String getDocID() {
+        return docID;
+    }
+
+    public void setDocID(String docID) {
+        this.docID = docID;
     }
 }

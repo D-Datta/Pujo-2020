@@ -156,6 +156,24 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/oxygen_bold"
+                android:paddingHorizontal="11dp"
+                android:text="Suggested Tags"
+                android:paddingVertical="2dp"
+                android:textColor="@color/black"
+                android:textSize="12dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id = "@+id/suggested_hashtags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                />
+
             <EditText
                 android:id="@+id/post_headline"
                 android:layout_width="match_parent"
@@ -186,29 +204,13 @@
                 android:hint="@string/post_hint"
                 android:inputType="textMultiLine|textCapSentences"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="10dp"
+                android:paddingVertical="1dp"
                 android:textColor="@color/black"
                 android:background="@null"
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="17dp" />
 
-             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:fontFamily="@font/oxygen_bold"
-                android:paddingHorizontal="11dp"
-                android:text="Suggested Tags"
-                android:paddingVertical="2dp"
-                android:textColor="@color/black"
-                android:textSize="12dp" />
 
-             <androidx.recyclerview.widget.RecyclerView
-                 android:id = "@+id/suggested_hashtags"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:paddingStart="6dp"
-                />
 
             <!--            <MultiAutoCompleteTextView-->
 <!--                android:id="@+id/post_content"-->
