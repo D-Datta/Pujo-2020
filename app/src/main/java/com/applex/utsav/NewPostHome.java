@@ -64,6 +64,7 @@ import com.applex.utsav.adapters.UserTagAdapter;
 import com.applex.utsav.adapters.UserTaggingAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.fragments.FragmentClips;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
@@ -1035,11 +1036,14 @@ public class NewPostHome extends AppCompatActivity {
 
                         if(introPref.getType().matches("indi")){
                             FeedsFragment.changed=1;
+                            FragmentClips.changed=1;
 //                            ActivityProfileUser.change=1;
                             ActivityProfile.change=1;
                         }
                         else if(introPref.getType().matches("com")){
                             CommitteeFragment.changed=1;
+                            FragmentClips.changed=1;
+                            ActivityProfile.change=1;
                         }
 
                         if(videoUri != null) {

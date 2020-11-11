@@ -222,6 +222,9 @@ public class Fragment_Reels extends Fragment {
                                                 .addOnSuccessListener(aVoid -> {
 //                                                    ActivityProfileCommittee.delete = 1;
                                                     ActivityProfile.delete = 1;
+                                                    FragmentClips.changed = 1;
+                                                    CommitteeFragment.changed = 1;
+                                                    FeedsFragment.changed = 1;
                                                     holder.itemView.setVisibility(View.GONE);
                                                     progressDialog.dismiss();
                                                 });

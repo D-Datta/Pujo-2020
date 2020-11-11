@@ -946,6 +946,7 @@ public class Fragment_Posts_Users extends Fragment {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
                                                             CommitteeFragment.changed=1;
+                                                            FeedsFragment.changed=1;
                                                             programmingViewHolder.itemHome.setVisibility(View.GONE);
                                                             notifyDataSetChanged();
                                                             FirebaseFirestore.getInstance()
