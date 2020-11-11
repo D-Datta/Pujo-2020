@@ -1727,7 +1727,6 @@ public class NewPostHome extends AppCompatActivity {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 finalUri = result.getUri();
                 bottomSheetBehavior.setState(STATE_COLLAPSED);
-                cropPosition = -1;
 
                 Bitmap bitmap = null;
                 try {
@@ -1835,6 +1834,7 @@ public class NewPostHome extends AppCompatActivity {
             compressedBitmap.recycle();
 
             if(cropPosition != -1){
+                cropPosition = -1;
                 imagelist.remove(cropPosition);
                 imagelist.add(cropPosition, byteArray);
             }
