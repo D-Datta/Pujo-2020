@@ -46,7 +46,7 @@
                 android:textSize="12dp"
                 android:fontFamily="@font/oxygen_regular"
                 android:textAlignment="center"
-                android:textColor="@color/green_3DDC84"/>
+                android:textColor="@color/md_blue_500"/>
         </LinearLayout>
 
 
