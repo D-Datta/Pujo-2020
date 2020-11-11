@@ -30,7 +30,6 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
     public interface OnClickListener {
         void onClickListener(int position);
         void onCropClickListener(int position);
-
     }
 
     public void onClickListener(OnClickListener listener) {
@@ -45,7 +44,6 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
         this.mList = list;
         this.mcontext=context;
     }
-
 
 
     @NonNull
