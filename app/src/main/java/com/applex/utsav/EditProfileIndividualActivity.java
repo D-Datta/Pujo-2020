@@ -147,7 +147,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                     }
                                     new Handler().postDelayed(() -> {
-                                        ActivityProfileUser.mode_changed = 1;
+//                                        ActivityProfileUser.mode_changed = 1;
+                                        ActivityProfile.mode_changed = 1;
                                         FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
                                         startActivity(new Intent(EditProfileIndividualActivity.this, EditProfileIndividualActivity.class));
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -420,7 +421,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                         if(task.isSuccessful()){
                                                                             progressDialog.dismiss();
                                                                             BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
                                                                             intent.putExtra("uid", fireuser.getUid());
                                                                             startActivity(intent);
                                                                             finish();
@@ -452,7 +454,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //                                                                        introPref.setFullName(baseUserModel.getName());
                                                             progressDialog.dismiss();
                                                             BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
                                                             intent.putExtra("uid", fireuser.getUid());
                                                             startActivity(intent);
                                                             finish();
@@ -509,7 +512,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                         if(task.isSuccessful()){
                                                                             progressDialog.dismiss();
                                                                             BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
                                                                             intent.putExtra("uid", fireuser.getUid());
                                                                             startActivity(intent);
                                                                             finish();
@@ -540,7 +544,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                         if(task.isSuccessful()){
                                                             progressDialog.dismiss();
                                                             BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
                                                             intent.putExtra("uid", fireuser.getUid());
                                                             startActivity(intent);
                                                             finish();
@@ -577,7 +582,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                 if(task.isSuccessful()){
                                     progressDialog.dismiss();
                                     BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                    Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//                                    Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                    Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
                                     intent.putExtra("uid", fireuser.getUid());
                                     startActivity(intent);
                                     finish();
@@ -891,7 +897,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//        Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+        Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
         StoreTemp.getInstance().setPic(null);
         StoreTemp.getInstance().setCoverpic(null);
         startActivity(i);
@@ -902,7 +909,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home){
-            Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+//            Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+            Intent i = new Intent(EditProfileIndividualActivity.this, ActivityProfile.class);
             StoreTemp.getInstance().setPic(null);
             StoreTemp.getInstance().setCoverpic(null);
             startActivity(i);

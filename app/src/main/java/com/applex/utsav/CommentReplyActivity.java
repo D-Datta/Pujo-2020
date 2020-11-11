@@ -350,29 +350,35 @@ public class CommentReplyActivity extends AppCompatActivity {
         }
 
         username.setOnClickListener(v -> {
-            if(i.getStringExtra("type").matches("com")) {
-                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileCommittee.class);
-                intent.putExtra("uid", i.getStringExtra("uid"));
-                startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileUser.class);
-                intent.putExtra("uid", i.getStringExtra("uid"));
-                startActivity(intent);
-            }
+//            if(i.getStringExtra("type").matches("com")) {
+//                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileCommittee.class);
+//                intent.putExtra("uid", i.getStringExtra("uid"));
+//                startActivity(intent);
+//            }
+//            else {
+//                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileUser.class);
+//                intent.putExtra("uid", i.getStringExtra("uid"));
+//                startActivity(intent);
+//            }
+            Intent intent = new Intent(CommentReplyActivity.this, ActivityProfile.class);
+            intent.putExtra("uid", i.getStringExtra("uid"));
+            startActivity(intent);
         });
 
         userimage.setOnClickListener(v -> {
-            if(i.getStringExtra("type").matches("com")) {
-                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileCommittee.class);
-                intent.putExtra("uid", i.getStringExtra("uid"));
-                startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileUser.class);
-                intent.putExtra("uid", i.getStringExtra("uid"));
-                startActivity(intent);
-            }
+//            if(i.getStringExtra("type").matches("com")) {
+//                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileCommittee.class);
+//                intent.putExtra("uid", i.getStringExtra("uid"));
+//                startActivity(intent);
+//            }
+//            else {
+//                Intent intent = new Intent(CommentReplyActivity.this, ActivityProfileUser.class);
+//                intent.putExtra("uid", i.getStringExtra("uid"));
+//                startActivity(intent);
+//            }
+            Intent intent = new Intent(CommentReplyActivity.this, ActivityProfile.class);
+            intent.putExtra("uid", i.getStringExtra("uid"));
+            startActivity(intent);
         });
 
         //////////////FLAME SETUP///////////////////

@@ -313,31 +313,42 @@ public class ViewMoreHome extends AppCompatActivity {
             }
 
             homePostModel[0].setType(i.getStringExtra("type"));
-            if (homePostModel[0].getType().matches("com")) {
-                username.setOnClickListener(v -> {
-                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                    i12.putExtra("uid", homePostModel[0].getUid());
-                    startActivity(i12);
-                });
+//            if (homePostModel[0].getType().matches("com")) {
+//                username.setOnClickListener(v -> {
+//                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+//                    i12.putExtra("uid", homePostModel[0].getUid());
+//                    startActivity(i12);
+//                });
+//
+//                userimage.setOnClickListener(v -> {
+//                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+//                    i1.putExtra("uid", homePostModel[0].getUid());
+//                    startActivity(i1);
+//                });
+//            } else if (homePostModel[0].getType().matches("indi")) {
+//                username.setOnClickListener(v -> {
+//                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+//                    i12.putExtra("uid", homePostModel[0].getUid());
+//                    startActivity(i12);
+//                });
+//
+//                userimage.setOnClickListener(v -> {
+//                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+//                    i1.putExtra("uid", homePostModel[0].getUid());
+//                    startActivity(i1);
+//                });
+//            }
+            username.setOnClickListener(v -> {
+                Intent i12 = new Intent(getApplicationContext(), ActivityProfile.class);
+                i12.putExtra("uid", homePostModel[0].getUid());
+                startActivity(i12);
+            });
 
-                userimage.setOnClickListener(v -> {
-                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                    i1.putExtra("uid", homePostModel[0].getUid());
-                    startActivity(i1);
-                });
-            } else if (homePostModel[0].getType().matches("indi")) {
-                username.setOnClickListener(v -> {
-                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                    i12.putExtra("uid", homePostModel[0].getUid());
-                    startActivity(i12);
-                });
-
-                userimage.setOnClickListener(v -> {
-                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                    i1.putExtra("uid", homePostModel[0].getUid());
-                    startActivity(i1);
-                });
-            }
+            userimage.setOnClickListener(v -> {
+                Intent i1 = new Intent(getApplicationContext(), ActivityProfile.class);
+                i1.putExtra("uid", homePostModel[0].getUid());
+                startActivity(i1);
+            });
 
 
             /////////////USERNAME & USER IMAGE FORE POST//////////////
@@ -680,32 +691,43 @@ public class ViewMoreHome extends AppCompatActivity {
                                     }
 //                                    userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                                 }
+//
+//                                if (homePostModel[0].getType().matches("com")) {
+//                                    username.setOnClickListener(v -> {
+//                                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+//                                        i12.putExtra("uid", homePostModel[0].getUid());
+//                                        startActivity(i12);
+//                                    });
+//
+//                                    userimage.setOnClickListener(v -> {
+//                                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
+//                                        i1.putExtra("uid", homePostModel[0].getUid());
+//                                        startActivity(i1);
+//                                    });
+//                                } else if (homePostModel[0].getType().matches("indi")) {
+//                                    username.setOnClickListener(v -> {
+//                                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+//                                        i12.putExtra("uid", homePostModel[0].getUid());
+//                                        startActivity(i12);
+//                                    });
+//
+//                                    userimage.setOnClickListener(v -> {
+//                                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
+//                                        i1.putExtra("uid", homePostModel[0].getUid());
+//                                        startActivity(i1);
+//                                    });
+//                                }
+                                username.setOnClickListener(v -> {
+                                    Intent i12 = new Intent(getApplicationContext(), ActivityProfile.class);
+                                    i12.putExtra("uid", homePostModel[0].getUid());
+                                    startActivity(i12);
+                                });
 
-                                if (homePostModel[0].getType().matches("com")) {
-                                    username.setOnClickListener(v -> {
-                                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                                        i12.putExtra("uid", homePostModel[0].getUid());
-                                        startActivity(i12);
-                                    });
-
-                                    userimage.setOnClickListener(v -> {
-                                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-                                        i1.putExtra("uid", homePostModel[0].getUid());
-                                        startActivity(i1);
-                                    });
-                                } else if (homePostModel[0].getType().matches("indi")) {
-                                    username.setOnClickListener(v -> {
-                                        Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                                        i12.putExtra("uid", homePostModel[0].getUid());
-                                        startActivity(i12);
-                                    });
-
-                                    userimage.setOnClickListener(v -> {
-                                        Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-                                        i1.putExtra("uid", homePostModel[0].getUid());
-                                        startActivity(i1);
-                                    });
-                                }
+                                userimage.setOnClickListener(v -> {
+                                    Intent i1 = new Intent(getApplicationContext(), ActivityProfile.class);
+                                    i1.putExtra("uid", homePostModel[0].getUid());
+                                    startActivity(i1);
+                                });
 
                                 /////////////USERNAME & USER IMAGE FORE POST//////////////
 

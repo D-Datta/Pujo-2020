@@ -805,7 +805,8 @@ public class NewPostHome extends AppCompatActivity {
 
                         if(introPref.getType().matches("indi")){
                             FeedsFragment.changed=1;
-                            ActivityProfileUser.change=1;
+//                            ActivityProfileUser.change=1;
+                            ActivityProfile.change = 1;
                         }
                         else if(introPref.getType().matches("com")){
                             CommitteeFragment.changed=1;
@@ -1009,7 +1010,8 @@ public class NewPostHome extends AppCompatActivity {
 
                         if(introPref.getType().matches("indi")){
                             FeedsFragment.changed=1;
-                            ActivityProfileUser.change=1;
+//                            ActivityProfileUser.change=1;
+                            ActivityProfile.change=1;
                         }
                         else if(introPref.getType().matches("com")){
                             CommitteeFragment.changed=1;

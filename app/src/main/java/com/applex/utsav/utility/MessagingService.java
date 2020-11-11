@@ -22,6 +22,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import com.applex.utsav.ActivityNotification;
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
@@ -186,7 +187,8 @@ public class    MessagingService extends FirebaseMessagingService {
             manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
         }
         else if(action.matches("Profile")) {
-            intent = new Intent(context, ActivityProfileCommittee.class);
+//            intent = new Intent(context, ActivityProfileCommittee.class);
+            intent = new Intent(context, ActivityProfile.class);
             intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
             intent.putExtra("to", "profile");
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -312,7 +314,8 @@ public class    MessagingService extends FirebaseMessagingService {
             manager.notify((int)System.currentTimeMillis(), notificationBuilder.build());
         }
         else if(action.matches("Profile")) {
-            intent = new Intent(context, ActivityProfileCommittee.class);
+//            intent = new Intent(context, ActivityProfileCommittee.class);
+            intent = new Intent(context, ActivityProfile.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

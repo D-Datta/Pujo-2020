@@ -462,14 +462,25 @@ public class SearchActivity extends AppCompatActivity {
 //                    holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
 
+//                holder.card1.setOnClickListener(v -> {
+//                    Intent intent = new Intent(SearchActivity.this, ActivityProfileUser.class);
+//                    intent.putExtra("uid", model.getUid());
+//                    startActivity(intent);
+//                });
+//
+//                holder.card2.setOnClickListener(v -> {
+//                    Intent intent = new Intent(SearchActivity.this, ActivityProfileUser.class);
+//                    intent.putExtra("uid", model.getUid());
+//                    startActivity(intent);
+//                });
                 holder.card1.setOnClickListener(v -> {
-                    Intent intent = new Intent(SearchActivity.this, ActivityProfileUser.class);
+                    Intent intent = new Intent(SearchActivity.this, ActivityProfile.class);
                     intent.putExtra("uid", model.getUid());
                     startActivity(intent);
                 });
 
                 holder.card2.setOnClickListener(v -> {
-                    Intent intent = new Intent(SearchActivity.this, ActivityProfileUser.class);
+                    Intent intent = new Intent(SearchActivity.this, ActivityProfile.class);
                     intent.putExtra("uid", model.getUid());
                     startActivity(intent);
                 });

@@ -51,6 +51,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.HashtagPostViewAll;
@@ -464,14 +465,25 @@ public class CommitteeFragment extends Fragment {
                 /////////TAGLIST///////////////
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+//                programmingViewHolder.userimage.setOnClickListener(v -> {
+//                    Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+//                    intent.putExtra("uid", currentItem.getUid());
+//                    startActivity(intent);
+//                });
+//
+//                programmingViewHolder.username.setOnClickListener(v -> {
+//                    Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+//                    intent.putExtra("uid", currentItem.getUid());
+//                    startActivity(intent);
+//                });
                 programmingViewHolder.userimage.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                    Intent intent = new Intent(getContext(), ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
 
                 programmingViewHolder.username.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                    Intent intent = new Intent(getContext(), ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
@@ -1028,7 +1040,8 @@ public class CommitteeFragment extends Fragment {
                                                 .collection("Feeds").document(currentItem
                                                 .getDocID()).delete()
                                                 .addOnSuccessListener(aVoid -> {
-                                                    ActivityProfileCommittee.delete = 1;
+//                                                    ActivityProfileCommittee.delete = 1;
+                                                    ActivityProfile.delete = 1;
                                                     programmingViewHolder.itemHome.setVisibility(View.GONE);
                                                     notifyDataSetChanged();
                                                     progressDialog.dismiss();
@@ -1442,14 +1455,25 @@ public class CommitteeFragment extends Fragment {
                         }
                     }
 
+//                    holder.pujo_com_dp.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    });
+//
+//                    holder.pujo_com_name.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    });
                     holder.pujo_com_dp.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     holder.pujo_com_name.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
@@ -1494,7 +1518,8 @@ public class CommitteeFragment extends Fragment {
                                             FirebaseFirestore.getInstance()
                                                     .collection("Reels").document(currentItem.getDocID()).delete()
                                                     .addOnSuccessListener(aVoid -> {
-                                                        ActivityProfileCommittee.delete = 1;
+//                                                        ActivityProfileCommittee.delete = 1;
+                                                        ActivityProfile.delete = 1;
                                                         holder.itemView.setVisibility(View.GONE);
                                                         progressDialog.dismiss();
                                                         if(getItemCount() == 0) {
@@ -1826,14 +1851,26 @@ public class CommitteeFragment extends Fragment {
                         }
                     }
 
+//                    holder.profile_pic.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    });
+//
+//                    holder.profile_name.setOnClickListener(v -> {
+//                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    });
+
                     holder.profile_pic.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     holder.profile_name.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });

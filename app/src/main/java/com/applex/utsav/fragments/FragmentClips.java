@@ -46,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.HashtagClipsViewAll;
@@ -325,29 +326,35 @@ public class FragmentClips extends Fragment {
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 programmingViewHolder.username.setOnClickListener(v -> {
-                    if(currentItem.getType().matches("com")) {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileUser.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
+//                    if(currentItem.getType().matches("com")) {
+//                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+//                    else {
+//                        Intent intent = new Intent(requireActivity(), ActivityProfileUser.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+                    Intent intent = new Intent(requireActivity(), ActivityProfile.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
                 });
 
                 programmingViewHolder.userimage.setOnClickListener(v -> {
-                    if(currentItem.getType().matches("com")) {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(requireActivity(), ActivityProfileUser.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
+//                    if(currentItem.getType().matches("com")) {
+//                        Intent intent = new Intent(requireActivity(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+//                    else {
+//                        Intent intent = new Intent(requireActivity(), ActivityProfileUser.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+                    Intent intent = new Intent(requireActivity(), ActivityProfile.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
                 });
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
@@ -408,9 +415,15 @@ public class FragmentClips extends Fragment {
                     programmingViewHolder.pujoTagHolder.setVisibility(View.VISIBLE);
                     programmingViewHolder.pujoTagHolder.setText(currentItem.getPujoTag().getPujoName());
 
+//                    programmingViewHolder.pujoTagHolder.setOnClickListener(v -> {
+//                        //To be changed
+//                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
+//                        startActivity(intent);
+//                    });
                     programmingViewHolder.pujoTagHolder.setOnClickListener(v -> {
                         //To be changed
-                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(getActivity(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
                         startActivity(intent);
                     });
@@ -959,7 +972,8 @@ public class FragmentClips extends Fragment {
                                         FirebaseFirestore.getInstance()
                                                 .collection("Reels").document(currentItem.getDocID()).delete()
                                                 .addOnSuccessListener(aVoid -> {
-                                                    ActivityProfileCommittee.delete = 1;
+//                                                    ActivityProfileCommittee.delete = 1;
+                                                    ActivityProfile.delete = 1;
                                                     programmingViewHolder.itemHome.setVisibility(View.GONE);
                                                     notifyDataSetChanged();
                                                     progressDialog.dismiss();

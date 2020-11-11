@@ -229,10 +229,18 @@ public class FeedsFragment extends Fragment {
                     if(introPref.getType().matches("indi")){
                         feedViewHolder.new_post_layout.setVisibility(View.VISIBLE);
 
+//                        feedViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+//                                intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                                startActivity(intent);
+//                            }
+//                        });
                         feedViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                                Intent intent = new Intent(getContext(), ActivityProfile.class);
                                 intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
                                 startActivity(intent);
                             }
@@ -349,9 +357,15 @@ public class FeedsFragment extends Fragment {
                     feedViewHolder.pujoTagHolder.setVisibility(View.VISIBLE);
                     feedViewHolder.pujoTagHolder.setText(currentItem.getPujoTag().getPujoName());
 
+//                    feedViewHolder.pujoTagHolder.setOnClickListener(v -> {
+//                        //To be changed
+//                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
+//                        startActivity(intent);
+//                    });
                     feedViewHolder.pujoTagHolder.setOnClickListener(v -> {
                         //To be changed
-                        Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+                        Intent intent = new Intent(getActivity(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
                         startActivity(intent);
                     });
@@ -419,6 +433,18 @@ public class FeedsFragment extends Fragment {
                 /////////TAGLIST///////////////
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
+//                feedViewHolder.userimage.setOnClickListener(v -> {
+//                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+//                    intent.putExtra("uid", currentItem.getUid());
+//                    startActivity(intent);
+//                });
+//
+//                feedViewHolder.username.setOnClickListener(v -> {
+//                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+//                    intent.putExtra("uid", currentItem.getUid());
+//                    startActivity(intent);
+//                });
+
                 feedViewHolder.userimage.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
@@ -1557,7 +1583,8 @@ public class FeedsFragment extends Fragment {
                                             FirebaseFirestore.getInstance()
                                                     .collection("Reels").document(currentItem.getDocID()).delete()
                                                     .addOnSuccessListener(aVoid -> {
-                                                        ActivityProfileUser.delete = 1;
+//                                                        ActivityProfileUser.delete = 1;
+                                                        ActivityProfile.delete = 1;
                                                         holder.itemView.setVisibility(View.GONE);
                                                         progressDialog.dismiss();
                                                         if(getItemCount() == 0) {
