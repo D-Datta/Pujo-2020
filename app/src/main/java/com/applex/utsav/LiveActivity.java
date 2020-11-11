@@ -3,7 +3,9 @@ package com.applex.utsav;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.applex.utsav.utility.BasicUtility;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +25,12 @@ public class LiveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_live);
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
+
+        if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        else
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         FirebaseFirestore.getInstance().document("Live/Stream").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

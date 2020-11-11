@@ -63,6 +63,7 @@ import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
+import com.applex.utsav.models.Suggestedtag;
 import com.applex.utsav.models.UserTagModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
@@ -78,6 +79,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DatabaseRegistrar;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -345,6 +352,26 @@ public class NewPostHome extends AppCompatActivity {
         }
 
 
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren() ){
+                    Suggestedtag model = dataSnapshot.getValue(Suggestedtag.class);
+                    String tagName = model.getName();
+                    int count = model.getValue();
+                    BasicUtility.showToast(NewPostHome.this, tagName + count);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Log.i("ERROR", "onCancelled: Error: " + error.getMessage());
+            }
+        });
+
+
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
         editPostModel= new HomePostModel();
@@ -543,6 +570,7 @@ public class NewPostHome extends AppCompatActivity {
                 new ImageCompressor(rotatedBitmap).execute();
 
             }
+
             else if (type.startsWith("video/")) {
                 videoUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 BasicUtility.saveVideo(videoUri, NewPostHome.this);
@@ -1463,6 +1491,7 @@ public class NewPostHome extends AppCompatActivity {
                     BasicUtility.showToast(getApplicationContext(), "Video size too large");
                 }
             }
+
             else if(requestCode == IMAGE_PICK_GALLERY_CODE) {
                 if(data.getClipData()!= null) {
                     bottomSheetBehavior.setState(STATE_COLLAPSED);
@@ -1501,8 +1530,9 @@ public class NewPostHome extends AppCompatActivity {
                         }
                         new ImageCompressor(rotatedBitmap).execute();
                     }
-                } else if (data.getData() != null) {
-                    imageUriList.add(data.getData());
+                }
+
+                else if (data.getData() != null) {
                     Bitmap bitmap = null;
                     ExifInterface ei = null;
                     try {
