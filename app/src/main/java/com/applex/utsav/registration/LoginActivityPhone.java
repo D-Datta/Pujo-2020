@@ -1,5 +1,6 @@
 package com.applex.utsav.registration;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -198,7 +199,7 @@ public class LoginActivityPhone extends AppCompatActivity {
                 number,
                 60,
                 TimeUnit.SECONDS,
-                TaskExecutors.MAIN_THREAD,
+                (Activity) TaskExecutors.MAIN_THREAD,
                 mCallBack
         );
     }
