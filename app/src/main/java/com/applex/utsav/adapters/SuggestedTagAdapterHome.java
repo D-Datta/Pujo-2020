@@ -1,23 +1,23 @@
 package com.applex.utsav.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.applex.utsav.R;
 import com.applex.utsav.models.Suggestedtag;
-import com.applex.utsav.models.TagModel;
 import com.applex.utsav.utility.BasicUtility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class SuggestedTagAdapter extends RecyclerView.Adapter<SuggestedTagAdapter.ProgrammingViewHolder> {
+public class SuggestedTagAdapterHome extends RecyclerView.Adapter<SuggestedTagAdapterHome.ProgrammingViewHolder> {
     private ArrayList<Suggestedtag> mList;
     Context mcontext;
 
@@ -41,7 +41,7 @@ public class SuggestedTagAdapter extends RecyclerView.Adapter<SuggestedTagAdapte
 //    }
 
 
-    public SuggestedTagAdapter(ArrayList<Suggestedtag> list, Context context) {
+    public SuggestedTagAdapterHome(ArrayList<Suggestedtag> list, Context context ) {
         this.mList = list;
         this.mcontext=context;
         //0 For new Post Home Suggested Tags, 1 for
@@ -50,8 +50,10 @@ public class SuggestedTagAdapter extends RecyclerView.Adapter<SuggestedTagAdapte
     @NonNull
     @Override
     public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.item_suggestedtag,viewGroup, false);
+        View v;
+            v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.item_suggested_tag_home,viewGroup, false);
+
         return new ProgrammingViewHolder(v , mListener);
     }
 
@@ -64,6 +66,7 @@ public class SuggestedTagAdapter extends RecyclerView.Adapter<SuggestedTagAdapte
         programmingViewHolder.postCount.setText(currentItem.getValue()+" ");
 
         BasicUtility.showToast(mcontext,currentItem.getValue()+" ");
+        Picasso.get().load(currentItem.getImg()).into(programmingViewHolder.img);
     }
 
 
@@ -75,13 +78,15 @@ public class SuggestedTagAdapter extends RecyclerView.Adapter<SuggestedTagAdapte
     public class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         TextView title, postCount;
+        ImageView img;
 
         private ProgrammingViewHolder(@NonNull View itemView, OnClickListener listener) {
             super(itemView);
+            img = itemView.findViewById(R.id.img);
             title = itemView.findViewById(R.id.title);
             postCount = itemView.findViewById(R.id.postCount);
 
-            title.setOnClickListener(v -> {
+            img.setOnClickListener(v -> {
                 if(listener != null){
                     int position = getAdapterPosition();
                     if(position != RecyclerView.NO_POSITION ){

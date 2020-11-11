@@ -26,6 +26,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,8 @@ import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
+import com.applex.utsav.adapters.SuggestedTagAdapter;
+import com.applex.utsav.adapters.SuggestedTagAdapterHome;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.BaseUserModel;
@@ -71,6 +74,7 @@ import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.models.SliderModel;
+import com.applex.utsav.models.Suggestedtag;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
@@ -81,6 +85,11 @@ import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -304,6 +313,7 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.new_post_layout.setVisibility(View.GONE);
                     }
                 }
+
                 else {
                     programmingViewHolder.slider_item.setVisibility(View.GONE);
 
@@ -326,6 +336,20 @@ public class CommitteeFragment extends Fragment {
                     else {
                         programmingViewHolder.committee_item.setVisibility(View.GONE);
                     }
+
+
+
+                    if(programmingViewHolder.getItemViewType() == 1){
+                        programmingViewHolder.suggestedHashtagsRecycler.setVisibility(View.VISIBLE);
+                        buildSuggestedTagGridRecyclerView(programmingViewHolder.suggestedHashtagsRecycler);
+                    }
+                    else{
+                        programmingViewHolder.suggestedHashtagsRecycler.setVisibility(View.GONE);
+                    }
+
+
+
+
 
                     //Clips
                     if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
@@ -1196,6 +1220,7 @@ public class CommitteeFragment extends Fragment {
         });
     }
 
+
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder {
 
         @SuppressLint("StaticFieldLeak")
@@ -1211,7 +1236,8 @@ public class CommitteeFragment extends Fragment {
         LottieAnimationView dhak_anim;
         View view;
         RelativeLayout normal_item, rlLayout;
-        RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView;
+        RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView, suggestedHashtagsRecycler;
+//        CardView suggestedTagCard;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1231,6 +1257,9 @@ public class CommitteeFragment extends Fragment {
             itemHome = itemView.findViewById(R.id.item_home);
             share = itemView.findViewById(R.id.share);
             LinkPreview = itemView.findViewById(R.id.LinkPreView);
+
+//            suggestedTagCard = itemView.findViewById(R.id.suggested_hashtags_card);
+            suggestedHashtagsRecycler = itemView.findViewById(R.id.suggested_hashtags_recycler);
 
             like_image = itemView.findViewById(R.id.like_image);
             comment_image = itemView.findViewById(R.id.comment_image);
@@ -1638,6 +1667,36 @@ public class CommitteeFragment extends Fragment {
             item_reels_image = itemView.findViewById(R.id.item_reels_image);
             reels_mins_ago = itemView.findViewById(R.id.reels_mins_ago);
         }
+    }
+
+    private void buildSuggestedTagGridRecyclerView(RecyclerView cRecyclerView) {
+        cRecyclerView.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.HORIZONTAL, false);
+        cRecyclerView.setLayoutManager(gridLayoutManager);
+        cRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        ArrayList<Suggestedtag> suggestedtagArrayList = new ArrayList<>();
+
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren() ){
+                    Suggestedtag model = dataSnapshot.getValue(Suggestedtag.class);
+                    suggestedtagArrayList.add(model);
+                }
+                SuggestedTagAdapterHome adapter = new SuggestedTagAdapterHome(suggestedtagArrayList, getActivity());
+                cRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Log.i("ERROR", "onCancelled: Error: " + error.getMessage());
+            }
+        });
+
+
     }
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {
