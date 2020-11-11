@@ -48,6 +48,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,6 +58,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.MultipleImageAdapter;
+import com.applex.utsav.adapters.SuggestedTagAdapter;
 import com.applex.utsav.adapters.UserTagAdapter;
 import com.applex.utsav.adapters.UserTaggingAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
@@ -130,7 +133,7 @@ public class NewPostHome extends AppCompatActivity {
 
     private ApplexLinkPreview LinkPreview;
     private IntroPref introPref;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, suggestedtagsRecycler;
 
 //    private String textdata = "";
 //    private RecyclerView tags_selectedRecycler;
@@ -144,6 +147,7 @@ public class NewPostHome extends AppCompatActivity {
 
     private StorageReference storageReferenece;
     private ArrayList<String> generatedFilePath = new ArrayList<>();
+    private ArrayList<Suggestedtag> suggestedtagArrayList = new ArrayList<>();
 
     private Uri downloadUri;
     private String ts, USERNAME, PROFILEPIC, GENDER;
@@ -249,6 +253,7 @@ public class NewPostHome extends AppCompatActivity {
 //        video_cam_icon = findViewById(R.id.video_cam_icon);
 //        video_gal_icon = findViewById(R.id.video_gal_icon);
         head_content = findViewById(R.id.post_headline);
+        suggestedtagsRecycler = findViewById(R.id.suggested_hashtags);
 
         mAuth = FirebaseAuth.getInstance();
         fireuser = mAuth.getCurrentUser();
@@ -262,6 +267,7 @@ public class NewPostHome extends AppCompatActivity {
         tagPujo = findViewById(R.id.pujo_tag);
         TextView newPostToolb= findViewById(R.id.new_post_toolb);
 
+        tagList = new ArrayList<>();
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
 
@@ -351,25 +357,44 @@ public class NewPostHome extends AppCompatActivity {
             }
         }
 
+        suggestedtagsRecycler.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(NewPostHome.this, RecyclerView.HORIZONTAL, false);
+        suggestedtagsRecycler.setLayoutManager(layoutManager);
+        suggestedtagsRecycler.setItemAnimator(new DefaultItemAnimator());
+
+
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
         myRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren() ){
                     Suggestedtag model = dataSnapshot.getValue(Suggestedtag.class);
-                    String tagName = model.getName();
-                    int count = model.getValue();
-                    BasicUtility.showToast(NewPostHome.this, tagName + count);
+                    suggestedtagArrayList.add(model);
                 }
-            }
 
+                SuggestedTagAdapter adapter=new SuggestedTagAdapter(suggestedtagArrayList, NewPostHome.this);
+                suggestedtagsRecycler.setAdapter(adapter);
+
+                adapter.onClickListener(new SuggestedTagAdapter.OnClickListener() {
+                    @Override
+                    public void onClickListener(int position, String title) {
+                        tagList.add(title.substring(1));
+                        postcontent.append(title);
+                    }
+                });
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
                 Log.i("ERROR", "onCancelled: Error: " + error.getMessage());
             }
         });
+
+
+
+
 
 
         ///////////////////LOADING CURRENT USER DP AND UNAME//////////////////////
@@ -1306,7 +1331,6 @@ public class NewPostHome extends AppCompatActivity {
         Pattern p = Pattern.compile("[#][a-zA-Z0-9-_]+");
         Matcher m = p.matcher(postContent);
 
-        tagList = new ArrayList<>();
         //CHECK ALL HASHTAGS WHILE POSTING
         while(m.find())
         {

@@ -191,10 +191,13 @@
                 android:background="@null"
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="17dp" />
- <androidx.recyclerview.widget.RecyclerView
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:id = "@+id/suggested_hashtags"/>
+
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id = "@+id/suggested_hashtags"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                />
+
             <!--            <MultiAutoCompleteTextView-->
 <!--                android:id="@+id/post_content"-->
 <!--                android:layout_width="match_parent"-->
