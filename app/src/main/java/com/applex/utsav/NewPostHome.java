@@ -57,12 +57,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
+import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.MultipleImageAdapter;
 import com.applex.utsav.adapters.SuggestedTagAdapter;
 import com.applex.utsav.adapters.UserTagAdapter;
 import com.applex.utsav.adapters.UserTaggingAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
+import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
@@ -78,6 +80,7 @@ import com.applex.utsav.videoCompressor.VideoCompress;
 import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
@@ -363,49 +366,67 @@ public class NewPostHome extends AppCompatActivity {
         suggestedtagsRecycler.setLayoutManager(layoutManager);
         suggestedtagsRecycler.setItemAnimator(new DefaultItemAnimator());
 
+
+
         FirebaseFirestore.getInstance().collection("SuggestedTags").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document: task.getResult()){
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
+                    if(document.exists()) {
                         Suggestedtag model = document.toObject(Suggestedtag.class);
                         suggestedtagArrayList.add(model);
-                        BasicUtility.showToast(getApplicationContext(), model.getName()+" jj");
                     }
                 }
+                if(suggestedtagArrayList.size()>0) {
+                    SuggestedTagAdapter adapter=new SuggestedTagAdapter(suggestedtagArrayList, NewPostHome.this);
+                    suggestedtagsRecycler.setAdapter(adapter);
 
+                    adapter.onClickListener(new SuggestedTagAdapter.OnClickListener() {
+                        @Override
+                        public void onClickListener(int position, String title) {
+                            String tag= title;
+                            tagList.add(title.substring(1));
+                            postcontent.append("#"+ tag);
+                        }
+                    });
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                BasicUtility.showToast(getApplicationContext(),"Something went wrong...");
             }
         });
 
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
-        myRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren() ){
-                    Suggestedtag model = dataSnapshot.getValue(Suggestedtag.class);
-                    suggestedtagArrayList.add(model);
-                }
-
-                SuggestedTagAdapter adapter=new SuggestedTagAdapter(suggestedtagArrayList, NewPostHome.this);
-                suggestedtagsRecycler.setAdapter(adapter);
-
-                adapter.onClickListener(new SuggestedTagAdapter.OnClickListener() {
-                    @Override
-                    public void onClickListener(int position, String title) {
-                        String tag= title;
-                        tagList.add(title.substring(1));
-                        postcontent.append("#"+ tag);
-                    }
-                });
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-                Log.i("ERROR", "onCancelled: Error: " + error.getMessage());
-            }
-        });
+//        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
+//        myRef.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for(DataSnapshot dataSnapshot: snapshot.getChildren() ){
+//                    Suggestedtag model = dataSnapshot.getValue(Suggestedtag.class);
+//                    suggestedtagArrayList.add(model);
+//                }
+//
+//                SuggestedTagAdapter adapter=new SuggestedTagAdapter(suggestedtagArrayList, NewPostHome.this);
+//                suggestedtagsRecycler.setAdapter(adapter);
+//
+//                adapter.onClickListener(new SuggestedTagAdapter.OnClickListener() {
+//                    @Override
+//                    public void onClickListener(int position, String title) {
+//                        String tag= title;
+//                        tagList.add(title.substring(1));
+//                        postcontent.append("#"+ tag);
+//                    }
+//                });
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//                Log.i("ERROR", "onCancelled: Error: " + error.getMessage());
+//            }
+//        });
 
 
 
