@@ -64,18 +64,21 @@ import static java.lang.Boolean.TRUE;
 public class RegIndividual extends AppCompatActivity
 {
     private ImageView reg_dhak,cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
-    private EditText fname_ind,lname_ind,username_ind,bio_ind;
+    private EditText fname_ind,bio_ind;
+//    private EditText lname_ind,username_ind;
     public static EditText city_ind,state_ind;
     private TextView email_ind;
     private Spinner gender_ind;
     private Button submit_ind;
 
-    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,BIO,COVERPIC,PASSWORD;
+    private String FNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,BIO,COVERPIC,PASSWORD;
+//    private String LNAME, USERNAME;
 
     private String tokenStr;
     private BaseUserModel baseUserModel;
-    private IndividualModel individualModel;
-    private DocumentReference docref, docref2, docref3,docref4;
+//    private IndividualModel individualModel;
+    private DocumentReference docref, docref2, docref3;
+//    private DocumentReference docref4;
     private FirebaseAuth mAuth;
     //    private File file;
     private Uri filepath;
@@ -133,7 +136,7 @@ public class RegIndividual extends AppCompatActivity
         edit_cover_ind = findViewById(R.id.reg_edit_coverpic_icon_ind);
         edit_dp_ind = findViewById(R.id.reg_edit_dp_ind);
         fname_ind = findViewById(R.id.first_name_ind);
-        lname_ind = findViewById(R.id.last_name_ind);
+//        lname_ind = findViewById(R.id.last_name_ind);
         bio_ind = findViewById(R.id.bio_line_ind);
         city_ind = findViewById(R.id.city_ind);
         state_ind = findViewById(R.id.state_ind);
@@ -271,8 +274,8 @@ public class RegIndividual extends AppCompatActivity
             public void onClick(View view) {
 
                 FNAME = fname_ind.getText().toString().trim();
-                LNAME = lname_ind.getText().toString().trim();
-                USERNAME = FNAME+ " " +LNAME;
+//                LNAME = lname_ind.getText().toString().trim();
+//                USERNAME = FNAME+ " " +LNAME;
                 EMAIL = email_ind.getText().toString().trim();
                 BIO = bio_ind.getText().toString().trim();
                 CITY = city_ind.getText().toString().trim();
@@ -280,16 +283,16 @@ public class RegIndividual extends AppCompatActivity
                 GENDER = gender_ind.getSelectedItem().toString().trim();
 
 
-                if (FNAME.isEmpty() || LNAME.isEmpty() || GENDER.isEmpty()) {
+                if (FNAME.isEmpty() || GENDER.isEmpty()) {
 
                     if (FNAME.isEmpty()) {
-                        fname_ind.setError("First Name Missing");
+                        fname_ind.setError("Name Missing");
                         fname_ind.requestFocus();
                     }
-                    if (LNAME.isEmpty()) {
-                        lname_ind.setError("Last Name Missing");
-                        lname_ind.requestFocus();
-                    }
+//                    if (LNAME.isEmpty()) {
+//                        lname_ind.setError("Last Name Missing");
+//                        lname_ind.requestFocus();
+//                    }
 
                     if (GENDER.isEmpty()) {
                         BasicUtility.showToast(RegIndividual.this,"Gender Miising");
@@ -314,13 +317,13 @@ public class RegIndividual extends AppCompatActivity
                             .collection("Users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()+"/notifCount/")
                             .document("notifCount");
 
-                    docref4 = FirebaseFirestore.getInstance().collection("Users")
-                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("indi")
-                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                    docref4 = FirebaseFirestore.getInstance().collection("Users")
+//                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("indi")
+//                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     baseUserModel = new BaseUserModel();
-                    baseUserModel.setName(USERNAME);
-                    baseUserModel.setSmall_name(USERNAME.toLowerCase());
+                    baseUserModel.setName(FNAME);
+                    baseUserModel.setSmall_name(FNAME.toLowerCase());
                     baseUserModel.setEmail(EMAIL);
                     baseUserModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     baseUserModel.setAddressline(ADDRESS);
@@ -328,13 +331,14 @@ public class RegIndividual extends AppCompatActivity
                     baseUserModel.setState(STATE);
                     baseUserModel.setType(introPref.getType());
                     baseUserModel.setGender(GENDER);
+                    baseUserModel.setAbout(BIO);
 
-                    individualModel = new IndividualModel();
-                    individualModel.setFirstname(FNAME);
-                    individualModel.setLastname(LNAME);
-                    individualModel.setBio(BIO);
+//                    individualModel = new IndividualModel();
+//                    individualModel.setFirstname(FNAME);
+//                    individualModel.setLastname(LNAME);
+//                    individualModel.setBio(BIO);
 
-                    introPref.setFullName(USERNAME);
+                    introPref.setFullName(FNAME);
                     introPref.setGender(GENDER);
 
                     if (pic != null || coverpicbyte != null) {
@@ -373,40 +377,21 @@ public class RegIndividual extends AppCompatActivity
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                                                        if (task.isSuccessful()) {
-
-                                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        if(task.isSuccessful()){
+                                                                            docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                 @Override
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     if(task.isSuccessful()){
-                                                                                        docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                        docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                             @Override
                                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                                 if(task.isSuccessful()){
-                                                                                                    docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                                        @Override
-                                                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                                                            if(task.isSuccessful()){
-                                                                                                                progressDialog.dismiss();
-                                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
-                                                                                                                Intent intent = new Intent(RegIndividual.this, MainActivity.class);
-                                                                                                                intent.putExtra("uid", fireuser.getUid());
-                                                                                                                startActivity(intent);
-                                                                                                                finish();
-                                                                                                            }
-                                                                                                            else{
-                                                                                                                progressDialog.dismiss();
-                                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                            }
-                                                                                                        }
-                                                                                                    })
-                                                                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                                                                @Override
-                                                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                                                    progressDialog.dismiss();
-                                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                                }
-                                                                                                            });
+                                                                                                    progressDialog.dismiss();
+                                                                                                    BasicUtility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                    Intent intent = new Intent(RegIndividual.this, MainActivity.class);
+                                                                                                    intent.putExtra("uid", fireuser.getUid());
+                                                                                                    startActivity(intent);
+                                                                                                    finish();
                                                                                                 }
                                                                                                 else{
                                                                                                     progressDialog.dismiss();
@@ -435,8 +420,8 @@ public class RegIndividual extends AppCompatActivity
                                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                         }
                                                                                     });
-
-                                                                        } else {
+                                                                        }
+                                                                        else{
                                                                             progressDialog.dismiss();
                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
@@ -459,40 +444,21 @@ public class RegIndividual extends AppCompatActivity
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                                        if (task.isSuccessful()) {
-
-                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        if(task.isSuccessful()){
+                                                            docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
-                                                                        docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                             @Override
                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                 if(task.isSuccessful()){
-                                                                                    docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                        @Override
-                                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                                            if(task.isSuccessful()){
-                                                                                                progressDialog.dismiss();
-                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
-                                                                                                Intent intent = new Intent(RegIndividual.this, MainActivity.class);
-                                                                                                intent.putExtra("uid", fireuser.getUid());
-                                                                                                startActivity(intent);
-                                                                                                finish();
-                                                                                            }
-                                                                                            else{
-                                                                                                progressDialog.dismiss();
-                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                            }
-                                                                                        }
-                                                                                    })
-                                                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                                                @Override
-                                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                                    progressDialog.dismiss();
-                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                }
-                                                                                            });
+                                                                                    progressDialog.dismiss();
+                                                                                    BasicUtility.showToast(getApplicationContext(), "Profile Created");
+                                                                                    Intent intent = new Intent(RegIndividual.this, MainActivity.class);
+                                                                                    intent.putExtra("uid", fireuser.getUid());
+                                                                                    startActivity(intent);
+                                                                                    finish();
                                                                                 }
                                                                                 else{
                                                                                     progressDialog.dismiss();
@@ -521,8 +487,8 @@ public class RegIndividual extends AppCompatActivity
                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
-
-                                                        } else {
+                                                        }
+                                                        else{
                                                             progressDialog.dismiss();
                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
@@ -572,40 +538,21 @@ public class RegIndividual extends AppCompatActivity
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                                                        if (task.isSuccessful()) {
-
-                                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        if(task.isSuccessful()){
+                                                                            docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                 @Override
                                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                                     if(task.isSuccessful()){
-                                                                                        docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                        docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                             @Override
                                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                                 if(task.isSuccessful()){
-                                                                                                    docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                                        @Override
-                                                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                                                            if(task.isSuccessful()){
-                                                                                                                progressDialog.dismiss();
-                                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
-                                                                                                                Intent intent = new Intent(RegIndividual.this, MainActivity.class);
-                                                                                                                intent.putExtra("uid", fireuser.getUid());
-                                                                                                                startActivity(intent);
-                                                                                                                finish();
-                                                                                                            }
-                                                                                                            else{
-                                                                                                                progressDialog.dismiss();
-                                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                            }
-                                                                                                        }
-                                                                                                    })
-                                                                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                                                                @Override
-                                                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                                                    progressDialog.dismiss();
-                                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                                }
-                                                                                                            });
+                                                                                                    progressDialog.dismiss();
+                                                                                                    BasicUtility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                    Intent intent = new Intent(RegIndividual.this, MainActivity.class);
+                                                                                                    intent.putExtra("uid", fireuser.getUid());
+                                                                                                    startActivity(intent);
+                                                                                                    finish();
                                                                                                 }
                                                                                                 else{
                                                                                                     progressDialog.dismiss();
@@ -634,8 +581,8 @@ public class RegIndividual extends AppCompatActivity
                                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                         }
                                                                                     });
-
-                                                                        } else {
+                                                                        }
+                                                                        else{
                                                                             progressDialog.dismiss();
                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
@@ -658,40 +605,21 @@ public class RegIndividual extends AppCompatActivity
                                                 docref.set(baseUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-
-                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        if(task.isSuccessful()){
+                                                            docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
                                                                     if(task.isSuccessful()){
-                                                                        docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                             @Override
                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                 if(task.isSuccessful()){
-                                                                                    docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                        @Override
-                                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                                            if(task.isSuccessful()){
-                                                                                                progressDialog.dismiss();
-                                                                                                BasicUtility.showToast(getApplicationContext(), "Profile Created");
-                                                                                                Intent intent = new Intent(RegIndividual.this, MainActivity.class);
-                                                                                                intent.putExtra("uid", fireuser.getUid());
-                                                                                                startActivity(intent);
-                                                                                                finish();
-                                                                                            }
-                                                                                            else{
-                                                                                                progressDialog.dismiss();
-                                                                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                            }
-                                                                                        }
-                                                                                    })
-                                                                                            .addOnFailureListener(new OnFailureListener() {
-                                                                                                @Override
-                                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                                    progressDialog.dismiss();
-                                                                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                }
-                                                                                            });
+                                                                                    progressDialog.dismiss();
+                                                                                    BasicUtility.showToast(getApplicationContext(), "Profile Created");
+                                                                                    Intent intent = new Intent(RegIndividual.this, MainActivity.class);
+                                                                                    intent.putExtra("uid", fireuser.getUid());
+                                                                                    startActivity(intent);
+                                                                                    finish();
                                                                                 }
                                                                                 else{
                                                                                     progressDialog.dismiss();
@@ -720,8 +648,8 @@ public class RegIndividual extends AppCompatActivity
                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
                                                                     });
-
-                                                        } else {
+                                                        }
+                                                        else{
                                                             progressDialog.dismiss();
                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
@@ -751,38 +679,20 @@ public class RegIndividual extends AppCompatActivity
                             public void onComplete(@NonNull Task<Void> task) {
 
                                 if(task.isSuccessful()){
-                                    docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if(task.isSuccessful()){
-                                                            docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if(task.isSuccessful()){
-                                                                        progressDialog.dismiss();
-                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Created");
-                                                                        Intent intent = new Intent(RegIndividual.this, MainActivity.class);
-                                                                        intent.putExtra("uid", fireuser.getUid());
-                                                                        startActivity(intent);
-                                                                        finish();
-                                                                    }
-                                                                    else{
-                                                                        progressDialog.dismiss();
-                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                    }
-                                                                }
-                                                            })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            progressDialog.dismiss();
-                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                        }
-                                                                    });
+                                                            progressDialog.dismiss();
+                                                            BasicUtility.showToast(getApplicationContext(), "Profile Created");
+                                                            Intent intent = new Intent(RegIndividual.this, MainActivity.class);
+                                                            intent.putExtra("uid", fireuser.getUid());
+                                                            startActivity(intent);
+                                                            finish();
                                                         }
                                                         else{
                                                             progressDialog.dismiss();

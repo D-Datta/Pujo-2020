@@ -30,6 +30,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.models.BaseUserModel;
@@ -246,7 +248,7 @@ public class AllPujoFragment extends Fragment {
                 }
 
                 programmingViewHolder.itemView.setOnClickListener(view -> {
-                    Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+                    Intent intent = new Intent(getActivity(), ActivityProfile.class);
                     intent.putExtra("uid",currentItem.getUid());
                     startActivity(intent);
                 });

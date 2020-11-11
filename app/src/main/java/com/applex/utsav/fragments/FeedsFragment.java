@@ -45,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.HashtagPostViewAll;
@@ -419,13 +420,13 @@ public class FeedsFragment extends Fragment {
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 feedViewHolder.userimage.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                    Intent intent = new Intent(getContext(), ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
 
                 feedViewHolder.username.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                    Intent intent = new Intent(getContext(), ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
@@ -1484,13 +1485,13 @@ public class FeedsFragment extends Fragment {
                     }
 
                     holder.pujo_com_dp.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });
 
                     holder.pujo_com_name.setOnClickListener(v -> {
-                        Intent intent = new Intent(getContext(), ActivityProfileUser.class);
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getUid());
                         startActivity(intent);
                     });

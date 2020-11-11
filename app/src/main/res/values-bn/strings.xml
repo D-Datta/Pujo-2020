@@ -74,6 +74,7 @@
 
     <string name="reg">নিবন্ধন</string>
     <string name="name">নাম</string>
+    <string name="regname">নাম*</string>
     <string name="fname">নামের প্রথম অংশ*</string>
     <string name="lname">নামের শেষাংশ*</string>
     <string name="username">ব্যবহারকারীর নাম*</string>

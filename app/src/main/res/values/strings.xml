@@ -171,6 +171,7 @@
     <string name="head_content">head_content</string>
     <string name="continue_with_phone_no">Continue with Phone No.</string>
     <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="regname">Name*</string>
 
     <string name="description">If you are a Pujo Organizer</string>
     <string name="descriptionIndividual">If you are a general visitor and want to share your pujo stories</string>

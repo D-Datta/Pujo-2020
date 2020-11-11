@@ -61,7 +61,8 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 
     private ImageView reg_dhak;
 //    private ImageView cover_ind,dp_ind,edit_cover_ind,edit_dp_ind;
-    private EditText fname_ind,lname_ind,bio_ind;
+    private EditText fname_ind,bio_ind;
+//    private EditText lname_ind;
     public static EditText city_ind,state_ind;
     private long likeCount;
     private long commentcount;
@@ -71,12 +72,14 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //    private Spinner gender_ind;
     private Button submit_ind;
 
-    private String FNAME,LNAME,USERNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC,PASSWORD,uid, BIO;
+    private String FNAME,ADDRESS,CITY,STATE,EMAIL,GENDER,PROFILEPIC,COVERPIC,PASSWORD,uid, BIO;
+//    private String LNAME,USERNAME;
 
     private String tokenStr;
     private BaseUserModel baseUserModel;
-    private IndividualModel individualModel;
-    private DocumentReference docref,docref4;
+//    private IndividualModel individualModel;
+    private DocumentReference docref;
+//    private DocumentReference docref4;
     private FirebaseAuth mAuth;
     //    private File file;
     private Uri filepath;
@@ -168,7 +171,7 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
 //        edit_cover_ind = findViewById(R.id.reg_edit_coverpic_icon_ind);
 //        edit_dp_ind = findViewById(R.id.reg_edit_dp_ind);
         fname_ind = findViewById(R.id.first_name_ind);
-        lname_ind = findViewById(R.id.last_name_ind);
+//        lname_ind = findViewById(R.id.last_name_ind);
         bio_ind = findViewById(R.id.bio_line_ind);
         city_ind = findViewById(R.id.city_ind);
         state_ind = findViewById(R.id.state_ind);
@@ -233,36 +236,46 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                 state_ind.setText(baseUserModel.getState());
                             }
 
+                            if(baseUserModel.getName()!=null && !baseUserModel.getName().isEmpty())
+                            {
+                                fname_ind.setText(baseUserModel.getName());
+                            }
+
+                            if(baseUserModel.getAbout()!=null && !baseUserModel.getAbout().isEmpty())
+                            {
+                                bio_ind.setText(baseUserModel.getAbout());
+                            }
+
                         }
 
                     }
                 });
 
-        FirebaseFirestore.getInstance().collection("Users").document(uid)
-                .collection("indi")
-                .document(uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            IndividualModel individualModel = task.getResult().toObject(IndividualModel.class);
-                            if(individualModel.getFirstname()!=null && !individualModel.getFirstname().isEmpty())
-                            {
-                                fname_ind.setText(individualModel.getFirstname());
-                            }
-                            if(individualModel.getLastname()!=null && !individualModel.getLastname().isEmpty())
-                            {
-                                lname_ind.setText(individualModel.getLastname());
-                            }
-                            if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty())
-                            {
-                                bio_ind.setText(individualModel.getBio());
-                            }
-                        }
-                    }
-                });
+//        FirebaseFirestore.getInstance().collection("Users").document(uid)
+//                .collection("indi")
+//                .document(uid)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if(task.isSuccessful())
+//                        {
+//                            IndividualModel individualModel = task.getResult().toObject(IndividualModel.class);
+//                            if(individualModel.getFirstname()!=null && !individualModel.getFirstname().isEmpty())
+//                            {
+//                                fname_ind.setText(individualModel.getFirstname());
+//                            }
+//                            if(individualModel.getLastname()!=null && !individualModel.getLastname().isEmpty())
+//                            {
+//                                lname_ind.setText(individualModel.getLastname());
+//                            }
+//                            if(individualModel.getBio()!=null && !individualModel.getBio().isEmpty())
+//                            {
+//                                bio_ind.setText(individualModel.getBio());
+//                            }
+//                        }
+//                    }
+//                });
 
 //        edit_dp_ind.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -304,27 +317,31 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 FNAME = fname_ind.getText().toString().trim();
-                LNAME = lname_ind.getText().toString().trim();
-                USERNAME = FNAME +" "+ LNAME;
+//                LNAME = lname_ind.getText().toString().trim();
+//                USERNAME = FNAME +" "+ LNAME;
 //                EMAIL = email_ind.getText().toString().trim();
                 BIO = bio_ind.getText().toString().trim();
                 CITY = city_ind.getText().toString().trim();
                 STATE = state_ind.getText().toString().trim();
 //                GENDER = gender_ind.getSelectedItem().toString().trim();
 
-
-                if (FNAME.isEmpty() || LNAME.isEmpty()) {
-
-                    if (FNAME.isEmpty()) {
-                        fname_ind.setError("First Name Missing");
-                        fname_ind.requestFocus();
-                    }
-                    if (LNAME.isEmpty()) {
-                        lname_ind.setError("Last Name Missing");
-                        lname_ind.requestFocus();
-                    }
-
+                if (FNAME.isEmpty()) {
+                    fname_ind.setError("First Name Missing");
+                    fname_ind.requestFocus();
                 }
+
+//                if (FNAME.isEmpty() || LNAME.isEmpty()) {
+//
+//                    if (FNAME.isEmpty()) {
+//                        fname_ind.setError("First Name Missing");
+//                        fname_ind.requestFocus();
+//                    }
+//                    if (LNAME.isEmpty()) {
+//                        lname_ind.setError("Last Name Missing");
+//                        lname_ind.requestFocus();
+//                    }
+//
+//                }
                 else {
                     progressDialog = new ProgressDialog(EditProfileIndividualActivity.this);
                     progressDialog.setTitle("Editing your profile");
@@ -336,13 +353,13 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                     docref = FirebaseFirestore.getInstance().collection("Users")
                             .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                    docref4 = FirebaseFirestore.getInstance().collection("Users")
-                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("indi")
-                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                    docref4 = FirebaseFirestore.getInstance().collection("Users")
+//                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("indi")
+//                            .document(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     baseUserModel = new BaseUserModel();
-                    baseUserModel.setName(USERNAME);
-                    baseUserModel.setSmall_name(USERNAME.toLowerCase());
+                    baseUserModel.setName(FNAME);
+                    baseUserModel.setSmall_name(FNAME.toLowerCase());
                     baseUserModel.setEmail(EMAIL);
                     baseUserModel.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     baseUserModel.setAddressline(ADDRESS);
@@ -356,13 +373,14 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                     baseUserModel.setCoverpic(COVERPIC);
                     baseUserModel.setDp(PROFILEPIC);
                     baseUserModel.setGender(GENDER);
+                    baseUserModel.setAbout(BIO);
 
-                    individualModel = new IndividualModel();
-                    individualModel.setFirstname(FNAME);
-                    individualModel.setLastname(LNAME);
-                    individualModel.setBio(BIO);
+//                    individualModel = new IndividualModel();
+//                    individualModel.setFirstname(FNAME);
+//                    individualModel.setLastname(LNAME);
+//                    individualModel.setBio(BIO);
 
-                    introPref.setFullName(USERNAME);
+                    introPref.setFullName(FNAME);
                     introPref.setGender(GENDER);
 
                     if (pic != null || coverpicbyte != null) {
@@ -399,34 +417,15 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                                                        if (task.isSuccessful()) {
-
-                                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                                    if(task.isSuccessful()){
-                                                                                        progressDialog.dismiss();
-                                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                                                        Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
-                                                                                        intent.putExtra("uid", fireuser.getUid());
-                                                                                        startActivity(intent);
-                                                                                        finish();
-                                                                                    }
-                                                                                    else{
-                                                                                        progressDialog.dismiss();
-                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                    }
-                                                                                }
-                                                                            })
-                                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                                        @Override
-                                                                                        public void onFailure(@NonNull Exception e) {
-                                                                                            progressDialog.dismiss();
-                                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                        }
-                                                                                    });
-
-                                                                        } else {
+                                                                        if(task.isSuccessful()){
+                                                                            progressDialog.dismiss();
+                                                                            BasicUtility.showToast(getApplicationContext(), "Profile Edited");
+                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                                            intent.putExtra("uid", fireuser.getUid());
+                                                                            startActivity(intent);
+                                                                            finish();
+                                                                        }
+                                                                        else{
                                                                             progressDialog.dismiss();
                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
@@ -449,35 +448,16 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                                        if (task.isSuccessful()) {
-
-                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if(task.isSuccessful()){
+                                                        if(task.isSuccessful()){
 //                                                                        introPref.setFullName(baseUserModel.getName());
-                                                                        progressDialog.dismiss();
-                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                                        Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
-                                                                        intent.putExtra("uid", fireuser.getUid());
-                                                                        startActivity(intent);
-                                                                        finish();
-                                                                    }
-                                                                    else{
-                                                                        progressDialog.dismiss();
-                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                    }
-                                                                }
-                                                            })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            progressDialog.dismiss();
-                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                        }
-                                                                    });
-
-                                                        } else {
+                                                            progressDialog.dismiss();
+                                                            BasicUtility.showToast(getApplicationContext(), "Profile Edited");
+                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                            intent.putExtra("uid", fireuser.getUid());
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                        else{
                                                             progressDialog.dismiss();
                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
@@ -526,34 +506,15 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                                                        if (task.isSuccessful()) {
-
-                                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                                    if(task.isSuccessful()){
-                                                                                        progressDialog.dismiss();
-                                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                                                        Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
-                                                                                        intent.putExtra("uid", fireuser.getUid());
-                                                                                        startActivity(intent);
-                                                                                        finish();
-                                                                                    }
-                                                                                    else{
-                                                                                        progressDialog.dismiss();
-                                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                    }
-                                                                                }
-                                                                            })
-                                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                                        @Override
-                                                                                        public void onFailure(@NonNull Exception e) {
-                                                                                            progressDialog.dismiss();
-                                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                        }
-                                                                                    });
-
-                                                                        } else {
+                                                                        if(task.isSuccessful()){
+                                                                            progressDialog.dismiss();
+                                                                            BasicUtility.showToast(getApplicationContext(), "Profile Edited");
+                                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                                            intent.putExtra("uid", fireuser.getUid());
+                                                                            startActivity(intent);
+                                                                            finish();
+                                                                        }
+                                                                        else{
                                                                             progressDialog.dismiss();
                                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                         }
@@ -576,34 +537,15 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                                                 docref.set(baseUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-
-                                                            docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task) {
-                                                                    if(task.isSuccessful()){
-                                                                        progressDialog.dismiss();
-                                                                        BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                                        Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
-                                                                        intent.putExtra("uid", fireuser.getUid());
-                                                                        startActivity(intent);
-                                                                        finish();
-                                                                    }
-                                                                    else{
-                                                                        progressDialog.dismiss();
-                                                                        BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                    }
-                                                                }
-                                                            })
-                                                                    .addOnFailureListener(new OnFailureListener() {
-                                                                        @Override
-                                                                        public void onFailure(@NonNull Exception e) {
-                                                                            progressDialog.dismiss();
-                                                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                        }
-                                                                    });
-
-                                                        } else {
+                                                        if(task.isSuccessful()){
+                                                            progressDialog.dismiss();
+                                                            BasicUtility.showToast(getApplicationContext(), "Profile Edited");
+                                                            Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                                            intent.putExtra("uid", fireuser.getUid());
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                        else{
                                                             progressDialog.dismiss();
                                                             BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                         }
@@ -633,30 +575,12 @@ public class EditProfileIndividualActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
 
                                 if(task.isSuccessful()){
-                                    docref4.set(individualModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                progressDialog.dismiss();
-                                                BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                                Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
-                                                intent.putExtra("uid", fireuser.getUid());
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            else{
-                                                progressDialog.dismiss();
-                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                            }
-                                        }
-                                    })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    progressDialog.dismiss();
-                                                    BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                }
-                                            });
+                                    progressDialog.dismiss();
+                                    BasicUtility.showToast(getApplicationContext(), "Profile Edited");
+                                    Intent intent = new Intent(EditProfileIndividualActivity.this, ActivityProfileUser.class);
+                                    intent.putExtra("uid", fireuser.getUid());
+                                    startActivity(intent);
+                                    finish();
                                 }
                                 else{
                                     progressDialog.dismiss();

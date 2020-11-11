@@ -15,6 +15,9 @@ public class BaseUserModel {
     private String dp;
     private String coverpic;
     private String gender;
+    private String about;
+    private String pujotype;
+    private String upiid;
 
     private String uid;
     private String email;
@@ -221,5 +224,29 @@ public class BaseUserModel {
 
     public void setListener(boolean listener) {
         this.listener = listener;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getPujotype() {
+        return pujotype;
+    }
+
+    public void setPujotype(String pujotype) {
+        this.pujotype = pujotype;
+    }
+
+    public String getUpiid() {
+        return upiid;
+    }
+
+    public void setUpiid(String upiid) {
+        this.upiid = upiid;
     }
 }

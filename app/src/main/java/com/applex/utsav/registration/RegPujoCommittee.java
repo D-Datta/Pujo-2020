@@ -67,24 +67,27 @@ import static java.lang.Boolean.TRUE;
 
 public class RegPujoCommittee extends AppCompatActivity {
 
-    private EditText etcommitteename, etdescription, etaddressline, etpin, etcontact, etupiid;
+    private EditText etcommitteename, etdescription, etaddressline, etpin, etcontact;
+//    private EditText etupiid;
     public static EditText etcity,etstate;
-    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin, scontact, supi;
+    private String scommitteename, sdescription, saddress, scity, stype, sstate, spin, scontact;
     private TextView email_pc;
     private Button register;
     private ProgressDialog progressDialog;
     private String userID, usertype;
     private String semail,spassword;
+//    private String supi;
     private ImageView cover_pc,dp_pc,edit_cover_pc,edit_dp_pc;
     private String tokenStr;
 
     private RadioGroup radioGroup;
     private RadioButton radioButton;
 
-    private DocumentReference docrefBase, docrefCommittee, docref2, docref3;
+    private DocumentReference docrefBase, docref2, docref3;
+//    private DocumentReference docrefCommittee;
     private BaseUserModel baseUserModel;
     private IntroPref introPref;
-    private PujoCommitteeModel pujoCommitteeModel;
+//    private PujoCommitteeModel pujoCommitteeModel;
 
     private FirebaseAuth mAuth;
     //    private File file;
@@ -148,7 +151,7 @@ public class RegPujoCommittee extends AppCompatActivity {
         etpin = findViewById(R.id.committee_pin);
         radioGroup = findViewById(R.id.radiogroup);
         etcontact = findViewById(R.id.committee_contact_number);
-        etupiid = findViewById(R.id.committee_upiid);
+//        etupiid = findViewById(R.id.committee_upiid);
 
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         introPref = new IntroPref(RegPujoCommittee.this);
@@ -285,7 +288,7 @@ public class RegPujoCommittee extends AppCompatActivity {
                 sstate = etstate.getText().toString().trim();
                 spin = etpin.getText().toString().trim();
                 scontact = etcontact.getText().toString().trim();
-                supi = etupiid.getText().toString().trim();
+//                supi = etupiid.getText().toString().trim();
 
                 int selectedType = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedType);
@@ -351,8 +354,8 @@ public class RegPujoCommittee extends AppCompatActivity {
                             .document("notifCount");
 
 
-                    docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+userID+"/"+usertype+"/")
-                              .document(userID);
+//                    docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+userID+"/"+usertype+"/")
+//                              .document(userID);
 
                       baseUserModel = new BaseUserModel();
                       baseUserModel.setAddressline(saddress);
@@ -366,12 +369,14 @@ public class RegPujoCommittee extends AppCompatActivity {
                       baseUserModel.setPin(spin);
                       baseUserModel.setVerified(false);
                       baseUserModel.setContact(scontact);
+                      baseUserModel.setAbout(sdescription);
+                      baseUserModel.setPujotype(stype);
 
 
-                      pujoCommitteeModel = new PujoCommitteeModel();
-                      pujoCommitteeModel.setDescription(sdescription);
-                      pujoCommitteeModel.setType(stype);
-                      pujoCommitteeModel.setUpiid(supi);
+//                      pujoCommitteeModel = new PujoCommitteeModel();
+//                      pujoCommitteeModel.setDescription(sdescription);
+//                      pujoCommitteeModel.setType(stype);
+//                      pujoCommitteeModel.setUpiid(supi);
 
                       introPref.setFullName(scommitteename);
                       introPref.setGender(null);
@@ -411,40 +416,21 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                       @Override
                                                                       public void onComplete(@NonNull Task<Void> task) {
 
-                                                                          if (task.isSuccessful()) {
-
-                                                                              docrefCommittee.set(pujoCommitteeModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                          if(task.isSuccessful()){
+                                                                              docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                   @Override
                                                                                   public void onComplete(@NonNull Task<Void> task) {
                                                                                       if(task.isSuccessful()){
-                                                                                          docref2.set(accessToken).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                          docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                               @Override
                                                                                               public void onComplete(@NonNull Task<Void> task) {
                                                                                                   if(task.isSuccessful()){
-                                                                                                      docref3.set(notifCount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                                          @Override
-                                                                                                          public void onComplete(@NonNull Task<Void> task) {
-                                                                                                              if(task.isSuccessful()){
-                                                                                                                  progressDialog.dismiss();
-                                                                                                                  BasicUtility.showToast(getApplicationContext(), "Profile Created");
-                                                                                                                  Intent intent = new Intent(RegPujoCommittee.this, MainActivity.class);
-                                                                                                                  intent.putExtra("uid", fireuser.getUid());
-                                                                                                                  startActivity(intent);
-                                                                                                                  finish();
-                                                                                                              }
-                                                                                                              else{
-                                                                                                                  progressDialog.dismiss();
-                                                                                                                  BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                              }
-                                                                                                          }
-                                                                                                      })
-                                                                                                              .addOnFailureListener(new OnFailureListener() {
-                                                                                                                  @Override
-                                                                                                                  public void onFailure(@NonNull Exception e) {
-                                                                                                                      progressDialog.dismiss();
-                                                                                                                      BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                                                                  }
-                                                                                                              });
+                                                                                                      progressDialog.dismiss();
+                                                                                                      BasicUtility.showToast(getApplicationContext(), "Profile Created");
+                                                                                                      Intent intent = new Intent(RegPujoCommittee.this, MainActivity.class);
+                                                                                                      intent.putExtra("uid", fireuser.getUid());
+                                                                                                      startActivity(intent);
+                                                                                                      finish();
                                                                                                   }
                                                                                                   else{
                                                                                                       progressDialog.dismiss();
@@ -473,8 +459,8 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                                               BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                                           }
                                                                                       });
-
-                                                                          } else {
+                                                                          }
+                                                                          else{
                                                                               progressDialog.dismiss();
                                                                               BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                                                                           }

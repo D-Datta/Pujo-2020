@@ -246,18 +246,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         hView.setOnClickListener(v -> {
             drawer.closeDrawers();
             new Handler().postDelayed(() -> {
-                if(TYPE.matches("com")){
-                    Intent i = new Intent(MainActivity.this, ActivityProfileCommittee.class);
-                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
-                else if(TYPE.matches("indi")){
-                    Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
-                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
-                    startActivity(i);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                }
+//                if(TYPE.matches("com")){
+//                    Intent i = new Intent(MainActivity.this, ActivityProfileCommittee.class);
+//                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+//                    startActivity(i);
+//                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                }
+//                else if(TYPE.matches("indi")){
+//                    Intent i = new Intent(MainActivity.this, ActivityProfileUser.class);
+//                    i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+//                    startActivity(i);
+//                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                }
+                Intent i = new Intent(MainActivity.this, ActivityProfile.class);
+                i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
             },200);
         });

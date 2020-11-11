@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".ActivityProfile"></activity>
         <activity android:name=".LiveActivity">
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
         </activity>

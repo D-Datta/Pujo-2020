@@ -38,7 +38,8 @@ import java.util.Objects;
 
 public class EditProfileCommitteeActivity extends AppCompatActivity {
 
-    private EditText com_name, com_desc, com_type, com_address, com_pin, com_contact, com_upi;
+    private EditText com_name, com_desc, com_type, com_address, com_pin, com_contact;
+//    private EditText com_upi;
     public static EditText com_state, com_city;
     private Button submit;
 
@@ -47,10 +48,12 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
     private long pujoVisits;
     private Timestamp lastVisitTs;
 
-    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid, CONTACT, UPIID;
+    private String COMNAME,DESCRIPTION,PUJOTYPE,EMAIL,ADDRESS,CITY,STATE,PIN,PROFILEPIC,COVERPIC,uid, CONTACT;
+//    private String UPIID;
     private String tokenStr;
-    private PujoCommitteeModel pujoCommitteeModel;
-    private DocumentReference docrefBase, docrefCommittee;
+//    private PujoCommitteeModel pujoCommitteeModel;
+    private DocumentReference docrefBase;
+//    private DocumentReference docrefCommittee;
     private FirebaseAuth mAuth;
     private FirebaseUser fireuser;
     private ProgressDialog progressDialog;
@@ -112,7 +115,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         com_pin = findViewById(R.id.edit_committee_pin);
         com_contact = findViewById(R.id.edit_committee_contact_number);
         radioGroup = findViewById(R.id.radiogroup);
-        com_upi = findViewById(R.id.edit_committee_upiid);
+//        com_upi = findViewById(R.id.edit_committee_upiid);
 
         mAuth=FirebaseAuth.getInstance();
         fireuser= mAuth.getCurrentUser();
@@ -200,25 +203,10 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 com_contact.setText(baseUserModel.getContact());
                             }
 
-                        }
-
-                    }
-                });
-
-        FirebaseFirestore.getInstance().collection("Users").document(uid)
-                .collection("com")
-                .document(uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            PujoCommitteeModel pujoCommitteeModel = task.getResult().toObject(PujoCommitteeModel.class);
-                            if(pujoCommitteeModel.getDescription()!=null && !pujoCommitteeModel.getDescription().isEmpty()) {
-                                com_desc.setText(pujoCommitteeModel.getDescription());
+                            if(baseUserModel.getAbout()!=null && !baseUserModel.getAbout().isEmpty()) {
+                                com_desc.setText(baseUserModel.getAbout());
                             }
-                            if(pujoCommitteeModel.getType()!=null && !pujoCommitteeModel.getType().isEmpty()) {
+                            if(baseUserModel.getPujotype()!=null && !baseUserModel.getPujotype().isEmpty()) {
 //                                com_type.setText(pujoCommitteeModel.getType());
                                 RadioButton radioButton1 = radioGroup.findViewById(R.id.sarbojonin);
                                 RadioButton radioButton2 = radioGroup.findViewById(R.id.bonediBari);
@@ -227,46 +215,107 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 RadioButton radioButton5 = radioGroup.findViewById(R.id.prabashi);
                                 RadioButton radioButton6 = radioGroup.findViewById(R.id.others);
 
-                                if(pujoCommitteeModel.getType().matches("Sarbojonin")
-                                || pujoCommitteeModel.getType().matches("সর্বজনীন")){
+                                if(baseUserModel.getPujotype().matches("Sarbojonin")
+                                        || baseUserModel.getPujotype().matches("সর্বজনীন")){
                                     radioGroup.check(R.id.sarbojonin);
 //                                    radioButton1.setSelected(true);
 //                                    radioButton2.setSelected(false);
 //                                    radioButton3.setSelected(false);
                                 }
-                                else if(pujoCommitteeModel.getType().matches("Bonedi Bari")
-                                || pujoCommitteeModel.getType().matches("বোনেদি বাড়ি")){
+                                else if(baseUserModel.getPujotype().matches("Bonedi Bari")
+                                        || baseUserModel.getPujotype().matches("বোনেদি বাড়ি")){
                                     radioGroup.check(R.id.bonediBari);
 //                                    radioButton1.setSelected(false);
 //                                    radioButton2.setSelected(true);
 //                                    radioButton3.setSelected(false);
                                 }
-                                else if(pujoCommitteeModel.getType().matches("Housing Complex")
-                                || pujoCommitteeModel.getType().matches("আবাসন")){
+                                else if(baseUserModel.getPujotype().matches("Housing Complex")
+                                        || baseUserModel.getPujotype().matches("আবাসন")){
                                     radioGroup.check(R.id.abashon);
 //                                    radioButton1.setSelected(false);
 //                                    radioButton2.setSelected(false);
 //                                    radioButton3.setSelected(true);
                                 }
-                                else if(pujoCommitteeModel.getType().matches("Math/ Mission")
-                                || pujoCommitteeModel.getType().matches("মঠ/ মিশন")){
+                                else if(baseUserModel.getPujotype().matches("Math/ Mission")
+                                        || baseUserModel.getPujotype().matches("মঠ/ মিশন")){
                                     radioGroup.check(R.id.math);
                                 }
-                                else if(pujoCommitteeModel.getType().matches("Prabashi")
-                                || pujoCommitteeModel.getType().matches("প্রবাসী")){
+                                else if(baseUserModel.getPujotype().matches("Prabashi")
+                                        || baseUserModel.getPujotype().matches("প্রবাসী")){
                                     radioGroup.check(R.id.prabashi);
                                 }
-                                else if(pujoCommitteeModel.getType().matches("Others")
-                                || pujoCommitteeModel.getType().matches("অন্যান্য")){
+                                else if(baseUserModel.getPujotype().matches("Others")
+                                        || baseUserModel.getPujotype().matches("অন্যান্য")){
                                     radioGroup.check(R.id.others);
                                 }
                             }
-                            if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
-                                com_upi.setText(pujoCommitteeModel.getUpiid());
-                            }
                         }
+
                     }
                 });
+
+//        FirebaseFirestore.getInstance().collection("Users").document(uid)
+//                .collection("com")
+//                .document(uid)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        if(task.isSuccessful())
+//                        {
+//                            PujoCommitteeModel pujoCommitteeModel = task.getResult().toObject(PujoCommitteeModel.class);
+//                            if(pujoCommitteeModel.getDescription()!=null && !pujoCommitteeModel.getDescription().isEmpty()) {
+//                                com_desc.setText(pujoCommitteeModel.getDescription());
+//                            }
+//                            if(pujoCommitteeModel.getType()!=null && !pujoCommitteeModel.getType().isEmpty()) {
+////                                com_type.setText(pujoCommitteeModel.getType());
+//                                RadioButton radioButton1 = radioGroup.findViewById(R.id.sarbojonin);
+//                                RadioButton radioButton2 = radioGroup.findViewById(R.id.bonediBari);
+//                                RadioButton radioButton3 = radioGroup.findViewById(R.id.abashon);
+//                                RadioButton radioButton4 = radioGroup.findViewById(R.id.math);
+//                                RadioButton radioButton5 = radioGroup.findViewById(R.id.prabashi);
+//                                RadioButton radioButton6 = radioGroup.findViewById(R.id.others);
+//
+//                                if(pujoCommitteeModel.getType().matches("Sarbojonin")
+//                                || pujoCommitteeModel.getType().matches("সর্বজনীন")){
+//                                    radioGroup.check(R.id.sarbojonin);
+////                                    radioButton1.setSelected(true);
+////                                    radioButton2.setSelected(false);
+////                                    radioButton3.setSelected(false);
+//                                }
+//                                else if(pujoCommitteeModel.getType().matches("Bonedi Bari")
+//                                || pujoCommitteeModel.getType().matches("বোনেদি বাড়ি")){
+//                                    radioGroup.check(R.id.bonediBari);
+////                                    radioButton1.setSelected(false);
+////                                    radioButton2.setSelected(true);
+////                                    radioButton3.setSelected(false);
+//                                }
+//                                else if(pujoCommitteeModel.getType().matches("Housing Complex")
+//                                || pujoCommitteeModel.getType().matches("আবাসন")){
+//                                    radioGroup.check(R.id.abashon);
+////                                    radioButton1.setSelected(false);
+////                                    radioButton2.setSelected(false);
+////                                    radioButton3.setSelected(true);
+//                                }
+//                                else if(pujoCommitteeModel.getType().matches("Math/ Mission")
+//                                || pujoCommitteeModel.getType().matches("মঠ/ মিশন")){
+//                                    radioGroup.check(R.id.math);
+//                                }
+//                                else if(pujoCommitteeModel.getType().matches("Prabashi")
+//                                || pujoCommitteeModel.getType().matches("প্রবাসী")){
+//                                    radioGroup.check(R.id.prabashi);
+//                                }
+//                                else if(pujoCommitteeModel.getType().matches("Others")
+//                                || pujoCommitteeModel.getType().matches("অন্যান্য")){
+//                                    radioGroup.check(R.id.others);
+//                                }
+//                            }
+//                            if(pujoCommitteeModel.getUpiid()!=null && !pujoCommitteeModel.getUpiid().isEmpty()){
+//                                com_upi.setText(pujoCommitteeModel.getUpiid());
+//                            }
+//                        }
+//                    }
+//                });
 
         com_city.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,7 +347,7 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                 STATE = com_state.getText().toString().trim();
                 PIN =com_pin.getText().toString().trim();
                 CONTACT = com_contact.getText().toString().trim();
-                UPIID = com_upi.getText().toString().trim();
+//                UPIID = com_upi.getText().toString().trim();
 
                 int selectedType = radioGroup.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedType);
@@ -364,8 +413,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     docrefBase = FirebaseFirestore.getInstance().collection("Users")
                             .document(uid);
 
-                    docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+uid+"/"+"com/")
-                            .document(uid);
+//                    docrefCommittee = FirebaseFirestore.getInstance().collection("Users/"+uid+"/"+"com/")
+//                            .document(uid);
 
                     baseUserModel = new BaseUserModel();
                     baseUserModel.setAddressline(ADDRESS);
@@ -387,6 +436,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                     baseUserModel.setUpvotes(upvotes);
                     baseUserModel.setUpvoteL(upvoteL);
                     baseUserModel.setLastVisitTime(lastVisit);
+                    baseUserModel.setAbout(DESCRIPTION);
+                    baseUserModel.setPujotype(PUJOTYPE);
                     if(verified==1){
                         baseUserModel.setVerified(true);
                     }
@@ -394,44 +445,25 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                         baseUserModel.setVerified(false);
                     }
 
-                    pujoCommitteeModel = new PujoCommitteeModel();
-                    pujoCommitteeModel.setDescription(DESCRIPTION);
-                    pujoCommitteeModel.setType(PUJOTYPE);
-                    pujoCommitteeModel.setUpiid(UPIID);
+//                    pujoCommitteeModel = new PujoCommitteeModel();
+//                    pujoCommitteeModel.setDescription(DESCRIPTION);
+//                    pujoCommitteeModel.setType(PUJOTYPE);
+//                    pujoCommitteeModel.setUpiid(UPIID);
 
                     docrefBase.set(baseUserModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
-                            if (task.isSuccessful()) {
-
-                                docrefCommittee.set(pujoCommitteeModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            progressDialog.dismiss();
-                                            introPref.setFullName(baseUserModel.getName());
-                                            BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                            Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
-                                            intent.putExtra("uid", fireuser.getUid());
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                        else{
-                                            progressDialog.dismiss();
-                                            BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                        }
-                                    }
-                                })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                progressDialog.dismiss();
-                                                BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                            }
-                                        });
-
-                            } else {
+                            if(task.isSuccessful()){
+                                progressDialog.dismiss();
+                                introPref.setFullName(baseUserModel.getName());
+                                BasicUtility.showToast(getApplicationContext(), "Profile Edited");
+                                Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+                                intent.putExtra("uid", fireuser.getUid());
+                                startActivity(intent);
+                                finish();
+                            }
+                            else{
                                 progressDialog.dismiss();
                                 BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
                             }
