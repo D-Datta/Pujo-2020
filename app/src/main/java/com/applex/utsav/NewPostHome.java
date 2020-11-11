@@ -1595,6 +1595,8 @@ public class NewPostHome extends AppCompatActivity {
                 }
 
                 else if (data.getData() != null) {
+                    imageUriList.add(data.getData());
+
                     Bitmap bitmap = null;
                     ExifInterface ei = null;
                     try {
