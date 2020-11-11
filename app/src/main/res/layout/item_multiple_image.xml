@@ -29,7 +29,6 @@
             android:layout_margin="5dp"
             android:background="@drawable/custom_ripple_white"
             android:padding="8dp"
-            android:tint="#212121"
             android:src="@drawable/ic_baseline_crop_24" />
 
         <ImageButton

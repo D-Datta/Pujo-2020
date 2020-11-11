@@ -1599,6 +1599,8 @@ public class NewPostHome extends AppCompatActivity {
                 }
 
                 else if (data.getData() != null) {
+                    imageUriList.add(data.getData());
+
                     Bitmap bitmap = null;
                     ExifInterface ei = null;
                     try {
@@ -1838,10 +1840,10 @@ public class NewPostHome extends AppCompatActivity {
             if(cropPosition != -1){
                 imagelist.remove(cropPosition);
                 imagelist.add(cropPosition, byteArray);
+                cropPosition = -1;
             }
             else {
                 imagelist.add(byteArray);
-
             }
             return null;
         }
@@ -1870,7 +1872,7 @@ public class NewPostHome extends AppCompatActivity {
                     public void onClickListener(int position) {
                         imagelist.remove(position);
                         imageUriList.remove(position);
-                        multipleImageAdapter.notifyDataSetChanged();
+                        multipleImageAdapter.notifyItemRemoved(position);
                     }
 
                     @Override
