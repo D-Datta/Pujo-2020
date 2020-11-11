@@ -105,7 +105,7 @@ public class MultipleImageAdapter extends RecyclerView.Adapter<MultipleImageAdap
 
             image = itemView.findViewById(R.id.image);
             unselect = itemView.findViewById(R.id.unselect);
-            unselect = itemView.findViewById(R.id.crop);
+            crop = itemView.findViewById(R.id.crop);
 
             unselect.setOnClickListener(v -> {
                 if(listener != null){
