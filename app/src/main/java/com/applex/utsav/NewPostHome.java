@@ -1834,9 +1834,9 @@ public class NewPostHome extends AppCompatActivity {
             compressedBitmap.recycle();
 
             if(cropPosition != -1){
-                cropPosition = -1;
                 imagelist.remove(cropPosition);
                 imagelist.add(cropPosition, byteArray);
+                cropPosition = -1;
             }
             else {
                 imagelist.add(byteArray);
