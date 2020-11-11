@@ -330,7 +330,11 @@ public class ActivityNotification extends AppCompatActivity {
                                     if(!task.isSuccessful())
                                         Log.d("Notif update", "updated"+ model.getDocID());
                                 });
-                        Intent i= new Intent(ActivityNotification.this, ActivityProfileCommittee.class);
+//                        Intent i= new Intent(ActivityNotification.this, ActivityProfileCommittee.class);
+//                        i.putExtra("uid", FirebaseAuth.getInstance().getUid());
+//                        i.putExtra("to", "profile");
+//                        startActivity(i);
+                        Intent i= new Intent(ActivityNotification.this, ActivityProfile.class);
                         i.putExtra("uid", FirebaseAuth.getInstance().getUid());
                         i.putExtra("to", "profile");
                         startActivity(i);

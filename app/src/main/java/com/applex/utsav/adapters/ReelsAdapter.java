@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.R;
@@ -211,31 +212,42 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.save_reel.setOnClickListener(v -> save_Dialog(currentItem.getVideo()));
 
         //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
-        if (currentItem.getType().matches("com")) {
-            holder.pujo_com_dp.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ActivityProfileCommittee.class);
-                intent.putExtra("uid", currentItem.getUid());
-                context.startActivity(intent);
-            });
+//        if (currentItem.getType().matches("com")) {
+//            holder.pujo_com_dp.setOnClickListener(v -> {
+//                Intent intent = new Intent(context, ActivityProfileCommittee.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                context.startActivity(intent);
+//            });
+//
+//            holder.pujo_com_name.setOnClickListener(v -> {
+//                Intent intent = new Intent(context, ActivityProfileCommittee.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                context.startActivity(intent);
+//            });
+//        } else if (currentItem.getType().matches("indi")) {
+//            holder.pujo_com_dp.setOnClickListener(v -> {
+//                Intent intent = new Intent(context, ActivityProfileUser.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                context.startActivity(intent);
+//            });
+//
+//            holder.pujo_com_name.setOnClickListener(v -> {
+//                Intent intent = new Intent(context, ActivityProfileUser.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                context.startActivity(intent);
+//            });
+//        }
+        holder.pujo_com_dp.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityProfile.class);
+            intent.putExtra("uid", currentItem.getUid());
+            context.startActivity(intent);
+        });
 
-            holder.pujo_com_name.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ActivityProfileCommittee.class);
-                intent.putExtra("uid", currentItem.getUid());
-                context.startActivity(intent);
-            });
-        } else if (currentItem.getType().matches("indi")) {
-            holder.pujo_com_dp.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ActivityProfileUser.class);
-                intent.putExtra("uid", currentItem.getUid());
-                context.startActivity(intent);
-            });
-
-            holder.pujo_com_name.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ActivityProfileUser.class);
-                intent.putExtra("uid", currentItem.getUid());
-                context.startActivity(intent);
-            });
-        }
+        holder.pujo_com_name.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityProfile.class);
+            intent.putExtra("uid", currentItem.getUid());
+            context.startActivity(intent);
+        });
         //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
         if (currentItem.getCommittee_dp() != null && !currentItem.getCommittee_dp().isEmpty()) {

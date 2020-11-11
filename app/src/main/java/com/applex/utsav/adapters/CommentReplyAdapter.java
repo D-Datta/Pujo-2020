@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
@@ -149,29 +150,35 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         //////////////LOADING USERNAME AND USERDP FROM USERNODE/////////////
 
         programmingViewHolder.username.setOnClickListener(v -> {
-            if(currentItem.getType().matches("com")) {
-                Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
-                intent.putExtra("uid", currentItem.getUid());
-                mContext.startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(mContext, ActivityProfileUser.class);
-                intent.putExtra("uid", currentItem.getUid());
-                mContext.startActivity(intent);
-            }
+//            if(currentItem.getType().matches("com")) {
+//                Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                mContext.startActivity(intent);
+//            }
+//            else {
+//                Intent intent = new Intent(mContext, ActivityProfileUser.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                mContext.startActivity(intent);
+//            }
+            Intent intent = new Intent(mContext, ActivityProfile.class);
+            intent.putExtra("uid", currentItem.getUid());
+            mContext.startActivity(intent);
         });
 
         programmingViewHolder.userimage.setOnClickListener(v -> {
-            if(currentItem.getType().matches("com")) {
-                Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
-                intent.putExtra("uid", currentItem.getUid());
-                mContext.startActivity(intent);
-            }
-            else {
-                Intent intent = new Intent(mContext, ActivityProfileUser.class);
-                intent.putExtra("uid", currentItem.getUid());
-                mContext.startActivity(intent);
-            }
+//            if(currentItem.getType().matches("com")) {
+//                Intent intent = new Intent(mContext, ActivityProfileCommittee.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                mContext.startActivity(intent);
+//            }
+//            else {
+//                Intent intent = new Intent(mContext, ActivityProfileUser.class);
+//                intent.putExtra("uid", currentItem.getUid());
+//                mContext.startActivity(intent);
+//            }
+            Intent intent = new Intent(mContext, ActivityProfile.class);
+            intent.putExtra("uid", currentItem.getUid());
+            mContext.startActivity(intent);
         });
 
         programmingViewHolder.comment.setText(currentItem.getComment());

@@ -139,7 +139,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                                     }
                                     new Handler().postDelayed(() -> {
-                                        ActivityProfileCommittee.mode_changed = 1;
+//                                        ActivityProfileCommittee.mode_changed = 1;
+                                        ActivityProfile.mode_changed = 1;
                                         FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid()).update("listener", false);
                                         startActivity(new Intent(EditProfileCommitteeActivity.this, EditProfileCommitteeActivity.class));
                                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -458,7 +459,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 introPref.setFullName(baseUserModel.getName());
                                 BasicUtility.showToast(getApplicationContext(), "Profile Edited");
-                                Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+//                                Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+                                Intent intent = new Intent(EditProfileCommitteeActivity.this, ActivityProfile.class);
                                 intent.putExtra("uid", fireuser.getUid());
                                 startActivity(intent);
                                 finish();
@@ -483,7 +485,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+//        Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+        Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfile.class);
         StoreTemp.getInstance().setPic(null);
         StoreTemp.getInstance().setCoverpic(null);
         startActivity(i);
@@ -495,7 +498,8 @@ public class EditProfileCommitteeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home){
-            Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+//            Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfileCommittee.class);
+            Intent i = new Intent(EditProfileCommitteeActivity.this, ActivityProfile.class);
             StoreTemp.getInstance().setPic(null);
             StoreTemp.getInstance().setCoverpic(null);
             startActivity(i);

@@ -247,6 +247,12 @@ public class AllPujoFragment extends Fragment {
                     programmingViewHolder.committeeName.setVisibility(View.GONE);
                 }
 
+//                programmingViewHolder.itemView.setOnClickListener(view -> {
+//                    Intent intent = new Intent(getActivity(), ActivityProfileCommittee.class);
+//                    intent.putExtra("uid",currentItem.getUid());
+//                    startActivity(intent);
+//                });
+
                 programmingViewHolder.itemView.setOnClickListener(view -> {
                     Intent intent = new Intent(getActivity(), ActivityProfile.class);
                     intent.putExtra("uid",currentItem.getUid());

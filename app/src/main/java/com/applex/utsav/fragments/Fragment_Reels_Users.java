@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
@@ -246,7 +247,8 @@ public class Fragment_Reels_Users extends Fragment {
                                         FirebaseFirestore.getInstance()
                                                 .collection("Reels").document(currentItem.getDocID()).delete()
                                                 .addOnSuccessListener(aVoid -> {
-                                                    ActivityProfileCommittee.delete = 1;
+//                                                    ActivityProfileCommittee.delete = 1;
+                                                    ActivityProfile.delete = 1;
                                                     holder.itemView.setVisibility(View.GONE);
                                                     progressDialog.dismiss();
                                                 });

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applex.utsav.ActivityProfile;
 import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.models.BaseUserModel;
@@ -91,7 +92,14 @@ public class CommitteeTopAdapter extends RecyclerView.Adapter<CommitteeTopAdapte
                 .setScale(PushDownAnim.MODE_STATIC_DP, 3)
                 .setOnClickListener(v -> {
                     //to be changed
-                    Intent i= new Intent(mContext, ActivityProfileCommittee.class);
+//                    Intent i= new Intent(mContext, ActivityProfileCommittee.class);
+//                    i.putExtra("name", currentitem.getName());
+//                    i.putExtra("uid", currentitem.getUid());
+//                    i.putExtra("coverpic",currentitem.getCoverpic());
+//                    i.putExtra("dp",currentitem.getDp());
+//                    mContext.startActivity(i);
+
+                    Intent i= new Intent(mContext, ActivityProfile.class);
                     i.putExtra("name", currentitem.getName());
                     i.putExtra("uid", currentitem.getUid());
                     i.putExtra("coverpic",currentitem.getCoverpic());

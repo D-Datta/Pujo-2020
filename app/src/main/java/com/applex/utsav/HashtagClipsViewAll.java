@@ -338,29 +338,35 @@ public class HashtagClipsViewAll extends AppCompatActivity {
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 programmingViewHolder.username.setOnClickListener(v -> {
-                    if(currentItem.getType().matches("com")) {
-                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
+//                    if(currentItem.getType().matches("com")) {
+//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+//                    else {
+//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+                    Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfile.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
                 });
 
                 programmingViewHolder.userimage.setOnClickListener(v -> {
-                    if(currentItem.getType().matches("com")) {
-                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
-                        intent.putExtra("uid", currentItem.getUid());
-                        startActivity(intent);
-                    }
+//                    if(currentItem.getType().matches("com")) {
+//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+//                    else {
+//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
+//                        intent.putExtra("uid", currentItem.getUid());
+//                        startActivity(intent);
+//                    }
+                    Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfile.class);
+                    intent.putExtra("uid", currentItem.getUid());
+                    startActivity(intent);
                 });
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
 
@@ -421,9 +427,15 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                     programmingViewHolder.pujoTagHolder.setVisibility(View.VISIBLE);
                     programmingViewHolder.pujoTagHolder.setText(currentItem.getPujoTag().getPujoName());
 
+//                    programmingViewHolder.pujoTagHolder.setOnClickListener(v -> {
+//                        //To be changed
+//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
+//                        intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
+//                        startActivity(intent);
+//                    });
                     programmingViewHolder.pujoTagHolder.setOnClickListener(v -> {
                         //To be changed
-                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
+                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfile.class);
                         intent.putExtra("uid", currentItem.getPujoTag().getPujoUid());
                         startActivity(intent);
                     });
@@ -962,7 +974,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                                         FirebaseFirestore.getInstance()
                                                 .collection("Reels").document(currentItem.getDocID()).delete()
                                                 .addOnSuccessListener(aVoid -> {
-                                                    ActivityProfileCommittee.delete = 1;
+//                                                    ActivityProfileCommittee.delete = 1;
+                                                    ActivityProfile.delete = 1;
                                                     programmingViewHolder.itemHome.setVisibility(View.GONE);
                                                     notifyDataSetChanged();
                                                     progressDialog.dismiss();
