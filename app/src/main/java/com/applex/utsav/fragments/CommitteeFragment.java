@@ -83,6 +83,8 @@ import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -97,6 +99,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -1702,24 +1705,38 @@ public class CommitteeFragment extends Fragment {
 
         ArrayList<Suggestedtag> suggestedtagArrayList = new ArrayList<>();
 
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren() ){
-                    Suggestedtag model = dataSnapshot.getValue(Suggestedtag.class);
-                    suggestedtagArrayList.add(model);
-                }
-                SuggestedTagAdapterHome adapter = new SuggestedTagAdapterHome(suggestedtagArrayList, getActivity());
-                cRecyclerView.setAdapter(adapter);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+        FirebaseFirestore.getInstance().collection("SuggestedTags").orderBy("value", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
+                            if(document.exists()) {
+                                Suggestedtag model = document.toObject(Suggestedtag.class);
+                                suggestedtagArrayList.add(model);
+                            }
+                        }
+                        if(suggestedtagArrayList.size()>0) {
+                            SuggestedTagAdapterHome adapter=new SuggestedTagAdapterHome(suggestedtagArrayList, getActivity());
+                            cRecyclerView.setAdapter(adapter);
 
-                Log.i("ERROR", "onCancelled: Error: " + error.getMessage());
+                            adapter.onClickListener(new SuggestedTagAdapterHome.OnClickListener() {
+                                @Override
+                                public void onClickListener(int position, String title) {
+                                   Intent i = new Intent(getActivity(),HashtagPostViewAll.class);
+                                   i.putExtra("hashtag",suggestedtagArrayList.get(position).getName());
+                                   startActivity(i);
+                                }
+                            });
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                BasicUtility.showToast(getActivity(),"Something went wrong...");
             }
         });
+
 
 
     }

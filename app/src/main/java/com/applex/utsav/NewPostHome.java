@@ -368,7 +368,7 @@ public class NewPostHome extends AppCompatActivity {
 
 
 
-        FirebaseFirestore.getInstance().collection("SuggestedTags").get()
+        FirebaseFirestore.getInstance().collection("SuggestedTags").orderBy("value").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
