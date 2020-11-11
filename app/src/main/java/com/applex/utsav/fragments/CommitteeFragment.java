@@ -344,11 +344,11 @@ public class CommitteeFragment extends Fragment {
 
 
                     if(programmingViewHolder.getItemViewType() == 1){
-                        programmingViewHolder.suggestedHashtagsRecycler.setVisibility(View.VISIBLE);
+                        programmingViewHolder.suggestedTagCard.setVisibility(View.VISIBLE);
                         buildSuggestedTagGridRecyclerView(programmingViewHolder.suggestedHashtagsRecycler);
                     }
                     else{
-                        programmingViewHolder.suggestedHashtagsRecycler.setVisibility(View.GONE);
+                        programmingViewHolder.suggestedTagCard.setVisibility(View.GONE);
                     }
 
 
@@ -1253,7 +1253,7 @@ public class CommitteeFragment extends Fragment {
         View view;
         RelativeLayout normal_item, rlLayout;
         RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView, suggestedHashtagsRecycler;
-//        CardView suggestedTagCard;
+        CardView suggestedTagCard;
 
         ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1274,7 +1274,7 @@ public class CommitteeFragment extends Fragment {
             share = itemView.findViewById(R.id.share);
             LinkPreview = itemView.findViewById(R.id.LinkPreView);
 
-//            suggestedTagCard = itemView.findViewById(R.id.suggested_hashtags_card);
+            suggestedTagCard = itemView.findViewById(R.id.suggested_hashtags_card);
             suggestedHashtagsRecycler = itemView.findViewById(R.id.suggested_hashtags_recycler);
 
             like_image = itemView.findViewById(R.id.like_image);
