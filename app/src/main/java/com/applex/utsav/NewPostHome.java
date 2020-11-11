@@ -92,6 +92,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -362,7 +363,20 @@ public class NewPostHome extends AppCompatActivity {
         suggestedtagsRecycler.setLayoutManager(layoutManager);
         suggestedtagsRecycler.setItemAnimator(new DefaultItemAnimator());
 
+        FirebaseFirestore.getInstance().collection("SuggestedTags").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document: task.getResult()){
+                        Suggestedtag model = document.toObject(Suggestedtag.class);
+                        suggestedtagArrayList.add(model);
+                        BasicUtility.showToast(getApplicationContext(), model.getName()+" jj");
+                    }
+                }
 
+            }
+        });
 
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SuggestedTags");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -380,8 +394,9 @@ public class NewPostHome extends AppCompatActivity {
                 adapter.onClickListener(new SuggestedTagAdapter.OnClickListener() {
                     @Override
                     public void onClickListener(int position, String title) {
+                        String tag= title;
                         tagList.add(title.substring(1));
-                        postcontent.append(title);
+                        postcontent.append("#"+ tag);
                     }
                 });
             }

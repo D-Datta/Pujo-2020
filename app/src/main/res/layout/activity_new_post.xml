@@ -192,10 +192,22 @@
                 android:textColorLink="@color/colorPrimary"
                 android:textSize="17dp" />
 
+             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/oxygen_bold"
+                android:paddingHorizontal="11dp"
+                android:text="Suggested Tags"
+                android:paddingVertical="2dp"
+                android:textColor="@color/black"
+                android:textSize="12dp" />
+
              <androidx.recyclerview.widget.RecyclerView
                  android:id = "@+id/suggested_hashtags"
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
+                 android:paddingStart="6dp"
                 />
 
             <!--            <MultiAutoCompleteTextView-->

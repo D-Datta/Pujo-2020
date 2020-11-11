@@ -61,9 +61,8 @@ public class SuggestedTagAdapter extends RecyclerView.Adapter<SuggestedTagAdapte
         Suggestedtag currentItem = mList.get(i);
 
         programmingViewHolder.title.setText(currentItem.getName());
-        programmingViewHolder.postCount.setText(currentItem.getValue()+" ");
+        programmingViewHolder.postCount.setText(currentItem.getValue()+" Posts");
 
-        BasicUtility.showToast(mcontext,currentItem.getValue()+" ");
     }
 
 
