@@ -65,7 +65,8 @@
                     android:layout_height="match_parent"
                     app:lottie_autoPlay="true"
                     app:lottie_fileName="redripple.json"
-                    app:lottie_loop="true"/>
+                    app:lottie_loop="true"
+                    android:visibility="gone"/>
                 <ImageView
                     android:id="@+id/live"
                     android:layout_width="40dp"
@@ -74,7 +75,7 @@
                     android:layout_marginHorizontal="6dp"
                     android:padding="8dp"
                     android:src="@drawable/ic_baseline_live_tv_24"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:tint="@color/black" />
             </RelativeLayout>
 

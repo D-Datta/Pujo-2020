@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="#diwali2020"
-                android:paddingTop="5dp"
+                android:paddingTop="3dp"
                 android:fontFamily="@font/harabara"
                 android:textAlignment="center"
                 android:textSize="16dp"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="100+ Posts"
                 android:textSize="12dp"
-                android:fontFamily="@font/oxygen_regular"
+                android:fontFamily="@font/oxygen_bold"
                 android:textAlignment="center"
                 android:textColor="@color/md_blue_500"/>
         </LinearLayout>

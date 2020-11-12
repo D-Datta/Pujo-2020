@@ -303,24 +303,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        FirebaseFirestore.getInstance().document("Live/Stream").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().getBoolean("bool")){
-                        live.setVisibility(View.VISIBLE);
-                        lottieAnimationView.setVisibility(View.VISIBLE);
-                    }
-                    else{
-                        live.setVisibility(View.GONE);
-                        lottieAnimationView.setVisibility(View.GONE);
-                    }
-
-                }
-                else
-                    BasicUtility.showToast(MainActivity.this,"Somehing went wrong");
-            }
-        });
+//        FirebaseFirestore.getInstance().document("Live/Stream").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if(task.isSuccessful()){
+//                    if(task.getResult().getBoolean("bool")){
+//                        live.setVisibility(View.VISIBLE);
+//                        lottieAnimationView.setVisibility(View.VISIBLE);
+//                    }
+//                    else{
+//                        live.setVisibility(View.GONE);
+//                        lottieAnimationView.setVisibility(View.GONE);
+//                    }
+//
+//                }
+//                else
+//                    BasicUtility.showToast(MainActivity.this,"Somehing went wrong");
+//            }
+//        });
 
         TabLayout tabs = findViewById(R.id.tabs);
         viewPager = findViewById(R.id.view_pager);
