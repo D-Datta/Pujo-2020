@@ -15,21 +15,21 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import com.applex.utsav.ActivityNotification;
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
+import com.applex.utsav.preferences.IntroPref;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import java.io.IOException;
@@ -44,6 +44,28 @@ public class    MessagingService extends FirebaseMessagingService {
     public static final String INTENT_FILTER = "INTENT_FILTER";
 
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+
+        /////////////////DAY OR NIGHT MODE///////////////////
+        if(new IntroPref(this).getTheme() == 1) {
+            FirebaseFirestore.getInstance().document("Mode/night_mode")
+                    .get().addOnCompleteListener(task -> {
+                if(task.isSuccessful()) {
+                    if(task.getResult().getBoolean("night_mode")) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            });
+        } else if(new IntroPref(this).getTheme() == 2) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else if(new IntroPref(this).getTheme() == 3) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        /////////////////DAY OR NIGHT MODE///////////////////
+
         super.onMessageReceived(remoteMessage);
 
         if(remoteMessage.getData().get("clickAction") != null) {
