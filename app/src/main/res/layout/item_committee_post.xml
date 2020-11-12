@@ -180,14 +180,13 @@
 
     </LinearLayout>
 
-
-
     <LinearLayout
         android:id="@+id/suggested_hashtags_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="8dp"
@@ -198,16 +197,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            app:cardCornerRadius="10dp"
-            >
+            android:elevation="0dp"
+            app:cardCornerRadius="10dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/suggested_hashtags_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/recycler_bg" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/suggested_hashtags_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="340dp"
+                android:minHeight="335dp"
+                android:background="@drawable/recycler_bg" />
 
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 

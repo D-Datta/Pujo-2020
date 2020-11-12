@@ -342,7 +342,7 @@ public class CommitteeFragment extends Fragment {
                     }
 
 
-
+                    //SUGGESTED TAGS
                     if(programmingViewHolder.getItemViewType() == 1){
                         programmingViewHolder.suggestedTagCard.setVisibility(View.VISIBLE);
                         buildSuggestedTagGridRecyclerView(programmingViewHolder.suggestedHashtagsRecycler);
@@ -350,8 +350,6 @@ public class CommitteeFragment extends Fragment {
                     else{
                         programmingViewHolder.suggestedTagCard.setVisibility(View.GONE);
                     }
-
-
 
 
 
