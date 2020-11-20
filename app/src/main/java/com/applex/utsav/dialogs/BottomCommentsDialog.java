@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.CommentEdit;
+import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
@@ -346,6 +347,11 @@ public class BottomCommentsDialog extends DialogFragment {
                                         FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
+                                    else if(from.matches("ActivityHashtagViewAll")) {
+                                        HashtagPostViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        HashtagPostViewAll.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    }
+
                                 });
                             }
                         }

@@ -689,12 +689,12 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityHashtagViewAll", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityHashtagViewAll", null,currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(getSupportFragmentManager(), "CommentsSheet");
                 });
 
