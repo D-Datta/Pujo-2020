@@ -97,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:paddingHorizontal="8dp"
                             android:text="@string/_10_mins_ago"
-                            android:textSize="12dp" />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 

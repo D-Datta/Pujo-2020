@@ -285,7 +285,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                     if (timeAgo.matches("just now")) {
                         programmingViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                     } else {
-                        programmingViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
+                        programmingViewHolder.minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                     }
                 }
 
@@ -513,7 +513,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 if (currentItem.getHeadline() == null || currentItem.getHeadline().isEmpty()) {
                     programmingViewHolder.head_content.setVisibility(View.GONE);
                     programmingViewHolder.head_content.setText(null);
-                } else {
+                }
+                else {
                     if(currentItem.getHeadline().equals("Stay safe. Do not forget to wear a mask. And enjoy you puja sitting at home through Utsav")
                             || currentItem.getHeadline().equals("সাবধানে থাকুন । বাইরে বেরোলে অবশ্যই মাস্ক ব্যবহার করুন । ঘরে বসেই পুজোর আনন্দ উপভোগ করুন")) {
                         programmingViewHolder.head_content.setVisibility(View.GONE);
@@ -528,7 +529,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                     programmingViewHolder.text_content.setVisibility(View.GONE);
                     programmingViewHolder.LinkPreview.setVisibility(View.GONE);
                     programmingViewHolder.text_content.setText(null);
-                } else {
+                }
+                else {
                     programmingViewHolder.text_content.setVisibility(View.VISIBLE);
                     programmingViewHolder.text_content.setText(currentItem.getDescription());
 
@@ -783,8 +785,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if (currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
 
@@ -842,7 +844,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt1_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -905,14 +907,14 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt2_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
                         programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    FragmentClips.ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
+                    programmingViewHolder.comment_layout.setOnClickListener(v -> {
                         BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
@@ -928,7 +930,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                     });
                 }
                 else {
-                    FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                    programmingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
@@ -1088,9 +1090,9 @@ public class HashtagClipsViewAll extends AppCompatActivity {
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         @SuppressLint("StaticFieldLeak")
-        public static TextView commentCount;
+        TextView commentCount;
         @SuppressLint("StaticFieldLeak")
-        public static LinearLayout comment_layout;
+        LinearLayout comment_layout;
 
         public VideoView reels_video;
         TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, type_something, comm_heading, pujoTagHolder;

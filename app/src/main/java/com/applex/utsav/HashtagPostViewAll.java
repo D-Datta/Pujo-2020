@@ -278,7 +278,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                     if (timeAgo.matches("just now")) {
                         programmingViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                     } else {
-                        programmingViewHolder.minsago.setTextColor(Color.parseColor("#aa212121"));
+                        programmingViewHolder.minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                     }
                 }
 
@@ -774,7 +774,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom1_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt1_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt1_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
@@ -837,7 +837,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             if (Objects.requireNonNull(BasicUtility.getTimeAgo(currentItem.getCom2_ts())).matches("just now")) {
                                 programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#00C853"));
                             } else {
-                                programmingViewHolder.cmnt2_minsago.setTextColor(Color.parseColor("#aa212121"));
+                                programmingViewHolder.cmnt2_minsago.setTextColor(getResources().getColor(R.color.grey_868686));
                             }
                         }
                     } else {
