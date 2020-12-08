@@ -120,7 +120,7 @@ import static java.lang.Boolean.TRUE;
 public class CommitteeFragment extends Fragment {
 
     public static int changed = 0;
-    public static int delete = 8;
+    public static int delete = 0;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressMore, contentProgress;
