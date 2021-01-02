@@ -437,17 +437,22 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         });
         holder.share.setOnClickListener(view -> {
             if (bool.matches("1")) {
-                link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
+//                link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
+                link = "Post Link - https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
             } else if (bool.matches("2")) {
-                link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+//                link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                link = "Post Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
             } else if (bool.matches("3")) {
-                link = "https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+//                link = "https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                link = "Post Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
             }
+            String playstore = "Check out the short video. "+ context.getResources().getString(R.string.download_utsav);
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
-            i.putExtra(Intent.EXTRA_TEXT, link + context.getResources().getString(R.string.link_suffix));
+//            i.putExtra(Intent.EXTRA_TEXT, link + context.getResources().getString(R.string.link_suffix));
+            i.putExtra(Intent.EXTRA_TEXT, link+playstore);
             i.setType("text/plain");
-            context.startActivity(Intent.createChooser(i, "Share with"));
+            context.startActivity(Intent.createChooser(i, "Share Using"));
         });
     }
 

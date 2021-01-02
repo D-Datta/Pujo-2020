@@ -776,12 +776,14 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 });
 
                 programmingViewHolder.share.setOnClickListener(view -> {
-                    link = "https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                    link = "Post Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                    String playstore ="\nCheck out the short video."+getResources().getString(R.string.download_utsav);
                     Intent i = new Intent();
                     i.setAction(Intent.ACTION_SEND);
-                    i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+//                    i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+                    i.putExtra(Intent.EXTRA_TEXT, link+playstore);
                     i.setType("text/plain");
-                    startActivity(Intent.createChooser(i, "Share with"));
+                    startActivity(Intent.createChooser(i, "Share Using"));
                 });
 
                 if (currentItem.getCmtNo() > 0) {

@@ -216,6 +216,7 @@
 
     <string name="link_suffix">আপনি যদি এখনও উৎসব অ্যাপটি ডাউনলোড না করে থাকেন\n\nএখনই ডাউনলোড করুন \nhttps://play.google.com/store/apps/details?id=com.applex.utsav \nআর দেখতে পান দেশ বিদেশের দুর্গা পুজো</string>
     <string name="set_theme">থিম সেট করুন</string>
+    <string name="download_utsav">\n\nDownload Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
 
 
 </resources>

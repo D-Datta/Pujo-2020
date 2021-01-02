@@ -236,12 +236,14 @@ public class Fragment_Reels extends Fragment {
                         });
 
                         postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v12 -> {
-                            String link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                            String link = "Post Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                            String playstore = "\nCheck out the short video."+getResources().getString(R.string.download_utsav);
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+//                            i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+                            i.putExtra(Intent.EXTRA_TEXT, link+playstore);
                             i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
+                            startActivity(Intent.createChooser(i, "Share Using"));
                             postMenuDialog.dismiss();
                             postMenuDialog.dismiss();
                         });
@@ -263,12 +265,14 @@ public class Fragment_Reels extends Fragment {
                         postMenuDialog.setCanceledOnTouchOutside(TRUE);
 
                         postMenuDialog.findViewById(R.id.share_post).setOnClickListener(v13 -> {
-                            String link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                            String link = "Post Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                            String playstore = "\nCheck out the short video."+getResources().getString(R.string.download_utsav);
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+//                            i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+                            i.putExtra(Intent.EXTRA_TEXT, link+playstore);
                             i.setType("text/plain");
-                            startActivity(Intent.createChooser(i, "Share with"));
+                            startActivity(Intent.createChooser(i, "Share Using"));
                             postMenuDialog.dismiss();
                             postMenuDialog.dismiss();
 //

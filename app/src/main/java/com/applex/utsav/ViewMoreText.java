@@ -1223,18 +1223,31 @@ public class ViewMoreText extends AppCompatActivity {
 
         });
 
+//        share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                String id = postCampus.replaceAll(" ","_");
+//                String link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homeTextModel[0].getDocID();
+//                Intent i = new Intent();
+//                i.setAction(Intent.ACTION_SEND);
+//                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+//                i.setType("text/plain");
+//                startActivity(Intent.createChooser(i, "Share with"));
+//
+//
+//            }
+//        });
+
         share.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-//                String id = postCampus.replaceAll(" ","_");
-                String link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homeTextModel[0].getDocID();
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
-                i.setType("text/plain");
-                startActivity(Intent.createChooser(i, "Share with"));
-
-
+            public void onClick(View view) {
+                String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + homeTextModel[0].getDocID();
+                String playstore = getResources().getString(R.string.download_utsav);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,homeTextModel[0].getTxt()+link+playstore);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(shareIntent,"Share Using"));
             }
         });
     }

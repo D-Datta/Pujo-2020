@@ -363,7 +363,7 @@ public class SearchActivity extends AppCompatActivity {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Users")
-                .whereEqualTo("type", "indi")
+//                .whereEqualTo("type", "indi")
                 .orderBy(type)
                 .startAt(SEARCH.toLowerCase());
 

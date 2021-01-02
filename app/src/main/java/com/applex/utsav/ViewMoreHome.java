@@ -10,10 +10,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -21,6 +24,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,6 +69,7 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.IOException;
@@ -467,6 +472,7 @@ public class ViewMoreHome extends AppCompatActivity {
                         && ((ArrayList<String>) args.getSerializable("ARRAYLIST")).size() > 0) {
 
                     images = (ArrayList<String>) args.getSerializable("ARRAYLIST");
+                    homePostModel[0].setImg(images);
 
                     if (images != null && images.size() > 0) {
 
@@ -1237,23 +1243,94 @@ public class ViewMoreHome extends AppCompatActivity {
         });
 
 
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                String id = postCampus.replaceAll(" ","_");
-//                if(homePostModel[0].getImg() != null && homePostModel[0].getImg().size()>0)
-                    link = "https://www.applex.in/utsav-app/feeds/" + "1/" + homePostModel[0].getDocID();
-//                else
-//                    link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homePostModel[0].getDocID();
-                Intent i = new Intent();
-                i.setAction(Intent.ACTION_SEND);
-                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
-                i.setType("text/plain");
-                startActivity(Intent.createChooser(i, "Share with"));
+//        share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                String id = postCampus.replaceAll(" ","_");
+////                if(homePostModel[0].getImg() != null && homePostModel[0].getImg().size()>0)
+//                    link = "https://www.applex.in/utsav-app/feeds/" + "1/" + homePostModel[0].getDocID();
+////                else
+////                    link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homePostModel[0].getDocID();
+//                Intent i = new Intent();
+//                i.setAction(Intent.ACTION_SEND);
+//                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
+//                i.setType("text/plain");
+//                startActivity(Intent.createChooser(i, "Share with"));
+//
+//
+//            }
+//        });
 
 
-            }
-        });
+        ////////////////////////////////////////SHARE////////////////////////////////////////
+       if(homePostModel[0].getTxt()==null && (homePostModel[0].getImg()!=null && homePostModel[0].getImg().size()>0)){
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String path = homePostModel[0].getImg().get(0);
+                    Picasso.get().load(path).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                            String finalbitmap = MediaStore.Images.Media.insertImage(getContentResolver(),
+                                    bitmap, String.valueOf(System.currentTimeMillis()), null);
+                            Uri uri =  Uri.parse(finalbitmap);
+                            String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + homePostModel[0].getDocID();
+                            String playstore = getResources().getString(R.string.download_utsav);
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("*/*");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                            shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+
+                        }
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                        }
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    });
+                }
+            });
+        }
+        else if(homePostModel[0].getTxt()!=null && (homePostModel[0].getImg()!=null && homePostModel[0].getImg().size()>0)){
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String path = homePostModel[0].getImg().get(0);
+                    Picasso.get().load(path).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                            String finalbitmap = MediaStore.Images.Media.insertImage(getContentResolver(),
+                                    bitmap, String.valueOf(System.currentTimeMillis()), null);
+                            Uri uri =  Uri.parse(finalbitmap);
+                            String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + homePostModel[0].getDocID();
+                            String playstore = getResources().getString(R.string.download_utsav);
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("*/*");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT,homePostModel[0].getTxt()+link+playstore);
+                            shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+
+                        }
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                        }
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                        }
+                    });
+                }
+            });
+        }
+        ////////////////////////////////////////SHARE////////////////////////////////////////
+
     }
 
 
