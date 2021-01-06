@@ -7,6 +7,5 @@
         android:id="@+id/share_profile"
         android:title=""
         android:icon="@drawable/ic_forward_arrow"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>

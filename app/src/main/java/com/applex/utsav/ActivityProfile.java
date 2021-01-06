@@ -13,6 +13,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +22,9 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
@@ -58,6 +63,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +76,7 @@ import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -880,6 +887,50 @@ public class ActivityProfile extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             super.onBackPressed();
+        }
+        else if(id == R.id.share_profile) {
+            BottomSheetDialog dialog = new BottomSheetDialog(ActivityProfile.this);
+            dialog.setContentView(R.layout.dialog_share_menu);
+            dialog.setCanceledOnTouchOutside(true);
+            String link = "https://www.applex.in/utsav-app/profile/" + baseUserModel.getName().replace(" ", "_") + "/" + uid;
+
+            dialog.findViewById(R.id.copy_link).setOnClickListener(v -> {
+                BasicUtility.showToast(ActivityProfile.this, "Copied to clipboard");
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Copied Text", link);
+                clipboard.setPrimaryClip(clip);
+                dialog.dismiss();
+            });
+
+            dialog.findViewById(R.id.share_profile).setOnClickListener(v -> {
+                Picasso.get().load(baseUserModel.getDp()).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        String finalbitmap = MediaStore.Images.Media.insertImage(
+                                getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
+                        Uri uri =  Uri.parse(finalbitmap);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("*/*");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, link);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+            });
+
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }

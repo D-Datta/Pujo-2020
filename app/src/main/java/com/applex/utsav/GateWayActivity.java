@@ -153,6 +153,12 @@ public class GateWayActivity extends AppCompatActivity {
                             finish();
                         }
                     }
+                    else if(params.get(1).matches("profile")) {
+                        Intent intent = new Intent(GateWayActivity.this, ActivityProfile.class);
+                        intent.putExtra("uid", params.get(3));
+                        startActivity(intent);
+                        finish();
+                    }
                 }
                 else {
                     startActivity(new Intent(GateWayActivity.this, MainActivity.class));
