@@ -25,7 +25,6 @@
             app:contentScrim="@color/white"
             app:statusBarScrim="@color/white"
             app:titleEnabled="true"
-            app:title="@string/app_name"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -462,7 +461,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 app:titleTextColor="@color/black"
-                android:background="@color/white_transparent2"
+                android:background="@drawable/toolbar_gradient"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_collapseMode="pin" />
 
