@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,8 +12,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationCompat;
@@ -27,30 +28,37 @@ import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
+import com.applex.utsav.models.AccessToken;
 import com.applex.utsav.preferences.IntroPref;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import java.io.IOException;
-import java.net.URL;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import java.util.Objects;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
-public class    MessagingService extends FirebaseMessagingService {
+public class MessagingService extends FirebaseMessagingService {
 
-    private Bitmap image;
     public static String nCount;
     public static final String INTENT_FILTER = "INTENT_FILTER";
+    private Handler handler;
 
-    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+    public MessagingService() {}
+
+    @Override
+    public void onCreate() {
+        handler = new Handler();
+        super.onCreate();
 
         /////////////////DAY OR NIGHT MODE///////////////////
         if(new IntroPref(this).getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Mode/night_mode")
                     .get().addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
-                    if(task.getResult().getBoolean("night_mode")) {
+                    if(Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getBoolean("night_mode"))) {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     } else {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -65,7 +73,26 @@ public class    MessagingService extends FirebaseMessagingService {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         /////////////////DAY OR NIGHT MODE///////////////////
+    }
 
+    private void runOnUiThread(Runnable runnable) {
+        handler.post(runnable);
+    }
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+        AccessToken accessToken = new AccessToken();
+        accessToken.setRegToken(s);
+
+        if(FirebaseAuth.getInstance().getUid() != null){
+            FirebaseFirestore.getInstance()
+                    .collection("Users/" + FirebaseAuth.getInstance().getUid() + "/AccessToken/")
+                    .document("Token").set(accessToken);
+        }
+    }
+
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         if(remoteMessage.getData().get("clickAction") != null) {
@@ -86,13 +113,29 @@ public class    MessagingService extends FirebaseMessagingService {
                 sendBroadcast(intent);
 
                 if(dp != null) {
-                    try {
-                        URL url = new URL(dp);
-                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    } catch(IOException e) {
-                        e.printStackTrace();
-                    }
-                    sendNotification1(this, message, title, Objects.requireNonNull(action), type, postID, ts, pCom_ts, getCircleBitmap(image));
+//                    try {
+//                        URL url = new URL(dp);
+//                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                    } catch(IOException e) {
+//                        e.printStackTrace();
+//                    }
+                    runOnUiThread(() -> Picasso.get().load(dp)
+                            .resize(200, 200)
+                            .transform(new CropCircleTransformation())
+                            .into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    sendNotification1(MessagingService.this, message, title, Objects.requireNonNull(action), type, postID, ts, pCom_ts, bitmap);
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                    sendNotification2(MessagingService.this, message, title, Objects.requireNonNull(action), type, ts, pCom_ts, postID);
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) { }
+                            }));
                 } else {
                     sendNotification2(this, message, title, Objects.requireNonNull(action), type, ts, pCom_ts, postID);
                 }

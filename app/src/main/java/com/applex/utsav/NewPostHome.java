@@ -603,6 +603,7 @@ public class NewPostHome extends AppCompatActivity {
             else if (type.startsWith("image/")) {
                 filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 finalUri = filePath;
+                imageUriList.add(finalUri);
                 ExifInterface ei = null;
                 Bitmap bitmap = null;
                 try {
@@ -712,6 +713,7 @@ public class NewPostHome extends AppCompatActivity {
                 ArrayList<Uri> sharedImages2 = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
                 if(sharedImages2 != null) {
                     for(Uri uri : sharedImages2){
+                        imageUriList.add(uri);
                         ExifInterface ei = null;
                         Bitmap bitmap = null;
                         try {
@@ -1387,74 +1389,6 @@ public class NewPostHome extends AppCompatActivity {
     }
     //TAGS NEW
 
-    ////////////TAGS////////////////
-
-//    private void openDialog() {
-//        AlertDialog.Builder dialog= new AlertDialog.Builder(NewPostHome.this);
-//        LayoutInflater inflater= LayoutInflater.from(NewPostHome.this);
-//        View view=inflater.inflate(R.layout.dialog_tag_spinner,null);
-//        edtagtxt =view.findViewById(R.id.addtag);
-//        dialog.setView(view)
-//                .setTitle("Add Tag")
-//                .setNegativeButton("Cancel", (dialog12, which) ->
-//                        dialog12.dismiss())
-//                .setPositiveButton("Done", (dialog1, which) -> {
-//                    textdata = edtagtxt.getText().toString().trim();
-//                    if(textdata.isEmpty()){
-//                        Toast.makeText(getApplicationContext(), "Empty tag", Toast.LENGTH_SHORT).show();
-//                    }
-//                    else {
-//                        edtagtxt.setText("");
-//
-//
-//                        tagList.add(textdata);
-//
-//                        tagAdapter2.notifyDataSetChanged();
-//                        tags_selectedRecycler.setVisibility(View.VISIBLE);
-//                    }
-//                })
-//                .show();
-//    }
-
-
-
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    private void buildRecyclerView_selectedtags(){
-//        tags_selectedRecycler.setHasFixedSize(true);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//        tags_selectedRecycler.setLayoutManager(linearLayoutManager);
-//        tags_selectedRecycler.setItemAnimator(new DefaultItemAnimator());
-//      //  selected_tags = new ArrayList<>();
-//
-//        tagAdapter2 = new TagAdapter2(tagList, getApplicationContext());
-//        tags_selectedRecycler.setAdapter(tagAdapter2);
-//
-//        tagAdapter2.onClickListener((position, tag) -> {
-//            Toast.makeText(getApplicationContext(), "Long Press to remove tag", Toast.LENGTH_SHORT).show();
-//        });
-//
-//        tagAdapter2.onLongClickListener((position, tag_name) ->{
-////            TagModel tagModel = new TagModel();
-////            tagModel.setName_tag(tag_name);
-//
-//            tagList.remove(position);
-//            tagAdapter2.notifyItemRemoved(position);
-//
-//            if(tagList.size()==0)
-//                tags_selectedRecycler.setVisibility(View.GONE);
-//
-//            //   tagAdapter.notifyDataSetChanged();
-//        });
-//
-//
-//    }
-
-
-    ////////////TAGS////////////////
-
-
-
 
     ///////////////////////HANDLE CAMERA AND GALLERY//////////////////////////
     private void pickGallery(){
@@ -1487,7 +1421,6 @@ public class NewPostHome extends AppCompatActivity {
             startActivityForResult(intent, VIDEO_PICK_CAMERA_CODE);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {

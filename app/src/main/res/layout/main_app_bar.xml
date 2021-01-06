@@ -140,7 +140,7 @@
             app:tabIndicatorColor="@color/purple"
             app:tabIndicatorFullWidth="true"
             app:tabIndicator="@drawable/indicator"
-            app:tabIndicatorHeight="4dp"/>
+            app:tabIndicatorHeight="2dp"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

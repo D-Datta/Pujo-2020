@@ -244,7 +244,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
 
         Query query = FirebaseFirestore.getInstance()
                 .collection("Feeds")
-               .whereArrayContains("tagList", tagName);
+                .whereArrayContains("tagList", tagName);
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -1171,6 +1171,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
             }
         });
     }
+
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         @SuppressLint("StaticFieldLeak")
