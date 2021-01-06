@@ -603,6 +603,7 @@ public class NewPostHome extends AppCompatActivity {
             else if (type.startsWith("image/")) {
                 filePath = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                 finalUri = filePath;
+                imageUriList.add(finalUri);
                 ExifInterface ei = null;
                 Bitmap bitmap = null;
                 try {
@@ -712,6 +713,7 @@ public class NewPostHome extends AppCompatActivity {
                 ArrayList<Uri> sharedImages2 = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
                 if(sharedImages2 != null) {
                     for(Uri uri : sharedImages2){
+                        imageUriList.add(uri);
                         ExifInterface ei = null;
                         Bitmap bitmap = null;
                         try {

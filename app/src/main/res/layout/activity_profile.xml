@@ -470,7 +470,7 @@
                 android:layout_height="55dp"
                 app:titleTextColor="@color/black"
                 app:title="@string/app_name"
-                android:background="@color/white_transparent2"
+                android:background="@drawable/toolbar_gradient"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_collapseMode="pin"
                 />
