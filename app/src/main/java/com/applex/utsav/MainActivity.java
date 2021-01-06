@@ -78,6 +78,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import static com.applex.utsav.fragments.FragmentClips.mRecyclerView;
+import static com.applex.utsav.utility.Constants.WHATSAPP_NUMBER;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -796,12 +797,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawers();
                 Intent i=new Intent();
                 i.setAction(Intent.ACTION_SEND);
-                String text="Hey! Join me at Utsav App: Durga Puja 2020 and experience the world of Celebration. Download now. https://play.google.com/store/apps/details?id=com.applex.utsav";
+                String text="Hey! Join me on Utsav App: Virtul Festivals and experience the world of Celebration. Download now. https://play.google.com/store/apps/details?id=com.applex.utsav";
                 i.putExtra(Intent.EXTRA_TEXT,text);
                 i.setType("text/plain");
                 startActivity(Intent.createChooser(i,"Share with"));
             },200);
         }
+
+        else if(id == R.id.whatsapp){
+            new Handler().postDelayed(() -> {
+                drawer.closeDrawers();
+                String link = "https://www.applex.in/utsav-app/profile/" + introPref.getFullName().replace(" ", "_") + "/" + FirebaseAuth.getInstance().getUid();
+
+                String text="Hi Utsav Admin! \n\nThis is *"+introPref.getFullName()+"* from Utsav App : Virtual Festivals.\n\n"+"Profile Link :\n"+link;
+
+                String url = "https://api.whatsapp.com/send?phone=91"+WHATSAPP_NUMBER+"&text="+text;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            },200);
+        }
+
         else if(id == R.id.nav_contact){
             new Handler().postDelayed(() -> {
                 Intent intent = new Intent(MainActivity.this, Webview.class);

@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -58,6 +59,7 @@ import com.applex.utsav.models.SeenModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.borjabravo.readmoretextview.ReadMoreTextView;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -85,6 +87,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -120,7 +124,7 @@ public class ActivityProfile extends AppCompatActivity {
     private Button upvote, edit_profile;
     private LinearLayout upvoteHolder;
     private LinearLayout counts;
-    private RelativeLayout dp_outline;
+    private CardView dp_outline;
 
     private LinearLayout selfProfile, elseProfile;
 
@@ -290,7 +294,7 @@ public class ActivityProfile extends AppCompatActivity {
 
                             ///////////////for individual///////////////
                             if(type.matches("indi")){
-                                dp_outline.setBackground(null);
+                                dp_outline.setCardBackgroundColor(getResources().getColor(R.color.white));
                                 counts.setVisibility(View.GONE);
                                 Paddress.setVisibility(View.GONE);
                                 PUsername.setVisibility(View.GONE);
@@ -420,7 +424,7 @@ public class ActivityProfile extends AppCompatActivity {
 
                             ///////////////for committee///////////////
                             else if (type.matches("com")){
-                                dp_outline.setBackgroundResource(R.drawable.dp_outline);
+                                dp_outline.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
                                 counts.setVisibility(View.VISIBLE);
                                 Paddress.setVisibility(View.VISIBLE);
                                 PUsername.setVisibility(View.VISIBLE);
@@ -458,7 +462,7 @@ public class ActivityProfile extends AppCompatActivity {
 
                                 if (baseUserModel.getDp() != null && !baseUserModel.getDp().isEmpty()) {
                                     dp = baseUserModel.getDp();
-                                    Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).into(PDp);
+                                    Picasso.get().load(dp).placeholder(R.drawable.image_background_grey).transform(new CropCircleTransformation()).into(PDp);
                                 }
                                 else {
                                     Display display = getWindowManager().getDefaultDisplay();
@@ -895,10 +899,10 @@ public class ActivityProfile extends AppCompatActivity {
             String text = "";
             String link = "https://www.applex.in/utsav-app/profile/" + baseUserModel.getName().replace(" ", "_") + "/" + uid;
             if(bool == 0) {
-                text = "Check out my profile on Utsav!\n\nProfile Link :-\n";
+                text = "Check out my profile on Utsav!\n\nProfile Link :\n";
             }
             else if(bool == 1) {
-                text = "Check out " + baseUserModel.getName() + "\'s profile on Utsav!\n\nProfile Link :-\n";
+                text = "Check out " + baseUserModel.getName() + "\'s profile on Utsav!\n\nProfile Link :\n";
             }
 
             String finalText = text;

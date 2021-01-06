@@ -78,7 +78,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
                 case 1:
                     Intent i = new Intent();
                     i.setAction(Intent.ACTION_SEND);
-                    String text="Hey! Join me at Utsav App: Durga Puja 2020 and experience the world of Celebration. \nDownload now: https://play.google.com/store/apps/details?id=com.applex.utsav";
+                    String text="Hey! Join me at Utsav App: Virtual Festivals 2020 and experience the world of Celebration. \nDownload now: https://play.google.com/store/apps/details?id=com.applex.utsav";
                     i.putExtra(Intent.EXTRA_TEXT,text);
                     i.setType("text/plain");
                     mContext.startActivity(Intent.createChooser(i,"Share with"));

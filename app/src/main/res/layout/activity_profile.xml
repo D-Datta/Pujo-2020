@@ -25,6 +25,7 @@
             app:contentScrim="@color/white"
             app:statusBarScrim="@color/white"
             app:titleEnabled="true"
+            app:title=" "
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -82,18 +83,20 @@
                             android:background="@drawable/custom_ripple_white"
                             android:src="@drawable/edit_dp" />
 
-                        <RelativeLayout
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/dp_outline"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="140dp"
+                            android:layout_height="140dp"
                             android:layout_centerInParent="true"
                             android:layout_margin="5dp"
+                            app:cardCornerRadius="70dp"
                             android:gravity="center">
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="wrap_content"
                                 app:cardCornerRadius="65dp"
                                 android:layout_margin="5dp"
+                                app:cardElevation="0dp"
                                 android:layout_height="wrap_content">
 
                                 <ImageView
@@ -105,7 +108,8 @@
                                     android:src="@drawable/ic_account_circle_black_24dp" />
 
                             </androidx.cardview.widget.CardView>
-                        </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
 
                     </RelativeLayout>
 
@@ -433,7 +437,8 @@
                     android:id="@+id/selfProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp">
+                    android:paddingHorizontal="5dp"
+                    android:paddingVertical="5dp">
 
                     <Button
                         android:id="@+id/edit_profile"

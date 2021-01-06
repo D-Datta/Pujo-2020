@@ -23,6 +23,11 @@
 
         <menu>
             <item
+                android:id="@+id/whatsapp"
+                android:icon="@drawable/ic_whatsapp"
+                android:title="Chat on Whatsapp" />
+
+            <item
                 android:id="@+id/nav_tellafrnd"
                 android:icon="@drawable/ic_outline_share_24"
                 android:title="@string/tell_a_friend" />
