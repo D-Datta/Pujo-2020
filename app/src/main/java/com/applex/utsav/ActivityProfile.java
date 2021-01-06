@@ -892,8 +892,16 @@ public class ActivityProfile extends AppCompatActivity {
             BottomSheetDialog dialog = new BottomSheetDialog(ActivityProfile.this);
             dialog.setContentView(R.layout.dialog_share_menu);
             dialog.setCanceledOnTouchOutside(true);
+            String text = "";
             String link = "https://www.applex.in/utsav-app/profile/" + baseUserModel.getName().replace(" ", "_") + "/" + uid;
+            if(bool == 0) {
+                text = "Check out my profile on Utsav!\n\nProfile Link :-\n";
+            }
+            else if(bool == 1) {
+                text = "Check out " + baseUserModel.getName() + "\'s profile on Utsav!\n\nProfile Link :-\n";
+            }
 
+            String finalText = text;
             dialog.findViewById(R.id.copy_link).setOnClickListener(v -> {
                 BasicUtility.showToast(ActivityProfile.this, "Copied to clipboard");
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -911,7 +919,7 @@ public class ActivityProfile extends AppCompatActivity {
                         Uri uri =  Uri.parse(finalbitmap);
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("*/*");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, link);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, finalText + link);
                         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
                         startActivity(Intent.createChooser(shareIntent,"Share Using"));
                         dialog.dismiss();
