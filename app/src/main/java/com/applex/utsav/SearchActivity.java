@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity {
     private ImageView nosearch;
     private ProgressBar progressMore, contentProgress;
     private RecyclerView mRecyclerView;
-    private Button sName, sCity;
+    private Button sName, sCity, sState;
     private LinearLayoutManager layoutManager;
     int selected_button = 0;
     private String SEARCH;
@@ -107,6 +107,7 @@ public class SearchActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.search_recycler);
         sName = findViewById(R.id.Sfirstname);
         sCity = findViewById(R.id.Scity);
+        sState = findViewById(R.id.Sstate);
         nosearch = findViewById(R.id.no_search);
         progressMore = findViewById(R.id.content_progress_search);
 
@@ -199,11 +200,15 @@ public class SearchActivity extends AppCompatActivity {
         sName.setOnClickListener(v -> {
 
             sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-            sName.setTextColor(Color.parseColor("#ffffff"));
+            sName.setTextColor(getResources().getColor(R.color.white));
 
             sCity.setBackgroundResource(R.drawable.add_tags_button_background);
             sCity.setBackgroundTintList(null);
-            sCity.setTextColor(Color.parseColor("#000000"));
+            sCity.setTextColor(getResources().getColor(R.color.black));
+
+            sState.setBackgroundResource(R.drawable.add_tags_button_background);
+            sState.setBackgroundTintList(null);
+            sState.setTextColor(getResources().getColor(R.color.black));
 
 //            susername.setBackgroundResource(R.drawable.search_profile_button_background);
 //            susername.setBackgroundTintList(null);
@@ -248,11 +253,15 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-                sCity.setTextColor(Color.parseColor("#ffffff"));
+                sCity.setTextColor(getResources().getColor(R.color.white));
 
                 sName.setBackgroundResource(R.drawable.add_tags_button_background);
                 sName.setBackgroundTintList(null);
-                sName.setTextColor(Color.parseColor("#000000"));
+                sName.setTextColor(getResources().getColor(R.color.black));
+
+                sState.setBackgroundResource(R.drawable.add_tags_button_background);
+                sState.setBackgroundTintList(null);
+                sState.setTextColor(getResources().getColor(R.color.black));
 
 //                susername.setBackgroundResource(R.drawable.search_profile_button_background);
 //                susername.setBackgroundTintList(null);
@@ -283,6 +292,58 @@ public class SearchActivity extends AppCompatActivity {
                             userList.clear();
 
                             buildRecycler("city");
+
+                        }
+
+                    }
+                });
+            }
+        });
+
+        sState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sState.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                sState.setTextColor(getResources().getColor(R.color.white));
+
+                sName.setBackgroundResource(R.drawable.add_tags_button_background);
+                sName.setBackgroundTintList(null);
+                sName.setTextColor(getResources().getColor(R.color.black));
+
+                sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+                sCity.setBackgroundTintList(null);
+                sCity.setTextColor(getResources().getColor(R.color.black));
+
+//                susername.setBackgroundResource(R.drawable.search_profile_button_background);
+//                susername.setBackgroundTintList(null);
+//                susername.setTextColor(Color.parseColor("#18357C"));
+//
+//                sinstitute.setBackgroundResource(R.drawable.search_profile_button_background);
+//                sinstitute.setBackgroundTintList(null);
+//                sinstitute.setTextColor(Color.parseColor("#18357C"));
+
+                selected_button = 3;
+
+                if (!(searchKey.getText().toString().isEmpty())){
+                    userList.clear();
+
+                    contentProgress.setVisibility(View.VISIBLE);
+                    SEARCH = searchKey.getText().toString().trim();
+                    buildRecycler("state");
+
+                }
+
+
+                search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SEARCH = searchKey.getText().toString().trim();
+                        if(!SEARCH.isEmpty()){
+                            contentProgress.setVisibility(View.VISIBLE);
+                            userList.clear();
+
+                            buildRecycler("state");
 
                         }
 
@@ -329,6 +390,17 @@ public class SearchActivity extends AppCompatActivity {
 
                         }
                     }
+                    else if(selected_button==3){
+                        SEARCH = searchKey.getText().toString().trim();
+                        if(!SEARCH.isEmpty()){
+
+                            userList.clear();
+
+                            contentProgress.setVisibility(View.VISIBLE);
+                            buildRecycler("state");
+
+                        }
+                    }
 //                    else if(selected_button==3){
 //                        SEARCH = searchKey.getText().toString();
 //                        if(!SEARCH.isEmpty()){
@@ -361,11 +433,26 @@ public class SearchActivity extends AppCompatActivity {
 
     private void buildRecycler(String type) {
 
-        Query query = FirebaseFirestore.getInstance()
-                .collection("Users")
+        Query query = null;
+        if(type.matches("small_name")){
+            query = FirebaseFirestore.getInstance()
+                    .collection("Users")
 //                .whereEqualTo("type", "indi")
-                .orderBy(type)
-                .startAt(SEARCH.toLowerCase());
+                    .orderBy(type)
+                    .startAt(SEARCH.toLowerCase());
+        }
+        else {
+            query = FirebaseFirestore.getInstance()
+                    .collection("Users")
+//                .whereEqualTo("type", "indi")
+                    .orderBy(type)
+                    .startAt(SEARCH);
+        }
+//        Query query = FirebaseFirestore.getInstance()
+//                .collection("Users")
+////                .whereEqualTo("type", "indi")
+//                .orderBy(type)
+//                .startAt(SEARCH.toLowerCase());
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)

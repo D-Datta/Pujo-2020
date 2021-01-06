@@ -728,23 +728,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 RadioButton bangla = dialog.findViewById(R.id.bangla);
                 RadioButton english = dialog.findViewById(R.id.english);
+                RadioButton hindi = dialog.findViewById(R.id.hindi);
 
                 if(introPref.getLanguage().matches("en")) {
                     english.setChecked(true);
                     bangla.setChecked(false);
+                    hindi.setChecked(false);
                 }
                 else if(introPref.getLanguage().matches("bn")) {
                     bangla.setChecked(true);
                     english.setChecked(false);
+                    hindi.setChecked(false);
                 }
+                else if(introPref.getLanguage().matches("hn")) {
+                    hindi.setChecked(true);
+                    english.setChecked(false);
+                    bangla.setChecked(false);
+                }
+
                 english.setOnClickListener(v -> {
                     english.setChecked(true);
                     bangla.setChecked(false);
+                    hindi.setChecked(false);
                 });
 
                 bangla.setOnClickListener(v -> {
                     bangla.setChecked(true);
                     english.setChecked(false);
+                    hindi.setChecked(false);
+                });
+
+                hindi.setOnClickListener(v -> {
+                    hindi.setChecked(true);
+                    english.setChecked(false);
+                    bangla.setChecked(false);
                 });
 
                 dialog.findViewById(R.id.cancel).setOnClickListener(v -> dialog.dismiss());
@@ -755,6 +772,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     else if(bangla.isChecked()) {
                         introPref.setLanguage("bn");
+                    }
+                    else if(hindi.isChecked()) {
+                        introPref.setLanguage("hn");
                     }
 
                     new Handler().postDelayed(() -> {
