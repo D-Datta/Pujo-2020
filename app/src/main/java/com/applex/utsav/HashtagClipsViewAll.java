@@ -113,7 +113,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         introPref = new IntroPref(this);
-        String lang= introPref.getLanguage();
+        String lang = introPref.getLanguage();
         Locale locale= new Locale(lang);
         Locale.setDefault(locale);
         Configuration config= new Configuration();

@@ -55,6 +55,8 @@ import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -129,6 +131,9 @@ public class ActivityProfile extends AppCompatActivity {
 
     private LinearLayout pronamiHolder;
     private ImageView pronamiInfo;
+    
+    private AppBarLayout appBarLayout;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +171,8 @@ public class ActivityProfile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        appBarLayout = findViewById(R.id.app_bar);
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -753,6 +760,24 @@ public class ActivityProfile extends AppCompatActivity {
                                 }
                             ///////////////for committee///////////////
 
+                            appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                                int scrollRange = -1;
+                                @Override
+                                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                                    if (scrollRange == -1) {
+                                        scrollRange = appBarLayout.getTotalScrollRange();
+                                    }
+
+                                    if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0) {
+                                        //  Collapsed
+                                        collapsingToolbarLayout.setTitle(baseUserModel.getName());
+                                    }
+                                    else {
+                                        //Expanded
+                                        collapsingToolbarLayout.setTitle(" ");
+                                    }
+                                }
+                            });
                         }
                         else {
                             BasicUtility.showToast(ActivityProfile.this, "Something went wrong...");
@@ -765,395 +790,6 @@ public class ActivityProfile extends AppCompatActivity {
             BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
         }
-
-//        if (uid.matches(FirebaseAuth.getInstance().getUid()) && type.matches("com")) {
-//
-//            editCover.setVisibility(View.VISIBLE);
-//            editDp.setVisibility(View.VISIBLE);
-//            selfProfile.setVisibility(View.VISIBLE);
-//            edit_profile.setVisibility(View.VISIBLE);
-//            elseProfile.setVisibility(View.GONE);
-//
-//            edit_profile.setOnClickListener(v -> {
-//                Intent i1 = new Intent(ActivityProfile.this, EditProfileCommitteeActivity.class);
-//                startActivity(i1);
-//                finish();
-//            });
-//
-//            editDp.setOnClickListener(v -> {
-//                if (!checkStoragePermission()) {
-//                    requestStoragePermission();
-//                } else {
-//                    imageCoverOrDp = 0; //dp
-//                    pickGallery();
-//                }
-//            });
-//
-//            editCover.setOnClickListener(v -> {
-//                if (!checkStoragePermission()) {
-//                    requestStoragePermission();
-//                } else {
-//                    imageCoverOrDp = 1; //cover
-//                    pickGallery();
-//                }
-//            });
-//        }
-//
-//        else if (uid.matches(FirebaseAuth.getInstance().getUid()) && type.matches("indi")) {
-//
-//            editCover.setVisibility(View.VISIBLE);
-//            editDp.setVisibility(View.VISIBLE);
-//            selfProfile.setVisibility(View.VISIBLE);
-//            edit_profile.setVisibility(View.VISIBLE);
-//            elseProfile.setVisibility(View.GONE);
-//
-//            edit_profile.setOnClickListener(v -> {
-//                Intent i1 = new Intent(ActivityProfile.this, EditProfileIndividualActivity.class);
-//                startActivity(i1);
-//                finish();
-//            });
-//
-//            editDp.setOnClickListener(v -> {
-//                if (!checkStoragePermission()) {
-//                    requestStoragePermission();
-//                } else {
-//                    imageCoverOrDp = 0; //dp
-//                    pickGallery();
-//                }
-//            });
-//
-//            editCover.setOnClickListener(v -> {
-//                if (!checkStoragePermission()) {
-//                    requestStoragePermission();
-//                } else {
-//                    imageCoverOrDp = 1; //cover
-//                    pickGallery();
-//                }
-//            });
-//        }
-//
-//        else if(!uid.matches(FirebaseAuth.getInstance().getUid()) && type.matches("indi")) {
-//            selfProfile.setVisibility(View.GONE);
-//            edit_profile.setVisibility(View.GONE);
-//            editCover.setVisibility(View.GONE);
-//            editDp.setVisibility(View.GONE);
-//            elseProfile.setVisibility(View.GONE);
-//        }
-//
-//        else if(!uid.matches(FirebaseAuth.getInstance().getUid()) && type.matches("com")) {
-//            selfProfile.setVisibility(View.GONE);
-//            edit_profile.setVisibility(View.GONE);
-//            editCover.setVisibility(View.GONE);
-//            editDp.setVisibility(View.GONE);
-//            elseProfile.setVisibility(View.VISIBLE);
-//
-//            //increment no of visitors
-//            FirebaseFirestore.getInstance()
-//                    .collection("Users")
-//                    .document(uid)
-//                    .update("pujoVisits", FieldValue.increment(1), "lastVisitTime", Timestamp.now());
-//            //increment no of visitors
-//
-//            upvote.setOnClickListener(v -> {
-//                if (isLoadingFinished) {
-//                    if (isUpvoted) {
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
-//                        builder.setTitle("Withdraw vote for " + baseUserModel.getName() + "?")
-//                                .setMessage("Are you sure?")
-//                                .setPositiveButton("Withdraw", (dialog, which) -> {
-//
-//                                    DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(uid);
-//
-//                                    DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
-//
-//                                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//                                    batch.update(docRef, "upvoteL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-//                                    batch.delete(followerRef);
-//
-//                                    batch.commit().addOnCompleteListener(task -> {
-//                                        if (task.isSuccessful()) {
-//                                            FirebaseFirestore.getInstance()
-//                                                    .collection("Users")
-//                                                    .document(uid)
-//                                                    .update("upvotes", FieldValue.increment(-1));
-//
-//                                            upvote.setText("Upvote");
-//                                            upvote.setBackgroundResource(R.drawable.custom_button);
-//                                            upvote.setTextColor(getResources().getColor(R.color.reels_white));
-//
-//                                            if (baseUserModel.getUpvoteL() != null) {
-//                                                if (baseUserModel.getUpvoteL().size() - 1 == 0) {
-//                                                    upvoters.setText("0");
-//                                                } else if (baseUserModel.getUpvoteL().size() - 1 == 1) {
-//                                                    upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
-//                                                } else {
-//                                                    upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
-//                                                }
-//                                            } else {
-//                                                upvoters.setText("0");
-//                                                upvoters.setVisibility(View.GONE);
-//                                            }
-//
-//                                            isUpvoted = false;
-//                                            baseUserModel.getUpvoteL().remove(fireuser.getUid());
-//                                        } else {
-//                                            Toast.makeText(ActivityProfile.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    });
-//                                })
-//                                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-//                                .setCancelable(true)
-//                                .show();
-//                    }
-//                    else {
-//                        long tsLong = System.currentTimeMillis();
-//
-//                        SeenModel seenModel = new SeenModel();
-//                        seenModel.setUid(fireuser.getUid());
-//                        seenModel.setUserdp(introPref.getUserdp());
-//                        seenModel.setUsername(introPref.getFullName());
-//                        seenModel.setType(introPref.getType());
-//                        seenModel.setTs(tsLong);
-//
-//                        upvote_anim.setVisibility(View.VISIBLE);
-//                        upvote_anim.playAnimation();
-//
-//                        try {
-//                            AssetFileDescriptor afd = ActivityProfile.this.getAssets().openFd("fireworks.mp3");
-//                            MediaPlayer player = new MediaPlayer();
-//                            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-//                            player.prepare();
-//                            AudioManager audioManager = (AudioManager) ActivityProfile.this.getSystemService(Context.AUDIO_SERVICE);
-//                            if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-//                                player.start();
-//                                if (!player.isPlaying()) {
-//                                    upvote_anim.cancelAnimation();
-//                                    upvote_anim.setVisibility(View.GONE);
-//                                }
-//                                player.setOnCompletionListener(mediaPlayer -> {
-//                                    upvote_anim.cancelAnimation();
-//                                    upvote_anim.setVisibility(View.GONE);
-//                                });
-//                            } else {
-//                                new Handler().postDelayed(() -> {
-//                                    upvote_anim.cancelAnimation();
-//                                    upvote_anim.setVisibility(View.GONE);
-//                                }, 2000);
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        DocumentReference docRef = FirebaseFirestore.getInstance()
-//                                .collection("Users")
-//                                .document(uid);
-//
-//                        DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
-//
-//                        WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//                        batch.update(docRef, "upvoteL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-//                        batch.set(followerRef, seenModel);
-//
-//                        batch.commit().addOnCompleteListener(task -> {
-//                            if (task.isSuccessful()) {
-//                                FirebaseFirestore.getInstance()
-//                                        .collection("Users")
-//                                        .document(uid)
-//                                        .update("upvotes", FieldValue.increment(1));
-//
-//                                upvote.setText("Upvoted");
-//                                upvote.setBackgroundResource(R.drawable.custom_button_outline);
-//                                upvote.setTextColor(getResources().getColor(R.color.purple));
-//
-//                                if (baseUserModel.getUpvoteL() != null) {
-//                                    if (baseUserModel.getUpvoteL().size() + 1 == 0) {
-//                                        upvoters.setText("0");
-//                                    } else if (baseUserModel.getUpvoteL().size() + 1 == 1) {
-//                                        upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
-//                                    } else {
-//                                        upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
-//                                    }
-//                                } else {
-//                                    upvoters.setText("0");
-//                                }
-//
-//                                baseUserModel.getUpvoteL().add(fireuser.getUid());
-//                                isUpvoted = true;
-//                            } else {
-//                                Toast.makeText(ActivityProfile.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-//                }
-//            });
-//
-//            locate.setOnClickListener(view -> {
-//                if (cm.getActiveNetworkInfo() != null) {
-//                    String location = name + "," + address + "," + city + "," + state + "-" + pin;
-//                    Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(location) + "&mode=w");
-//                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//                    mapIntent.setPackage("com.google.android.apps.maps");
-//                    startActivity(mapIntent);
-//                } else {
-//                    Toast.makeText(ActivityProfile.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//
-//            upvoteHolder.setOnClickListener(view -> {
-//                BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
-//                bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-//            });
-//        }
-
-//        upvote.setOnClickListener(v -> {
-//            if (isLoadingFinished) {
-//                if (isUpvoted) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityProfile.this);
-//                    builder.setTitle("Withdraw vote for " + baseUserModel.getName() + "?")
-//                            .setMessage("Are you sure?")
-//                            .setPositiveButton("Withdraw", (dialog, which) -> {
-//
-//                                DocumentReference docRef = FirebaseFirestore.getInstance().collection("Users").document(uid);
-//
-//                                DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
-//
-//                                WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//                                batch.update(docRef, "upvoteL", FieldValue.arrayRemove(FirebaseAuth.getInstance().getUid()));
-//                                batch.delete(followerRef);
-//
-//                                batch.commit().addOnCompleteListener(task -> {
-//                                    if (task.isSuccessful()) {
-//                                        FirebaseFirestore.getInstance()
-//                                                .collection("Users")
-//                                                .document(uid)
-//                                                .update("upvotes", FieldValue.increment(-1));
-//
-//                                        upvote.setText("Upvote");
-//                                        upvote.setBackgroundResource(R.drawable.custom_button);
-//                                        upvote.setTextColor(getResources().getColor(R.color.reels_white));
-//
-//                                        if (baseUserModel.getUpvoteL() != null) {
-//                                            if (baseUserModel.getUpvoteL().size() - 1 == 0) {
-//                                                upvoters.setText("0");
-//                                            } else if (baseUserModel.getUpvoteL().size() - 1 == 1) {
-//                                                upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
-//                                            } else {
-//                                                upvoters.setText((baseUserModel.getUpvoteL().size() - 1) + "");
-//                                            }
-//                                        } else {
-//                                            upvoters.setText("0");
-//                                            upvoters.setVisibility(View.GONE);
-//                                        }
-//
-//                                        isUpvoted = false;
-//                                        baseUserModel.getUpvoteL().remove(fireuser.getUid());
-//                                    } else {
-//                                        Toast.makeText(ActivityProfile.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                });
-//                            })
-//                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-//                            .setCancelable(true)
-//                            .show();
-//                }
-//                else {
-//                    long tsLong = System.currentTimeMillis();
-//
-//                    SeenModel seenModel = new SeenModel();
-//                    seenModel.setUid(fireuser.getUid());
-//                    seenModel.setUserdp(introPref.getUserdp());
-//                    seenModel.setUsername(introPref.getFullName());
-//                    seenModel.setType(introPref.getType());
-//                    seenModel.setTs(tsLong);
-//
-//                    upvote_anim.setVisibility(View.VISIBLE);
-//                    upvote_anim.playAnimation();
-//
-//                    try {
-//                        AssetFileDescriptor afd = ActivityProfile.this.getAssets().openFd("fireworks.mp3");
-//                        MediaPlayer player = new MediaPlayer();
-//                        player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-//                        player.prepare();
-//                        AudioManager audioManager = (AudioManager) ActivityProfile.this.getSystemService(Context.AUDIO_SERVICE);
-//                        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-//                            player.start();
-//                            if (!player.isPlaying()) {
-//                                upvote_anim.cancelAnimation();
-//                                upvote_anim.setVisibility(View.GONE);
-//                            }
-//                            player.setOnCompletionListener(mediaPlayer -> {
-//                                upvote_anim.cancelAnimation();
-//                                upvote_anim.setVisibility(View.GONE);
-//                            });
-//                        } else {
-//                            new Handler().postDelayed(() -> {
-//                                upvote_anim.cancelAnimation();
-//                                upvote_anim.setVisibility(View.GONE);
-//                            }, 2000);
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    DocumentReference docRef = FirebaseFirestore.getInstance()
-//                            .collection("Users")
-//                            .document(uid);
-//
-//                    DocumentReference followerRef = docRef.collection("Upvoters").document(fireuser.getUid());
-//
-//                    WriteBatch batch = FirebaseFirestore.getInstance().batch();
-//                    batch.update(docRef, "upvoteL", FieldValue.arrayUnion(FirebaseAuth.getInstance().getUid()));
-//                    batch.set(followerRef, seenModel);
-//
-//                    batch.commit().addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            FirebaseFirestore.getInstance()
-//                                    .collection("Users")
-//                                    .document(uid)
-//                                    .update("upvotes", FieldValue.increment(1));
-//
-//                            upvote.setText("Upvoted");
-//                            upvote.setBackgroundResource(R.drawable.custom_button_outline);
-//                            upvote.setTextColor(getResources().getColor(R.color.purple));
-//
-//                            if (baseUserModel.getUpvoteL() != null) {
-//                                if (baseUserModel.getUpvoteL().size() + 1 == 0) {
-//                                    upvoters.setText("0");
-//                                } else if (baseUserModel.getUpvoteL().size() + 1 == 1) {
-//                                    upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
-//                                } else {
-//                                    upvoters.setText((baseUserModel.getUpvoteL().size() + 1) + "");
-//                                }
-//                            } else {
-//                                upvoters.setText("0");
-//                            }
-//
-//                            baseUserModel.getUpvoteL().add(fireuser.getUid());
-//                            isUpvoted = true;
-//                        } else {
-//                            Toast.makeText(ActivityProfile.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }
-//            }
-//        });
-//
-//        locate.setOnClickListener(view -> {
-//            if (cm.getActiveNetworkInfo() != null) {
-//                String location = name + "," + address + "," + city + "," + state + "-" + pin;
-//                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(location) + "&mode=w");
-//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//                mapIntent.setPackage("com.google.android.apps.maps");
-//                startActivity(mapIntent);
-//            } else {
-//                Toast.makeText(ActivityProfile.this, "Please check your internet connection and try again...", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        upvoteHolder.setOnClickListener(view -> {
-//            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
-//            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-//        });
 
         PDp.setOnClickListener(v -> {
             if (baseUserModel != null) {
@@ -1184,7 +820,6 @@ public class ActivityProfile extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-
         if(uid!=null){
             FirebaseFirestore.getInstance().collection("Users")
                     .document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -1213,7 +848,7 @@ public class ActivityProfile extends AppCompatActivity {
 
                         @Override
                         public void onPageSelected(int position) {
-//                Fragment_Posts.swipe = 1;
+
                         }
 
                         @Override
