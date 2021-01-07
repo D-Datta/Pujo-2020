@@ -985,22 +985,13 @@ public class ViewMoreHome extends AppCompatActivity {
                                 player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                 player.prepare();
                                 AudioManager audioManager = (AudioManager) ViewMoreHome.this.getSystemService(Context.AUDIO_SERVICE);
-                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
-                                    if(!player.isPlaying()) {
-                                        dhak_anim.cancelAnimation();
-                                        dhak_anim.setVisibility(View.GONE);
-                                    }
-                                    player.setOnCompletionListener(mediaPlayer -> {
-                                        dhak_anim.cancelAnimation();
-                                        dhak_anim.setVisibility(View.GONE);
-                                    });
-                                } else {
-                                    new Handler().postDelayed(() -> {
-                                        dhak_anim.cancelAnimation();
-                                        dhak_anim.setVisibility(View.GONE);
-                                    }, 2000);
                                 }
+                                new Handler().postDelayed(() -> {
+                                    dhak_anim.cancelAnimation();
+                                    dhak_anim.setVisibility(View.GONE);
+                                }, player.getDuration());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

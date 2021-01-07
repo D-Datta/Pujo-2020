@@ -345,7 +345,6 @@ public class CommitteeFragment extends Fragment {
                         programmingViewHolder.committee_item.setVisibility(View.GONE);
                     }
 
-
                     //SUGGESTED TAGS
                     if(programmingViewHolder.getItemViewType() == 1){
                         programmingViewHolder.suggestedTagCard.setVisibility(View.VISIBLE);
@@ -354,8 +353,6 @@ public class CommitteeFragment extends Fragment {
                     else{
                         programmingViewHolder.suggestedTagCard.setVisibility(View.GONE);
                     }
-
-
 
                     //Clips
                     if ((programmingViewHolder.getItemViewType() == 1 || programmingViewHolder.getItemViewType() % 8 == 0)) {
@@ -411,7 +408,6 @@ public class CommitteeFragment extends Fragment {
                     else {
                         programmingViewHolder.feeds_item.setVisibility(View.GONE);
                     }
-
                 }
 
 
@@ -769,20 +765,12 @@ public class CommitteeFragment extends Fragment {
                                 AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
                                 if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                     player.start();
-                                    if (!player.isPlaying()) {
-                                        programmingViewHolder.dhak_anim.cancelAnimation();
-                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    }
-                                    player.setOnCompletionListener(mediaPlayer -> {
-                                        programmingViewHolder.dhak_anim.cancelAnimation();
-                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    });
-                                } else {
-                                    new Handler().postDelayed(() -> {
-                                        programmingViewHolder.dhak_anim.cancelAnimation();
-                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                    }, 2000);
                                 }
+                                new Handler().postDelayed(() -> {
+                                    programmingViewHolder.dhak_anim.cancelAnimation();
+                                    programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                }, player.getDuration());
+
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

@@ -724,22 +724,13 @@ public class FeedsFragment extends Fragment {
                                     player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                                     player.prepare();
                                     AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                                    if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                    if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                         player.start();
-                                        if(!player.isPlaying()) {
-                                            feedViewHolder.dhak_anim.cancelAnimation();
-                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        }
-                                        player.setOnCompletionListener(mediaPlayer -> {
-                                            feedViewHolder.dhak_anim.cancelAnimation();
-                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        });
-                                    } else {
-                                        new Handler().postDelayed(() -> {
-                                            feedViewHolder.dhak_anim.cancelAnimation();
-                                            feedViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        }, 2000);
                                     }
+                                    new Handler().postDelayed(() -> {
+                                        feedViewHolder.dhak_anim.cancelAnimation();
+                                        feedViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }, player.getDuration());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
