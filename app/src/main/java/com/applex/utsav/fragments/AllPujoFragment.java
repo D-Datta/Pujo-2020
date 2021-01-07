@@ -379,7 +379,6 @@ public class AllPujoFragment extends Fragment {
     };
 
     private void buildRecyclerView( String field, String search) {
-
         Query query;
         if(search != null){
             query = FirebaseFirestore.getInstance()
@@ -416,7 +415,7 @@ public class AllPujoFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull BaseUserModel currentItem) {
 
-            ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
+                ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
 
                 if(currentItem.getCoverpic() != null){
                     Picasso.get().load(currentItem.getCoverpic())
@@ -471,11 +470,9 @@ public class AllPujoFragment extends Fragment {
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR:
-//                        BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE:
                         progressMoreCom.setVisibility(View.VISIBLE);

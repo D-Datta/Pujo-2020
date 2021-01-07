@@ -300,12 +300,6 @@ public class SearchActivity extends AppCompatActivity {
         history_layout.setVisibility(View.VISIBLE);
 
         userSearchModelArrayList = introPref.getRecentSearchHistory();
-        userSearchAdapter  = new UserSearchAdapter(SearchActivity.this, userSearchModelArrayList);
-        history_recycler.setAdapter(userSearchAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        linearLayoutManager.setReverseLayout(true);
-        history_recycler.setLayoutManager(linearLayoutManager);
 
         if(userSearchModelArrayList == null || userSearchModelArrayList.size() == 0) {
             history_recycler.setVisibility(View.GONE);
@@ -314,7 +308,17 @@ public class SearchActivity extends AppCompatActivity {
         else {
             nosearch.setVisibility(View.GONE);
             history_recycler.setVisibility(View.VISIBLE);
+            if(userSearchModelArrayList.size() == 11) {
+                userSearchModelArrayList.remove(0);
+            }
         }
+
+        userSearchAdapter  = new UserSearchAdapter(SearchActivity.this, userSearchModelArrayList);
+        history_recycler.setAdapter(userSearchAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setReverseLayout(true);
+        history_recycler.setLayoutManager(linearLayoutManager);
 
         userSearchAdapter.onClickListener((name, uid, type, dp, gender, position) -> {
             userSearchModelArrayList.remove(position);
@@ -440,7 +444,6 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
-
     private void buildRecycler(String type) {
         textView.setText(R.string.results);
         history_layout.setVisibility(View.GONE);
@@ -464,6 +467,9 @@ public class SearchActivity extends AppCompatActivity {
             userSearchModel.setType(type);
             if(userSearchModelArrayList == null) {
                 userSearchModelArrayList = new ArrayList<>();
+            }
+            else if(userSearchModelArrayList.size() == 10) {
+                userSearchModelArrayList.remove(0);
             }
             userSearchModelArrayList.add(userSearchModel);
             introPref.setRecentSearchHistory(userSearchModelArrayList);
