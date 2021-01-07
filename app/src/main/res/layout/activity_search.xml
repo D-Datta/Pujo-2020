@@ -56,36 +56,36 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_f8f8f8"
+        android:background="@color/white"
         android:clipToPadding="false"
         android:scrollbars="none"
+        android:layout_marginBottom="5dp"
         android:visibility="visible">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/white_F8F8F8"
-            android:layout_marginBottom="7dp">
+            android:background="@color/white">
 
             <Button
                 android:id="@+id/Sfirstname"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_marginVertical="5dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/add_tags_button_background"
                 android:backgroundTint="@color/colorPrimaryDark"
+                android:elevation="0dp"
                 android:gravity="center"
                 android:text="@string/name"
-                android:elevation="0dp"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
 
             <Button
                 android:id="@+id/Scity"
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="30dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/city"
@@ -96,9 +96,10 @@
                 android:elevation="0dp"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
+
             <Button
                 android:id="@+id/Sstate"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/state"
