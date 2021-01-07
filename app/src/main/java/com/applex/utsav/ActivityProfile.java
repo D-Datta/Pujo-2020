@@ -686,20 +686,11 @@ public class ActivityProfile extends AppCompatActivity {
                                                     AudioManager audioManager = (AudioManager) ActivityProfile.this.getSystemService(Context.AUDIO_SERVICE);
                                                     if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                                         player.start();
-                                                        if (!player.isPlaying()) {
-                                                            upvote_anim.cancelAnimation();
-                                                            upvote_anim.setVisibility(View.GONE);
-                                                        }
-                                                        player.setOnCompletionListener(mediaPlayer -> {
-                                                            upvote_anim.cancelAnimation();
-                                                            upvote_anim.setVisibility(View.GONE);
-                                                        });
-                                                    } else {
-                                                        new Handler().postDelayed(() -> {
-                                                            upvote_anim.cancelAnimation();
-                                                            upvote_anim.setVisibility(View.GONE);
-                                                        }, 2000);
                                                     }
+                                                    new Handler().postDelayed(() -> {
+                                                        upvote_anim.cancelAnimation();
+                                                        upvote_anim.setVisibility(View.GONE);
+                                                    }, player.getDuration());
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
