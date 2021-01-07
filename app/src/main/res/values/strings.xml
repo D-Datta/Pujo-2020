@@ -103,8 +103,12 @@
     <string name="useful_information">Information</string>
     <string name="privacy_nav">Privacy</string>
     <string name="people_post">People\'s Posts</string>
-
+    <string name="results">Results</string>
     <string name="_0_18">0:18</string>
+    <string name="delete_this_search">Delete this search?</string>
+    <string name="alert_message">Deleting this will remove it from your search history. Are you sure?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 
     <string name="nocommittee">No committees to show</string>
     <string name="noposts">You have not posted anything yet.\nPost now!!</string>

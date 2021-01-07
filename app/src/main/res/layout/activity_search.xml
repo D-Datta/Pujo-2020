@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -150,44 +149,73 @@
         android:background="@color/divider_color"
         android:orientation="vertical">
 
-        <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/divider_color"/>
+
+        <TextView
+            android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingVertical="7dp">
+            android:paddingVertical="7dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_latest_post"
+            android:fontFamily="@font/oxygen_bold"
+            android:paddingHorizontal="20dp"
+            android:text="@string/Recent_searches"
+            android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="7dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/black"
-                android:background="@drawable/shape_latest_post"
-                android:fontFamily="@font/oxygen_bold"
-                android:paddingHorizontal="20dp"
-                android:text="Results"
-                android:textSize="18sp" />
-
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:background="@color/divider_color"/>
 
         <ProgressBar
             android:id="@+id/content_progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:background="@color/white"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/no_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="40dp"
-            android:background="@color/login_white"
-            android:visibility="visible" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/history_recycler_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/no_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="40dp"
+                android:background="@color/login_white"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/history_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="50dp"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/search_recycler_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/search_recycler"
@@ -206,7 +234,6 @@
 
         </RelativeLayout>
 
-    </LinearLayout>
-
+    </RelativeLayout>
 
 </LinearLayout>

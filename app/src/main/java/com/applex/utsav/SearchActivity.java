@@ -7,8 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.ProgressDialog;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -29,44 +28,44 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.applex.utsav.adapters.UserSearchAdapter;
 import com.applex.utsav.models.BaseUserModel;
+import com.applex.utsav.models.UserSearchModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Objects;
 
 public class SearchActivity extends AppCompatActivity {
 
-    IntroPref introPref;
+    private IntroPref introPref;
     private ImageButton back, search;
     private EditText searchKey;
-    private ImageView nosearch;
+    @SuppressLint("StaticFieldLeak")
+    public static ImageView nosearch;
     private ProgressBar progressMore, contentProgress;
-    private RecyclerView mRecyclerView;
+    private RecyclerView search_recycler;
+    public static RecyclerView history_recycler;
     private Button sName, sCity, sState;
     private LinearLayoutManager layoutManager;
-    int selected_button = 0;
+    private int selected_button = 0;
+    private boolean present2 = false;
+    private boolean present1 = false;
     private String SEARCH;
-    FirestorePagingAdapter adapter1;
-
+    private FirestorePagingAdapter adapter1;
+    private ArrayList<UserSearchModel> userSearchModelArrayList;
     private ArrayList<BaseUserModel> userList;
+    private UserSearchAdapter userSearchAdapter;
+    private RelativeLayout search_layout, history_layout;
+    private TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,20 +103,23 @@ public class SearchActivity extends AppCompatActivity {
         back = findViewById(R.id.back);
         search = findViewById(R.id.searchButton);
         searchKey = findViewById(R.id.search);
-        mRecyclerView = findViewById(R.id.search_recycler);
+        search_recycler = findViewById(R.id.search_recycler);
         sName = findViewById(R.id.Sfirstname);
         sCity = findViewById(R.id.Scity);
         sState = findViewById(R.id.Sstate);
         nosearch = findViewById(R.id.no_search);
         progressMore = findViewById(R.id.content_progress_search);
-
         contentProgress = findViewById(R.id.content_progress);
+        textView = findViewById(R.id.textview);
+        history_recycler = findViewById(R.id.history_recycler);
+        search_layout = findViewById(R.id.search_recycler_layout);
+        history_layout = findViewById(R.id.history_recycler_layout);
+
         searchKey.setOnEditorActionListener(editorActionListener);
         userList = new ArrayList<>();
+        userSearchModelArrayList = new ArrayList<>();
 
-        back.setOnClickListener(v -> {
-            super.onBackPressed();
-        });
+        back.setOnClickListener(v -> super.onBackPressed());
 
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
@@ -158,13 +160,13 @@ public class SearchActivity extends AppCompatActivity {
             BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
             int width = options.outWidth;
             if (width > displayWidth) {
-                int widthRatio = Math.round((float) width / (float) displayWidth);
-                options.inSampleSize = widthRatio;
+                options.inSampleSize = Math.round((float) width / (float) displayWidth);
             }
             options.inJustDecodeBounds = false;
             Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
             nosearch.setImageBitmap(scaledBitmap);
-        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+        }
+        else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
 
             Display display = getWindowManager().getDefaultDisplay();
             int displayWidth = display.getWidth();
@@ -173,8 +175,7 @@ public class SearchActivity extends AppCompatActivity {
             BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
             int width = options.outWidth;
             if (width > displayWidth) {
-                int widthRatio = Math.round((float) width / (float) displayWidth);
-                options.inSampleSize = widthRatio;
+                options.inSampleSize = Math.round((float) width / (float) displayWidth);
             }
             options.inJustDecodeBounds = false;
             Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
@@ -182,23 +183,18 @@ public class SearchActivity extends AppCompatActivity {
         }
         ///////////////Set Image Bitmap/////////////////////
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SEARCH = searchKey.getText().toString().trim();
-                if(!SEARCH.isEmpty()){
-                    userList.clear();
+        buildSearchHistoryRecyclerView();
 
-                    contentProgress.setVisibility(View.VISIBLE);
-                    buildRecycler("small_name");
-
-                }
-
+        search.setOnClickListener(v -> {
+            SEARCH = searchKey.getText().toString().trim();
+            if(!SEARCH.isEmpty()){
+                userList.clear();
+                contentProgress.setVisibility(View.VISIBLE);
+                buildRecycler("small_name");
             }
         });
 
         sName.setOnClickListener(v -> {
-
             sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
             sName.setTextColor(getResources().getColor(R.color.white));
 
@@ -210,197 +206,212 @@ public class SearchActivity extends AppCompatActivity {
             sState.setBackgroundTintList(null);
             sState.setTextColor(getResources().getColor(R.color.black));
 
-//            susername.setBackgroundResource(R.drawable.search_profile_button_background);
-//            susername.setBackgroundTintList(null);
-//            susername.setTextColor(Color.parseColor("#18357C"));
-//
-//            sinstitute.setBackgroundResource(R.drawable.search_profile_button_background);
-//            sinstitute.setBackgroundTintList(null);
-//            sinstitute.setTextColor(Color.parseColor("#18357C"));
-
             selected_button = 1;
 
             if (!(searchKey.getText().toString().isEmpty())){
                 userList.clear();
-
                 contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchKey.getText().toString().trim();
                 buildRecycler("small_name");
-
             }
 
-
-            search.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SEARCH = searchKey.getText().toString().trim();
-                    if(!SEARCH.isEmpty()){
-                        userList.clear();
-
-                        buildRecycler("small_name");
-                        contentProgress.setVisibility(View.VISIBLE);
-
-                    }
-
+            search.setOnClickListener(v13 -> {
+                SEARCH = searchKey.getText().toString().trim();
+                if(!SEARCH.isEmpty()){
+                    userList.clear();
+                    buildRecycler("small_name");
+                    contentProgress.setVisibility(View.VISIBLE);
                 }
             });
-
-
         });
 
-        sCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        sCity.setOnClickListener(v -> {
+            sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+            sCity.setTextColor(getResources().getColor(R.color.white));
 
-                sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-                sCity.setTextColor(getResources().getColor(R.color.white));
+            sName.setBackgroundResource(R.drawable.add_tags_button_background);
+            sName.setBackgroundTintList(null);
+            sName.setTextColor(getResources().getColor(R.color.black));
 
-                sName.setBackgroundResource(R.drawable.add_tags_button_background);
-                sName.setBackgroundTintList(null);
-                sName.setTextColor(getResources().getColor(R.color.black));
+            sState.setBackgroundResource(R.drawable.add_tags_button_background);
+            sState.setBackgroundTintList(null);
+            sState.setTextColor(getResources().getColor(R.color.black));
 
-                sState.setBackgroundResource(R.drawable.add_tags_button_background);
-                sState.setBackgroundTintList(null);
-                sState.setTextColor(getResources().getColor(R.color.black));
+            selected_button = 2;
 
-//                susername.setBackgroundResource(R.drawable.search_profile_button_background);
-//                susername.setBackgroundTintList(null);
-//                susername.setTextColor(Color.parseColor("#18357C"));
-//
-//                sinstitute.setBackgroundResource(R.drawable.search_profile_button_background);
-//                sinstitute.setBackgroundTintList(null);
-//                sinstitute.setTextColor(Color.parseColor("#18357C"));
+            if (!(searchKey.getText().toString().isEmpty())){
+                userList.clear();
+                contentProgress.setVisibility(View.VISIBLE);
+                SEARCH = searchKey.getText().toString().trim();
+                buildRecycler("city");
+            }
 
-                selected_button = 2;
-
-                if (!(searchKey.getText().toString().isEmpty())){
-                    userList.clear();
-
+            search.setOnClickListener(v12 -> {
+                SEARCH = searchKey.getText().toString().trim();
+                if(!SEARCH.isEmpty()){
                     contentProgress.setVisibility(View.VISIBLE);
-                    SEARCH = searchKey.getText().toString().trim();
+                    userList.clear();
                     buildRecycler("city");
-
                 }
-
-
-                search.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SEARCH = searchKey.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
-                            contentProgress.setVisibility(View.VISIBLE);
-                            userList.clear();
-
-                            buildRecycler("city");
-
-                        }
-
-                    }
-                });
-            }
+            });
         });
 
-        sState.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        sState.setOnClickListener(v -> {
+            sState.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+            sState.setTextColor(getResources().getColor(R.color.white));
 
-                sState.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
-                sState.setTextColor(getResources().getColor(R.color.white));
+            sName.setBackgroundResource(R.drawable.add_tags_button_background);
+            sName.setBackgroundTintList(null);
+            sName.setTextColor(getResources().getColor(R.color.black));
 
-                sName.setBackgroundResource(R.drawable.add_tags_button_background);
-                sName.setBackgroundTintList(null);
-                sName.setTextColor(getResources().getColor(R.color.black));
+            sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+            sCity.setBackgroundTintList(null);
+            sCity.setTextColor(getResources().getColor(R.color.black));
 
-                sCity.setBackgroundResource(R.drawable.add_tags_button_background);
-                sCity.setBackgroundTintList(null);
-                sCity.setTextColor(getResources().getColor(R.color.black));
+            selected_button = 3;
 
-//                susername.setBackgroundResource(R.drawable.search_profile_button_background);
-//                susername.setBackgroundTintList(null);
-//                susername.setTextColor(Color.parseColor("#18357C"));
-//
-//                sinstitute.setBackgroundResource(R.drawable.search_profile_button_background);
-//                sinstitute.setBackgroundTintList(null);
-//                sinstitute.setTextColor(Color.parseColor("#18357C"));
+            if (!(searchKey.getText().toString().isEmpty())){
+                userList.clear();
+                contentProgress.setVisibility(View.VISIBLE);
+                SEARCH = searchKey.getText().toString().trim();
+                buildRecycler("state");
+            }
 
-                selected_button = 3;
-
-                if (!(searchKey.getText().toString().isEmpty())){
-                    userList.clear();
-
+            search.setOnClickListener(v1 -> {
+                SEARCH = searchKey.getText().toString().trim();
+                if(!SEARCH.isEmpty()){
                     contentProgress.setVisibility(View.VISIBLE);
-                    SEARCH = searchKey.getText().toString().trim();
+                    userList.clear();
                     buildRecycler("state");
-
                 }
-
-
-                search.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SEARCH = searchKey.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
-                            contentProgress.setVisibility(View.VISIBLE);
-                            userList.clear();
-
-                            buildRecycler("state");
-
-                        }
-
-                    }
-                });
-            }
+            });
         });
 
-        mRecyclerView.setHasFixedSize(true);
+        search_recycler.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setItemViewCacheSize(20);
-
-
+        search_recycler.setLayoutManager(layoutManager);
+        search_recycler.setItemViewCacheSize(20);
     }
 
+    private void buildSearchHistoryRecyclerView() {
+        textView.setText(R.string.Recent_searches);
+        search_layout.setVisibility(View.GONE);
+        history_layout.setVisibility(View.VISIBLE);
 
-    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        userSearchModelArrayList = introPref.getRecentSearchHistory();
+        userSearchAdapter  = new UserSearchAdapter(SearchActivity.this, userSearchModelArrayList);
+        history_recycler.setAdapter(userSearchAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setReverseLayout(true);
+        history_recycler.setLayoutManager(linearLayoutManager);
+
+        if(userSearchModelArrayList == null || userSearchModelArrayList.size() == 0) {
+            history_recycler.setVisibility(View.GONE);
+            nosearch.setVisibility(View.VISIBLE);
+        }
+        else {
+            nosearch.setVisibility(View.GONE);
+            history_recycler.setVisibility(View.VISIBLE);
+        }
+
+        userSearchAdapter.onClickListener((name, uid, type, dp, gender, position) -> {
+            userSearchModelArrayList.remove(position);
+            userSearchAdapter.notifyItemRemoved(position);
+            UserSearchModel userSearchModel = new UserSearchModel();
+            userSearchModel.setName(name);
+            userSearchModel.setDp(dp);
+            userSearchModel.setUid(uid);
+            userSearchModel.setType(type);
+            userSearchModel.setGender(gender);
+            userSearchModelArrayList.add(userSearchModel);
+            introPref.setRecentSearchHistory(userSearchModelArrayList);
+
+            if(uid == null || uid.matches("")) {
+                searchKey.setText(name);
+
+                if(type.matches("small_name")) {
+                    sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                    sName.setTextColor(getResources().getColor(R.color.white));
+
+                    sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+                    sCity.setBackgroundTintList(null);
+                    sCity.setTextColor(getResources().getColor(R.color.black));
+
+                    sState.setBackgroundResource(R.drawable.add_tags_button_background);
+                    sState.setBackgroundTintList(null);
+                    sState.setTextColor(getResources().getColor(R.color.black));
+
+                    selected_button = 1;
+                }
+                else if(type.matches("city")) {
+                    sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                    sCity.setTextColor(getResources().getColor(R.color.white));
+
+                    sName.setBackgroundResource(R.drawable.add_tags_button_background);
+                    sName.setBackgroundTintList(null);
+                    sName.setTextColor(getResources().getColor(R.color.black));
+
+                    sState.setBackgroundResource(R.drawable.add_tags_button_background);
+                    sState.setBackgroundTintList(null);
+                    sState.setTextColor(getResources().getColor(R.color.black));
+
+                    selected_button = 2;
+                }
+                else if(type.matches("state")) {
+                    sState.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                    sState.setTextColor(getResources().getColor(R.color.white));
+
+                    sName.setBackgroundResource(R.drawable.add_tags_button_background);
+                    sName.setBackgroundTintList(null);
+                    sName.setTextColor(getResources().getColor(R.color.black));
+
+                    sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+                    sCity.setBackgroundTintList(null);
+                    sCity.setTextColor(getResources().getColor(R.color.black));
+
+                    selected_button = 3;
+                }
+                SEARCH = name;
+                userList.clear();
+                contentProgress.setVisibility(View.VISIBLE);
+                buildRecycler(type);
+            }
+            else {
+                Intent intent = new Intent(SearchActivity.this, ActivityProfile.class);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private final TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            switch (actionId){
-                case EditorInfo.IME_ACTION_SEARCH:
-                    if(selected_button==0 || selected_button==1){
-                        SEARCH = searchKey.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
-
-                            userList.clear();
-
-                            contentProgress.setVisibility(View.VISIBLE);
-                            buildRecycler("small_name");
-
-
-                        }
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (selected_button == 0 || selected_button == 1) {
+                    SEARCH = searchKey.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
+                        userList.clear();
+                        contentProgress.setVisibility(View.VISIBLE);
+                        buildRecycler("small_name");
                     }
-                    else if(selected_button==2){
-                        SEARCH = searchKey.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
-
-                            userList.clear();
-
-                            contentProgress.setVisibility(View.VISIBLE);
-                            buildRecycler("city");
-
-                        }
+                } else if (selected_button == 2) {
+                    SEARCH = searchKey.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
+                        userList.clear();
+                        contentProgress.setVisibility(View.VISIBLE);
+                        buildRecycler("city");
                     }
-                    else if(selected_button==3){
-                        SEARCH = searchKey.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
-
-                            userList.clear();
-
-                            contentProgress.setVisibility(View.VISIBLE);
-                            buildRecycler("state");
-
-                        }
+                } else if (selected_button == 3) {
+                    SEARCH = searchKey.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
+                        userList.clear();
+                        contentProgress.setVisibility(View.VISIBLE);
+                        buildRecycler("state");
                     }
+                }
 //                    else if(selected_button==3){
 //                        SEARCH = searchKey.getText().toString();
 //                        if(!SEARCH.isEmpty()){
@@ -424,7 +435,6 @@ public class SearchActivity extends AppCompatActivity {
 //
 //                        }
 //                    }
-
             }
             return false;
         }
@@ -432,27 +442,46 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void buildRecycler(String type) {
+        textView.setText(R.string.results);
+        history_layout.setVisibility(View.GONE);
+        search_layout.setVisibility(View.VISIBLE);
 
-        Query query = null;
+        if(userSearchModelArrayList != null) {
+            for(UserSearchModel userSearchModel: userSearchModelArrayList) {
+                if(SEARCH.matches(userSearchModel.getName()) || SEARCH.equals(userSearchModel.getName())) {
+                    present1 = true;
+                    break;
+                }
+            }
+        }
+
+        if(!present1) {
+            UserSearchModel userSearchModel = new UserSearchModel();
+            userSearchModel.setName(SEARCH);
+            userSearchModel.setDp("");
+            userSearchModel.setUid("");
+            userSearchModel.setGender("");
+            userSearchModel.setType(type);
+            if(userSearchModelArrayList == null) {
+                userSearchModelArrayList = new ArrayList<>();
+            }
+            userSearchModelArrayList.add(userSearchModel);
+            introPref.setRecentSearchHistory(userSearchModelArrayList);
+        }
+
+        Query query;
         if(type.matches("small_name")){
             query = FirebaseFirestore.getInstance()
                     .collection("Users")
-//                .whereEqualTo("type", "indi")
                     .orderBy(type)
                     .startAt(SEARCH.toLowerCase());
         }
         else {
             query = FirebaseFirestore.getInstance()
                     .collection("Users")
-//                .whereEqualTo("type", "indi")
                     .orderBy(type)
                     .startAt(SEARCH);
         }
-//        Query query = FirebaseFirestore.getInstance()
-//                .collection("Users")
-////                .whereEqualTo("type", "indi")
-//                .orderBy(type)
-//                .startAt(SEARCH.toLowerCase());
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
@@ -461,38 +490,18 @@ public class SearchActivity extends AppCompatActivity {
 
         FirestorePagingOptions<BaseUserModel> options = new FirestorePagingOptions.Builder<BaseUserModel>()
                 .setLifecycleOwner(this)
-                .setQuery(query, config, new SnapshotParser<BaseUserModel>() {
-                    @NonNull
-                    @Override
-                    public BaseUserModel parseSnapshot(@NonNull DocumentSnapshot snapshot) {
-                        BaseUserModel user = snapshot.toObject(BaseUserModel.class);
-//                        userList = new ArrayList<>();
-//                        if(user.getInstitute().toLowerCase().contains(SEARCH.toLowerCase())){
-                        user.setUid(snapshot.getId());
-//                            userList.add(user);
-//                        }
-                        return user;
-                    }
+                .setQuery(query, config, snapshot -> {
+                    BaseUserModel user = snapshot.toObject(BaseUserModel.class);
+                    user.setUid(snapshot.getId());
+                    return user;
                 })
                 .build();
 
         adapter1 = new FirestorePagingAdapter<BaseUserModel, ProgrammingViewHolder>(options) {
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull BaseUserModel model) {
                 holder.PName.setText(model.getName());
-
-//                if(model.getCity()!=null && model.getState()!=null && !model.getCity().isEmpty() && !model.getState().isEmpty()){
-//                    holder.Pcity.setText(model.getCity()+", "+model.getState());
-//
-//                }
-//                else if(model.getCity()!=null &&  !model.getCity().isEmpty() && model.getState()==null && model.getState().isEmpty())
-//                    holder.Pcity.setText(model.getCity());
-//
-//                else if(model.getCity()==null &&  model.getCity().isEmpty() && model.getState()!=null && !model.getState().isEmpty())
-//                    holder.Pcity.setText(model.getState());
-//
-//                else
-//                    holder.Pcity.setVisibility(View.GONE);
 
                 if(model.getCity()!=null || model.getState()!=null){
 
@@ -518,15 +527,6 @@ public class SearchActivity extends AppCompatActivity {
                     holder.Pcity.setVisibility(View.GONE);
                 }
 
-
-//                if(model.get()!=null) {
-//                    holder.PDescription.setText(model.getCourse()+ " "+model.getCoursestart()+"-"+model.getCourseend());
-//                }
-//                else {
-//                    holder.PDescription.setText(model.getAbout());
-//                }
-
-
                 String userimage_url = model.getDp();
                 if(userimage_url!=null){
                         Picasso.get().load(userimage_url).placeholder(R.drawable.ic_account_circle_black_24dp).into(holder.userimage);
@@ -546,9 +546,7 @@ public class SearchActivity extends AppCompatActivity {
                     else {
                         holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
-//                    holder.userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
-
 //                holder.card1.setOnClickListener(v -> {
 //                    Intent intent = new Intent(SearchActivity.this, ActivityProfileUser.class);
 //                    intent.putExtra("uid", model.getUid());
@@ -560,19 +558,37 @@ public class SearchActivity extends AppCompatActivity {
 //                    intent.putExtra("uid", model.getUid());
 //                    startActivity(intent);
 //                });
-                holder.card1.setOnClickListener(v -> {
+                holder.card.setOnClickListener(v -> {
+                    if(userSearchModelArrayList != null) {
+                        for(UserSearchModel userSearchModel: userSearchModelArrayList) {
+                            if(model.getUid().matches(userSearchModel.getUid()) || model.getUid().equals(userSearchModel.getUid())) {
+                                present2 = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!present2) {
+                        UserSearchModel userSearchModel = new UserSearchModel();
+                        userSearchModel.setName(model.getName());
+                        userSearchModel.setDp(model.getDp());
+                        userSearchModel.setUid(model.getUid());
+                        userSearchModel.setGender(model.getGender());
+                        userSearchModel.setType(type);
+                        if(userSearchModelArrayList == null) {
+                            userSearchModelArrayList = new ArrayList<>();
+                        }
+                        else {
+                            userSearchModelArrayList.remove(userSearchModelArrayList.size() - 1);
+                        }
+                        userSearchModelArrayList.add(userSearchModel);
+                        introPref.setRecentSearchHistory(userSearchModelArrayList);
+                    }
+
                     Intent intent = new Intent(SearchActivity.this, ActivityProfile.class);
                     intent.putExtra("uid", model.getUid());
                     startActivity(intent);
                 });
-
-                holder.card2.setOnClickListener(v -> {
-                    Intent intent = new Intent(SearchActivity.this, ActivityProfile.class);
-                    intent.putExtra("uid", model.getUid());
-                    startActivity(intent);
-                });
-
-
             }
 
             @NonNull
@@ -583,16 +599,16 @@ public class SearchActivity extends AppCompatActivity {
                 return new ProgrammingViewHolder(v);
             }
         };
+
         contentProgress.setVisibility(View.GONE);
-        nosearch.setVisibility(View.GONE);
-        mRecyclerView.setAdapter(adapter1);
+        search_recycler.setAdapter(adapter1);
     }
 
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         TextView PName,Pcity,PDescription;
         ImageView userimage;
-        LinearLayout card2;
+        LinearLayout card2, card;
         CardView card1;
 
         ProgrammingViewHolder(@NonNull View itemView) {
@@ -603,11 +619,18 @@ public class SearchActivity extends AppCompatActivity {
             userimage = itemView.findViewById(R.id.Pdp);
             card2 = itemView.findViewById(R.id.profileCard2);
             card1 = itemView.findViewById(R.id.profileCard1);
+            card = itemView.findViewById(R.id.profileCard);
         }
     }
 
-    private String getAlphaNumericString (int n)
-    {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        present2 = false;
+        present1 = false;
+    }
+
+    private String getAlphaNumericString (int n) {
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder(n);
         for (int i=0; i<n; i++)

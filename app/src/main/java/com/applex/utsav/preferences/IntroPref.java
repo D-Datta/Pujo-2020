@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+
+import com.applex.utsav.models.UserSearchModel;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,14 +16,15 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class IntroPref {
 
     private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
-    private Context context;
-    private int PRIVATE_MODE = 0;
+    private final SharedPreferences.Editor editor;
     private static final String PREF_NAME = "com.applex.campus24.users";
     private static final String IS_FIRST_TIME_LAUNCH = "firstTime";
     private static final String IS_FIRST_TIME = "firsttime";
@@ -30,19 +33,17 @@ public class IntroPref {
     private static final String USERTYPE = "type";
     private static final String GENDER= "gender";
     private static final String ACCOUNT= "account";
-    private static final String FOLDER = "preptotal";
-    private static final String BATCHID = "batchID";
     private static final String CITY = "city";
     private static final String LANGUAGE = "language";
     private static final String VOLUME = "volume";
     private static final String THEME = "theme";
-    private Gson gson;
+    private static final String SEARCH_HISTORY = "search_history";
+    private final Gson gson;
 
     @SuppressLint("CommitPrefEdits")
     public IntroPref(Context context){
-        this.context = context;
         if(context != null) {
-            preferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+            preferences = context.getSharedPreferences(PREF_NAME, 0);
         }
         editor = preferences.edit();
         gson = new Gson();
@@ -146,6 +147,17 @@ public class IntroPref {
     }
 
     public int getTheme() { return preferences.getInt(THEME,1); }
+
+    public void setRecentSearchHistory(ArrayList<UserSearchModel> arrayList) {
+        String list = gson.toJson(arrayList);
+        editor.putString(SEARCH_HISTORY, list);
+        editor.apply();
+    }
+
+    public ArrayList<UserSearchModel> getRecentSearchHistory() {
+        String response = preferences.getString(SEARCH_HISTORY, null);
+        return gson.fromJson(response, new TypeToken<ArrayList<UserSearchModel>>(){}.getType());
+    }
 
     public GoogleSignInAccount getGoogleSignInAccount() {
         Gson gson = new GsonBuilder()
