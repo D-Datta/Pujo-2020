@@ -44,6 +44,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -56,10 +58,12 @@ public class AllPujoFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private FirestorePagingAdapter adapter;
     private EditText searchText;
-    private Button sName, sCity;
-    private int selected_button=1;
+    private Button sName, sCity, sState;
+    private int selected_button=0;
     private FloatingActionButton floatingActionButton;
     private ImageView pujoimg;
+    private ArrayList<BaseUserModel> userList;
+    private String SEARCH;
 
     public AllPujoFragment() {
         // Required empty public constructor
@@ -87,6 +91,7 @@ public class AllPujoFragment extends Fragment {
         searchText.setOnEditorActionListener(editorActionListener);
         sName = view.findViewById(R.id.Sfirstname);
         sCity = view.findViewById(R.id.Scity);
+        sState = view.findViewById(R.id.Sstate);
 
         progress = view.findViewById(R.id.content_progress);
         progressMoreCom = view.findViewById(R.id.progress_more_comm);
@@ -101,6 +106,10 @@ public class AllPujoFragment extends Fragment {
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
+
+        userList = new ArrayList<>();
+        searchText.getText().clear();
+        searchText.setHint(R.string.search_pujo);
 
         ///////////////Set Image Bitmap/////////////////////
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -146,6 +155,21 @@ public class AllPujoFragment extends Fragment {
             buildRecyclerView("small_name",null);
         });
 
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SEARCH = searchText.getText().toString().trim();
+                if(!SEARCH.isEmpty()){
+                    userList.clear();
+
+//                    contentProgress.setVisibility(View.VISIBLE);
+                    buildRecyclerView("small_name",SEARCH.toLowerCase());
+
+                }
+
+            }
+        });
+
         sName.setOnClickListener(view13 -> {
             sName.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
             sName.setTextColor(getResources().getColor(R.color.white));
@@ -154,7 +178,37 @@ public class AllPujoFragment extends Fragment {
             sCity.setBackgroundTintList(null);
             sCity.setTextColor(getResources().getColor(R.color.black));
 
+            sState.setBackgroundResource(R.drawable.add_tags_button_background);
+            sState.setBackgroundTintList(null);
+            sState.setTextColor(getResources().getColor(R.color.black));
+
             selected_button = 1;
+
+            if (!(searchText.getText().toString().isEmpty())){
+                userList.clear();
+
+//                contentProgress.setVisibility(View.VISIBLE);
+                SEARCH = searchText.getText().toString().trim();
+                buildRecyclerView("small_name",SEARCH.toLowerCase());
+
+            }
+
+
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if(!SEARCH.isEmpty()){
+                        userList.clear();
+
+                        buildRecyclerView("small_name",SEARCH.toLowerCase());
+//                        contentProgress.setVisibility(View.VISIBLE);
+
+                    }
+
+                }
+            });
+
         });
 
         sCity.setOnClickListener(view1 -> {
@@ -165,35 +219,176 @@ public class AllPujoFragment extends Fragment {
             sName.setBackgroundTintList(null);
             sName.setTextColor(getResources().getColor(R.color.black));
 
+            sState.setBackgroundResource(R.drawable.add_tags_button_background);
+            sState.setBackgroundTintList(null);
+            sState.setTextColor(getResources().getColor(R.color.black));
+
             selected_button = 2;
+
+
+            if (!(searchText.getText().toString().isEmpty())){
+                userList.clear();
+
+//                contentProgress.setVisibility(View.VISIBLE);
+                SEARCH = searchText.getText().toString().trim();
+                buildRecyclerView("small_city",SEARCH.toLowerCase());
+
+            }
+
+
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if(!SEARCH.isEmpty()){
+                        userList.clear();
+
+                        buildRecyclerView("small_city",SEARCH.toLowerCase());
+//                        contentProgress.setVisibility(View.VISIBLE);
+
+                    }
+
+                }
+            });
+
         });
 
-        search.setOnClickListener(view12 -> {
-            if(!searchText.getText().toString().isEmpty()){
-                if(selected_button==1)
-                    buildRecyclerView("small_name",searchText.getText().toString().trim().toLowerCase());
+        sState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sState.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
+                sState.setTextColor(getResources().getColor(R.color.white));
 
-                else
-                    buildRecyclerView("city", searchText.getText().toString().trim());
+                sName.setBackgroundResource(R.drawable.add_tags_button_background);
+                sName.setBackgroundTintList(null);
+                sName.setTextColor(getResources().getColor(R.color.black));
+
+                sCity.setBackgroundResource(R.drawable.add_tags_button_background);
+                sCity.setBackgroundTintList(null);
+                sCity.setTextColor(getResources().getColor(R.color.black));
+
+                selected_button = 3;
+
+
+                if (!(searchText.getText().toString().isEmpty())){
+                    userList.clear();
+
+//                contentProgress.setVisibility(View.VISIBLE);
+                    SEARCH = searchText.getText().toString().trim();
+                    buildRecyclerView("small_state",SEARCH.toLowerCase());
+
+                }
+
+
+                search.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SEARCH = searchText.getText().toString().trim();
+                        if(!SEARCH.isEmpty()){
+                            userList.clear();
+
+                            buildRecyclerView("small_state",SEARCH.toLowerCase());
+//                        contentProgress.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                });
+
             }
         });
+
+//        search.setOnClickListener(view12 -> {
+//            if(!searchText.getText().toString().isEmpty()){
+//                if(selected_button==1)
+//                    buildRecyclerView("small_name",searchText.getText().toString().trim().toLowerCase());
+//
+//                else if(selected_button==2)
+//                    buildRecyclerView("city", searchText.getText().toString().trim());
+//
+//                else if(selected_button==3)
+//                    buildRecyclerView("state", searchText.getText().toString().trim());
+//            }
+//        });
     }
 
-    private void buildRecyclerView( String field, String search) {
+    private final TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (selected_button == 0 || selected_button == 1) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
 
+                        userList.clear();
+
+//                            contentProgress.setVisibility(View.VISIBLE);
+                        buildRecyclerView("small_name", SEARCH.toLowerCase());
+
+
+                    }
+                } else if (selected_button == 2) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
+
+                        userList.clear();
+
+//                            contentProgress.setVisibility(View.VISIBLE);
+                        buildRecyclerView("small_city", SEARCH.toLowerCase());
+
+                    }
+                } else if (selected_button == 3) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
+
+                        userList.clear();
+
+//                            contentProgress.setVisibility(View.VISIBLE);
+                        buildRecyclerView("small_state", SEARCH.toLowerCase());
+
+                    }
+                }
+//                    else if(selected_button==3){
+//                        SEARCH = searchKey.getText().toString();
+//                        if(!SEARCH.isEmpty()){
+//
+//                            userList.clear();
+//
+//                            contentProgress.setVisibility(View.VISIBLE);
+//                            buildRecycler("username");
+//
+//
+//                        }
+//                    }
+//                    else if(selected_button==4){
+//                        SEARCH = searchKey.getText().toString();
+//                        if(!SEARCH.isEmpty()){
+//
+//                            userList.clear();
+//
+//                            contentProgress.setVisibility(View.VISIBLE);
+//                            buildRecycler("institute");
+//
+//                        }
+//                    }
+            }
+            return false;
+        }
+    };
+
+    private void buildRecyclerView( String field, String search) {
         Query query;
         if(search != null){
             query = FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
-                    .whereGreaterThanOrEqualTo(field, search)
-                    .limit(10);
+                    .orderBy(field)
+                    .startAt(search);
         }
         else {
             query = FirebaseFirestore.getInstance()
                     .collection("Users")
-                    .whereEqualTo("type", "com")
-                    .limit(10);
+                    .whereEqualTo("type", "com");
         }
 
         PagedList.Config config = new PagedList.Config.Builder()
@@ -218,7 +413,7 @@ public class AllPujoFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull BaseUserModel currentItem) {
 
-            ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
+                ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
 
                 if(currentItem.getCoverpic() != null){
                     Picasso.get().load(currentItem.getCoverpic())
@@ -273,11 +468,9 @@ public class AllPujoFragment extends Fragment {
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR:
-//                        BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE:
                         progressMoreCom.setVisibility(View.VISIBLE);
@@ -360,18 +553,25 @@ public class AllPujoFragment extends Fragment {
         }
     }
 
-    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                if (!searchText.getText().toString().isEmpty()) {
-                    if (selected_button == 1)
-                        buildRecyclerView("small_name", searchText.getText().toString().toLowerCase());
-                    else
-                        buildRecyclerView("city", searchText.getText().toString());
-                }
-            }
-            return false;
-        }
-    };
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchText.getText().clear();
+        searchText.setHint(R.string.search_pujo);
+    }
+
+//    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+//        @Override
+//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                if (!searchText.getText().toString().isEmpty()) {
+//                    if (selected_button == 1)
+//                        buildRecyclerView("small_name", searchText.getText().toString().toLowerCase());
+//                    else
+//                        buildRecyclerView("city", searchText.getText().toString());
+//                }
+//            }
+//            return false;
+//        }
+//    };
 }

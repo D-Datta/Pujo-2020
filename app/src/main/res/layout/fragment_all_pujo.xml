@@ -47,7 +47,8 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/black_transparent"
                 android:background="@drawable/background_rectangle"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"
+                android:imeOptions="actionSearch"/>
 
             <ImageView
                 android:id="@+id/search"
@@ -100,6 +101,20 @@
                 android:layout_height="30dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/city"
+                android:layout_marginStart="10dp"
+                android:textAllCaps="false"
+                android:layout_marginVertical="5dp"
+                android:gravity="center"
+                android:elevation="0dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"/>
+
+            <Button
+                android:id="@+id/Sstate"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/add_tags_button_background"
+                android:text="@string/state"
                 android:layout_marginStart="10dp"
                 android:textAllCaps="false"
                 android:layout_marginVertical="5dp"
