@@ -9,16 +9,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 
-<!--    <item-->
-<!--        android:id="@+id/more"-->
-<!--        android:title="View all PDFs"-->
-<!--        app:showAsAction="always|collapseActionView">-->
-<!--        <menu>-->
-<!--            <item-->
-<!--                android:id="@+id/viewPDFs"-->
-<!--                android:title="LIVE"-->
-<!--                app:showAsAction="never"-->
-<!--                />-->
-<!--        </menu>-->
-<!--    </item>-->
 </menu>
