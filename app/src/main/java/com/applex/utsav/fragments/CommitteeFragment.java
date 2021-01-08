@@ -28,6 +28,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -241,6 +242,13 @@ public class CommitteeFragment extends Fragment {
                 //slider & new Post
                 if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 6 == 0) {
                     programmingViewHolder.slider_item.setVisibility(View.VISIBLE);
+
+//                    DisplayMetrics displayMetrics = new DisplayMetrics();
+//                    getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//                    int width = displayMetrics.widthPixels;
+//                    int height = displayMetrics.heightPixels;
+
+//                    programmingViewHolder.slider_item.setLayoutParams(new LinearLayout.LayoutParams(width, (int) (width * (9 / 16f))));
 
                     programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
                     programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -1336,10 +1344,10 @@ public class CommitteeFragment extends Fragment {
         ImageView userimage, like, commentimg,profileimage, menuPost, share, like_image, comment_image,dp_cmnt1,dp_cmnt2,type_dp;
         ApplexLinkPreview LinkPreview;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
-        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout, new_post_layout, newPostIconsLL, reels_item, slider_item, committee_item, feeds_item;
+        LinearLayout itemHome, commentLayout1, commentLayout2, like_layout, new_post_layout, newPostIconsLL, reels_item, committee_item, feeds_item;
         LottieAnimationView dhak_anim;
         View view;
-        RelativeLayout normal_item, rlLayout;
+        RelativeLayout normal_item, rlLayout, slider_item;
         RecyclerView cRecyclerView, fRecyclerView, tagList, rRecyclerView, suggestedHashtagsRecycler;
         LinearLayout suggestedTagCard;
 
