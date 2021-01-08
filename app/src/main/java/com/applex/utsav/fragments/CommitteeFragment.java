@@ -1212,7 +1212,7 @@ public class CommitteeFragment extends Fragment {
                             progressMore.setVisibility(View.GONE);
                             shimmerFrameLayout.stopShimmer();
                             shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 3000);
+                        }, 2000);
 
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
