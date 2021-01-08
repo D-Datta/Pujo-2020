@@ -209,20 +209,6 @@ public class CommitteeFragment extends Fragment {
     }
 
     private void buildRecyclerView() {
-        if(shimmerFrameLayout.isShimmerStarted()) {
-            BasicUtility.showToast(requireActivity(), "3");
-        }
-        else {
-            BasicUtility.showToast(requireActivity(), "4");
-        }
-
-        if(shimmerFrameLayout.isShimmerVisible()) {
-            BasicUtility.showToast(requireActivity(), "1");
-        }
-        else {
-            BasicUtility.showToast(requireActivity(), "2");
-        }
-
         final Query[] query = {FirebaseFirestore.getInstance()
                 .collection("Feeds")
                 .whereEqualTo("type", "com")
