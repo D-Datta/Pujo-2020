@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,81 +9,76 @@
     android:background="@color/white"
     tools:context=".fragments.AllPujoFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <RelativeLayout
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="10dp"
-        android:background="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
+        android:layout_height="55dp">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_ripple_white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
+
+        <EditText
+            android:id="@+id/search_text"
             android:layout_width="match_parent"
-            android:layout_height="55dp">
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:minWidth="200dp"
+            android:hint="@string/search_pujo"
+            android:layout_marginEnd="50dp"
+            android:maxLines="1"
+            android:textSize="15sp"
+            android:paddingStart="15dp"
+            android:layout_centerVertical="true"
+            android:inputType="textCapWords"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_transparent"
+            android:background="@drawable/background_rectangle"
+            android:layout_marginStart="10dp"
+            android:imeOptions="actionSearch"/>
 
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_arrow_back_black_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="10dp"
-                android:padding="10dp"
-                android:background="@drawable/custom_ripple_white"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/ic_baseline_search_24"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:background="@drawable/custom_ripple_white"
+            app:tint="@color/dark_black"
+            android:layout_alignParentEnd="true"/>
 
-            <EditText
-                android:id="@+id/search_text"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:minWidth="200dp"
-                android:hint="@string/search_pujo"
-                android:layout_marginEnd="50dp"
-                android:maxLines="1"
-                android:paddingStart="15dp"
-                android:layout_centerVertical="true"
-                android:inputType="textCapWords"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black_transparent"
-                android:background="@drawable/background_rectangle"
-                android:layout_marginStart="10dp"
-                android:imeOptions="actionSearch"/>
-
-            <ImageView
-                android:id="@+id/search"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@drawable/ic_baseline_search_24"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:padding="10dp"
-                android:background="@drawable/custom_ripple_white"
-                app:tint="@color/dark_black"
-                android:layout_alignParentEnd="true"/>
-
-        </RelativeLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    </RelativeLayout>
 
     <HorizontalScrollView
+        android:id="@+id/categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:clipToPadding="false"
         android:scrollbars="none"
-        android:layout_marginTop="54dp">
+        android:layout_marginBottom="3dp"
+        android:layout_below="@+id/search_bar">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/Sfirstname"
                 android:layout_width="70dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginVertical="5dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/add_tags_button_background"
@@ -98,7 +93,7 @@
             <Button
                 android:id="@+id/Scity"
                 android:layout_width="110dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/city"
                 android:layout_marginStart="10dp"
@@ -112,7 +107,7 @@
             <Button
                 android:id="@+id/Sstate"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/state"
                 android:layout_marginStart="10dp"
@@ -122,35 +117,6 @@
                 android:elevation="0dp"
                 android:textColor="@color/black"
                 android:textSize="15sp"/>
-
-            <!--            <Button-->
-            <!--                android:id="@+id/Susername"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:background="@drawable/search_profile_button_background"-->
-            <!--                android:text="Username"-->
-            <!--                android:layout_marginStart="10dp"-->
-            <!--                android:textAllCaps="false"-->
-            <!--                android:layout_marginVertical="5dp"-->
-            <!--                android:gravity="center"-->
-            <!--                android:elevation="0dp"-->
-            <!--                android:textColor="@color/colorTheme"-->
-            <!--                android:textSize="15sp"/>-->
-
-            <!--            <Button-->
-            <!--                android:id="@+id/Sinstitute"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:background="@drawable/search_profile_button_background"-->
-            <!--                android:text="Institute"-->
-            <!--                android:layout_marginStart="10dp"-->
-            <!--                android:layout_marginEnd="10dp"-->
-            <!--                android:textAllCaps="false"-->
-            <!--                android:layout_marginVertical="5dp"-->
-            <!--                android:gravity="center"-->
-            <!--                android:elevation="0dp"-->
-            <!--                android:textColor="@color/colorTheme"-->
-            <!--                android:textSize="15sp"/>-->
 
         </LinearLayout>
 
@@ -163,7 +129,7 @@
         android:visibility="visible"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:id="@+id/view_post_exist"
-        android:layout_marginTop="45dp">
+        android:layout_below="@+id/categories">
 
         <View
             android:layout_width="match_parent"
@@ -247,9 +213,10 @@
         app:rippleColor="@color/white"
         android:tint="@color/purple1"
         app:elevation="10dp"
-        android:layout_gravity="end|bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="70dp"
         android:padding="5dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>
