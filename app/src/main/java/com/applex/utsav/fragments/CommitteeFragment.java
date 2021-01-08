@@ -83,6 +83,7 @@ import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -131,6 +132,7 @@ public class CommitteeFragment extends Fragment {
     private ProgressDialog progressDialog;
     private Dialog postMenuDialog;
     private RecyclerView mRecyclerView;
+    private ShimmerFrameLayout shimmerFrameLayout;
     private String COMMITEE_LOGO, COMMITTEE_NAME, link, GENDER;
     private FirestorePagingAdapter reelsAdapter, feedsAdapter;
     private IntroPref introPref;
@@ -163,11 +165,13 @@ public class CommitteeFragment extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
         floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         //////////////RECYCLER VIEW////////////////////
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
+
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -180,6 +184,8 @@ public class CommitteeFragment extends Fragment {
         /////////////SETUP//////////////
 
         positions = new ArrayList<>();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
@@ -195,6 +201,8 @@ public class CommitteeFragment extends Fragment {
                         getResources().getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
             positions = new ArrayList<>();
             itemGroups.clear();
             buildRecyclerView();
@@ -413,8 +421,10 @@ public class CommitteeFragment extends Fragment {
 
                 DocumentReference likeStore;
                 String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
-                programmingViewHolder.minsago.setText(timeAgo);
                 if (timeAgo != null) {
+
+                    programmingViewHolder.minsago.setText(timeAgo+" ");
+
                     if (timeAgo.matches("just now")) {
                         programmingViewHolder.minsago.setTextColor(Color.parseColor("#00C853"));
                     } else {
@@ -1193,6 +1203,8 @@ public class CommitteeFragment extends Fragment {
                     case FINISHED:
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -1200,6 +1212,8 @@ public class CommitteeFragment extends Fragment {
 
         contentProgress.setVisibility(View.GONE);
         progressMore.setVisibility(View.GONE);
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayout.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();

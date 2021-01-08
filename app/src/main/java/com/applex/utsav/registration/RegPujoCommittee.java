@@ -466,13 +466,13 @@ public class RegPujoCommittee extends AppCompatActivity {
                                                                           }
                                                                       }
                                                                   })
-                                                                          .addOnFailureListener(new OnFailureListener() {
-                                                                              @Override
-                                                                              public void onFailure(@NonNull Exception e) {
-                                                                                  progressDialog.dismiss();
-                                                                                  BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
-                                                                              }
-                                                                          });
+                                                                      .addOnFailureListener(new OnFailureListener() {
+                                                                          @Override
+                                                                          public void onFailure(@NonNull Exception e) {
+                                                                              progressDialog.dismiss();
+                                                                              BasicUtility.showToast(getApplicationContext(), "Something went wrong.");
+                                                                          }
+                                                                      });
                                                               }
                                                           });
                                                       }
@@ -543,7 +543,6 @@ public class RegPujoCommittee extends AppCompatActivity {
                                     .setGuidelines(CropImageView.Guidelines.ON)
                                     .start(RegPujoCommittee.this);
                         }
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

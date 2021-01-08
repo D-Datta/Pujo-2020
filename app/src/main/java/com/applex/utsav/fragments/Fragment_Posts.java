@@ -198,9 +198,7 @@ public class Fragment_Posts extends Fragment {
                         intent.putExtra("gender",model.getGender());
                         startActivity(intent);
                     });
-
                 }
-
             }
 
             @Override
@@ -231,7 +229,6 @@ public class Fragment_Posts extends Fragment {
                 }
             }
         };
-
         contentprogressposts.setVisibility(View.GONE);
         noneImage.setVisibility(View.GONE);
         recyclerview.setAdapter(adapter);

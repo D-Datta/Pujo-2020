@@ -250,7 +250,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //////////////LOGIN/////////////////////
-
         signuptext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -312,7 +311,8 @@ public class LoginActivity extends AppCompatActivity {
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 if(InternetConnection.checkConnection(LoginActivity.this)){
                     final String password = etPass.getText().toString().trim();
                     final String email = etEmail.getText().toString().trim();
@@ -345,16 +345,16 @@ public class LoginActivity extends AppCompatActivity {
 //                                                        public void onComplete(@NonNull Task<Void> task) {
 //                                                            if (task.isSuccessful()) {
 //                                                                Toast.makeText(LoginActivity.this, "Please verify your email and register", Toast.LENGTH_LONG).show();
-                                                                progress.setVisibility(GONE);
+                                            progress.setVisibility(GONE);
 
-                                                                Intent intent = new Intent(LoginActivity.this, RegChoice.class);
-                                                                intent.putExtra("value", "emailpass");
-                                                                intent.putExtra("email", email);
-                                                                intent.putExtra("password", password);
+                                            Intent intent = new Intent(LoginActivity.this, RegChoice.class);
+                                            intent.putExtra("value", "emailpass");
+                                            intent.putExtra("email", email);
+                                            intent.putExtra("password", password);
 
-                                                                startActivity(intent);
-                                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                                finish();
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                            finish();
 //                                                            } else {
 //                                                                Toast.makeText(LoginActivity.this, "Email verification failed", Toast.LENGTH_SHORT).show();
 //                                                            }

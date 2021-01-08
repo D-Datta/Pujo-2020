@@ -85,6 +85,8 @@ dependencies {
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
 
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 }
 repositories {
     mavenCentral()
