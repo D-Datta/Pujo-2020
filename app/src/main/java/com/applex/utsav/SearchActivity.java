@@ -243,7 +243,7 @@ public class SearchActivity extends AppCompatActivity {
                 userList.clear();
                 contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchKey.getText().toString().trim();
-                buildRecycler("city");
+                buildRecycler("small_city");
             }
 
             search.setOnClickListener(v12 -> {
@@ -251,7 +251,7 @@ public class SearchActivity extends AppCompatActivity {
                 if(!SEARCH.isEmpty()){
                     contentProgress.setVisibility(View.VISIBLE);
                     userList.clear();
-                    buildRecycler("city");
+                    buildRecycler("small_city");
                 }
             });
         });
@@ -274,7 +274,7 @@ public class SearchActivity extends AppCompatActivity {
                 userList.clear();
                 contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchKey.getText().toString().trim();
-                buildRecycler("state");
+                buildRecycler("small_state");
             }
 
             search.setOnClickListener(v1 -> {
@@ -282,7 +282,7 @@ public class SearchActivity extends AppCompatActivity {
                 if(!SEARCH.isEmpty()){
                     contentProgress.setVisibility(View.VISIBLE);
                     userList.clear();
-                    buildRecycler("state");
+                    buildRecycler("small_state");
                 }
             });
         });
@@ -349,7 +349,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     selected_button = 1;
                 }
-                else if(type.matches("city")) {
+                else if(type.matches("small_city")) {
                     sCity.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
                     sCity.setTextColor(getResources().getColor(R.color.white));
 
@@ -363,7 +363,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     selected_button = 2;
                 }
-                else if(type.matches("state")) {
+                else if(type.matches("small_state")) {
                     sState.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF9800")));
                     sState.setTextColor(getResources().getColor(R.color.white));
 
@@ -406,14 +406,14 @@ public class SearchActivity extends AppCompatActivity {
                     if (!SEARCH.isEmpty()) {
                         userList.clear();
                         contentProgress.setVisibility(View.VISIBLE);
-                        buildRecycler("city");
+                        buildRecycler("small_city");
                     }
                 } else if (selected_button == 3) {
                     SEARCH = searchKey.getText().toString().trim();
                     if (!SEARCH.isEmpty()) {
                         userList.clear();
                         contentProgress.setVisibility(View.VISIBLE);
-                        buildRecycler("state");
+                        buildRecycler("small_state");
                     }
                 }
 //                    else if(selected_button==3){
@@ -475,19 +475,10 @@ public class SearchActivity extends AppCompatActivity {
             introPref.setRecentSearchHistory(userSearchModelArrayList);
         }
 
-        Query query;
-        if(type.matches("small_name")){
-            query = FirebaseFirestore.getInstance()
+        Query query = FirebaseFirestore.getInstance()
                     .collection("Users")
                     .orderBy(type)
                     .startAt(SEARCH.toLowerCase());
-        }
-        else {
-            query = FirebaseFirestore.getInstance()
-                    .collection("Users")
-                    .orderBy(type)
-                    .startAt(SEARCH);
-        }
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)

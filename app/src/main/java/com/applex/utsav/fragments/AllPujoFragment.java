@@ -231,7 +231,7 @@ public class AllPujoFragment extends Fragment {
 
 //                contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchText.getText().toString().trim();
-                buildRecyclerView("city",SEARCH);
+                buildRecyclerView("small_city",SEARCH.toLowerCase());
 
             }
 
@@ -243,7 +243,7 @@ public class AllPujoFragment extends Fragment {
                     if(!SEARCH.isEmpty()){
                         userList.clear();
 
-                        buildRecyclerView("city",SEARCH);
+                        buildRecyclerView("small_city",SEARCH.toLowerCase());
 //                        contentProgress.setVisibility(View.VISIBLE);
 
                     }
@@ -275,7 +275,7 @@ public class AllPujoFragment extends Fragment {
 
 //                contentProgress.setVisibility(View.VISIBLE);
                     SEARCH = searchText.getText().toString().trim();
-                    buildRecyclerView("state",SEARCH);
+                    buildRecyclerView("small_state",SEARCH.toLowerCase());
 
                 }
 
@@ -287,7 +287,7 @@ public class AllPujoFragment extends Fragment {
                         if(!SEARCH.isEmpty()){
                             userList.clear();
 
-                            buildRecyclerView("state",SEARCH);
+                            buildRecyclerView("small_state",SEARCH.toLowerCase());
 //                        contentProgress.setVisibility(View.VISIBLE);
 
                         }
@@ -312,45 +312,42 @@ public class AllPujoFragment extends Fragment {
 //        });
     }
 
-    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+    private final TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-            switch (actionId){
-                case EditorInfo.IME_ACTION_SEARCH:
-                    if(selected_button==0 || selected_button==1){
-                        SEARCH = searchText.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (selected_button == 0 || selected_button == 1) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
 
-                            userList.clear();
-
-//                            contentProgress.setVisibility(View.VISIBLE);
-                            buildRecyclerView("small_name",SEARCH.toLowerCase());
-
-
-                        }
-                    }
-                    else if(selected_button==2){
-                        SEARCH = searchText.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
-
-                            userList.clear();
+                        userList.clear();
 
 //                            contentProgress.setVisibility(View.VISIBLE);
-                            buildRecyclerView("city",SEARCH);
+                        buildRecyclerView("small_name", SEARCH.toLowerCase());
 
-                        }
+
                     }
-                    else if(selected_button==3){
-                        SEARCH = searchText.getText().toString().trim();
-                        if(!SEARCH.isEmpty()){
+                } else if (selected_button == 2) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
 
-                            userList.clear();
+                        userList.clear();
 
 //                            contentProgress.setVisibility(View.VISIBLE);
-                            buildRecyclerView("state",SEARCH);
+                        buildRecyclerView("small_city", SEARCH.toLowerCase());
 
-                        }
                     }
+                } else if (selected_button == 3) {
+                    SEARCH = searchText.getText().toString().trim();
+                    if (!SEARCH.isEmpty()) {
+
+                        userList.clear();
+
+//                            contentProgress.setVisibility(View.VISIBLE);
+                        buildRecyclerView("small_state", SEARCH.toLowerCase());
+
+                    }
+                }
 //                    else if(selected_button==3){
 //                        SEARCH = searchKey.getText().toString();
 //                        if(!SEARCH.isEmpty()){
@@ -374,7 +371,6 @@ public class AllPujoFragment extends Fragment {
 //
 //                        }
 //                    }
-
             }
             return false;
         }
