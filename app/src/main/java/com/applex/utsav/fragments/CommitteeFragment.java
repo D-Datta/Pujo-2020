@@ -16,6 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -172,6 +174,10 @@ public class CommitteeFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
         contentProgress.setVisibility(View.VISIBLE);
 
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        Log.i("Shimmer" , "visiiblllee");
+
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -184,8 +190,7 @@ public class CommitteeFragment extends Fragment {
         /////////////SETUP//////////////
 
         positions = new ArrayList<>();
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmer();
+
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
@@ -200,9 +205,10 @@ public class CommitteeFragment extends Fragment {
                 .setColorSchemeColors(getResources().getColor(R.color.darkpurple),
                         getResources().getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
-//            mRecyclerView.setVisibility(View.GONE);
+
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
+            Log.i("Shimmer" , "visible");
 
             swipeRefreshLayout.setRefreshing(true);
             positions = new ArrayList<>();
@@ -1199,6 +1205,7 @@ public class CommitteeFragment extends Fragment {
                     case LOADING_MORE:
                         shimmerFrameLayout.setVisibility(View.VISIBLE);
                         shimmerFrameLayout.startShimmer();
+                        Log.i("Shimmer" , "visible");
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
@@ -1212,6 +1219,7 @@ public class CommitteeFragment extends Fragment {
                         progressMore.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
+                        Log.i("Shimmer" , "gone");
                         break;
                 }
             }
@@ -2316,4 +2324,5 @@ public class CommitteeFragment extends Fragment {
             }
         }
     }
+
 }
