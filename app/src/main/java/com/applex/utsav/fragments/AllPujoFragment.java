@@ -108,6 +108,8 @@ public class AllPujoFragment extends Fragment {
         cRecyclerView.setLayoutManager(gridLayoutManager);
 
         userList = new ArrayList<>();
+        searchText.getText().clear();
+        searchText.setHint(R.string.search_pujo);
 
         ///////////////Set Image Bitmap/////////////////////
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -553,6 +555,13 @@ public class AllPujoFragment extends Fragment {
             committeeDp = itemView.findViewById(R.id.committee_dp);
             committeeCover = itemView.findViewById(R.id.committee_cover);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchText.getText().clear();
+        searchText.setHint(R.string.search_pujo);
     }
 
 //    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
