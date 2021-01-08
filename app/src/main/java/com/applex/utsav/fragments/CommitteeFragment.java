@@ -200,9 +200,11 @@ public class CommitteeFragment extends Fragment {
                 .setColorSchemeColors(getResources().getColor(R.color.darkpurple),
                         getResources().getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            swipeRefreshLayout.setRefreshing(true);
+//            mRecyclerView.setVisibility(View.GONE);
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
+
+            swipeRefreshLayout.setRefreshing(true);
             positions = new ArrayList<>();
             itemGroups.clear();
             buildRecyclerView();
@@ -239,6 +241,9 @@ public class CommitteeFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
+
+//                mRecyclerView.setVisibility(View.VISIBLE);
+
 
                 //slider & new Post
                 if (programmingViewHolder.getItemViewType() == 0 || programmingViewHolder.getItemViewType() % 6 == 0) {
@@ -1192,6 +1197,8 @@ public class CommitteeFragment extends Fragment {
                         BasicUtility.showToast(getActivity(), "Something went wrong...");
                         break;
                     case LOADING_MORE:
+                        shimmerFrameLayout.setVisibility(View.VISIBLE);
+                        shimmerFrameLayout.startShimmer();
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
