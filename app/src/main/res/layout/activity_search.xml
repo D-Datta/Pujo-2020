@@ -10,8 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white">
+        android:layout_height="?attr/actionBarSize">
 
         <ImageButton
             android:id="@+id/back"
@@ -25,10 +24,11 @@
         <EditText
             android:id="@+id/search"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:paddingHorizontal="8dp"
             android:hint="@string/search"
             android:paddingStart="15dp"
@@ -55,7 +55,6 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:clipToPadding="false"
         android:scrollbars="none"
         android:layout_marginBottom="5dp"
@@ -70,7 +69,7 @@
             <Button
                 android:id="@+id/Sfirstname"
                 android:layout_width="70dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:layout_marginVertical="5dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/add_tags_button_background"
@@ -85,7 +84,7 @@
             <Button
                 android:id="@+id/Scity"
                 android:layout_width="110dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/city"
                 android:layout_marginStart="10dp"
@@ -99,7 +98,7 @@
             <Button
                 android:id="@+id/Sstate"
                 android:layout_width="70dp"
-                android:layout_height="30dp"
+                android:layout_height="35dp"
                 android:background="@drawable/add_tags_button_background"
                 android:text="@string/state"
                 android:layout_marginStart="10dp"
@@ -143,16 +142,15 @@
 
     </HorizontalScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/divider_color"
         android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="@color/divider_color"/>
 
         <TextView
             android:id="@+id/textview"
@@ -160,17 +158,15 @@
             android:layout_height="wrap_content"
             android:paddingVertical="7dp"
             android:gravity="center_vertical"
-            android:textColor="@color/black"
-            android:background="@drawable/shape_latest_post"
             android:fontFamily="@font/oxygen_bold"
             android:paddingHorizontal="20dp"
             android:text="@string/Recent_searches"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:background="@color/divider_color"/>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="7dp"-->
+<!--            android:background="@color/divider_color"/>-->
 
         <ProgressBar
             android:id="@+id/content_progress"

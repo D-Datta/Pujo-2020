@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="false"
-            app:scrimAnimationDuration="100"
+            app:scrimAnimationDuration="250"
             app:contentScrim="@color/white"
             app:statusBarScrim="@color/white"
             app:titleEnabled="true"
@@ -33,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:paddingBottom="5dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -438,7 +439,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
-                    android:paddingVertical="5dp">
+                    android:paddingTop="5dp">
 
                     <Button
                         android:id="@+id/edit_profile"

@@ -45,7 +45,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_camera_24"
                 android:padding="8dp"
-                app:tint="@color/purple1" />
+                app:tint="@color/colorPrimaryDark" />
 
             <ImageView
                 android:id="@+id/yay3"
@@ -53,7 +53,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_baseline_photo_gallery_library_24"
                 android:padding="8dp"
-                app:tint="@color/colorPrimaryDark" />
+                app:tint="@color/purple1" />
 
             <ImageView
                 android:id="@+id/video_gal_icon"
@@ -89,7 +89,7 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_baseline_camera_24"
             android:padding="8dp"
-            app:tint="@color/purple1" />
+            app:tint="@color/colorPrimaryDark" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,7 +123,7 @@
             android:layout_height="40dp"
             android:padding="8dp"
             android:src="@drawable/ic_baseline_photo_gallery_library_24"
-            app:tint="@color/colorPrimaryDark" />
+            app:tint="@color/purple1" />
 
         <TextView
             android:layout_width="wrap_content"

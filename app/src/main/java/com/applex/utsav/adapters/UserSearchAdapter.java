@@ -60,7 +60,8 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.Pr
                 Picasso.get()
                         .load(dp)
                         .error(R.drawable.ic_baseline_search_24)
-                        .transform(new CropCircleTransformation()).into(holder.dp);            }
+                        .transform(new CropCircleTransformation()).into(holder.dp);
+            }
             else {
                 if(currentItem.getGender()!=null){
                     if (currentItem.getGender().matches("Female") || currentItem.getGender().matches("মহিলা")){

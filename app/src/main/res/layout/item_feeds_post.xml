@@ -70,7 +70,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
+                android:layout_height="0.5dp"
                 android:background="@color/divider_color"/>
 
             <LinearLayout
@@ -140,7 +140,6 @@
                         android:layout_height="match_parent"
                         android:text="@string/camera"
                         android:fontFamily="@font/oxygen_bold"
-                        android:textColor="@color/black"
                         android:gravity="center_vertical"/>
 
                 </LinearLayout>
@@ -163,7 +162,6 @@
                         android:layout_height="match_parent"
                         android:text="@string/gallery"
                         android:fontFamily="@font/oxygen_bold"
-                        android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -186,7 +184,6 @@
                         android:layout_height="match_parent"
                         android:text="@string/recorder"
                         android:fontFamily="@font/oxygen_bold"
-                        android:textColor="@color/black"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -208,7 +205,7 @@
         <View
             android:id="@+id/view_type"
             android:layout_width="match_parent"
-            android:layout_height="7dp"
+            android:layout_height="0.5dp"
             android:background="@color/divider_color"/>
 
         <TextView
@@ -316,7 +313,7 @@
                     <View
                         android:id="@+id/view_type_smth"
                         android:layout_width="match_parent"
-                        android:layout_height="7dp"
+                        android:layout_height="0.5dp"
                         android:background="@color/divider_color"/>
 
                     <LinearLayout
@@ -587,7 +584,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:background="@color/divider_color"
                     android:layout_marginTop="2dp"
                     android:layout_marginHorizontal="8dp"/>
@@ -777,9 +774,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="20dp"
                     android:paddingVertical="5dp"
                     android:paddingHorizontal="10dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
@@ -806,6 +803,7 @@
                         android:hint="@string/write_a_comment"
                         android:paddingHorizontal="13dp"
                         android:layout_weight="1"
+                        android:drawableEnd="@drawable/ic_baseline_insert_emoticon_24"
                         android:gravity="center_vertical"
                         android:background="@drawable/background_rectangle"
                         android:layout_gravity="center_vertical" />
@@ -813,13 +811,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-<!--            <ImageView-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="200dp"-->
-<!--                android:layout_marginBottom="257dp"-->
-<!--                android:src="@drawable/mandala" />-->
-
 
         </RelativeLayout>
 

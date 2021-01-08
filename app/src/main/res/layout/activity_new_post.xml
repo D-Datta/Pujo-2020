@@ -41,7 +41,7 @@
                 android:id="@+id/new_post_toolb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_post"
+                android:text="@string/create_post"
                 android:textColor="@color/black"
                 android:paddingHorizontal="10dp"
                 android:textSize="18sp"
@@ -140,19 +140,10 @@
                             android:fontFamily="@font/oxygen_bold"
                             android:gravity="center_vertical"
                             android:text="@string/tag_your_pujo"
-                            android:textColor="@color/purple2"
-                            android:textSize="15sp" />
+                            android:textColor="@color/purple2" />
 
                     </LinearLayout>
             </LinearLayout>
-
-<!--                 <androidx.recyclerview.widget.RecyclerView-->
-<!--                     android:id="@+id/tags_selectedList"-->
-<!--                     android:layout_width="match_parent"-->
-<!--                     android:layout_height="wrap_content"-->
-<!--                     android:clipToPadding="false"-->
-<!--                     android:paddingHorizontal="4dp"-->
-<!--                     android:layout_marginBottom="0dp"/>-->
 
             </LinearLayout>
 
@@ -164,15 +155,14 @@
                 android:paddingHorizontal="11dp"
                 android:text="Suggested Tags"
                 android:paddingVertical="2dp"
-                android:textColor="@color/black"
                 android:textSize="12dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id = "@+id/suggested_hashtags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="6dp"
-                />
+                android:clipToPadding="false"
+                android:paddingHorizontal="6dp" />
 
             <EditText
                 android:id="@+id/post_headline"
@@ -191,7 +181,7 @@
                 android:paddingVertical="5dp"
                 android:paddingHorizontal="15dp"
                 android:layout_marginTop="5dp"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/post_content"
@@ -208,7 +198,7 @@
                 android:textColor="@color/black"
                 android:background="@null"
                 android:textColorLink="@color/colorPrimary"
-                android:textSize="17dp" />
+                android:textSize="16sp" />
 
 
 
