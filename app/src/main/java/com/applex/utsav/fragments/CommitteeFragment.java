@@ -1,6 +1,5 @@
 package com.applex.utsav.fragments;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -142,14 +141,17 @@ public class CommitteeFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
     private ArrayList<SliderModel> itemGroups;
 
-
     public CommitteeFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_committee, container, false);
+        View view = inflater.inflate(R.layout.fragment_committee, container, false);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        return view;
     }
 
     @Override
@@ -165,13 +167,12 @@ public class CommitteeFragment extends Fragment {
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
-        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
         floatingActionButton = view.findViewById(R.id.to_the_top_committee);
 
         //////////////RECYCLER VIEW////////////////////
-        mRecyclerView = view.findViewById(R.id.recyclerCommitteePost) ;
-        contentProgress.setVisibility(View.VISIBLE);
-
+        mRecyclerView = view.findViewById(R.id.recyclerCommitteePost);
+        contentProgress.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
 
         /////////////SETUP//////////////
         mRecyclerView.setHasFixedSize(false);
@@ -184,8 +185,6 @@ public class CommitteeFragment extends Fragment {
         /////////////SETUP//////////////
 
         positions = new ArrayList<>();
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmer();
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
@@ -210,6 +209,19 @@ public class CommitteeFragment extends Fragment {
     }
 
     private void buildRecyclerView() {
+        if(shimmerFrameLayout.isShimmerStarted()) {
+            BasicUtility.showToast(requireActivity(), "3");
+        }
+        else {
+            BasicUtility.showToast(requireActivity(), "4");
+        }
+
+        if(shimmerFrameLayout.isShimmerVisible()) {
+            BasicUtility.showToast(requireActivity(), "1");
+        }
+        else {
+            BasicUtility.showToast(requireActivity(), "2");
+        }
 
         final Query[] query = {FirebaseFirestore.getInstance()
                 .collection("Feeds")
@@ -1195,7 +1207,13 @@ public class CommitteeFragment extends Fragment {
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        progressMore.setVisibility(View.GONE);
+                        new Handler().postDelayed(() -> {
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            progressMore.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 3000);
+
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
@@ -1203,8 +1221,7 @@ public class CommitteeFragment extends Fragment {
                     case FINISHED:
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
+                        mRecyclerView.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -1212,8 +1229,6 @@ public class CommitteeFragment extends Fragment {
 
         contentProgress.setVisibility(View.GONE);
         progressMore.setVisibility(View.GONE);
-        shimmerFrameLayout.stopShimmer();
-        shimmerFrameLayout.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
 
         RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
@@ -1830,9 +1845,6 @@ public class CommitteeFragment extends Fragment {
                 BasicUtility.showToast(getActivity(),"Something went wrong...");
             }
         });
-
-
-
     }
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {

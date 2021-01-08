@@ -7,46 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/no_recent_com_post"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="45dp"
-            android:visibility="gone" />
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:shimmer_repeat_mode="restart"
-            android:background="@color/grey"
-            android:paddingTop="8dp"
-            app:shimmer_shape="radial">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <include layout="@layout/layout_shimmer_committee" />
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <ProgressBar
-            android:id="@+id/content_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
@@ -55,7 +15,19 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:shimmer_repeat_mode="restart"
+                app:shimmer_shape="radial">
+
+                <include layout="@layout/layout_shimmer_committee" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <ProgressBar
                 android:id="@+id/progress_more"
@@ -78,6 +50,29 @@
         </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/no_recent_com_post"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="45dp"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/content_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/to_the_top_committee"
