@@ -102,7 +102,6 @@ public class ViewMoreText extends AppCompatActivity {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
 
-    //    private RecyclerView mRecyclerView;
     private RecyclerView tagRecycler;
     private ArrayList<CommentModel> CommentList;
     private CommentAdapter adapter;
@@ -401,44 +400,17 @@ public class ViewMoreText extends AppCompatActivity {
 
                 for(int j = 0; j < likeList.size(); j++){
                     if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-
-//                        Display display6 = getWindowManager().getDefaultDisplay();
-//                        int displayWidth6 = display6.getWidth();
-//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-//                        options6.inJustDecodeBounds = true;
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-//                        int width6 = options6.outWidth;
-//                        if (width6 > displayWidth6) {
-//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-//                        }
-//                        options6.inJustDecodeBounds = false;
-//                        Bitmap scaledBitmap6=  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-//                        flameimg.setImageBitmap(scaledBitmap6);
-//                        flameimg.setImageTintList(null);
-//                        LikeCheck = j;
-
-                        flameimg.setImageResource(R.drawable.ic_dhak_view_more);
-                        flameimg.setImageTintList(null);
                         LikeCheck = j;
-
+                        break;
                     }
-                    else {
-//                        Display display6 = getWindowManager().getDefaultDisplay();
-//                        int displayWidth6 = display6.getWidth();
-//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-//                        options6.inJustDecodeBounds = true;
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-//                        int width6 = options6.outWidth;
-//                        if (width6 > displayWidth6) {
-//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-//                        }
-//                        options6.inJustDecodeBounds = false;
-//                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-//                        flameimg.setImageBitmap(scaledBitmap11);
+                }
 
-                        flameimg.setImageResource(R.drawable.ic_normal_flame);
-
-                    }
+                if(LikeCheck >= 0){
+                    flameimg.setImageResource(R.drawable.ic_flame_red);
+                    flameimg.setImageTintList(null);
+                }
+                else {
+                    flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                 }
 
             } else {
@@ -770,67 +742,22 @@ public class ViewMoreText extends AppCompatActivity {
                                     }
                                     for(int j = 0; j < likeList.size(); j++){
                                         if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-
-                                            flameimg.setImageResource(R.drawable.ic_flame_red);
-                                            flameimg.setImageTintList(null);
                                             LikeCheck = j;
-
-//                                            Display display7 = getWindowManager().getDefaultDisplay();
-//                                            int displayWidth7 = display7.getWidth();
-//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-//                                            options7.inJustDecodeBounds = true;
-//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                                            int width7 = options7.outWidth;
-//                                            if (width7 > displayWidth7) {
-//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-//                                            }
-//                                            options7.inJustDecodeBounds = false;
-//                                            Bitmap scaledBitmap7 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                                            flameimg.setImageBitmap(scaledBitmap7);
-//                                            flameimg.setImageTintList(null);
-//                                            LikeCheck = j;
-//                                            if((likeList.size()-1) == 1)
-//                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" other");
-//                                            else if((likeList.size()-1) == 0){
-//                                                flamedBy.setText("Flamed by you");
-//                                            }
-//                                            else
-//                                                flamedBy.setText("Flamed by you & "+ (likeList.size()-1) +" others");
-                                            //Position in likeList where the current USer UId is found stored in likeCheck
+                                            break;
                                         }
-                                        else {
-//                                            Display display7 = getWindowManager().getDefaultDisplay();
-//                                            int displayWidth7 = display7.getWidth();
-//                                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-//                                            options7.inJustDecodeBounds = true;
-//                                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
-//                                            int width7 = options7.outWidth;
-//                                            if (width7 > displayWidth7) {
-//                                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-//                                            }
-//                                            options7.inJustDecodeBounds = false;
-//                                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options7);
-//                                            flameimg.setImageBitmap(scaledBitmap11);
+                                    }
 
-                                            flameimg.setImageResource(R.drawable.ic_dhak_view_more);
-                                        }
+                                    if(LikeCheck >= 0){
+                                        flameimg.setImageResource(R.drawable.ic_flame_red);
+                                        flameimg.setImageTintList(null);
+                                    }
+                                    else {
+                                        flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                                     }
 
                                 } else {
                                     like_layout.setVisibility(View.GONE);
                                 }
-
-                                ///////////When viewing likelist from fragment global/campus////////////////
-//                                if(i.getStringExtra("likeLOpen")!=null && i.getStringExtra("likeLOpen").matches("likeLOpen"))
-//                                {
-//                                    if(likeList!=null && likeList.size() > 0){
-//                                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Feeds", homePostModel[0].getDocID());
-//                                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-//                                    }
-//                                    else
-//                                        Toast.makeText(ViewMoreHome.this, "No flames", Toast.LENGTH_SHORT).show();
-//                                }
-                                ///////////When viewing likelist from fragment global/campus////////////////
 
                                 like_layout.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -843,29 +770,6 @@ public class ViewMoreText extends AppCompatActivity {
                                     }
                                 });
                                 ///////////////LIKE SETUP//////////////
-
-
-                                ////////////////POST PIC///////////////
-//                                images = homePostModel[0].getImg();
-//
-//                                if (images != null && images.size() > 0) {
-//                                    sliderView.setVisibility(View.VISIBLE);
-//
-//                                    sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-//                                    sliderView.setIndicatorRadius(5);
-//                                    sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-//                                    sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-//                                    sliderView.setIndicatorSelectedColor(R.color.colorPrimary);
-//                                    sliderView.setIndicatorUnselectedColor(R.color.white);
-//                                    sliderView.setAutoCycle(false);
-//
-//                                    ViewmoreSliderAdapter viewmoreSliderAdapter = new ViewmoreSliderAdapter(ViewMoreText.this, images);
-//
-//                                    sliderView.setSliderAdapter(viewmoreSliderAdapter);
-//                                } else {
-//                                    sliderView.setVisibility(View.GONE);
-//                                }
-                                ////////////////POST PIC///////////////
 
 
                                 ////////////////POST TEXT///////////////
@@ -950,20 +854,6 @@ public class ViewMoreText extends AppCompatActivity {
                     public void onClick(View v) {
                         change = 1;
                         if (LikeCheck >= 0) {//was already liked by current user
-
-//                            Display display7 = getWindowManager().getDefaultDisplay();
-//                            int displayWidth7 = display7.getWidth();
-//                            BitmapFactory.Options options7 = new BitmapFactory.Options();
-//                            options7.inJustDecodeBounds = true;
-//                            BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                            int width7 = options7.outWidth;
-//                            if (width7 > displayWidth7) {
-//                                options7.inSampleSize = Math.round((float) width7 / (float) displayWidth7);
-//                            }
-//                            options7.inJustDecodeBounds = false;
-//                            Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options7);
-//                            flameimg.setImageBitmap(scaledBitmap11);
-
                             flameimg.setImageResource(R.drawable.ic_dhak_view_more);//was already liked by current user
 
                             if (likeList.size() - 1 == 0) {
@@ -1094,29 +984,6 @@ public class ViewMoreText extends AppCompatActivity {
                                 }
                                 i.putExtra("docID", homeTextModel[0].getDocID());
                                 StoreTemp.getInstance().setPujoTagModel(homeTextModel[0].getPujoTag());
-////                            i.putExtra("target", "100"); //target value for edit post
-////                            i.putExtra("bool", "3");
-////                            i.putExtra("usN", currentItem.getUsN());
-////                            i.putExtra("dp", currentItem.getDp());
-////                            i.putExtra("uid", currentItem.getUid());
-////                            i.putExtra("type", currentItem.getType());
-////                            if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-////                                Bundle args = new Bundle();
-////                                args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
-////                                i.putExtra("BUNDLE", args);
-////                            }
-////                            i.putExtra("txt", currentItem.getTxt());
-////                            i.putExtra("comID", currentItem.getComID());
-////                            i.putExtra("comName", currentItem.getComName());
-////                            i.putExtra("ts", Long.toString(currentItem.getTs()));
-////                            i.putExtra("newTs", Long.toString(currentItem.getNewTs()));
-////                            StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
-////                            i.putExtra("cmtNo", Long.toString(currentItem.getCmtNo()));
-////                            i.putExtra("likeL", currentItem.getLikeL());
-////                            i.putExtra("likeCheck", currentItem.getLikeCheck());
-////                            i.putExtra("docID", currentItem.getDocID());
-////                            i.putExtra("reportL", currentItem.getReportL());
-////                            i.putExtra("challengeID", currentItem.getChallengeID());
                                 startActivity(i);
                                 postMenuDialog.dismiss();
 
@@ -1223,20 +1090,7 @@ public class ViewMoreText extends AppCompatActivity {
 
         });
 
-//        share.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                String id = postCampus.replaceAll(" ","_");
-//                String link = "https://www.applex.in/utsav-app/feeds/" + "0/" + homeTextModel[0].getDocID();
-//                Intent i = new Intent();
-//                i.setAction(Intent.ACTION_SEND);
-//                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
-//                i.setType("text/plain");
-//                startActivity(Intent.createChooser(i, "Share with"));
-//
-//
-//            }
-//        });
+
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
