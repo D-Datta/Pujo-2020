@@ -58,7 +58,6 @@ import com.applex.utsav.R;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.SliderAdapter;
-import com.applex.utsav.adapters.TagAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.models.FlamedModel;
@@ -239,7 +238,7 @@ public class Fragment_Posts_Users extends Fragment {
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
                 LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                View v = layoutInflater.inflate(R.layout.item_profile_info, viewGroup, false);
+                View v = layoutInflater.inflate(R.layout.item_profile_post_indi, viewGroup, false);
                 return new ProgrammingViewHolder(v);
             }
 

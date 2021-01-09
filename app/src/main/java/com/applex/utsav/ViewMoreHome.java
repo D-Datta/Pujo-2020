@@ -156,8 +156,8 @@ public class ViewMoreHome extends AppCompatActivity {
         userimage = findViewById(R.id.user_image44);
         minsago = findViewById(R.id.mins_ago44);
         textContent = findViewById(R.id.text_content44);
-        flamedBy = findViewById(R.id.flamed_by44);
-        noofcmnts = findViewById(R.id.no_of_comments44);
+        flamedBy = findViewById(R.id.no_of_likes);
+        noofcmnts = findViewById(R.id.no_of_comments);
         tagRecycler = findViewById(R.id.tagsList_recycler44);
         flameimg = findViewById(R.id.flame44);
         back = findViewById(R.id.back);
