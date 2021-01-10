@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.applex.utsav.models.NotifModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -46,6 +47,7 @@ public class ActivityNotification extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView notifRecycler;
     private ProgressBar progressMore;
+    private ShimmerFrameLayout shimmerFrameLayout;
     private ImageView noNotif;
     public static boolean active = false;
     private FirestorePagingAdapter adapter;
@@ -93,8 +95,12 @@ public class ActivityNotification extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         progressMore = findViewById(R.id.progress_more);
         progressMore.setVisibility(View.GONE);
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
         noNotif = findViewById(R.id.no_recent_notiff);
         notifRecycler = findViewById(R.id.recyclerNotif);
+
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
 
         notifRecycler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityNotification.this);
@@ -355,7 +361,14 @@ public class ActivityNotification extends AppCompatActivity {
                 switch (state) {
                     case ERROR: BasicUtility.showToast(ActivityNotification.this, "Something went wrong..."); break;
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE); break;
-                    case LOADED: progressMore.setVisibility(View.GONE);
+                    case LOADED:
+
+                        new Handler().postDelayed(() -> {
+                            notifRecycler.setVisibility(View.VISIBLE);
+                            progressMore.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 1000);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }

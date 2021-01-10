@@ -62,6 +62,7 @@ import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.StoreTemp;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -100,6 +101,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
     FirestorePagingAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerview;
+    ShimmerFrameLayout shimmerFrameLayout;
     ProgressBar contentprogressposts, progressmoreposts;
     ImageView noneImage;
     BottomSheetDialog postMenuDialog;
@@ -111,6 +113,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         introPref = new IntroPref(this);
         String lang= introPref.getLanguage();
@@ -157,6 +161,10 @@ public class HashtagPostViewAll extends AppCompatActivity {
         progressmoreposts = findViewById(R.id.progress_more_posts);
         noneImage = findViewById(R.id.none_image);
         floatingActionButton = findViewById(R.id.to_the_top);
+
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
 
         recyclerview.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -1116,9 +1124,18 @@ public class HashtagPostViewAll extends AppCompatActivity {
 
                 super.onLoadingStateChanged(state);
                 switch (state) {
-                    case ERROR: BasicUtility.showToast(getApplicationContext(),"Something went wrong..."); break;
-                    case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE); break;
-                    case LOADED: progressmoreposts.setVisibility(View.GONE);
+                    case ERROR: BasicUtility.showToast(getApplicationContext(),"Something went wrong...");
+                    break;
+                    case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE);
+                    break;
+                    case LOADED:
+                        new Handler().postDelayed(() -> {
+                            recyclerview.setVisibility(View.VISIBLE);
+                            progressmoreposts.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 1000);
+
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }

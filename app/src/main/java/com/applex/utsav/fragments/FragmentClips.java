@@ -66,6 +66,7 @@ import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -96,6 +97,8 @@ public class FragmentClips extends Fragment {
     public static int delete = 0;
     private IntroPref introPref;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ShimmerFrameLayout shimmerFrameLayout;
+
     private ProgressBar progressMore, contentProgress;
     private ProgressDialog progressDialog;
     private Dialog postMenuDialog;
@@ -118,7 +121,11 @@ public class FragmentClips extends Fragment {
         Configuration config= new Configuration();
         config.locale = locale;
         Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
-        return inflater.inflate(R.layout.fragment_clips, container, false);
+        View view = inflater.inflate(R.layout.fragment_committee, container, false);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        return view;
     }
 
     @Override
@@ -1047,7 +1054,12 @@ public class FragmentClips extends Fragment {
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        progressMore.setVisibility(View.GONE);
+                        new Handler().postDelayed(() -> {
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            progressMore.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 1000);
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }

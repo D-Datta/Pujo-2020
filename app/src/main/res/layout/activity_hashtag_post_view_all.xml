@@ -44,6 +44,17 @@
                 android:layout_height="350dp"
                 android:paddingVertical="40dp"
                 android:visibility="gone"/>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                app:shimmer_repeat_mode="restart"
+                app:shimmer_shape="radial">
+
+                <include layout="@layout/layout_shimmer_hashtag" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <ProgressBar
                 android:id="@+id/content_progress"
@@ -52,6 +63,7 @@
                 android:layout_gravity="center"
                 android:visibility="visible"
                 android:paddingVertical="10dp"/>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_posts"

@@ -498,7 +498,7 @@ public class AllPujoFragment extends Fragment {
                             progressMoreCom.setVisibility(View.GONE);
                             shimmerFrameLayout.stopShimmer();
                             shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 2000);
+                        }, 1000);
 
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
