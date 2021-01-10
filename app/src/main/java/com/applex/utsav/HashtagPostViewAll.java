@@ -220,7 +220,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
             options.inJustDecodeBounds = false;
             Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
             noneImage.setImageBitmap(scaledBitmap);
-        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+        }
+        else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
 
             Display display = getWindowManager().getDefaultDisplay();
             int displayWidth = display.getWidth();
