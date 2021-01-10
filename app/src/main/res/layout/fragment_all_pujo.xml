@@ -148,24 +148,24 @@
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:visibility="visible">
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:shimmer_repeat_mode="restart"
-                app:shimmer_shape="radial">
-
-                <include layout="@layout/layout_shimmer_allpujo" />
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
+            android:focusableInTouchMode="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:shimmer_repeat_mode="restart"
+                    app:shimmer_shape="radial">
+
+                    <include layout="@layout/layout_shimmer_allpujo" />
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
 
                 <ProgressBar
                     android:id="@+id/progress_more_comm"

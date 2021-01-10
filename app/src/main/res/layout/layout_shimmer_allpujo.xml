@@ -10,60 +10,44 @@
     android:paddingTop="10dp"
     tools:context=".fragments.AllPujoFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="10dp"
-        android:background="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Light">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@drawable/background_rectangle"
-            android:layout_marginHorizontal="10dp">
-        </RelativeLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="54dp">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="54dp">-->
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="5dp">
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginVertical="5dp">-->
 
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:layout_marginVertical="5dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/bubble" />
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:layout_marginVertical="5dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/bubble" />
-            <Button
-                android:layout_width="70dp"
-                android:layout_height="30dp"
-                android:layout_marginVertical="5dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/bubble" />
+<!--            <Button-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginVertical="5dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:background="@drawable/bubble" />-->
+<!--            <Button-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginVertical="5dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:background="@drawable/bubble" />-->
+<!--            <Button-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:layout_marginVertical="5dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:background="@drawable/bubble" />-->
 
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"
