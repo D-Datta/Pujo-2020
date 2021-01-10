@@ -121,7 +121,7 @@ public class FragmentClips extends Fragment {
         Configuration config= new Configuration();
         config.locale = locale;
         Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
-        View view = inflater.inflate(R.layout.fragment_committee, container, false);
+        View view = inflater.inflate(R.layout.fragment_clips, container, false);
         shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
