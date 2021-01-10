@@ -212,31 +212,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.save_reel.setOnClickListener(v -> save_Dialog(currentItem.getVideo()));
 
         //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
-//        if (currentItem.getType().matches("com")) {
-//            holder.pujo_com_dp.setOnClickListener(v -> {
-//                Intent intent = new Intent(context, ActivityProfileCommittee.class);
-//                intent.putExtra("uid", currentItem.getUid());
-//                context.startActivity(intent);
-//            });
-//
-//            holder.pujo_com_name.setOnClickListener(v -> {
-//                Intent intent = new Intent(context, ActivityProfileCommittee.class);
-//                intent.putExtra("uid", currentItem.getUid());
-//                context.startActivity(intent);
-//            });
-//        } else if (currentItem.getType().matches("indi")) {
-//            holder.pujo_com_dp.setOnClickListener(v -> {
-//                Intent intent = new Intent(context, ActivityProfileUser.class);
-//                intent.putExtra("uid", currentItem.getUid());
-//                context.startActivity(intent);
-//            });
-//
-//            holder.pujo_com_name.setOnClickListener(v -> {
-//                Intent intent = new Intent(context, ActivityProfileUser.class);
-//                intent.putExtra("uid", currentItem.getUid());
-//                context.startActivity(intent);
-//            });
-//        }
+
         holder.pujo_com_dp.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityProfile.class);
             intent.putExtra("uid", currentItem.getUid());
@@ -300,13 +276,18 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
 
                 for (int j = 0; j < currentItem.getLikeL().size(); j++) {
                     if (currentItem.getLikeL().get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))) {
-                        holder.like.setImageResource(R.drawable.ic_flame_red);
-                        holder.like.setImageTintList(null);
                         currentItem.setLikeCheck(j);
+                        break;
                         //Position in likeList where the current USer UId is found stored in likeCheck
-                    } else {
-                        holder.like.setImageResource(R.drawable.ic_dhak_view_more);
                     }
+                }
+
+                if(currentItem.getLikeCheck() >= 0){
+                    holder.like.setImageResource(R.drawable.ic_flame_red);
+                    holder.like.setImageTintList(null);
+                }
+                else {
+                    holder.like.setImageResource(R.drawable.ic_dhak_view_more);
                 }
 
                 holder.like_layout.setOnClickListener(v -> {

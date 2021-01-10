@@ -31,7 +31,7 @@
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/imageSlider"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="140dp"
                 app:sliderAnimationDuration="500"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"
@@ -592,7 +592,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="17dp"
+                    android:paddingHorizontal="15dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="5dp">
 
@@ -604,63 +604,39 @@
 
                         <ImageView
                             android:id="@+id/like"
-                            android:layout_width="34dp"
+                            android:layout_width="35dp"
                             android:layout_height="40dp"
-                            android:layout_marginStart="15dp"
                             android:src="@drawable/ic_btmnav_notifications" />
-
-                        <ImageView
-                            android:id="@+id/comment"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:layout_marginHorizontal="10dp"
-                            android:background="@drawable/custom_ripple_white"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_conch_shell" />
-
-                        <ImageView
-                            android:id="@+id/share"
-                            android:layout_width="34dp"
-                            android:layout_height="34dp"
-                            android:background="@drawable/custom_ripple_white"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_blossom" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:id="@+id/like_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="horizontal"
                             android:background="@drawable/custom_ripple_white">
-
-                            <ImageView
-                                android:id="@+id/like_image"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:padding="5dp"
-                                android:src="@drawable/ic_baseline_favorite_24"
-                                app:tint="@color/black_transparent" />
 
                             <TextView
                                 android:id="@+id/no_of_likes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:layout_marginHorizontal="5dp"
+                                android:layout_marginHorizontal="10dp"
                                 android:text="@string/_2_4k"
                                 android:textColor="@color/black_transparent"
                                 android:textSize="12dp" />
 
                         </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/comment"
+                            android:layout_width="35dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="5dp"
+                            android:background="@drawable/custom_ripple_white"
+                            android:paddingHorizontal="5dp"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="5dp"
+                            android:src="@drawable/ic_conch_shell" />
 
                         <LinearLayout
                             android:id="@+id/comment_layout"
@@ -669,19 +645,11 @@
                             android:orientation="horizontal"
                             android:background="@drawable/custom_ripple_white">
 
-                            <ImageView
-                                android:id="@+id/comment_image"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="end|center_vertical"
-                                android:padding="6dp"
-                                android:src="@drawable/ic_comment" />
-
                             <TextView
                                 android:id="@+id/no_of_comments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="5dp"
+                                android:layout_marginHorizontal="10dp"
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/_154"
                                 android:textColor="@color/black_transparent"
@@ -690,6 +658,16 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/share"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/custom_ripple_white"
+                        android:padding="8dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_blossom"
+                        app:tint="@color/pink" />
 
                 </RelativeLayout>
 

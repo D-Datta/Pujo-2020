@@ -54,7 +54,6 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.adapters.SliderAdapter;
-import com.applex.utsav.adapters.TagAdapter2;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
 import com.applex.utsav.fragments.CommitteeFragment;
@@ -265,7 +264,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
             @Override
             public ProgrammingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-                View v = layoutInflater.inflate(R.layout.item_profile_info, parent, false);
+                View v = layoutInflater.inflate(R.layout.item_profile_post_indi, parent, false);
                 return  new ProgrammingViewHolder(v);
             }
 

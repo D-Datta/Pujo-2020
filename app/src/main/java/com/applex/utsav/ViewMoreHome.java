@@ -83,8 +83,8 @@ import static java.lang.Boolean.TRUE;
 
 public class ViewMoreHome extends AppCompatActivity {
 
-//    private ImageView send;
-//    private EditText newComment;
+    private static final String TAG = "ViewMoreHome";
+
     private ImageView commentimg, userimage, flameimg, back, likeimage;
     private SliderView sliderView;
 
@@ -156,8 +156,8 @@ public class ViewMoreHome extends AppCompatActivity {
         userimage = findViewById(R.id.user_image44);
         minsago = findViewById(R.id.mins_ago44);
         textContent = findViewById(R.id.text_content44);
-        flamedBy = findViewById(R.id.flamed_by44);
-        noofcmnts = findViewById(R.id.no_of_comments44);
+        flamedBy = findViewById(R.id.no_of_likes);
+        noofcmnts = findViewById(R.id.no_of_comments);
         tagRecycler = findViewById(R.id.tagsList_recycler44);
         flameimg = findViewById(R.id.flame44);
         back = findViewById(R.id.back);
@@ -178,108 +178,11 @@ public class ViewMoreHome extends AppCompatActivity {
 
         likeList = new ArrayList<>();
 
-//
-//        Display display1 = getWindowManager().getDefaultDisplay();
-//        int displayWidth1 = display1.getWidth();
-//        BitmapFactory.Options options1 = new BitmapFactory.Options();
-//        options1.inJustDecodeBounds = true;
-//
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options1);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options1);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options1);
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options1);
-//
-//        int width1 = options1.outWidth;
-//        if (width1 > displayWidth1) {
-//            options1.inSampleSize = Math.round((float) width1 / (float) displayWidth1);
-//        }
-//        options1.inJustDecodeBounds = false;
-//
-//        Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options1);
-//        flameimg.setImageBitmap(scaledBitmap1);
-//
-//
-//        Display display2 = getWindowManager().getDefaultDisplay();
-//        int displayWidth2 = display2.getWidth();
-//        BitmapFactory.Options options2 = new BitmapFactory.Options();
-//        options2.inJustDecodeBounds = true;
-//
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
-//
-//        int width2 = options2.outWidth;
-//        if (width2 > displayWidth2) {
-//            options2.inSampleSize = Math.round((float) width2 / (float) displayWidth2);
-//        }
-//        options2.inJustDecodeBounds = false;
-//
-//        Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_conch_shell, options2);
-//        commentimg.setImageBitmap(scaledBitmap2);
-
-
-
-
-
-//        Display display3 = getWindowManager().getDefaultDisplay();
-//        int displayWidth3 = display3.getWidth();
-//        BitmapFactory.Options options3 = new BitmapFactory.Options();
-//        options3.inJustDecodeBounds = true;
-//
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options3);
-//
-//        int width3 = options3.outWidth;
-//        if (width3 > displayWidth3) {
-//            options3.inSampleSize = Math.round((float) width3 / (float) displayWidth3);
-//        }
-//        options3.inJustDecodeBounds = false;
-//
-//        Bitmap scaledBitmap3 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_blossom, options3);
-//        share.setImageBitmap(scaledBitmap3);
-
-
-
-
-
-//        Display display4 = getWindowManager().getDefaultDisplay();
-//        int displayWidth4 = display4.getWidth();
-//        BitmapFactory.Options options4 = new BitmapFactory.Options();
-//        options4.inJustDecodeBounds = true;
-//
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options3);
-//
-//        int width4 = options4.outWidth;
-//        if (width4 > displayWidth4) {
-//            options4.inSampleSize = Math.round((float) width4 / (float) displayWidth4);
-//        }
-//        options4.inJustDecodeBounds = false;
-//
-//        Bitmap scaledBitmap4 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_baseline_favorite_24, options3);
-//        likeimage.setImageBitmap(scaledBitmap4);
-
-//
-//        Display display5 = getWindowManager().getDefaultDisplay();
-//        int displayWidth5 = display5.getWidth();
-//        BitmapFactory.Options options5 = new BitmapFactory.Options();
-//        options5.inJustDecodeBounds = true;
-//
-//        BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options5);
-//
-//        int width5 = options5.outWidth;
-//        if (width5 > displayWidth5) {
-//            options5.inSampleSize = Math.round((float) width5 / (float) displayWidth5);
-//        }
-//        options5.inJustDecodeBounds = false;
-//
-//        Bitmap scaledBitmap5 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_comment_viewmore, options5);
-//        share.setImageBitmap(scaledBitmap5);
-
-
         Intent i = getIntent();
 
         if (getIntent().getExtras().getString("from") == null) {
             homePostModel[0].setUid(i.getStringExtra("uid"));
             homePostModel[0].setTs(Long.parseLong(i.getStringExtra("timestamp")));
-            //  homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
             if (i.getStringExtra("newTs") != null) {
                 homePostModel[0].setNewTs(Long.parseLong(i.getStringExtra("newTs")));
             }
@@ -314,35 +217,10 @@ public class ViewMoreHome extends AppCompatActivity {
                 else {
                     userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                 }
-//                userimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
             }
 
             homePostModel[0].setType(i.getStringExtra("type"));
-//            if (homePostModel[0].getType().matches("com")) {
-//                username.setOnClickListener(v -> {
-//                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-//                    i12.putExtra("uid", homePostModel[0].getUid());
-//                    startActivity(i12);
-//                });
-//
-//                userimage.setOnClickListener(v -> {
-//                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileCommittee.class);
-//                    i1.putExtra("uid", homePostModel[0].getUid());
-//                    startActivity(i1);
-//                });
-//            } else if (homePostModel[0].getType().matches("indi")) {
-//                username.setOnClickListener(v -> {
-//                    Intent i12 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-//                    i12.putExtra("uid", homePostModel[0].getUid());
-//                    startActivity(i12);
-//                });
-//
-//                userimage.setOnClickListener(v -> {
-//                    Intent i1 = new Intent(getApplicationContext(), ActivityProfileUser.class);
-//                    i1.putExtra("uid", homePostModel[0].getUid());
-//                    startActivity(i1);
-//                });
-//            }
+
             username.setOnClickListener(v -> {
                 Intent i12 = new Intent(getApplicationContext(), ActivityProfile.class);
                 i12.putExtra("uid", homePostModel[0].getUid());
@@ -357,26 +235,6 @@ public class ViewMoreHome extends AppCompatActivity {
 
 
             /////////////USERNAME & USER IMAGE FORE POST//////////////
-
-
-            /////////////////TAGS/////////////////
-//            if (StoreTemp.getInstance().getTagTemp() != null) {
-//                homePostModel[0].setTagL(StoreTemp.getInstance().getTagTemp());
-//                if (homePostModel[0].getTagL().size() > 0) {
-//                    tagRecycler.setHasFixedSize(true);
-//                    final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-//                    linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//                    tagRecycler.setLayoutManager(linearLayoutManager);
-//                    TagAdapter tagAdapter = new TagAdapter(homePostModel[0].getTagL(), getApplicationContext());
-//                    tagRecycler.setAdapter(tagAdapter);
-//                } else {
-//                    tagRecycler.setVisibility(View.GONE);
-//                }
-//            } else {
-//                tagRecycler.setVisibility(View.GONE);
-//            }
-            /////////////////TAGS/////////////////
-
 
 
             ///////////////LIKE SETUP//////////////
@@ -398,45 +256,18 @@ public class ViewMoreHome extends AppCompatActivity {
 
                 for(int j = 0; j < likeList.size(); j++){
                     if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-
-//                        flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_flame_red));
-//                        Display display6 = getWindowManager().getDefaultDisplay();
-//                        int displayWidth6 = display6.getWidth();
-//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-//                        options6.inJustDecodeBounds = true;
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-//
-//                        int width6 = options6.outWidth;
-//                        if (width6 > displayWidth6) {
-//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-//                        }
-//                        options6.inJustDecodeBounds = false;
-//                        Bitmap scaledBitmap6=  BitmapFactory.decodeResource(getResources(), R.drawable.ic_flame_red, options6);
-//                        flameimg.setImageBitmap(scaledBitmap6);
-
-                        flameimg.setImageResource(R.drawable.ic_flame_red);
-                        flameimg.setImageTintList(null);
+                        Log.d(TAG, "found");
                         LikeCheck = j;
+                        break;
+                    }
+                }
 
-                    }
-                    else {
-//                        Display display6 = getWindowManager().getDefaultDisplay();
-//                        int displayWidth6 = display6.getWidth();
-//                        BitmapFactory.Options options6 = new BitmapFactory.Options();
-//                        options6.inJustDecodeBounds = true;
-//
-//                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-//
-//                        int width6 = options6.outWidth;
-//                        if (width6 > displayWidth6) {
-//                            options6.inSampleSize = Math.round((float) width6 / (float) displayWidth6);
-//                        }
-//                        options6.inJustDecodeBounds = false;
-//
-//                        Bitmap scaledBitmap11 =  BitmapFactory.decodeResource(getResources(), R.drawable.ic_normal_flame, options6);
-//                        flameimg.setImageDrawable(getResources().getDrawable(R.drawable.ic_normal_flame));
-                        flameimg.setImageResource(R.drawable.ic_dhak_view_more);
-                    }
+                if(LikeCheck >= 0){
+                    flameimg.setImageResource(R.drawable.ic_flame_red);
+                    flameimg.setImageTintList(null);
+                }
+                else {
+                    flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                 }
 
             } else {
@@ -773,16 +604,17 @@ public class ViewMoreHome extends AppCompatActivity {
                                     }
                                     for(int j = 0; j < likeList.size(); j++){
                                         if(likeList.get(j).matches(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()))){
-
-                                            flameimg.setImageResource(R.drawable.ic_flame_red);
-                                            flameimg.setImageTintList(null);
                                             LikeCheck = j;
+                                            break;
                                         }
-                                        else {
+                                    }
 
-                                            flameimg.setImageResource(R.drawable.ic_dhak_view_more);
-
-                                        }
+                                    if(LikeCheck >= 0){
+                                        flameimg.setImageResource(R.drawable.ic_flame_red);
+                                        flameimg.setImageTintList(null);
+                                    }
+                                    else {
+                                        flameimg.setImageResource(R.drawable.ic_dhak_view_more);
                                     }
 
                                 } else {
