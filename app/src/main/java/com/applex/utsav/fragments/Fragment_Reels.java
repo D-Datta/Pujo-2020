@@ -33,6 +33,7 @@ import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.StoreTemp;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -52,6 +53,7 @@ public class Fragment_Reels extends Fragment {
     private RecyclerView recyclerview;
     private ProgressBar contentprogressreels,progressmorereels;
     private LinearLayout noneImage;
+    private ShimmerFrameLayout shimmerFrameLayout;
     private FirestorePagingAdapter adapter;
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;
@@ -77,7 +79,11 @@ public class Fragment_Reels extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reels, container, false);
+        View view = inflater.inflate(R.layout.fragment_reels, container, false);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        return view;
     }
 
     @Override

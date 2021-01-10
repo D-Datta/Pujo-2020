@@ -72,6 +72,7 @@ import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
 import com.applex.utsav.utility.BasicUtility;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -113,6 +114,7 @@ public class FeedsFragment extends Fragment {
 
     private TextView view_all_NoPost;
     private RecyclerView comRecyclerView;
+    private ShimmerFrameLayout shimmerFrameLayout;
     private LinearLayout viewNoPost, viewPostExist;
 
     public static int changed = 0;
@@ -139,7 +141,11 @@ public class FeedsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_feeds, container, false);
+        View view = inflater.inflate(R.layout.fragment_feeds, container, false);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        return view;
     }
 
     @Override
@@ -1176,13 +1182,21 @@ public class FeedsFragment extends Fragment {
                         break;
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
-                    case LOADED: progressMore.setVisibility(View.GONE);
-                        if(swipeRefreshLayout.isRefreshing()) {
+                    case LOADED:
+                        new Handler().postDelayed(() -> {
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            progressMore.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 1000);
+
+                        if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         viewNoPost.setVisibility(View.GONE);
                         viewPostExist.setVisibility(View.VISIBLE);
                         break;
+
                     case FINISHED: contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {

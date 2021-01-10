@@ -9,18 +9,6 @@
     android:background="@color/white"
     tools:context=".fragments.AllPujoFragment">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:shimmer_repeat_mode="restart"
-        app:shimmer_shape="radial">
-
-        <include layout="@layout/layout_shimmer_allpujo" />
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
 
     <RelativeLayout
         android:id="@+id/search_bar"
@@ -162,6 +150,18 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:visibility="visible">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:shimmer_repeat_mode="restart"
+                app:shimmer_shape="radial">
+
+                <include layout="@layout/layout_shimmer_allpujo" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
