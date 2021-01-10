@@ -1201,6 +1201,7 @@ public class CommitteeFragment extends Fragment {
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
+
                         new Handler().postDelayed(() -> {
                             mRecyclerView.setVisibility(View.VISIBLE);
                             progressMore.setVisibility(View.GONE);
@@ -1212,6 +1213,7 @@ public class CommitteeFragment extends Fragment {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
+
                     case FINISHED:
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);

@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import com.applex.utsav.R;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
@@ -53,6 +55,7 @@ public class AllPujoFragment extends Fragment {
 
     private RecyclerView cRecyclerView;
     private ProgressBar progress;
+    private ShimmerFrameLayout shimmerFrameLayout;
     private ProgressBar progressMoreCom;
     private LinearLayout emptyLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -80,7 +83,12 @@ public class AllPujoFragment extends Fragment {
         Configuration config= new Configuration();
         config.locale = locale;
         Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
-        return inflater.inflate(R.layout.fragment_all_pujo, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_all_pujo, container, false);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        return view;
     }
 
     @Override
@@ -475,17 +483,27 @@ public class AllPujoFragment extends Fragment {
                     case LOADING_MORE:
                         progressMoreCom.setVisibility(View.VISIBLE);
                         break;
+
                     case LOADED:
-                        progressMoreCom.setVisibility(View.GONE);
-                        if (swipeRefreshLayout.isRefreshing()) {
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
                         if(adapter.getItemCount() == 0) {
                             emptyLayout.setVisibility(View.VISIBLE);
                         }
                         else {
                             emptyLayout.setVisibility(View.GONE);
                         }
+
+                        new Handler().postDelayed(() -> {
+                            cRecyclerView.setVisibility(View.VISIBLE);
+                            progress.setVisibility(View.GONE);
+                            progressMoreCom.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 2000);
+
+                        if (swipeRefreshLayout.isRefreshing()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+
                         break;
                     case FINISHED:
                         progress.setVisibility(View.GONE);
