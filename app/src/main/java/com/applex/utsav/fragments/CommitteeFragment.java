@@ -148,7 +148,6 @@ public class CommitteeFragment extends Fragment {
     private DocumentSnapshot lastReelDocument, lastfeedDocument;
     private FloatingActionButton floatingActionButton;
     private ArrayList<SliderModel> itemGroups;
-    private String[] storagePermission;
 
     public CommitteeFragment() {
         // Required empty public constructor
@@ -172,7 +171,6 @@ public class CommitteeFragment extends Fragment {
         Configuration config= new Configuration();
         config.locale = locale;
         Objects.requireNonNull(getActivity()).getResources().updateConfiguration(config, getActivity().getResources().getDisplayMetrics());
-        storagePermission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
         contentProgress = view.findViewById(R.id.content_progress);
@@ -216,7 +214,6 @@ public class CommitteeFragment extends Fragment {
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
             itemGroups.clear();
-            buildRecyclerView();
         });
     }
 
