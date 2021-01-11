@@ -1313,24 +1313,22 @@ public class FeedsFragment extends Fragment {
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-//                        Toast.makeText(requireActivity(), "Hi1", Toast.LENGTH_SHORT).show();
-                        mRecyclerView.setVisibility(View.VISIBLE);
                         progressMore.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
-
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
+                        mRecyclerView.setVisibility(View.VISIBLE);
                         break;
                     case FINISHED:
-                        mRecyclerView.setVisibility(View.VISIBLE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
+                        mRecyclerView.setVisibility(View.VISIBLE);
                         break;
                 }
             }
