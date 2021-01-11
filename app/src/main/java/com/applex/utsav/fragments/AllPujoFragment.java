@@ -103,7 +103,6 @@ public class AllPujoFragment extends Fragment {
 
         progress = view.findViewById(R.id.content_progress);
         progressMoreCom = view.findViewById(R.id.progress_more_comm);
-        progress.setVisibility(View.VISIBLE);
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         cRecyclerView = view.findViewById(R.id.community_view_all);
         cRecyclerView.setHasFixedSize(true);
@@ -114,6 +113,8 @@ public class AllPujoFragment extends Fragment {
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cRecyclerView.setLayoutManager(gridLayoutManager);
+        progress.setVisibility(View.GONE);
+        cRecyclerView.setVisibility(View.GONE);
 
         userList = new ArrayList<>();
         searchText.getText().clear();
@@ -160,6 +161,10 @@ public class AllPujoFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
             searchText.setText(null);
+            progress.setVisibility(View.GONE);
+            cRecyclerView.setVisibility(View.GONE);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
             buildRecyclerView("small_name",null);
         });
 
@@ -425,12 +430,12 @@ public class AllPujoFragment extends Fragment {
 
                 if(currentItem.getCoverpic() != null){
                     Picasso.get().load(currentItem.getCoverpic())
-                            .error(R.drawable.image_background_grey)
-                            .placeholder(R.drawable.image_background_grey)
+//                            .error(R.drawable.image_background_grey)
+//                            .placeholder(R.drawable.image_background_grey)
                             .into(programmingViewHolder.committeeCover);
                 }
                 else {
-                    programmingViewHolder.committeeCover.setImageResource(R.drawable.image_background_grey);
+                    programmingViewHolder.committeeCover.setImageResource(R.drawable.ic_search_icon);
                 }
 
                 if(currentItem.getDp() != null){
@@ -485,13 +490,6 @@ public class AllPujoFragment extends Fragment {
                         break;
 
                     case LOADED:
-                        if(adapter.getItemCount() == 0) {
-                            emptyLayout.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            emptyLayout.setVisibility(View.GONE);
-                        }
-
                         new Handler().postDelayed(() -> {
                             cRecyclerView.setVisibility(View.VISIBLE);
                             progress.setVisibility(View.GONE);

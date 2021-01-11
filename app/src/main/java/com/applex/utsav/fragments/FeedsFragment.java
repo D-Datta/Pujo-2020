@@ -159,7 +159,6 @@ public class FeedsFragment extends Fragment {
         changed = 0;
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
-
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
         floatingActionButton = view.findViewById(R.id.to_the_top_people);
@@ -183,7 +182,8 @@ public class FeedsFragment extends Fragment {
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
         positions = new ArrayList<>();
-        buildRecyclerView();
+        mRecyclerView.setVisibility(View.GONE);
+        contentProgress.setVisibility(View.GONE);
 
         //SWIPE REFRESH//
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
@@ -191,6 +191,10 @@ public class FeedsFragment extends Fragment {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            contentProgress.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
             contentProgCom.setVisibility(View.GONE);
             positions = new ArrayList<>();
             buildRecyclerView();

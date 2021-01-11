@@ -101,6 +101,7 @@ public class ActivityNotification extends AppCompatActivity {
 
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
+        notifRecycler.setVisibility(View.GONE);
 
         notifRecycler.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ActivityNotification.this);
@@ -115,6 +116,9 @@ public class ActivityNotification extends AppCompatActivity {
                 .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            notifRecycler.setVisibility(View.GONE);
             buildRecyclerView();
         });
 

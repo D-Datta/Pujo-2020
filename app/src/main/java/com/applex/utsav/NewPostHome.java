@@ -27,21 +27,18 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -49,36 +46,26 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
-import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.MultipleImageAdapter;
 import com.applex.utsav.adapters.SuggestedTagAdapter;
-import com.applex.utsav.adapters.UserTagAdapter;
-import com.applex.utsav.adapters.UserTaggingAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
-import com.applex.utsav.fragments.FragmentClips;
-import com.applex.utsav.models.BaseUserModel;
+import com.applex.utsav.fragments.ClipsFragment;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.models.Suggestedtag;
-import com.applex.utsav.models.UserTagModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
-import com.applex.utsav.utility.ItemMoveCallback;
-import com.applex.utsav.utility.SpaceTokenizer;
 import com.applex.utsav.utility.StoreTemp;
 import com.applex.utsav.videoCompressor.VideoCompress;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -86,14 +73,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.DatabaseRegistrar;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -109,7 +89,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -1038,13 +1017,13 @@ public class NewPostHome extends AppCompatActivity {
 
                         if(introPref.getType().matches("indi")){
                             FeedsFragment.changed=1;
-                            FragmentClips.changed=1;
+                            ClipsFragment.changed=1;
 //                            ActivityProfileUser.change=1;
                             ActivityProfile.change=1;
                         }
                         else if(introPref.getType().matches("com")){
                             CommitteeFragment.changed=1;
-                            FragmentClips.changed=1;
+                            ClipsFragment.changed=1;
                             ActivityProfile.change=1;
                         }
 

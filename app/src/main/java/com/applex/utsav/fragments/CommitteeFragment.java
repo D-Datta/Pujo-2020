@@ -211,6 +211,8 @@ public class CommitteeFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
+            contentProgress.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
             itemGroups.clear();
             buildRecyclerView();

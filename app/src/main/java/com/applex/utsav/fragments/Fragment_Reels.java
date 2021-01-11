@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -53,7 +52,6 @@ public class Fragment_Reels extends Fragment {
     private RecyclerView recyclerview;
     private ProgressBar contentprogressreels,progressmorereels;
     private LinearLayout noneImage;
-    private ShimmerFrameLayout shimmerFrameLayout;
     private FirestorePagingAdapter adapter;
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;
@@ -80,9 +78,6 @@ public class Fragment_Reels extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reels, container, false);
-        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
-        shimmerFrameLayout.setVisibility(View.VISIBLE);
-        shimmerFrameLayout.startShimmer();
         return view;
     }
 
@@ -228,7 +223,7 @@ public class Fragment_Reels extends Fragment {
                                                 .addOnSuccessListener(aVoid -> {
 //                                                    ActivityProfileCommittee.delete = 1;
                                                     ActivityProfile.delete = 1;
-                                                    FragmentClips.changed = 1;
+                                                    ClipsFragment.changed = 1;
                                                     CommitteeFragment.changed = 1;
                                                     FeedsFragment.changed = 1;
                                                     holder.itemView.setVisibility(View.GONE);

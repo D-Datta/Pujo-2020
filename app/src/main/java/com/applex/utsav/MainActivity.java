@@ -26,7 +26,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -47,21 +46,18 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.adapters.HomeTabAdapter;
 import com.applex.utsav.drawerActivities.AboutUs;
 import com.applex.utsav.fragments.AllPujoFragment;
+import com.applex.utsav.fragments.ClipsFragment;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
-import com.applex.utsav.fragments.FragmentClips;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.models.NotifCount;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.registration.LoginActivity;
-import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.DialogUtils;
 import com.applex.utsav.utility.MessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +73,7 @@ import org.jsoup.Jsoup;
 import java.util.Locale;
 import java.util.Objects;
 
-import static com.applex.utsav.fragments.FragmentClips.mRecyclerView;
+import static com.applex.utsav.fragments.ClipsFragment.mRecyclerView;
 import static com.applex.utsav.utility.Constants.WHATSAPP_NUMBER;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -381,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         HomeTabAdapter tabAdapter = new HomeTabAdapter(getSupportFragmentManager());
         tabAdapter.addFragment(new CommitteeFragment(), "");
         tabAdapter.addFragment(new FeedsFragment(), "");
-        tabAdapter.addFragment(new FragmentClips(), "");
+        tabAdapter.addFragment(new ClipsFragment(), "");
         tabAdapter.addFragment(new AllPujoFragment(), "");
         viewPager.setAdapter(tabAdapter);
 
@@ -399,7 +395,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (firstVisiblePosition >= 0) {
                         for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
                             final RecyclerView.ViewHolder holder1 = mRecyclerView.findViewHolderForAdapterPosition(i);
-                            FragmentClips.ProgrammingViewHolder cvh1 = (FragmentClips.ProgrammingViewHolder) holder1;
+                            ClipsFragment.ProgrammingViewHolder cvh1 = (ClipsFragment.ProgrammingViewHolder) holder1;
                             Objects.requireNonNull(cvh1).reels_video.pause();
                         }
                     }
@@ -437,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (firstVisiblePosition >= 0) {
                 for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
                     final RecyclerView.ViewHolder holder1 = mRecyclerView.findViewHolderForAdapterPosition(i);
-                    FragmentClips.ProgrammingViewHolder cvh1 = (FragmentClips.ProgrammingViewHolder) holder1;
+                    ClipsFragment.ProgrammingViewHolder cvh1 = (ClipsFragment.ProgrammingViewHolder) holder1;
                     Objects.requireNonNull(cvh1).reels_video.pause();
                 }
             }

@@ -41,8 +41,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.ViewCompat;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
@@ -52,24 +50,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
-import com.applex.utsav.adapters.SliderAdapter;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
-import com.applex.utsav.fragments.CommitteeFragment;
-import com.applex.utsav.fragments.FragmentClips;
 import com.applex.utsav.models.FlamedModel;
-import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
-import com.applex.utsav.utility.InternetConnection;
 import com.applex.utsav.utility.StoreTemp;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,17 +68,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.thekhaeng.pushdownanim.PushDownAnim;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -100,6 +86,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
     FirestorePagingAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerview;
+    ShimmerFrameLayout shimmerFrameLayout;
     ProgressBar contentprogressposts, progressmoreposts;
     ImageView noneImage;
     BottomSheetDialog postMenuDialog;
@@ -164,6 +151,12 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setItemViewCacheSize(20);
 
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        contentprogressposts.setVisibility(View.GONE);
+        recyclerview.setVisibility(View.GONE);
+
         tagName = getIntent().getStringExtra("hashtag");
         buildRecyclerView();
 
@@ -172,6 +165,10 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                         .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            recyclerview.setVisibility(View.GONE);
+            contentprogressposts.setVisibility(View.GONE);
             buildRecyclerView();
         });
 
@@ -754,7 +751,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     try {
                         AssetFileDescriptor afd = HashtagClipsViewAll.this.getAssets().openFd("sonkho.mp3");
@@ -771,7 +768,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -917,17 +914,17 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                     }
 
                     programmingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
@@ -1035,12 +1032,20 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 switch (state) {
                     case ERROR: BasicUtility.showToast(getApplicationContext(),"Something went wrong..."); break;
                     case LOADING_MORE: progressmoreposts.setVisibility(View.VISIBLE); break;
-                    case LOADED: progressmoreposts.setVisibility(View.GONE);
+                    case LOADED:
+                        new Handler().postDelayed(() -> {
+                            recyclerview.setVisibility(View.VISIBLE);
+                            progressmoreposts.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 1000);
+                        progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
-                    case FINISHED: contentprogressposts.setVisibility(View.GONE);
+                    case FINISHED:
+                        contentprogressposts.setVisibility(View.GONE);
                         progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);

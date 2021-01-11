@@ -91,7 +91,7 @@ import java.util.regex.Pattern;
 
 import static java.lang.Boolean.TRUE;
 
-public class FragmentClips extends Fragment {
+public class ClipsFragment extends Fragment {
 
     public static int changed = 0;
     public static int delete = 0;
@@ -106,7 +106,7 @@ public class FragmentClips extends Fragment {
     private String USERDP, USERNAME, link, GENDER;
     private FloatingActionButton floatingActionButton;
 
-    public FragmentClips() {
+    public ClipsFragment() {
         // Required empty public constructor
     }
 
@@ -149,6 +149,8 @@ public class FragmentClips extends Fragment {
         mRecyclerView.setDrawingCacheEnabled(true);
         /////////////SETUP//////////////
 
+        contentProgress.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.GONE);
         buildRecyclerView();
         //////////////RECYCLER VIEW////////////////////
 
@@ -162,6 +164,10 @@ public class FragmentClips extends Fragment {
                         getResources().getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            contentProgress.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
             buildRecyclerView();
         });
     }
@@ -748,7 +754,7 @@ public class FragmentClips extends Fragment {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     try {
                         AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
@@ -765,7 +771,7 @@ public class FragmentClips extends Fragment {
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -911,17 +917,17 @@ public class FragmentClips extends Fragment {
                     }
 
                     ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "FragmentClips", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
                     });
                 }

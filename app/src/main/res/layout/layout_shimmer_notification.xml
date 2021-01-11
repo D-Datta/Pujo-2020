@@ -6,57 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingVertical="10dp"
-    android:paddingHorizontal="8dp"
-    android:gravity="center_vertical">
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            app:cardCornerRadius="30dp"
-            app:cardElevation="0dp"
-            android:backgroundTint="@color/grey_9E9999">
-
-        </androidx.cardview.widget.CardView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bubble"
-                android:layout_marginEnd="10dp"
-                android:layout_marginVertical="5dp"/>
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bubble"
-            android:layout_marginEnd="10dp"
-            android:layout_marginVertical="5dp"/>
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bubble"
-            android:layout_marginEnd="50dp"
-            android:layout_marginVertical="5dp"/>
-
-    </LinearLayout>
-
-</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +14,6 @@
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical">
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -76,14 +24,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -128,14 +74,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -150,6 +94,7 @@
                 android:background="@drawable/bubble"
                 android:layout_marginEnd="10dp"
                 android:layout_marginVertical="5dp"/>
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -169,7 +114,6 @@
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical">
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -180,14 +124,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -202,6 +144,7 @@
                 android:background="@drawable/bubble"
                 android:layout_marginEnd="10dp"
                 android:layout_marginVertical="5dp"/>
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -212,6 +155,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -219,7 +163,6 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
@@ -231,14 +174,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -253,6 +194,7 @@
                 android:background="@drawable/bubble"
                 android:layout_marginEnd="10dp"
                 android:layout_marginVertical="5dp"/>
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -263,6 +205,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -270,7 +213,6 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
@@ -282,14 +224,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -304,6 +244,7 @@
                 android:background="@drawable/bubble"
                 android:layout_marginEnd="10dp"
                 android:layout_marginVertical="5dp"/>
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -314,6 +255,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -321,7 +263,6 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
@@ -333,14 +274,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -355,6 +294,7 @@
                 android:background="@drawable/bubble"
                 android:layout_marginEnd="10dp"
                 android:layout_marginVertical="5dp"/>
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -365,6 +305,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -372,7 +313,6 @@
         android:paddingVertical="10dp"
         android:paddingHorizontal="8dp"
         android:gravity="center_vertical">
-
 
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
@@ -384,14 +324,12 @@
 
         </androidx.cardview.widget.CardView>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
-
 
             <TextView
                 android:layout_width="match_parent"
@@ -406,6 +344,57 @@
                 android:background="@drawable/bubble"
                 android:layout_marginEnd="10dp"
                 android:layout_marginVertical="5dp"/>
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bubble"
+                android:layout_marginEnd="50dp"
+                android:layout_marginVertical="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="8dp"
+        android:gravity="center_vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="0dp"
+            android:backgroundTint="@color/grey_9E9999">
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bubble"
+                android:layout_marginEnd="10dp"
+                android:layout_marginVertical="5dp"/>
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bubble"
+                android:layout_marginEnd="10dp"
+                android:layout_marginVertical="5dp"/>
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -418,4 +407,3 @@
     </LinearLayout>
 
 </LinearLayout>
-

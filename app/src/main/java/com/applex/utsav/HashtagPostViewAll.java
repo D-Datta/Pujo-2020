@@ -162,6 +162,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmerLayout);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
+        contentprogressposts.setVisibility(View.GONE);
+        recyclerview.setVisibility(View.GONE);
 
         recyclerview.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -177,6 +179,10 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            recyclerview.setVisibility(View.GONE);
+            contentprogressposts.setVisibility(View.GONE);
             buildRecyclerView();
         });
 
@@ -1143,7 +1149,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
-                    case FINISHED: contentprogressposts.setVisibility(View.GONE);
+                    case FINISHED:
+                        contentprogressposts.setVisibility(View.GONE);
                         progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
