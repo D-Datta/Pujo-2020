@@ -80,7 +80,7 @@
     <string name="submit">SUBMIT</string>
     <string name="choose_pic">Choose Your Profile Photo and Cover Picture</string>
     <string name="trending_posts">Trending Posts</string>
-    <string name="_10_mins_ago">10 mins ago</string>
+    <string name="_10_mins_ago"> mins ago</string>
     <string name="post_content">post_content</string>
     <string name="_2_4k">2.4k</string>
     <string name="_154">15.3k</string>
@@ -226,6 +226,7 @@
     <string name="upi_id_hint">UPI ID</string>
     <string name="media_preview_will_be_visible_after_editing">Media preview will be visible after editing</string>
     <string name="e_pronami">e-Pronami</string>
+    <string name="enter_amount">Enter Amount</string>
     <string name="Math_Mission">Math/ Mission</string>
     <string name="prabashi">Prabashi</string>
     <string name="others">Others</string>
@@ -237,7 +238,7 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
-    <string name="link_suffix">\n\nGet to see Durga Pujo from all across the world. If you haven\'t downloaded the app yet.\n\nDownload UTSAV now\n https://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="link_suffix">\n\nGet to see Festivals, Puja &amp; Temples from all across the world. If you haven\'t downloaded the app yet.\n\nDownload UTSAV now\n https://play.google.com/store/apps/details?id=com.applex.utsav</string>
     <string name="set_theme">Set theme</string>
     <string name="download_utsav">\n\nDownload Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
 
