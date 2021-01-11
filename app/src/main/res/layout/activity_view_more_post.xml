@@ -151,9 +151,9 @@
             android:paddingHorizontal="20dp"
             android:autoLink="all"
             android:textColorLink="@color/link"
-            android:text="@string/lorem_ipsum"
+            android:text=""
             android:scrollbars="vertical"
-            android:textSize="14dp"
+            android:textSize="15sp"
             app:trimExpandedText="@string/read_less"
             app:trimCollapsedText="@string/read_more"
             app:trimMode="trimModeLength"
@@ -194,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginHorizontal="10dp"
-                        android:text="@string/_2_4k"
+                        android:text=" "
                         android:textColor="@color/white_transparent"
                         android:textSize="12dp" />
 
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
                         android:layout_gravity="center_vertical"
-                        android:text="@string/_154"
+                        android:text=" "
                         android:textColor="@color/white_transparent"
                         android:textSize="12dp" />
 
