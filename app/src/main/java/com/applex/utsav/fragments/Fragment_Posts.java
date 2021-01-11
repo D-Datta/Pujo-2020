@@ -196,6 +196,8 @@ public class Fragment_Posts extends Fragment {
                         intent.putExtra("timestamp", Long.toString(model.getTs()));
                         intent.putExtra("type", model.getType());
                         intent.putExtra("gender",model.getGender());
+                        intent.putExtra("headline",model.getHeadline());
+                        intent.putExtra("challengeID",model.getChallengeID());
                         startActivity(intent);
                     });
                 }

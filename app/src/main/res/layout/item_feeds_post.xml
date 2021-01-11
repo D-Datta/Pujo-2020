@@ -407,6 +407,22 @@
                         android:paddingTop="5dp" />
 
                     <TextView
+                        android:id="@+id/head_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:paddingHorizontal="17dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/head_content"
+                        android:textColor="@color/purple"
+                        android:ellipsize="end"
+                        android:textColorLink="@color/colorPrimary"
+                        android:textSize="17dp"
+                        android:visibility="gone"/>
+
+                    <TextView
                         android:id="@+id/text_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -455,6 +471,29 @@
                             android:transitionName="transition"
                             android:visibility="gone"
                             app:sliderStartAutoCycle="true" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/picupdate"
+                            android:layout_width="300dp"
+                            android:layout_height="300dp"
+                            app:cardCornerRadius="150dp"
+                            android:layout_centerInParent="true"
+                            android:visibility="gone">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                app:cardCornerRadius="145dp"
+                                android:layout_margin="5dp"
+                                app:cardElevation="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center">
+                                <ImageView
+                                    android:id="@+id/profilepicpost"
+                                    android:layout_width="290dp"
+                                    android:layout_height="290dp"
+                                    android:scaleType="centerCrop"
+                                    android:layout_gravity="center"/>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
 
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/dhak_anim"

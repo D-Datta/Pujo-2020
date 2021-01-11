@@ -457,6 +457,15 @@ public class NewPostHome extends AppCompatActivity {
                 llBottomSheet.setVisibility(View.GONE);
                 isEdit = true;
 
+                if(intent.getStringExtra("challengeID")!=null && !intent.getStringExtra("challengeID").isEmpty()
+                && (intent.getStringExtra("challengeID").matches("PictureUpdate") || intent.getStringExtra("challengeID").matches("CoverUpdate"))){
+                    if(intent.getStringExtra("headline")!=null && !intent.getStringExtra("headline").isEmpty())
+                    {
+                        head_content.setVisibility(View.VISIBLE);
+                        head_content.setText(intent.getStringExtra("headline"));
+                    }
+                }
+
                 if(intent.getStringExtra("headline")!=null && introPref.getType().matches("com"))
                 {
                     head_content.setVisibility(View.VISIBLE);

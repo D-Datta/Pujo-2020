@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -593,18 +594,131 @@ public class FeedsFragment extends Fragment {
                 }
 
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                    feedViewHolder.rlLayout.setVisibility(View.VISIBLE);
-                    feedViewHolder.sliderView.setVisibility(View.VISIBLE);
-                    feedViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                    feedViewHolder.sliderView.setIndicatorRadius(5);
-                    feedViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                    feedViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                    feedViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
-                    feedViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
-                    feedViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem);
-                    feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
+                    feedViewHolder.rlLayout.setVisibility(View.VISIBLE);
+
+                    if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty() && currentItem.getChallengeID().matches("PictureUpdate")){
+                        feedViewHolder.picupdate.setVisibility(View.VISIBLE);
+                        feedViewHolder.picupdate.setCardBackgroundColor(getResources().getColor(R.color.reels_white));
+                        feedViewHolder.sliderView.setVisibility(View.GONE);
+                        Picasso.get().load(currentItem.getImg().get(0)).into(feedViewHolder.profilepicpost);
+
+                        if(currentItem.getHeadline()!=null && !currentItem.getHeadline().isEmpty()){
+                            feedViewHolder.head_content.setVisibility(View.VISIBLE);
+                            feedViewHolder.head_content.setText(currentItem.getHeadline());
+                        }
+
+                        feedViewHolder.head_content.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                                intent.putExtra("username", currentItem.getUsN());
+                                intent.putExtra("userdp", currentItem.getDp());
+                                intent.putExtra("docID", currentItem.getDocID());
+                                StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                intent.putExtra("comName", currentItem.getComName());
+                                intent.putExtra("comID", currentItem.getComID());
+                                intent.putExtra("likeL", currentItem.getLikeL());
+                                if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                    intent.putExtra("BUNDLE", args);
+                                }
+                                intent.putExtra("postText", currentItem.getTxt());
+                                intent.putExtra("bool", "3");
+                                intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                                intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                intent.putExtra("uid", currentItem.getUid());
+                                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                                intent.putExtra("type", currentItem.getType());
+                                intent.putExtra("gender",currentItem.getGender());
+                                intent.putExtra("headline",currentItem.getHeadline());
+                                intent.putExtra("challengeID",currentItem.getChallengeID());
+                                startActivity(intent);
+                            }
+                        });
+
+                        feedViewHolder.profilepicpost.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                                intent.putExtra("username", currentItem.getUsN());
+                                intent.putExtra("userdp", currentItem.getDp());
+                                intent.putExtra("docID", currentItem.getDocID());
+                                StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                intent.putExtra("comName", currentItem.getComName());
+                                intent.putExtra("comID", currentItem.getComID());
+                                intent.putExtra("likeL", currentItem.getLikeL());
+                                if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                    intent.putExtra("BUNDLE", args);
+                                }
+                                intent.putExtra("postText", currentItem.getTxt());
+                                intent.putExtra("bool", "3");
+                                intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                                intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                intent.putExtra("uid", currentItem.getUid());
+                                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                                intent.putExtra("type", currentItem.getType());
+                                intent.putExtra("gender",currentItem.getGender());
+                                intent.putExtra("headline",currentItem.getHeadline());
+                                intent.putExtra("challengeID",currentItem.getChallengeID());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    else{
+                        feedViewHolder.sliderView.setVisibility(View.VISIBLE);
+                        feedViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                        feedViewHolder.sliderView.setIndicatorRadius(5);
+                        feedViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        feedViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        feedViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
+                        feedViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                        feedViewHolder.sliderView.setAutoCycle(false);
+
+                        SliderAdapter sliderAdapter = new SliderAdapter(getActivity(), currentItem.getImg(),currentItem);
+                        feedViewHolder.sliderView.setSliderAdapter(sliderAdapter);
+
+                        if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty() && currentItem.getChallengeID().matches("CoverUpdate")){
+
+                            if(currentItem.getHeadline()!=null && !currentItem.getHeadline().isEmpty()){
+                                feedViewHolder.head_content.setVisibility(View.VISIBLE);
+                                feedViewHolder.head_content.setText(currentItem.getHeadline());
+                            }
+
+                            feedViewHolder.head_content.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity(), ViewMoreHome.class);
+                                    intent.putExtra("username", currentItem.getUsN());
+                                    intent.putExtra("userdp", currentItem.getDp());
+                                    intent.putExtra("docID", currentItem.getDocID());
+                                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                    intent.putExtra("comName", currentItem.getComName());
+                                    intent.putExtra("comID", currentItem.getComID());
+                                    intent.putExtra("likeL", currentItem.getLikeL());
+                                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                        Bundle args = new Bundle();
+                                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                        intent.putExtra("BUNDLE", args);
+                                    }
+                                    intent.putExtra("postText", currentItem.getTxt());
+                                    intent.putExtra("bool", "3");
+                                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                    intent.putExtra("uid", currentItem.getUid());
+                                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                                    intent.putExtra("type", currentItem.getType());
+                                    intent.putExtra("gender",currentItem.getGender());
+                                    intent.putExtra("headline",currentItem.getHeadline());
+                                    intent.putExtra("challengeID",currentItem.getChallengeID());
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    }
 
                     feedViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(getActivity(), ViewMoreHome.class);
@@ -628,6 +742,8 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
+                        intent.putExtra("headline",currentItem.getHeadline());
+                        intent.putExtra("challengeID",currentItem.getChallengeID());
                         startActivity(intent);
                     });
                 }
@@ -656,6 +772,8 @@ public class FeedsFragment extends Fragment {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
+                        intent.putExtra("headline",currentItem.getHeadline());
+                        intent.putExtra("challengeID",currentItem.getChallengeID());
                         startActivity(intent);
                     });
                 }
@@ -1093,10 +1211,18 @@ public class FeedsFragment extends Fragment {
                             }
                             i.putExtra("docID", currentItem.getDocID());
                             StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+                            i.putExtra("challengeID",currentItem.getChallengeID());
                             startActivity(i);
                             postMenuDialog.dismiss();
 
                         });
+
+                        if(currentItem.getType()!=null && !currentItem.getType().isEmpty() && currentItem.getType().matches("com")
+                                && currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty()
+                                && (currentItem.getChallengeID().matches("PictureUpdate") || currentItem.getChallengeID().matches("CoverUpdate"))){
+                            postMenuDialog.findViewById(R.id.delete_post).setVisibility(View.GONE);
+                        }
+
 
                         postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -1108,31 +1234,103 @@ public class FeedsFragment extends Fragment {
                                     progressDialog.setMessage("Please wait...");
                                     progressDialog.setCancelable(false);
                                     progressDialog.show();
-                                    FirebaseFirestore.getInstance()
-                                            .collection("Feeds/").document(currentItem
-                                        .getDocID()).delete()
-                                        .addOnSuccessListener(aVoid -> {
-                                            feedViewHolder.first_post.setVisibility(View.GONE);
-                                            progressDialog.dismiss();
-                                            FirebaseFirestore.getInstance()
-                                                    .collection("Feeds/")
-                                                    .orderBy("newTs", Query.Direction.DESCENDING)
-                                                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    if(task.isSuccessful()) {
-                                                        if(task.getResult().size() == 0) {
-                                                            feedViewHolder.noPost.setVisibility(View.VISIBLE);
-                                                        }
-                                                        else {
-                                                            feedViewHolder.noPost.setVisibility(View.GONE);
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        });
-                                    postMenuDialog.dismiss();
 
+                                    if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty()
+                                            && currentItem.getChallengeID().matches("PictureUpdate")){
+                                        FirebaseFirestore.getInstance().collection("Users")
+                                                .document(currentItem.getUid())
+                                                .update("dp",null,"dpcaption",null,"dppostid",null,"isdpshared",false)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        FirebaseFirestore.getInstance()
+                                                                .collection("Feeds/").document(currentItem
+                                                                .getDocID()).delete()
+                                                                .addOnSuccessListener(aVoid -> {
+                                                                    feedViewHolder.first_post.setVisibility(View.GONE);
+                                                                    progressDialog.dismiss();
+                                                                    FirebaseFirestore.getInstance()
+                                                                            .collection("Feeds/")
+                                                                            .orderBy("newTs", Query.Direction.DESCENDING)
+                                                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                            if(task.isSuccessful()) {
+                                                                                if(task.getResult().size() == 0) {
+                                                                                    feedViewHolder.noPost.setVisibility(View.VISIBLE);
+                                                                                }
+                                                                                else {
+                                                                                    feedViewHolder.noPost.setVisibility(View.GONE);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                });
+                                                        postMenuDialog.dismiss();
+                                                    }
+                                                });
+                                    }
+                                    else if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty()
+                                            && currentItem.getChallengeID().matches("CoverUpdate")){
+                                        FirebaseFirestore.getInstance().collection("Users")
+                                                .document(currentItem.getUid())
+                                                .update("coverpic",null,"covercaption",null,"coverpostid",null,"iscovershared",false)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        FirebaseFirestore.getInstance()
+                                                                .collection("Feeds/").document(currentItem
+                                                                .getDocID()).delete()
+                                                                .addOnSuccessListener(aVoid -> {
+                                                                    feedViewHolder.first_post.setVisibility(View.GONE);
+                                                                    progressDialog.dismiss();
+                                                                    FirebaseFirestore.getInstance()
+                                                                            .collection("Feeds/")
+                                                                            .orderBy("newTs", Query.Direction.DESCENDING)
+                                                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                            if(task.isSuccessful()) {
+                                                                                if(task.getResult().size() == 0) {
+                                                                                    feedViewHolder.noPost.setVisibility(View.VISIBLE);
+                                                                                }
+                                                                                else {
+                                                                                    feedViewHolder.noPost.setVisibility(View.GONE);
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                });
+                                                        postMenuDialog.dismiss();
+                                                    }
+                                                });
+                                    }
+                                    else{
+                                        FirebaseFirestore.getInstance()
+                                                .collection("Feeds/").document(currentItem
+                                                .getDocID()).delete()
+                                                .addOnSuccessListener(aVoid -> {
+                                                    feedViewHolder.first_post.setVisibility(View.GONE);
+                                                    progressDialog.dismiss();
+                                                    FirebaseFirestore.getInstance()
+                                                            .collection("Feeds/")
+                                                            .orderBy("newTs", Query.Direction.DESCENDING)
+                                                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                            if(task.isSuccessful()) {
+                                                                if(task.getResult().size() == 0) {
+                                                                    feedViewHolder.noPost.setVisibility(View.VISIBLE);
+                                                                }
+                                                                else {
+                                                                    feedViewHolder.noPost.setVisibility(View.GONE);
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                        postMenuDialog.dismiss();
+                                    }
                                 })
                                 .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                                 .setCancelable(true)
@@ -1368,6 +1566,10 @@ public class FeedsFragment extends Fragment {
         LottieAnimationView dhak_anim;
         RecyclerView reelsList;
 
+        CardView picupdate;
+        ImageView profilepicpost;
+        TextView head_content;
+
 
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1426,6 +1628,10 @@ public class FeedsFragment extends Fragment {
             reelsList = itemView.findViewById(R.id.reelsRecycler);
             viewallReels = itemView.findViewById(R.id.view_all_reels);
             reels_item = itemView.findViewById(R.id.reels_item);
+
+            picupdate = itemView.findViewById(R.id.picupdate);
+            profilepicpost = itemView.findViewById(R.id.profilepicpost);
+            head_content = itemView.findViewById(R.id.head_content);
         }
     }
 

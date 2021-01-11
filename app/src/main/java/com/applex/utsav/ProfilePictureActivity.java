@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
+import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
@@ -31,6 +32,7 @@ public class ProfilePictureActivity extends AppCompatActivity {
 
     ImageView back, download;
     IntroPref introPref;
+    ReadMoreTextView caption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,18 @@ public class ProfilePictureActivity extends AppCompatActivity {
         img = findViewById(R.id.imageView);
         back = findViewById(R.id.back);
         download = findViewById(R.id.download);
+        caption = findViewById(R.id.caption);
 
         if(getIntent().getStringExtra("from") != null){
+
+            if(getIntent().getStringExtra("caption")!=null && !getIntent().getStringExtra("caption").isEmpty()){
+                caption.setVisibility(View.VISIBLE);
+                String CAPTION = getIntent().getStringExtra("caption");
+                caption.setText(CAPTION);
+            }
+            else{
+                caption.setVisibility(View.GONE);
+            }
             String pic = getIntent().getStringExtra("Bitmap");
             Picasso.get().load(pic).into(img);
 

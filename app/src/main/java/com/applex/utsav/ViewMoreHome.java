@@ -405,6 +405,14 @@ public class ViewMoreHome extends AppCompatActivity {
             } else {
                 textContent.setVisibility(View.GONE);
             }
+
+            if(i.getStringExtra("challengeID")!=null && !i.getStringExtra("challengeID").isEmpty()){
+                homePostModel[0].setChallengeID(i.getStringExtra("challengeID"));
+            }
+            if(i.getStringExtra("headline")!=null && !i.getStringExtra("headline").isEmpty()){
+                homePostModel[0].setHeadline(i.getStringExtra("headline"));
+            }
+
             ////////////////POST TEXT///////////////
 
 
@@ -932,6 +940,7 @@ public class ViewMoreHome extends AppCompatActivity {
                         }
                         i.putExtra("docID", homePostModel[0].getDocID());
                         StoreTemp.getInstance().setPujoTagModel(homePostModel[0].getPujoTag());
+                        i.putExtra("challengeID",homePostModel[0].getChallengeID());
 //                            i.putExtra("target", "100"); //target value for edit post
 //                            i.putExtra("bool", "3");
 //                            i.putExtra("usN", currentItem.getUsN());
@@ -960,8 +969,12 @@ public class ViewMoreHome extends AppCompatActivity {
 
                     });
 
+                    if(homePostModel[0].getType()!=null && !homePostModel[0].getType().isEmpty() && homePostModel[0].getType().matches("com")
+                            && homePostModel[0].getChallengeID()!=null && !homePostModel[0].getChallengeID().isEmpty()
+                            && (homePostModel[0].getChallengeID().matches("PictureUpdate") || homePostModel[0].getChallengeID().matches("CoverUpdate"))){
+                        postMenuDialog.findViewById(R.id.delete_post).setVisibility(View.GONE);
+                    }
 
-//
 
                     postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -970,24 +983,93 @@ public class ViewMoreHome extends AppCompatActivity {
                             builder.setTitle("Are you sure?")
                                     .setMessage("Post will be deleted permanently")
                                     .setPositiveButton("Delete", (dialog, which) -> {
-                                        docRef.delete()
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        postMenuDialog.dismiss();
-                                                        change = 1;
+                                        progressDialog =new ProgressDialog(ViewMoreHome.this) ;
+                                        progressDialog.setTitle("Deleting Post");
+                                        progressDialog.setMessage("Please wait...");
+                                        progressDialog.setCancelable(false);
+                                        progressDialog.show();
+
+                                        if(homePostModel[0].getChallengeID()!=null && !homePostModel[0].getChallengeID().isEmpty()
+                                                && homePostModel[0].getChallengeID().matches("PictureUpdate")){
+                                            FirebaseFirestore.getInstance().collection("Users")
+                                                    .document(homePostModel[0].getUid())
+                                                    .update("dp",null,"dpcaption",null,"dppostid",null,"isdpshared",false)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            docRef.delete()
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            postMenuDialog.dismiss();
+                                                                            change = 1;
 //                                                        ProfileActivity.delete = 1;
-                                                        if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
-                                                            startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
-                                                            finish();
-                                                        } else if (isTaskRoot()) {
-                                                            startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
-                                                            finish();
-                                                        } else {
-                                                            ViewMoreHome.super.onBackPressed();
+                                                                            if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
+                                                                                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                                                finish();
+                                                                            } else if (isTaskRoot()) {
+                                                                                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                                                finish();
+                                                                            } else {
+                                                                                ViewMoreHome.super.onBackPressed();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                            progressDialog.dismiss();
                                                         }
-                                                    }
-                                                });
+                                                    });
+                                        }
+                                        else if(homePostModel[0].getChallengeID()!=null && !homePostModel[0].getChallengeID().isEmpty()
+                                                && homePostModel[0].getChallengeID().matches("CoverUpdate")){
+                                            FirebaseFirestore.getInstance().collection("Users")
+                                                    .document(homePostModel[0].getUid())
+                                                    .update("coverpic",null,"covercaption",null,"coverpostid",null,"iscovershared",false)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            docRef.delete()
+                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            postMenuDialog.dismiss();
+                                                                            change = 1;
+//                                                        ProfileActivity.delete = 1;
+                                                                            if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
+                                                                                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                                                finish();
+                                                                            } else if (isTaskRoot()) {
+                                                                                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                                                finish();
+                                                                            } else {
+                                                                                ViewMoreHome.super.onBackPressed();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                            progressDialog.dismiss();
+                                                        }
+                                                    });
+                                        }
+                                        else{
+                                            docRef.delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void aVoid) {
+                                                            postMenuDialog.dismiss();
+                                                            change = 1;
+//                                                        ProfileActivity.delete = 1;
+                                                            if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").matches("link")) {
+                                                                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                                finish();
+                                                            } else if (isTaskRoot()) {
+                                                                startActivity(new Intent(ViewMoreHome.this, MainActivity.class));
+                                                                finish();
+                                                            } else {
+                                                                ViewMoreHome.super.onBackPressed();
+                                                            }
+                                                        }
+                                                    });
+                                            progressDialog.dismiss();
+                                        }
                                     })
                                     .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                                     .setCancelable(true)

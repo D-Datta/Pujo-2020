@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
 import androidx.paging.PagedList;
@@ -484,18 +485,136 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 }
 
                 if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
-                    programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
-                    programmingViewHolder.sliderView.setVisibility(View.VISIBLE);
-                    programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-                    programmingViewHolder.sliderView.setIndicatorRadius(8);
-                    programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-                    programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
-                    programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
-                    programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
-                    programmingViewHolder.sliderView.setAutoCycle(false);
 
-                    SliderAdapter sliderAdapter = new SliderAdapter(HashtagPostViewAll.this, currentItem.getImg(),currentItem);
-                    programmingViewHolder.sliderView.setSliderAdapter(sliderAdapter);
+                    programmingViewHolder.rlLayout.setVisibility(View.VISIBLE);
+
+                    if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty() && currentItem.getChallengeID().matches("PictureUpdate")){
+                        programmingViewHolder.picupdate.setVisibility(View.VISIBLE);
+                        programmingViewHolder.sliderView.setVisibility(View.GONE);
+                        Picasso.get().load(currentItem.getImg().get(0)).into(programmingViewHolder.profilepicpost);
+
+                        if(currentItem.getHeadline()!=null && !currentItem.getHeadline().isEmpty()){
+                            programmingViewHolder.head_content.setVisibility(View.VISIBLE);
+                            programmingViewHolder.head_content.setText(currentItem.getHeadline());
+                        }
+                        if(currentItem.getType()!=null && !currentItem.getType().isEmpty() && currentItem.getType().matches("indi")){
+                            programmingViewHolder.picupdate.setCardBackgroundColor(getResources().getColor(R.color.reels_white));
+                        }
+                        else if(currentItem.getType()!=null && !currentItem.getType().isEmpty() && currentItem.getType().matches("com")){
+                            programmingViewHolder.picupdate.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        }
+
+                        programmingViewHolder.head_content.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(HashtagPostViewAll.this, ViewMoreHome.class);
+                                intent.putExtra("username", currentItem.getUsN());
+                                intent.putExtra("userdp", currentItem.getDp());
+                                intent.putExtra("docID", currentItem.getDocID());
+                                StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                intent.putExtra("comName", currentItem.getComName());
+                                intent.putExtra("comID", currentItem.getComID());
+                                intent.putExtra("likeL", currentItem.getLikeL());
+                                if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                    intent.putExtra("BUNDLE", args);
+                                }
+                                intent.putExtra("postText", currentItem.getTxt());
+                                intent.putExtra("bool", "3");
+                                intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                                intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                intent.putExtra("uid", currentItem.getUid());
+                                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                                intent.putExtra("type", currentItem.getType());
+                                intent.putExtra("gender",currentItem.getGender());
+                                intent.putExtra("headline",currentItem.getHeadline());
+                                intent.putExtra("challengeID",currentItem.getChallengeID());
+                                startActivity(intent);
+                            }
+                        });
+
+                        programmingViewHolder.profilepicpost.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(HashtagPostViewAll.this, ViewMoreHome.class);
+                                intent.putExtra("username", currentItem.getUsN());
+                                intent.putExtra("userdp", currentItem.getDp());
+                                intent.putExtra("docID", currentItem.getDocID());
+                                StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                intent.putExtra("comName", currentItem.getComName());
+                                intent.putExtra("comID", currentItem.getComID());
+                                intent.putExtra("likeL", currentItem.getLikeL());
+                                if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                    intent.putExtra("BUNDLE", args);
+                                }
+                                intent.putExtra("postText", currentItem.getTxt());
+                                intent.putExtra("bool", "3");
+                                intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                                intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                intent.putExtra("uid", currentItem.getUid());
+                                intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                                intent.putExtra("type", currentItem.getType());
+                                intent.putExtra("gender",currentItem.getGender());
+                                intent.putExtra("headline",currentItem.getHeadline());
+                                intent.putExtra("challengeID",currentItem.getChallengeID());
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    else{
+                        programmingViewHolder.sliderView.setVisibility(View.VISIBLE);
+                        programmingViewHolder.sliderView.setIndicatorAnimation(IndicatorAnimations.SCALE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                        programmingViewHolder.sliderView.setIndicatorRadius(8);
+                        programmingViewHolder.sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                        programmingViewHolder.sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+                        programmingViewHolder.sliderView.setIndicatorSelectedColor(Color.WHITE);
+                        programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
+                        programmingViewHolder.sliderView.setAutoCycle(false);
+
+                        SliderAdapter sliderAdapter = new SliderAdapter(HashtagPostViewAll.this, currentItem.getImg(),currentItem);
+                        programmingViewHolder.sliderView.setSliderAdapter(sliderAdapter);
+
+                        if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty() && currentItem.getChallengeID().matches("CoverUpdate")){
+
+                            if(currentItem.getHeadline()!=null && !currentItem.getHeadline().isEmpty()){
+                                programmingViewHolder.head_content.setVisibility(View.VISIBLE);
+                                programmingViewHolder.head_content.setText(currentItem.getHeadline());
+                            }
+
+                            programmingViewHolder.head_content.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(HashtagPostViewAll.this, ViewMoreHome.class);
+                                    intent.putExtra("username", currentItem.getUsN());
+                                    intent.putExtra("userdp", currentItem.getDp());
+                                    intent.putExtra("docID", currentItem.getDocID());
+                                    StoreTemp.getInstance().setTagTemp(currentItem.getTagL());
+                                    intent.putExtra("comName", currentItem.getComName());
+                                    intent.putExtra("comID", currentItem.getComID());
+                                    intent.putExtra("likeL", currentItem.getLikeL());
+                                    if(currentItem.getImg() != null && currentItem.getImg().size()>0) {
+                                        Bundle args = new Bundle();
+                                        args.putSerializable("ARRAYLIST", (Serializable)currentItem.getImg());
+                                        intent.putExtra("BUNDLE", args);
+                                    }
+                                    intent.putExtra("postText", currentItem.getTxt());
+                                    intent.putExtra("bool", "3");
+                                    intent.putExtra("commentNo", Long.toString(currentItem.getCmtNo()));
+                                    intent.putExtra("newTs", Long.toString(currentItem.getNewTs()));
+                                    intent.putExtra("uid", currentItem.getUid());
+                                    intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
+                                    intent.putExtra("type", currentItem.getType());
+                                    intent.putExtra("gender",currentItem.getGender());
+                                    intent.putExtra("headline",currentItem.getHeadline());
+                                    intent.putExtra("challengeID",currentItem.getChallengeID());
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    }
 
                     programmingViewHolder.text_content.setOnClickListener(v -> {
                         Intent intent = new Intent(HashtagPostViewAll.this, ViewMoreHome.class);
@@ -519,6 +638,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
+                        intent.putExtra("headline",currentItem.getHeadline());
+                        intent.putExtra("challengeID",currentItem.getChallengeID());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HashtagPostViewAll.this,
                                 programmingViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderView)));
                         startActivity(intent, optionsCompat.toBundle());
@@ -549,6 +670,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         intent.putExtra("timestamp", Long.toString(currentItem.getTs()));
                         intent.putExtra("type", currentItem.getType());
                         intent.putExtra("gender",currentItem.getGender());
+                        intent.putExtra("headline",currentItem.getHeadline());
+                        intent.putExtra("challengeID",currentItem.getChallengeID());
                         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(HashtagPostViewAll.this,
                                 programmingViewHolder.sliderView, Objects.requireNonNull(ViewCompat.getTransitionName(programmingViewHolder.sliderView)));
                         startActivity(intent, optionsCompat.toBundle());
@@ -980,20 +1103,21 @@ public class HashtagPostViewAll extends AppCompatActivity {
 
                             postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
                             //postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
-                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-                            Intent i = new Intent(HashtagPostViewAll.this, NewPostHome.class);
-                            i.putExtra("target", "100"); //target value for edit post
-                            i.putExtra("bool", "2");
-                            i.putExtra("typeofpost", "notreel");
-                            i.putExtra("txt", currentItem.getTxt());
-                            i.putExtra("headline", currentItem.getHeadline());
-                            if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
-                                Bundle args = new Bundle();
-                                args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
-                                i.putExtra("BUNDLETAGS", args);
-                            }
-                            i.putExtra("docID", currentItem.getDocID());
-                            StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+                          postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                        Intent i = new Intent(HashtagPostViewAll.this, NewPostHome.class);
+                        i.putExtra("target", "100"); //target value for edit post
+                        i.putExtra("bool", "2");
+                        i.putExtra("typeofpost", "notreel");
+                        i.putExtra("txt", currentItem.getTxt());
+                        i.putExtra("headline", currentItem.getHeadline());
+                        if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
+                            Bundle args = new Bundle();
+                            args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
+                            i.putExtra("BUNDLETAGS", args);
+                        }
+                        i.putExtra("docID", currentItem.getDocID());
+                        StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+                        i.putExtra("challengeID",currentItem.getChallengeID());
 ////                            i.putExtra("target", "100"); //target value for edit post
 ////                            i.putExtra("bool", "3");
 ////                            i.putExtra("usN", currentItem.getUsN());
@@ -1021,6 +1145,12 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         postMenuDialog.dismiss();
 
                     });
+                            if(currentItem.getType()!=null && !currentItem.getType().isEmpty() && currentItem.getType().matches("com")
+                                    && currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty()
+                                    && (currentItem.getChallengeID().matches("PictureUpdate") || currentItem.getChallengeID().matches("CoverUpdate"))){
+                                postMenuDialog.findViewById(R.id.delete_post).setVisibility(View.GONE);
+                            }
+
 
                             postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(HashtagPostViewAll.this);
@@ -1032,37 +1162,122 @@ public class HashtagPostViewAll extends AppCompatActivity {
                                             progressDialog.setMessage("Please wait...");
                                             progressDialog.setCancelable(false);
                                             progressDialog.show();
-                                            FirebaseFirestore.getInstance()
-                                                    .collection("Feeds/").document(currentItem
-                                                    .getDocID()).delete()
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            CommitteeFragment.changed=1;
-                                                            programmingViewHolder.itemHome.setVisibility(View.GONE);
-                                                            notifyDataSetChanged();
-                                                            FirebaseFirestore.getInstance()
-                                                                    .collection("Feeds/")
-                                                                    .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser())
-                                                                    .orderBy("ts", Query.Direction.DESCENDING)
-                                                                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                    if(task.isSuccessful()) {
-                                                                        if(task.getResult().size() == 0) {
-                                                                            noneImage.setVisibility(View.VISIBLE);
-                                                                        }
-                                                                        else {
-                                                                            noneImage.setVisibility(View.GONE);
+
+                                            if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty()
+                                                    && currentItem.getChallengeID().matches("PictureUpdate")){
+                                                FirebaseFirestore.getInstance().collection("Users")
+                                                        .document(currentItem.getUid())
+                                                        .update("dp",null,"dpcaption",null,"dppostid",null,"isdpshared",false)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                FirebaseFirestore.getInstance()
+                                                                        .collection("Feeds/").document(currentItem
+                                                                        .getDocID()).delete()
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void aVoid) {
+                                                                                CommitteeFragment.changed=1;
+                                                                                programmingViewHolder.itemHome.setVisibility(View.GONE);
+                                                                                notifyDataSetChanged();
+                                                                                FirebaseFirestore.getInstance()
+                                                                                        .collection("Feeds/")
+                                                                                        .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser())
+                                                                                        .orderBy("ts", Query.Direction.DESCENDING)
+                                                                                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                        if(task.isSuccessful()) {
+                                                                                            if(task.getResult().size() == 0) {
+                                                                                                noneImage.setVisibility(View.VISIBLE);
+                                                                                            }
+                                                                                            else {
+                                                                                                noneImage.setVisibility(View.GONE);
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                                progressDialog.dismiss();
+                                                                            }
+                                                                        });
+                                                                postMenuDialog.dismiss();
+                                                            }
+                                                        });
+                                            }
+                                            else if(currentItem.getChallengeID()!=null && !currentItem.getChallengeID().isEmpty()
+                                                    && currentItem.getChallengeID().matches("CoverUpdate")){
+                                                FirebaseFirestore.getInstance().collection("Users")
+                                                        .document(currentItem.getUid())
+                                                        .update("coverpic",null,"covercaption",null,"coverpostid",null,"iscovershared",false)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                FirebaseFirestore.getInstance()
+                                                                        .collection("Feeds/").document(currentItem
+                                                                        .getDocID()).delete()
+                                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void aVoid) {
+                                                                                CommitteeFragment.changed=1;
+                                                                                programmingViewHolder.itemHome.setVisibility(View.GONE);
+                                                                                notifyDataSetChanged();
+                                                                                FirebaseFirestore.getInstance()
+                                                                                        .collection("Feeds/")
+                                                                                        .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser())
+                                                                                        .orderBy("ts", Query.Direction.DESCENDING)
+                                                                                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                                        if(task.isSuccessful()) {
+                                                                                            if(task.getResult().size() == 0) {
+                                                                                                noneImage.setVisibility(View.VISIBLE);
+                                                                                            }
+                                                                                            else {
+                                                                                                noneImage.setVisibility(View.GONE);
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                                progressDialog.dismiss();
+                                                                            }
+                                                                        });
+                                                                postMenuDialog.dismiss();
+                                                            }
+                                                        });
+
+                                            }
+                                            else{
+                                                FirebaseFirestore.getInstance()
+                                                        .collection("Feeds/").document(currentItem
+                                                        .getDocID()).delete()
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                CommitteeFragment.changed=1;
+                                                                programmingViewHolder.itemHome.setVisibility(View.GONE);
+                                                                notifyDataSetChanged();
+                                                                FirebaseFirestore.getInstance()
+                                                                        .collection("Feeds/")
+                                                                        .whereEqualTo("uid", FirebaseAuth.getInstance().getCurrentUser())
+                                                                        .orderBy("ts", Query.Direction.DESCENDING)
+                                                                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                        if(task.isSuccessful()) {
+                                                                            if(task.getResult().size() == 0) {
+                                                                                noneImage.setVisibility(View.VISIBLE);
+                                                                            }
+                                                                            else {
+                                                                                noneImage.setVisibility(View.GONE);
+                                                                            }
                                                                         }
                                                                     }
-                                                                }
-                                                            });
-                                                            progressDialog.dismiss();
-                                                        }
-                                                    });
-                                            postMenuDialog.dismiss();
-
+                                                                });
+                                                                progressDialog.dismiss();
+                                                            }
+                                                        });
+                                                postMenuDialog.dismiss();
+                                            }
                                         })
                                         .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                                         .setCancelable(true)
@@ -1222,6 +1437,11 @@ public class HashtagPostViewAll extends AppCompatActivity {
         LottieAnimationView dhak_anim;
         RelativeLayout rlLayout;
 
+        CardView picupdate;
+        ImageView profilepicpost;
+        TextView head_content;
+
+
 
         public ProgrammingViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -1267,6 +1487,10 @@ public class HashtagPostViewAll extends AppCompatActivity {
             cmnt2_minsago = itemView.findViewById(R.id.comment_mins_ago2);
             dp_cmnt2 = itemView.findViewById(R.id.comment_user_dp2);
             link_preview2 = itemView.findViewById(R.id.LinkPreViewComment2);
+
+            picupdate = itemView.findViewById(R.id.picupdate);
+            profilepicpost = itemView.findViewById(R.id.profilepicpost);
+            head_content = itemView.findViewById(R.id.head_content);
 
         }
     }

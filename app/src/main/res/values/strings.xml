@@ -242,4 +242,11 @@
     <string name="download_utsav">\n\nDownload Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
     <string name="chat_on_whatsapp">Chat on Whatsapp</string>
 
+    <string name="Preview_Profile_Picture">Preview Profile Picture</string>
+    <string name="SAVE">SAVE</string>
+    <string name="dp_content">Say something about your profile picture...</string>
+    <string name="dp_share">Share your update to Feed</string>
+    <string name="Preview_Cover_Picture">Preview Cover Picture</string>
+    <string name="cover_content">Say something about your cover picture...</string>
+
 </resources>
