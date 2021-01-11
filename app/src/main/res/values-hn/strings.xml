@@ -1,218 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">উৎসব</string>
+    <string name="app_name">उत्सव</string>
 
-    <string name="login">লগ ইন</string>
-    <string name="sign_up">সাইন আপ</string>
-    <string name="don_t_have_an_account_yet">এখনও অ্যাকাউন্ট নেই?</string>
-    <string name="skip_for_now">এড়িয়ে যান</string>
-    <string name="enter_email">ইমেইল লিখুন</string>
-    <string name="enter_password">পাসওয়ার্ড লিখুন</string>
-    <string name="forgot_password">পাসওয়ার্ড ভুলে গেছেন?</string>
+    <string name="login">लॉग इन करें</string>
+    <string name="sign_up">साइन अप करें</string>
+    <string name="don_t_have_an_account_yet">खाता नहीं है?</string>
+    <string name="skip_for_now">छोड़ें</string>
+    <string name="enter_email">ईमेल दर्ज करें</string>
+    <string name="enter_password">पास वर्ड दर्ज करें</string>
+    <string name="forgot_password">पासवर्ड भूल गए?</string>
     <string name="applex_in">applex.in</string>
-    <string name="utsav">উৎসব</string>
-    <string name="or">অথবা</string>
-    <string name="from">হইতে</string>
-    <string name="locate">অবস্থান</string>
+    <string name="utsav">उत्सव</string>
+    <string name="or">या</string>
+    <string name="from">से</string>
+    <string name="locate">पता करे</string>
 
-    <string name="useful_information">দরকারী তথ্য</string>
-    <string name="privacy_nav">গোপনীয়তা</string>
-    <string name="about_us">আমাদের সম্পর্কে</string>
-    <string name="tag">ট্যাগ করুন</string>
-
-
-    <string name="enter_committeeName">কমিটির নাম লিখুন</string>
-    <string name="enter_committeeDescription">বিবরণ লিখুন </string>
-    <string name="enter_committeeAddressline">ঠিকানা লিখুন </string>
-    <string name="enter_committeeCity">শহরের নাম লিখুন </string>
-    <string name="enter_committeeState">রাজ্যর নাম লিখুন  </string>
-    <string name="enter_committeeType">পুজোর প্রকার লিখুন (উদাহরণ : সর্বজনীন)  </string>
-    <string name="upload_logo">কমিটির লোগো আপলোড করুন</string>
-    <string name="upload_coverpic">কভার ফটো আপলোড করুন </string>
+    <string name="enter_committeeName">समिति का नाम दर्ज करें</string>
+    <string name="enter_committeeDescription">विवरण दर्ज करें </string>
+    <string name="enter_committeeAddressline">पता लिखिए </string>
+    <string name="enter_committeeCity">शहर दरज करें</string>
+    <string name="enter_committeeState">राज्य दर्ज करें </string>
+    <string name="enter_committeeType">पूजा का प्रकार  </string>
+    <string name="upload_logo">समिति के लोगो डाले</string>
+    <string name="upload_coverpic"> आवरण चित्र डाले </string>
 
 
-    <string name="navigation_drawer_open">নেভিগেশন ড্রয়ার খুলুন</string>
-    <string name="navigation_drawer_close">নেভিগেশন ড্রয়ারটি বন্ধ করুন</string>
-    <string name="nav_header_desc">নেভিগেশন শিরোনাম</string>
+    <string name="navigation_drawer_open">पथ प्रदर्शन खोले</string>
+    <string name="navigation_drawer_close">पथ प्रदर्शन बन्द करें</string>
+    <string name="nav_header_desc">पथ प्रदर्शन चेहरा</string>
+        <!-- TODO: Remove or change this placeholder text -->
 
     <string name="terms_conditions">
-        <a href="https://applex.in/utsav-app-terms-and-conditions/">সাইন ইন করে আপনি আমাদের শর্তাদি এবং শর্তাদি সম্মত হন,</a>
+        <a href="https://applex.in/utsav-app-terms-and-conditions/">हस्ताक्षर करके आप हमारे नियमों और शर्तों से सहमत है</a>
     </string>
 
     <string name="terms_conditions_about">
-        <a href="https://applex.in/utsav-app-terms-and-conditions/">আমাদের শর্তাবলী দেখুন.</a>
+        <a href="https://applex.in/utsav-app-terms-and-conditions/">हमारे नियमों और शर्तों को देखे</a>
     </string>
 
     <string name="privacy_about">
-        <a href="https://applex.in/utsav-app-privacy-policy/">আমাদের গোপনীয় নীতি দেখুন.</a>
+        <a href="https://applex.in/utsav-app-privacy-policy/">हमारे गोपनीयता नीति देखे</a>
     </string>
 
     <string name="privacy">
-        <a href="https://applex.in/utsav-app-privacy-policy/">গোপনীয় নীতি</a>
+        <a href="https://applex.in/utsav-app-privacy-policy/">गोपनीयता नीति</a>
     </string>
 
     <string name="and_cookies">
-        <a href="https://applex.in/utsav-app-privacy-policy/">এবং কুকিজ.</a>
+        <a href="https://applex.in/utsav-app-privacy-policy/">और कुकीज़.</a>
     </string>
 
     <string name="faq_help">
-        <a href="https://applex.in/faq/">আরও প্রশ্নাবলীর জন্য জিজ্ঞাসিত প্রশ্নাবলী দেখুন.</a>
+        <a href="https://applex.in/faq/">अधिक जानकारी के लिए सामान्य प्रश्न जांच करें</a>
     </string>
 
-    <string name="pujo_committees">উৎসব পুজো</string>
-    <string name="lorem_ipsum">লোরেম ইপসাম কেবল মুদ্রণ এবং টাইপসেটিং শিল্পের নকল পাঠ্য। লোরেম ইপসাম ১৫00 এর দশক থেকে শিল্পের স্ট্যান্ডার্ড নকল পাঠ্য। ১৯৬0 এর দশকে এটি লোরেম ইপসাম প্যাসেজ সমেত লেট্রেসেট শিট প্রকাশের মাধ্যমে এবং সম্প্রতি এলডাস পেজমেকারের মতো ডেস্কটপ প্রকাশনা সফটওয়্যার সহ লোরেম ইপসামের সংস্করণ সহ জনপ্রিয় হয়েছিল।</string>
+    <string name="pujo_committees">उतसव पूजा</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
 
-    <string name="marquee_text">সাবধানে থাকুন । বাইরে বেরোলে অবশ্যই মাস্ক ব্যবহার করুন । ঘরে বসেই পুজোর আনন্দ উপভোগ করুন</string>
+    <string name="marquee_text">सुरक्षित रहें। मास्क पहनना न भूलें। और उत्सव के माध्यम से घर पर अपनी पूजा का आनंद लें</string>
 
     <string-array name="Gender">
-        <item>পুরুষ</item>
-        <item>মহিলা</item>
-        <item>অন্যান্য</item>
+    <item>पुरुष</item>
+    <item>महिला</item>
+    <item>अन्य</item>
     </string-array>
 
-    <string name="walkthrough">অঞ্জলিতে শাড়ি, বা কুর্তি \n নবমী তে পার্টির সিন।\n ঘরে বসেই হবে এবার \nUtsav- এ কাটবে দিন </string>
-
-    <string name="reg">নিবন্ধন</string>
-    <string name="name">নাম</string>
-    <string name="regname">নাম*</string>
-    <string name="fname">নামের প্রথম অংশ*</string>
-    <string name="lname">নামের শেষাংশ*</string>
-    <string name="username">ব্যবহারকারীর নাম*</string>
+    <string name="reg">पंजीकरण</string>
+    <string name="fname">पहला नाम*</string>
+    <string name="lname">उपनाम*</string>
+    <string name="username">उपयोगकर्ता नाम*</string>
     <string name="attherate">\@</string>
-    <string name="email">ইমেল</string>
-    <string name="choose_gender">লিঙ্গ নির্বাচন করুন*</string>
-    <string name="address">ঠিকানা</string>
-    <string name="address_line">ঠিকানা লাইন</string>
-    <string name="city">শহর/জেলা</string>
-    <string name="state">রাজ্য</string>
-    <string name="choose_pic">আপনার প্রোফাইল ছবি এবং কভার ছবি পছন্দ করুন</string>
-    <string name="trending_posts">ট্রেন্ডিং পোস্ট</string>
-    <string name="_10_mins_ago">১0 মিনিট আগে</string>
-    <string name="post_content">পোস্ট সামগ্রী</string>
-    <string name="_2_4k">২.৪k</string>
-    <string name="_154">১৫৪</string>
-    <string name="write_a_comment">মন্তব্য লিখুন…</string>
-    <string name="_42_comments">৪২ মন্তব্য</string>
-    <string name="search">সন্ধান করুন…</string>
-    <string name="Recent_searches">সাম্প্রতিক সন্ধান</string>
-    <string name="Description">বিবরণ*</string>
-    <string name="Type_of_pujo">পুজোর ধরণ</string>
-    <string name="sarbojonin">সর্বজনীন</string>
-    <string name="committee_name">কমিটির নাম</string>
-    <string name="save_to_device">ডিভাইসে সংরক্ষণ করুন</string>
+    <string name="email">ईमेल</string>
+    <string name="choose_gender">लिंग चुनें*</string>
+    <string name="address">पता</string>
+    <string name="address_line">पता पंक्ति</string>
+    <string name="city">शहर/जिला</string>
+    <string name="state">राज्य</string>
+    <string name="about">हमारे बारे में</string>
+    <string name="submit">जमा कीजिए</string>
+    <string name="choose_pic">अपना प्रोफ़ाइल चित्र और कवर चित्र चुनें</string>
+    <string name="trending_posts">ट्रेंडिंग पोस्ट</string>
+    <string name="_10_mins_ago"> मिनट पहले</string>
+    <string name="post_content">पोस्ट सामग्री</string>
+    <string name="_2_4k">२.४ हजार</string>
+    <string name="_154">१५.३ हजार</string>
+    <string name="write_a_comment">टिप्पणी लिखें…</string>
+    <string name="_42_comments">४२ टिप्पणी</string>
+    <string name="search">धुंडे…</string>
+    <string name="search_pujo">अपनी पसंदीदा पूजा खोजें</string>
+    <string name="Recent_searches">नवीनतम खोज</string>
+    <string name="Description">विवरण*</string>
+    <string name="Type_of_pujo">पूजा का प्रकार*</string>
+    <string name="sarbojonin">सरबोजनिंन</string>
+    <string name="committee_name">समिति का नाम / घर का नाम*</string>
+    <string name="save_to_device">डिवाइस पर सहेजें</string>
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
-    <string name="post_hint">পুজো কেমন উপভোগ করছেন? \n#পুজো #utsav</string>
-    <string name="short_videos">ছোট ভিডিও</string>
-    <string name="see_all">সব ক্লিপস দেখুন —></string>
-    <string name="see_all_posts"><![CDATA[See All —>]]></string>
-    <string name="about_yourself">নিজের সম্পর্কে কিছু</string>
+    <string name="post_hint">आप पूजा का आनंद कैसे ले रहे हैं? \n#পুজো #utsav</string>
+    <string name="short_videos">चोटा वीडियो</string>
+    <string name="see_all"><![CDATA[सब देखें—>]]></string>
+    <string name="see_all_posts"><![CDATA[सब देखें —>]]></string>
+    <string name="about_yourself">कुछ आपके बारेमे</string>
+    <string name="useful_information">उपयोगी जानकारी</string>
+    <string name="privacy_nav">एकांत</string>
+    <string name="people_post">लोगो के पोस्ट</string>
 
-    <string name="nocommittee">কোনো কমিটি নেই</string>
-    <string name="noposts">এখনো কোনো পোস্ট করেননি \n পোস্ট করুন!!</string>
-    <string name="no_posts">কোনো পোস্ট নেই</string>
-    <string name="noreels">কোনো রিল নেই \nরিল তৈরি করুন!!</string>
-    <string name="first_comments">প্রথম কমেন্ট করুন</string>
+    <string name="_0_18">०.१८</string>
 
-    <string name="_0_18">0:১৮</string>
+    <string name="nocommittee">दिखाने के लिए कोई कमेटी नहीं है</string>
+    <string name="noposts">आपने कुछ भी पोस्ट नहीं किया है। \nअभी पोस्ट करें.\!!</string>
+    <string name="no_posts">दिखाने के लिए कोई पोस्ट नहीं है</string>
+    <string name="noreels">दिखाने के लिए कोई रील्स नही है \n अभी नया रील बनाए!!</string>
+    <string name="first_comments">टिप्पणी करने वाला पहला व्यक्ति बनें</string>
 
-    <string name="comments">মন্তব্য</string>
-    <string name="type_something_n">কিছু লিখুন..\n</string>
-    <string name="bio">তোমার সম্পর্কে</string>
-    <string name="recorder">রেকর্ডার</string>
-    <string name="video">ভিডিও</string>
-    <string name="communicate">যোগাযোগ করা</string>
-    <string name="tell_a_friend">বন্ধুদের বলুন</string>
-    <string name="contact_us">যোগাযোগ করুন</string>
-    <string name="about">বিষয়</string>
-    <string name="account">অ্যাকাউন্ট</string>
-    <string name="log_out">লগ আউট</string>
-    <string name="live">লাইভ</string>
-    <string name="update">আপডেট</string>
-    <string name="Edit_comment"> মন্তব্য বদল করুন</string>
-    <string name="Search">সন্ধান</string>
-    <string name="Edit_Profile">প্রোফাইলে কিছু বদল করুন</string>
-    <string name="submit">জমা দিন</string>
-    <string name="register_as">তালিকাভুক্ত করুন:</string>
-    <string name="committee">কমিটির</string>
-    <string name="login_as_guest">অতিথি হিসাবে লগইন করুন</string>
-    <string name="individual">স্বতন্ত্র</string>
-    <string name="replies">জবাব</string>
-    <string name="liked_by">পছন্দ করেছেন</string>
-    <string name="report_comment">মন্তব্য রিপোর্ট করুন</string>
-    <string name="share_post">শেয়ার পোস্ট</string>
-    <string name="report_post">পোস্ট রিপোর্ট করুন</string>
-    <string name="edit_post">পোস্ট বদল করুন</string>
-    <string name="delete_comment">মন্তব্য সরান</string>
-    <string name="delete_post">পোস্ট সরান</string>
-    <string name="share_your_pujo_story">আপনার গল্প শেয়ার করুন…</string>
-    <string name="view_all">সব পুজো দেখুন</string>
-    <string name="utsav_durga_pujo_2020">উৎসব: দুর্গা পুজো ২0২0</string>
-    <string name="an_initiative_by_applex_in">~applex.in দ্বারা একটি উদ্যোগ</string>
-    <string name="reply">জবাব দিন</string>
-    <string name="pin">পিন</string>
-    <string name="add_to_post">পোস্টে যোগ করুন</string>
-    <string name="visitors">দর্শনার্থী</string>
-    <string name="tags">ট্যাগ</string>
-    <string name="continue_with_phone_no">ফোন নম্বর সহ চালিয়ে যান</string>
-    <string name="enter_mobile_number">মোবাইল নম্বর দিন</string>
-    <string name="create_post">নতুন পোস্ট</string>
-    <string name="utsavFeature1">ফটো</string>
-    <string name="utsavFeature2">360 ডিগ্রী শট</string>
-    <string name="utsavFeature3">বিভিন্ন পুজো সন্ধান করুন</string>
-    <string name="utsavFeature4">সরাসরি প্রতিযোগিতায় অংশ নেওয়া</string>
-    <string name="utsavFeature5">প্রাক পুজো আপডেট</string>
+    <string name="walkthrough">अंजलि में सारी या कुर्ती \n नवमी में पार्टी का दर्शन।\n बैठे बैठे घर में होगा \n उत्सव का दिन </string>
 
-    <string name="rate_us">"আপনার মতামত দিন"</string>
-    <string name="an_initiative_of">একটি উদ্যোগ</string>
-    <string name="utsav_clips">উৎসব ক্লিপস</string>
-    <string name="your_posts">পোস্ট</string>
-    <string name="videos">ভিডিও</string>
-    <string name="camera">ক্যামেরা</string>
-    <string name="photos">ফটো</string>
-    <string name="gallery">গ্যালারী</string>
-    <string name="follow">অনুসরণ করুন</string>
-    <string name="loading">লোড হচ্ছে …</string>
-    <string name="upvotes">আপভোটস</string>
-    <string name="likes">পছন্দ</string>
-    <string name="tag_your_pujo">পুজো ট্যাগ করুন</string>
-    <string name="headline">শিরোনাম:</string>
-    <string name="head_content">head_content</string>
+    <string name="comments">टिप्पणी</string>
+    <string name="type_something_n">कुछ लिखें..\n</string>
+    <string name="bio">कुछ आपके बारेमें</string>
+    <string name="recorder">रिकॉर्डर</string>
+    <string name="video">वीडियो</string>
+    <string name="communicate">संवाद</string>
+    <string name="tell_a_friend">दोस्तों के साथ बांटें</string>
+    <string name="about_us">हमारे बारे में</string>
+    <string name="account">अकाउंट</string>
+    <string name="log_out">लॉग आउट</string>
+    <string name="live">लाइव</string>
+    <string name="update">अपडेट</string>
+    <string name="Edit_comment">टिप्पणी संपादित करें</string>
+    <string name="Search">खोज करें</string>
+    <string name="Edit_Profile">प्रोफ़ाइल संपादित करें</string>
+    <string name="register_as">पंजीकृत करने का रूप:</string>
+    <string name="committee">समिति</string>
+    <string name="login_as_guest">अतिथि के रूप में लॉगिन करें</string>
+    <string name="individual">व्यक्ति</string>
+    <string name="replies">जवाब</string>
+    <string name="liked_by">द्वारा पसंद किया गया</string>
+    <string name="report_comment">टिप्पणी को रिपोर्ट करें</string>
+    <string name="share_post">पोस्ट को शेयर करें</string>
+    <string name="report_post">पोस्ट को रिपोर्ट करें</string>
+    <string name="edit_post">पोस्ट को संपादित करें</string>
+    <string name="delete_comment">टिप्पणी को हटाए</string>
+    <string name="delete_post">पोस्ट को हटाए</string>
+    <string name="share_your_pujo_story">अपनी कहानी साझा करें…</string>
+    <string name="view_all">सब देखें</string>
+    <string name="utsav_durga_pujo_2020">उत्सव: दुर्गा पूजा २०२०</string>
+    <string name="an_initiative_by_applex_in">~applex.in के द्वारा उपक्रम किया गया है</string>
+    <string name="reply">जवाब</string>
+    <string name="pin">कील करें</string>
+    <string name="add_to_post">पोस्ट मैं डाले</string>
+    <string name="visitors">आगंतुकों</string>
+    <string name="tag">टैग जोडे</string>
+    <string name="tags">टैग</string>
+    <string name="contact_us">हमारे साथ सम्पर्क करें</string>
+    <string name="rate_us">"हमें रेटिंग दें"</string>
+    <string name="an_initiative_of">द्वारा उपक्रम</string>
+    <string name="utsav_clips">उत्सव क्लिप</string>
+    <string name="your_posts">पोस्ट</string>
 
-    <string name="aboutUtsav">এই বর্তমান মহামারীর কারণে এটা স্পষ্ট যে দুর্গাপুজো ২০২০ প্রতিবছরের মতো হবে না \ কলকাতার শিক্ষার্থীরা একটি অ্যান্ড্রয়েড অ্যাপ তৈরি করার উদ্যোগ নিয়েছে, <b> "উৎসব" </b> যার মাধ্যমে বাংলার মানুষ তাদের বাড়ির সুরক্ষা থেকে শুরু করে উৎসবে অংশ নিতে সক্ষম হবে able \ n \ n দর্শকের পছন্দের পুরষ্কার জনগণের কথোপকথনের ভিত্তিতে ২০২০ সালের সেরা পুজোতে দেওয়া হবে।</string>
-    <string name="Post">পোস্ট</string>
-    <string name="set_app_lang">ভাষা সেট করুন</string>
-    <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">বিভিন্ন বোনেদী বারিসের পুজো, তাদের heritageতিহ্য, কমিটি, সংখ্যালঘুদের পাশাপাশি কয়েকটি জায়গায় পুজোর অভিজ্ঞতা যেমন কলম্বিয়া, চাটিসগড়, আগরতলা ইত্যাদি বিভিন্ন জায়গায় অনুষ্ঠিত হয়</string>
+    <string name="videos">वीडियो</string>
+    <string name="camera">कैमरा</string>
+    <string name="photos">तस्वीरें</string>
+    <string name="gallery">गेलरी</string>
+    <string name="follow">अनुसरण करें</string>
+    <string name="loading">लोड हो रहा है…</string>
+    <string name="upvotes">वोट दें</string>
+    <string name="likes">पसंद</string>
+    <string name="tag_your_pujo">अपने पूजा को टैग करें</string>
+    <string name="name">नाम</string>
+    <string name="headline">शीर्षक:</string>
+    <string name="head_content">मुख्य सामग्री</string>
+    <string name="continue_with_phone_no">Continue with Phone No.</string>
+    <string name="enter_mobile_number">फ़ोन नंबर के साथ जारी रखें</string>
+    <string name="regname">नाम*</string>
+
+    <string name="description">यदि आप एक पूजा आयोजक हैं</string>
+    <string name="descriptionIndividual">यदि आप एक सामान्य आगंतुक हैं और अपनी पूजा की कहानियों को साझा करना चाहते हैं</string>
+
+    <string name="aboutUtsav">इस मौजूदा महामारी के कारण, यह स्पष्ट है कि दुर्गा पूजा 2020 हर साल के समान नहीं है \n\nहालांकि, दुर्गा पूजा की भावना को पूरी तरह से खत्म नहीं होने देने के प्रयास में, हमने, कोलकाता के छात्रों के एक समूह ने एक एंड्रॉइड ऐप बनाने की पहल की है,<b>"उत्सव"</b> जिसके माध्यम से बंगाल के लोग अपने घरों की सुरक्षा से दूर, उत्सव में भाग ले सकेंगे।\n\n सार्वजनिक सहभागिता के आधार पर दर्शकों की पसंद का पुरस्कार 2020 की सर्वश्रेष्ठ पूजा को दिया जाएगा।</string>
+
+    <string name="utsavFeature1">तस्वीरें</string>
+    <string name="utsavFeature2">३६० डिग्री की तस्वीरें</string>
+    <string name="utsavFeature3">विभिन्न पूजा खोजें</string>
+    <string name="utsavFeature4">लाइव प्रतियोगिताएं में भाग लेना</string>
+    <string name="utsavFeature5">प्री-पुजक अपडेट</string>
+
+    <string name="linkJEE" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.adarshbarnwal.notesapp&amp;hl=en_IN">जी अब ३६०</a>
+    </string>
+
+    <string name="linkCampus24" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.bytera.campus24">कैंपस २४</a>
+    </string>
+
+    <string name="linkSnaplingo" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.applex.snaplingo">सनप्लिंगो</a>
+    </string>
+
+    <string name="linkInnovacion" translatable="false">
+        <a href="https://play.google.com/store/apps/details?id=com.applex.innovacion">नवोन्मेष</a>
+    </string>
+    <string name="create_post">नया पोस्ट</string>
+    <string name="Post">पोस्ट</string>
+    <string name="set_app_lang">भाषा चयन करें</string>
+    <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">अलग-अलग बोनेडी घरो की पूजा, उनकी विरासत, समितियों द्वारा कुछ सबसे बड़ी पूजा, अल्पसंख्यकों के साथ-साथ कोलंबिया, छत्तीसगढ़, अगरतला आदि जैसे विभिन्न स्थानों में आयोजित पूजा।</string>
     <string name="edit_comment">Edit Comment</string>
-    <string name="intro_three">ফটো \n 360 ডিগ্রী শট \n ভিডিও \nিভিন্ন পুজো সন্ধান করুন \nসরাসরি প্রতিযোগিতায় অংশ নেওয়া \nরেজিস্ট্রেশন সম্পূর্ণ বিনামূল্যে \nপ্রাক পুজো আপডেট</string>
-    <string name="upvoted_pujos">সেরা 20</string>
-    <string name="recently_visited_pujos">সম্প্রতি দেখা</string>
-    <string name="description">আপনি যদি পুজো অর্গানাইজার হন</string>
-    <string name="descriptionIndividual">আপনি যদি সাধারণ দর্শক হন এবং আপনার পুজোর গল্পগুলি শেয়ার করতে চান</string>
+    <string name="intro_three">तस्वीरें \n ३६० डिग्री के तस्वीरें \n वीडियो \nविभिन्न पूजाओं का पता लगाएँ \nलाइव प्रतियोगिताएं में भाग लें \nपंजीकरण बिल्कुल मुफ्त \nपूर्व पूजा अद्यतन</string>
+    <string name="upvoted_pujos">शीर्ष 20 पूजा</string>
+    <string name="recently_visited_pujos">हाल ही में देखे गए</string>
 
-    <string name="pujo">পুজো</string>
-    <string name="people">জনগন</string>
-    <string name="search_for_people">লোকদের অনুসন্ধান করুন</string>
-    <string name="celebrating_this_puja_with_utsav">এই বছর পুজো উৎসবে</string>
-    <string name="bonedi_bari">বোনেদি বাড়ি</string>
-    <string name="abashon">আবাসন</string>
-    <string name="all_pujo">সব পুজো</string>
-    <string name="clips">ভিডিও</string>
-    <string name="search_pujo">পুজো সন্ধান করুন…</string>
+    <string name="pujo">पूजा</string>
+    <string name="people">लोग</string>
+    <string name="search_for_people">लोगों की खोज…</string>
+    <string name="celebrating_this_puja_with_utsav">इस पूजा को उत्सव के साथ मनाते हैं</string>
+    <string name="bonedi_bari">बोनेदी का घर</string>
+    <string name="abashon">आवासीय परिसर</string>
+    <string name="all_pujo">सब पूजा</string>
+    <string name="clips">क्लिप</string>
 
-    <string name="entercity">নিজের শহর/জেলার নাম লিখুন</string>
-    <string name="enterstate">নিজের রাজ্যের নাম লিখুন</string>
-    <string name="cityhead">এখানে আপনার শহর/জেলা খুঁজে পাচ্ছেন না?</string>
-    <string name="statehead">এখানে আপনার রাজ্য খুঁজে পাচ্ছেন না?</string>
-    <string name="people_post">জনগনের পোস্ট</string>
-    <string name="contactnumber">যোগাযোগ নম্বর*</string>
-    <string name="upi_id">** এই অ্যাপ্লিকেশনটির কোনও ব্যবহারকারী যদি ই-প্রোনামি দিতে চান, তবে ইউপিআই আইডি লাগবে।</string>
-    <string name="upi_id_hint">ইউপিআই আইডি</string>
-    <string name="media_preview_will_be_visible_after_editing">Media preview will be visible after editing</string>
-    <string name="e_pronami">e-Pronami</string>
-    <string name="enter_amount">প্রণামির মুল্য</string>
-    <string name="Math_Mission">মঠ/ মিশন</string>
-    <string name="prabashi">প্রবাসী</string>
-    <string name="others">অন্যান্য</string>
+    <string name="entercity">अपना शहर / जिला नाम दर्ज करें</string>
+    <string name="enterstate">अपना राज्य नाम दर्ज करें</string>
+    <string name="cityhead">यहां आपका शहर / जिला नहीं मिल रहा है?</string>
+    <string name="statehead">यहां अपना राज्य नहीं मिल रहा है?</string>
+    <string name="contactnumber">संपर्क संख्या*</string>
+    <string name="upi_id">** अगर इस एप्लिकेशन का कोई उपयोगकर्ता ई-सर्वनाम भेजना चाहता है, तो UPI ID की आवश्यकता होगी।</string>
+    <string name="upi_id_hint">UPI ID</string>
+    <string name="media_preview_will_be_visible_after_editing">संपादन के बाद मीडिया पूर्वावलोकन दिखाई देगा</string>
+    <string name="e_pronami">ई-सर्वनाम</string>
+    <string name="enter_amount">राशी डालें</string>
+    <string name="Math_Mission">मठ / मिशन</string>
+    <string name="prabashi">प्रबाशी</string>
+    <string name="others">अन्य</string>
     <string name="copy">Copy link</string>
     <string name="more_options">More options</string>
     <string name="results">Results</string>
@@ -221,8 +238,9 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
-    <string name="link_suffix">আপনি যদি এখনও উৎসব অ্যাপটি ডাউনলোড না করে থাকেন\n\nএখনই ডাউনলোড করুন \nhttps://play.google.com/store/apps/details?id=com.applex.utsav \nআর দেখতে পান দেশ বিদেশের দুর্গা পুজো</string>
-    <string name="set_theme">থিম সেট করুন</string>
+    <string name="link_suffix">\n\nदुनिया भर से पूजा देखने के लिए जाओ। यदि आपने अभी तक एप्लिकेशन डाउनलोड नहीं किया है।\n\nअब utsav एप्लिकेशन डाउनलोड करें\n https://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="set_theme">थीम सेट करें</string>
     <string name="download_utsav">\n\nDownload Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="chat_on_whatsapp">Whatsapp चैट करें</string>
 
 </resources>

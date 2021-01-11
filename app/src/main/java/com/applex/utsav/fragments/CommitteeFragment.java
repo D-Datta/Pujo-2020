@@ -268,7 +268,6 @@ public class CommitteeFragment extends Fragment {
                     programmingViewHolder.sliderView.setIndicatorUnselectedColor(R.color.colorAccent);
                     programmingViewHolder.sliderView.setAutoCycle(false);
 
-
                     if(itemGroups.size() == 0){
                         FirebaseFirestore.getInstance().collection("Sliders")
                                 .get()
