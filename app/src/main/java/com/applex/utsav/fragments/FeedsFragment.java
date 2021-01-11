@@ -985,7 +985,7 @@ public class FeedsFragment extends Fragment {
                                     else {
                                         BasicUtility.requestStoragePermission(requireActivity());
                                     }
-                                                                    }
+                                }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
@@ -1357,6 +1357,7 @@ public class FeedsFragment extends Fragment {
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
+                        Toast.makeText(requireActivity(), "Hi1", Toast.LENGTH_SHORT).show();
                         mRecyclerView.setVisibility(View.VISIBLE);
                         progressMore.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
@@ -1367,6 +1368,8 @@ public class FeedsFragment extends Fragment {
                         }
                         break;
                     case FINISHED:
+                        Toast.makeText(requireActivity(), "Hi2", Toast.LENGTH_SHORT).show();
+                        mRecyclerView.setVisibility(View.VISIBLE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
