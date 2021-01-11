@@ -111,12 +111,10 @@ public class FeedsFragment extends Fragment {
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressMore, contentProgress, contentProgCom;
+    private ProgressBar progressMore, contentProgress;
 
-    private TextView view_all_NoPost;
-    private RecyclerView comRecyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private LinearLayout viewNoPost, viewPostExist;
+    private LinearLayout viewPostExist;
 
     public static int changed = 0;
     public static int comDelete = 0;
@@ -174,13 +172,6 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setItemViewCacheSize(20);
         //////////////RECYCLER VIEW////////////////////
 
-        //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
-        contentProgCom = view.findViewById(R.id.content_progress_community);
-        view_all_NoPost = view.findViewById(R.id.community_view_all);
-        comRecyclerView = view.findViewById(R.id.communityRecyclerNoPost);
-        viewNoPost = view.findViewById(R.id.view_no_post);
-        //////////WHEN THERE ARE NO POSTS IN CAMPUS/////////
-
         viewPostExist = view.findViewById(R.id.view_post_exist);
         positions = new ArrayList<>();
         mRecyclerView.setVisibility(View.GONE);
@@ -196,7 +187,6 @@ public class FeedsFragment extends Fragment {
             shimmerFrameLayout.startShimmer();
             contentProgress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
-            contentProgCom.setVisibility(View.GONE);
             positions = new ArrayList<>();
             buildRecyclerView();
         });
@@ -1401,10 +1391,7 @@ public class FeedsFragment extends Fragment {
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
-                        viewNoPost.setVisibility(View.GONE);
-                        viewPostExist.setVisibility(View.VISIBLE);
                         break;
-
                     case FINISHED:
                         contentProgress.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
@@ -1412,14 +1399,6 @@ public class FeedsFragment extends Fragment {
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
-                        }
-                        if(adapter.getItemCount() == 0){
-                            viewNoPost.setVisibility(View.VISIBLE);
-                            viewPostExist.setVisibility(View.GONE);
-                        }
-                        else {
-                            viewNoPost.setVisibility(View.GONE);
-                            viewPostExist.setVisibility(View.VISIBLE);
                         }
                         break;
                 }
