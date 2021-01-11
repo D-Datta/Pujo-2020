@@ -185,6 +185,8 @@ public class FeedsFragment extends Fragment {
             buildRecyclerView();
         });
         //SWIPE REFRESH//
+
+        buildRecyclerView();
     }
 
     private void buildRecyclerView() {
