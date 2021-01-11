@@ -245,9 +245,9 @@
 
     <string name="Preview_Profile_Picture">Preview Profile Picture</string>
     <string name="SAVE">SAVE</string>
-    <string name="dp_content">Say something about your profile picture...</string>
+    <string name="dp_content">अपनी प्रोफ़ाइल तस्वीर के बारे में कुछ कहें ...</string>
     <string name="dp_share">Share your update to Feed</string>
     <string name="Preview_Cover_Picture">Preview Cover Picture</string>
-    <string name="cover_content">Say something about your cover picture...</string>
+    <string name="cover_content">अपनी कवर तस्वीर के बारे में कुछ कहें ...</string>
 
 </resources>
