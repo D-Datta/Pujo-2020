@@ -149,6 +149,8 @@ public class CommitteeFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
     private ArrayList<SliderModel> itemGroups;
 
+    private FirestorePagingAdapter adapter;
+
     public CommitteeFragment() {
         // Required empty public constructor
     }
@@ -214,6 +216,7 @@ public class CommitteeFragment extends Fragment {
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
             itemGroups.clear();
+            adapter.refresh();
         });
     }
 
@@ -242,7 +245,7 @@ public class CommitteeFragment extends Fragment {
                 })
                 .build();
 
-        FirestorePagingAdapter adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
+        adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
@@ -1326,16 +1329,14 @@ public class CommitteeFragment extends Fragment {
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        new Handler().postDelayed(() -> {
-                            mRecyclerView.setVisibility(View.VISIBLE);
-                            progressMore.setVisibility(View.GONE);
-                            shimmerFrameLayout.stopShimmer();
-                            shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 1000);
-
+                        progressMore.setVisibility(View.GONE);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
+                        mRecyclerView.setVisibility(View.VISIBLE);
+
                         break;
                     case FINISHED:
                         shimmerFrameLayout.stopShimmer();
