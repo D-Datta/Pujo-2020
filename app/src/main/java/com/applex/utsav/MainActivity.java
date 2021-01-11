@@ -944,6 +944,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 super.onBackPressed();
                 return;
             }
+            ////////////////RATE US/////////////////
+            final int[] count = {introPref.getCount()};
+            if(count[0] != -100) {
+                if(count[0] >= 250) {
+                    count[0] = 0;
+                    Dialog dialog = new Dialog(MainActivity.this);
+                    dialog.setContentView(R.layout.dialog_rate_us);
+                    dialog.setCanceledOnTouchOutside(true);
+
+                    TextView remind = dialog.findViewById(R.id.remind);
+                    TextView rate = dialog.findViewById(R.id.rate);
+
+                    dialog.setOnCancelListener(dialog1 -> {
+                        dialog1.dismiss();
+                        count[0] = 100;
+                        introPref.setCount(count[0]);
+                    });
+
+                    remind.setOnClickListener(v -> {
+                        dialog.dismiss();
+                        count[0] = 170;
+                        introPref.setCount(count[0]);
+                    });
+
+                    rate.setOnClickListener(v -> {
+                        count[0] = -100;
+                        introPref.setCount(count[0]);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+                        startActivity(intent);
+                        dialog.dismiss();
+                    });
+
+                    Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.show();
+                }
+                else {
+                    count[0] = count[0] + 1;
+                    introPref.setCount(count[0]);
+                }
+            }
+            ////////////////RATE US/////////////////
             doubleBackPressed = true;
             Toast.makeText(this, "Press BACK again to exit", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(() -> doubleBackPressed = false, 3000);
