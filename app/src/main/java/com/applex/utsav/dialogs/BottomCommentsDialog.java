@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +34,12 @@ import com.applex.utsav.adapters.CommentAdapter;
 import com.applex.utsav.adapters.ReelsAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
-import com.applex.utsav.fragments.FragmentClips;
+import com.applex.utsav.fragments.ClipsFragment;
 import com.applex.utsav.fragments.Fragment_Posts_Users;
 import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
-import com.google.android.gms.common.util.Base64Utils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -344,8 +342,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
                                     else if(from.matches("FragmentClips")) {
-                                        FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                                        FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                        ClipsFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        ClipsFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
                                     else if(from.matches("ActivityHashtagViewAll")) {
                                         HashtagPostViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
@@ -504,7 +502,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
                                                     else if(from.matches("FragmentClips")){
-                                                        FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                        ClipsFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
                                                 } else {
                                                     if(from.matches("ActivityProfileUser")){
@@ -520,8 +518,8 @@ public class BottomCommentsDialog extends DialogFragment {
                                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
                                                     else if(from.matches("FragmentClips")){
-                                                        FragmentClips.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                                                        FragmentClips.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                        ClipsFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        ClipsFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
                                                 }
                                             });

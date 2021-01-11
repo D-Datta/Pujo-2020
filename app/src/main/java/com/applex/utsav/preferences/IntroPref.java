@@ -38,6 +38,7 @@ public class IntroPref {
     private static final String VOLUME = "volume";
     private static final String THEME = "theme";
     private static final String SEARCH_HISTORY = "search_history";
+    private static final String OPEN_COUNT = "open_count";
     private final Gson gson;
 
     @SuppressLint("CommitPrefEdits")
@@ -158,6 +159,13 @@ public class IntroPref {
         String response = preferences.getString(SEARCH_HISTORY, null);
         return gson.fromJson(response, new TypeToken<ArrayList<UserSearchModel>>(){}.getType());
     }
+
+    public void setCount(int count) {
+        editor.putInt(OPEN_COUNT, count);
+        editor.apply();
+    }
+
+    public int getCount() { return preferences.getInt(OPEN_COUNT, 1); }
 
     public GoogleSignInAccount getGoogleSignInAccount() {
         Gson gson = new GsonBuilder()

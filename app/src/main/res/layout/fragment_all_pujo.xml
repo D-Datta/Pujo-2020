@@ -142,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
@@ -153,6 +153,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progress_more_comm"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider_color"
+                    android:padding="10dp"
+                    android:visibility="gone" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmerLayout"
@@ -165,16 +174,6 @@
                     <include layout="@layout/layout_shimmer_allpujo" />
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
-
-
-                <ProgressBar
-                    android:id="@+id/progress_more_comm"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/divider_color"
-                    android:padding="10dp"
-                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/community_view_all"

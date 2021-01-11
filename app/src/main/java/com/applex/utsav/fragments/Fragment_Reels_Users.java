@@ -27,7 +27,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.NewPostHome;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
@@ -249,7 +248,7 @@ public class Fragment_Reels_Users extends Fragment {
                                                 .addOnSuccessListener(aVoid -> {
 //                                                    ActivityProfileCommittee.delete = 1;
                                                     ActivityProfile.delete = 1;
-                                                    FragmentClips.changed = 1;
+                                                    ClipsFragment.changed = 1;
                                                     CommitteeFragment.changed = 1;
                                                     FeedsFragment.changed = 1;
                                                     holder.itemView.setVisibility(View.GONE);

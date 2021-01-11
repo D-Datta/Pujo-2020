@@ -159,7 +159,6 @@ public class FeedsFragment extends Fragment {
         changed = 0;
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
-
         contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
         floatingActionButton = view.findViewById(R.id.to_the_top_people);
@@ -183,7 +182,8 @@ public class FeedsFragment extends Fragment {
 
         viewPostExist = view.findViewById(R.id.view_post_exist);
         positions = new ArrayList<>();
-        buildRecyclerView();
+        mRecyclerView.setVisibility(View.GONE);
+        contentProgress.setVisibility(View.GONE);
 
         //SWIPE REFRESH//
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
@@ -191,6 +191,10 @@ public class FeedsFragment extends Fragment {
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            contentProgress.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
             contentProgCom.setVisibility(View.GONE);
             positions = new ArrayList<>();
             buildRecyclerView();
@@ -846,18 +850,21 @@ public class FeedsFragment extends Fragment {
                             Picasso.get().load(path).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                                    String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
-                                            bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                    Uri uri =  Uri.parse(finalbitmap);
-                                    String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("*/*");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
-                                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-
+                                    if(BasicUtility.checkStoragePermission(requireActivity())) {
+                                        String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                        Uri uri =  Uri.parse(finalbitmap);
+                                        String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                        String playstore = getResources().getString(R.string.download_utsav);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setType("*/*");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                    }
+                                    else {
+                                        BasicUtility.requestStoragePermission(requireActivity());
+                                    }
                                 }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
@@ -879,19 +886,22 @@ public class FeedsFragment extends Fragment {
                             Picasso.get().load(path).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                                    String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
-                                            bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                    Uri uri =  Uri.parse(finalbitmap);
-                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("*/*");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
-                                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-
-                                }
+                                    if(BasicUtility.checkStoragePermission(requireActivity())) {
+                                        String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                        Uri uri =  Uri.parse(finalbitmap);
+                                        String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                        String playstore = getResources().getString(R.string.download_utsav);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setType("*/*");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                    }
+                                    else {
+                                        BasicUtility.requestStoragePermission(requireActivity());
+                                    }
+                                                                    }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 

@@ -113,9 +113,6 @@ public class HashtagPostViewAll extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         introPref = new IntroPref(this);
         String lang= introPref.getLanguage();
         Locale locale= new Locale(lang);
@@ -165,6 +162,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmerLayout);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
+        contentprogressposts.setVisibility(View.GONE);
+        recyclerview.setVisibility(View.GONE);
 
         recyclerview.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -180,6 +179,10 @@ public class HashtagPostViewAll extends AppCompatActivity {
                         .getColor(R.color.darkpurple));
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
+            recyclerview.setVisibility(View.GONE);
+            contentprogressposts.setVisibility(View.GONE);
             buildRecyclerView();
         });
 
@@ -748,18 +751,21 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             Picasso.get().load(path).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                                    String finalbitmap = MediaStore.Images.Media.insertImage(getContentResolver(),
-                                            bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                    Uri uri =  Uri.parse(finalbitmap);
-                                    String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("*/*");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
-                                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-
+                                    if(BasicUtility.checkStoragePermission(HashtagPostViewAll.this)) {
+                                        String finalbitmap = MediaStore.Images.Media.insertImage(getContentResolver(),
+                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                        Uri uri =  Uri.parse(finalbitmap);
+                                        String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                        String playstore = getResources().getString(R.string.download_utsav);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setType("*/*");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                    }
+                                    else {
+                                        BasicUtility.requestStoragePermission(HashtagPostViewAll.this);
+                                    }
                                 }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
@@ -781,18 +787,21 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             Picasso.get().load(path).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                                    String finalbitmap = MediaStore.Images.Media.insertImage(getContentResolver(),
-                                            bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                    Uri uri =  Uri.parse(finalbitmap);
-                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("*/*");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
-                                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-
+                                    if(BasicUtility.checkStoragePermission(HashtagPostViewAll.this)) {
+                                        String finalbitmap = MediaStore.Images.Media.insertImage(getContentResolver(),
+                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                        Uri uri =  Uri.parse(finalbitmap);
+                                        String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                        String playstore = getResources().getString(R.string.download_utsav);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setType("*/*");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                    }
+                                    else {
+                                        BasicUtility.requestStoragePermission(HashtagPostViewAll.this);
+                                    }
                                 }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
@@ -971,20 +980,20 @@ public class HashtagPostViewAll extends AppCompatActivity {
 
                             postMenuDialog.findViewById(R.id.share_post).setVisibility(View.GONE);
                             //postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
-                          postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
-                        Intent i = new Intent(HashtagPostViewAll.this, NewPostHome.class);
-                        i.putExtra("target", "100"); //target value for edit post
-                        i.putExtra("bool", "2");
-                        i.putExtra("typeofpost", "notreel");
-                        i.putExtra("txt", currentItem.getTxt());
-                        i.putExtra("headline", currentItem.getHeadline());
-                        if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
-                            Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
-                            i.putExtra("BUNDLETAGS", args);
-                        }
-                        i.putExtra("docID", currentItem.getDocID());
-                        StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(v2 -> {
+                            Intent i = new Intent(HashtagPostViewAll.this, NewPostHome.class);
+                            i.putExtra("target", "100"); //target value for edit post
+                            i.putExtra("bool", "2");
+                            i.putExtra("typeofpost", "notreel");
+                            i.putExtra("txt", currentItem.getTxt());
+                            i.putExtra("headline", currentItem.getHeadline());
+                            if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
+                                Bundle args = new Bundle();
+                                args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
+                                i.putExtra("BUNDLETAGS", args);
+                            }
+                            i.putExtra("docID", currentItem.getDocID());
+                            StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
 ////                            i.putExtra("target", "100"); //target value for edit post
 ////                            i.putExtra("bool", "3");
 ////                            i.putExtra("usN", currentItem.getUsN());
@@ -1140,7 +1149,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
-                    case FINISHED: contentprogressposts.setVisibility(View.GONE);
+                    case FINISHED:
+                        contentprogressposts.setVisibility(View.GONE);
                         progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
