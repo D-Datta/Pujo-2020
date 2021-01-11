@@ -149,8 +149,6 @@ public class CommitteeFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
     private ArrayList<SliderModel> itemGroups;
     private String[] storagePermission;
-    private String link_global;
-    private Uri uri_global;
 
     public CommitteeFragment() {
         // Required empty public constructor

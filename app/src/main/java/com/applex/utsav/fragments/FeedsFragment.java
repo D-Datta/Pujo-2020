@@ -111,10 +111,8 @@ public class FeedsFragment extends Fragment {
     private ProgressDialog progressDialog;
     private BottomSheetDialog postMenuDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressMore, contentProgress;
-
+    private ProgressBar progressMore;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private LinearLayout viewPostExist;
 
     public static int changed = 0;
     public static int comDelete = 0;
@@ -158,7 +156,6 @@ public class FeedsFragment extends Fragment {
         changed = 0;
 
         swipeRefreshLayout= view.findViewById(R.id.swiperefresh);
-        contentProgress = view.findViewById(R.id.content_progress);
         progressMore = view.findViewById(R.id.progress_more);
         floatingActionButton = view.findViewById(R.id.to_the_top_people);
 
@@ -172,10 +169,8 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setItemViewCacheSize(20);
         //////////////RECYCLER VIEW////////////////////
 
-        viewPostExist = view.findViewById(R.id.view_post_exist);
         positions = new ArrayList<>();
         mRecyclerView.setVisibility(View.GONE);
-        contentProgress.setVisibility(View.GONE);
 
         //SWIPE REFRESH//
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
@@ -185,7 +180,6 @@ public class FeedsFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
-            contentProgress.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
             buildRecyclerView();
@@ -1381,19 +1375,16 @@ public class FeedsFragment extends Fragment {
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        new Handler().postDelayed(() -> {
-                            mRecyclerView.setVisibility(View.VISIBLE);
-                            progressMore.setVisibility(View.GONE);
-                            shimmerFrameLayout.stopShimmer();
-                            shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 1000);
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        progressMore.setVisibility(View.GONE);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
 
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
                     case FINISHED:
-                        contentProgress.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
@@ -1405,7 +1396,6 @@ public class FeedsFragment extends Fragment {
             }
         };
 
-        contentProgress.setVisibility(View.GONE);
         progressMore.setVisibility(View.GONE);
         mRecyclerView.setAdapter(adapter);
 
