@@ -136,7 +136,8 @@ public class AllPujoFragment extends Fragment {
             options.inJustDecodeBounds = false;
             Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
             pujoimg.setImageBitmap(scaledBitmap);
-        } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
+        }
+        else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
 
             Display display = requireActivity().getWindowManager().getDefaultDisplay();
             int displayWidth = display.getWidth();
@@ -174,8 +175,6 @@ public class AllPujoFragment extends Fragment {
                 SEARCH = searchText.getText().toString().trim();
                 if(!SEARCH.isEmpty()){
                     userList.clear();
-
-//                    contentProgress.setVisibility(View.VISIBLE);
                     buildRecyclerView("small_name",SEARCH.toLowerCase());
 
                 }
@@ -199,8 +198,6 @@ public class AllPujoFragment extends Fragment {
 
             if (!(searchText.getText().toString().isEmpty())){
                 userList.clear();
-
-//                contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchText.getText().toString().trim();
                 buildRecyclerView("small_name",SEARCH.toLowerCase());
 
@@ -213,9 +210,7 @@ public class AllPujoFragment extends Fragment {
                     SEARCH = searchText.getText().toString().trim();
                     if(!SEARCH.isEmpty()){
                         userList.clear();
-
                         buildRecyclerView("small_name",SEARCH.toLowerCase());
-//                        contentProgress.setVisibility(View.VISIBLE);
 
                     }
 
@@ -238,14 +233,10 @@ public class AllPujoFragment extends Fragment {
 
             selected_button = 2;
 
-
             if (!(searchText.getText().toString().isEmpty())){
                 userList.clear();
-
-//                contentProgress.setVisibility(View.VISIBLE);
                 SEARCH = searchText.getText().toString().trim();
                 buildRecyclerView("small_city",SEARCH.toLowerCase());
-
             }
 
 
@@ -257,8 +248,6 @@ public class AllPujoFragment extends Fragment {
                         userList.clear();
 
                         buildRecyclerView("small_city",SEARCH.toLowerCase());
-//                        contentProgress.setVisibility(View.VISIBLE);
-
                     }
 
                 }
@@ -430,12 +419,12 @@ public class AllPujoFragment extends Fragment {
 
                 if(currentItem.getCoverpic() != null){
                     Picasso.get().load(currentItem.getCoverpic())
-//                            .error(R.drawable.image_background_grey)
-//                            .placeholder(R.drawable.image_background_grey)
+                            .error(R.drawable.image_background_grey)
+                            .placeholder(R.drawable.image_background_grey)
                             .into(programmingViewHolder.committeeCover);
                 }
                 else {
-                    programmingViewHolder.committeeCover.setImageResource(R.drawable.ic_search_icon);
+                    programmingViewHolder.committeeCover.setImageResource(R.drawable.image_background_grey);
                 }
 
                 if(currentItem.getDp() != null){
@@ -576,18 +565,4 @@ public class AllPujoFragment extends Fragment {
         searchText.setHint(R.string.search_pujo);
     }
 
-//    private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
-//        @Override
-//        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                if (!searchText.getText().toString().isEmpty()) {
-//                    if (selected_button == 1)
-//                        buildRecyclerView("small_name", searchText.getText().toString().toLowerCase());
-//                    else
-//                        buildRecyclerView("city", searchText.getText().toString());
-//                }
-//            }
-//            return false;
-//        }
-//    };
 }

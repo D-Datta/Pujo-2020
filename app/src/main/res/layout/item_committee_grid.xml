@@ -14,7 +14,7 @@
         android:id="@+id/committee_cover"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:foreground="@color/black_transparent3"
+        android:foreground="@color/black_transparent4"
         android:scaleType="centerCrop" />
 
     <RelativeLayout
