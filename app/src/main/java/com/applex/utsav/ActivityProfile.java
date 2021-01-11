@@ -733,7 +733,7 @@ public class ActivityProfile extends AppCompatActivity {
                                                             baseUserModel.getUpvoteL().add(fireuser.getUid());
                                                             isUpvoted = true;
                                                         } else {
-                                                            Toast.makeText(ActivityProfile.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(ActivityProfile.this, "Upvoting is closed for now", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });

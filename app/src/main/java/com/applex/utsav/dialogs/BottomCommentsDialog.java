@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ import com.applex.utsav.models.CommentModel;
 import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -80,6 +82,7 @@ public class BottomCommentsDialog extends DialogFragment {
     private int getBool;
     private IntroPref introPref;
     private String DP, GENDER;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     public BottomCommentsDialog() {
         // Required empty public constructor
@@ -119,6 +122,9 @@ public class BottomCommentsDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheetcomments, container, false);
         EditText newComment = view.findViewById(R.id.new_comment);
+        shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
 
         root = Objects.requireNonNull(getArguments()).getString("root");
         docID = Objects.requireNonNull(getArguments()).getString("docID");
@@ -160,6 +166,7 @@ public class BottomCommentsDialog extends DialogFragment {
         commentRecycler.setItemAnimator(new DefaultItemAnimator());
         commentRecycler.setNestedScrollingEnabled(true);
         commentRecycler.setHasFixedSize(false);
+        commentRecycler.setVisibility(View.GONE);
 
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
@@ -566,7 +573,12 @@ public class BottomCommentsDialog extends DialogFragment {
                         commentMenuDialog.show();
                     });
 
-                    commentRecycler.setAdapter(commentAdapter);
+                    new Handler().postDelayed(() -> {
+                        commentRecycler.setVisibility(View.VISIBLE);
+                        commentRecycler.setAdapter(commentAdapter);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                    }, 1000);
 
                     if(task.getResult().size() > 0)
                         lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
