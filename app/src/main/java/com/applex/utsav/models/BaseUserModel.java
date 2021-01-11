@@ -38,6 +38,13 @@ public class BaseUserModel {
 
     private Timestamp lastVisitTime;
 
+    private String dpcaption;
+    private String covercaption;
+    private String dppostid;
+    private String coverpostid;
+    private boolean isdpshared;
+    private boolean iscovershared;
+
     public BaseUserModel() {
         upvoteL = new ArrayList<>();
     }
@@ -248,5 +255,53 @@ public class BaseUserModel {
 
     public void setUpiid(String upiid) {
         this.upiid = upiid;
+    }
+
+    public String getDpcaption() {
+        return dpcaption;
+    }
+
+    public void setDpcaption(String dpcaption) {
+        this.dpcaption = dpcaption;
+    }
+
+    public String getCovercaption() {
+        return covercaption;
+    }
+
+    public void setCovercaption(String covercaption) {
+        this.covercaption = covercaption;
+    }
+
+    public String getDppostid() {
+        return dppostid;
+    }
+
+    public void setDppostid(String dppostid) {
+        this.dppostid = dppostid;
+    }
+
+    public String getCoverpostid() {
+        return coverpostid;
+    }
+
+    public void setCoverpostid(String coverpostid) {
+        this.coverpostid = coverpostid;
+    }
+
+    public boolean isIsdpshared() {
+        return isdpshared;
+    }
+
+    public void setIsdpshared(boolean isdpshared) {
+        this.isdpshared = isdpshared;
+    }
+
+    public boolean isIscovershared() {
+        return iscovershared;
+    }
+
+    public void setIscovershared(boolean iscovershared) {
+        this.iscovershared = iscovershared;
     }
 }

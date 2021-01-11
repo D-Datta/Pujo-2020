@@ -380,6 +380,68 @@ public class ActivityProfile extends AppCompatActivity {
 
                                 isLoadingFinished = true;
 
+                                PDp.setOnClickListener(v -> {
+                                    if (baseUserModel.getDp()!=null) {
+                                        if (task.getResult().getBoolean("isdpshared")!=null) {
+                                            if(baseUserModel.isIsdpshared()){
+                                                Intent intent = new Intent(ActivityProfile.this, ViewMoreHome.class);
+                                                intent.putExtra("from", "dp");
+                                                intent.putExtra("type", type);
+                                                intent.putExtra("postID", baseUserModel.getDppostid());
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                                intent.putExtra("from", "profile");
+                                                intent.putExtra("Bitmap", baseUserModel.getDp());
+                                                intent.putExtra("caption", baseUserModel.getDpcaption());
+                                                startActivity(intent);
+                                            }
+                                        }
+                                        else{
+                                            Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                            intent.putExtra("from", "profile");
+                                            intent.putExtra("Bitmap", baseUserModel.getDp());
+                                            intent.putExtra("caption", baseUserModel.getDpcaption());
+                                            startActivity(intent);
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                Pcoverpic.setOnClickListener(v -> {
+                                    if (baseUserModel.getCoverpic()!=null) {
+                                        if (task.getResult().getBoolean("iscovershared")!=null) {
+                                            if(baseUserModel.isIscovershared()){
+                                                Intent intent = new Intent(ActivityProfile.this, ViewMoreHome.class);
+                                                intent.putExtra("from", "cover");
+                                                intent.putExtra("type", type);
+                                                intent.putExtra("postID", baseUserModel.getCoverpostid());
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                                intent.putExtra("from", "profile");
+                                                intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                                                intent.putExtra("caption", baseUserModel.getCovercaption());
+                                                startActivity(intent);
+                                            }
+                                        }
+                                        else{
+                                            Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                            intent.putExtra("from", "profile");
+                                            intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                                            intent.putExtra("caption", baseUserModel.getCovercaption());
+                                            startActivity(intent);
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                                 if (uid.matches(FirebaseAuth.getInstance().getUid()) ) {
 
                                     editCover.setVisibility(View.VISIBLE);
@@ -394,21 +456,53 @@ public class ActivityProfile extends AppCompatActivity {
                                         finish();
                                     });
 
-                                    editDp.setOnClickListener(v -> {
-                                        if (!checkStoragePermission()) {
-                                            requestStoragePermission();
-                                        } else {
-                                            imageCoverOrDp = 0; //dp
-                                            pickGallery();
+//                                    editDp.setOnClickListener(v -> {
+//                                        if (!checkStoragePermission()) {
+//                                            requestStoragePermission();
+//                                        } else {
+//                                            imageCoverOrDp = 0; //dp
+//                                            pickGallery();
+//                                        }
+//                                    });
+
+                                    editDp.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i = new Intent(ActivityProfile.this,UpdateProfilePictureActivity.class);
+                                            i.putExtra("uid",uid);
+                                            i.putExtra("type",baseUserModel.getType());
+                                            i.putExtra("gender",baseUserModel.getGender());
+                                            i.putExtra("dp",baseUserModel.getDp());
+//                                            if(baseUserModel.getDpcation()!=null && !baseUserModel.getDpcation().isEmpty()){
+//                                                i.putExtra("dpcaption",baseUserModel.getDpcation());
+//                                            }
+                                            startActivity(i);
+                                            finish();
                                         }
                                     });
 
-                                    editCover.setOnClickListener(v -> {
-                                        if (!checkStoragePermission()) {
-                                            requestStoragePermission();
-                                        } else {
-                                            imageCoverOrDp = 1; //cover
-                                            pickGallery();
+//                                    editCover.setOnClickListener(v -> {
+//                                        if (!checkStoragePermission()) {
+//                                            requestStoragePermission();
+//                                        } else {
+//                                            imageCoverOrDp = 1; //cover
+//                                            pickGallery();
+//                                        }
+//                                    });
+
+                                    editCover.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i = new Intent(ActivityProfile.this,UpdateCoverPictureActivity.class);
+                                            i.putExtra("uid",uid);
+                                            i.putExtra("type",baseUserModel.getType());
+                                            i.putExtra("gender",baseUserModel.getGender());
+                                            i.putExtra("cover",baseUserModel.getCoverpic());
+//                                            if(baseUserModel.getDpcation()!=null && !baseUserModel.getDpcation().isEmpty()){
+//                                                i.putExtra("dpcaption",baseUserModel.getDpcation());
+//                                            }
+                                            startActivity(i);
+                                            finish();
                                         }
                                     });
                                 }
@@ -563,6 +657,69 @@ public class ActivityProfile extends AppCompatActivity {
 
                                 isLoadingFinished = true;
 
+
+                                PDp.setOnClickListener(v -> {
+                                    if (baseUserModel.getDp()!=null) {
+                                        if (task.getResult().getBoolean("isdpshared")!=null) {
+                                            if(baseUserModel.isIsdpshared()){
+                                                Intent intent = new Intent(ActivityProfile.this, ViewMoreHome.class);
+                                                intent.putExtra("from", "dp");
+                                                intent.putExtra("type", type);
+                                                intent.putExtra("postID", baseUserModel.getDppostid());
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                                intent.putExtra("from", "profile");
+                                                intent.putExtra("Bitmap", baseUserModel.getDp());
+                                                intent.putExtra("caption", baseUserModel.getDpcaption());
+                                                startActivity(intent);
+                                            }
+                                        }
+                                        else{
+                                            Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                            intent.putExtra("from", "profile");
+                                            intent.putExtra("Bitmap", baseUserModel.getDp());
+                                            intent.putExtra("caption", baseUserModel.getDpcaption());
+                                            startActivity(intent);
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                Pcoverpic.setOnClickListener(v -> {
+                                    if (baseUserModel.getCoverpic()!=null) {
+                                        if (task.getResult().getBoolean("iscovershared")!=null) {
+                                            if(baseUserModel.isIscovershared()){
+                                                Intent intent = new Intent(ActivityProfile.this, ViewMoreHome.class);
+                                                intent.putExtra("from", "cover");
+                                                intent.putExtra("type", type);
+                                                intent.putExtra("postID", baseUserModel.getCoverpostid());
+                                                startActivity(intent);
+                                            }
+                                            else{
+                                                Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                                intent.putExtra("from", "profile");
+                                                intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                                                intent.putExtra("caption", baseUserModel.getCovercaption());
+                                                startActivity(intent);
+                                            }
+                                        }
+                                        else{
+                                            Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+                                            intent.putExtra("from", "profile");
+                                            intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+                                            intent.putExtra("caption", baseUserModel.getCovercaption());
+                                            startActivity(intent);
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                                 if (uid.matches(FirebaseAuth.getInstance().getUid()) ) {
 
                                     editCover.setVisibility(View.VISIBLE);
@@ -577,21 +734,53 @@ public class ActivityProfile extends AppCompatActivity {
                                         finish();
                                     });
 
-                                    editDp.setOnClickListener(v -> {
-                                        if (!checkStoragePermission()) {
-                                            requestStoragePermission();
-                                        } else {
-                                            imageCoverOrDp = 0; //dp
-                                            pickGallery();
+//                                    editDp.setOnClickListener(v -> {
+//                                        if (!checkStoragePermission()) {
+//                                            requestStoragePermission();
+//                                        } else {
+//                                            imageCoverOrDp = 0; //dp
+//                                            pickGallery();
+//                                        }
+//                                    });
+
+                                    editDp.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i = new Intent(ActivityProfile.this,UpdateProfilePictureActivity.class);
+                                            i.putExtra("uid",uid);
+                                            i.putExtra("type",baseUserModel.getType());
+                                            i.putExtra("gender",baseUserModel.getGender());
+                                            i.putExtra("dp",baseUserModel.getDp());
+//                                            if(baseUserModel.getDpcation()!=null && !baseUserModel.getDpcation().isEmpty()){
+//                                                i.putExtra("dpcaption",baseUserModel.getDpcation());
+//                                            }
+                                            startActivity(i);
+                                            finish();
                                         }
                                     });
 
-                                    editCover.setOnClickListener(v -> {
-                                        if (!checkStoragePermission()) {
-                                            requestStoragePermission();
-                                        } else {
-                                            imageCoverOrDp = 1; //cover
-                                            pickGallery();
+//                                    editCover.setOnClickListener(v -> {
+//                                        if (!checkStoragePermission()) {
+//                                            requestStoragePermission();
+//                                        } else {
+//                                            imageCoverOrDp = 1; //cover
+//                                            pickGallery();
+//                                        }
+//                                    });
+
+                                    editCover.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent i = new Intent(ActivityProfile.this,UpdateCoverPictureActivity.class);
+                                            i.putExtra("uid",uid);
+                                            i.putExtra("type",baseUserModel.getType());
+                                            i.putExtra("gender",baseUserModel.getGender());
+                                            i.putExtra("cover",baseUserModel.getCoverpic());
+//                                            if(baseUserModel.getDpcation()!=null && !baseUserModel.getDpcation().isEmpty()){
+//                                                i.putExtra("dpcaption",baseUserModel.getDpcation());
+//                                            }
+                                            startActivity(i);
+                                            finish();
                                         }
                                     });
                                 }
@@ -796,31 +985,33 @@ public class ActivityProfile extends AppCompatActivity {
             bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
         }
 
-        PDp.setOnClickListener(v -> {
-            if (baseUserModel != null) {
-                if (baseUserModel.getDp() != null && baseUserModel.getDp().length() > 2) {
-                    Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
-                    intent.putExtra("from", "profile");
-                    intent.putExtra("Bitmap", baseUserModel.getDp());
-                    startActivity(intent);
-                }
-            } else {
-                Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Pcoverpic.setOnClickListener(v -> {
-            if (baseUserModel != null) {
-                if (baseUserModel.getCoverpic() != null) {
-                    Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
-                    intent.putExtra("from", "profile");
-                    intent.putExtra("Bitmap", baseUserModel.getCoverpic());
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        PDp.setOnClickListener(v -> {
+//            if (baseUserModel != null) {
+//                if (baseUserModel.getDp() != null && baseUserModel.getDp().length() > 2) {
+//                    Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+//                    intent.putExtra("from", "profile");
+//                    intent.putExtra("Bitmap", baseUserModel.getDp());
+//                    intent.putExtra("caption",baseUserModel.getDpcaption());
+//                    startActivity(intent);
+//                }
+//            } else {
+//                Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        Pcoverpic.setOnClickListener(v -> {
+//            if (baseUserModel != null) {
+//                if (baseUserModel.getCoverpic() != null) {
+//                    Intent intent = new Intent(ActivityProfile.this, ProfilePictureActivity.class);
+//                    intent.putExtra("from", "profile");
+//                    intent.putExtra("Bitmap", baseUserModel.getCoverpic());
+//                    intent.putExtra("caption",baseUserModel.getCovercaption());
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(ActivityProfile.this, "Picture has not been set", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
     }
 

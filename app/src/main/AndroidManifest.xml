@@ -25,12 +25,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".UpdateCoverPictureActivity"></activity>
+        <activity android:name=".UpdateProfilePictureActivity" />
         <activity android:name=".ActivityProfile" />
-
         <activity android:name=".LiveActivity">
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
         </activity>
-
         <activity android:name=".SearchActivity" />
         <activity android:name=".HashtagPostViewAll" />
         <activity android:name=".HashtagClipsViewAll" />

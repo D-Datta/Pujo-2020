@@ -408,6 +408,13 @@ public class ViewMoreText extends AppCompatActivity {
             } else {
                 textContent.setVisibility(View.GONE);
             }
+
+            if(i.getStringExtra("challengeID")!=null && !i.getStringExtra("challengeID").isEmpty()){
+                homeTextModel[0].setChallengeID(i.getStringExtra("challengeID"));
+            }
+            if(i.getStringExtra("headline")!=null && !i.getStringExtra("headline").isEmpty()){
+                homeTextModel[0].setHeadline(i.getStringExtra("headline"));
+            }
             ////////////////POST TEXT///////////////
 
 
@@ -850,6 +857,7 @@ public class ViewMoreText extends AppCompatActivity {
                                 }
                                 i.putExtra("docID", homeTextModel[0].getDocID());
                                 StoreTemp.getInstance().setPujoTagModel(homeTextModel[0].getPujoTag());
+                                i.putExtra("challengeID",homeTextModel[0].getChallengeID());
                                 startActivity(i);
                                 postMenuDialog.dismiss();
 
