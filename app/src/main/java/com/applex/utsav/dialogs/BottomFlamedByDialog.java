@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
 import com.applex.utsav.adapters.FlamedByAdapter;
 import com.applex.utsav.models.FlamedModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -46,7 +48,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
     private CollectionReference flamedList;
-
+    private ShimmerFrameLayout shimmerFrameLayout;
     private TextView title;
     private ImageView titleImage;
     private Context mContext;
@@ -68,6 +70,9 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
 
         title = v.findViewById(R.id.title);
         titleImage = v.findViewById(R.id.flame);
+        shimmerFrameLayout = v.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
 
         ImageView dismiss = v.findViewById(R.id.dismissflame);
         NestedScrollView nestedScrollView = v.findViewById(R.id.scroll_view);
@@ -79,8 +84,9 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
         flamerecycler.setItemAnimator(new DefaultItemAnimator());
         flamerecycler.setNestedScrollingEnabled(true);
         flamerecycler.setHasFixedSize(false);
+        flamerecycler.setVisibility(View.GONE);
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
 
         if(root.matches("Upvotes")){
             title.setText("Upvotes");
@@ -128,7 +134,7 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
     }
 
     private void buildRecyclerView_flames() {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         models = new ArrayList<>();
 
         flamedList.limit(15).get().addOnCompleteListener(task -> {
@@ -140,7 +146,12 @@ public class BottomFlamedByDialog extends BottomSheetDialogFragment {
                 }
                 if (models.size()>0) {
                     flamedByAdapter = new FlamedByAdapter(getActivity(), models);
-                    flamerecycler.setAdapter(flamedByAdapter);
+                    new Handler().postDelayed(() -> {
+                        flamerecycler.setVisibility(View.VISIBLE);
+                        flamerecycler.setAdapter(flamedByAdapter);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                    }, 1000);
 
                     if(task.getResult().size() > 0)
                         lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);

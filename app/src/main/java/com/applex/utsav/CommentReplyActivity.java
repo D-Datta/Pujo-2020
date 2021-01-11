@@ -42,6 +42,7 @@ import com.applex.utsav.preferences.IntroPref;
 import com.applex.utsav.dialogs.BottomFlamedByDialog2;
 import com.applex.utsav.utility.BasicUtility;
 import com.applex.utsav.utility.InternetConnection;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -77,6 +78,7 @@ public class CommentReplyActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     private RecyclerView mRecyclerView;
     private ArrayList<ReplyCommentModel> CommentList;
@@ -598,6 +600,12 @@ public class CommentReplyActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setNestedScrollingEnabled(true);
+        mRecyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
 
         if(i.getStringExtra("ReplyCommentNo")!=null){
             commentModel[0].setrCmtNo(Integer.parseInt(i.getStringExtra("ReplyCommentNo")));
@@ -742,7 +750,13 @@ public class CommentReplyActivity extends AppCompatActivity {
                 commentMenuDialog.show();
             }
         });
-        mRecyclerView.setAdapter(adapter);
+
+        new Handler().postDelayed(() -> {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mRecyclerView.setAdapter(adapter);
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+        }, 1000);
 
         if(Integer.parseInt(i.getStringExtra("ReplyCommentNo")) > 0L) {
             buildCommentRecyclerView();

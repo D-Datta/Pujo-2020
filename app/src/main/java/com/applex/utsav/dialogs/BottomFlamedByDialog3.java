@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.R;
 import com.applex.utsav.adapters.FlamedByAdapter;
 import com.applex.utsav.models.FlamedModel;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -43,6 +45,7 @@ public class BottomFlamedByDialog3 extends BottomSheetDialogFragment {
     private DocumentSnapshot lastVisible;
     private int checkGetMore = -1;
     private CollectionReference flamedList;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     public BottomFlamedByDialog3(String root, String postID, String pComID, String docID){
         this.docID = docID;
@@ -58,6 +61,10 @@ public class BottomFlamedByDialog3 extends BottomSheetDialogFragment {
         View v= inflater.inflate(R.layout.bottomsheetflamedby, container, false);
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        shimmerFrameLayout = v.findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+
         flamerecycler=v.findViewById(R.id.flamed_recycler);
         progressBar = v.findViewById(R.id.progress5);
         ImageView dismiss = v.findViewById(R.id.dismissflame);
@@ -70,6 +77,7 @@ public class BottomFlamedByDialog3 extends BottomSheetDialogFragment {
         flamerecycler.setItemAnimator(new DefaultItemAnimator());
         flamerecycler.setNestedScrollingEnabled(true);
         flamerecycler.setHasFixedSize(false);
+        flamerecycler.setVisibility(View.GONE);
 
         progressBar.setVisibility(View.VISIBLE);
         flamedList = FirebaseFirestore.getInstance().collection(root + "/" + postID + "/commentL/" + pComID + "/commentL/" +docID+ "/flameL/");
@@ -95,7 +103,7 @@ public class BottomFlamedByDialog3 extends BottomSheetDialogFragment {
     }
 
     private void buildRecyclerView_flames() {
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         models = new ArrayList<>();
 
         flamedList.limit(15).get().addOnCompleteListener(task -> {
@@ -107,7 +115,12 @@ public class BottomFlamedByDialog3 extends BottomSheetDialogFragment {
                 }
                 if (models.size() > 0) {
                     flamedByAdapter = new FlamedByAdapter(getActivity(), models);
-                    flamerecycler.setAdapter(flamedByAdapter);
+                    new Handler().postDelayed(() -> {
+                        flamerecycler.setVisibility(View.VISIBLE);
+                        flamerecycler.setAdapter(flamedByAdapter);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                    }, 1000);
 
                     if(task.getResult().size() > 0)
                         lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);

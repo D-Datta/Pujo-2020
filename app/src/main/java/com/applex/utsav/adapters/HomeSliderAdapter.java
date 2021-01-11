@@ -7,10 +7,13 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
-
+import com.applex.utsav.ActivityProfile;
+import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
+import com.applex.utsav.ReelsActivity;
+import com.applex.utsav.ViewMoreHome;
+import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.Webview;
 import com.applex.utsav.models.SliderModel;
 import com.smarteist.autoimageslider.SliderViewAdapter;
@@ -19,12 +22,13 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.SliderAdapterVH> {
 
-    private Context mContext;
-    private ArrayList<SliderModel> itemDatalist;
-    private int bool;
+    private final Context mContext;
+    private final ArrayList<SliderModel> itemDatalist;
+    private final int bool;
 
     public HomeSliderAdapter(Context context, ArrayList<SliderModel> itemDatalist, int bool) {
         this.mContext = context;
@@ -48,9 +52,7 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
         built.setLoggingEnabled(true);
         Picasso.get().load(currentItem.getEventImage()).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.image_background_grey).into(viewHolder.imageViewBackground, new Callback() {
             @Override
-            public void onSuccess() {
-
-            }
+            public void onSuccess() { }
 
             @Override
             public void onError(Exception e) {
@@ -61,9 +63,8 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
                 built.setLoggingEnabled(true);
                 Picasso.get().load(currentItem.getEventImage()).networkPolicy(NetworkPolicy.OFFLINE).into(viewHolder.imageViewBackground, new Callback() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess() { }
 
-                    }
                     @Override
                     public void onError(Exception e) {
                         Picasso.get().load(currentItem.getEventImage()).into(viewHolder.imageViewBackground);
@@ -82,7 +83,6 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
                     i.putExtra(Intent.EXTRA_TEXT,text);
                     i.setType("text/plain");
                     mContext.startActivity(Intent.createChooser(i,"Share with"));
-
                     break;
                 case 2:
                     Intent intent = new Intent(mContext, Webview.class);
@@ -93,13 +93,72 @@ public class HomeSliderAdapter extends SliderViewAdapter<HomeSliderAdapter.Slide
                 case 3:
                     mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(currentItem.getEventLink())));
                     break;
-            }
-        });
-
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+                case 4:
+                    Uri uri = Uri.parse(currentItem.getEventLink());
+                    if(uri!=null) {
+                        List<String> params = uri.getPathSegments();
+                        if(params.size()>=3){
+                            String postID = params.get(3);
+                            if(params.get(1).matches("feeds")) {
+                                if(params.get(2).matches("0")) {
+                                    Intent in = new Intent(mContext, ViewMoreText.class);
+                                    in.putExtra("campus", "Text");
+                                    in.putExtra("postID", postID);
+                                    in.putExtra("from", "link");
+                                    mContext.startActivity(in);
+                                }
+                                else if(params.get(2).matches("1")) {
+                                    Intent in = new Intent(mContext, ViewMoreHome.class);
+                                    in.putExtra("campus", "Image");
+                                    in.putExtra("postID", postID);
+                                    in.putExtra("from", "link");
+                                    mContext.startActivity(in);
+                                }
+                                else {
+                                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                                }
+                            }
+                            else if(params.get(1).matches("clips")) {
+                                if (params.get(2).matches("1")) {
+                                    Intent in = new Intent(mContext, ReelsActivity.class);
+                                    in.putExtra("bool", "1");
+                                    in.putExtra("docID", postID);
+                                    mContext.startActivity(in);
+                                } else if (params.get(2).matches("2")) {
+                                    Intent in = new Intent(mContext, ReelsActivity.class);
+                                    in.putExtra("bool", "2");
+                                    in.putExtra("docID", postID);
+                                    mContext.startActivity(in);
+                                } else if (params.get(2).matches("3")) {
+                                    Intent in = new Intent(mContext, ReelsActivity.class);
+                                    in.putExtra("bool", "3");
+                                    in.putExtra("docID", postID);
+                                    mContext.startActivity(in);
+                                }
+                            }
+                        }
+                        else {
+                            mContext.startActivity(new Intent(mContext, MainActivity.class));
+                        }
+                    }
+                    else {
+                        mContext.startActivity(new Intent(mContext, MainActivity.class));
+                    }
+                    break;
+                case 5:
+                    Uri uri2 = Uri.parse(currentItem.getEventLink());
+                    if(uri2!=null) {
+                        List<String> params = uri2.getPathSegments();
+                        if (params.get(1).matches("profile")) {
+                            Intent in = new Intent(mContext, ActivityProfile.class);
+                            in.putExtra("uid", params.get(3));
+                            mContext.startActivity(in);
+                        }
+                    }
+                    else {
+                        mContext.startActivity(new Intent(mContext, MainActivity.class));
+                    }
+                    break;
             }
         });
     }

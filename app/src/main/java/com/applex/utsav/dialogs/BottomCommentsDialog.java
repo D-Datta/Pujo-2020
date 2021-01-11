@@ -145,7 +145,6 @@ public class BottomCommentsDialog extends DialogFragment {
     
     @SuppressLint("SetTextI18n")
     @Override
-
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
         commentRecycler =v.findViewById(R.id.flamed_recycler);
