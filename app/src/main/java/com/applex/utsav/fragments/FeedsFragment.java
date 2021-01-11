@@ -177,11 +177,12 @@ public class FeedsFragment extends Fragment {
                 getResources().getColor(R.color.darkpurple));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            swipeRefreshLayout.setRefreshing(true);
+//            swipeRefreshLayout.setRefreshing(true);
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
+//            buildRecyclerView();
             adapter.refresh();
         });
         //SWIPE REFRESH//
@@ -275,9 +276,6 @@ public class FeedsFragment extends Fragment {
                                 feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
                             }
                         }
-//                        else {
-//                            feedViewHolder.type_dp.setImageResource(R.drawable.ic_account_circle_black_24dp);
-//                        }
                     }
                     else {
                         feedViewHolder.new_post_layout.setVisibility(View.GONE);
@@ -385,48 +383,6 @@ public class FeedsFragment extends Fragment {
                         feedViewHolder.profileimage.setImageResource(R.drawable.ic_account_circle_black_24dp);
                     }
                 }
-                ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-
-                ///////////TAGLIST///////////////
-
-                ///////////TAG RECYCLER SETUP////////////////
-//                feedViewHolder.tagList.setHasFixedSize(false);
-//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-//                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//                feedViewHolder.tagList.setNestedScrollingEnabled(true);
-//                feedViewHolder.tagList.setLayoutManager(linearLayoutManager);
-//                ///////////TAG RECYCLER SETUP////////////////
-//                TagAdapter2 tagAdapter;
-//
-//                if (currentItem.getTagList() != null && currentItem.getTagList().size() > 0) {
-//                    feedViewHolder.tagList.setVisibility(View.VISIBLE);
-//                    tagAdapter = new TagAdapter2(currentItem.getTagList(), getActivity());
-//                    feedViewHolder.tagList.setAdapter(tagAdapter);
-//
-//                    tagAdapter.onClickListener((position1, tag) -> {
-//                       Intent i = new Intent(getContext(), HashtagPostViewAll.class);
-//                       i.putExtra("hashtag", tag);
-//                       startActivity(i);
-//                    });
-//                }
-//                else {
-//                    feedViewHolder.tagList.setAdapter(null);
-//                    feedViewHolder.tagList.setVisibility(View.GONE);
-//                }
-                /////////TAGLIST///////////////
-
-                //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
-//                feedViewHolder.userimage.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    startActivity(intent);
-//                });
-//
-//                feedViewHolder.username.setOnClickListener(v -> {
-//                    Intent intent = new Intent(getContext(), ActivityProfileUser.class);
-//                    intent.putExtra("uid", currentItem.getUid());
-//                    startActivity(intent);
-//                });
 
                 feedViewHolder.userimage.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), ActivityProfile.class);
@@ -1359,7 +1315,7 @@ public class FeedsFragment extends Fragment {
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        Toast.makeText(requireActivity(), "Hi1", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(requireActivity(), "Hi1", Toast.LENGTH_SHORT).show();
                         mRecyclerView.setVisibility(View.VISIBLE);
                         progressMore.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
@@ -1870,7 +1826,6 @@ public class FeedsFragment extends Fragment {
                                 String playstore = "\nCheck out the short video."+getResources().getString(R.string.download_utsav);
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
-//                                i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
                                 i.putExtra(Intent.EXTRA_TEXT, link+playstore);
                                 i.setType("text/plain");
                                 startActivity(Intent.createChooser(i, "Share Using"));
@@ -1898,7 +1853,6 @@ public class FeedsFragment extends Fragment {
                                 String playstore = "\nCheck out the short video."+getResources().getString(R.string.download_utsav);
                                 Intent i = new Intent();
                                 i.setAction(Intent.ACTION_SEND);
-//                                i.putExtra(Intent.EXTRA_TEXT, link);
                                 i.putExtra(Intent.EXTRA_TEXT, link+playstore);
                                 i.setType("text/plain");
                                 startActivity(Intent.createChooser(i, "Share Using"));
