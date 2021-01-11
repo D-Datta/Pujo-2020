@@ -39,7 +39,7 @@
         android:fontFamily="@font/oxygen_bold"
         android:gravity="center"
         android:paddingHorizontal="40dp"
-        android:text="Select Language:"
+        android:text="@string/set_app_lang"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/button_english"
