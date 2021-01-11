@@ -118,7 +118,6 @@ public class FeedsFragment extends Fragment {
     public static int comDelete = 0;
 
     private RecyclerView mRecyclerView;
-
     private FirestorePagingAdapter adapter;
     private FirestorePagingAdapter reelsAdapter;
     private IntroPref introPref;
@@ -128,7 +127,6 @@ public class FeedsFragment extends Fragment {
 
     private String DP, USERNAME, link, GENDER;
     private FloatingActionButton floatingActionButton;
-
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -200,6 +198,7 @@ public class FeedsFragment extends Fragment {
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .setPrefetchDistance(4)
+                .setEnablePlaceholders(true)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
@@ -1359,7 +1358,6 @@ public class FeedsFragment extends Fragment {
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        Toast.makeText(requireActivity(), "Hi1", Toast.LENGTH_SHORT).show();
                         mRecyclerView.setVisibility(View.VISIBLE);
                         progressMore.setVisibility(View.GONE);
                         shimmerFrameLayout.stopShimmer();
@@ -1370,7 +1368,6 @@ public class FeedsFragment extends Fragment {
                         }
                         break;
                     case FINISHED:
-                        Toast.makeText(requireActivity(), "Hi2", Toast.LENGTH_SHORT).show();
                         mRecyclerView.setVisibility(View.VISIBLE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
