@@ -273,6 +273,7 @@ public class CommitteeFragment extends Fragment {
 
                     if(itemGroups.size() == 0){
                         FirebaseFirestore.getInstance().collection("Sliders")
+                                .orderBy("position", Query.Direction.ASCENDING)
                                 .get()
                                 .addOnSuccessListener(queryDocumentSnapshots -> {
                                     for (DocumentSnapshot document : queryDocumentSnapshots) {
@@ -1944,8 +1945,8 @@ public class CommitteeFragment extends Fragment {
 
         ArrayList<Suggestedtag> suggestedtagArrayList = new ArrayList<>();
 
-
-        FirebaseFirestore.getInstance().collection("SuggestedTags").orderBy("value", Query.Direction.DESCENDING).get()
+        FirebaseFirestore.getInstance().collection("SuggestedTags")
+                .orderBy("position", Query.Direction.ASCENDING).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
