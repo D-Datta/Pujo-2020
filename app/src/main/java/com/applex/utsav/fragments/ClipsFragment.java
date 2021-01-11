@@ -1071,6 +1071,8 @@ public class ClipsFragment extends Fragment {
                         }
                         break;
                     case FINISHED:
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         break;

@@ -589,6 +589,8 @@ public class BottomCommentsDialog extends DialogFragment {
                     }
                 }
                 else  {
+                    shimmerFrameLayout.stopShimmer();
+                    shimmerFrameLayout.setVisibility(View.GONE);
                     no_comment.setVisibility(View.VISIBLE);
                 }
             }

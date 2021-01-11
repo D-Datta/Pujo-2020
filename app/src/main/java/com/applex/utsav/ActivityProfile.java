@@ -675,26 +675,6 @@ public class ActivityProfile extends AppCompatActivity {
                                                 seenModel.setType(introPref.getType());
                                                 seenModel.setTs(tsLong);
 
-                                                upvote_anim.setVisibility(View.VISIBLE);
-                                                upvote_anim.playAnimation();
-
-                                                try {
-                                                    AssetFileDescriptor afd = ActivityProfile.this.getAssets().openFd("fireworks.mp3");
-                                                    MediaPlayer player = new MediaPlayer();
-                                                    player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                                                    player.prepare();
-                                                    AudioManager audioManager = (AudioManager) ActivityProfile.this.getSystemService(Context.AUDIO_SERVICE);
-                                                    if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                                                        player.start();
-                                                    }
-                                                    new Handler().postDelayed(() -> {
-                                                        upvote_anim.cancelAnimation();
-                                                        upvote_anim.setVisibility(View.GONE);
-                                                    }, player.getDuration());
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-
                                                 DocumentReference docRef = FirebaseFirestore.getInstance()
                                                         .collection("Users")
                                                         .document(uid);
@@ -709,6 +689,26 @@ public class ActivityProfile extends AppCompatActivity {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
+                                                            upvote_anim.setVisibility(View.VISIBLE);
+                                                            upvote_anim.playAnimation();
+
+                                                            try {
+                                                                AssetFileDescriptor afd = ActivityProfile.this.getAssets().openFd("fireworks.mp3");
+                                                                MediaPlayer player = new MediaPlayer();
+                                                                player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                                                                player.prepare();
+                                                                AudioManager audioManager = (AudioManager) ActivityProfile.this.getSystemService(Context.AUDIO_SERVICE);
+                                                                if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                                                    player.start();
+                                                                }
+                                                                new Handler().postDelayed(() -> {
+                                                                    upvote_anim.cancelAnimation();
+                                                                    upvote_anim.setVisibility(View.GONE);
+                                                                }, player.getDuration());
+                                                            } catch (IOException e) {
+                                                                e.printStackTrace();
+                                                            }
+
                                                             FirebaseFirestore.getInstance()
                                                                     .collection("Users")
                                                                     .document(uid)
@@ -754,10 +754,12 @@ public class ActivityProfile extends AppCompatActivity {
                                         }
                                     });
 
-                                    upvoteHolder.setOnClickListener(view -> {
-                                        BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
-                                        bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
-                                    });
+                                    if(Integer.parseInt(String.valueOf(upvoters.getText())) > 0) {
+                                        upvoteHolder.setOnClickListener(view -> {
+                                            BottomFlamedByDialog bottomSheetDialog = new BottomFlamedByDialog("Upvotes", uid);
+                                            bottomSheetDialog.show(getSupportFragmentManager(), "FlamedBySheet");
+                                        });
+                                    }
                                 }
 
                                 }

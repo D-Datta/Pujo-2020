@@ -1230,6 +1230,8 @@ public class CommitteeFragment extends Fragment {
                         break;
 
                     case FINISHED:
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                         contentProgress.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         mRecyclerView.setVisibility(View.VISIBLE);

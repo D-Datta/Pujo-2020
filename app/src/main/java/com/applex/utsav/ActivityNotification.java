@@ -377,7 +377,10 @@ public class ActivityNotification extends AppCompatActivity {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         break;
-                    case FINISHED: progressMore.setVisibility(View.GONE);
+                    case FINISHED:
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }

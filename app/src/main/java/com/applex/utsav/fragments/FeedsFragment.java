@@ -1207,7 +1207,10 @@ public class FeedsFragment extends Fragment {
                         viewPostExist.setVisibility(View.VISIBLE);
                         break;
 
-                    case FINISHED: contentProgress.setVisibility(View.GONE);
+                    case FINISHED:
+                        contentProgress.setVisibility(View.GONE);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);

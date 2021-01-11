@@ -1045,6 +1045,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                         }
                         break;
                     case FINISHED:
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                         contentprogressposts.setVisibility(View.GONE);
                         progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
