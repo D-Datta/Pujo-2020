@@ -245,7 +245,7 @@ public class CommitteeFragment extends Fragment {
                 })
                 .build();
 
-        adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
+        FirestorePagingAdapter adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
@@ -1329,14 +1329,16 @@ public class CommitteeFragment extends Fragment {
                         progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        progressMore.setVisibility(View.GONE);
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
+                        new Handler().postDelayed(() -> {
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            progressMore.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 1000);
+
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
-                        mRecyclerView.setVisibility(View.VISIBLE);
-
                         break;
                     case FINISHED:
                         shimmerFrameLayout.stopShimmer();
