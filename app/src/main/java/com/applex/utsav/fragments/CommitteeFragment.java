@@ -214,6 +214,7 @@ public class CommitteeFragment extends Fragment {
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
             itemGroups.clear();
+            buildRecyclerView();
         });
     }
 
