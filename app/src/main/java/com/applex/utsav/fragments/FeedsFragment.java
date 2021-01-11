@@ -118,7 +118,6 @@ public class FeedsFragment extends Fragment {
     public static int comDelete = 0;
 
     private RecyclerView mRecyclerView;
-
     private FirestorePagingAdapter adapter;
     private FirestorePagingAdapter reelsAdapter;
     private IntroPref introPref;
@@ -128,7 +127,6 @@ public class FeedsFragment extends Fragment {
 
     private String DP, USERNAME, link, GENDER;
     private FloatingActionButton floatingActionButton;
-
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -177,12 +175,11 @@ public class FeedsFragment extends Fragment {
                 getResources().getColor(R.color.darkpurple));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-//            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.setRefreshing(true);
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
-//            buildRecyclerView();
             adapter.refresh();
         });
         //SWIPE REFRESH//
@@ -201,6 +198,7 @@ public class FeedsFragment extends Fragment {
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
                 .setPrefetchDistance(4)
+                .setEnablePlaceholders(true)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
@@ -1326,7 +1324,6 @@ public class FeedsFragment extends Fragment {
                         }
                         break;
                     case FINISHED:
-                        Toast.makeText(requireActivity(), "Hi2", Toast.LENGTH_SHORT).show();
                         mRecyclerView.setVisibility(View.VISIBLE);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
