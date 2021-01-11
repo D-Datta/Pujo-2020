@@ -164,11 +164,6 @@ public class UpdateProfilePictureActivity extends AppCompatActivity {
         if(getIntent().getStringExtra("dp")!=null && !getIntent().getStringExtra("dp").isEmpty()){
             DP = getIntent().getStringExtra("dp");
         }
-//        if(getIntent().getStringExtra("dpcaption")!=null && !getIntent().getStringExtra("dpcaption").isEmpty()){
-//            DP_CONTENT = getIntent().getStringExtra("dpcaption");
-//            dp_content.setText(DP_CONTENT);
-//            BasicUtility.showToast(UpdateProfilePictureActivity.this,DP_CONTENT);
-//        }
 
         if(type.matches("indi")) {
             dp_outline.setCardBackgroundColor(getResources().getColor(R.color.reels_white));
