@@ -740,18 +740,21 @@ public class Fragment_Posts_Users extends Fragment {
                             Picasso.get().load(path).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                                    String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
-                                            bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                    Uri uri =  Uri.parse(finalbitmap);
-                                    String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("*/*");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
-                                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-
+                                    if(BasicUtility.checkStoragePermission(requireActivity())) {
+                                        String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                        Uri uri =  Uri.parse(finalbitmap);
+                                        String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                        String playstore = getResources().getString(R.string.download_utsav);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setType("*/*");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                    }
+                                    else {
+                                        BasicUtility.requestStoragePermission(requireActivity());
+                                    }
                                 }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
@@ -773,18 +776,21 @@ public class Fragment_Posts_Users extends Fragment {
                             Picasso.get().load(path).into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                                    String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
-                                            bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                    Uri uri =  Uri.parse(finalbitmap);
-                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("*/*");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
-                                    shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-
+                                    if(BasicUtility.checkStoragePermission(requireActivity())) {
+                                        String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                        Uri uri =  Uri.parse(finalbitmap);
+                                        String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                        String playstore = getResources().getString(R.string.download_utsav);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        shareIntent.setType("*/*");
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
+                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                    }
+                                    else {
+                                        BasicUtility.requestStoragePermission(requireActivity());
+                                    }
                                 }
                                 @Override
                                 public void onBitmapFailed(Exception e, Drawable errorDrawable) {
