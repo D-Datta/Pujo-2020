@@ -173,8 +173,8 @@ public class FeedsFragment extends Fragment {
         mRecyclerView.setVisibility(View.GONE);
 
         //SWIPE REFRESH//
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),getResources()
-                        .getColor(R.color.darkpurple));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.darkpurple),
+                getResources().getColor(R.color.darkpurple));
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(true);
@@ -221,53 +221,35 @@ public class FeedsFragment extends Fragment {
                 if(position == 0){
                     feedViewHolder.committeeHolder.setVisibility(View.VISIBLE);
                     feedViewHolder.reels_item.setVisibility(View.GONE);
-                    feedViewHolder.view_all.setOnClickListener(v ->
-                            MainActivity.viewPager.setCurrentItem(3, true)
-                    );
+                    feedViewHolder.view_all.setOnClickListener(v -> MainActivity.viewPager.setCurrentItem(3, true));
 
                     if(introPref.getType().matches("indi")){
                         feedViewHolder.new_post_layout.setVisibility(View.VISIBLE);
 
-//                        feedViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                Intent intent = new Intent(getContext(), ActivityProfileUser.class);
-//                                intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                                startActivity(intent);
-//                            }
-//                        });
-                        feedViewHolder.type_dp.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getContext(), ActivityProfile.class);
-                                intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                startActivity(intent);
-                            }
-                        });
-                        feedViewHolder.type_something.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if(InternetConnection.checkConnection(requireActivity())){
-                                    Intent i= new Intent(getContext(), NewPostHome.class);
-                                    i.putExtra("target", "2");
-                                    startActivity(i);
-                                }
-                                else
-                                    BasicUtility.showToast(getContext(), "Network Unavailable...");
-                            }
+                        feedViewHolder.type_dp.setOnClickListener(view -> {
+                            Intent intent = new Intent(getContext(), ActivityProfile.class);
+                            intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            startActivity(intent);
                         });
 
-                        feedViewHolder.newPostIconsLL.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if(InternetConnection.checkConnection(requireActivity())){
-                                    Intent i= new Intent(getContext(), NewPostHome.class);
-                                    i.putExtra("target", "2");
-                                    startActivity(i);
-                                }
-                                else
-                                    BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        feedViewHolder.type_something.setOnClickListener(view -> {
+                            if(InternetConnection.checkConnection(requireActivity())){
+                                Intent i= new Intent(getContext(), NewPostHome.class);
+                                i.putExtra("target", "2");
+                                startActivity(i);
                             }
+                            else
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
+                        });
+
+                        feedViewHolder.newPostIconsLL.setOnClickListener(view -> {
+                            if(InternetConnection.checkConnection(requireActivity())){
+                                Intent i= new Intent(getContext(), NewPostHome.class);
+                                i.putExtra("target", "2");
+                                startActivity(i);
+                            }
+                            else
+                                BasicUtility.showToast(getContext(), "Network Unavailable...");
                         });
 
                         if (DP != null) {
@@ -931,19 +913,19 @@ public class FeedsFragment extends Fragment {
 
                  ////////////////////////////////////////SHARE////////////////////////////////////////
                 if(currentItem.getImg()==null && currentItem.getTxt()!=null){
-                            feedViewHolder.share.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
-                                    String playstore = getResources().getString(R.string.download_utsav);
-                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                    shareIntent.setType("text/plain");
-                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
-                                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
-                                }
-                            });
+                    feedViewHolder.share.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
+                            String playstore = getResources().getString(R.string.download_utsav);
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
+                            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
                         }
+                    });
+                }
                 else if(currentItem.getTxt()==null && (currentItem.getImg()!=null && currentItem.getImg().size()>0)){
                     feedViewHolder.share.setOnClickListener(new View.OnClickListener() {
                         @Override
