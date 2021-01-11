@@ -182,7 +182,7 @@ public class FeedsFragment extends Fragment {
             shimmerFrameLayout.startShimmer();
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
-            buildRecyclerView();
+            adapter.refresh();
         });
         //SWIPE REFRESH//
 
