@@ -57,7 +57,7 @@
             android:paddingHorizontal="20dp"
             android:autoLink="all"
             android:textColorLink="@color/link"
-            android:text="@string/lorem_ipsum"
+            android:text=""
             android:scrollbars="vertical"
             android:textSize="14dp"
             app:trimExpandedText="@string/read_less"

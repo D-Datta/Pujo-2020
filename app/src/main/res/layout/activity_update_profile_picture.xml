@@ -8,7 +8,6 @@
     android:background="@color/white"
     tools:context=".UpdateProfilePictureActivity">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -87,44 +86,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="15dp">
 
             <RelativeLayout
-                android:layout_width="400dp"
-                android:layout_height="400dp"
-                android:layout_marginTop="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center">
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/dp_edit"-->
-<!--                    android:layout_width="30dp"-->
-<!--                    android:layout_height="30dp"-->
-<!--                    android:padding="7dp"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:layout_alignParentBottom="true"-->
-<!--                    android:background="@drawable/custom_ripple_white"-->
-<!--                    android:src="@drawable/edit_dp" />-->
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/dp_outline"
-                    android:layout_width="400dp"
-                    android:layout_height="400dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_margin="5dp"
+                    android:layout_margin="15dp"
                     app:cardCornerRadius="200dp"
                     android:gravity="center">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
-                        app:cardCornerRadius="190dp"
+                        app:cardCornerRadius="200dp"
                         android:layout_margin="5dp"
                         app:cardElevation="0dp"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/dp"
-                            android:layout_width="380dp"
-                            android:layout_height="380dp"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:minHeight="250dp"
                             android:scaleType="centerCrop"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_account_circle_black_24dp" />
@@ -137,9 +127,9 @@
                     android:id="@+id/dp_edit"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginHorizontal="80dp"
                     android:padding="10dp"
                     android:background="@drawable/custom_ripple_white"
                     android:src="@drawable/edit_dp" />
@@ -158,15 +148,17 @@
                 android:hint="@string/dp_content"
                 android:inputType="textMultiLine|textCapSentences"
                 android:paddingHorizontal="15dp"
-                android:paddingVertical="5dp"
+                android:paddingVertical="10dp"
+                android:layout_marginHorizontal="15dp"
+                android:background="@drawable/background_rectangle"
                 android:textColor="@color/black"
                 android:textColorLink="@color/colorPrimary"
-                android:textSize="17dp" />
+                android:textSize="15sp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:layout_gravity="bottom">
@@ -175,12 +167,12 @@
                     android:id="@+id/dp_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
+                    android:paddingHorizontal="25dp"
                     android:paddingVertical="10dp"
                     android:text="@string/dp_share"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/oxygen_ex_bold"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/oxygen_bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints"
