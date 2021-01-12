@@ -308,6 +308,12 @@ public class CommitteeFragment extends Fragment {
                                 BasicUtility.showToast(getContext(), "Network Unavailable...");
                         });
 
+                        programmingViewHolder.type_dp.setOnClickListener(v -> {
+                            Intent intent = new Intent(getContext(), ActivityProfile.class);
+                            intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                            startActivity(intent);
+                        });
+
                         if (COMMITEE_LOGO != null) {
                             Picasso.get().load(COMMITEE_LOGO).fit().centerCrop()
                                     .placeholder(R.drawable.ic_account_circle_black_24dp)

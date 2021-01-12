@@ -245,9 +245,10 @@
 
     <string name="Preview_Profile_Picture">Preview Profile Picture</string>
     <string name="SAVE">SAVE</string>
-    <string name="dp_content">अपनी प्रोफ़ाइल तस्वीर के बारे में कुछ कहें ...</string>
+    <string name="dp_content">अपनी प्रोफ़ाइल तस्वीर के बारे में कुछ कहें …</string>
     <string name="dp_share">Share your update to Feed</string>
     <string name="Preview_Cover_Picture">Preview Cover Picture</string>
-    <string name="cover_content">अपनी कवर तस्वीर के बारे में कुछ कहें ...</string>
+    <string name="cover_content">अपनी कवर तस्वीर के बारे में कुछ कहें …</string>
+    <string name="share_with_friends">Hey! Join me on Utsav App: Virtual Festivals and experience the world of Celebration.\n\nDownload now! Link is given below:-\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
 
 </resources>

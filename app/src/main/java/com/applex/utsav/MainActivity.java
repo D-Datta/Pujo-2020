@@ -793,7 +793,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawers();
                 Intent i=new Intent();
                 i.setAction(Intent.ACTION_SEND);
-                String text="Hey! Join me on Utsav App: Virtul Festivals and experience the world of Celebration. Download now. https://play.google.com/store/apps/details?id=com.applex.utsav";
+                String text = getResources().getString(R.string.share_with_friends);
                 i.putExtra(Intent.EXTRA_TEXT,text);
                 i.setType("text/plain");
                 startActivity(Intent.createChooser(i,"Share with"));

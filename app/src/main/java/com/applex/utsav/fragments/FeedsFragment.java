@@ -229,7 +229,7 @@ public class FeedsFragment extends Fragment {
 
                         feedViewHolder.type_dp.setOnClickListener(view -> {
                             Intent intent = new Intent(getContext(), ActivityProfile.class);
-                            intent.putExtra("uid", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
                             startActivity(intent);
                         });
 

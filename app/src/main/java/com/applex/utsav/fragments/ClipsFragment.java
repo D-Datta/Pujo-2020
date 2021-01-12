@@ -237,6 +237,12 @@ public class ClipsFragment extends Fragment {
                             BasicUtility.showToast(getContext(), "Network Unavailable...");
                     });
 
+                    programmingViewHolder.type_dp.setOnClickListener(view -> {
+                        Intent intent = new Intent(getContext(), ActivityProfile.class);
+                        intent.putExtra("uid", FirebaseAuth.getInstance().getUid());
+                        startActivity(intent);
+                    });
+
                     if (USERDP != null) {
                         Picasso.get().load(USERDP).fit().centerCrop()
                                 .placeholder(R.drawable.ic_account_circle_black_24dp)
