@@ -5,8 +5,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -53,6 +56,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 import static com.applex.utsav.adapters.ReelsAdapter.currentItem;
@@ -88,7 +92,8 @@ public class BottomCommentsDialog extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static BottomCommentsDialog newInstance(String root,String docID, String uid, int bool, String from, String type, long cmntno, String ts, String pCom_ts) {
+    public static BottomCommentsDialog newInstance(String root,String docID, String uid, int bool, String from, String type,
+                                                   long cmntno, String ts, String pCom_ts) {
         Bundle args = new Bundle();
         args.putString("root", root);
         args.putString("docID", docID);
@@ -302,6 +307,19 @@ public class BottomCommentsDialog extends DialogFragment {
 
                     batch.commit().addOnCompleteListener(task -> {
                         if(task.isSuccessful()) {
+                            try {
+                                AssetFileDescriptor afd = requireActivity().getAssets().openFd("sonkho.mp3");
+                                MediaPlayer player = new MediaPlayer();
+                                player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                                player.prepare();
+                                AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
+                                if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+                                    player.start();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
                             no_comment.setVisibility(View.GONE);
                             send.setVisibility(View.VISIBLE);
                             progressComment.setVisibility(View.GONE);

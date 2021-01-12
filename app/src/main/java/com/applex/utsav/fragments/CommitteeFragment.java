@@ -1,13 +1,11 @@
 package com.applex.utsav.fragments;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -30,8 +28,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +41,6 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -59,8 +53,6 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
@@ -73,7 +65,6 @@ import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommitteeTopAdapter;
 import com.applex.utsav.adapters.HomeSliderAdapter;
 import com.applex.utsav.adapters.SliderAdapter;
-import com.applex.utsav.adapters.SuggestedTagAdapter;
 import com.applex.utsav.adapters.SuggestedTagAdapterHome;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
@@ -98,11 +89,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -900,18 +886,6 @@ public class CommitteeFragment extends Fragment {
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "CommitteeFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
-                    try {
-                        AssetFileDescriptor afd = requireActivity().getAssets().openFd("sonkho.mp3");
-                        MediaPlayer player = new MediaPlayer();
-                        player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                        player.prepare();
-                        AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                        if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                            player.start();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
@@ -1717,25 +1691,22 @@ public class CommitteeFragment extends Fragment {
                             postMenuDialog.setContentView(R.layout.dialog_post_menu_3);
                             postMenuDialog.setCanceledOnTouchOutside(TRUE);
 //                            postMenuDialog.findViewById(R.id.edit_post).setVisibility(View.GONE);
-                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent i = new Intent(getContext(), NewPostHome.class);
-                                    i.putExtra("target", "100"); //target value for edit post
-                                    i.putExtra("bool", "2");
-                                    i.putExtra("typeofpost", "reel");
-                                    i.putExtra("txt", currentItem.getDescription());
-                                    i.putExtra("headline", currentItem.getHeadline());
-                                    if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
-                                        Bundle args = new Bundle();
-                                        args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
-                                        i.putExtra("BUNDLETAGS", args);
-                                    }
-                                    i.putExtra("docID", currentItem.getDocID());
-                                    StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
-                                    startActivity(i);
-                                    postMenuDialog.dismiss();
+                            postMenuDialog.findViewById(R.id.edit_post).setOnClickListener(view -> {
+                                Intent i = new Intent(getContext(), NewPostHome.class);
+                                i.putExtra("target", "100"); //target value for edit post
+                                i.putExtra("bool", "2");
+                                i.putExtra("typeofpost", "reel");
+                                i.putExtra("txt", currentItem.getDescription());
+                                i.putExtra("headline", currentItem.getHeadline());
+                                if(currentItem.getTagList() != null && currentItem.getTagList().size()>0) {
+                                    Bundle args = new Bundle();
+                                    args.putSerializable("ARRAYLISTTAGS", currentItem.getTagList());
+                                    i.putExtra("BUNDLETAGS", args);
                                 }
+                                i.putExtra("docID", currentItem.getDocID());
+                                StoreTemp.getInstance().setPujoTagModel(currentItem.getPujoTag());
+                                startActivity(i);
+                                postMenuDialog.dismiss();
                             });
 
                             postMenuDialog.findViewById(R.id.delete_post).setOnClickListener(v2 -> {
@@ -1941,38 +1912,28 @@ public class CommitteeFragment extends Fragment {
 
         FirebaseFirestore.getInstance().collection("SuggestedTags")
                 .orderBy("position", Query.Direction.ASCENDING).get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
-                            if(document.exists()) {
-                                Suggestedtag model = document.toObject(Suggestedtag.class);
-                                model.setDocID(document.getId());
-                                suggestedtagArrayList.add(model);
-                            }
-                        }
-                        if(suggestedtagArrayList.size()>0) {
-                            SuggestedTagAdapterHome adapter=new SuggestedTagAdapterHome(suggestedtagArrayList, getActivity());
-                            cRecyclerView.setAdapter(adapter);
-
-                            adapter.onClickListener(new SuggestedTagAdapterHome.OnClickListener() {
-                                @Override
-                                public void onClickListener(int position, String title) {
-                                    FirebaseFirestore.getInstance().collection("SuggestedTags")
-                                            .document(suggestedtagArrayList.get(position).getDocID()).update("value", FieldValue.increment(1));
-                                   Intent i = new Intent(getActivity(),HashtagPostViewAll.class);
-                                   i.putExtra("hashtag",suggestedtagArrayList.get(position).getName());
-                                   startActivity(i);
-                                }
-                            });
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for(QueryDocumentSnapshot document: queryDocumentSnapshots) {
+                        if(document.exists()) {
+                            Suggestedtag model = document.toObject(Suggestedtag.class);
+                            model.setDocID(document.getId());
+                            suggestedtagArrayList.add(model);
                         }
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                BasicUtility.showToast(getActivity(),"Something went wrong...");
-            }
-        });
+                    if(suggestedtagArrayList.size()>0) {
+                        SuggestedTagAdapterHome adapter=new SuggestedTagAdapterHome(suggestedtagArrayList, getActivity());
+                        cRecyclerView.setAdapter(adapter);
+
+                        adapter.onClickListener((position, title) -> {
+                            FirebaseFirestore.getInstance().collection("SuggestedTags")
+                                    .document(suggestedtagArrayList.get(position).getDocID()).update("value", FieldValue.increment(1));
+                           Intent i = new Intent(getActivity(),HashtagPostViewAll.class);
+                           i.putExtra("hashtag",suggestedtagArrayList.get(position).getName());
+                           startActivity(i);
+                        });
+                    }
+                })
+                .addOnFailureListener(e -> BasicUtility.showToast(getActivity(),"Something went wrong..."));
     }
 
     private void buildCommunityRecyclerView(RecyclerView cRecyclerView, int position) {

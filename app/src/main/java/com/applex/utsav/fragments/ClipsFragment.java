@@ -756,18 +756,6 @@ public class ClipsFragment extends Fragment {
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
                     BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(requireActivity().getSupportFragmentManager(), "CommentsSheet");
-                    try {
-                        AssetFileDescriptor afd =requireActivity().getAssets().openFd("sonkho.mp3");
-                        MediaPlayer player = new MediaPlayer();
-                        player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                        player.prepare();
-                        AudioManager audioManager = (AudioManager) requireActivity().getSystemService(Context.AUDIO_SERVICE);
-                        if(audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-                            player.start();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
