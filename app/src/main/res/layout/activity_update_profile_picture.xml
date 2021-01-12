@@ -18,7 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
@@ -57,7 +57,7 @@
                 android:layout_marginVertical="8dp"
                 android:background="@drawable/rectangle_rounded"
                 android:backgroundTint="@color/purple1"
-                android:fontFamily="@font/oxygen_ex_bold"
+                android:textStyle="bold"
                 android:text="@string/SAVE"
                 android:layout_marginEnd="10dp"
                 android:textAllCaps="true"

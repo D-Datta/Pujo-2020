@@ -32,6 +32,7 @@
         android:text="@string/an_initiative_of"
         android:gravity="center|bottom"
         android:textSize="15dp"
+        android:visibility="gone"
         android:fontFamily="@font/oxygen_bold"
         android:layout_above="@+id/preptotal"
         android:textAllCaps="false" />
@@ -43,7 +44,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center|bottom"
         android:text="@string/applex_in"
-        android:fontFamily="@font/oxygen_ex_bold"
+        android:textStyle="bold"
         android:layout_marginBottom="20dp"
         android:textColor="@color/black"
         android:textSize="18sp" />

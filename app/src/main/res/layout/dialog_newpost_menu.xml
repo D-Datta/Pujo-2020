@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_to_post"
             android:paddingVertical="15dp"
-            android:fontFamily="@font/oxygen_ex_bold"
+            android:textStyle="bold"
             android:textColor="@color/blue"
             android:textSize="18dp"
             android:gravity="center_vertical"
