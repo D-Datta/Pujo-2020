@@ -126,6 +126,7 @@ public class ViewMoreText extends AppCompatActivity {
 
     private int commentCount = 0;
     String bool;
+    private String posttext;
     public final HomePostModel[] homeTextModel = {new HomePostModel()};
 
     @Override
@@ -211,6 +212,16 @@ public class ViewMoreText extends AppCompatActivity {
             }
 
             homeTextModel[0].setType(i.getStringExtra("type"));
+
+            if(homeTextModel[0].getHeadline() != null && homeTextModel[0].getTxt() == null) {
+                posttext = homeTextModel[0].getHeadline();
+            }
+            else if(homeTextModel[0].getHeadline() == null && homeTextModel[0].getTxt() != null) {
+                posttext = homeTextModel[0].getTxt();
+            }
+            else if(homeTextModel[0].getHeadline() != null && homeTextModel[0].getTxt() != null) {
+                posttext = homeTextModel[0].getHeadline() + "\n\n" + homeTextModel[0].getTxt();
+            }
 
             username.setOnClickListener(v -> {
                 Intent i12 = new Intent(getApplicationContext(), ActivityProfile.class);
@@ -484,6 +495,16 @@ public class ViewMoreText extends AppCompatActivity {
                             if (task.getResult().exists()) {
                                 homeTextModel[0] = task.getResult().toObject(HomePostModel.class);
                                 homeTextModel[0].setDocID(task.getResult().getId());
+
+                                if(homeTextModel[0].getHeadline() != null && homeTextModel[0].getTxt() == null) {
+                                    posttext = homeTextModel[0].getHeadline();
+                                }
+                                else if(homeTextModel[0].getHeadline() == null && homeTextModel[0].getTxt() != null) {
+                                    posttext = homeTextModel[0].getTxt();
+                                }
+                                else if(homeTextModel[0].getHeadline() != null && homeTextModel[0].getTxt() != null) {
+                                    posttext = homeTextModel[0].getHeadline() + "\n\n" + homeTextModel[0].getTxt();
+                                }
 
                                 if(type != null) {
                                     if(type.matches("flame")) {
@@ -973,7 +994,7 @@ public class ViewMoreText extends AppCompatActivity {
                 String playstore = getResources().getString(R.string.download_utsav);
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT,homeTextModel[0].getTxt()+link+playstore);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,posttext+link+playstore);
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent,"Share Using"));
             }

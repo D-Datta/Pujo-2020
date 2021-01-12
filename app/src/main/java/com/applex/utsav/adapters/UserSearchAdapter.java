@@ -53,6 +53,7 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.Pr
 
         if(currentItem.getUid() == null || currentItem.getUid().matches("")) {
             holder.dp.setImageResource(R.drawable.ic_baseline_search_24);
+            holder.dp.setPadding(15, 15, 15, 15);
         }
         else {
             String dp = currentItem.getDp();

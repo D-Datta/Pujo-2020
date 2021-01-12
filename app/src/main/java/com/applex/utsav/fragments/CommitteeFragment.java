@@ -908,21 +908,41 @@ public class CommitteeFragment extends Fragment {
 //                });
 
                  ////////////////////////////////////////SHARE////////////////////////////////////////
-                if(currentItem.getImg()==null && currentItem.getTxt()!=null){
+                if(currentItem.getImg()==null){
                         programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
-                                String playstore = getResources().getString(R.string.download_utsav);
-                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                shareIntent.setType("text/plain");
-                                shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
-                                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                if(currentItem.getHeadline() != null && currentItem.getTxt() == null) {
+                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
+                                    String playstore = getResources().getString(R.string.download_utsav);
+                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                    shareIntent.setType("text/plain");
+                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline()+link+playstore);
+                                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                }
+                                else if(currentItem.getHeadline() == null && currentItem.getTxt() != null) {
+                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
+                                    String playstore = getResources().getString(R.string.download_utsav);
+                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                    shareIntent.setType("text/plain");
+                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
+                                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                }
+                                else if(currentItem.getHeadline() != null && currentItem.getHeadline() != null) {
+                                    String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
+                                    String playstore = getResources().getString(R.string.download_utsav);
+                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                    shareIntent.setType("text/plain");
+                                    shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline() + "\n\n" + currentItem.getTxt()+link+playstore);
+                                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                }
                             }
                         });
                     }
-                else if(currentItem.getTxt()==null && (currentItem.getImg()!=null && currentItem.getImg().size()>0)){
+                else if(currentItem.getImg()!=null && currentItem.getImg().size()>0){
                     programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -931,52 +951,54 @@ public class CommitteeFragment extends Fragment {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                                     if(BasicUtility.checkStoragePermission(requireActivity())) {
-                                        String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                        if(currentItem.getTxt() == null && currentItem.getHeadline() == null) {
+                                            String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
                                                 bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                        Uri uri =  Uri.parse(finalbitmap);
-                                        String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                        String playstore = getResources().getString(R.string.download_utsav);
-                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        shareIntent.setType("*/*");
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
-                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
-                                    }
-                                    else {
-                                        BasicUtility.requestStoragePermission(requireActivity());
-                                    }
-                                }
-                                @Override
-                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-                                }
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                }
-                            });
-                        }
-                    });
-                }
-                else if(currentItem.getTxt()!=null && (currentItem.getImg()!=null && currentItem.getImg().size()>0)){
-                    programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String path = currentItem.getImg().get(0);
-                            Picasso.get().load(path).into(new Target() {
-                                @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    if(BasicUtility.checkStoragePermission(requireActivity())) {
-                                        String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
-                                                bitmap, String.valueOf(System.currentTimeMillis()), null);
-                                        Uri uri =  Uri.parse(finalbitmap);
-                                        String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-                                        String playstore = getResources().getString(R.string.download_utsav);
-                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        shareIntent.setType("*/*");
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
-                                        shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
-                                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                            Uri uri =  Uri.parse(finalbitmap);
+                                            String link = "Post Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                            String playstore = getResources().getString(R.string.download_utsav);
+                                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                            shareIntent.setType("*/*");
+                                            shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                                            shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                        }
+                                        else if(currentItem.getTxt() != null && currentItem.getHeadline() == null) {
+                                            String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                    bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                            Uri uri =  Uri.parse(finalbitmap);
+                                            String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                            String playstore = getResources().getString(R.string.download_utsav);
+                                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                            shareIntent.setType("*/*");
+                                            shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getTxt()+link+playstore);
+                                            shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                        }
+                                        else if(currentItem.getTxt() == null && currentItem.getHeadline() != null) {
+                                            String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                    bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                            Uri uri =  Uri.parse(finalbitmap);
+                                            String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                            String playstore = getResources().getString(R.string.download_utsav);
+                                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                            shareIntent.setType("*/*");
+                                            shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline()+link+playstore);
+                                            shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                        }
+                                        else if(currentItem.getTxt() != null && currentItem.getHeadline() != null) {
+                                            String finalbitmap = MediaStore.Images.Media.insertImage(requireActivity().getContentResolver(),
+                                                    bitmap, String.valueOf(System.currentTimeMillis()), null);
+                                            Uri uri =  Uri.parse(finalbitmap);
+                                            String link = "\n\nPost Link - https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
+                                            String playstore = getResources().getString(R.string.download_utsav);
+                                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                            shareIntent.setType("*/*");
+                                            shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline()+"\n\n"+currentItem.getTxt()+link+playstore);
+                                            shareIntent.putExtra(Intent.EXTRA_STREAM,uri);
+                                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                                        }
                                     }
                                     else {
                                         BasicUtility.requestStoragePermission(requireActivity());

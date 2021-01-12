@@ -764,14 +764,42 @@ public class ClipsFragment extends Fragment {
                 });
 
                 programmingViewHolder.share.setOnClickListener(view -> {
-                    link = "Post Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
-                    String playstore = "\nCheck out the short video."+getResources().getString(R.string.download_utsav);
-                    Intent i = new Intent();
-                    i.setAction(Intent.ACTION_SEND);
-//                    i.putExtra(Intent.EXTRA_TEXT, link);
-                    i.putExtra(Intent.EXTRA_TEXT,link+playstore);
-                    i.setType("text/plain");
-                    startActivity(Intent.createChooser(i, "Share Using"));
+                    if(currentItem.getHeadline() != null && currentItem.getDescription() == null) {
+                        String link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
+                    else if(currentItem.getHeadline() == null && currentItem.getDescription() != null) {
+                        String link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getDescription()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
+                    else if(currentItem.getHeadline() != null && currentItem.getHeadline() != null) {
+                        String link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline() + "\n\n" + currentItem.getDescription()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
+                    else {
+                        String link = "Check out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline() + "\n\n" + currentItem.getDescription()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
                 });
 
                 if (currentItem.getCmtNo() > 0) {

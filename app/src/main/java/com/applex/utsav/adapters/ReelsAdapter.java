@@ -417,23 +417,66 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
         });
         holder.share.setOnClickListener(view -> {
-            if (bool.matches("1")) {
-//                link = "https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
-                link = "Post Link - https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
-            } else if (bool.matches("2")) {
-//                link = "https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
-                link = "Post Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
-            } else if (bool.matches("3")) {
-//                link = "https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
-                link = "Post Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+            if(currentItem.getHeadline() != null && currentItem.getDescription() == null) {
+                if (bool.matches("1")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
+                } else if (bool.matches("2")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                } else if (bool.matches("3")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                }
+                String playstore = context.getResources().getString(R.string.download_utsav);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline()+link+playstore);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(Intent.createChooser(shareIntent,"Share Using"));
             }
-            String playstore = "Check out the short video. "+ context.getResources().getString(R.string.download_utsav);
-            Intent i = new Intent();
-            i.setAction(Intent.ACTION_SEND);
-//            i.putExtra(Intent.EXTRA_TEXT, link + context.getResources().getString(R.string.link_suffix));
-            i.putExtra(Intent.EXTRA_TEXT, link+playstore);
-            i.setType("text/plain");
-            context.startActivity(Intent.createChooser(i, "Share Using"));
+            else if(currentItem.getHeadline() == null && currentItem.getDescription() != null) {
+                if (bool.matches("1")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
+                } else if (bool.matches("2")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                } else if (bool.matches("3")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                }
+                String playstore = context.getResources().getString(R.string.download_utsav);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getDescription()+link+playstore);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(Intent.createChooser(shareIntent,"Share Using"));
+            }
+            else if(currentItem.getHeadline() != null && currentItem.getHeadline() != null) {
+                if (bool.matches("1")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
+                } else if (bool.matches("2")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                } else if (bool.matches("3")) {
+                    link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                }
+                String playstore = context.getResources().getString(R.string.download_utsav);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline() + "\n\n" + currentItem.getDescription()+link+playstore);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(Intent.createChooser(shareIntent,"Share Using"));
+            }
+            else {
+                if (bool.matches("1")) {
+                    link = "Check out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "1/" + currentItem.getDocID();
+                } else if (bool.matches("2")) {
+                    link = "Check out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "2/" + currentItem.getDocID();
+                } else if (bool.matches("3")) {
+                    link = "Check out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                }
+                String playstore = context.getResources().getString(R.string.download_utsav);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(Intent.createChooser(shareIntent,"Share Using"));
+            }
         });
     }
 
