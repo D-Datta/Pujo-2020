@@ -19,7 +19,6 @@
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/oxygen_bold"
                     android:textSize="20sp"/>
 
         </LinearLayout>
@@ -63,7 +62,6 @@
                     android:paddingVertical="10dp"
                     android:gravity="end"
                     android:textColor="@color/colorPrimary"
-                    android:fontFamily="@font/oxygen_bold"
                     android:textSize="20sp"/>
         </RelativeLayout>
 

@@ -101,7 +101,7 @@
     <string name="committee_name">কমিটির নাম</string>
     <string name="save_to_device">ডিভাইসে সংরক্ষণ করুন</string>
     <string name="comment_hint">Lorem Ipsum http://schemas.android.com/apk/res-au</string>
-    <string name="post_hint">পুজো কেমন উপভোগ করছেন? \n#পুজো #utsav</string>
+    <string name="post_hint">পুজো কেমন উপভোগ করছেন? \n#utsav</string>
     <string name="short_videos">ছোট ভিডিও</string>
     <string name="see_all">সব ক্লিপস দেখুন —></string>
     <string name="see_all_posts"><![CDATA[See All —>]]></string>

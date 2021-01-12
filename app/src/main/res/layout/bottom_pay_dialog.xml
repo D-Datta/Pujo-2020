@@ -38,7 +38,6 @@
                 android:paddingHorizontal="5dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/purple"
-                android:fontFamily="@font/oxygen_bold"
                 android:textSize="18sp"/>
 
             <ImageView

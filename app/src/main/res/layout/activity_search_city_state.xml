@@ -62,7 +62,6 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="@string/Recent_searches"
-        android:fontFamily="@font/oxygen_bold"
         android:paddingHorizontal="20dp"
         android:background="@color/white"
         android:paddingVertical="10dp"

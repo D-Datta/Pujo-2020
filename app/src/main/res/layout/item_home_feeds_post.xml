@@ -37,11 +37,11 @@
                     android:paddingVertical="15dp"
                     android:gravity="center"
                     android:ellipsize="end"
-                    android:background="@color/text_bg"
+                    android:background="@drawable/text_bg"
                     android:maxLines="15"
                     android:visibility="gone"
                     android:text="@string/lorem_ipsum"
-                    android:textColor="@color/view_dark_black"
+                    android:textColor="#ffffff"
                     android:textSize="13dp" />
 
                 <com.smarteist.autoimageslider.SliderView

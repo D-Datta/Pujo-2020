@@ -54,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal|center_vertical"
                 android:paddingVertical="5dp"
-                android:fontFamily="@font/oxygen_bold"
                 android:paddingHorizontal="40dp"
                 android:text="You will receive an one time password on this mobile number"
                 android:textSize="15sp"/>
@@ -66,7 +65,6 @@
                 android:paddingVertical="5dp"
                 android:paddingHorizontal="40dp"
                 android:text="@string/enter_mobile_number"
-                android:fontFamily="@font/oxygen_bold"
                 android:layout_marginTop="40dp"
                 android:textSize="15sp"/>
 
@@ -120,7 +118,6 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/custom_button"
                 android:backgroundTint="@color/colorPrimary"
-                android:fontFamily="@font/oxygen_bold"
                 android:text="Send OTP"
                 android:textAllCaps="false"
                 android:textColor="@color/purple"

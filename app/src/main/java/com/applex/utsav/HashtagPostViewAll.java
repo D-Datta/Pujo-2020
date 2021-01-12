@@ -1465,7 +1465,7 @@ public class HashtagPostViewAll extends AppCompatActivity {
 //            view1 = itemView.findViewById(R.id.view1);
 //            view2 = itemView.findViewById(R.id.view2);
             postHolder = itemView.findViewById(R.id.post);
-            profile_header = itemView.findViewById(R.id.profile_header);
+//            profile_header = itemView.findViewById(R.id.profile_header);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
             rlLayout = itemView.findViewById(R.id.rlLayout);
 

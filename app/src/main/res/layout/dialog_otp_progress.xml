@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:text="Please do not press back"
             android:paddingStart="10dp"
-            android:fontFamily="@font/oxygen_bold"
             android:paddingEnd="20dp"/>
 
     </LinearLayout>
@@ -63,7 +62,6 @@
             android:padding="5sp"
             android:gravity="center"
             android:textColor="@color/black"
-            android:fontFamily="@font/oxygen_bold"
             android:textSize="20dp"/>
 
         <EditText

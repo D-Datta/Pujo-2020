@@ -91,7 +91,6 @@
                     android:paddingHorizontal="15dp"
                     android:textSize="15dp"
                     android:gravity="center_vertical"
-                    android:fontFamily="@font/oxygen_bold"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="10dp"
@@ -128,7 +127,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/camera"
-                        android:fontFamily="@font/oxygen_bold"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -149,7 +147,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/gallery"
-                        android:fontFamily="@font/oxygen_bold"
                         android:gravity="center_vertical"/>
                 </LinearLayout>
 
@@ -170,7 +167,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/recorder"
-                        android:fontFamily="@font/oxygen_bold"
                         android:gravity="center_vertical"/>
 
                 </LinearLayout>
@@ -230,7 +226,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/oxygen_bold"
             android:gravity="center_vertical"
             android:textColor="@color/purple"
             android:paddingHorizontal="20dp"
@@ -263,7 +258,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/oxygen_bold"
             android:background="@drawable/custom_ripple_white"
             android:paddingHorizontal="20dp"
             android:paddingTop="5dp"
@@ -292,7 +286,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/oxygen_bold"
             android:gravity="center_vertical"
             android:textColor="@color/purple"
             android:paddingHorizontal="20dp"
@@ -325,7 +318,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="5dp"
-            android:fontFamily="@font/oxygen_bold"
             android:background="@drawable/custom_ripple_white"
             android:paddingHorizontal="20dp"
             android:paddingTop="5dp"
@@ -532,7 +524,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="all"
-                    android:fontFamily="@font/oxygen_bold"
                     android:paddingHorizontal="17dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
@@ -770,7 +761,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:lineSpacingExtra="3dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
                             android:text=""
@@ -862,7 +852,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autoLink="all"
-                            android:fontFamily="@font/oxygen_bold"
                             android:lineSpacingExtra="3dp"
                             android:paddingHorizontal="8dp"
                             android:text=""

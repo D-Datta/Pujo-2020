@@ -56,12 +56,6 @@
             android:name=".EditProfileCommitteeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ActivityProfileCommittee"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ActivityProfileUser"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SearchCityState"
             android:screenOrientation="portrait" />
         <activity

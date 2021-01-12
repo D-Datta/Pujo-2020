@@ -156,7 +156,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:fontFamily="@font/oxygen_bold"
                                 android:maxLines="1"
                                 android:paddingHorizontal="15dp"
                                 android:paddingTop="5dp"
@@ -170,7 +169,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:fontFamily="@font/oxygen_bold"
                                 android:maxLines="1"
                                 android:paddingHorizontal="15dp"
                                 android:paddingTop="5dp"
@@ -227,7 +225,6 @@
                             android:text="@string/visitors"
                             android:textColor="@color/black"
                             android:paddingHorizontal="10dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
 
                     </LinearLayout>
@@ -258,7 +255,6 @@
                             android:text="@string/upvotes"
                             android:paddingHorizontal="10dp"
                             android:textColor="@color/black"
-                            android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -286,7 +282,6 @@
                             android:text="@string/likes"
                             android:textColor="@color/black"
                             android:paddingHorizontal="10dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
 
                     </LinearLayout>
@@ -406,7 +401,6 @@
                     android:id="@+id/detaildesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/oxygen_bold"
                     android:autoLink="all"
                     android:linksClickable="true"
                     android:textColorLink="@color/colorPrimary"
@@ -432,8 +426,7 @@
                     android:paddingVertical="2dp"
                     android:background="@color/white"
                     android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/oxygen_bold"/>
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:id="@+id/selfProfile"
