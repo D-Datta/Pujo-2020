@@ -802,7 +802,7 @@ public class ClipsFragment extends Fragment {
                         String playstore = getResources().getString(R.string.download_utsav);
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline() + "\n\n" + currentItem.getDescription()+link+playstore);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
                         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         startActivity(Intent.createChooser(shareIntent,"Share Using"));
                     }
