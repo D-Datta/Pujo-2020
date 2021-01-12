@@ -255,6 +255,7 @@
             android:layout_marginVertical="7dp"
             android:maxLines="6"
             android:hint="Write a reply..."
+            android:drawableEnd="@drawable/ic_baseline_insert_emoticon_24"
             android:background="@drawable/background_rectangle"
             android:layout_marginEnd="55dp"
             android:textColor="@color/grey_868686" />
