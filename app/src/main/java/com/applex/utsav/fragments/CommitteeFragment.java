@@ -135,6 +135,8 @@ public class CommitteeFragment extends Fragment {
     private FloatingActionButton floatingActionButton;
     private ArrayList<SliderModel> itemGroups;
 
+    private FirestorePagingAdapter adapter;
+
     public CommitteeFragment() {
         // Required empty public constructor
     }
@@ -200,7 +202,7 @@ public class CommitteeFragment extends Fragment {
             mRecyclerView.setVisibility(View.GONE);
             positions = new ArrayList<>();
             itemGroups.clear();
-            buildRecyclerView();
+            adapter.refresh();
         });
     }
 
@@ -229,7 +231,7 @@ public class CommitteeFragment extends Fragment {
                 })
                 .build();
 
-        FirestorePagingAdapter adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
+        adapter = new FirestorePagingAdapter<HomePostModel, ProgrammingViewHolder>(options) {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder programmingViewHolder, int position, @NonNull HomePostModel currentItem) {
