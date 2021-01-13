@@ -116,7 +116,7 @@
     <string name="noreels">No reels to display. \nCreate a reel now!!</string>
     <string name="first_comments">Be the first one to comment</string>
 
-    <string name="walkthrough">অঞ্জলিতে শাড়ি, বা কুর্তি \n নবমী তে পার্টির সিন।\n ঘরে বসেই হবে এবার \nUtsav- এ কাটবে দিন </string>
+    <string name="walkthrough">Let\'s explore more of our culture and heritage.</string>
 
     <string name="comments">Comments</string>
     <string name="type_something_n">Type something..\n</string>
@@ -147,7 +147,8 @@
     <string name="delete_post">Delete Post</string>
     <string name="share_your_pujo_story">Share your story…</string>
     <string name="view_all">View all</string>
-    <string name="utsav_durga_pujo_2020">UTSAV: Virtual Festivals</string>
+    <string name="utsav_durga_pujo_2020">UTSAV APP</string>
+    <string name="virtual_festivals">Virtual Festivals</string>
     <string name="an_initiative_by_applex_in">~an initiative by applex.in</string>
     <string name="reply">Reply</string>
     <string name="pin">Pin</string>
@@ -208,7 +209,7 @@
     <string name="set_app_lang">Select language</string>
     <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">Experience Pujo of different Bonedi Baris, their heritage, some of the greatest Pujo by Committees, minorities as well as Pujo held in different places like Columbia, Chattisgarh, Agartala etc.</string>
     <string name="edit_comment">Edit Comment</string>
-    <string name="intro_three">Photos \n 360 degree shots \n Videos \nLocate various pujo \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Pujo updates</string>
+    <string name="intro_three">Photos \n Videos \nLocate various puja \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Pujo updates</string>
     <string name="upvoted_pujos">Top 20</string>
     <string name="recently_visited_pujos">Recently Visited</string>
 

@@ -10,20 +10,21 @@
     android:background="@color/login_white"
     tools:ignore="NamespaceTypo">
 
-    <ImageView
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:src="@drawable/login1"
-        android:layout_gravity="bottom"
-        android:visibility="gone"
-        android:layout_marginStart="-50dp"
-        android:layout_marginBottom="-40dp" />
+<!--    <ImageView-->
+<!--        android:layout_width="220dp"-->
+<!--        android:layout_height="220dp"-->
+<!--        android:src="@drawable/login1"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_marginStart="-50dp"-->
+<!--        android:layout_marginBottom="-40dp" />-->
 
     <ImageView
         android:id="@+id/dhaki_png"
         android:layout_width="250dp"
         android:layout_height="200dp"
-        android:layout_gravity="top|end" />
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="-30dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -39,10 +40,10 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/harabara"
             android:paddingHorizontal="50dp"
-            android:paddingVertical="70dp"
             android:text="@string/utsav"
+            android:paddingVertical="80dp"
             android:textColor="@color/black"
-            android:textSize="50sp"
+            android:textSize="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
             android:text="@string/login"
             android:textColor="@color/purple"
             android:textSize="25sp"
+            android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
