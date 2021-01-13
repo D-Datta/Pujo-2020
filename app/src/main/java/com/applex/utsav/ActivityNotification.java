@@ -615,7 +615,7 @@ public class ActivityNotification extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             notifModels.remove(removeNotif);
-                            adapter.notifyItemRemoved(removeNotif);
+                            notifAdapter.notifyItemRemoved(removeNotif);
                             removeNotif = -1;
                         }
                     });
