@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_to_post"
             android:paddingVertical="15dp"
-            android:fontFamily="@font/oxygen_ex_bold"
+            android:textStyle="bold"
             android:textColor="@color/blue"
             android:textSize="18dp"
             android:gravity="center_vertical"
@@ -96,7 +96,6 @@
             android:layout_height="wrap_content"
             android:text="@string/camera"
             android:textColor="@color/black"
-            android:fontFamily="@font/oxygen_bold"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
             android:textSize="15sp" />
@@ -130,7 +129,6 @@
             android:layout_height="wrap_content"
             android:text="@string/photos"
             android:textColor="@color/black"
-            android:fontFamily="@font/oxygen_bold"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
             android:textSize="15sp" />
@@ -164,7 +162,6 @@
             android:layout_height="wrap_content"
             android:text="@string/video"
             android:textColor="@color/black"
-            android:fontFamily="@font/oxygen_bold"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
             android:textSize="15sp" />
@@ -198,7 +195,6 @@
             android:layout_height="wrap_content"
             android:text="@string/recorder"
             android:textColor="@color/black"
-            android:fontFamily="@font/oxygen_bold"
             android:paddingStart="10dp"
             android:paddingEnd="20dp"
             android:textSize="15sp" />

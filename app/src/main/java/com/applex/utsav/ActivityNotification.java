@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -240,7 +241,8 @@ public class ActivityNotification extends AppCompatActivity {
                     }
                 }
 
-                holder.title.setText(model.getUsN()+" "+ model.getTitle());
+                String titleString = "<b>"+model.getUsN()+"</b> "+model.getTitle();
+                holder.title.setText(Html.fromHtml(titleString));
 
                 holder.minsago.setText(BasicUtility.getTimeAgo(model.getTs()));
 

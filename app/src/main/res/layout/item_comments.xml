@@ -76,7 +76,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
-                android:fontFamily="@font/oxygen_bold"
                 android:autoLink="all"
                 android:textColorLink="@color/colorPrimary"
                 android:text=""

@@ -8,19 +8,6 @@
     android:fitsSystemWindows="true"
     android:background="@color/white"
     tools:context=".drawerActivities.AboutUs">
-
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolb"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:elevation="5dp"-->
-<!--        app:titleTextColor="@color/black"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:animateLayoutChanges="true"-->
-<!--        android:theme="@style/ThemeOverlay.AppCompat.DayNight"-->
-<!--        app:layout_scrollFlags="scroll|enterAlways"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto"/>-->
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,9 +32,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/app_name"
-                android:textColor="@color/red"
-                android:textStyle="bold"
-                android:textSize="35dp"/>
+                android:textColor="@color/purple1"
+                android:fontFamily="@font/harabara"
+                android:textSize="35sp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -55,9 +42,7 @@
                 android:gravity="center"
                 android:paddingTop="5dp"
                 android:text="v 1.2.2"
-                android:textColor="@color/black"
-                android:fontFamily="@font/oxygen_regular"
-                android:textSize="15dp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -68,62 +53,9 @@
                 android:paddingBottom="10dp"
                 android:textColor="@color/black"
                 android:textAlignment="gravity"
-                android:fontFamily="@font/oxygen_bold"
                 android:text="@string/aboutUtsav"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:paddingTop="10dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:visibility="visible"-->
-<!--                android:gravity="center">-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:paddingTop="5dp"-->
-<!--                    android:paddingBottom="5dp"-->
-<!--                    android:contentDescription="Translate"-->
-<!--                    android:src="@drawable/ic_translate_black_24dp" />-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:paddingTop="5dp"-->
-<!--                    android:contentDescription="Locate"-->
-<!--                    android:paddingBottom="5dp"-->
-<!--                    android:src="@drawable/ic_location_on_black_24dp" />-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="70dp"-->
-<!--                    android:layout_height="70dp"-->
-<!--                    android:layout_gravity="center_horizontal"-->
-<!--                    android:paddingTop="5dp"-->
-<!--                    android:contentDescription="Snap"-->
-<!--                    android:paddingBottom="5dp"-->
-<!--                    android:src="@drawable/ic_camera_black_24dp" />-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:paddingTop="5dp"-->
-<!--                    android:contentDescription="Search"-->
-<!--                    android:paddingBottom="5dp"-->
-<!--                    android:src="@drawable/ic_search_black_24dp" />-->
-
-<!--                <ImageView-->
-<!--                    android:layout_width="50dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:paddingTop="5dp"-->
-<!--                    android:paddingBottom="5dp"-->
-<!--                    android:contentDescription="Text"-->
-<!--                    android:src="@drawable/ic_format_align_left_black_24dp" />-->
-<!--            </LinearLayout>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -133,12 +65,10 @@
                 android:textColor="@color/red"
                 android:gravity="center"
                 android:textSize="18dp"
-                android:textStyle="bold"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginHorizontal="20dp"
-                android:paddingHorizontal="20dp"
-                android:background="@drawable/bg_solid"/>
+                android:paddingHorizontal="20dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,9 +90,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/utsavFeature1"
-                        android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
@@ -184,7 +112,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/utsavFeature2"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
@@ -207,7 +134,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/utsavFeature3"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
@@ -229,7 +155,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/utsavFeature4"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
@@ -251,7 +176,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/utsavFeature5"
                         android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
@@ -270,12 +194,10 @@
                 android:textColor="@color/red"
                 android:gravity="center"
                 android:textSize="18dp"
-                android:textStyle="bold"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginHorizontal="20dp"
-                android:paddingHorizontal="20dp"
-                android:background="@drawable/bg_solid"/>
+                android:paddingHorizontal="20dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -298,12 +220,10 @@
                         android:id="@+id/link_snaplingo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/linkSnaplingo"
-                        android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
+                        android:textColorLink="@color/blue"
                         android:textSize="16dp" />
 
                 </LinearLayout>
@@ -323,12 +243,10 @@
                         android:id="@+id/link_campus24"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/linkCampus24"
-                        android:layout_gravity="left"
+                        android:textColorLink="@color/blue"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
                         android:textSize="16dp" />
                 </LinearLayout>
 
@@ -347,13 +265,11 @@
                         android:id="@+id/link_jeeab360"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/linkJEE"
-                        android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
+                        android:textColorLink="@color/blue"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -371,12 +287,10 @@
                         android:id="@+id/link_innovacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/oxygen_bold"
                         android:text="@string/linkInnovacion"
-                        android:layout_gravity="left"
                         android:paddingHorizontal="5dp"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
+                        android:textColorLink="@color/blue"
                         android:textSize="16dp" />
 
                 </LinearLayout>

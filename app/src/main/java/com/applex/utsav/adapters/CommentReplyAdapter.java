@@ -22,12 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.R;
-import com.applex.utsav.dialogs.BottomFlamedByDialog2;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReplyCommentModel;
 import com.applex.utsav.preferences.IntroPref;

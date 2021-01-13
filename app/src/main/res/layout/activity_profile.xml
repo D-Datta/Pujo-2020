@@ -156,7 +156,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:fontFamily="@font/oxygen_bold"
                                 android:maxLines="1"
                                 android:paddingHorizontal="15dp"
                                 android:paddingTop="5dp"
@@ -170,7 +169,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
-                                android:fontFamily="@font/oxygen_bold"
                                 android:maxLines="1"
                                 android:paddingHorizontal="15dp"
                                 android:paddingTop="5dp"
@@ -227,7 +225,6 @@
                             android:text="@string/visitors"
                             android:textColor="@color/black"
                             android:paddingHorizontal="10dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
 
                     </LinearLayout>
@@ -258,7 +255,6 @@
                             android:text="@string/upvotes"
                             android:paddingHorizontal="10dp"
                             android:textColor="@color/black"
-                            android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -286,7 +282,6 @@
                             android:text="@string/likes"
                             android:textColor="@color/black"
                             android:paddingHorizontal="10dp"
-                            android:fontFamily="@font/oxygen_bold"
                             android:textSize="13sp" />
 
                     </LinearLayout>
@@ -308,7 +303,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:background="@drawable/custom_button"
-                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textStyle="bold"
                         android:drawableStart="@drawable/locate_icon_profile"
                         android:paddingStart="10dp"
                         android:layout_marginStart="10dp"
@@ -327,7 +322,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:background="@drawable/custom_button"
-                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textStyle="bold"
                         android:paddingStart="10dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="10dp"
@@ -355,7 +350,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:background="@drawable/locatebutton"
-                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textStyle="bold"
                         android:paddingStart="10dp"
                         android:drawableStart="@drawable/ic_donation2"
                         android:layout_marginVertical="5dp"
@@ -390,7 +385,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="all"
                         android:background="@color/white"
-                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textStyle="bold"
                         android:textColor="@color/purple"
                         android:paddingHorizontal="20dp"
                         android:paddingVertical="5dp"
@@ -406,7 +401,6 @@
                     android:id="@+id/detaildesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/oxygen_bold"
                     android:autoLink="all"
                     android:linksClickable="true"
                     android:textColorLink="@color/colorPrimary"
@@ -432,8 +426,7 @@
                     android:paddingVertical="2dp"
                     android:background="@color/white"
                     android:textSize="15dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/oxygen_bold"/>
+                    android:textColor="@color/black" />
 
                 <LinearLayout
                     android:id="@+id/selfProfile"
@@ -448,7 +441,7 @@
                         android:layout_height="36dp"
                         android:layout_gravity="center"
                         android:background="@drawable/custom_button"
-                        android:fontFamily="@font/oxygen_ex_bold"
+                        android:textStyle="bold"
                         android:drawableStart="@drawable/ic_outline_edit_24"
                         android:paddingStart="20dp"
                         android:layout_marginHorizontal="10dp"

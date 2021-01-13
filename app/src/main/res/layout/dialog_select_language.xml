@@ -32,7 +32,6 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:textSize="15dp"
-            android:fontFamily="@font/oxygen_bold"
             android:text="English"/>
 
         <RadioButton
@@ -41,7 +40,6 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:textSize="15dp"
-            android:fontFamily="@font/oxygen_bold"
             android:text="বাংলা"/>
 
         <RadioButton
@@ -50,7 +48,6 @@
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:textSize="15dp"
-            android:fontFamily="@font/oxygen_bold"
             android:text="हिंदी"/>
 
     </LinearLayout>

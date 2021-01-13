@@ -1373,7 +1373,6 @@ public class Fragment_Posts_Users extends Fragment {
         mRecyclerView.setAdapter(adapter1);
 
 
-
     }
 
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
@@ -1385,7 +1384,7 @@ public class Fragment_Posts_Users extends Fragment {
         private ImageView userimage, like, commentimg,profileimage, menuPost, share;
         private ApplexLinkPreview LinkPreview;
         private RecyclerView tagList;
-        private LinearLayout itemHome, like_layout, commentLayout1, commentLayout2, postHolder, profile_header;
+        private LinearLayout itemHome, like_layout, commentLayout1, commentLayout2;
         private SliderView sliderView;
         private ImageView dp_cmnt1, dp_cmnt2;
         private TextView cmnt1, cmnt2, cmnt1_minsago, cmnt2_minsago, name_cmnt1, name_cmnt2;
@@ -1421,8 +1420,8 @@ public class Fragment_Posts_Users extends Fragment {
 
             view = itemView.findViewById(R.id.view_profile);
 //            view2 = itemView.findViewById(R.id.view2);
-            postHolder = itemView.findViewById(R.id.post);
-            profile_header = itemView.findViewById(R.id.profile_header);
+//            postHolder = itemView.findViewById(R.id.post);
+//            profile_header = itemView.findViewById(R.id.profile_header);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
             rlLayout = itemView.findViewById(R.id.rlLayout);
 

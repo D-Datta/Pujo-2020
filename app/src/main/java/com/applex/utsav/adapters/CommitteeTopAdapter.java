@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.models.BaseUserModel;
 import com.squareup.picasso.Callback;

@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:text="100+ Posts"
                 android:textSize="12dp"
-                android:fontFamily="@font/oxygen_bold"
                 android:textAlignment="center"
                 android:textColor="@color/md_blue_500"/>
         </LinearLayout>

@@ -47,8 +47,6 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.HashtagClipsViewAll;
 import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;

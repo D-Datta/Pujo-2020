@@ -52,7 +52,6 @@
                     android:id="@+id/Profilename"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/oxygen_bold"
                     android:paddingHorizontal="5dp"
                     android:text="@string/name"
                     android:maxLines="2"
@@ -69,7 +68,6 @@
                     android:textSize="12sp"
                     android:textColor="@color/grey_868686"
                     android:paddingHorizontal="5dp"
-                    android:fontFamily="@font/oxygen_bold"
                     android:paddingVertical="2dp"
                     android:background="@android:color/transparent"/>
 
@@ -84,7 +82,6 @@
                     android:textColor="@color/grey_868686"
                     android:paddingVertical="3dp"
                     android:paddingHorizontal="5dp"
-                    android:fontFamily="@font/oxygen_bold"
                     android:background="@android:color/transparent"/>
 
                 <!--            <LinearLayout-->

@@ -18,8 +18,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.CommentReplyActivity;
 import com.applex.utsav.LinkPreview.ApplexLinkPreviewShort;
 import com.applex.utsav.LinkPreview.ViewListener;

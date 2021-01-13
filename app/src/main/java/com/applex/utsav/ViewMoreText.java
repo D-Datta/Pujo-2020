@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -28,6 +29,8 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -140,6 +143,9 @@ public class ViewMoreText extends AppCompatActivity {
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         setContentView(R.layout.activity_view_more_text);
+
+        Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         share = findViewById(R.id.share44);
         img = findViewById(R.id.post_image45);

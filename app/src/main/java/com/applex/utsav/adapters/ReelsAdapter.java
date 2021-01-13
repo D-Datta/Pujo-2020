@@ -28,8 +28,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.R;
 import com.applex.utsav.ReelsActivity;
 import com.applex.utsav.dialogs.BottomCommentsDialog;

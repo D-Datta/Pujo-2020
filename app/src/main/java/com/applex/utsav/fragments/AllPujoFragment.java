@@ -33,11 +33,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
 import com.applex.utsav.R;
 import com.applex.utsav.models.BaseUserModel;
 import com.applex.utsav.preferences.IntroPref;
-import com.applex.utsav.utility.BasicUtility;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;

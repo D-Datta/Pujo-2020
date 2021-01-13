@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.applex.utsav.ActivityProfile;
-import com.applex.utsav.ActivityProfileCommittee;
-import com.applex.utsav.ActivityProfileUser;
 import com.applex.utsav.R;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.utility.BasicUtility;

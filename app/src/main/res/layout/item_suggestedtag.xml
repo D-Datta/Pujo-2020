@@ -28,8 +28,7 @@
             android:maxLines="1"
             android:text="Cricket"
             android:textSize="15sp"
-            android:textColor="@color/md_blue_500"
-            android:fontFamily="@font/oxygen_bold" />
+            android:textColor="@color/md_blue_500" />
     </LinearLayout>
 
 
@@ -43,5 +42,5 @@
         android:textColor="@color/grey_550B0B0B"
         android:textSize="10sp"
         android:visibility="gone"
-        android:fontFamily="@font/oxygen_bold" />
+        />
 </LinearLayout>

@@ -88,7 +88,6 @@
                     android:text="@string/visitors"
                     android:textColor="@color/view_black"
                     android:paddingHorizontal="10dp"
-                    android:fontFamily="@font/oxygen_bold"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -117,7 +116,6 @@
                     android:text="@string/upvotes"
                     android:paddingHorizontal="10dp"
                     android:textColor="@color/view_black"
-                    android:fontFamily="@font/oxygen_bold"
                     android:textSize="13sp" />
             </LinearLayout>
             </LinearLayout>
