@@ -148,14 +148,14 @@ public class LoginActivity extends AppCompatActivity {
             int displayWidth = display.getWidth();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.seven, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.four, options);
             int width = options.outWidth;
             if (width > displayWidth) {
                 int widthRatio = Math.round((float) width / (float) displayWidth);
                 options.inSampleSize = widthRatio;
             }
             options.inJustDecodeBounds = false;
-            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.four, options);
             imageView.setImageBitmap(scaledBitmap);
         } else if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             ImageView imageView = findViewById(R.id.dhaki_png);
@@ -164,14 +164,14 @@ public class LoginActivity extends AppCompatActivity {
             int displayWidth = display.getWidth();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.seven, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.four, options);
             int width = options.outWidth;
             if (width > displayWidth) {
                 int widthRatio = Math.round((float) width / (float) displayWidth);
                 options.inSampleSize = widthRatio;
             }
             options.inJustDecodeBounds = false;
-            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.four, options);
             imageView.setImageBitmap(scaledBitmap);
         }
         ///////////////Set Image Bitmap/////////////////////
