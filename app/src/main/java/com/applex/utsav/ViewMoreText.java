@@ -734,7 +734,7 @@ public class ViewMoreText extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), "Post has been removed", Toast.LENGTH_SHORT).show();
                                 if (getIntent().getStringExtra("position") != null) {
-//                                    NotificationFragment.removeNotif = Integer.parseInt(getIntent().getStringExtra("position"));
+                                    ActivityNotification.removeNotif = Integer.parseInt(getIntent().getStringExtra("position"));
                                 }
                                 if (isTaskRoot()) {
                                     startActivity(new Intent(ViewMoreText.this, MainActivity.class));

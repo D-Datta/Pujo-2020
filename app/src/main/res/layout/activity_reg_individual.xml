@@ -172,7 +172,7 @@
                     <EditText
                         android:id="@+id/first_name_ind"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
@@ -276,7 +276,7 @@
                     <TextView
                         android:id="@+id/email_ind"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
@@ -349,7 +349,7 @@
                     <EditText
                         android:id="@+id/bio_line_ind"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="45dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
@@ -394,7 +394,7 @@
                             <EditText
                                 android:id="@+id/city_ind"
                                 android:layout_width="0dp"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="5dp"
@@ -412,7 +412,7 @@
                             <EditText
                                 android:id="@+id/state_ind"
                                 android:layout_width="0dp"
-                                android:layout_height="50dp"
+                                android:layout_height="45dp"
                                 android:layout_marginStart="5dp"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="5dp"

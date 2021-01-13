@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            app:title="Notifications"
+            app:title="@string/notifications"
             android:background="@color/white"
             app:titleTextColor="@color/black"
             android:elevation="10dp"
@@ -81,6 +81,7 @@
                     android:layout_alignParentBottom="true"
                     android:visibility="gone" />
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerNotif"
                     android:layout_width="match_parent"
@@ -89,6 +90,7 @@
                     android:paddingBottom="50dp"
                     android:descendantFocusability="blocksDescendants"
                     app:reverseLayout="false" />
+
 
             </RelativeLayout>
 
