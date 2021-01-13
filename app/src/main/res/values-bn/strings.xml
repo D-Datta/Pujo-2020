@@ -70,7 +70,7 @@
         <item>অন্যান্য</item>
     </string-array>
 
-    <string name="walkthrough">আসুন আমাদের সংস্কৃতি এবং heritage তিহ্য সম্পর্কে আরও বেশি অনুসন্ধান করুন।</string>
+    <string name="walkthrough">নিজেদের ঐতিহ্য ও সংস্কৃতির অনুসন্ধানে |</string>
 
     <string name="reg">নিবন্ধন</string>
     <string name="name">নাম</string>
@@ -147,7 +147,7 @@
     <string name="share_your_pujo_story">আপনার গল্প শেয়ার করুন…</string>
     <string name="view_all">সব পুজো দেখুন</string>
     <string name="utsav_durga_pujo_2020">উৎসব অ্যাপ</string>
-    <string name="virtual_festivals">র্চুয়াল উদযাপন</string>
+    <string name="virtual_festivals">ভার্চুয়াল ফেস্টিভ্যালস</string>
 
     <string name="an_initiative_by_applex_in">~applex.in দ্বারা একটি উদ্যোগ</string>
     <string name="reply">জবাব দিন</string>
