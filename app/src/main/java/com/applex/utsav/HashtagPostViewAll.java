@@ -1342,10 +1342,8 @@ public class HashtagPostViewAll extends AppCompatActivity {
                 return position;
             }
 
-
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR: BasicUtility.showToast(getApplicationContext(),"Something went wrong...");
@@ -1358,7 +1356,12 @@ public class HashtagPostViewAll extends AppCompatActivity {
                             progressmoreposts.setVisibility(View.GONE);
                             shimmerFrameLayout.stopShimmer();
                             shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 1000);
+                        }, 250);
+
+
+//                        new Handler().postDelayed(() -> {
+//                            recyclerview.scrollToPosition(10);
+//                        }, 250);
 
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);

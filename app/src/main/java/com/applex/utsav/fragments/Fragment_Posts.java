@@ -170,7 +170,7 @@ public class Fragment_Posts extends Fragment {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull HomePostModel model) {
 
                 if(model.getImg() != null) {
-                    Picasso.get().load(model.getImg().get(0)).into(holder.post_image);
+                    Picasso.get().load(model.getImg().get(0)).placeholder(R.drawable.image_background_grey).into(holder.post_image);
                 }
 
                 if(model.getImg()!=null) {
