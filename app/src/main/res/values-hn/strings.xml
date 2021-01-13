@@ -128,7 +128,7 @@
     <string name="update">अपडेट</string>
     <string name="Edit_comment">टिप्पणी संपादित करें</string>
     <string name="Search">खोज करें</string>
-    <string name="Edit_Profile">प्रोफ़ाइल संपादित करें</string>
+    <string name="Edit_Profile">प्रोफ़ाइल अपडेट करें</string>
     <string name="register_as">पंजीकृत करने का रूप:</string>
     <string name="committee">समिति</string>
     <string name="login_as_guest">अतिथि के रूप में लॉगिन करें</string>
@@ -148,7 +148,7 @@
     <string name="reply">जवाब</string>
     <string name="pin">कील करें</string>
     <string name="add_to_post">पोस्ट मैं डाले</string>
-    <string name="visitors">आगंतुकों</string>
+    <string name="visitors">दर्शनार्थी</string>
     <string name="tag">टैग जोडे</string>
     <string name="tags">टैग</string>
     <string name="contact_us">हमारे साथ सम्पर्क करें</string>
@@ -161,10 +161,10 @@
     <string name="camera">कैमरा</string>
     <string name="photos">तस्वीरें</string>
     <string name="gallery">गेलरी</string>
-    <string name="follow">अनुसरण करें</string>
+    <string name="follow">फलो करें</string>
     <string name="loading">लोड हो रहा है…</string>
-    <string name="upvotes">वोट दें</string>
-    <string name="likes">पसंद</string>
+    <string name="upvotes">अपवोट</string>
+    <string name="likes">लाइक</string>
     <string name="tag_your_pujo">अपने पूजा को टैग करें</string>
     <string name="name">नाम</string>
     <string name="headline">शीर्षक:</string>
@@ -250,5 +250,6 @@
     <string name="Preview_Cover_Picture">Preview Cover Picture</string>
     <string name="cover_content">अपनी कवर तस्वीर के बारे में कुछ कहें …</string>
     <string name="share_with_friends">Hey! Join me on Utsav App: Virtual Festivals and experience the world of Celebration.\n\nDownload now! Link is given below:-\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="notifications">सूचनाएं</string>
 
 </resources>

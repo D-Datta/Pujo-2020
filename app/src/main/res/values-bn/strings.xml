@@ -130,7 +130,7 @@
     <string name="update">আপডেট</string>
     <string name="Edit_comment"> মন্তব্য বদল করুন</string>
     <string name="Search">সন্ধান</string>
-    <string name="Edit_Profile">প্রোফাইলে কিছু বদল করুন</string>
+    <string name="Edit_Profile">প্রোফাইলে বদল করুন</string>
     <string name="submit">জমা দিন</string>
     <string name="register_as">তালিকাভুক্ত করুন:</string>
     <string name="committee">কমিটির</string>
@@ -170,10 +170,10 @@
     <string name="camera">ক্যামেরা</string>
     <string name="photos">ফটো</string>
     <string name="gallery">গ্যালারী</string>
-    <string name="follow">অনুসরণ করুন</string>
+    <string name="follow">ফলো করুন</string>
     <string name="loading">লোড হচ্ছে …</string>
     <string name="upvotes">আপভোটস</string>
-    <string name="likes">পছন্দ</string>
+    <string name="likes">লাইক</string>
     <string name="tag_your_pujo">পুজো ট্যাগ করুন</string>
     <string name="headline">শিরোনাম:</string>
     <string name="head_content">head_content</string>
@@ -233,5 +233,6 @@
     <string name="Preview_Cover_Picture">Preview Cover Picture</string>
     <string name="cover_content">আপনার কভার ছবি সম্পর্কে কিছু বলুন…</string>
     <string name="share_with_friends">Hey! Join me on Utsav App: Virtual Festivals and experience the world of Celebration.\n\nDownload now! Link is given below:-\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="notifications">নোটিফিকাশন</string>
 
 </resources>
