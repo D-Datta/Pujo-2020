@@ -761,10 +761,11 @@ public class ViewMoreHome extends AppCompatActivity {
                                     checkGetMore = -1;
                                 }
 
-                            } else {
+                            }
+                            else {
                                 Toast.makeText(getApplicationContext(), "Post has been removed", Toast.LENGTH_SHORT).show();
                                 if (getIntent().getStringExtra("position") != null) {
-//                                    NotificationFragment.removeNotif = Integer.parseInt(getIntent().getStringExtra("position"));
+                                    ActivityNotification.removeNotif = Integer.parseInt(getIntent().getStringExtra("position"));
                                 }
                                 if (isTaskRoot()) {
                                     startActivity(new Intent(ViewMoreHome.this, MainActivity.class));

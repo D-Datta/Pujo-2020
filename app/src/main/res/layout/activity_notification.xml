@@ -81,6 +81,7 @@
                     android:layout_alignParentBottom="true"
                     android:visibility="gone" />
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerNotif"
                     android:layout_width="match_parent"
@@ -89,6 +90,7 @@
                     android:paddingBottom="50dp"
                     android:descendantFocusability="blocksDescendants"
                     app:reverseLayout="false" />
+
 
             </RelativeLayout>
 
