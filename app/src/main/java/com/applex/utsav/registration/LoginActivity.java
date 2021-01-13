@@ -148,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
             int displayWidth = display.getWidth();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.seven, options);
             int width = options.outWidth;
             if (width > displayWidth) {
                 int widthRatio = Math.round((float) width / (float) displayWidth);
@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
             int displayWidth = display.getWidth();
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
+            BitmapFactory.decodeResource(getResources(), R.drawable.seven, options);
             int width = options.outWidth;
             if (width > displayWidth) {
                 int widthRatio = Math.round((float) width / (float) displayWidth);

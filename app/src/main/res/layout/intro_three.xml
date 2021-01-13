@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:src="@drawable/ma_durga" />
+            android:src="@drawable/three" />
 
         <TextView
             android:layout_width="match_parent"

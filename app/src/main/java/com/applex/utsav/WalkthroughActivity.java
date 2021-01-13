@@ -55,7 +55,7 @@ public class WalkthroughActivity extends AppCompatActivity {
                 R.layout.intro_one,
                 R.layout.intro_two,
                 R.layout.intro_three
-//                R.layout.intro_four
+                //R.layout.intro_four
         };
 
         tvSkip.setOnClickListener(v -> launchHomeScreen());
@@ -149,8 +149,8 @@ public class WalkthroughActivity extends AppCompatActivity {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
 
-                BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
-                BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+               // BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
+                BitmapFactory.decodeResource(getResources(), R.drawable.one, options);
 
                 int width = options.outWidth;
                 if (width > displayWidth) {
@@ -158,10 +158,10 @@ public class WalkthroughActivity extends AppCompatActivity {
                 }
                 options.inJustDecodeBounds = false;
 
-                Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
+               // Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
               //  lighting_image.setImageBitmap(scaledBitmap1);
 
-                Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma, options);
+                Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.one, options);
                 durga_image.setImageBitmap(scaledBitmap2);
             }
             ///////////////SET IMAGE BITMAP/////////////////////
