@@ -59,6 +59,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ProgressBar
+                    android:id="@+id/progress_more_posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:padding="10dp"
+                    android:visibility="gone" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_posts"
                     android:layout_width="match_parent"
@@ -69,13 +77,7 @@
                     android:overScrollMode="never"
                     android:descendantFocusability="blocksDescendants"
                     app:reverseLayout="false"/>
-                <ProgressBar
-                    android:id="@+id/progress_more_posts"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_alignParentBottom="true"
-                    android:padding="10dp"
-                    android:visibility="gone" />
+
             </RelativeLayout>
         </LinearLayout>
 

@@ -146,6 +146,7 @@ public class Fragment_Posts extends Fragment {
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
+                .setPrefetchDistance(2)
                 .build();
 
         FirestorePagingOptions<HomePostModel> options = new FirestorePagingOptions.Builder<HomePostModel>()
