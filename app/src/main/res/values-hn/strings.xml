@@ -76,7 +76,7 @@
     <string name="address_line">पता पंक्ति</string>
     <string name="city">शहर/जिला</string>
     <string name="state">राज्य</string>
-    <string name="about">हमारे बारे में</string>
+    <string name="about">परिचय</string>
     <string name="submit">जमा कीजिए</string>
     <string name="choose_pic">अपना प्रोफ़ाइल चित्र और कवर चित्र चुनें</string>
     <string name="trending_posts">ट्रेंडिंग पोस्ट</string>
@@ -84,8 +84,8 @@
     <string name="post_content">पोस्ट सामग्री</string>
     <string name="_2_4k">२.४ हजार</string>
     <string name="_154">१५.३ हजार</string>
-    <string name="write_a_comment">टिप्पणी लिखें…</string>
-    <string name="_42_comments">४२ टिप्पणी</string>
+    <string name="write_a_comment">कमेंट लिखें…</string>
+    <string name="_42_comments">४२ कमेंट</string>
     <string name="search">धुंडे…</string>
     <string name="search_pujo">अपनी पसंदीदा पूजा खोजें</string>
     <string name="Recent_searches">नवीनतम खोज</string>
@@ -110,11 +110,11 @@
     <string name="noposts">आपने कुछ भी पोस्ट नहीं किया है। \nअभी पोस्ट करें.\!!</string>
     <string name="no_posts">दिखाने के लिए कोई पोस्ट नहीं है</string>
     <string name="noreels">दिखाने के लिए कोई रील्स नही है \n अभी नया रील बनाए!!</string>
-    <string name="first_comments">टिप्पणी करने वाला पहला व्यक्ति बनें</string>
+    <string name="first_comments">कमेंट करने वाला पहला व्यक्ति बनें</string>
 
     <string name="walkthrough">अंजलि में सारी या कुर्ती \n नवमी में पार्टी का दर्शन।\n बैठे बैठे घर में होगा \n उत्सव का दिन </string>
 
-    <string name="comments">टिप्पणी</string>
+    <string name="comments">कमेंट</string>
     <string name="type_something_n">कुछ लिखें..\n</string>
     <string name="bio">कुछ आपके बारेमें</string>
     <string name="recorder">रिकॉर्डर</string>
@@ -126,7 +126,7 @@
     <string name="log_out">लॉग आउट</string>
     <string name="live">लाइव</string>
     <string name="update">अपडेट</string>
-    <string name="Edit_comment">टिप्पणी संपादित करें</string>
+    <string name="Edit_comment">कमेंट संपादित करें</string>
     <string name="Search">खोज करें</string>
     <string name="Edit_Profile">प्रोफ़ाइल अपडेट करें</string>
     <string name="register_as">पंजीकृत करने का रूप:</string>
@@ -135,13 +135,13 @@
     <string name="individual">व्यक्ति</string>
     <string name="replies">जवाब</string>
     <string name="liked_by">द्वारा पसंद किया गया</string>
-    <string name="report_comment">टिप्पणी को रिपोर्ट करें</string>
+    <string name="report_comment">कमेंट को रिपोर्ट करें</string>
     <string name="share_post">पोस्ट को शेयर करें</string>
     <string name="report_post">पोस्ट को रिपोर्ट करें</string>
     <string name="edit_post">पोस्ट को संपादित करें</string>
-    <string name="delete_comment">टिप्पणी को हटाए</string>
+    <string name="delete_comment">कमेंट को हटाए</string>
     <string name="delete_post">पोस्ट को हटाए</string>
-    <string name="share_your_pujo_story">अपनी कहानी साझा करें…</string>
+    <string name="share_your_pujo_story">अपनी कहानी शेयर करें…</string>
     <string name="view_all">सब देखें</string>
     <string name="utsav_durga_pujo_2020">उत्सव एप्लिकेशन: आभासी त्यौहार</string>
     <string name="an_initiative_by_applex_in">~applex.in के द्वारा उपक्रम किया गया है</string>
@@ -230,26 +230,26 @@
     <string name="Math_Mission">मठ / मिशन</string>
     <string name="prabashi">प्रबाशी</string>
     <string name="others">अन्य</string>
-    <string name="copy">Copy link</string>
+    <string name="copy">लिंक कापी करें</string>
     <string name="more_options">More options</string>
-    <string name="results">Results</string>
-    <string name="delete_this_search">Delete this search?</string>
+    <string name="results">नतीजा</string>
+    <string name="delete_this_search">खोज हटाएं?</string>
     <string name="alert_message">Deleting this will remove it from your search history. Are you sure?</string>
-    <string name="delete">Delete</string>
-    <string name="cancel">Cancel</string>
+    <string name="delete">हटाएं</string>
+    <string name="cancel">ख़ारिज</string>
 
     <string name="link_suffix">\n\nदुनिया भर से पूजा देखने के लिए जाओ। यदि आपने अभी तक एप्लिकेशन डाउनलोड नहीं किया है।\n\nअब utsav एप्लिकेशन डाउनलोड करें\n https://play.google.com/store/apps/details?id=com.applex.utsav</string>
     <string name="set_theme">थीम सेट करें</string>
-    <string name="download_utsav">\n\nDownload Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="download_utsav">\n\nडाउनलोड करें Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
     <string name="chat_on_whatsapp">Whatsapp चैट करें</string>
 
-    <string name="Preview_Profile_Picture">Preview Profile Picture</string>
-    <string name="SAVE">SAVE</string>
+    <string name="Preview_Profile_Picture">प्रोफ़ाइल तस्वीर</string>
+    <string name="SAVE">सेव</string>
     <string name="dp_content">अपनी प्रोफ़ाइल तस्वीर के बारे में कुछ कहें …</string>
-    <string name="dp_share">Share your update to Feed</string>
-    <string name="Preview_Cover_Picture">Preview Cover Picture</string>
+    <string name="dp_share">अपना अपडेट फ़ीड में शेयर करें</string>
+    <string name="Preview_Cover_Picture">कवर तस्वीर</string>
     <string name="cover_content">अपनी कवर तस्वीर के बारे में कुछ कहें …</string>
     <string name="share_with_friends">Hey! Join me on Utsav App: Virtual Festivals and experience the world of Celebration.\n\nDownload now! Link is given below:-\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
-    <string name="notifications">सूचनाएं</string>
+    <string name="notifications">नोटिफिकेशन</string>
 
 </resources>

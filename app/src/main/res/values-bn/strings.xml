@@ -91,8 +91,8 @@
     <string name="post_content">পোস্ট সামগ্রী</string>
     <string name="_2_4k">২.৪k</string>
     <string name="_154">১৫৪</string>
-    <string name="write_a_comment">মন্তব্য লিখুন…</string>
-    <string name="_42_comments">৪২ মন্তব্য</string>
+    <string name="write_a_comment">কমেন্ট লিখুন…</string>
+    <string name="_42_comments">৪২ কমেন্ট</string>
     <string name="search">সন্ধান করুন…</string>
     <string name="Recent_searches">সাম্প্রতিক সন্ধান</string>
     <string name="Description">বিবরণ*</string>
@@ -123,12 +123,12 @@
     <string name="communicate">যোগাযোগ করা</string>
     <string name="tell_a_friend">বন্ধুদের বলুন</string>
     <string name="contact_us">যোগাযোগ করুন</string>
-    <string name="about">বিষয়</string>
+    <string name="about">পরিচয়</string>
     <string name="account">অ্যাকাউন্ট</string>
     <string name="log_out">লগ আউট</string>
     <string name="live">লাইভ</string>
     <string name="update">আপডেট</string>
-    <string name="Edit_comment"> মন্তব্য বদল করুন</string>
+    <string name="Edit_comment"> কমেন্ট বদল করুন</string>
     <string name="Search">সন্ধান</string>
     <string name="Edit_Profile">প্রোফাইলে বদল করুন</string>
     <string name="submit">জমা দিন</string>
@@ -138,11 +138,11 @@
     <string name="individual">স্বতন্ত্র</string>
     <string name="replies">জবাব</string>
     <string name="liked_by">পছন্দ করেছেন</string>
-    <string name="report_comment">মন্তব্য রিপোর্ট করুন</string>
+    <string name="report_comment">কমেন্ট রিপোর্ট করুন</string>
     <string name="share_post">শেয়ার পোস্ট</string>
     <string name="report_post">পোস্ট রিপোর্ট করুন</string>
     <string name="edit_post">পোস্ট বদল করুন</string>
-    <string name="delete_comment">মন্তব্য সরান</string>
+    <string name="delete_comment">কমেন্ট সরান</string>
     <string name="delete_post">পোস্ট সরান</string>
     <string name="share_your_pujo_story">আপনার গল্প শেয়ার করুন…</string>
     <string name="view_all">সব পুজো দেখুন</string>
@@ -182,7 +182,7 @@
     <string name="Post">পোস্ট</string>
     <string name="set_app_lang">ভাষা সেট করুন</string>
     <string name="experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc">বিভিন্ন বোনেদী বারিসের পুজো, তাদের heritageতিহ্য, কমিটি, সংখ্যালঘুদের পাশাপাশি কয়েকটি জায়গায় পুজোর অভিজ্ঞতা যেমন কলম্বিয়া, চাটিসগড়, আগরতলা ইত্যাদি বিভিন্ন জায়গায় অনুষ্ঠিত হয়</string>
-    <string name="edit_comment">Edit Comment</string>
+    <string name="edit_comment">এডিট কমেন্ট</string>
     <string name="intro_three">ফটো \n 360 ডিগ্রী শট \n ভিডিও \nিভিন্ন পুজো সন্ধান করুন \nসরাসরি প্রতিযোগিতায় অংশ নেওয়া \nরেজিস্ট্রেশন সম্পূর্ণ বিনামূল্যে \nপ্রাক পুজো আপডেট</string>
     <string name="upvoted_pujos">সেরা 20</string>
     <string name="recently_visited_pujos">সম্প্রতি দেখা</string>
@@ -213,24 +213,24 @@
     <string name="Math_Mission">মঠ/ মিশন</string>
     <string name="prabashi">প্রবাসী</string>
     <string name="others">অন্যান্য</string>
-    <string name="copy">Copy link</string>
+    <string name="copy">লিংক কপি করুন</string>
     <string name="more_options">More options</string>
-    <string name="results">Results</string>
-    <string name="delete_this_search">Delete this search?</string>
+    <string name="results">পরিণাম</string>
+    <string name="delete_this_search">সার্চ ডিলিট করুন?</string>
     <string name="alert_message">Deleting this will remove it from your search history. Are you sure?</string>
-    <string name="delete">Delete</string>
-    <string name="cancel">Cancel</string>
+    <string name="delete">ডিলিট</string>
+    <string name="cancel">ক্যানসেল</string>
 
-    <string name="link_suffix">আপনি যদি এখনও উৎসব অ্যাপটি ডাউনলোড না করে থাকেন\n\nএখনই ডাউনলোড করুন \nhttps://play.google.com/store/apps/details?id=com.applex.utsav \nআর দেখতে পান দেশ বিদেশের দুর্গা পুজো</string>
+    <string name="link_suffix">আপনি যদি এখনও উৎসব অ্যাপ ডাউনলোড না করে থাকেন\n\nএখনই ডাউনলোড করুন \nhttps://play.google.com/store/apps/details?id=com.applex.utsav \nআর দেখতে পান দেশ বিদেশের দুর্গা পুজো</string>
     <string name="set_theme">থিম সেট করুন</string>
-    <string name="download_utsav">\n\nDownload Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
+    <string name="download_utsav">\n\nডাউনলোড করুন Utsav App:Virtual Festivals\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
     <string name="chat_on_whatsapp">Whatsapp চ্যাট করুন</string>
 
-    <string name="Preview_Profile_Picture">Preview Profile Picture</string>
-    <string name="SAVE">SAVE</string>
+    <string name="Preview_Profile_Picture">প্রোফাইল ছবি</string>
+    <string name="SAVE">সেভ</string>
     <string name="dp_content">আপনার প্রোফাইল ছবি সম্পর্কে কিছু বলুন…</string>
-    <string name="dp_share">Share your update to Feed</string>
-    <string name="Preview_Cover_Picture">Preview Cover Picture</string>
+    <string name="dp_share">আপনার আপডেট ফিডে শেয়ার করুন</string>
+    <string name="Preview_Cover_Picture">কভার ছবি</string>
     <string name="cover_content">আপনার কভার ছবি সম্পর্কে কিছু বলুন…</string>
     <string name="share_with_friends">Hey! Join me on Utsav App: Virtual Festivals and experience the world of Celebration.\n\nDownload now! Link is given below:-\nhttps://play.google.com/store/apps/details?id=com.applex.utsav</string>
     <string name="notifications">নোটিফিকাশন</string>
