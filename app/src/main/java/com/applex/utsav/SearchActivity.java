@@ -504,6 +504,7 @@ public class SearchActivity extends AppCompatActivity {
                     holder.PDescription.setVisibility(View.GONE);
                 }
                 else {
+                    holder.PDescription.setVisibility(View.VISIBLE);
                     holder.PDescription.setText(model.getAbout());
                 }
 
