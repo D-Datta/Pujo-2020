@@ -77,7 +77,6 @@
                     android:id="@+id/Pdescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/celebrating_this_puja_with_utsav"
                     android:textSize="13sp"
                     android:maxLines="2"
                     android:ellipsize="end"

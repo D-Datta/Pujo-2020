@@ -122,6 +122,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         holder.reels_video.start();
         Picasso.get().load(currentItem.getFrame()).into(holder.reels_image);
         holder.reels_video.setOnCompletionListener(MediaPlayer::reset);
+        holder.reels_video.setOnErrorListener((mediaPlayer, i, i1) -> true);
 
         if (currentItem.getDuration().length() == 4) {
             duration = (Integer.parseInt(currentItem.getDuration().substring(0, 1)) * 60) + Integer.parseInt(currentItem.getDuration().substring(2));

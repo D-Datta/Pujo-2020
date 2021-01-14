@@ -430,6 +430,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
 
                 Picasso.get().load(currentItem.getFrame()).into(programmingViewHolder.reels_image);
 
+                programmingViewHolder.reels_video.setOnErrorListener((mediaPlayer, i, i1) -> true);
+
                 programmingViewHolder.reels_video.setOnPreparedListener(mp -> {
                     programmingViewHolder.progress_bar.setVisibility(View.GONE);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -1128,6 +1130,9 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                                     }
                                     return false;
                                 });
+
+                                cvh.reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
+
                                 cvh.reels_video.setOnPreparedListener(mp -> {
                                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                     new Handler().postDelayed(() -> {
@@ -1302,6 +1307,9 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                         }
                         return false;
                     });
+
+                    cvh.reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
+
                     cvh.reels_video.setOnPreparedListener(mp -> {
                         cvh.progress_bar.setVisibility(View.GONE);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
