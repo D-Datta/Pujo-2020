@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingVertical="15dp"
+        android:gravity="center_vertical"
         android:background="@drawable/custom_ripple_white_rectangle"
         android:paddingHorizontal="5dp">
 
@@ -36,6 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -66,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/city"
                     android:textSize="13sp"
+                    android:visibility="visible"
                     android:paddingHorizontal="5dp"
                     android:paddingVertical="2dp"
                     android:background="@android:color/transparent"/>

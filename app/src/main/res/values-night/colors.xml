@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#FF9800</color>
     <color name="colorAccent">#FF6147</color>
 
-    <color name="colorPrimaryLight">#11FFC107</color>
+    <color name="colorPrimaryLight">#33FFC107</color>
     <color name="metrics_bg">#EACF4A</color>
 
     <color name="background">#252525</color>
@@ -16,6 +16,8 @@
     <color name="pink">#EB2C65</color>
     <color name="text_bg">#F47EA4</color>
     <color name="purple2">#FFC107</color>
+
+    <color name="purple3">#ffffff</color>
 
     <color name="black">#fff</color>
     <color name="dark_black">#fff</color>
@@ -94,7 +96,7 @@
     <color name="grey_9E9999">#9E9999</color>
     <color name="red_ff887c">#ff887c</color>
     <color name="red_ffba97">#ffba97</color>
-    <color name="white_cac9ca">#cac9ca</color>
+    <color name="white_cac9ca">#A6A6A6</color>
     <color name="red_fb8e77">#fb8e77</color>
     <color name="red_fec29e">#fec29e</color>
     <color name="white_fffefd">#fffefd</color>
