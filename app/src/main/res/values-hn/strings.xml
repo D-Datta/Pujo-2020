@@ -100,7 +100,7 @@
     <string name="see_all"><![CDATA[सब देखें—>]]></string>
     <string name="see_all_posts"><![CDATA[सब देखें —>]]></string>
     <string name="about_yourself">कुछ आपके बारेमे</string>
-    <string name="useful_information">उपयोगी जानकारी</string>
+    <string name="useful_information">जानकारी</string>
     <string name="privacy_nav">एकांत</string>
     <string name="people_post">लोगो के पोस्ट</string>
 
@@ -119,14 +119,14 @@
     <string name="bio">कुछ आपके बारेमें</string>
     <string name="recorder">रिकॉर्डर</string>
     <string name="video">वीडियो</string>
-    <string name="communicate">संवाद</string>
+    <string name="communicate">संपर्क</string>
     <string name="tell_a_friend">दोस्तों के साथ बांटें</string>
     <string name="about_us">हमारे बारे में</string>
     <string name="account">अकाउंट</string>
     <string name="log_out">लॉग आउट</string>
     <string name="live">लाइव</string>
     <string name="update">अपडेट</string>
-    <string name="Edit_comment">कमेंट संपादित करें</string>
+    <string name="Edit_comment">कमेंट एडिट करें</string>
     <string name="Search">खोज करें</string>
     <string name="Edit_Profile">प्रोफ़ाइल अपडेट करें</string>
     <string name="register_as">पंजीकृत करने का रूप:</string>
