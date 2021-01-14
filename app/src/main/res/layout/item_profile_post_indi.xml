@@ -418,7 +418,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="10dp"
-                android:paddingTop="8dp">
+                android:paddingTop="5dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"

@@ -19,8 +19,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:gravity="end"
-        android:background="@color/black_transparent">
+        android:background="@drawable/toolbar_gradient">
 
         <ImageButton
             android:id="@+id/crop"

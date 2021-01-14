@@ -252,5 +252,6 @@
     <string name="Preview_Cover_Picture">Preview Cover Picture</string>
     <string name="cover_content">Say something about your cover picture...</string>
     <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
 
 </resources>

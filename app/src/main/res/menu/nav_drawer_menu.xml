@@ -5,46 +5,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <item android:title="@string/communicate">
+<!--    <item android:title="@string/communicate">-->
+<!--        <menu>-->
 
-        <menu>
-            <item
-                android:id="@+id/whatsapp"
-                android:icon="@drawable/ic_whatsapp"
-                android:title="@string/chat_on_whatsapp" />
 
-            <item
-                android:id="@+id/nav_tellafrnd"
-                android:icon="@drawable/ic_outline_share_24"
-                android:title="@string/tell_a_friend" />
-
-            <item
-                android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_outline_perm_contact_calendar_24"
-                android:title="@string/contact_us" />
-
-            <item
-                android:id="@+id/nav_rate_us"
-                app:showAsAction="never"
-                android:icon="@drawable/ic_baseline_star_border_24"
-                android:title="@string/rate_us" />
-
-        </menu>
-    </item>
+<!--        </menu>-->
+<!--    </item>-->
 
     <group android:checkableBehavior="none">
 
         <item
-            android:id="@+id/nav_select_lang"
-            android:icon="@drawable/ic_baseline_translate_24"
-            android:title="@string/set_app_lang" />
+            android:id="@+id/whatsapp"
+            android:icon="@drawable/ic_whatsapp"
+            android:title="@string/chat_on_whatsapp" />
 
         <item
-            android:id="@+id/theme"
-            android:title="@string/set_theme"
-            android:icon="@drawable/ic_baseline_invert_colors_24" />
+            android:id="@+id/nav_tellafrnd"
+            android:icon="@drawable/ic_outline_share_24"
+            android:title="@string/tell_a_friend" />
 
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/ic_outline_perm_contact_calendar_24"
+            android:title="@string/contact_us" />
+
+        <item
+            android:id="@+id/nav_rate_us"
+            app:showAsAction="never"
+            android:icon="@drawable/ic_baseline_star_border_24"
+            android:title="@string/rate_us" />
     </group>
+
+    <item android:title="@string/settings">
+        <menu>
+            <item
+                android:id="@+id/nav_select_lang"
+                android:icon="@drawable/ic_baseline_translate_24"
+                android:title="@string/set_app_lang" />
+
+            <item
+                android:id="@+id/theme"
+                android:title="@string/set_theme"
+                android:icon="@drawable/ic_baseline_invert_colors_24" />
+        </menu>
+    </item>
+
+
 
     <item android:title="@string/useful_information">
         <menu>
