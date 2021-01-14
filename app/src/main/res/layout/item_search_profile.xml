@@ -65,8 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/city"
-                    android:textSize="12sp"
-                    android:textColor="@color/grey_868686"
+                    android:textSize="13sp"
                     android:paddingHorizontal="5dp"
                     android:paddingVertical="2dp"
                     android:background="@android:color/transparent"/>
@@ -76,64 +75,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/celebrating_this_puja_with_utsav"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:textColor="@color/grey_868686"
                     android:paddingVertical="3dp"
                     android:paddingHorizontal="5dp"
                     android:background="@android:color/transparent"/>
-
-                <!--            <LinearLayout-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_marginTop="10dp">-->
-
-                <!--                <Button-->
-                <!--                    android:id="@+id/hobby1"-->
-                <!--                    android:layout_width="100dp"-->
-                <!--                    android:layout_height="30dp"-->
-                <!--                    android:background="@drawable/hobby_background"-->
-                <!--                    android:backgroundTint="@color/toolbarStart"-->
-                <!--                    android:text="Foodie"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:textAllCaps="false"-->
-                <!--                    android:fontFamily="@font/lato_black"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:textColor="@android:color/white"-->
-                <!--                    android:visibility="gone"/>-->
-
-                <!--                <Button-->
-                <!--                    android:id="@+id/hobby2"-->
-                <!--                    android:layout_width="100dp"-->
-                <!--                    android:layout_height="30dp"-->
-                <!--                    android:background="@drawable/hobby_background"-->
-                <!--                    android:backgroundTint="@color/colorTheme"-->
-                <!--                    android:text="Foodie"-->
-                <!--                    android:layout_marginStart="10dp"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:textAllCaps="false"-->
-                <!--                    android:fontFamily="@font/lato_black"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:textColor="@android:color/white"-->
-                <!--                    android:visibility="gone"/>-->
-                <!--                <Button-->
-                <!--                    android:id="@+id/hobby3"-->
-                <!--                    android:layout_width="100dp"-->
-                <!--                    android:layout_height="30dp"-->
-                <!--                    android:background="@drawable/hobby_background"-->
-                <!--                    android:backgroundTint="@color/design_default_color_error"-->
-                <!--                    android:text="Foodie"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:textAllCaps="false"-->
-                <!--                    android:fontFamily="@font/lato_black"-->
-                <!--                    android:gravity="center"-->
-                <!--                    android:layout_marginStart="10dp"-->
-                <!--                    android:textColor="@android:color/white"-->
-                <!--                    android:visibility="gone"/>-->
-
-                <!--            </LinearLayout>-->
-
 
             </LinearLayout>
 

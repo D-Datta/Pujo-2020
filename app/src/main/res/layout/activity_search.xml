@@ -35,8 +35,7 @@
             android:background="@drawable/background_rectangle"
             android:layout_marginVertical="7dp"
             android:inputType="textCapSentences"
-            android:imeOptions="actionSearch"
-            android:textColor="@color/grey_868686" />
+            android:imeOptions="actionSearch" />
 
         <ImageButton
             android:id="@+id/searchButton"

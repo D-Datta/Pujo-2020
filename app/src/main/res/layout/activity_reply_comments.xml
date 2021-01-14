@@ -105,7 +105,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:lineSpacingExtra="3dp"
-                            android:fontFamily="@font/oxygen_regular"
                             android:autoLink="all"
                             android:textColorLink="@color/toolbarStart"
                             android:text="Lorem Ipsum"
@@ -257,8 +256,7 @@
             android:hint="Write a reply..."
             android:drawableEnd="@drawable/ic_baseline_insert_emoticon_24"
             android:background="@drawable/background_rectangle"
-            android:layout_marginEnd="55dp"
-            android:textColor="@color/grey_868686" />
+            android:layout_marginEnd="55dp" />
 
         <RelativeLayout
             android:layout_width="55dp"
