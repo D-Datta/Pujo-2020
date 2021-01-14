@@ -9,6 +9,4 @@
         android:endColor="@color/endColor"
         android:angle="135"/>
 
-
-
 </shape>

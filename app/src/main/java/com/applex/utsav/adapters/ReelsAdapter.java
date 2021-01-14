@@ -397,7 +397,7 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
             ReelsItemViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
-            ReelsItemViewHolder.commentimg.setOnClickListener(v -> {
+            ReelsItemViewHolder.comment.setOnClickListener(v -> {
                 BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ReelsAdapter", null, currentItem.getCmtNo(), null, null);
                 bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
             });
@@ -410,10 +410,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         }
         /////COMMENT/////
 
-        holder.comment.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ReelsAdapter", null, currentItem.getCmtNo(), null, null);
-            bottomCommentsDialog.show(((ReelsActivity) context).getSupportFragmentManager(), "CommentsSheet");
-        });
         holder.share.setOnClickListener(view -> {
             if(currentItem.getHeadline() != null && currentItem.getDescription() == null) {
                 if (bool.matches("1")) {
@@ -523,7 +519,6 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         public ImageView pujo_com_dp;
         public ImageView like_image;
         public ImageView like;
-        public ImageView comment;
         public ImageView share;
         public ImageView back_reel;
         public ImageView save_reel;
@@ -539,11 +534,9 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         public ProgressBar video_progress;
         public ProgressBar progress_bar;
         public LottieAnimationView dhak_anim;
-        @SuppressLint("StaticFieldLeak")
+
+        public static ImageView comment;
         public static LinearLayout comment_layout;
-        @SuppressLint("StaticFieldLeak")
-        public static ImageView commentimg;
-        @SuppressLint("StaticFieldLeak")
         public static TextView commentCount;
 
         ReelsItemViewHolder(View itemView) {
@@ -557,18 +550,19 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
             pujo_desc = itemView.findViewById(R.id.text_content44);
             pujo_headline = itemView.findViewById(R.id.headline);
             like = itemView.findViewById(R.id.drumbeat);
-            comment = itemView.findViewById(R.id.comment);
             share = itemView.findViewById(R.id.share);
             like_image = itemView.findViewById(R.id.like_image);
             likesCount = itemView.findViewById(R.id.likes_count);
-            commentimg = itemView.findViewById(R.id.comment_image);
+
+            comment = itemView.findViewById(R.id.comment);
             commentCount = itemView.findViewById(R.id.comment_count);
+            comment_layout = itemView.findViewById(R.id.comment_layout);
+
             play_image = itemView.findViewById(R.id.play);
             mins_ago = itemView.findViewById(R.id.mins_ago_reels);
             reels_image = itemView.findViewById(R.id.reels_image);
             video_playing = itemView.findViewById(R.id.progressAnim);
             like_layout = itemView.findViewById(R.id.like_layout);
-            comment_layout = itemView.findViewById(R.id.comment_layout);
             dhak_anim = itemView.findViewById(R.id.dhak_anim);
             video_progress = itemView.findViewById(R.id.video_progress);
             progress_bar = itemView.findViewById(R.id.progress_bar_clips);
