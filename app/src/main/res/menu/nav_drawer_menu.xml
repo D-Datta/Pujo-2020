@@ -5,20 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="none">
-
-        <item
-            android:id="@+id/nav_select_lang"
-            android:icon="@drawable/ic_baseline_translate_24"
-            android:title="@string/set_app_lang" />
-
-        <item
-            android:id="@+id/theme"
-            android:title="@string/set_theme"
-            android:icon="@drawable/ic_baseline_invert_colors_24" />
-
-    </group>
-
     <item android:title="@string/communicate">
 
         <menu>
@@ -45,6 +31,20 @@
 
         </menu>
     </item>
+
+    <group android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_select_lang"
+            android:icon="@drawable/ic_baseline_translate_24"
+            android:title="@string/set_app_lang" />
+
+        <item
+            android:id="@+id/theme"
+            android:title="@string/set_theme"
+            android:icon="@drawable/ic_baseline_invert_colors_24" />
+
+    </group>
 
     <item android:title="@string/useful_information">
         <menu>
