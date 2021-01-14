@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostModel> {
@@ -66,12 +67,14 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
                     homePostModels.add(homePostModel);
                 }
 
+                Collections.reverse(homePostModels);
+
                 Query query = FirebaseFirestore.getInstance()
                         .collection("Feeds")
-                        .orderBy("ts", Query.Direction.DESCENDING)
+                        .orderBy("ts", Query.Direction.ASCENDING)
                         .whereEqualTo("uid", uid)
                         .startAfter(lastDocumentSnapshot)
-                        .limit(5);
+                        .limit(10);
 
                 callback.onResult(homePostModels, query);
             }
