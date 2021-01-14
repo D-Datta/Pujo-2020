@@ -1315,17 +1315,18 @@ public class FeedsFragment extends Fragment {
                     case LOADING_MORE: progressMore.setVisibility(View.VISIBLE);
                         break;
                     case LOADED:
-                        progressMore.setVisibility(View.GONE);
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
+                        new Handler().postDelayed(() -> {
+                            mRecyclerView.setVisibility(View.VISIBLE);
+                            progressMore.setVisibility(View.GONE);
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                        }, 500);
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         mRecyclerView.setVisibility(View.VISIBLE);
                         break;
                     case FINISHED:
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
                         progressMore.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);

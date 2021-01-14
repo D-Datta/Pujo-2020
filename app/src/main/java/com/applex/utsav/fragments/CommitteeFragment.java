@@ -1336,7 +1336,7 @@ public class CommitteeFragment extends Fragment {
                             progressMore.setVisibility(View.GONE);
                             shimmerFrameLayout.stopShimmer();
                             shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 1000);
+                        }, 500);
 
                         if (swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);

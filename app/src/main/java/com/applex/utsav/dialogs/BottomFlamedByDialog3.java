@@ -120,7 +120,7 @@ public class BottomFlamedByDialog3 extends BottomSheetDialogFragment {
                         flamerecycler.setAdapter(flamedByAdapter);
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
-                    }, 1000);
+                    }, 500);
 
                     if(task.getResult().size() > 0)
                         lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);

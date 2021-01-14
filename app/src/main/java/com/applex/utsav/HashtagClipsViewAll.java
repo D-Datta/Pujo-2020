@@ -693,20 +693,11 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                                     AudioManager audioManager = (AudioManager) HashtagClipsViewAll.this.getSystemService(Context.AUDIO_SERVICE);
                                     if (audioManager.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
                                         player.start();
-                                        if (!player.isPlaying()) {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        }
-                                        player.setOnCompletionListener(mediaPlayer -> {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        });
-                                    } else {
-                                        new Handler().postDelayed(() -> {
-                                            programmingViewHolder.dhak_anim.cancelAnimation();
-                                            programmingViewHolder.dhak_anim.setVisibility(View.GONE);
-                                        }, 2000);
                                     }
+                                    new Handler().postDelayed(() -> {
+                                        programmingViewHolder.dhak_anim.cancelAnimation();
+                                        programmingViewHolder.dhak_anim.setVisibility(View.GONE);
+                                    }, player.getDuration());
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -761,14 +752,42 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 });
 
                 programmingViewHolder.share.setOnClickListener(view -> {
-                    link = "Post Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
-                    String playstore ="\nCheck out the short video."+getResources().getString(R.string.download_utsav);
-                    Intent i = new Intent();
-                    i.setAction(Intent.ACTION_SEND);
-//                    i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
-                    i.putExtra(Intent.EXTRA_TEXT, link+playstore);
-                    i.setType("text/plain");
-                    startActivity(Intent.createChooser(i, "Share Using"));
+                    if(currentItem.getHeadline() != null && currentItem.getDescription() == null) {
+                        String link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
+                    else if(currentItem.getHeadline() == null && currentItem.getDescription() != null) {
+                        String link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getDescription()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
+                    else if(currentItem.getHeadline() != null && currentItem.getHeadline() != null) {
+                        String link = "\n\nCheck out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,currentItem.getHeadline() + "\n\n" + currentItem.getDescription()+link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
+                    else {
+                        String link = "Check out this short video!\n\nPost Link - https://www.applex.in/utsav-app/clips/" + "3/" + currentItem.getDocID();
+                        String playstore = getResources().getString(R.string.download_utsav);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,link+playstore);
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                    }
                 });
 
                 if (currentItem.getCmtNo() > 0) {
@@ -1026,7 +1045,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                             progressmoreposts.setVisibility(View.GONE);
                             shimmerFrameLayout.stopShimmer();
                             shimmerFrameLayout.setVisibility(View.GONE);
-                        }, 1000);
+                        }, 500);
                         progressmoreposts.setVisibility(View.GONE);
                         if(swipeRefreshLayout.isRefreshing()) {
                             swipeRefreshLayout.setRefreshing(false);

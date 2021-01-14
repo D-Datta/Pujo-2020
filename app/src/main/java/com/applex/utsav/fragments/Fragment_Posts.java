@@ -197,7 +197,6 @@ public class Fragment_Posts extends Fragment {
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
-
                 super.onLoadingStateChanged(state);
                 switch (state) {
                     case ERROR: BasicUtility.showToast(getContext(), "Something went wrong..."); break;

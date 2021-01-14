@@ -173,7 +173,7 @@ public class ViewAllGridActivity extends AppCompatActivity {
             shimmerFrameLayout.setVisibility(View.GONE);
             recyclerview.setVisibility(View.VISIBLE);
             viewAllGridPagedAdapter.submitList(homePostModels);
-        }, 1000));
+        }, 500));
         recyclerview.setAdapter(viewAllGridPagedAdapter);
     }
 

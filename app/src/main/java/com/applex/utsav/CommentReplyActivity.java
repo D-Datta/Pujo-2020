@@ -756,7 +756,7 @@ public class CommentReplyActivity extends AppCompatActivity {
             mRecyclerView.setAdapter(adapter);
             shimmerFrameLayout.stopShimmer();
             shimmerFrameLayout.setVisibility(View.GONE);
-        }, 1000);
+        }, 500);
 
         if(Integer.parseInt(i.getStringExtra("ReplyCommentNo")) > 0L) {
             buildCommentRecyclerView();
