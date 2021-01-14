@@ -31,7 +31,7 @@
             android:paddingVertical="10dp"
             android:text="@string/walkthrough"
             android:textColor="@color/colorAccent"
-            android:textSize="25dp"
+            android:textSize="22dp"
             android:paddingHorizontal="30dp" />
     </LinearLayout>
 
