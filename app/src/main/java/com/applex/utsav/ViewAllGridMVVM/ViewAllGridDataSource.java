@@ -34,6 +34,7 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
 
             for(DocumentSnapshot documentSnapshot: task.getResult()) {
                 HomePostModel homePostModel = documentSnapshot.toObject(HomePostModel.class);
+                homePostModel.setDocID(documentSnapshot.getId());
                 homePostModels.add(homePostModel);
             }
 
@@ -64,6 +65,7 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
 
                 for(DocumentSnapshot documentSnapshot: task.getResult()) {
                     HomePostModel homePostModel = documentSnapshot.toObject(HomePostModel.class);
+                    homePostModel.setDocID(documentSnapshot.getId());
                     homePostModels.add(homePostModel);
                 }
 
@@ -90,6 +92,7 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
 
             for(DocumentSnapshot documentSnapshot: task.getResult()) {
                 HomePostModel homePostModel = documentSnapshot.toObject(HomePostModel.class);
+                homePostModel.setDocID(documentSnapshot.getId());
                 homePostModels.add(homePostModel);
             }
 

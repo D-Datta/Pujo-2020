@@ -86,6 +86,7 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, Rec
     private final IntroPref introPref;
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;
+    public static HomePostModel currentItem;
 
     public ViewAllGridPagedAdapter(Context context) {
         super(HomePostModel.DIFF_CALLBACK);
@@ -104,7 +105,7 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, Rec
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
-        HomePostModel currentItem = getItem(position);
+        currentItem = getItem(position);
 
         DocumentReference likeStore;
         String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
@@ -642,12 +643,12 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, Rec
                 });
 
         programmingViewHolder.commentimg.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityHashtagViewAll", null,currentItem.getCmtNo(), null, null);
+            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1, "ViewAllGridPagedAdapter", null,currentItem.getCmtNo(), null, null);
             bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
 
         programmingViewHolder.writecomment.setOnClickListener(v -> {
-            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ActivityHashtagViewAll", null,currentItem.getCmtNo(), null, null);
+            BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 1,"ViewAllGridPagedAdapter", null,currentItem.getCmtNo(), null, null);
             bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
 
@@ -887,17 +888,17 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, Rec
             }
 
             programmingViewHolder.comment_layout.setOnClickListener(v -> {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ViewAllGridPagedAdapter", null,currentItem.getCmtNo(), null, null);
                 bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
 
             programmingViewHolder.commentLayout1.setOnClickListener(v-> {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(), null, null);
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ViewAllGridPagedAdapter", null,currentItem.getCmtNo(), null, null);
                 bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
 
             programmingViewHolder.commentLayout2.setOnClickListener(v-> {
-                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ActivityProfileUser", null,currentItem.getCmtNo(),null,null);
+                BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Feeds", currentItem.getDocID(), currentItem.getUid(), 2,"ViewAllGridPagedAdapter", null,currentItem.getCmtNo(),null,null);
                 bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
             });
         }

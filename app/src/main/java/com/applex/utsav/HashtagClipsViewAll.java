@@ -742,12 +742,12 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                         });
 
                 programmingViewHolder.commentimg.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityHashtagClipsViewAll", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                 });
 
                 programmingViewHolder.writecomment.setOnClickListener(v -> {
-                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
+                    BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 1, "ActivityHashtagClipsViewAll", null, currentItem.getCmtNo(), null, null);
                     bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                 });
 
@@ -920,23 +920,23 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                         programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                     }
 
-                    programmingViewHolder.comment_layout.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
+                    ProgrammingViewHolder.comment_layout.setOnClickListener(v -> {
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ActivityHashtagClipsViewAll", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout1.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ActivityHashtagClipsViewAll", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
 
                     programmingViewHolder.commentLayout2.setOnClickListener(v -> {
-                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ClipsFragment", null, currentItem.getCmtNo(), null, null);
+                        BottomCommentsDialog bottomCommentsDialog = BottomCommentsDialog.newInstance("Reels", currentItem.getDocID(), currentItem.getUid(), 2, "ActivityHashtagClipsViewAll", null, currentItem.getCmtNo(), null, null);
                         bottomCommentsDialog.show(HashtagClipsViewAll.this.getSupportFragmentManager(), "CommentsSheet");
                     });
                 }
                 else {
-                    programmingViewHolder.comment_layout.setVisibility(View.GONE);
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout1.setVisibility(View.GONE);
                     programmingViewHolder.commentLayout2.setVisibility(View.GONE);
                 }
@@ -1106,9 +1106,9 @@ public class HashtagClipsViewAll extends AppCompatActivity {
     public static class ProgrammingViewHolder extends RecyclerView.ViewHolder{
 
         @SuppressLint("StaticFieldLeak")
-        TextView commentCount;
+        public static TextView commentCount;
         @SuppressLint("StaticFieldLeak")
-        LinearLayout comment_layout;
+        public static LinearLayout comment_layout;
 
         public VideoView reels_video;
         TextView username, text_content, head_content, likesCount, minsago, writecomment, name_cmnt1, cmnt1, cmnt1_minsago, name_cmnt2, cmnt2, cmnt2_minsago, type_something, comm_heading, pujoTagHolder;

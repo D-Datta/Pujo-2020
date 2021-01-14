@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.applex.utsav.CommentEdit;
+import com.applex.utsav.HashtagClipsViewAll;
 import com.applex.utsav.HashtagPostViewAll;
 import com.applex.utsav.R;
+import com.applex.utsav.ViewAllGridMVVM.ViewAllGridPagedAdapter;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.ViewMoreText;
 import com.applex.utsav.adapters.CommentAdapter;
@@ -175,6 +178,8 @@ public class BottomCommentsDialog extends DialogFragment {
         commentRef = FirebaseFirestore.getInstance().collection(root + "/" + docID + "/commentL/");
         docRef = FirebaseFirestore.getInstance().document(root + "/" + docID + "/");
         finalcmntno = cmntno;
+
+        Log.i("BAMCHIKI", root + "_" + docID);
 
         if(root.matches("Feeds")) {
             getBool = 1;
@@ -330,25 +335,25 @@ public class BottomCommentsDialog extends DialogFragment {
                                 finalcmntno= new ViewMoreHome().homePostModel[0].getCmtNo()+1;
                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
-//                                CommitteeFragment.changed=1;
-//                                FeedsFragment.changed=1;
-//                                ActivityProfileUser.change=1;
                                 new ViewMoreHome().homePostModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ViewMoreText")){
                                 finalcmntno=new ViewMoreText().homeTextModel[0].getCmtNo()+1;
                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
-//                                FeedsFragment.changed=1;
-//                                ActivityProfileUser.change=1;
                                 new ViewMoreText().homeTextModel[0].setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ReelsAdapter")){
                                 finalcmntno=currentItem.getCmtNo()+1;
                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
-//                                CommitteeFragment.changed=1;
                                 currentItem.setCmtNo(finalcmntno);
+                            }
+                            else if(from.matches("ViewAllGridPagedAdapter")){
+                                finalcmntno= ViewAllGridPagedAdapter.currentItem.getCmtNo()+1;
+                                ViewAllGridPagedAdapter.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                ViewAllGridPagedAdapter.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                ViewAllGridPagedAdapter.currentItem.setCmtNo(finalcmntno);
                             }
                             else {
                                 docRef.get().addOnCompleteListener(task1 -> {
@@ -365,15 +370,18 @@ public class BottomCommentsDialog extends DialogFragment {
                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-                                    else if(from.matches("FragmentClips")) {
+                                    else if(from.matches("ClipsFragment")) {
                                         ClipsFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         ClipsFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-                                    else if(from.matches("ActivityHashtagViewAll")) {
+                                    else if(from.matches("ActivityHashtagPostViewAll")) {
                                         HashtagPostViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                         HashtagPostViewAll.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                     }
-
+                                    else if(from.matches("ActivityHashtagClipsViewAll")) {
+                                        HashtagClipsViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                        HashtagClipsViewAll.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                    }
                                 });
                             }
                         }
@@ -485,9 +493,6 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ViewMoreHome.comment_layout.setVisibility(View.VISIBLE);
                                                 ViewMoreHome.noofcmnts.setText(Long.toString(finalcmntno));
                                             }
-//                                            CommitteeFragment.changed=1;
-//                                            FeedsFragment.changed=1;
-//                                            ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ViewMoreText")){
                                             finalcmntno = new ViewMoreText().homeTextModel[0].getCmtNo()-total;
@@ -498,8 +503,6 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ViewMoreText.comment_layout.setVisibility(View.VISIBLE);
                                                 ViewMoreText.noofcmnts.setText(Long.toString(finalcmntno));
                                             }
-//                                            FeedsFragment.changed=1;
-//                                            ActivityProfileUser.change=1;
                                         }
                                         else if(from.matches("ReelsAdapter")){
                                             finalcmntno=currentItem.getCmtNo()-total;
@@ -510,7 +513,15 @@ public class BottomCommentsDialog extends DialogFragment {
                                                 ReelsAdapter.ReelsItemViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                 ReelsAdapter.ReelsItemViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                             }
-//                                            CommitteeFragment.changed=1;
+                                        }
+                                        else if(from.matches("ViewAllGridPagedAdapter")){
+                                            finalcmntno= ViewAllGridPagedAdapter.currentItem.getCmtNo()-total;
+                                            if(finalcmntno <= 0) {
+                                                ViewAllGridPagedAdapter.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                            } else {
+                                                ViewAllGridPagedAdapter.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                ViewAllGridPagedAdapter.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                            }
                                         }
                                         else {
                                             docRef.get().addOnCompleteListener(task2 -> {
@@ -525,8 +536,14 @@ public class BottomCommentsDialog extends DialogFragment {
                                                     else if(from.matches("FeedsFragment")){
                                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
-                                                    else if(from.matches("FragmentClips")){
+                                                    else if(from.matches("ClipsFragment")){
                                                         ClipsFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                    }
+                                                    else if(from.matches("ActivityHashtagPostViewAll")) {
+                                                        HashtagPostViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
+                                                    }
+                                                    else if(from.matches("ActivityHashtagClipsViewAll")) {
+                                                        HashtagClipsViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                                                     }
                                                 } else {
                                                     if(from.matches("ActivityProfileUser")){
@@ -541,9 +558,17 @@ public class BottomCommentsDialog extends DialogFragment {
                                                         FeedsFragment.FeedViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                         FeedsFragment.FeedViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
-                                                    else if(from.matches("FragmentClips")){
+                                                    else if(from.matches("ClipsFragment")){
                                                         ClipsFragment.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                                         ClipsFragment.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                    }
+                                                    else if(from.matches("ActivityHashtagPostViewAll")) {
+                                                        HashtagPostViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        HashtagPostViewAll.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
+                                                    }
+                                                    else if(from.matches("ActivityHashtagClipsViewAll")) {
+                                                        HashtagClipsViewAll.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                                                        HashtagClipsViewAll.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
                                                     }
                                                 }
                                             });
