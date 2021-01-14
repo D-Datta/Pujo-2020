@@ -183,27 +183,8 @@ public class Fragment_Posts extends Fragment {
                     holder.post_image.setOnClickListener((View.OnClickListener) view -> {
                         Intent intent = new Intent(getContext(), ViewAllGridActivity.class);
                         intent.putExtra("username", model.getUsN());
-                        intent.putExtra("userdp", model.getDp());
-                        intent.putExtra("docID", model.getDocID());
-                        StoreTemp.getInstance().setTagTemp(model.getTagL());
-                        intent.putExtra("comName", model.getComName());
-                        intent.putExtra("comID", model.getComID());
-                        intent.putExtra("likeL", model.getLikeL());
-                        if (model.getImg() != null && model.getImg().size() > 0) {
-                            Bundle args = new Bundle();
-                            args.putSerializable("ARRAYLIST", (Serializable) model.getImg());
-                            intent.putExtra("BUNDLE", args);
-                        }
-                        intent.putExtra("postText", model.getTxt());
-                        intent.putExtra("bool", "3");
-                        intent.putExtra("commentNo", Long.toString(model.getCmtNo()));
-                        intent.putExtra("newTs", Long.toString(model.getNewTs()));
                         intent.putExtra("uid", model.getUid());
                         intent.putExtra("timestamp", Long.toString(model.getTs()));
-                        intent.putExtra("type", model.getType());
-                        intent.putExtra("gender",model.getGender());
-                        intent.putExtra("headline",model.getHeadline());
-                        intent.putExtra("challengeID",model.getChallengeID());
                         startActivity(intent);
                     });
                 }

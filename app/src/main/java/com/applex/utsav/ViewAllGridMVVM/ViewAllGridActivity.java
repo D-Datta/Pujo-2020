@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Display;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -15,13 +16,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.applex.utsav.MainActivity;
 import com.applex.utsav.R;
+import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.preferences.IntroPref;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,7 +38,7 @@ public class ViewAllGridActivity extends AppCompatActivity {
 
     private RecyclerView recyclerview;
     IntroPref introPref;
-//    ShimmerFrameLayout shimmerFrameLayout;
+    ShimmerFrameLayout shimmerFrameLayout;
     ProgressBar contentprogressposts, progressmoreposts;
     public static ImageView noneImage;
     FloatingActionButton floatingActionButton;
@@ -86,11 +91,11 @@ public class ViewAllGridActivity extends AppCompatActivity {
         noneImage = findViewById(R.id.none_image);
         floatingActionButton = findViewById(R.id.to_the_top);
 
-//        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
-//        shimmerFrameLayout.setVisibility(View.VISIBLE);
-//        shimmerFrameLayout.startShimmer();
-//        contentprogressposts.setVisibility(View.GONE);
-//        recyclerview.setVisibility(View.GONE);
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        contentprogressposts.setVisibility(View.GONE);
+        recyclerview.setVisibility(View.GONE);
 
         recyclerview.setHasFixedSize(false);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -137,8 +142,7 @@ public class ViewAllGridActivity extends AppCompatActivity {
             BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
             int width = options.outWidth;
             if (width > displayWidth) {
-                int widthRatio = Math.round((float) width / (float) displayWidth);
-                options.inSampleSize = widthRatio;
+                options.inSampleSize = Math.round((float) width / (float) displayWidth);
             }
             options.inJustDecodeBounds = false;
             Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.dark_mode_login, options);
@@ -153,8 +157,7 @@ public class ViewAllGridActivity extends AppCompatActivity {
             BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
             int width = options.outWidth;
             if (width > displayWidth) {
-                int widthRatio = Math.round((float) width / (float) displayWidth);
-                options.inSampleSize = widthRatio;
+                options.inSampleSize = Math.round((float) width / (float) displayWidth);
             }
             options.inJustDecodeBounds = false;
             Bitmap scaledBitmap =  BitmapFactory.decodeResource(getResources(), R.drawable.light_mode_login, options);
@@ -164,8 +167,13 @@ public class ViewAllGridActivity extends AppCompatActivity {
 
         ViewAllGridViewModel viewAllGridViewModel = new ViewAllGridViewModel(
                 getIntent().getStringExtra("timestamp"), getIntent().getStringExtra("uid"));
-        ViewAllGridPagedAdapter viewAllGridPagedAdapter = new ViewAllGridPagedAdapter(getApplicationContext());
-        viewAllGridViewModel.getPostLiveData().observe(ViewAllGridActivity.this, viewAllGridPagedAdapter::submitList);
+        ViewAllGridPagedAdapter viewAllGridPagedAdapter = new ViewAllGridPagedAdapter(ViewAllGridActivity.this);
+        viewAllGridViewModel.getPostLiveData().observe(ViewAllGridActivity.this, homePostModels -> new Handler().postDelayed(() -> {
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+            recyclerview.setVisibility(View.VISIBLE);
+            viewAllGridPagedAdapter.submitList(homePostModels);
+        }, 1000));
         recyclerview.setAdapter(viewAllGridPagedAdapter);
     }
 

@@ -42,14 +42,14 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
                     .orderBy("ts", Query.Direction.ASCENDING)
                     .whereEqualTo("uid", uid)
                     .startAfter(Long.parseLong(ts))
-                    .limit(1);
+                    .limit(5);
 
             Query query_after = FirebaseFirestore.getInstance()
                     .collection("Feeds")
                     .orderBy("ts", Query.Direction.DESCENDING)
                     .whereEqualTo("uid", uid)
                     .startAfter(lastDocumentSnapshot)
-                    .limit(10);
+                    .limit(5);
 
             callback.onResult(homePostModels, query_before, query_after);
         });
@@ -60,7 +60,7 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
         params.key.get().addOnCompleteListener(task -> {
             ArrayList<HomePostModel> homePostModels = new ArrayList<>();
             if(task.getResult().size() > 0) {
-                DocumentSnapshot lastDocumentSnapshot = Objects.requireNonNull(task.getResult()).getDocuments().get(0);
+                DocumentSnapshot lastDocumentSnapshot = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
 
                 for(DocumentSnapshot documentSnapshot: task.getResult()) {
                     HomePostModel homePostModel = documentSnapshot.toObject(HomePostModel.class);
@@ -74,7 +74,7 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, HomePostMo
                         .orderBy("ts", Query.Direction.ASCENDING)
                         .whereEqualTo("uid", uid)
                         .startAfter(lastDocumentSnapshot)
-                        .limit(10);
+                        .limit(5);
 
                 callback.onResult(homePostModels, query);
             }
