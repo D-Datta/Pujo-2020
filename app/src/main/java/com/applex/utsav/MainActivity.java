@@ -737,7 +737,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     english.setChecked(false);
                     hindi.setChecked(false);
                 }
-                else if(introPref.getLanguage().matches("hn")) {
+                else if(introPref.getLanguage().matches("hi")) {
                     hindi.setChecked(true);
                     english.setChecked(false);
                     bangla.setChecked(false);
@@ -771,7 +771,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         introPref.setLanguage("bn");
                     }
                     else if(hindi.isChecked()) {
-                        introPref.setLanguage("hn");
+                        introPref.setLanguage("hi");
                     }
 
                     new Handler().postDelayed(() -> {

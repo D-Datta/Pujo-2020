@@ -28,7 +28,7 @@
     <string name="navigation_drawer_open">पथ प्रदर्शन खोले</string>
     <string name="navigation_drawer_close">पथ प्रदर्शन बन्द करें</string>
     <string name="nav_header_desc">पथ प्रदर्शन चेहरा</string>
-        <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
 
     <string name="terms_conditions">
         <a href="https://applex.in/utsav-app-terms-and-conditions/">हस्ताक्षर करके आप हमारे नियमों और शर्तों से सहमत है</a>
@@ -60,9 +60,9 @@
     <string name="marquee_text">सुरक्षित रहें। मास्क पहनना न भूलें। और उत्सव के माध्यम से घर पर अपनी पूजा का आनंद लें</string>
 
     <string-array name="Gender">
-    <item>पुरुष</item>
-    <item>महिला</item>
-    <item>अन्य</item>
+        <item>पुरुष</item>
+        <item>महिला</item>
+        <item>अन्य</item>
     </string-array>
 
     <string name="reg">पंजीकरण</string>

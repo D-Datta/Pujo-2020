@@ -122,7 +122,7 @@ public class LanguageChoice extends AppCompatActivity {
         hindi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                introPref.setLanguage("hn");
+                introPref.setLanguage("hi");
                 Intent intent = new Intent(LanguageChoice.this, WalkthroughActivity.class);
                 startActivity(intent);
                 finish();
