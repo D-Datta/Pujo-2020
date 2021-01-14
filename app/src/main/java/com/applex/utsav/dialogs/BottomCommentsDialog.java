@@ -350,10 +350,10 @@ public class BottomCommentsDialog extends DialogFragment {
                                 currentItem.setCmtNo(finalcmntno);
                             }
                             else if(from.matches("ViewAllGridPagedAdapter")){
-                                finalcmntno= ViewAllGridPagedAdapter.currentItem.getCmtNo()+1;
+//                                finalcmntno= ViewAllGridPagedAdapter.currentItem.getCmtNo()+1;
                                 ViewAllGridPagedAdapter.ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
                                 ViewAllGridPagedAdapter.ProgrammingViewHolder.commentCount.setText(Long.toString(finalcmntno));
-                                ViewAllGridPagedAdapter.currentItem.setCmtNo(finalcmntno);
+//                                ViewAllGridPagedAdapter.currentItem.setCmtNo(finalcmntno);
                             }
                             else {
                                 docRef.get().addOnCompleteListener(task1 -> {
@@ -515,7 +515,7 @@ public class BottomCommentsDialog extends DialogFragment {
                                             }
                                         }
                                         else if(from.matches("ViewAllGridPagedAdapter")){
-                                            finalcmntno= ViewAllGridPagedAdapter.currentItem.getCmtNo()-total;
+//                                            finalcmntno= ViewAllGridPagedAdapter.currentItem.getCmtNo()-total;
                                             if(finalcmntno <= 0) {
                                                 ViewAllGridPagedAdapter.ProgrammingViewHolder.comment_layout.setVisibility(View.GONE);
                                             } else {

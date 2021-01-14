@@ -87,7 +87,6 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<DocumentSnapshot, 
     private final IntroPref introPref;
     private BottomSheetDialog postMenuDialog;
     private ProgressDialog progressDialog;
-    public static HomePostModel currentItem;
 
     public ViewAllGridPagedAdapter(Context context) {
         super(HomePostModel.DIFF_CALLBACK);
@@ -108,7 +107,7 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<DocumentSnapshot, 
         ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
 
         DocumentSnapshot currentSnapshot = getItem(position);
-        currentItem = currentSnapshot.toObject(HomePostModel.class);
+        HomePostModel currentItem = currentSnapshot.toObject(HomePostModel.class);
         currentItem.setDocID(currentSnapshot.getId());
 
         DocumentReference likeStore;
