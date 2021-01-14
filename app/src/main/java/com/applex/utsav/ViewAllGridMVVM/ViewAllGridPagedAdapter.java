@@ -510,7 +510,6 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<DocumentSnapshot, 
         }
         //INITIAL SETUP//
 
-
         PushDownAnim.setPushDownAnimTo(programmingViewHolder.like)
                 .setScale(PushDownAnim.MODE_STATIC_DP, 6)
                 .setOnClickListener(new View.OnClickListener() {

@@ -140,7 +140,8 @@ public class MessagingService extends FirebaseMessagingService {
                     sendNotification2(this, message, title, Objects.requireNonNull(action), type, ts, pCom_ts, postID);
                 }
             }
-        } else {
+        }
+        else {
             shownotification(this, Objects.requireNonNull(remoteMessage.getNotification()).getTitle(), remoteMessage.getNotification().getBody());
         }
     }
@@ -160,7 +161,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -186,7 +187,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -212,7 +213,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -239,7 +240,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -263,7 +264,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setLargeIcon(dp)
                     .setContentIntent(pendingIntent)
@@ -292,7 +293,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -317,7 +318,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -342,7 +343,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -367,7 +368,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -388,7 +389,7 @@ public class MessagingService extends FirebaseMessagingService {
                     .setContentTitle(title)
                     .setContentText(message)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                    .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                    .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                     .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
@@ -409,7 +410,7 @@ public class MessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .setColor(ContextCompat.getColor(context, R.color.colorNotif))
                 .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
