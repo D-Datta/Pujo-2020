@@ -27,19 +27,20 @@
 <!--        app:cardCornerRadius="90dp"-->
 <!--&gt;-->
 
-        <ImageView
-            android:id="@+id/ma_durga"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/utsav_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.331"
-            app:layout_constraintTop_toTopOf="parent"/>
+    <!--    </androidx.cardview.widget.CardView>-->
 
-<!--    </androidx.cardview.widget.CardView>-->
+    <ImageView
+        android:id="@+id/ma_durga"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/utsav_logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.354" />
 
     <TextView
         android:id="@+id/textView"
@@ -51,7 +52,7 @@
         android:text="@string/utsav_durga_pujo_2020"
         android:textAlignment="center"
         android:textColor="@color/purple"
-        android:textSize="32dp"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ma_durga"
         app:layout_constraintVertical_bias="0.131"
@@ -66,7 +67,7 @@
         android:text="@string/virtual_festivals"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -78,7 +79,7 @@
         android:padding="5dp"
         android:text="@string/an_initiative_by_applex_in"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/grey_716A6A"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
