@@ -536,6 +536,8 @@ public class ReelsAdapter extends RecyclerView.Adapter<ReelsAdapter.ReelsItemVie
         public LottieAnimationView dhak_anim;
 
         public static ImageView comment;
+
+        @SuppressLint("StaticFieldLeak")
         public static LinearLayout comment_layout;
         public static TextView commentCount;
 

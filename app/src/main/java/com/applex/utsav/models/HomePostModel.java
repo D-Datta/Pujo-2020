@@ -346,7 +346,7 @@ public class HomePostModel {
         if (obj == this)
             return true;
 
-        HomePostModel article = (HomePostModel) obj;
-        return article.getDocID().matches(this.getDocID());
+        DocumentSnapshot article = (DocumentSnapshot) obj;
+        return article.getId().matches(this.getDocID());
     }
 }

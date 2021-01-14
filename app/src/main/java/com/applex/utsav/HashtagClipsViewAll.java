@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -52,6 +53,7 @@ import com.applex.utsav.LinkPreview.ApplexLinkPreview;
 import com.applex.utsav.LinkPreview.ViewListener;
 import com.applex.utsav.dialogs.BottomCommentsDialog;
 import com.applex.utsav.dialogs.BottomFlamedByDialog;
+import com.applex.utsav.fragments.ClipsFragment;
 import com.applex.utsav.models.FlamedModel;
 import com.applex.utsav.models.ReelsPostModel;
 import com.applex.utsav.preferences.IntroPref;
@@ -335,32 +337,12 @@ public class HashtagClipsViewAll extends AppCompatActivity {
 
                 //////////////VISITING PROFILE AND USERDP FROM USERNAME FOR CURRENT POST USER///////////////
                 programmingViewHolder.username.setOnClickListener(v -> {
-//                    if(currentItem.getType().matches("com")) {
-//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        startActivity(intent);
-//                    }
-//                    else {
-//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        startActivity(intent);
-//                    }
                     Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
                 });
 
                 programmingViewHolder.userimage.setOnClickListener(v -> {
-//                    if(currentItem.getType().matches("com")) {
-//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileCommittee.class);
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        startActivity(intent);
-//                    }
-//                    else {
-//                        Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfileUser.class);
-//                        intent.putExtra("uid", currentItem.getUid());
-//                        startActivity(intent);
-//                    }
                     Intent intent = new Intent(HashtagClipsViewAll.this, ActivityProfile.class);
                     intent.putExtra("uid", currentItem.getUid());
                     startActivity(intent);
@@ -791,8 +773,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 });
 
                 if (currentItem.getCmtNo() > 0) {
-                    programmingViewHolder.comment_layout.setVisibility(View.VISIBLE);
-                    programmingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
+                    ProgrammingViewHolder.comment_layout.setVisibility(View.VISIBLE);
+                    ProgrammingViewHolder.commentCount.setText(Long.toString(currentItem.getCmtNo()));
 
                     if (currentItem.getCom1() != null && !currentItem.getCom1().isEmpty()) {
 
@@ -1031,6 +1013,15 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 return position;
             }
 
+            @Override
+            public void onViewDetachedFromWindow(@NonNull ProgrammingViewHolder holder) {
+                super.onViewDetachedFromWindow(holder);
+                holder.reels_video.pause();
+                holder.reels_image.setVisibility(View.VISIBLE);
+                holder.sound.setVisibility(View.GONE);
+                holder.progress_bar.setVisibility(View.VISIBLE);
+            }
+
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
@@ -1070,7 +1061,9 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         noneImage.setVisibility(View.GONE);
         recyclerview.setAdapter(adapter);
 
+        RecyclerView.LayoutManager manager = recyclerview.getLayoutManager();
         final int[] scrollY = {0};
+
         recyclerview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -1100,6 +1093,85 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                     }
                 }
             }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == 0) {
+                    int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+                    int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+                    if (firstVisiblePosition >= 0) {
+                        Rect rect_parent = new Rect();
+                        recyclerview.getGlobalVisibleRect(rect_parent);
+
+                        for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                            final RecyclerView.ViewHolder holder = recyclerview.findViewHolderForAdapterPosition(i);
+                            ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
+
+                            int[] location = new int[2];
+                            Objects.requireNonNull(cvh).reels_video.getLocationOnScreen(location);
+
+                            Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_video.getWidth(), location[1] + cvh.reels_video.getHeight());
+
+                            float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                            float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                            float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                            float overlapArea = x_overlap * y_overlap;
+                            float percent = (overlapArea / rect_parent_area) * 100.0f;
+
+                            if (percent >= 90) {
+                                cvh.reels_video.start();
+                                cvh.reels_video.setOnInfoListener((mediaPlayer, i2, i1) -> {
+                                    if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                                        cvh.progress_bar.setVisibility(View.VISIBLE);
+                                        return true;
+                                    } else if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                                        cvh.progress_bar.setVisibility(View.GONE);
+                                        return true;
+                                    }
+                                    return false;
+                                });
+                                cvh.reels_video.setOnPreparedListener(mp -> {
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                    new Handler().postDelayed(() -> {
+                                        cvh.progress_bar.setVisibility(View.GONE);
+                                        cvh.reels_image.setVisibility(View.GONE);
+                                        cvh.sound.setVisibility(View.VISIBLE);
+                                    }, 500);
+                                    mp.setLooping(true);
+                                    if(introPref.isVolumeOn()) {
+                                        mp.setVolume(1f, 1f);
+                                        cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                                    } else {
+                                        mp.setVolume(0f, 0f);
+                                        cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                                    }
+
+                                    cvh.sound.setOnClickListener(v -> {
+                                        if(introPref.isVolumeOn()) {
+                                            mp.setVolume(0f, 0f);
+                                            introPref.setIsVolumeOn(false);
+                                            cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                                        } else {
+                                            mp.setVolume(1f, 1f);
+                                            introPref.setIsVolumeOn(true);
+                                            cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                                        }
+                                    });
+                                });
+                            } else {
+                                cvh.progress_bar.setVisibility(View.GONE);
+                                cvh.sound.setVisibility(View.GONE);
+                                cvh.reels_video.seekTo(1);
+                                cvh.reels_video.pause();
+                            }
+                        }
+                    }
+                }
+
+            }
         });
     }
 
@@ -1116,6 +1188,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         ApplexLinkPreview LinkPreview;
         LinearLayout itemHome, commentLayout1, commentLayout2, like_layout,new_post_layout, newPostIconsLL;
         RecyclerView tagList;
+        ProgressBar progress_bar;
         com.applex.utsav.LinkPreview.ApplexLinkPreviewShort link_preview1, link_preview2;
         LottieAnimationView dhak_anim;
         RelativeLayout normal_item, rlLayout, dp_layout;
@@ -1182,6 +1255,7 @@ public class HashtagClipsViewAll extends AppCompatActivity {
             reels_video = itemView.findViewById(R.id.reels_video);
             sound = itemView.findViewById(R.id.sound);
             dp_layout = itemView.findViewById(R.id.dp_layout);
+            progress_bar = itemView.findViewById(R.id.progress_bar_clips);
         }
     }
 
@@ -1194,4 +1268,87 @@ public class HashtagClipsViewAll extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        RecyclerView.LayoutManager manager = recyclerview.getLayoutManager();
+        int firstVisiblePosition = ((LinearLayoutManager) Objects.requireNonNull(manager)).findFirstVisibleItemPosition();
+        int lastVisiblePosition = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+
+        if (firstVisiblePosition >= 0) {
+            Rect rect_parent = new Rect();
+            recyclerview.getGlobalVisibleRect(rect_parent);
+
+            for (int i = firstVisiblePosition; i <= lastVisiblePosition; i++) {
+                final RecyclerView.ViewHolder holder = recyclerview.findViewHolderForAdapterPosition(i);
+                ProgrammingViewHolder cvh = (ProgrammingViewHolder) holder;
+
+                int[] location = new int[2];
+                Objects.requireNonNull(cvh).reels_video.getLocationOnScreen(location);
+
+                Rect rect_child = new Rect(location[0], location[1], location[0] + cvh.reels_video.getWidth(), location[1] + cvh.reels_video.getHeight());
+
+                float rect_parent_area = (rect_child.right - rect_child.left) * (rect_child.bottom - rect_child.top);
+                float x_overlap = Math.max(0, Math.min(rect_child.right, rect_parent.right) - Math.max(rect_child.left, rect_parent.left));
+                float y_overlap = Math.max(0, Math.min(rect_child.bottom, rect_parent.bottom) - Math.max(rect_child.top, rect_parent.top));
+                float overlapArea = x_overlap * y_overlap;
+                float percent = (overlapArea / rect_parent_area) * 100.0f;
+
+                if (percent >= 90) {
+                    cvh.reels_video.start();
+                    cvh.reels_video.setOnInfoListener((mediaPlayer, i2, i1) -> {
+                        if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
+                            cvh.progress_bar.setVisibility(View.VISIBLE);
+                            return true;
+                        } else if(i2 == MediaPlayer.MEDIA_INFO_BUFFERING_END) {
+                            cvh.progress_bar.setVisibility(View.GONE);
+                            return true;
+                        }
+                        return false;
+                    });
+                    cvh.reels_video.setOnPreparedListener(mp -> {
+                        cvh.progress_bar.setVisibility(View.GONE);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        new Handler().postDelayed(() -> {
+                            cvh.reels_image.setVisibility(View.GONE);
+                            cvh.sound.setVisibility(View.VISIBLE);
+                        }, 500);
+
+                        mp.setLooping(true);
+
+                        if(MainActivity.viewPager.getCurrentItem() == 1 || MainActivity.viewPager.getCurrentItem() == 3) {
+                            mp.setVolume(0f, 0f);
+                        }
+                        else {
+                            if(introPref.isVolumeOn()) {
+                                mp.setVolume(1f, 1f);
+                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                            } else {
+                                mp.setVolume(0f, 0f);
+                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                            }
+                        }
+
+                        cvh.sound.setOnClickListener(v -> {
+                            if(introPref.isVolumeOn()) {
+                                mp.setVolume(0f, 0f);
+                                introPref.setIsVolumeOn(false);
+                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
+                            } else {
+                                mp.setVolume(1f, 1f);
+                                introPref.setIsVolumeOn(true);
+                                cvh.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                            }
+                        });
+                    });
+                } else {
+                    cvh.progress_bar.setVisibility(View.GONE);
+                    cvh.sound.setVisibility(View.GONE);
+                    cvh.reels_video.seekTo(1);
+                    cvh.reels_video.pause();
+                }
+            }
+        }
+    }
 }
