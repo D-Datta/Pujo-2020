@@ -627,22 +627,6 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<DocumentSnapshot, 
             bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
 
-//                programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if(currentItem.getImg() != null && currentItem.getImg().size()>0)
-//                            link = "https://www.applex.in/utsav-app/feeds/" + "1/" + currentItem.getDocID();
-//                        else
-//                            link = "https://www.applex.in/utsav-app/feeds/" + "0/" + currentItem.getDocID();
-//                        Intent i = new Intent();
-//                        i.setAction(Intent.ACTION_SEND);
-//                        i.putExtra(Intent.EXTRA_TEXT, link+ getResources().getString(R.string.link_suffix));
-//                        i.setType("text/plain");
-//                        startActivity(Intent.createChooser(i, "Share with"));
-//                    }
-//                });
-
-        ////////////////////////////////////////SHARE////////////////////////////////////////
         if(currentItem.getImg()==null && currentItem.getTxt()!=null){
             programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
                 @Override
