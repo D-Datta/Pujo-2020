@@ -431,7 +431,8 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 Picasso.get().load(currentItem.getFrame()).into(programmingViewHolder.reels_image);
 
                 programmingViewHolder.reels_video.setOnPreparedListener(mp -> {
-                    HashtagClipsViewAll.this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    programmingViewHolder.progress_bar.setVisibility(View.GONE);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     new Handler().postDelayed(() -> {
                         programmingViewHolder.reels_image.setVisibility(View.GONE);
                         programmingViewHolder.sound.setVisibility(View.VISIBLE);
@@ -444,17 +445,12 @@ public class HashtagClipsViewAll extends AppCompatActivity {
 
                     mp.setLooping(true);
 
-                    if(MainActivity.viewPager.getCurrentItem() == 1 || MainActivity.viewPager.getCurrentItem() == 3) {
+                    if(introPref.isVolumeOn()) {
+                        mp.setVolume(1f, 1f);
+                        programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
+                    } else {
                         mp.setVolume(0f, 0f);
-                    }
-                    else {
-                        if(introPref.isVolumeOn()) {
-                            mp.setVolume(1f, 1f);
-                            programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_on_24);
-                        } else {
-                            mp.setVolume(0f, 0f);
-                            programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
-                        }
+                        programmingViewHolder.sound.setImageResource(R.drawable.ic_baseline_volume_off_24);
                     }
 
                     programmingViewHolder.sound.setOnClickListener(v -> {
@@ -1021,7 +1017,6 @@ public class HashtagClipsViewAll extends AppCompatActivity {
                 holder.sound.setVisibility(View.GONE);
                 holder.progress_bar.setVisibility(View.VISIBLE);
             }
-
 
             @Override
             protected void onLoadingStateChanged(@NonNull LoadingState state) {
