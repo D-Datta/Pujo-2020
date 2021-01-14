@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -295,6 +296,7 @@ public class ActivityProfile extends AppCompatActivity {
                             ///////////////for individual///////////////
                             if(type.matches("indi")){
                                 dp_outline.setBackground(getResources().getDrawable(R.drawable.dp_outline));
+                                dp_outline.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
 //                                dp_outline.setCardBackgroundColor(getResources().getColor(R.color.white));
                                 counts.setVisibility(View.GONE);
                                 Paddress.setVisibility(View.GONE);
@@ -519,7 +521,7 @@ public class ActivityProfile extends AppCompatActivity {
 
                             ///////////////for committee///////////////
                             else if (type.matches("com")){
-                                dp_outline.setBackground(getResources().getDrawable(R.drawable.dp_outline));
+                                dp_outline.setBackground(getResources().getDrawable(R.drawable.dp_outline_profile));
                                 counts.setVisibility(View.VISIBLE);
                                 Paddress.setVisibility(View.VISIBLE);
                                 PUsername.setVisibility(View.VISIBLE);
