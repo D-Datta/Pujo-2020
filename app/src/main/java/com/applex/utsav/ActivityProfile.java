@@ -1105,15 +1105,18 @@ public class ActivityProfile extends AppCompatActivity {
                 Picasso.get().load(baseUserModel.getDp()).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        String finalbitmap = MediaStore.Images.Media.insertImage(
-                                getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
-                        Uri uri =  Uri.parse(finalbitmap);
-                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        shareIntent.setType("*/*");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, finalText + link);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                        startActivity(Intent.createChooser(shareIntent,"Share Using"));
-                        dialog.dismiss();
+                        if(BasicUtility.checkStoragePermission(ActivityProfile.this)) {
+                            String finalbitmap = MediaStore.Images.Media.insertImage(
+                                    getContentResolver(), bitmap, String.valueOf(System.currentTimeMillis()), null);
+                            Uri uri =  Uri.parse(finalbitmap);
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("*/*");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, finalText + link);
+                            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                            startActivity(Intent.createChooser(shareIntent,"Share Using"));
+                            dialog.dismiss();
+                        }
+
                     }
 
                     @Override
