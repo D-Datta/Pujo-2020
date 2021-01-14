@@ -19,7 +19,7 @@
             android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center"
-            android:src="@drawable/ma_durga_debarghya_cap" />
+            android:src="@drawable/image_background_grey" />
 
         <LinearLayout
             android:layout_width="match_parent"

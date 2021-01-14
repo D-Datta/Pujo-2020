@@ -84,10 +84,11 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_button"
+        android:backgroundTint="@color/colorPrimary"
         android:paddingHorizontal="30dp"
         android:text="English"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="#212121"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,6 +96,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.778" />
+
+
+    <Button
+        android:id="@+id/button_hindi"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:paddingHorizontal="45dp"
+        android:text="हिंदी"
+        android:textColor="#212121"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_english"
+        app:layout_constraintVertical_bias="0.106" />
 
     <Button
         android:id="@+id/button_bangla"
@@ -104,14 +123,14 @@
         android:backgroundTint="@color/colorPrimary"
         android:paddingHorizontal="45dp"
         android:text="বাংলা"
-        android:textColor="@color/black"
+        android:textColor="#212121"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_english"
-        app:layout_constraintVertical_bias="0.156" />
+        app:layout_constraintTop_toBottomOf="@+id/button_hindi"
+        app:layout_constraintVertical_bias="0.256" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

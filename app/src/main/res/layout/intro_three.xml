@@ -31,9 +31,8 @@
             android:paddingVertical="10dp"
             android:text="@string/walkthrough"
             android:textColor="@color/colorAccent"
-            android:textSize="30dp"
-            android:paddingHorizontal="30dp"
-            android:fontFamily="cursive"/>
+            android:textSize="25dp"
+            android:paddingHorizontal="30dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

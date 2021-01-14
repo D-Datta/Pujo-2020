@@ -21,7 +21,7 @@ import java.util.Objects;
 
 public class LanguageChoice extends AppCompatActivity {
 
-    private Button english, bangla;
+    private Button english, bangla, hindi;
     private IntroPref introPref;
 
     @Override
@@ -53,6 +53,7 @@ public class LanguageChoice extends AppCompatActivity {
         setContentView(R.layout.activity_language_choice);
         bangla = findViewById(R.id.button_bangla);
         english = findViewById(R.id.button_english);
+        hindi = findViewById(R.id.button_hindi);
 
         if(introPref.getTheme() == 1) {
             FirebaseFirestore.getInstance().document("Users/"+ FirebaseAuth.getInstance().getUid())
@@ -88,8 +89,6 @@ public class LanguageChoice extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(), R.drawable.durga_ma2, options);
         int width = options.outWidth;
         if (width > displayWidth) {
             int widthRatio = Math.round((float) width / (float) displayWidth);
@@ -114,6 +113,16 @@ public class LanguageChoice extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 introPref.setLanguage("bn");
+                Intent intent = new Intent(LanguageChoice.this, WalkthroughActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        hindi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                introPref.setLanguage("hn");
                 Intent intent = new Intent(LanguageChoice.this, WalkthroughActivity.class);
                 startActivity(intent);
                 finish();

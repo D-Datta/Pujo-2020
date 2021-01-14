@@ -21,25 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/a"
         android:gravity="center"
-        android:text="@string/intro_three"
+        android:text="Photos, Videos \n Locate various puja \nParticipate in Live Contests \nRegistration absolutely FREE \nPre-Utsav updates"
         android:textColor="@color/colorAccent"
         android:textSize="22dp"
         android:paddingHorizontal="40dp"
-        android:fontFamily="cursive"
         android:layout_marginTop="-70dp"/>
-
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="84dp"-->
-<!--        android:background="@color/white_transparent"-->
-<!--        android:fontFamily="@font/oxygen_bold"-->
-<!--        android:gravity="center"-->
-<!--        android:text="@string/experience_pujo_of_different_bonedi_baris_their_heritage_some_of_the_greatest_pujo_by_committees_minorities_as_well_as_pujo_held_in_different_places_like_columbia_chattisgarh_agartala_etc"-->
-<!--        android:textColor="@color/purple"-->
-<!--        android:textSize="25dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        tools:layout_editor_absoluteX="0dp" />-->
-
 
 </RelativeLayout>

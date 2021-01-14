@@ -142,27 +142,27 @@ public class WalkthroughActivity extends AppCompatActivity {
             ///////////////SET IMAGE BITMAP/////////////////////
             if(position == 0) {
 //                ImageView lighting_image = view.findViewById(R.id.lighting);
-                ImageView durga_image = view.findViewById(R.id.ma_durga);
-
-                Display display = getWindowManager().getDefaultDisplay();
-                int displayWidth = display.getWidth();
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inJustDecodeBounds = true;
-
-               // BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
-                BitmapFactory.decodeResource(getResources(), R.drawable.one, options);
-
-                int width = options.outWidth;
-                if (width > displayWidth) {
-                    options.inSampleSize = Math.round((float) width / (float) displayWidth);
-                }
-                options.inJustDecodeBounds = false;
+//                ImageView durga_image = view.findViewById(R.id.ma_durga);
+//
+//                Display display = getWindowManager().getDefaultDisplay();
+//                int displayWidth = display.getWidth();
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inJustDecodeBounds = true;
+//
+//               // BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
+//                BitmapFactory.decodeResource(getResources(), R.drawable.one, options);
+//
+//                int width = options.outWidth;
+//                if (width > displayWidth) {
+//                    options.inSampleSize = Math.round((float) width / (float) displayWidth);
+//                }
+//                options.inJustDecodeBounds = false;
 
                // Bitmap scaledBitmap1 =  BitmapFactory.decodeResource(getResources(), R.drawable.fairy_lights, options);
               //  lighting_image.setImageBitmap(scaledBitmap1);
 
-                Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.one, options);
-                durga_image.setImageBitmap(scaledBitmap2);
+//                Bitmap scaledBitmap2 =  BitmapFactory.decodeResource(getResources(), R.drawable.uit, options);
+//                durga_image.setImageBitmap(scaledBitmap2);
             }
             ///////////////SET IMAGE BITMAP/////////////////////
 
