@@ -1,5 +1,8 @@
 package com.applex.utsav.models;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -323,5 +326,26 @@ public class HomePostModel {
 
     public void setUserTagModel(UserTagModel userTagModel) {
         this.userTagModel = userTagModel;
+    }
+
+    public static DiffUtil.ItemCallback<HomePostModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<HomePostModel>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull HomePostModel oldItem, @NonNull HomePostModel newItem) {
+            return oldItem.getDocID().matches(newItem.getDocID());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull HomePostModel oldItem, @NonNull HomePostModel newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        HomePostModel article = (HomePostModel) obj;
+        return article.getDocID().matches(this.getDocID());
     }
 }

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.applex.utsav.R;
+import com.applex.utsav.ViewAllGridMVVM.ViewAllGridActivity;
 import com.applex.utsav.ViewMoreHome;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.utility.BasicUtility;
@@ -31,8 +33,12 @@ import com.applex.utsav.utility.StoreTemp;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.Objects;
@@ -45,7 +51,7 @@ public class Fragment_Posts extends Fragment {
     private LinearLayout noneImage;
     private ImageView noneimageview;
     private FirestorePagingAdapter adapter;
-
+    public static DocumentSnapshot last_snapshot;
     private String uid;
 
 
@@ -142,7 +148,6 @@ public class Fragment_Posts extends Fragment {
                 .whereEqualTo("uid", uid)
                 .orderBy("ts", Query.Direction.DESCENDING);
 
-
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(10)
                 .setPageSize(10)
@@ -176,7 +181,7 @@ public class Fragment_Posts extends Fragment {
 
                 if(model.getImg()!=null) {
                     holder.post_image.setOnClickListener((View.OnClickListener) view -> {
-                        Intent intent = new Intent(getContext(), ViewMoreHome.class);
+                        Intent intent = new Intent(getContext(), ViewAllGridActivity.class);
                         intent.putExtra("username", model.getUsN());
                         intent.putExtra("userdp", model.getDp());
                         intent.putExtra("docID", model.getDocID());

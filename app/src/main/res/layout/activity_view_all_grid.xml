@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ViewAllGridMVVM.ViewAllGridActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:title="Hashtag"
+            app:titleTextColor="@color/black"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/view_no_post"
+        android:layout_marginTop="53dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/none_image"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:paddingVertical="40dp"
+            android:visibility="gone"/>
+
+        <!--            <com.facebook.shimmer.ShimmerFrameLayout-->
+        <!--                android:id="@+id/shimmerLayout"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:visibility="gone"-->
+        <!--                app:shimmer_repeat_mode="restart"-->
+        <!--                app:shimmer_shape="radial">-->
+
+        <!--                <include layout="@layout/layout_shimmer_hashtag" />-->
+
+        <!--            </com.facebook.shimmer.ShimmerFrameLayout>-->
+
+        <ProgressBar
+            android:id="@+id/content_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:paddingVertical="10dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_posts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="50dp"
+            android:clipToPadding="false"/>
+
+        <ProgressBar
+            android:id="@+id/progress_more_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="54dp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/to_the_top"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:fabCustomSize="35dp"
+        android:layout_marginEnd="17dp"
+        app:borderWidth="0dp"
+        android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
+        android:tint="@color/purple1"
+        android:backgroundTint="@color/colorPrimary"
+        android:scaleType="fitXY"
+        app:rippleColor="@color/white"
+        app:elevation="10dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="70dp"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
