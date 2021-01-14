@@ -500,6 +500,13 @@ public class SearchActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull ProgrammingViewHolder holder, int position, @NonNull BaseUserModel model) {
                 holder.PName.setText(model.getName());
 
+                if(model.getAbout() == null || model.getAbout().isEmpty()) {
+                    holder.PDescription.setVisibility(View.GONE);
+                }
+                else {
+                    holder.PDescription.setText(model.getAbout());
+                }
+
                 if(model.getCity()!=null || model.getState()!=null){
 
                     if((model.getCity()!=null && model.getCity().isEmpty())

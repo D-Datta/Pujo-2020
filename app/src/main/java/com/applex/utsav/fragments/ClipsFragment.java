@@ -465,6 +465,7 @@ public class ClipsFragment extends Fragment {
                     return false;
                 });
 
+                programmingViewHolder.reels_video.setOnErrorListener((mediaPlayer, i, i1) -> true);
                 Picasso.get().load(currentItem.getFrame()).into(programmingViewHolder.reels_image);
 
                 programmingViewHolder.reels_video.setOnPreparedListener(mp -> {
@@ -1057,6 +1058,7 @@ public class ClipsFragment extends Fragment {
                 holder.reels_image.setVisibility(View.VISIBLE);
                 holder.sound.setVisibility(View.GONE);
                 holder.progress_bar.setVisibility(View.VISIBLE);
+                holder.reels_video.setOnErrorListener((mediaPlayer, i, i1) -> true);
             }
 
             @Override
@@ -1147,6 +1149,9 @@ public class ClipsFragment extends Fragment {
                                     }
                                     return false;
                                 });
+
+                                cvh.reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
+
                                 cvh.reels_video.setOnPreparedListener(mp -> {
                                     requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                     new Handler().postDelayed(() -> {
@@ -1382,6 +1387,9 @@ public class ClipsFragment extends Fragment {
                        }
                        return false;
                    });
+
+                   cvh.reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
+
                    cvh.reels_video.setOnPreparedListener(mp -> {
                        cvh.progress_bar.setVisibility(View.GONE);
                        requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

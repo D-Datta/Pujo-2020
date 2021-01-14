@@ -1415,6 +1415,7 @@ public class CommitteeFragment extends Fragment {
 
                                             if (percent1 >= 90) {
                                                 cvh1.item_reels_video.start();
+                                                cvh1.item_reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
                                                 cvh1.item_reels_video.setOnPreparedListener(mp -> {
                                                     requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                                     new Handler().postDelayed(() -> cvh1.item_reels_image.setVisibility(View.GONE), 500);
@@ -1609,6 +1610,7 @@ public class CommitteeFragment extends Fragment {
                     holder.item_reels_video.start();
 
                     Picasso.get().load(currentItem.getFrame()).fit().into(holder.item_reels_image);
+                    holder.item_reels_video.setOnErrorListener((mediaPlayer, i, i1) -> true);
 
                     holder.item_reels_video.setOnPreparedListener(mp -> {
                         requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -1888,6 +1890,7 @@ public class CommitteeFragment extends Fragment {
 
                                 if (percent >= 90) {
                                     cvh.item_reels_video.start();
+                                    cvh.item_reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
                                     cvh.item_reels_video.setOnPreparedListener(mp -> {
                                         requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                         new Handler().postDelayed(() -> cvh.item_reels_image.setVisibility(View.GONE), 500);
@@ -2427,6 +2430,7 @@ public class CommitteeFragment extends Fragment {
 
                                 if (percent1 >= 90) {
                                     cvh1.item_reels_video.start();
+                                    cvh1.item_reels_video.setOnErrorListener((mediaPlayer, i3, i1) -> true);
                                     cvh1.item_reels_video.setOnPreparedListener(mp -> {
                                         requireActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                         new Handler().postDelayed(() -> cvh1.item_reels_image.setVisibility(View.GONE), 500);
