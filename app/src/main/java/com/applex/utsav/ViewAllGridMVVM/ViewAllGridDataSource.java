@@ -91,8 +91,8 @@ public class ViewAllGridDataSource extends PageKeyedDataSource<Query, DocumentSn
             DocumentSnapshot lastDocumentSnapshot = Objects.requireNonNull(task.getResult()).getDocuments().get(task.getResult().size() - 1);
 
             for(DocumentSnapshot documentSnapshot: task.getResult()) {
-                HomePostModel homePostModel = documentSnapshot.toObject(HomePostModel.class);
-                homePostModel.setDocID(documentSnapshot.getId());
+//                HomePostModel homePostModel = documentSnapshot.toObject(HomePostModel.class);
+//                homePostModel.setDocID(documentSnapshot.getId());
                 homePostModelSnapshots.add(documentSnapshot);
             }
 

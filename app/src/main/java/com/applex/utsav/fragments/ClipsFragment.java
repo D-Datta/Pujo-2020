@@ -1311,13 +1311,13 @@ public class ClipsFragment extends Fragment {
         Query query;
 
         if(position == 4) {
-            query =  FirebaseFirestore.getInstance()
+            query = FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
                     .orderBy("lastVisitTime", Query.Direction.DESCENDING)
                     .limit(20);
         } else {
-            query =  FirebaseFirestore.getInstance()
+            query = FirebaseFirestore.getInstance()
                     .collection("Users")
                     .whereEqualTo("type", "com")
                     .orderBy("upvotes", Query.Direction.DESCENDING)
