@@ -146,16 +146,16 @@ public class BasicUtility {
             return "just now";
         }
         else if (diff < 2 * MINUTE_MILLIS) {
-            return "a min ago";
+            return "1m ago";
         }
         else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " mins ago";
+            return diff / MINUTE_MILLIS + "m ago";
         }
         else if (diff < 120 * MINUTE_MILLIS) {
-            return "an hour ago";
+            return "1h ago";
         }
         else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " hours ago";
+            return diff / HOUR_MILLIS + "h ago";
         }
         else if (diff / DAY_MILLIS == 1) {
             return "1 day ago";

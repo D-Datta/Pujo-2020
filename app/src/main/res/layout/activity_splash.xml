@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/theme_grad"
+    android:background="@color/startColor"
     android:orientation="vertical"
     tools:context=".Splash">
 

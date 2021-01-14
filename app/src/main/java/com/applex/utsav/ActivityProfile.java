@@ -124,7 +124,7 @@ public class ActivityProfile extends AppCompatActivity {
     private Button upvote, edit_profile;
     private LinearLayout upvoteHolder;
     private LinearLayout counts;
-    private CardView dp_outline;
+    private RelativeLayout dp_outline;
 
     private LinearLayout selfProfile, elseProfile;
 
@@ -294,7 +294,8 @@ public class ActivityProfile extends AppCompatActivity {
 
                             ///////////////for individual///////////////
                             if(type.matches("indi")){
-                                dp_outline.setCardBackgroundColor(getResources().getColor(R.color.white));
+                                dp_outline.setBackground(getResources().getDrawable(R.drawable.dp_outline));
+//                                dp_outline.setCardBackgroundColor(getResources().getColor(R.color.white));
                                 counts.setVisibility(View.GONE);
                                 Paddress.setVisibility(View.GONE);
                                 PUsername.setVisibility(View.GONE);
@@ -518,7 +519,7 @@ public class ActivityProfile extends AppCompatActivity {
 
                             ///////////////for committee///////////////
                             else if (type.matches("com")){
-                                dp_outline.setCardBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                dp_outline.setBackground(getResources().getDrawable(R.drawable.dp_outline));
                                 counts.setVisibility(View.VISIBLE);
                                 Paddress.setVisibility(View.VISIBLE);
                                 PUsername.setVisibility(View.VISIBLE);

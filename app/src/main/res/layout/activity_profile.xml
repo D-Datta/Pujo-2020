@@ -84,13 +84,12 @@
                             android:background="@drawable/custom_ripple_white"
                             android:src="@drawable/edit_dp" />
 
-                        <androidx.cardview.widget.CardView
+                        <RelativeLayout
                             android:id="@+id/dp_outline"
                             android:layout_width="130dp"
                             android:layout_height="130dp"
                             android:layout_centerInParent="true"
                             android:layout_margin="5dp"
-                            app:cardCornerRadius="65dp"
                             android:gravity="center">
 
                             <androidx.cardview.widget.CardView
@@ -110,7 +109,7 @@
 
                             </androidx.cardview.widget.CardView>
 
-                        </androidx.cardview.widget.CardView>
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
