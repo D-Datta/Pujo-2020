@@ -329,34 +329,6 @@ public class HashtagPostViewAll extends AppCompatActivity {
                     }
                 }
 
-                ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-
-                ///////////TAGLIST///////////////
-                ///////////TAG RECYCLER SETUP////////////////
-//                programmingViewHolder.tagList.setHasFixedSize(false);
-//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-//                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
-//                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
-//                ///////////TAG RECYCLER SETUP////////////////
-//                if(currentItem.getTagList()!=null && currentItem.getTagList().size()>0 ) {
-//                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
-//                    TagAdapter2 tagAdapter = new TagAdapter2(currentItem.getTagList() , HashtagPostViewAll.this);
-//
-//                    tagAdapter.onClickListener((position1, tag) -> {
-//                        tagName = tag;
-//                        getSupportActionBar().setTitle("#"+ tagName);
-//                        buildRecyclerView();
-//                        contentprogressposts.setVisibility(View.VISIBLE);
-//                    });
-//
-//                    programmingViewHolder.tagList.setAdapter(tagAdapter);
-//                }
-//                else {
-//                    programmingViewHolder.tagList.setAdapter(null);
-//                    programmingViewHolder.tagList.setVisibility(View.GONE);
-//                }
-                /////////TAGLIST///////////////
 
 
                 //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////

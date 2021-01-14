@@ -25,15 +25,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".UpdateCoverPictureActivity"></activity>
-        <activity android:name=".UpdateProfilePictureActivity" />
-        <activity android:name=".ViewAllGridMVVM.ViewAllGridActivity" />
-        <activity android:name=".ActivityProfile" />
+        <activity android:name=".UpdateCoverPictureActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".UpdateProfilePictureActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ViewAllGridMVVM.ViewAllGridActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityProfile" android:screenOrientation="portrait"/>
         <activity android:name=".LiveActivity">
         </activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".HashtagPostViewAll" />
-        <activity android:name=".HashtagClipsViewAll" />
+        <activity android:name=".SearchActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".HashtagPostViewAll" android:screenOrientation="portrait"/>
+        <activity android:name=".HashtagClipsViewAll" android:screenOrientation="portrait" />
         <activity
             android:name=".LanguageChoice"
             android:screenOrientation="portrait" />
