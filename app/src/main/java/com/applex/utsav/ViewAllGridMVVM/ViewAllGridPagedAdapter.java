@@ -628,6 +628,8 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<DocumentSnapshot, 
             bottomCommentsDialog.show(((ViewAllGridActivity)context).getSupportFragmentManager(), "CommentsSheet");
         });
 
+        programmingViewHolder.writecomment.setText(currentItem.getDocID());
+
 //                programmingViewHolder.share.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {

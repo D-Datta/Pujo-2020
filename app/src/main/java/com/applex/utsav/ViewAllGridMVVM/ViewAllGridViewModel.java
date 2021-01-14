@@ -34,7 +34,9 @@ public class ViewAllGridViewModel extends ViewModel {
                         .setPrefetchDistance(5)
                         .build();
 
-        postLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig)).setFetchExecutor(executor).build();
+        postLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig))
+                .setFetchExecutor(executor)
+                .build();
     }
 
     public LiveData<PagedList<DocumentSnapshot>> getPostLiveData() {
