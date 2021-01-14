@@ -57,7 +57,7 @@ public class BottomFlamedByDialog2 extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.bottomsheetflamedby, container, false);
+        View v= inflater.inflate(R.layout.dialog_bottom_sheet_flames, container, false);
         Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         shimmerFrameLayout = v.findViewById(R.id.shimmerLayout);

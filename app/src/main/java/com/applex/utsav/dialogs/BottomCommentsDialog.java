@@ -128,7 +128,7 @@ public class BottomCommentsDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottomsheetcomments, container, false);
+        View view = inflater.inflate(R.layout.dialog_bottom_sheet_comments, container, false);
         EditText newComment = view.findViewById(R.id.new_comment);
         shimmerFrameLayout = view.findViewById(R.id.shimmerLayout);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
