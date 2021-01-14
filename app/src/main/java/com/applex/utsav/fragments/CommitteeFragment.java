@@ -1445,8 +1445,6 @@ public class CommitteeFragment extends Fragment {
                     if(dy < 0){
                         floatingActionButton.setVisibility(View.VISIBLE);
                         floatingActionButton.setOnClickListener(v -> {
-//                            recyclerView.scrollToPosition(0);
-//                            recyclerView.postDelayed(() -> recyclerView.scrollToPosition(0),300);
                             RecyclerView.SmoothScroller smoothScroller = new LinearSmoothScroller(requireActivity()) {
                                 @Override
                                 protected int getVerticalSnapPreference() {
