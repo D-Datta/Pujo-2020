@@ -61,6 +61,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -80,7 +81,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static java.lang.Boolean.TRUE;
 
-public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, RecyclerView.ViewHolder> {
+public class ViewAllGridPagedAdapter extends PagedListAdapter<DocumentSnapshot, RecyclerView.ViewHolder> {
 
     private final Context context;
     private final IntroPref introPref;
@@ -105,7 +106,10 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, Rec
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ProgrammingViewHolder programmingViewHolder = (ProgrammingViewHolder) holder;
-        currentItem = getItem(position);
+
+        DocumentSnapshot currentSnapshot = getItem(position);
+        currentItem = currentSnapshot.toObject(HomePostModel.class);
+        currentItem.setDocID(currentSnapshot.getId());
 
         DocumentReference likeStore;
         String timeAgo = BasicUtility.getTimeAgo(currentItem.getTs());
@@ -150,34 +154,6 @@ public class ViewAllGridPagedAdapter extends PagedListAdapter<HomePostModel, Rec
         }
 
         ///////////////SETTING CURRENT USER BOTTOM PIC///////////////
-
-        ///////////TAGLIST///////////////
-        ///////////TAG RECYCLER SETUP////////////////
-//                programmingViewHolder.tagList.setHasFixedSize(false);
-//                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-//                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-//                programmingViewHolder.tagList.setNestedScrollingEnabled(true);
-//                programmingViewHolder.tagList.setLayoutManager(linearLayoutManager);
-//                ///////////TAG RECYCLER SETUP////////////////
-//                if(currentItem.getTagList()!=null && currentItem.getTagList().size()>0 ) {
-//                    programmingViewHolder.tagList.setVisibility(View.VISIBLE);
-//                    TagAdapter2 tagAdapter = new TagAdapter2(currentItem.getTagList() , HashtagPostViewAll.this);
-//
-//                    tagAdapter.onClickListener((position1, tag) -> {
-//                        tagName = tag;
-//                        getSupportActionBar().setTitle("#"+ tagName);
-//                        buildRecyclerView();
-//                        contentprogressposts.setVisibility(View.VISIBLE);
-//                    });
-//
-//                    programmingViewHolder.tagList.setAdapter(tagAdapter);
-//                }
-//                else {
-//                    programmingViewHolder.tagList.setAdapter(null);
-//                    programmingViewHolder.tagList.setVisibility(View.GONE);
-//                }
-        /////////TAGLIST///////////////
-
 
         //////////////LOADING USERNAME AND USERDP FROM USERNODE FOR CURRENT POST USER///////////////
         ////////////NORMAL POST///////////////

@@ -3,6 +3,7 @@ package com.applex.utsav.models;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -328,14 +329,14 @@ public class HomePostModel {
         this.userTagModel = userTagModel;
     }
 
-    public static DiffUtil.ItemCallback<HomePostModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<HomePostModel>() {
+    public static DiffUtil.ItemCallback<DocumentSnapshot> DIFF_CALLBACK = new DiffUtil.ItemCallback<DocumentSnapshot>() {
         @Override
-        public boolean areItemsTheSame(@NonNull HomePostModel oldItem, @NonNull HomePostModel newItem) {
-            return oldItem.getDocID().matches(newItem.getDocID());
+        public boolean areItemsTheSame(@NonNull DocumentSnapshot oldItem, @NonNull DocumentSnapshot newItem) {
+            return oldItem.getId().matches(newItem.getId());
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull HomePostModel oldItem, @NonNull HomePostModel newItem) {
+        public boolean areContentsTheSame(@NonNull DocumentSnapshot oldItem, @NonNull DocumentSnapshot newItem) {
             return oldItem.equals(newItem);
         }
     };

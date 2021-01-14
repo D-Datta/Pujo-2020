@@ -168,12 +168,16 @@ public class ViewAllGridActivity extends AppCompatActivity {
         ViewAllGridViewModel viewAllGridViewModel = new ViewAllGridViewModel(
                 getIntent().getStringExtra("timestamp"), getIntent().getStringExtra("uid"));
         ViewAllGridPagedAdapter viewAllGridPagedAdapter = new ViewAllGridPagedAdapter(ViewAllGridActivity.this);
-        viewAllGridViewModel.getPostLiveData().observe(ViewAllGridActivity.this, homePostModels -> new Handler().postDelayed(() -> {
-            shimmerFrameLayout.stopShimmer();
-            shimmerFrameLayout.setVisibility(View.GONE);
-            recyclerview.setVisibility(View.VISIBLE);
-            viewAllGridPagedAdapter.submitList(homePostModels);
-        }, 500));
+        viewAllGridViewModel
+                .getPostLiveData()
+                .observe(ViewAllGridActivity.this, homePostModels ->
+                        new Handler().postDelayed(() -> {
+                            shimmerFrameLayout.stopShimmer();
+                            shimmerFrameLayout.setVisibility(View.GONE);
+                            recyclerview.setVisibility(View.VISIBLE);
+                            viewAllGridPagedAdapter.submitList(homePostModels);
+                        }, 500));
+
         recyclerview.setAdapter(viewAllGridPagedAdapter);
     }
 

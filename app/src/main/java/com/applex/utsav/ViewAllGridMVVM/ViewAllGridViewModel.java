@@ -6,13 +6,14 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.applex.utsav.models.HomePostModel;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ViewAllGridViewModel extends ViewModel {
 
-    private LiveData<PagedList<HomePostModel>> postLiveData;
+    private LiveData<PagedList<DocumentSnapshot>> postLiveData;
     private final String ts, uid;
 
     public ViewAllGridViewModel(String ts, String uid) {
@@ -36,7 +37,7 @@ public class ViewAllGridViewModel extends ViewModel {
         postLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig)).setFetchExecutor(executor).build();
     }
 
-    public LiveData<PagedList<HomePostModel>> getPostLiveData() {
+    public LiveData<PagedList<DocumentSnapshot>> getPostLiveData() {
         return postLiveData;
     }
 

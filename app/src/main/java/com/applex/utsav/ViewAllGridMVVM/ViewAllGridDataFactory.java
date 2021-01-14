@@ -4,9 +4,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
 import com.applex.utsav.models.HomePostModel;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
-public class ViewAllGridDataFactory extends DataSource.Factory<Query, HomePostModel> {
+public class ViewAllGridDataFactory extends DataSource.Factory<Query, DocumentSnapshot> {
 
     private final MutableLiveData<ViewAllGridDataSource> mutableLiveData;
     private final String ts, uid;
@@ -18,7 +19,7 @@ public class ViewAllGridDataFactory extends DataSource.Factory<Query, HomePostMo
     }
 
     @Override
-    public DataSource<Query, HomePostModel> create() {
+    public DataSource<Query, DocumentSnapshot> create() {
         ViewAllGridDataSource viewAllGridDataSource = new ViewAllGridDataSource(ts, uid);
         mutableLiveData.postValue(viewAllGridDataSource);
         return viewAllGridDataSource;
