@@ -110,7 +110,7 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.ProgrammingV
         }
 
         if(!model.isSeen()){
-            holder.notifCard.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimaryLight));
+            holder.notifCard.setBackground(mContext.getResources().getDrawable(R.drawable.notif_unseen_bg));
         }
 
         holder.notifCard.setOnClickListener(v -> {
