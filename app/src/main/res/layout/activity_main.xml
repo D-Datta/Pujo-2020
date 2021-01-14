@@ -23,7 +23,7 @@
         android:fitsSystemWindows="false"
         app:itemHorizontalPadding="20dp"
         app:itemIconPadding="18dp"
-        android:background="@color/white"
+        android:background="@drawable/theme_grad"
         app:itemIconTint="@color/colorPrimaryDark"
         app:headerLayout="@layout/main_nav_header"
         app:menu="@menu/nav_drawer_menu" >
