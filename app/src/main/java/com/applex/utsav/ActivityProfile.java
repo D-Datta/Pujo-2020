@@ -1116,7 +1116,9 @@ public class ActivityProfile extends AppCompatActivity {
                             startActivity(Intent.createChooser(shareIntent,"Share Using"));
                             dialog.dismiss();
                         }
-
+                        else {
+                            BasicUtility.requestStoragePermission(ActivityProfile.this);
+                        }
                     }
 
                     @Override
