@@ -39,6 +39,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -46,6 +47,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,6 +59,7 @@ import com.applex.utsav.adapters.SuggestedTagAdapter;
 import com.applex.utsav.fragments.CommitteeFragment;
 import com.applex.utsav.fragments.FeedsFragment;
 import com.applex.utsav.fragments.ClipsFragment;
+import com.applex.utsav.interfaces.ItemTouchHelperViewHolder;
 import com.applex.utsav.models.HomePostModel;
 import com.applex.utsav.models.PujoTagModel;
 import com.applex.utsav.models.ReelsPostModel;
@@ -124,7 +127,7 @@ public class NewPostHome extends AppCompatActivity {
 //    private RecyclerView tags_selectedRecycler;
 //    private TagAdapter2 tagAdapter2;
     private ImageCompressor imageCompressor;
-
+    private MultipleImageAdapter multipleImageAdapter;
     private Uri filePath, finalUri, videoUri;
     private ArrayList<byte[]> imagelist = new ArrayList<>();
     private ArrayList<Uri> imageUriList = new ArrayList<>();
@@ -1779,6 +1782,9 @@ public class NewPostHome extends AppCompatActivity {
                 progressDialog.dismiss();
             }
             if(imagelist != null && imagelist.size() > 0) {
+                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+                itemTouchHelper.attachToRecyclerView(recyclerView);
+
                 container_image.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setHasFixedSize(false);
@@ -1788,8 +1794,7 @@ public class NewPostHome extends AppCompatActivity {
                 recyclerView.setItemViewCacheSize(10);
                 recyclerView.setNestedScrollingEnabled(true);
 
-                MultipleImageAdapter multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
-
+                multipleImageAdapter = new MultipleImageAdapter(imagelist, getApplicationContext());
                 recyclerView.setAdapter(multipleImageAdapter);
 
                 multipleImageAdapter.onClickListener(new MultipleImageAdapter.OnClickListener() {
@@ -1820,6 +1825,89 @@ public class NewPostHome extends AppCompatActivity {
             }
         }
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = (new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN |
+            ItemTouchHelper.START | ItemTouchHelper.END , 0) {
+
+        int dragFrom = -1;
+        int dragTo = -1;
+
+        @Override
+        public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
+            if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                if (viewHolder instanceof ItemTouchHelperViewHolder) {
+                    ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+                    itemViewHolder.onItemSelected();
+                }
+            }
+            super.onSelectedChanged(viewHolder, actionState);
+        }
+
+        @Override
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END | ItemTouchHelper.ACTION_STATE_DRAG;
+            int swipeFlags = 0;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+            int fromPosition = dragged.getAdapterPosition();
+            int toPosition = target.getAdapterPosition();
+
+            if (dragFrom == -1) {
+                dragFrom = fromPosition;
+            }
+            dragTo = toPosition;
+            return true;
+        }
+
+        private void reallyMoved(int fromPos, int toPos) {
+            if (fromPos > toPos) {
+                byte[] temp = imagelist.get(fromPos);
+                for (int i = fromPos - 1; i >= toPos; i--) {
+                    imagelist.remove(i + 1);
+                    imagelist.add(i + 1, imagelist.get(i));
+                }
+                imagelist.remove(toPos);
+                imagelist.add(toPos, temp);
+                multipleImageAdapter.notifyItemRangeChanged(toPos, fromPos - toPos + 1);
+            }
+            else if (fromPos < toPos) {
+                byte[] temp = imagelist.get(fromPos);
+                for (int i = fromPos + 1; i <= toPos; i++) {
+                    imagelist.add(i - 1, imagelist.get(i));
+                    imagelist.remove(i);
+                }
+                imagelist.remove(toPos);
+                imagelist.add(toPos, temp);
+                multipleImageAdapter.notifyItemRangeChanged(fromPos, toPos - fromPos + 1);
+            }
+        }
+
+        @Override
+        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            super.clearView(recyclerView, viewHolder);
+            if (dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
+                reallyMoved(dragFrom, dragTo);
+            }
+            dragFrom = dragTo = -1;
+
+            if (viewHolder instanceof ItemTouchHelperViewHolder) {
+                ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;
+                itemViewHolder.onItemClear();
+            }
+        }
+
+        @Override
+        public void onMoved(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, int fromPos, @NonNull RecyclerView.ViewHolder target, int toPos, int x, int y) {
+            super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+            multipleImageAdapter.notifyItemMoved(fromPos, toPos);
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) { }
+    });
 
     @Override
     public void onBackPressed() {
